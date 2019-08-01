@@ -1,33 +1,31 @@
 node {
     def revision = env.BUILD_NUMBER
-    def image = "docker.nexus.archi-lab.io/archilab/prox-web-client"
-    def version = ""
+    def projectName = ""
+    def tag = ""
 
     stage('Build') {
         git url: 'https://github.com/Archi-Lab/prox-web-client.git'
         git branch: 'jenkins-migration'
 
-        def package = readJSON file: 'package.json'
-        package.version = package.version
-
-        echo "\"${version}\""
-
-        echo "\"${image}:${revision}\""
-
-        sh "docker build -t ${image}:${revision} -f ./src/docker/Dockerfile ."
-
         docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-          sh "docker push ${image}:${revision}"
+          def packageJSON = readJSON file: 'package.json'
+          def version = packageJSON.version
+          projectName = packageJSON.name
+          def image = "docker.nexus.archi-lab.io/archilab/${projectName}"
+          tag = "${version}-${revision}"
+          def fullName = "${image}:${tag}"
+
+          sh "docker build -t ${fullName} -f ./src/docker/Dockerfile ."
+
+          sh "docker push ${fullName}"
         }
     }
 
     stage('Deploy') {
         docker.withServer('tcp://10.10.10.41:2376', 'prox-prod-certs') {
-            echo "\"${version}\""
+            docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
 
-            //docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-            //    sh "env IMAGE=${image} TAG=${tag} docker stack deploy --with-registry-auth -c src/docker/docker-compose.yml -c src/docker/docker-compose.prod.yml ${image}"
-            //}
+            }
         }
     }
 }
