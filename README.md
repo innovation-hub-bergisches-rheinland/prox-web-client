@@ -20,10 +20,20 @@ docker build --build-arg APP_ENV="" -t docker.nexus.archi-lab.io/archilab/prox-w
 
 Builds a Docker image based on the source code and the dependencies in the `package.json` and `package-lock.json`.
 
-## Usage
+## Local usage
 
-``` bash
-docker-compose -f ./src/docker/docker-compose.yml up
+Powershell
+```posh
+$env:IMAGE='prox-web-client'; `
+$env:TAG='latest'; `
+docker-compose -f ./src/main/docker/docker-compose.yml up
+```
+
+Bash/Shell
+```bash
+export IMAGE="prox-web-client" &&
+export TAG="latest" &&
+docker-compose -f ./src/main/docker/docker-compose.yml up
 ```
 
 Starts a Docker container based on the compose file and the image. A Docker network named `prox` is required for the communication between services:

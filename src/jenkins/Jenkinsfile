@@ -25,6 +25,7 @@ node {
         docker.withServer('tcp://10.10.10.41:2376', 'prox-prod-certs') {
             docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
 
+                sh "env IMAGE=${projectName} TAG=${tag} docker stack deploy --with-registry-auth -c src/docker/docker-compose.yml -c src/docker/docker-compose.prod.yml ${projectName}"
             }
         }
     }
