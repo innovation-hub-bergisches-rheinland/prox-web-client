@@ -1,32 +1,32 @@
 node {
-    def revision = env.BUILD_NUMBER
-    def projectName = ""
-    def tag = ""
+  def revision = env.BUILD_NUMBER
+  def projectName = ""
+  def tag = ""
 
-    stage('Build') {
-        git url: 'https://github.com/Archi-Lab/prox-web-client.git'
-        git branch: 'jenkins-migration'
+  stage('Build') {
+    git url: 'https://github.com/Archi-Lab/prox-web-client.git'
+    git branch: 'jenkins-migration'
 
-        docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-          def packageJSON = readJSON file: 'package.json'
-          def version = packageJSON.version
-          projectName = packageJSON.name
-          def image = "docker.nexus.archi-lab.io/archilab/${projectName}"
-          tag = "${version}-${revision}"
-          def fullName = "${image}:${tag}"
+    docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
+      def packageJSON = readJSON file: 'package.json'
+      def version = packageJSON.version
+      projectName = packageJSON.name
+      def image = "docker.nexus.archi-lab.io/archilab/${projectName}"
+      tag = "${version}-dev-${revision}"
+      def fullName = "${image}:${tag}"
 
-          sh "docker build -t ${fullName} -f ./src/docker/Dockerfile ."
+      sh "docker build -t ${fullName} -f ./src/docker/Dockerfile ."
 
-          sh "docker push ${fullName}"
-        }
+      sh "docker push ${fullName}"
     }
+  }
 
-    stage('Deploy') {
-        docker.withServer('tcp://10.10.10.41:2376', 'prox-prod-certs') {
-            docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
+  stage('Deploy') {
+    docker.withServer('tcp://10.10.10.42:2376', 'prox-dev-certs') {
+      docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
 
-                sh "env IMAGE=${projectName} TAG=${tag} docker stack deploy --with-registry-auth -c src/docker/docker-compose.yml -c src/docker/docker-compose.prod.yml ${projectName}"
-            }
-        }
+        sh "env IMAGE=${projectName} TAG=${tag} docker stack deploy --with-registry-auth -c src/docker/docker-compose.yml -c src/docker/docker-compose.prod.yml ${projectName}"
+      }
     }
+  }
 }
