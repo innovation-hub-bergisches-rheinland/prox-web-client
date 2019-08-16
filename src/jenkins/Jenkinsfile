@@ -3,10 +3,12 @@ node {
   def projectName = ""
   def tag = ""
 
-  stage('Build') {
+  stage('Checkout') {
     git url: 'https://github.com/Archi-Lab/prox-web-client.git'
-    git branch: 'jenkins-migration'
+    git branch: 'dev'
+  }
 
+  stage('Build') {
     docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
       def packageJSON = readJSON file: 'package.json'
       def version = packageJSON.version
