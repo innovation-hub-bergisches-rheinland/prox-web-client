@@ -1,5 +1,5 @@
 node {
-  def revision = env.BUILD_NUMBER
+  def revision = "dev-${env.BUILD_NUMBER}"
   def projectName = ""
   def tag = ""
 
@@ -12,12 +12,11 @@ node {
       def version = packageJSON.version
       projectName = packageJSON.name
       def image = "docker.nexus.archi-lab.io/archilab/${projectName}"
-      tag = "${version}-dev-${revision}"
-      def fullName = "${image}:${tag}"
+      tag = "${version}-${revision}"
 
-      sh "docker build -t ${fullName} -f ./src/docker/Dockerfile ."
+      sh "docker build -t ${image}:${tag} -f ./src/docker/Dockerfile ."
 
-      sh "docker push ${fullName}"
+      sh "docker push ${image}:${tag}"
     }
   }
 
