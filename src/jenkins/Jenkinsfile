@@ -1,5 +1,6 @@
 node {
-  def revision = "dev-${env.BUILD_NUMBER}"
+
+  def changelist = "dev-${env.BUILD_NUMBER}"
   def projectName = ""
   def tag = ""
 
@@ -13,7 +14,7 @@ node {
       def version = packageJSON.version
       projectName = packageJSON.name
       def image = "docker.nexus.archi-lab.io/archilab/${projectName}"
-      tag = "${version}-${revision}"
+      tag = "${version}-${changelist}"
 
       sh "docker build -t ${image}:${tag} -f ./src/docker/Dockerfile ."
 
