@@ -16,7 +16,6 @@ node {
       tag = "${version}-${changelist}"
 
       sh "docker build -t ${image}:${tag} -f ./src/docker/Dockerfile ."
-
       sh "docker push ${image}:${tag}"
     }
   }
