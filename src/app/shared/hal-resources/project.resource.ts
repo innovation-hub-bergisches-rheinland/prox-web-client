@@ -6,11 +6,13 @@ import { CustomResource } from './custom-resource';
 export class Project extends CustomResource {
   id: UUID;
   name: string;
+  shortDescription: string;
   description: string;
   status: string;
   creatorID: UUID;
   creatorName: string;
   supervisorName: string;
+  requirement: string;
 
   setModules(newModules: Module[]): Promise<void> {
     return new Promise<void>((resolve, reject) => {
