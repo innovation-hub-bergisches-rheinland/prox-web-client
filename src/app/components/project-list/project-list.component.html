@@ -44,6 +44,8 @@
           {{ project.status.charAt(0).toUpperCase() + project.status.slice(1).toLowerCase() }}
         </div>
       </mat-card-title>
+      <mat-card-subtitle>Kurze Beschreibung</mat-card-subtitle>
+      <mat-card-title>{{ project.shortDescription }}</mat-card-title>
       <mat-card-subtitle>Betreuungsperson</mat-card-subtitle>
       <mat-card-title>
         {{ project.supervisorName }}
