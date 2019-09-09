@@ -1,5 +1,14 @@
 <div *ngIf="project" class="project-detail">
-  <h1>{{ project.name }}</h1>
+  <div>
+    <button
+      (click)="goBack()"
+      style="float: left; margin-top: 10px; margin-right: 10px;"
+      mat-icon-button
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ project.name }}</h1>
+  </div>
   <div>
     <mat-card>
       <mat-card-subtitle>Status</mat-card-subtitle>

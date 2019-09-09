@@ -7,6 +7,7 @@ import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
 import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
 import { MatDialog } from '@angular/material';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-project-details',
@@ -23,7 +24,8 @@ export class ProjectDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private user: KeyCloakUser,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _location: Location
   ) {
     this.user.Load().then(() => {
       this.hasPermission = user.hasRole('professor');
@@ -65,5 +67,9 @@ export class ProjectDetailsComponent implements OnInit {
 
   private getProject() {
     this.projectService.get(this.projectID).subscribe(project => (this.project = project));
+  }
+
+  goBack() {
+    this._location.back();
   }
 }
