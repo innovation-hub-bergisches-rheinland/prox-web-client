@@ -22,6 +22,26 @@
       </mat-form-field>
       <mat-form-field>
         <textarea
+          [formControl]="projectFormControl.controls['shortDescription']"
+          class="form-textarea"
+          matInput
+          placeholder="Kurzbeschreibung"
+          required
+        ></textarea>
+        <mat-error *ngIf="projectFormControl.controls['shortDescription'].hasError('required')">
+          Kurzbeschreibung <strong>fehlt</strong>!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          [formControl]="projectFormControl.controls['requirement']"
+          class="form-textarea"
+          matInput
+          placeholder="Teilnahmevoraussetzungen"
+        ></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
           [formControl]="projectFormControl.controls['description']"
           class="form-textarea"
           matInput
@@ -55,36 +75,29 @@
           Status <strong>fehlt</strong>!
         </mat-error>
       </mat-form-field>
-      <div>
-        <p id="module-caption">Modulauswahl</p>
-        <div *ngFor="let studyCourse of studyCourses">
-          <p id="study-course-caption">{{ studyCourse.name }} ({{ studyCourse.academicDegree }})</p>
-          <mat-chip-list>
-            <mat-chip
-              *ngFor="let module of studyCourse.modules"
-              [class.selected]="selectedModules.includes(module)"
-              (click)="onSelectModule(module)"
-            >
-              {{ module.name }}
-            </mat-chip>
-          </mat-chip-list>
-        </div>
-      </div>
-      <mat-error *ngIf="selectedModules.length === 0">
-        <strong>Mindestens</strong> ein Modul auswählen!
-      </mat-error>
+
+      <section formArrayName="studyCoursesModuleSelectors" class="study-course-module-selectors">
+        <prox-study-course-module-selection
+          *ngFor="let selector of moduleSelectors.controls; index as i"
+          [formControlName]="i"
+          (delete)="removeStudyCourseModuleSelector(i)"
+          class="study-course-module-selector"
+        ></prox-study-course-module-selection>
+      </section>
+
+      <a
+        mat-mini-fab
+        class="add-study-course-module-selector-button"
+        (click)="addStudyCourseModuleSelector()"
+      >
+        <mat-icon>add</mat-icon>
+      </a>
     </div>
     <div mat-dialog-actions>
       <div class="action-buttons">
         <button (click)="closeDialog()" mat-button type="reset">Abbrechen</button>
         <button
-          [disabled]="
-            projectFormControl.controls['name'].hasError('required') ||
-            projectFormControl.controls['description'].hasError('required') ||
-            projectFormControl.controls['status'].hasError('required') ||
-            selectedModules.length === 0 ||
-            hasSubmitted
-          "
+          [disabled]="projectFormControl.invalid || hasSubmitted"
           mat-button
           type="submit"
           *ngIf="project"
@@ -92,13 +105,7 @@
           Änderungen speichern
         </button>
         <button
-          [disabled]="
-            projectFormControl.controls['name'].hasError('required') ||
-            projectFormControl.controls['description'].hasError('required') ||
-            projectFormControl.controls['status'].hasError('required') ||
-            selectedModules.length === 0 ||
-            hasSubmitted
-          "
+          [disabled]="projectFormControl.invalid || hasSubmitted"
           mat-button
           type="submit"
           *ngIf="project == null"
