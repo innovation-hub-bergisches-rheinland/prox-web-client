@@ -1,12 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
+import { Tag } from '@prox/shared/hal-resources';
 import { RestService } from 'angular4-hal';
-import { Module } from '@prox/shared/hal-resources';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModuleService extends RestService<Module> {
+export class TagService extends RestService<Tag> {
   constructor(injector: Injector) {
-    super(Module, 'modules', injector);
+    super(Tag, 'tags', injector);
   }
 }

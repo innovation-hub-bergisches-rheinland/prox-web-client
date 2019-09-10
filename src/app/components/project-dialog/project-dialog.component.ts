@@ -1,8 +1,10 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA, MatChipInputEvent } from '@angular/material';
 import { ProjectService } from '@prox/core/services/project.service';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
+import { Tag } from '@prox/shared/hal-resources';
 import { Module } from '@prox/shared/hal-resources/module.resource';
 import { Project } from '@prox/shared/hal-resources/project.resource';
 import * as _ from 'underscore';
@@ -15,6 +17,9 @@ import * as _ from 'underscore';
 export class ProjectDialogComponent implements OnInit {
   projectFormControl: FormGroup;
   hasSubmitted: boolean = false;
+
+  tags: Tag[] = [];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     public projectDialogRef: MatDialogRef<ProjectDialogComponent>,
@@ -68,6 +73,28 @@ export class ProjectDialogComponent implements OnInit {
     this.moduleSelectors.removeAt(index);
     if (this.moduleSelectors.length < 1) {
       this.addStudyCourseModuleSelector();
+    }
+  }
+
+  addTag(event: MatChipInputEvent) {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      let tag = new Tag();
+      tag.tagName = value.trim();
+      this.tags.push(tag);
+    }
+
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeTag(tag: Tag) {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
     }
   }
 

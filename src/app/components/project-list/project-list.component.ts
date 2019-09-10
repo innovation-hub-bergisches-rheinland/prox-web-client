@@ -188,7 +188,7 @@ export class ProjectListComponent implements OnInit {
     for (const project of projects) {
       for (const tag of project.project.tags) {
         for (const name of names) {
-          if (tag.name.toLowerCase().includes(name.toLowerCase())) {
+          if (tag.tagName.toLowerCase().includes(name.toLowerCase())) {
             project.relevance = project.relevance + 2;
           }
         }

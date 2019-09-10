@@ -85,6 +85,27 @@
         ></prox-study-course-module-selection>
       </section>
 
+      <mat-form-field class="tag-list">
+        <mat-chip-list #tagList>
+          <mat-chip
+            *ngFor="let tag of tags"
+            [selectable]="true"
+            [removable]="true"
+            (removed)="removeTag(tag)"
+          >
+            {{ tag.tagName }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Tags"
+            [matChipInputFor]="tagList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="addTag($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+
       <a
         mat-mini-fab
         class="add-study-course-module-selector-button"
@@ -116,3 +137,5 @@
     </div>
   </form>
 </div>
+
+<p>{{ tags | json }}</p>
