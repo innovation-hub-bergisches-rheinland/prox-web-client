@@ -3,6 +3,7 @@ import { Module } from './module.resource';
 import { Observable } from 'rxjs';
 import { CustomResource } from './custom-resource';
 import { Tag } from './tag.resource';
+import { OnInit } from '@angular/core';
 
 export class Project extends CustomResource {
   id: UUID;
@@ -14,18 +15,7 @@ export class Project extends CustomResource {
   creatorName: string;
   supervisorName: string;
   requirement: string;
-  tags: Tag[] = [
-    { id: 1, name: 'Tag 01' },
-    { id: 2, name: 'Tag 02' },
-    { id: 3, name: 'Tag 03' },
-    { id: 4, name: 'Tag 04' },
-    { id: 5, name: 'Tag 05' },
-    { id: 6, name: 'Tag 06' },
-    { id: 7, name: 'Tag 07' },
-    { id: 8, name: 'Tag 08' },
-    { id: 9, name: 'Tag 09' },
-    { id: 10, name: 'Tag 10' }
-  ];
+  tags: Tag[] = [];
 
   setModules(newModules: Module[]): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -41,7 +31,7 @@ export class Project extends CustomResource {
     return this.getRelationArray(Module, 'modules');
   }
 
-  getMockedTags(): Tag[] {
-    return this.tags;
+  getTags(): Observable<Tag[]> {
+    return this.getRelationArray(Tag, 'tags');
   }
 }
