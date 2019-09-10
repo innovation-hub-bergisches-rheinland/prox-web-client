@@ -55,16 +55,20 @@ export class ProjectListComponent implements OnInit {
       error => console.log(error),
       () => {
         this.fillStatus(this.projects);
-
-        for (var _i = 0; _i < this.projects.length; _i++) {
-          this.projects[_i].getAndSetTagArray().then();
-        }
+        this.getAndSetTagArrayForProjects(this.projects);
       }
     );
   }
 
   statusFilter(status: string) {
-    this.projectService.findByStatus(status).subscribe(projects => (this.projects = projects));
+    this.projectService.findByStatus(status).subscribe(
+      projects => (this.projects = projects),
+      error => console.log(error),
+      () => {
+        this.fillStatus(this.projects);
+        this.getAndSetTagArrayForProjects(this.projects);
+      }
+    );
   }
 
   supervisorNameFilter(supervisorName: string) {
@@ -163,5 +167,13 @@ export class ProjectListComponent implements OnInit {
     }
     this.projects = this.filteredProjects;
     this.filteredProjects = [];
+
+    this.getAndSetTagArrayForProjects(this.projects);
+  }
+
+  getAndSetTagArrayForProjects(projects: Project[]) {
+    for (var _i = 0; _i < projects.length; _i++) {
+      projects[_i].getAndSetTagArray().then();
+    }
   }
 }
