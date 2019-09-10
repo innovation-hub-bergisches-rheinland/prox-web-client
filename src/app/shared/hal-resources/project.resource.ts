@@ -30,6 +30,12 @@ export class Project extends CustomResource {
     return this.getRelationArray(Module, 'modules');
   }
 
+  getAndSetTagArray(): Promise<Tag[]> {
+    return new Promise<Tag[]>((resolve, reject) => {
+      this.getTags().subscribe(tmp_tags => (this.tags = tmp_tags), () => reject(), () => {});
+    });
+  }
+
   getTags(): Observable<Tag[]> {
     return this.getRelationArray(Tag, 'tags');
   }

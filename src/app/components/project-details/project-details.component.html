@@ -40,6 +40,7 @@
         ><br />
         <mat-chip-list>
           <mat-chip *ngFor="let tag of project.tags">{{ tag.tagName }}</mat-chip>
+          <mat-chip *ngIf="!project.tags.length">Keine Tags vorhanden</mat-chip>
         </mat-chip-list>
       </mat-card-subtitle>
       <mat-card-subtitle>
