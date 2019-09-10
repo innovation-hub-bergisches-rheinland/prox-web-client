@@ -1,7 +1,7 @@
-import { Module } from './module.resource';
+import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs';
 import { CustomResource } from './custom-resource';
-import { UUID } from 'angular2-uuid';
+import { Module } from './module.resource';
 
 export class StudyCourse extends CustomResource {
   id: UUID;

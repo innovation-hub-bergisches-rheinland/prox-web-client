@@ -22,7 +22,7 @@ export class ProjectDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snack: MatSnackBar,
     private user: KeyCloakUser,
-    @Inject(MAT_DIALOG_DATA) public project: any
+    @Inject(MAT_DIALOG_DATA) public project: Project
   ) {}
 
   ngOnInit() {
@@ -85,6 +85,12 @@ export class ProjectDialogComponent implements OnInit {
     this.projectFormControl.controls.description.setValue(this.project.description);
     this.projectFormControl.controls.supervisorName.setValue(this.project.supervisorName);
     this.projectFormControl.controls.status.setValue(this.project.status);
+
+    this.project.getModules().subscribe(modules => console.log(modules));
+
+    // for each Module get study Course ~ group by study Course?
+    // assign each group to study card !
+    // done
   }
 
   private createProjectResource(project: Project): Project {

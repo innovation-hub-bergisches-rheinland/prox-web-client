@@ -1,9 +1,8 @@
 import { UUID } from 'angular2-uuid';
-import { Module } from './module.resource';
 import { Observable } from 'rxjs';
 import { CustomResource } from './custom-resource';
+import { Module } from './module.resource';
 import { Tag } from './tag.resource';
-import { OnInit } from '@angular/core';
 
 export class Project extends CustomResource {
   id: UUID;
