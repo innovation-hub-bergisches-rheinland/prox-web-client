@@ -24,9 +24,9 @@ node {
 
   stage('Build') {
     docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-      sh "docker build -t ${image} -f ./src/docker/Dockerfile ."
-      sh "docker tag ${image} ${image}:${tag}"
-      sh "docker push ${image}:${tag}"
+      sh "docker build -t ${repository}/${image} -f ./src/docker/Dockerfile ."
+      sh "docker tag ${repository}/${image} ${repository}/${image}:${tag}"
+      sh "docker push ${repository}/${image}:${tag}"
     }
   }
 
