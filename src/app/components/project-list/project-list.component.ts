@@ -6,6 +6,7 @@ import { MatDialog, MatSelectChange } from '@angular/material';
 import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
 import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
 import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
+import { RelevantProject } from '@prox/components/project-list/relevant.project';
 
 @Component({
   selector: 'app-project-list',
@@ -14,11 +15,9 @@ import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-c
 })
 export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
-  filteredProjects: Project[] = [];
   allStatus: string[] = [];
   selectedStatus: string;
   selectedName: string;
-  selectedSupervisorName: string;
   hasPermission = false;
 
   constructor(
@@ -71,19 +70,15 @@ export class ProjectListComponent implements OnInit {
     );
   }
 
-  supervisorNameFilter(supervisorName: string) {
-    this.projectService
-      .findBySupervisorName(supervisorName)
-      .subscribe(projects => (this.projects = projects));
-  }
-
   nameFilter(name: string) {
     if (this.selectedStatus) {
       this.projectService
         .findByStatus(this.selectedStatus)
-        .subscribe(projects => this.filterProjects(projects, name));
+        .subscribe(projects => this.filterProjectsByRelevance(projects, name));
     } else {
-      this.projectService.getAll().subscribe(projects => this.filterProjects(projects, name));
+      this.projectService
+        .getAll()
+        .subscribe(projects => this.filterProjectsByRelevance(projects, name));
     }
   }
 
@@ -100,8 +95,6 @@ export class ProjectListComponent implements OnInit {
       this.selectedStatus = null;
       if (this.selectedName) {
         this.nameFilter(this.selectedName);
-      } else if (this.selectedSupervisorName) {
-        this.supervisorNameFilter(this.selectedSupervisorName);
       } else {
         this.getAllProjects();
       }
@@ -117,25 +110,6 @@ export class ProjectListComponent implements OnInit {
       this.selectedName = null;
       if (this.selectedStatus) {
         this.statusFilter(this.selectedStatus);
-      } else if (this.selectedSupervisorName) {
-        this.supervisorNameFilter(this.selectedSupervisorName);
-      } else {
-        this.getAllProjects();
-      }
-    }
-  }
-
-  filterProjectsBySupervisorName(event: any) {
-    const supervisorName = event.target.value;
-    if (supervisorName) {
-      this.selectedSupervisorName = supervisorName;
-      this.supervisorNameFilter(this.selectedSupervisorName);
-    } else {
-      this.selectedSupervisorName = null;
-      if (this.selectedStatus) {
-        this.statusFilter(this.selectedStatus);
-      } else if (this.selectedName) {
-        this.nameFilter(this.selectedName);
       } else {
         this.getAllProjects();
       }
@@ -159,16 +133,67 @@ export class ProjectListComponent implements OnInit {
     this.allStatus = this.allStatus.filter((value, index, self) => self.indexOf(value) === index);
   }
 
-  private filterProjects(projects: Project[], name?: string) {
-    for (const project of projects as Project[]) {
-      if (project.name.toLowerCase().includes(name.toLowerCase())) {
-        this.filteredProjects.push(project);
-      }
+  private filterProjectsByRelevance(projects: Project[], name?: string) {
+    let relevantProjects = [];
+
+    for (const project of projects) {
+      relevantProjects.push(new RelevantProject(project));
     }
-    this.projects = this.filteredProjects;
-    this.filteredProjects = [];
+
+    if (name != null && name.length > 1) {
+      const words = name
+        .split(' ', 50)
+        .filter((value, index, self) => value != null && value.length > 1);
+
+      this.rateSupervisorRelevance(relevantProjects, words);
+      this.rateProjectNameRelevance(relevantProjects, words);
+      this.rateProjectTagRelevance(relevantProjects, words);
+
+      relevantProjects = relevantProjects.filter((value, index, self) => value.relevance > 0);
+      relevantProjects = relevantProjects.sort((a, b) => (a.relevance < b.relevance ? 1 : -1));
+    }
+
+    this.projects = [];
+
+    for (const project of relevantProjects) {
+      this.projects.push(project.project);
+    }
 
     this.getAndSetTagArrayForProjects(this.projects);
+  }
+
+  private rateSupervisorRelevance(projects: RelevantProject[], names: string[]) {
+    for (const project of projects) {
+      for (const name of names) {
+        if (project.project.supervisorName.toLowerCase() === name.toLowerCase()) {
+          project.relevance = project.relevance + 10;
+        } else if (project.project.supervisorName.toLowerCase().includes(name.toLowerCase())) {
+          project.relevance = project.relevance + 3;
+        }
+      }
+    }
+  }
+
+  private rateProjectNameRelevance(projects: RelevantProject[], names: string[]) {
+    for (const project of projects) {
+      for (const name of names) {
+        if (project.project.name.toLowerCase().includes(name.toLowerCase())) {
+          project.relevance++;
+        }
+      }
+    }
+  }
+
+  private rateProjectTagRelevance(projects: RelevantProject[], names: string[]) {
+    for (const project of projects) {
+      for (const tag of project.project.tags) {
+        for (const name of names) {
+          if (tag.name.toLowerCase().includes(name.toLowerCase())) {
+            project.relevance = project.relevance + 2;
+          }
+        }
+      }
+    }
   }
 
   getAndSetTagArrayForProjects(projects: Project[]) {

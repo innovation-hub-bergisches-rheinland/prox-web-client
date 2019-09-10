@@ -13,13 +13,6 @@
       <mat-form-field>
         <input (keyup)="filterProjectsByName($event)" matInput placeholder="Suche" />
       </mat-form-field>
-      <mat-form-field>
-        <input
-          (keyup)="filterProjectsBySupervisorName($event)"
-          matInput
-          placeholder="Betreuungsperson"
-        />
-      </mat-form-field>
       <button
         (click)="openProjectDialog(null)"
         *ngIf="hasPermission"
