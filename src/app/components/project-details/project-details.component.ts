@@ -66,7 +66,10 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   private getProject() {
-    this.projectService.get(this.projectID).subscribe(project => (this.project = project));
+    this.projectService.get(this.projectID).subscribe(project => {
+      this.project = project;
+      this.project.getAndSetTagArray();
+    });
   }
 
   goBack() {

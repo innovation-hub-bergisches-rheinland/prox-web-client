@@ -50,13 +50,17 @@ export class ProjectListComponent implements OnInit {
   }
 
   getAllProjects() {
-    this.projectService
-      .getAll()
-      .subscribe(
-        projects => (this.projects = projects),
-        error => console.log(error),
-        () => this.fillStatus(this.projects)
-      );
+    this.projectService.getAll().subscribe(
+      projects => (this.projects = projects),
+      error => console.log(error),
+      () => {
+        this.fillStatus(this.projects);
+
+        for (var _i = 0; _i < this.projects.length; _i++) {
+          this.projects[_i].getAndSetTagArray().then();
+        }
+      }
+    );
   }
 
   statusFilter(status: string) {
