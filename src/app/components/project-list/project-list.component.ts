@@ -7,6 +7,7 @@ import { ProjectDialogComponent } from '../project-dialog/project-dialog.compone
 import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
 import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import { RelevantProject } from '@prox/components/project-list/relevant.project';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-project-list',
@@ -133,7 +134,7 @@ export class ProjectListComponent implements OnInit {
     this.allStatus = this.allStatus.filter((value, index, self) => self.indexOf(value) === index);
   }
 
-  private filterProjectsByRelevance(projects: Project[], name?: string) {
+  private async filterProjectsByRelevance(projects: Project[], name?: string) {
     let relevantProjects = [];
 
     for (const project of projects) {
@@ -147,7 +148,10 @@ export class ProjectListComponent implements OnInit {
 
       this.rateSupervisorRelevance(relevantProjects, words);
       this.rateProjectNameRelevance(relevantProjects, words);
-      this.rateProjectTagRelevance(relevantProjects, words);
+
+      for (const project of relevantProjects) {
+        await this.rateProjectTagRelevance(project, words);
+      }
 
       relevantProjects = relevantProjects.filter((value, index, self) => value.relevance > 0);
       relevantProjects = relevantProjects.sort((a, b) => (a.relevance < b.relevance ? 1 : -1));
@@ -184,16 +188,24 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
-  private rateProjectTagRelevance(projects: RelevantProject[], names: string[]) {
-    for (const project of projects) {
-      for (const tag of project.project.tags) {
-        for (const name of names) {
-          if (tag.tagName.toLowerCase().includes(name.toLowerCase())) {
-            project.relevance = project.relevance + 2;
+  private async rateProjectTagRelevance(project: RelevantProject, names: string[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      project.project.getTags().subscribe(
+        temp_tags => {
+          for (const name of names) {
+            for (const tag of temp_tags) {
+              if (tag.tagName.toLowerCase() === name.toLowerCase()) {
+                project.relevance = project.relevance + 5;
+              } else if (tag.tagName.toLowerCase().includes(name.toLowerCase())) {
+                project.relevance = project.relevance + 2;
+              }
+            }
           }
-        }
-      }
-    }
+        },
+        error => reject(error),
+        () => resolve()
+      );
+    });
   }
 
   getAndSetTagArrayForProjects(projects: Project[]) {
