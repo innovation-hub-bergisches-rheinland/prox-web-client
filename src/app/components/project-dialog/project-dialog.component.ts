@@ -1,13 +1,17 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA, MatChipInputEvent } from '@angular/material';
+import { MatChipInputEvent, MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { ProjectService } from '@prox/core/services/project.service';
+import { TagService } from '@prox/core/services/tag.service';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
-import { Tag } from '@prox/shared/hal-resources';
+import { StudyCourse, Tag } from '@prox/shared/hal-resources';
 import { Module } from '@prox/shared/hal-resources/module.resource';
 import { Project } from '@prox/shared/hal-resources/project.resource';
+import { forkJoin, Observable, Observer } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as _ from 'underscore';
+import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
 
 @Component({
   selector: 'app-project-dialog',
@@ -24,6 +28,7 @@ export class ProjectDialogComponent implements OnInit {
   constructor(
     public projectDialogRef: MatDialogRef<ProjectDialogComponent>,
     private projectService: ProjectService,
+    private tagService: TagService,
     private formBuilder: FormBuilder,
     private snack: MatSnackBar,
     private user: KeyCloakUser,
@@ -42,12 +47,17 @@ export class ProjectDialogComponent implements OnInit {
     });
 
     /* TODO:
-      - validator for selector component ? ~done
       - fill in existing !?
+      - add tags support
+        - adding (check & add)
+        - fill in existing
+      - '+' button layout
+      - image & text for wiki
 
       - option to set all / profiles !??
       - stepps?
       - responsive design?
+      - FONTS LOCAL !
     */
 
     this.addStudyCourseModuleSelector();
@@ -66,7 +76,7 @@ export class ProjectDialogComponent implements OnInit {
   }
 
   addStudyCourseModuleSelector() {
-    this.moduleSelectors.push(new FormControl([]));
+    this.moduleSelectors.push(new FormControl());
   }
 
   removeStudyCourseModuleSelector(index: number) {
@@ -100,9 +110,51 @@ export class ProjectDialogComponent implements OnInit {
 
   private getAggregatedSelectedModules() {
     return _.chain(this.moduleSelectors.getRawValue())
+      .pluck('selectedModules')
       .flatten()
       .uniq(x => x.id)
       .value();
+  }
+
+  private prepareStudyCourseSelectorData(
+    modules: Module[]
+  ): Observable<StudyCourseModuleSelectionModel[]> {
+    return Observable.create((observer: Observer<StudyCourseModuleSelectionModel[]>) => {
+      let observables = [];
+
+      for (let index = 0; index < modules.length; index++) {
+        observables.push(
+          modules[index].getRelation(StudyCourse, 'studyCourse').pipe(
+            map(course => {
+              return { module: modules[index], studyCourse: course };
+            })
+          )
+        );
+      }
+
+      forkJoin(observables).subscribe(
+        success => {
+          let result = _.chain(success)
+            .groupBy(element => element.studyCourse.id)
+            .map(element => element)
+            .map(element => {
+              return new StudyCourseModuleSelectionModel(
+                element[0].studyCourse,
+                element.map(x => x.module)
+              );
+            })
+            .value();
+          observer.next(result);
+          observer.complete();
+        },
+        error => {
+          this.showSubmitInfo('Fehler beim parsen der Module');
+          this.closeDialog();
+          console.log(error);
+          observer.complete();
+        }
+      );
+    });
   }
 
   private fillInExistingProjectValues() {
@@ -113,11 +165,40 @@ export class ProjectDialogComponent implements OnInit {
     this.projectFormControl.controls.supervisorName.setValue(this.project.supervisorName);
     this.projectFormControl.controls.status.setValue(this.project.status);
 
-    this.project.getModules().subscribe(modules => console.log(modules));
+    this.project.getModules().subscribe(modules =>
+      this.prepareStudyCourseSelectorData(modules).subscribe(success => {
+        if (success.length >= 1) {
+          this.moduleSelectors.controls[0].setValue(success[0]);
+        }
+        for (let index = 1; index < success.length; index++) {
+          this.addStudyCourseModuleSelector();
+          this.moduleSelectors.controls[index].setValue(success[index]);
+        }
+      })
+    );
 
-    // for each Module get study Course ~ group by study Course?
-    // assign each group to study card !
-    // done
+    // fill in tags
+  }
+
+  private createTags(tags: Tag[]): Observable<Tag[]> {
+    // check if Tag exists, only create non existing
+    // then merge and return results
+
+    return Observable.create((observer: Observer<Tag[]>) => {
+      let observables = tags.map(tag => this.tagService.create(tag));
+      forkJoin(observables).subscribe(
+        success => {
+          observer.next(success as Tag[]);
+          observer.complete();
+        },
+        error => {
+          this.showSubmitInfo('Fehler beim anlegen der Tags');
+          this.closeDialog();
+          console.log(error);
+          observer.complete();
+        }
+      );
+    });
   }
 
   private createProjectResource(project: Project): Project {
@@ -200,6 +281,9 @@ export class ProjectDialogComponent implements OnInit {
 
   onSubmit(project: Project) {
     this.hasSubmitted = true;
+
+    this.createTags(this.tags);
+    // ????
 
     if (this.project) {
       this.updateProject(project, this.getAggregatedSelectedModules());
