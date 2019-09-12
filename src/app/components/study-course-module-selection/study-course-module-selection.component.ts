@@ -48,10 +48,6 @@ export class StudyCourseModuleSelectionComponent
       );
     } else {
       let data = obj as StudyCourseModuleSelectionModel;
-      // get study course
-      // select study course
-      // mark correct modules as checked
-      // prevent propagation?
       this.modulesToSet = data.selectedModules;
       this.formGroup.controls.studyCourse.setValue(data.studyCourse);
     }

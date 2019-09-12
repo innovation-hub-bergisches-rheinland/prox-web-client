@@ -85,6 +85,14 @@
         ></prox-study-course-module-selection>
       </section>
 
+      <a
+        mat-mini-fab
+        class="add-study-course-module-selector-button"
+        (click)="addStudyCourseModuleSelector()"
+      >
+        <mat-icon>add</mat-icon>
+      </a>
+
       <mat-form-field class="tag-list">
         <mat-chip-list #tagList>
           <mat-chip
@@ -105,14 +113,6 @@
           />
         </mat-chip-list>
       </mat-form-field>
-
-      <a
-        mat-mini-fab
-        class="add-study-course-module-selector-button"
-        (click)="addStudyCourseModuleSelector()"
-      >
-        <mat-icon>add</mat-icon>
-      </a>
     </div>
     <div mat-dialog-actions>
       <div class="action-buttons">

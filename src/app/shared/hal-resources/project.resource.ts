@@ -26,6 +26,10 @@ export class Project extends CustomResource {
     });
   }
 
+  setTags(tags: Tag[]) {
+    this.setRelationArray('tags', tags).subscribe(console.log);
+  }
+
   getModules(): Observable<Module[]> {
     return this.getRelationArray(Module, 'modules');
   }

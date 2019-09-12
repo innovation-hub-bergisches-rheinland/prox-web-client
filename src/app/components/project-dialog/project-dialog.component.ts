@@ -2,16 +2,13 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent, MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
-import { ProjectService } from '@prox/core/services/project.service';
-import { TagService } from '@prox/core/services/tag.service';
+import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection/study-course-module-selection.component';
+import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
-import { StudyCourse, Tag } from '@prox/shared/hal-resources';
-import { Module } from '@prox/shared/hal-resources/module.resource';
-import { Project } from '@prox/shared/hal-resources/project.resource';
-import { forkJoin, Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
+import { forkJoin, Observable, Observer, of, throwError } from 'rxjs';
+import { catchError, map, mergeMap, toArray, timeout } from 'rxjs/operators';
 import * as _ from 'underscore';
-import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
 
 @Component({
   selector: 'app-project-dialog',
@@ -47,17 +44,13 @@ export class ProjectDialogComponent implements OnInit {
     });
 
     /* TODO:
-      - fill in existing !?
       - add tags support
         - adding (check & add)
         - fill in existing
-      - '+' button layout
-      - image & text for wiki
 
       - option to set all / profiles !??
       - stepps?
       - responsive design?
-      - FONTS LOCAL !
     */
 
     this.addStudyCourseModuleSelector();
@@ -177,28 +170,28 @@ export class ProjectDialogComponent implements OnInit {
       })
     );
 
+    this.project.getTags().subscribe(tags => (this.tags = tags));
     // fill in tags
   }
 
-  private createTags(tags: Tag[]): Observable<Tag[]> {
-    // check if Tag exists, only create non existing
-    // then merge and return results
-
-    return Observable.create((observer: Observer<Tag[]>) => {
-      let observables = tags.map(tag => this.tagService.create(tag));
-      forkJoin(observables).subscribe(
-        success => {
-          observer.next(success as Tag[]);
-          observer.complete();
-        },
-        error => {
-          this.showSubmitInfo('Fehler beim anlegen der Tags');
-          this.closeDialog();
-          console.log(error);
-          observer.complete();
-        }
-      );
-    });
+  private createTags(tags: Tag[]): Observable<(Tag | Observable<never>)[]> {
+    return of(...tags).pipe(
+      mergeMap(tag =>
+        this.tagService.findByTagName(tag.tagName).pipe(
+          catchError(err =>
+            err.status && err.status === 404 ? this.tagService.create(tag) : throwError(err)
+          ),
+          map(foundTags =>
+            Array.isArray(foundTags)
+              ? foundTags.length === 1
+                ? foundTags[0]
+                : throwError(new Error("Can't parse Tag"))
+              : foundTags
+          )
+        )
+      ),
+      toArray()
+    );
   }
 
   private createProjectResource(project: Project): Project {
@@ -227,12 +220,13 @@ export class ProjectDialogComponent implements OnInit {
     return projectResource;
   }
 
-  private createProject(project: Project, modules: Module[]) {
+  private createProject(project: Project, modules: Module[], tags: Tag[]) {
     let newProject = this.createProjectResource(project);
 
     // Create Project
     this.projectService.create(newProject).subscribe(
       () => {
+        newProject.setTags(tags);
         newProject.setModules(modules).then(
           () => {
             this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
@@ -253,12 +247,13 @@ export class ProjectDialogComponent implements OnInit {
     );
   }
 
-  private updateProject(project: Project, modules: Module[]) {
+  private updateProject(project: Project, modules: Module[], tags: Tag[]) {
     this.project = this.createProjectResource(project);
 
     // Update Project
     this.projectService.update(this.project).subscribe(
       () => {
+        this.project.setTags(tags);
         this.project.setModules(modules).then(
           () => {
             this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
@@ -282,14 +277,14 @@ export class ProjectDialogComponent implements OnInit {
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
-    this.createTags(this.tags);
-    // ????
-
-    if (this.project) {
-      this.updateProject(project, this.getAggregatedSelectedModules());
-    } else {
-      this.createProject(project, this.getAggregatedSelectedModules());
-    }
+    let modules = this.getAggregatedSelectedModules();
+    this.createTags(this.tags).subscribe(tags => {
+      if (this.project) {
+        this.updateProject(project, modules, tags as Tag[]);
+      } else {
+        this.createProject(project, modules, tags as Tag[]);
+      }
+    });
   }
 
   private showSubmitInfo(message: string) {
