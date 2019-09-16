@@ -1,6 +1,6 @@
 /* tslint:disable:one-line */
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSelectChange } from '@angular/material';
+import { MatDialog, MatSelectChange, PageEvent } from '@angular/material';
 import { RelevantProject } from '@prox/components/project-list/relevant.project';
 import { ProjectService } from '../../core/services/project.service';
 import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
@@ -15,7 +15,10 @@ import { ProjectDialogComponent } from '../project-dialog/project-dialog.compone
 })
 export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
-  totalProjects: 1000;
+
+  totalProjects: number = 0;
+  pageSize: number = 10;
+
   allStatus: string[] = [];
   selectedStatus: string;
   selectedName: string;
@@ -49,13 +52,20 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  getAllProjects() {
-    this.projectService.getAll().subscribe(
-      projects => (this.projects = projects),
+  getAllProjects(pageIndex: number = 0, pageSize: number = this.pageSize) {
+    let options = {
+      params: [{ key: 'size', value: pageSize }, { key: 'page', value: pageIndex }]
+    };
+    this.projectService.getAll(options).subscribe(
+      projects => {
+        console.log(projects);
+        this.projects = projects;
+      },
       error => console.log(error),
       () => {
         this.fillStatus(this.projects);
         this.getAndSetTagArrayForProjects(this.projects);
+        this.totalProjects = this.projectService.totalElement();
       }
     );
   }
@@ -212,5 +222,9 @@ export class ProjectListComponent implements OnInit {
     for (var _i = 0; _i < projects.length; _i++) {
       projects[_i].getAndSetTagArray().then();
     }
+  }
+
+  pageEvent(pageEvent: PageEvent) {
+    this.getAllProjects(pageEvent.pageIndex, pageEvent.pageSize);
   }
 }

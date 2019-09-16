@@ -81,6 +81,11 @@
       </button>
     </mat-card-actions>
   </mat-card>
-  <mat-paginator [length]="totalProjects" [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
+  <mat-paginator
+    [length]="totalProjects"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 25, 50]"
+    (page)="pageEvent($event)"
+  >
   </mat-paginator>
 </div>
