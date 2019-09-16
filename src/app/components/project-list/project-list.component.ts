@@ -57,10 +57,7 @@ export class ProjectListComponent implements OnInit {
       params: [{ key: 'size', value: pageSize }, { key: 'page', value: pageIndex }]
     };
     this.projectService.getAll(options).subscribe(
-      projects => {
-        console.log(projects);
-        this.projects = projects;
-      },
+      projects => (this.projects = projects),
       error => console.log(error),
       () => {
         this.fillStatus(this.projects);
