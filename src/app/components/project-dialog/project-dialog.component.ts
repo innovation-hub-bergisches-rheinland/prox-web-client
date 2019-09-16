@@ -171,7 +171,6 @@ export class ProjectDialogComponent implements OnInit {
     );
 
     this.project.getTags().subscribe(tags => (this.tags = tags));
-    // fill in tags
   }
 
   private createTags(tags: Tag[]): Observable<(Tag | Observable<never>)[]> {

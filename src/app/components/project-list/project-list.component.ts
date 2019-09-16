@@ -1,13 +1,12 @@
 /* tslint:disable:one-line */
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from '../../core/services/project.service';
-import { Project } from '../../shared/hal-resources/project.resource';
 import { MatDialog, MatSelectChange } from '@angular/material';
-import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
-import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
-import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import { RelevantProject } from '@prox/components/project-list/relevant.project';
-import { Observable } from 'rxjs';
+import { ProjectService } from '../../core/services/project.service';
+import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
+import { Project } from '../../shared/hal-resources/project.resource';
+import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
+import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
 
 @Component({
   selector: 'app-project-list',
@@ -16,6 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
+  totalProjects: 1000;
   allStatus: string[] = [];
   selectedStatus: string;
   selectedName: string;
