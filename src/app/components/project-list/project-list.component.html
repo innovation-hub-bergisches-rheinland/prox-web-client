@@ -31,7 +31,7 @@
       <mat-card-title>
         <div
           [class.abgeschlossen]="project.status === 'ABGESCHLOSSEN'"
-          [class.geplant]="project.status === 'GEPLANT'"
+          [class.geplant]="project.status === 'VERFÜGBAR'"
           class="status"
         >
           {{ project.status.charAt(0).toUpperCase() + project.status.slice(1).toLowerCase() }}
