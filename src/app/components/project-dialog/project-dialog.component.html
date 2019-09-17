@@ -13,9 +13,13 @@
         <input
           [formControl]="projectFormControl.controls['name']"
           matInput
+          maxlength="255"
           placeholder="Bezeichnung"
           required
         />
+        <mat-hint align="end"
+          >{{ projectFormControl.controls['name'].value?.length || 0 }}/255</mat-hint
+        >
         <mat-error *ngIf="projectFormControl.controls['name'].hasError('required')">
           Bezeichnung <strong>fehlt</strong>!
         </mat-error>
@@ -25,9 +29,13 @@
           [formControl]="projectFormControl.controls['shortDescription']"
           class="form-textarea"
           matInput
+          maxlength="10000"
           placeholder="Kurzbeschreibung"
           required
         ></textarea>
+        <mat-hint align="end"
+          >{{ projectFormControl.controls['shortDescription'].value?.length || 0 }}/10000</mat-hint
+        >
         <mat-error *ngIf="projectFormControl.controls['shortDescription'].hasError('required')">
           Kurzbeschreibung <strong>fehlt</strong>!
         </mat-error>
@@ -37,8 +45,12 @@
           [formControl]="projectFormControl.controls['requirement']"
           class="form-textarea"
           matInput
+          maxlength="10000"
           placeholder="Teilnahmevoraussetzungen"
         ></textarea>
+        <mat-hint align="end"
+          >{{ projectFormControl.controls['requirement'].value?.length || 0 }}/10000</mat-hint
+        >
       </mat-form-field>
       <mat-form-field>
         <textarea
@@ -46,8 +58,12 @@
           class="form-textarea"
           matInput
           placeholder="Beschreibung"
+          maxlength="10000"
           required
         ></textarea>
+        <mat-hint align="end"
+          >{{ projectFormControl.controls['description'].value?.length || 0 }}/10000</mat-hint
+        >
         <mat-error *ngIf="projectFormControl.controls['description'].hasError('required')">
           Beschreibung <strong>fehlt</strong>!
         </mat-error>
@@ -58,7 +74,11 @@
           matInput
           placeholder="Betreuungsperson"
           required
+          maxlength="255"
         />
+        <mat-hint align="end"
+          >{{ projectFormControl.controls['supervisorName'].value?.length || 0 }}/255</mat-hint
+        >
       </mat-form-field>
       <mat-form-field>
         <mat-select

@@ -61,7 +61,6 @@ export class ProjectListComponent implements OnInit {
       error => console.log(error),
       () => {
         this.fillStatus(this.projects);
-        console.log(this.projects);
         this.getAndSetArrayForProjects(this.projects);
         this.totalProjects = this.projectService.totalElement();
       }
