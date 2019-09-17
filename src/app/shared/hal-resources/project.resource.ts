@@ -15,6 +15,7 @@ export class Project extends CustomResource {
   supervisorName: string;
   requirement: string;
   tags: Tag[] = [];
+  modules: Module[] = [];
 
   setModules(newModules: Module[]): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -36,7 +37,23 @@ export class Project extends CustomResource {
 
   getAndSetTagArray(): Promise<Tag[]> {
     return new Promise<Tag[]>((resolve, reject) => {
-      this.getTags().subscribe(tmp_tags => (this.tags = tmp_tags), () => reject(), () => {});
+      this.getTags().subscribe(
+        tmp_tags => (this.tags = tmp_tags),
+        () => reject(),
+        () => {
+          this.getAndSetModuleArray().then();
+        }
+      );
+    });
+  }
+
+  getAndSetModuleArray(): Promise<Module[]> {
+    return new Promise<Module[]>((resolve, reject) => {
+      this.getModules().subscribe(
+        temp_modules => (this.modules = temp_modules),
+        () => reject(),
+        () => {}
+      );
     });
   }
 

@@ -61,7 +61,8 @@ export class ProjectListComponent implements OnInit {
       error => console.log(error),
       () => {
         this.fillStatus(this.projects);
-        this.getAndSetTagArrayForProjects(this.projects);
+        console.log(this.projects);
+        this.getAndSetArrayForProjects(this.projects);
         this.totalProjects = this.projectService.totalElement();
       }
     );
@@ -73,7 +74,7 @@ export class ProjectListComponent implements OnInit {
       error => console.log(error),
       () => {
         this.fillStatus(this.projects);
-        this.getAndSetTagArrayForProjects(this.projects);
+        this.getAndSetArrayForProjects(this.projects);
       }
     );
   }
@@ -170,7 +171,7 @@ export class ProjectListComponent implements OnInit {
       this.projects.push(project.project);
     }
 
-    this.getAndSetTagArrayForProjects(this.projects);
+    this.getAndSetArrayForProjects(this.projects);
   }
 
   private rateSupervisorRelevance(projects: RelevantProject[], names: string[]) {
@@ -215,10 +216,11 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  getAndSetTagArrayForProjects(projects: Project[]) {
-    for (var _i = 0; _i < projects.length; _i++) {
-      projects[_i].getAndSetTagArray().then();
-    }
+  getAndSetArrayForProjects(projects: Project[]) {
+    this.projects.forEach(function(value) {
+      value.getAndSetModuleArray().then();
+      value.getAndSetTagArray().then();
+    });
   }
 
   pageEvent(pageEvent: PageEvent) {
