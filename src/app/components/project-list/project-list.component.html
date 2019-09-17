@@ -24,10 +24,9 @@
     </div>
   </div>
 
-  <mat-card *ngFor="let project of projects">
+  <mat-card *ngFor="let project of projects; let i = index">
     <mat-card-header>
-      <mat-card-title matTooltip="Projekttitel">{{ project.name }}</mat-card-title>
-      <mat-card-subtitle>
+      <mat-card-title>
         <div
           matTooltip="Projektstatus"
           [class.abgeschlossen]="project.status === 'ABGESCHLOSSEN'"
@@ -36,6 +35,9 @@
         >
           {{ project.status.charAt(0).toUpperCase() + project.status.slice(1).toLowerCase() }}
         </div>
+        {{ project.name }}</mat-card-title
+      >
+      <mat-card-subtitle>
         <span class="supervisorName" matTooltip="Projektbetreuer"
           ><b>{{ project.supervisorName }}</b></span
         >
@@ -44,23 +46,40 @@
     <mat-divider></mat-divider>
     <mat-card-content>
       <mat-card-subtitle>Kurze Projektbeschreibung:</mat-card-subtitle>
-      <p>{{ project.shortDescription }}</p>
+      <div
+        [ngClass]="{
+          'show-less': showShortDescriptionId != i.toString() || showShortDescriptionId == ''
+        }"
+      >
+        <p>{{ project.shortDescription }}</p>
+      </div>
+      <div style="text-align:center;">
+        <button
+          matTooltip="Ganze Projektkurzbeschreibung anzeigen"
+          *ngIf="project.shortDescription.length > 775"
+          mat-button
+          color="primary"
+          class="show-more-button"
+          (click)="alterDescriptionText(showShortDescriptionId != i.toString() ? i.toString() : '')"
+        >
+          {{
+            showShortDescriptionId != i.toString() || showShortDescriptionId == ''
+              ? 'Alles Anzeigen'
+              : 'Weniger Anzeigen'
+          }}
+        </button>
+      </div>
       <div class="card-container-wrapper">
         <div class="card-container">
-          <mat-card-subtitle>Teilnahmevoraussetzungen: </mat-card-subtitle>
+          <mat-card-subtitle>Teilnahmevoraussetzungen:</mat-card-subtitle>
           <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
           <p>{{ project.requirement }}</p>
         </div>
         <div class="card-container">
           <mat-card-subtitle>Projekttypen:</mat-card-subtitle>
-          <p>
-            <span
-              *ngFor="let module of project.modules; let i = index; let lst = last"
-              matTooltip="Projekttyp {{ i + 1 }}: '{{ module.name }}'"
-              >(<b>{{ module.projectType }}</b
-              >) {{ module.name }} <span *ngIf="!lst">, </span></span
-            >
-          </p>
+          <p *ngIf="searchProjectType(project, 'MA')"><b>(MA)</b> Masterarbeit</p>
+          <p *ngIf="searchProjectType(project, 'BA')"><b>(BA)</b> Bachelorarbeit</p>
+          <p *ngIf="searchProjectType(project, 'PP')"><b>(PP)</b> Praxisprojekt</p>
         </div>
       </div>
       <mat-card-subtitle>
@@ -73,8 +92,8 @@
             >{{ tag.tagName }}</mat-chip
           >
           <mat-chip color="primary" selected *ngIf="!project.tags.length"
-            >Keine Tags vorhanden</mat-chip
-          >
+            >Keine Tags vorhanden
+          </mat-chip>
         </mat-chip-list>
       </mat-card-subtitle>
     </mat-card-content>

@@ -24,6 +24,8 @@ export class ProjectListComponent implements OnInit {
   selectedName: string;
   hasPermission = false;
 
+  showShortDescriptionId: string = '';
+
   constructor(
     private projectService: ProjectService,
     private user: KeyCloakUser,
@@ -216,7 +218,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   getAndSetArrayForProjects(projects: Project[]) {
-    this.projects.forEach(function(value) {
+    projects.forEach(function(value) {
       value.getAndSetModuleArray().then();
       value.getAndSetTagArray().then();
     });
@@ -224,5 +226,15 @@ export class ProjectListComponent implements OnInit {
 
   pageEvent(pageEvent: PageEvent) {
     this.getAllProjects(pageEvent.pageIndex, pageEvent.pageSize);
+  }
+
+  alterDescriptionText(id: string) {
+    this.showShortDescriptionId = id;
+  }
+
+  searchProjectType(project: Project, search: string) {
+    return project.modules.find(function(module) {
+      return module.projectType == search;
+    });
   }
 }
