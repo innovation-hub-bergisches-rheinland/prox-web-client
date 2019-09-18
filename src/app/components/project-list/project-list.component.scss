@@ -220,3 +220,18 @@ li:before {
   margin-top: -5px;
   margin-bottom: 10px;
 }
+
+.mat-card-actions {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 8px !important;
+}
+
+.project-button {
+  color: white;
+  background-color: var(--th-orange);
+}
+
+.mat-chip {
+  background-color: var(--th-purple) !important;
+}

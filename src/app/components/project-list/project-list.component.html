@@ -35,7 +35,7 @@
         >
           {{ project.status.charAt(0).toUpperCase() + project.status.slice(1).toLowerCase() }}
         </div>
-        {{ project.name }}</mat-card-title
+        <b>{{ project.name }}</b></mat-card-title
       >
       <mat-card-subtitle>
         <span class="supervisorName" matTooltip="Projektbetreuer"
@@ -48,7 +48,9 @@
       <mat-card-subtitle>Kurze Projektbeschreibung:</mat-card-subtitle>
       <div
         [ngClass]="{
-          'show-less': showShortDescriptionId != i.toString() || showShortDescriptionId == ''
+          'show-less':
+            (showShortDescriptionId != i.toString() && project.shortDescription.length > 800) ||
+            (showShortDescriptionId == '' && project.shortDescription.length > 800)
         }"
       >
         <p>{{ project.shortDescription }}</p>
@@ -56,7 +58,7 @@
       <div style="text-align:center;">
         <button
           matTooltip="Ganze Projektkurzbeschreibung anzeigen"
-          *ngIf="project.shortDescription.length > 775"
+          *ngIf="project.shortDescription.length > 800"
           mat-button
           color="primary"
           class="show-more-button"
@@ -85,7 +87,6 @@
       <mat-card-subtitle>
         <mat-chip-list>
           <mat-chip
-            color="primary"
             selected
             *ngFor="let tag of project.tags; let i = index"
             matTooltip="Tag {{ i + 1 }}: '{{ tag.tagName }}'"
@@ -100,7 +101,8 @@
     <mat-divider></mat-divider>
     <mat-card-actions>
       <button
-        mat-button
+        mat-raised-button
+        class="project-button"
         routerLink="/projects/{{ project.id }}"
         matTooltip="Weiterführende Projektdetails"
       >
