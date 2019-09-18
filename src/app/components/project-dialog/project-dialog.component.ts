@@ -1,13 +1,20 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatChipInputEvent, MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import {
+  MatChipInputEvent,
+  MatDialogRef,
+  MatSnackBar,
+  MAT_DIALOG_DATA,
+  MatAutocompleteSelectedEvent,
+  MatAutocomplete
+} from '@angular/material';
 import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection/study-course-module-selection.component';
 import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
 import { forkJoin, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, map, mergeMap, toArray, timeout } from 'rxjs/operators';
+import { catchError, map, mergeMap, toArray, timeout, startWith, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
 
 @Component({
@@ -20,7 +27,13 @@ export class ProjectDialogComponent implements OnInit {
   hasSubmitted: boolean = false;
 
   tags: Tag[] = [];
+  tagsObservable: Observable<Tag[]>;
+  availableTags: Tag[] = [];
+  filteredTags: Observable<Tag[]>;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
 
   constructor(
     public projectDialogRef: MatDialogRef<ProjectDialogComponent>,
@@ -40,18 +53,20 @@ export class ProjectDialogComponent implements OnInit {
       description: ['', [Validators.required]],
       supervisorName: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      studyCoursesModuleSelectors: this.formBuilder.array([])
+      studyCoursesModuleSelectors: this.formBuilder.array([]),
+      tagInput: []
     });
 
-    /* TODO:
-      - add tags support
-        - adding (check & add)
-        - fill in existing
+    // TODO: dont pull all tags, only get feasible tags through:
+    // this.tagService.findByTagName("name", false);
 
-      - option to set all / profiles !??
-      - stepps?
-      - responsive design?
-    */
+    this.tagsObservable = this.tagService.getAll();
+    this.tagsObservable.subscribe(tags => (this.availableTags = tags));
+
+    this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterTags(value))
+    );
 
     this.addStudyCourseModuleSelector();
 
@@ -80,17 +95,19 @@ export class ProjectDialogComponent implements OnInit {
   }
 
   addTag(event: MatChipInputEvent) {
-    const input = event.input;
-    const value = event.value;
+    if (!this.tagAutocomplete.isOpen) {
+      const input = event.input;
+      const value = event.value;
 
-    if ((value || '').trim()) {
-      let tag = new Tag();
-      tag.tagName = value.trim();
-      this.tags.push(tag);
-    }
+      if ((value || '').trim()) {
+        let tag = new Tag();
+        tag.tagName = value.trim();
+        this.tags.push(tag);
+      }
 
-    if (input) {
-      input.value = '';
+      if (input) {
+        input.value = '';
+      }
     }
   }
 
@@ -98,6 +115,25 @@ export class ProjectDialogComponent implements OnInit {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
+    }
+  }
+
+  displayTagName(tag?: Tag): string | undefined {
+    return tag ? tag.tagName : undefined;
+  }
+
+  selectedTag(event: MatAutocompleteSelectedEvent): void {
+    if (event.option.value instanceof Tag) {
+      this.tags.push(event.option.value);
+    }
+    this.tagInput.nativeElement.value = '';
+    this.projectFormControl.controls.tagInput.setValue(null);
+  }
+
+  private _filterTags(value: string): Tag[] {
+    if (typeof value === 'string') {
+      const filterValue = value.toLowerCase();
+      return this.availableTags.filter(tag => tag.tagName.toLowerCase().includes(filterValue));
     }
   }
 

@@ -125,13 +125,26 @@
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
           <input
+            #tagInput
+            [formControl]="projectFormControl.controls['tagInput']"
             placeholder="Tags"
+            [matAutocomplete]="tagAuto"
             [matChipInputFor]="tagList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="true"
             (matChipInputTokenEnd)="addTag($event)"
           />
         </mat-chip-list>
+        <mat-autocomplete
+          #tagAuto="matAutocomplete"
+          autoActiveFirstOption
+          [displayWith]="displayTagName"
+          (optionSelected)="selectedTag($event)"
+        >
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+            {{ tag.tagName }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
     <div mat-dialog-actions>

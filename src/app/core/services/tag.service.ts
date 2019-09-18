@@ -11,8 +11,12 @@ export class TagService extends RestService<Tag> {
     super(Tag, 'tags', injector);
   }
 
-  findByTagName(tagName: string): Observable<Tag[]> {
+  findByTagName(tagName: string, exactMatch: boolean = true): Observable<Tag[]> {
     let options = { params: [{ key: 'tagName', value: tagName }] };
-    return this.search('findByTagName', options);
+    if (exactMatch) {
+      return this.search('findByTagName_TagName', options);
+    } else {
+      return this.search('findByTagName_TagNameContaining', options);
+    }
   }
 }
