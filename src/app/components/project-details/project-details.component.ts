@@ -18,7 +18,6 @@ export class ProjectDetailsComponent implements OnInit {
   project: Project;
   projectID: UUID;
   hasPermission = false;
-  hidden = true;
 
   constructor(
     private projectService: ProjectService,
@@ -78,10 +77,6 @@ export class ProjectDetailsComponent implements OnInit {
     return project.modules.find(function(module) {
       return module.projectType == search;
     });
-  }
-
-  alterShortDescriptionText() {
-    this.hidden = !this.hidden;
   }
 
   goBack() {

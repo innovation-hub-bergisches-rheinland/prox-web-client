@@ -27,14 +27,18 @@
   <mat-card *ngFor="let project of projects; let i = index">
     <mat-card-header>
       <mat-card-title>
-        <div
-          matTooltip="Projektstatus"
-          [class.abgeschlossen]="project.status === 'ABGESCHLOSSEN'"
-          [class.geplant]="project.status === 'VERFÜGBAR'"
-          class="status"
+        <mat-icon *ngIf="project.status == 'VERFÜGBAR'" matTooltip="Verfügbar" class="status-icon"
+          >lock_open</mat-icon
         >
-          {{ project.status.charAt(0).toUpperCase() + project.status.slice(1).toLowerCase() }}
-        </div>
+        <mat-icon
+          *ngIf="project.status == 'ABGESCHLOSSEN'"
+          matTooltip="Abgeschlossen"
+          class="status-icon"
+          >lock</mat-icon
+        >
+        <mat-icon *ngIf="project.status == 'LAUFEND'" matTooltip="Laufend" class="status-icon"
+          >directions_run</mat-icon
+        >
         <b>{{ project.name }}</b></mat-card-title
       >
       <mat-card-subtitle>
@@ -55,7 +59,7 @@
       >
         <p>{{ project.shortDescription }}</p>
       </div>
-      <div style="text-align:center;">
+      <div class="button-toggle-description">
         <button
           matTooltip="Ganze Projektkurzbeschreibung anzeigen"
           *ngIf="project.shortDescription.length > 800"

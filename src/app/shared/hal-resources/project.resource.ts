@@ -58,6 +58,6 @@ export class Project extends CustomResource {
   }
 
   getTags(): Observable<Tag[]> {
-    return this.getRelationArray(Tag, 'tags');
+    return this.getRelationArray(Tag, 'tagCollection');
   }
 }
