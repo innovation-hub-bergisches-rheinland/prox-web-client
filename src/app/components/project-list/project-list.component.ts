@@ -135,6 +135,7 @@ export class ProjectListComponent implements OnInit {
 
     dialog.afterClosed().subscribe(() => {
       this.getAllProjects();
+      this.nameFilter(this.selectedName);
     });
   }
 
