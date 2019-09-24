@@ -14,7 +14,17 @@ import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
 import { forkJoin, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, map, mergeMap, toArray, timeout, startWith, filter } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  mergeMap,
+  toArray,
+  timeout,
+  startWith,
+  filter,
+  tap,
+  flatMap
+} from 'rxjs/operators';
 import * as _ from 'underscore';
 
 @Component({
@@ -57,8 +67,7 @@ export class ProjectDialogComponent implements OnInit {
       tagInput: []
     });
 
-    // TODO: dont pull all tags, only get feasible tags through:
-    // this.tagService.findByTagName("name", false);
+    //this.tags.push({})
 
     this.tagsObservable = this.tagService.getAll();
     this.tagsObservable.subscribe(tags => (this.availableTags = tags));
@@ -209,22 +218,21 @@ export class ProjectDialogComponent implements OnInit {
     this.project.getTags().subscribe(tags => (this.tags = tags));
   }
 
-  private createTags(tags: Tag[]): Observable<(Tag | Observable<never>)[]> {
+  private createTags(tags: Tag[]): any {
     return of(...tags).pipe(
-      mergeMap(tag =>
-        this.tagService.findByTagName(tag.tagName).pipe(
-          catchError(err =>
-            err.status && err.status === 404 ? this.tagService.create(tag) : throwError(err)
-          ),
-          map(foundTags =>
-            Array.isArray(foundTags)
-              ? foundTags.length === 1
-                ? foundTags[0]
-                : throwError(new Error("Can't parse Tag"))
-              : foundTags
-          )
-        )
+      mergeMap(
+        tag => this.tagService.findByTagName(tag.tagName),
+        (tagSource, foundTags) => {
+          return {
+            tagSource: tagSource,
+            foundTags: foundTags
+          };
+        }
       ),
+      mergeMap(x => {
+        if (x.foundTags.length >= 1) return of(x.foundTags[0]);
+        return this.tagService.create(x.tagSource);
+      }),
       toArray()
     );
   }
@@ -314,6 +322,8 @@ export class ProjectDialogComponent implements OnInit {
 
     let modules = this.getAggregatedSelectedModules();
     this.createTags(this.tags).subscribe(tags => {
+      console.log('TAGS:');
+      console.table(tags);
       if (this.project) {
         this.updateProject(project, modules, tags as Tag[]);
       } else {
