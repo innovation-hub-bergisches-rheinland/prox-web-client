@@ -1,7 +1,5 @@
-/* tslint:disable:one-line */
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSelectChange, PageEvent } from '@angular/material';
-import { RelevantProject } from '@prox/components/project-list/relevant.project';
+import { MatDialog, PageEvent } from '@angular/material';
 import { ProjectService } from '../../core/services/project.service';
 import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
 import { Project } from '../../shared/hal-resources/project.resource';
@@ -14,17 +12,18 @@ import { ProjectDialogComponent } from '../project-dialog/project-dialog.compone
   styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
-  projects: Project[] = [];
-
+  projects: Project[];
   totalProjects: number = 0;
+  pageIndex: number = 0;
   pageSize: number = 10;
 
-  allStatus: string[] = [];
-  selectedStatus: string;
-  selectedName: string;
   hasPermission = false;
 
-  showShortDescriptionId: string = '';
+  availableStatus = [
+    { name: 'Bachelorarbeit', type: 'BA' },
+    { name: 'Masterarbeit', type: 'MA' },
+    { name: 'Praxisproject', type: 'PP' }
+  ];
 
   constructor(
     private projectService: ProjectService,
@@ -38,6 +37,20 @@ export class ProjectListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllProjects();
+  }
+
+  getAllProjects(pageIndex: number = this.pageIndex, pageSize: number = this.pageSize) {
+    let options = {
+      params: [{ key: 'size', value: pageSize }, { key: 'page', value: pageIndex }]
+    };
+
+    this.projectService.getAll(options).subscribe(
+      projects => {
+        this.projects = projects;
+        this.totalProjects = this.projectService.totalElement();
+      },
+      error => console.log(error)
+    );
   }
 
   deleteProject(project: Project) {
@@ -54,79 +67,7 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  getAllProjects(pageIndex: number = 0, pageSize: number = this.pageSize) {
-    let options = {
-      params: [{ key: 'size', value: pageSize }, { key: 'page', value: pageIndex }]
-    };
-    this.projectService.getAll(options).subscribe(
-      projects => (this.projects = projects),
-      error => console.log(error),
-      () => {
-        this.fillStatus(this.projects);
-        this.getAndSetArrayForProjects(this.projects);
-        this.totalProjects = this.projectService.totalElement();
-      }
-    );
-  }
-
-  statusFilter(status: string) {
-    this.projectService.findByStatus(status).subscribe(
-      projects => (this.projects = projects),
-      error => console.log(error),
-      () => {
-        this.fillStatus(this.projects);
-        this.getAndSetArrayForProjects(this.projects);
-      }
-    );
-  }
-
-  nameFilter(name: string) {
-    if (this.selectedStatus) {
-      this.projectService
-        .findByStatus(this.selectedStatus)
-        .subscribe(projects => this.filterProjectsByRelevance(projects, name));
-    } else {
-      this.projectService
-        .getAll()
-        .subscribe(projects => this.filterProjectsByRelevance(projects, name));
-    }
-  }
-
-  filterProjectsByStatus(event: MatSelectChange) {
-    const status = event.value;
-    if (status) {
-      this.selectedStatus = status;
-      if (this.selectedName) {
-        this.nameFilter(this.selectedName);
-      } else {
-        this.statusFilter(status);
-      }
-    } else {
-      this.selectedStatus = null;
-      if (this.selectedName) {
-        this.nameFilter(this.selectedName);
-      } else {
-        this.getAllProjects();
-      }
-    }
-  }
-
-  filterProjectsByName(event: any) {
-    const name = event.target.value;
-    if (name) {
-      this.selectedName = name;
-      this.nameFilter(name);
-    } else {
-      this.selectedName = null;
-      if (this.selectedStatus) {
-        this.statusFilter(this.selectedStatus);
-      } else {
-        this.getAllProjects();
-      }
-    }
-  }
-
-  openProjectDialog(project: Project) {
+  openProjectEditorDialog(project: Project) {
     const dialog = this.dialog.open(ProjectDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
@@ -134,107 +75,16 @@ export class ProjectListComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(() => {
-      this.getAllProjects();
-    });
-  }
-
-  private fillStatus(projects: Project[]) {
-    projects.forEach(project => this.allStatus.push(project.status));
-    this.allStatus = this.allStatus.filter((value, index, self) => self.indexOf(value) === index);
-  }
-
-  private async filterProjectsByRelevance(projects: Project[], name?: string) {
-    let relevantProjects = [];
-
-    for (const project of projects) {
-      relevantProjects.push(new RelevantProject(project));
-    }
-
-    if (name != null && name.length > 1) {
-      const words = name
-        .split(' ', 50)
-        .filter((value, index, self) => value != null && value.length > 1);
-
-      this.rateSupervisorRelevance(relevantProjects, words);
-      this.rateProjectNameRelevance(relevantProjects, words);
-
-      for (const project of relevantProjects) {
-        await this.rateProjectTagRelevance(project, words);
+      const i = this.projects.findIndex(p => p.id == project.id);
+      if (i != -1) {
+        this.projectService.get(project.id).subscribe(p => this.projects.splice(i, 1, p));
       }
-
-      relevantProjects = relevantProjects.filter((value, index, self) => value.relevance > 0);
-      relevantProjects = relevantProjects.sort((a, b) => (a.relevance < b.relevance ? 1 : -1));
-    }
-
-    this.projects = [];
-
-    for (const project of relevantProjects) {
-      this.projects.push(project.project);
-    }
-
-    this.getAndSetArrayForProjects(this.projects);
-  }
-
-  private rateSupervisorRelevance(projects: RelevantProject[], names: string[]) {
-    for (const project of projects) {
-      for (const name of names) {
-        if (project.project.supervisorName.toLowerCase() === name.toLowerCase()) {
-          project.relevance = project.relevance + 10;
-        } else if (project.project.supervisorName.toLowerCase().includes(name.toLowerCase())) {
-          project.relevance = project.relevance + 3;
-        }
-      }
-    }
-  }
-
-  private rateProjectNameRelevance(projects: RelevantProject[], names: string[]) {
-    for (const project of projects) {
-      for (const name of names) {
-        if (project.project.name.toLowerCase().includes(name.toLowerCase())) {
-          project.relevance++;
-        }
-      }
-    }
-  }
-
-  private async rateProjectTagRelevance(project: RelevantProject, names: string[]): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      project.project.getTags().subscribe(
-        temp_tags => {
-          for (const name of names) {
-            for (const tag of temp_tags) {
-              if (tag.tagName.toLowerCase() === name.toLowerCase()) {
-                project.relevance = project.relevance + 5;
-              } else if (tag.tagName.toLowerCase().includes(name.toLowerCase())) {
-                project.relevance = project.relevance + 2;
-              }
-            }
-          }
-        },
-        error => reject(error),
-        () => resolve()
-      );
-    });
-  }
-
-  getAndSetArrayForProjects(projects: Project[]) {
-    projects.forEach(function(value) {
-      value.getAndSetModuleArray().then();
-      value.getAndSetTagArray().then();
     });
   }
 
   pageEvent(pageEvent: PageEvent) {
+    this.pageIndex = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
     this.getAllProjects(pageEvent.pageIndex, pageEvent.pageSize);
-  }
-
-  alterDescriptionText(id: string) {
-    this.showShortDescriptionId = id;
-  }
-
-  searchProjectType(project: Project, search: string) {
-    return project.modules.find(function(module) {
-      return module.projectType == search;
-    });
   }
 }

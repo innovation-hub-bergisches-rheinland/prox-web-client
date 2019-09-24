@@ -8,6 +8,8 @@ import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-c
 import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
+import { find, filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-project-details',
@@ -16,6 +18,7 @@ import { Location } from '@angular/common';
 })
 export class ProjectDetailsComponent implements OnInit {
   project: Project;
+  project$: Observable<Project>;
   projectID: UUID;
   hasPermission = false;
 
@@ -36,7 +39,10 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getProject();
+    this.project$ = this.projectService.get(this.projectID);
+    this.project$.subscribe(project => {
+      this.project = project;
+    });
   }
 
   deleteProject(project: Project) {
@@ -65,18 +71,11 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
-  private getProject() {
-    this.projectService.get(this.projectID).subscribe(project => {
-      this.project = project;
-      this.project.getAndSetTagArray();
-      this.project.getAndSetModuleArray();
-    });
-  }
-
-  searchProjectType(project: Project, search: string) {
-    return project.modules.find(function(module) {
-      return module.projectType == search;
-    });
+  containsProjectType(project: Project, search: string) {
+    return project.getModules().pipe(
+      map(modules => modules.filter(module => module.projectType === search)),
+      map(modules => (modules.length >= 1 ? true : false))
+    );
   }
 
   goBack() {

@@ -314,9 +314,6 @@ export class ProjectDialogComponent implements OnInit {
 
     let modules = this.getAggregatedSelectedModules();
     this.createTags(this.tags).subscribe(tags => {
-      console.table(tags);
-      //this.project.setTags(tags as Tag[]);
-
       if (this.project) {
         this.updateProject(project, modules, tags as Tag[]);
       } else {

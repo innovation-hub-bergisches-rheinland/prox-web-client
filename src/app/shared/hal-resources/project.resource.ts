@@ -14,8 +14,6 @@ export class Project extends CustomResource {
   creatorName: string;
   supervisorName: string;
   requirement: string;
-  tags: Tag[] = [];
-  modules: Module[] = [];
 
   setModules(newModules: Module[]): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -28,39 +26,11 @@ export class Project extends CustomResource {
   }
 
   setTags(tags: Tag[]) {
-    //this.setRelationArray('tagCollection', tags).subscribe(console.log);
-    //this.getRelation(Tag, 'tagCollection').subscribe(console.log);
-    //this.getRelation(Tag, 'tagCollection').subscribe(x => x.setRelationArray('tagCollection', tags));
-    console.log(tags[0]);
-    this.addRelation('tagCollection', tags[0]);
-    //console.log(this._links);
-    //this.getRelationArray(Tag, 'tagCollection').subscribe(x=> console.log(x));
+    this.setRelationArray('tagCollection', tags).subscribe(console.log);
   }
 
   getModules(): Observable<Module[]> {
     return this.getRelationArray(Module, 'modules');
-  }
-
-  getAndSetTagArray(): Promise<Tag[]> {
-    return new Promise<Tag[]>((resolve, reject) => {
-      this.getTags().subscribe(
-        tmp_tags => (this.tags = tmp_tags),
-        () => reject(),
-        () => {
-          this.getAndSetModuleArray().then();
-        }
-      );
-    });
-  }
-
-  getAndSetModuleArray(): Promise<Module[]> {
-    return new Promise<Module[]>((resolve, reject) => {
-      this.getModules().subscribe(
-        temp_modules => (this.modules = temp_modules),
-        () => reject(),
-        () => {}
-      );
-    });
   }
 
   getTags(): Observable<Tag[]> {

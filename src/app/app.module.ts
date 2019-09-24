@@ -57,6 +57,7 @@ import { ImpressumComponent } from './components/legal-issues/impressum/impressu
 import { DataProtectionComponent } from './components/legal-issues/data-protection/data-protection.component';
 import { LiabilityNoticeComponent } from './components/legal-issues/liability-notice/liability-notice.component';
 import { StudyCourseModuleSelectionComponent } from './components/study-course-module-selection/study-course-module-selection.component';
+import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { StudyCourseModuleSelectionComponent } from './components/study-course-m
     ImpressumComponent,
     DataProtectionComponent,
     LiabilityNoticeComponent,
-    StudyCourseModuleSelectionComponent
+    StudyCourseModuleSelectionComponent,
+    ProjectListItemComponent
   ],
   imports: [
     AppRoutingModule,

@@ -46,9 +46,9 @@
           </div>
           <div class="card-container">
             <mat-card-subtitle>Projekttypen:</mat-card-subtitle>
-            <p *ngIf="searchProjectType(project, 'MA')"><b>(MA)</b> Masterarbeit</p>
-            <p *ngIf="searchProjectType(project, 'BA')"><b>(BA)</b> Bachelorarbeit</p>
-            <p *ngIf="searchProjectType(project, 'PP')"><b>(PP)</b> Praxisprojekt</p>
+            <p *ngIf="containsProjectType(project, 'MA')"><b>(MA)</b> Masterarbeit</p>
+            <p *ngIf="containsProjectType(project, 'BA')"><b>(BA)</b> Bachelorarbeit</p>
+            <p *ngIf="containsProjectType(project, 'PP')"><b>(PP)</b> Praxisprojekt</p>
           </div>
         </div>
         <mat-card-subtitle>
