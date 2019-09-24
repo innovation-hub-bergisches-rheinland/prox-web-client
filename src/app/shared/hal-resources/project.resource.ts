@@ -26,7 +26,7 @@ export class Project extends CustomResource {
   }
 
   setTags(tags: Tag[]) {
-    this.setRelationArray('tagCollection', tags).subscribe(console.log);
+    this.setRelationArray('tagCollection', tags).subscribe();
   }
 
   getModules(): Observable<Module[]> {
