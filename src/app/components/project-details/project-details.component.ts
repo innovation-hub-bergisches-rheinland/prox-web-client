@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
 import { find, filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Tag, Module } from '@prox/shared/hal-resources';
 
 @Component({
   selector: 'app-project-details',
@@ -17,10 +18,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project: Project;
-  project$: Observable<Project>;
   projectID: UUID;
   hasPermission = false;
+
+  project: Project;
+  project$: Observable<Project>;
+
+  projectTags$: Observable<Tag[]>;
+  projectModules$: Observable<Module[]>;
+
+  isTypeBA: boolean = false;
+  isTypeMA: boolean = false;
+  isTypePP: boolean = false;
 
   constructor(
     private projectService: ProjectService,
@@ -40,8 +49,16 @@ export class ProjectDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.project$ = this.projectService.get(this.projectID);
+
     this.project$.subscribe(project => {
       this.project = project;
+
+      this.projectModules$ = this.project.getModules();
+      this.projectTags$ = this.project.getTags();
+
+      this.containsProjectType('BA').subscribe(result => (this.isTypeBA = result));
+      this.containsProjectType('MA').subscribe(result => (this.isTypeMA = result));
+      this.containsProjectType('PP').subscribe(result => (this.isTypePP = result));
     });
   }
 
@@ -71,8 +88,8 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
-  containsProjectType(project: Project, search: string) {
-    return project.getModules().pipe(
+  containsProjectType(search: string) {
+    return this.project.getModules().pipe(
       map(modules => modules.filter(module => module.projectType === search)),
       map(modules => (modules.length >= 1 ? true : false))
     );
