@@ -7,7 +7,8 @@ import {
   MatChipInputEvent,
   MatDialogRef,
   MatSnackBar,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
+  MatChipSelectionChange
 } from '@angular/material';
 import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection/study-course-module-selection.component';
 import { ProjectService, TagService } from '@prox/core/services';
@@ -121,6 +122,13 @@ export class ProjectDialogComponent implements OnInit {
 
   displayTagName(tag?: Tag): string | undefined {
     return tag ? tag.tagName : undefined;
+  }
+
+  recommendedTagSelected(tag: Tag, event: MatChipSelectionChange) {
+    if (event.isUserInput) {
+      this.addRecommendedTag(tag);
+    }
+    console.log(event);
   }
 
   addRecommendedTag(tag: Tag) {

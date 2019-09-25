@@ -115,18 +115,13 @@
 
       <mat-form-field class="tag-list">
         <mat-chip-list #tagList>
-          <mat-chip
-            *ngFor="let tag of tags"
-            [selectable]="true"
-            [removable]="true"
-            (removed)="removeTag(tag)"
-          >
+          <mat-chip *ngFor="let tag of tags" [removable]="true" (removed)="removeTag(tag)">
             {{ tag.tagName }}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
           <mat-chip
             *ngFor="let tag of recommendedTags"
-            [selectable]="true"
+            (selectionChange)="recommendedTagSelected(tag, $event)"
             (click)="addRecommendedTag(tag)"
             class="recommended-tag"
           >
