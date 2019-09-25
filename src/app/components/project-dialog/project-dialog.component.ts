@@ -1,30 +1,20 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
   MatChipInputEvent,
   MatDialogRef,
   MatSnackBar,
-  MAT_DIALOG_DATA,
-  MatAutocompleteSelectedEvent,
-  MatAutocomplete
+  MAT_DIALOG_DATA
 } from '@angular/material';
 import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection/study-course-module-selection.component';
 import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
-import { forkJoin, Observable, Observer, of, throwError } from 'rxjs';
-import {
-  catchError,
-  map,
-  mergeMap,
-  toArray,
-  timeout,
-  startWith,
-  filter,
-  tap,
-  flatMap
-} from 'rxjs/operators';
+import { forkJoin, Observable, Observer, of } from 'rxjs';
+import { map, mergeMap, startWith, toArray } from 'rxjs/operators';
 import * as _ from 'underscore';
 
 @Component({
@@ -41,6 +31,8 @@ export class ProjectDialogComponent implements OnInit {
   availableTags: Tag[] = [];
   filteredTags: Observable<Tag[]>;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  recommendedTags: Tag[] = [];
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
@@ -66,8 +58,6 @@ export class ProjectDialogComponent implements OnInit {
       studyCoursesModuleSelectors: this.formBuilder.array([]),
       tagInput: []
     });
-
-    //this.tags.push({})
 
     this.tagsObservable = this.tagService.getAll();
     this.tagsObservable.subscribe(tags => (this.availableTags = tags));
@@ -112,6 +102,7 @@ export class ProjectDialogComponent implements OnInit {
         let tag = new Tag();
         tag.tagName = value.trim();
         this.tags.push(tag);
+        this.updateTagRecommendations();
       }
 
       if (input) {
@@ -124,11 +115,28 @@ export class ProjectDialogComponent implements OnInit {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
+      this.updateTagRecommendations();
     }
   }
 
   displayTagName(tag?: Tag): string | undefined {
     return tag ? tag.tagName : undefined;
+  }
+
+  addRecommendedTag(tag: Tag) {
+    this.tags.push(tag);
+    const index = this.recommendedTags.indexOf(tag);
+    if (index != -1) {
+      this.recommendedTags.splice(index, 1);
+    }
+    this.tagService.getRecommendations(this.tags).subscribe(tags => (this.recommendedTags = tags));
+  }
+
+  updateTagRecommendations() {
+    let filteredTags = this.tags.filter(tag => tag.id != null);
+    this.tagService
+      .getRecommendations(filteredTags)
+      .subscribe(tags => (this.recommendedTags = tags));
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
@@ -215,7 +223,10 @@ export class ProjectDialogComponent implements OnInit {
       })
     );
 
-    this.project.getTags().subscribe(tags => (this.tags = tags));
+    this.project.getTags().subscribe(tags => {
+      this.tags = tags;
+      this.updateTagRecommendations();
+    });
   }
 
   private createTags(tags: Tag[]): any {

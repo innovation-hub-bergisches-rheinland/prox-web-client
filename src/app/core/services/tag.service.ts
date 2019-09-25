@@ -19,4 +19,10 @@ export class TagService extends RestService<Tag> {
       return this.search('findByTagName_TagNameContaining', options);
     }
   }
+
+  getRecommendations(tags: Tag[]): Observable<Tag[]> {
+    let tagIds = tags.map(tag => tag.id).join(',');
+    let options = { params: [{ key: 'tagIds', value: tagIds }] };
+    return this.search('tagRecommendations', options);
+  }
 }

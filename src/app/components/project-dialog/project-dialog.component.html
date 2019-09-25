@@ -124,6 +124,14 @@
             {{ tag.tagName }}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
+          <mat-chip
+            *ngFor="let tag of recommendedTags"
+            [selectable]="true"
+            (click)="addRecommendedTag(tag)"
+            class="recommended-tag"
+          >
+            {{ tag.tagName }}
+          </mat-chip>
           <input
             #tagInput
             [formControl]="projectFormControl.controls['tagInput']"
