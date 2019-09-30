@@ -150,6 +150,7 @@ export class ProjectDialogComponent implements OnInit {
   selectedTag(event: MatAutocompleteSelectedEvent): void {
     if (event.option.value instanceof Tag) {
       this.tags.push(event.option.value);
+      this.updateTagRecommendations();
     }
     this.tagInput.nativeElement.value = '';
     this.projectFormControl.controls.tagInput.setValue(null);

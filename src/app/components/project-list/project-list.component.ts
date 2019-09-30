@@ -75,7 +75,9 @@ export class ProjectListComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(() => {
-      const i = this.projects.findIndex(p => p.id == project.id);
+      if (project === null) return;
+
+      const i = this.projects.findIndex(p => p.id === project.id);
       if (i != -1) {
         this.projectService.get(project.id).subscribe(p => this.projects.splice(i, 1, p));
       }
