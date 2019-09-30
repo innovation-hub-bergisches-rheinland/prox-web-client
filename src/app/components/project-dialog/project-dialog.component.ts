@@ -14,8 +14,19 @@ import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-m
 import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
-import { forkJoin, Observable, Observer, of } from 'rxjs';
-import { map, mergeMap, startWith, toArray } from 'rxjs/operators';
+import { forkJoin, Observable, Observer, of, timer } from 'rxjs';
+import {
+  map,
+  mergeMap,
+  startWith,
+  toArray,
+  debounce,
+  debounceTime,
+  takeUntil,
+  switchMap,
+  skip,
+  filter
+} from 'rxjs/operators';
 import * as _ from 'underscore';
 
 @Component({
@@ -28,8 +39,6 @@ export class ProjectDialogComponent implements OnInit {
   hasSubmitted: boolean = false;
 
   tags: Tag[] = [];
-  tagsObservable: Observable<Tag[]>;
-  availableTags: Tag[] = [];
   filteredTags: Observable<Tag[]>;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -60,12 +69,14 @@ export class ProjectDialogComponent implements OnInit {
       tagInput: []
     });
 
-    this.tagsObservable = this.tagService.getAll();
-    this.tagsObservable.subscribe(tags => (this.availableTags = tags));
-
     this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterTags(value))
+      filter(value => value.length >= 2),
+      debounceTime(200),
+      switchMap(value =>
+        this.tagService
+          .findByTagName(value, false)
+          .pipe(takeUntil(this.projectFormControl.controls.tagInput.valueChanges.pipe(skip(1))))
+      )
     );
 
     this.addStudyCourseModuleSelector();
@@ -154,13 +165,6 @@ export class ProjectDialogComponent implements OnInit {
     }
     this.tagInput.nativeElement.value = '';
     this.projectFormControl.controls.tagInput.setValue(null);
-  }
-
-  private _filterTags(value: string): Tag[] {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
-      return this.availableTags.filter(tag => tag.tagName.toLowerCase().includes(filterValue));
-    }
   }
 
   private getAggregatedSelectedModules() {
