@@ -44,8 +44,8 @@ export class ProjectDialogComponent implements OnInit {
 
   recommendedTags: Tag[] = [];
 
-  @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
-  @ViewChild('tagAuto', { static: false }) tagAutocomplete: MatAutocomplete;
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
 
   constructor(
     public projectDialogRef: MatDialogRef<ProjectDialogComponent>,
