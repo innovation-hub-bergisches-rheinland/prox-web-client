@@ -78,8 +78,8 @@
           >
             <mat-option
               *ngFor="let searchOption of availableSearchOptions"
-              [value]="searchOption.name"
-              >{{ searchOption.name }}</mat-option
+              [value]="searchOption"
+              >{{ searchOption }}</mat-option
             >
           </mat-select>
         </mat-form-field>
@@ -104,14 +104,14 @@
         </mat-form-field>
       </span>
       <div class="hint">
-        <small *ngIf="selectedSearchOption == 'Tag'"
+        <small *ngIf="selectedSearchOption === SearchOption.Tag"
           ><b>Hinweis: </b>
           <i
             >Es können mehrere Tags gleichzeitig hinzugefügt werden, indem diese durch Kommas
             getrennt werden.</i
           ></small
         >
-        <small *ngIf="selectedSearchOption == 'Betreuer'"
+        <small *ngIf="selectedSearchOption === SearchOption.Betreuer"
           ><b>Hinweis: </b>
           <i
             >Es können mehrere Betreuer gleichzeitig hinzugefügt werden, indem diese durch Kommas

@@ -12,8 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
-
+import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
@@ -58,6 +57,7 @@ import { DataProtectionComponent } from './components/legal-issues/data-protecti
 import { LiabilityNoticeComponent } from './components/legal-issues/liability-notice/liability-notice.component';
 import { StudyCourseModuleSelectionComponent } from './components/study-course-module-selection/study-course-module-selection.component';
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
+import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +69,7 @@ import { ProjectListItemComponent } from './components/project-list-item/project
     FooterComponent,
     ProjectListComponent,
     ProjectDetailsComponent,
-    ProjectDialogComponent,
+    ProjectEditorComponent,
     UserComponent,
     MatConfirmDialogComponent,
     ContactComponent,
@@ -77,7 +77,8 @@ import { ProjectListItemComponent } from './components/project-list-item/project
     DataProtectionComponent,
     LiabilityNoticeComponent,
     StudyCourseModuleSelectionComponent,
-    ProjectListItemComponent
+    ProjectListItemComponent,
+    ProjectEditorDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -119,7 +120,7 @@ import { ProjectListItemComponent } from './components/project-list-item/project
     MatPaginatorModule,
     KeycloakAngularModule
   ],
-  entryComponents: [ProjectDialogComponent, MatConfirmDialogComponent],
+  entryComponents: [ProjectEditorDialogComponent, MatConfirmDialogComponent],
   providers: [
     { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
     {

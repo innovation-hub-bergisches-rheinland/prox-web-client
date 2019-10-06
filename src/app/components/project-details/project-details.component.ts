@@ -5,7 +5,7 @@ import { ProjectService } from '../../core/services/project.service';
 import { UUID } from 'angular2-uuid';
 import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
 import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
-import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
+import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
 import { find, filter, map } from 'rxjs/operators';
@@ -81,7 +81,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openProjectDialog(project: Project) {
-    const dialog = this.dialog.open(ProjectDialogComponent, {
+    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
       data: project

@@ -1,14 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, PageEvent } from '@angular/material';
-import { ProjectService } from '../../core/services/project.service';
-import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
-import { Project } from '../../shared/hal-resources/project.resource';
-import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
-import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { forEach } from '@angular/router/src/utils/collection';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SearchService } from '@prox/core/services/search.service';
+import { ProjectService, SearchService } from '@prox/core/services';
+import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
+import { Project } from '@prox/shared/hal-resources';
+import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
+import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
+
+export enum SearchOption {
+  Alle = 'Alle',
+  Beschreibung = 'Beschreibung',
+  Betreuer = 'Betreuer',
+  Tag = 'Tag',
+  Titel = 'Titel',
+  Voraussetzung = 'Voraussetzung'
+}
 
 @Component({
   selector: 'app-project-list',
@@ -26,20 +33,22 @@ export class ProjectListComponent implements OnInit {
 
   search: string = '';
   searchChange: boolean = false;
-  selectedSearchOption: string = 'Alle';
+
+  SearchOption = SearchOption; // wichtig damit enum in template funktioniert
+  selectedSearchOption: SearchOption = SearchOption.Alle;
   selectedSearchStatus: string = 'Verfügbar';
 
   addSearchQueryForm: FormGroup;
 
   availableStatus = [{ name: 'Verfügbar' }, { name: 'Laufend' }, { name: 'Abgeschlossen' }];
 
-  availableSearchOptions = [
-    { name: 'Alle' },
-    { name: 'Beschreibung' },
-    { name: 'Betreuer' },
-    { name: 'Tag' },
-    { name: 'Titel' },
-    { name: 'Voraussetzung' }
+  availableSearchOptions: SearchOption[] = [
+    SearchOption.Alle,
+    SearchOption.Beschreibung,
+    SearchOption.Betreuer,
+    SearchOption.Tag,
+    SearchOption.Titel,
+    SearchOption.Voraussetzung
   ];
 
   constructor(
@@ -123,7 +132,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   openProjectEditorDialog(project: Project) {
-    const dialog = this.dialog.open(ProjectDialogComponent, {
+    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
       data: project
