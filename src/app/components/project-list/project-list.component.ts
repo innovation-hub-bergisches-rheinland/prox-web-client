@@ -100,10 +100,9 @@ export class ProjectListComponent implements OnInit {
 
     this.searchService.getAll(options).subscribe(
       ids => {
-        this.projects = [];
-        ids.forEach(id =>
-          this.projectService.get(id.id).subscribe(project => this.projects.push(project))
-        );
+        this.projectService.findByIds(ids).subscribe(projects => {
+          this.projects = projects;
+        });
         this.totalProjects = this.searchService.totalElement();
       },
       error => console.log(error)
