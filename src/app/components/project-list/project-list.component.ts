@@ -43,6 +43,8 @@ export class ProjectListComponent implements OnInit {
 
   availableStatus = [{ name: 'Verfügbar' }, { name: 'Laufend' }, { name: 'Abgeschlossen' }];
 
+  selectedSearchOption;
+
   availableSearchOptions: SearchOption[] = [
     SearchOption.Alle,
     SearchOption.Beschreibung,
@@ -72,7 +74,7 @@ export class ProjectListComponent implements OnInit {
       searchQuery: ['', ''],
       searchQueryType: ['', '']
     });
-    this.addSearchQueryForm.get('searchQueryType').setValue('Alle');
+    this.addSearchQueryForm.get('searchQueryType').setValue(SearchOption.Alle);
   }
 
   getFilterProjects(pageIndex: number = this.pageIndex, pageSize: number = this.pageSize) {
