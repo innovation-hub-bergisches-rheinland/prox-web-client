@@ -24,19 +24,20 @@ export enum SearchOption {
 })
 export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
-  totalProjects: number = 0;
-  pageIndex: number = 0;
-  pageSize: number = 10;
+  totalProjects = 0;
+  pageIndex = 0;
+  pageSize = 10;
 
   hasPermission = false;
   showExtendedSearch = false;
 
-  search: string = '';
-  searchChange: boolean = false;
+  search = '';
+  searchChange = false;
+  lastSearch = '';
 
   SearchOption = SearchOption; // wichtig damit enum in template funktioniert
-  selectedSearchOption: SearchOption = SearchOption.Alle;
-  selectedSearchStatus: string = 'Verfügbar';
+
+  selectedSearchStatus = 'Verfügbar';
 
   addSearchQueryForm: FormGroup;
 
@@ -65,7 +66,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.getAllProjects();
     this.getFilterProjects();
 
     this.addSearchQueryForm = this.formBuilder.group({
@@ -75,34 +75,32 @@ export class ProjectListComponent implements OnInit {
     this.addSearchQueryForm.get('searchQueryType').setValue('Alle');
   }
 
-  /*getAllProjects(pageIndex: number = this.pageIndex, pageSize: number = this.pageSize) {
-    let options = {
-      params: [{key: 'size', value: pageSize}, {key: 'page', value: pageIndex}]
-    };
-
-    this.projectService.getAll(options).subscribe(
-      projects => {
-        this.projects = projects;
-        this.totalProjects = this.projectService.totalElement();
-      },
-      error => console.log(error)
-    );
-  }*/
-
   getFilterProjects(pageIndex: number = this.pageIndex, pageSize: number = this.pageSize) {
-    let options = {
+    let searchText = this.search;
+    if (this.selectedSearchStatus !== undefined) {
+      searchText = 'status="' + this.selectedSearchStatus + '" ' + this.search;
+    }
+
+    if (searchText === this.lastSearch) {
+      return;
+    }
+
+    this.lastSearch = searchText;
+
+    const options = {
       params: [
         { key: 'size', value: pageSize },
         { key: 'page', value: pageIndex },
         {
           key: 'searchText',
-          value: 'status="' + this.selectedSearchStatus + '" ' + this.search
+          value: searchText
         }
       ]
     };
 
     this.searchService.getAll(options).subscribe(
       ids => {
+        this.projects = [];
         ids.forEach(id =>
           this.projectService.get(id.id).subscribe(project => this.projects.push(project))
         );
@@ -122,11 +120,7 @@ export class ProjectListComponent implements OnInit {
       if (result) {
         this.projectService
           .delete(project)
-          .subscribe(
-            () => {},
-            error => console.log(error),
-            () => this.getFilterProjects() /*this.getAllProjects()*/
-          );
+          .subscribe(() => {}, error => console.log(error), () => this.getFilterProjects());
       }
     });
   }
@@ -139,10 +133,12 @@ export class ProjectListComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(() => {
-      if (project === null) return;
+      if (project === null) {
+        return;
+      }
 
       const i = this.projects.findIndex(p => p.id === project.id);
-      if (i != -1) {
+      if (i !== -1) {
         this.projectService.get(project.id).subscribe(p => this.projects.splice(i, 1, p));
       }
     });
@@ -157,19 +153,19 @@ export class ProjectListComponent implements OnInit {
   }
 
   addSearchOption() {
-    if (this.addSearchQueryForm.get('searchQueryType').value != 'Alle') {
-      if (this.addSearchQueryForm.get('searchQuery').value != '') {
+    if (this.addSearchQueryForm.get('searchQueryType').value !== 'Alle') {
+      if (this.addSearchQueryForm.get('searchQuery').value !== '') {
         if (
-          this.addSearchQueryForm.get('searchQueryType').value == 'Tag' ||
-          this.addSearchQueryForm.get('searchQueryType').value == 'Betreuer'
+          this.addSearchQueryForm.get('searchQueryType').value === 'Tag' ||
+          this.addSearchQueryForm.get('searchQueryType').value === 'Betreuer'
         ) {
-          let values = this.addSearchQueryForm
+          const values = this.addSearchQueryForm
             .get('searchQuery')
             .value.replace(', ', ',')
             .replace(' ,', ',')
             .split(',');
-          for (var index = 0; index < values.length; ++index)
-            if (values[index].replace(' ', '') != '') {
+          for (let index = 0; index < values.length; ++index) {
+            if (values[index].replace(' ', '') !== '') {
               this.search +=
                 ' ' +
                 this.addSearchQueryForm.get('searchQueryType').value +
@@ -178,6 +174,7 @@ export class ProjectListComponent implements OnInit {
                 '"';
               this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
             }
+          }
         } else {
           this.search +=
             ' ' +
@@ -188,7 +185,7 @@ export class ProjectListComponent implements OnInit {
           this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
         }
       }
-    } else if (this.addSearchQueryForm.get('searchQuery').value != '') {
+    } else if (this.addSearchQueryForm.get('searchQuery').value !== '') {
       this.search += ' ' + this.addSearchQueryForm.get('searchQuery').value;
       this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
     }
@@ -200,7 +197,6 @@ export class ProjectListComponent implements OnInit {
     this.projects = [];
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
-    //this.getAllProjects(pageEvent.pageIndex, pageEvent.pageSize);
     this.getFilterProjects(pageEvent.pageIndex, pageEvent.pageSize);
   }
 
