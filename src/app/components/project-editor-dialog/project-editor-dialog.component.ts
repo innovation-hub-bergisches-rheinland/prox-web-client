@@ -18,4 +18,8 @@ export class ProjectEditorDialogComponent implements OnInit {
   projectSaved() {
     this.projectDialogRef.close();
   }
+
+  closeDialog() {
+    this.projectDialogRef.close();
+  }
 }

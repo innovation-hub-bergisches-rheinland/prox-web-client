@@ -59,6 +59,7 @@ import { StudyCourseModuleSelectionComponent } from './components/study-course-m
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { AuthTimerComponent } from './components/auth-timer/auth-timer.component';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { AuthTimerComponent } from './components/auth-timer/auth-timer.component
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    StorageServiceModule
   ],
   entryComponents: [ProjectEditorDialogComponent, MatConfirmDialogComponent],
   providers: [

@@ -149,7 +149,7 @@
   </div>
   <div mat-dialog-actions>
     <div class="action-buttons">
-      <button (click)="closeDialog()" mat-button type="reset">Abbrechen</button>
+      <button (click)="cancelButtonClicked()" mat-button type="reset">Abbrechen</button>
       <button [disabled]="projectFormControl.invalid || hasSubmitted" mat-button type="submit">
         {{ project ? 'Änderungen speichern' : 'Hinzufügen' }}
       </button>

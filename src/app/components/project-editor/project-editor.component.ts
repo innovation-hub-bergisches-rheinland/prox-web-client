@@ -6,7 +6,8 @@ import {
   ViewChild,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  Inject
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
@@ -21,7 +22,7 @@ import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-m
 import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
-import { forkJoin, Observable, Observer, of } from 'rxjs';
+import { forkJoin, Observable, Observer, of, Subscription, interval } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -33,6 +34,7 @@ import {
   toArray
 } from 'rxjs/operators';
 import * as _ from 'underscore';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 @Component({
   selector: 'app-project-editor',
@@ -40,8 +42,11 @@ import * as _ from 'underscore';
   styleUrls: ['./project-editor.component.scss']
 })
 export class ProjectEditorComponent implements OnInit {
+  private STORAGE_KEY = 'project-editor-state';
+
   @Input() project?: Project;
   @Output() projectSaved = new EventEmitter<Project>();
+  @Output() cancel = new EventEmitter<any>();
 
   projectFormControl: FormGroup;
   hasSubmitted: boolean = false;
@@ -54,12 +59,15 @@ export class ProjectEditorComponent implements OnInit {
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
 
+  autoSave: Subscription;
+
   constructor(
     private projectService: ProjectService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
     private snack: MatSnackBar,
-    private user: KeyCloakUser
+    private user: KeyCloakUser,
+    @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
 
   ngOnInit() {
@@ -87,8 +95,90 @@ export class ProjectEditorComponent implements OnInit {
     this.addStudyCourseModuleSelector();
 
     if (this.project) {
+      this.clearStorage();
       this.fillInExistingProjectValues();
+    } else {
+      this.tryLoadState();
     }
+
+    const source = interval(5000);
+    this.autoSave = source.subscribe(() => {
+      this.saveState();
+      console.log('Autosaving Project-Editor Data...');
+    });
+  }
+
+  ngOnDestroy() {
+    this.autoSave.unsubscribe();
+  }
+
+  saveState() {
+    const state = this.projectFormControl.getRawValue();
+    state.tags = this.tags;
+    console.log(state);
+    this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
+  }
+
+  tryLoadState() {
+    let data = this.storage.get(this.STORAGE_KEY);
+    if (data) {
+      let state = JSON.parse(data);
+      console.log(state);
+
+      let modules = state.studyCoursesModuleSelectors;
+
+      this.tags = state.tags;
+      this.updateTagRecommendations();
+
+      delete state.tags;
+      delete state.studyCoursesModuleSelectors;
+
+      this.projectFormControl.patchValue(state);
+
+      let createStudyCourse = function(data: any): StudyCourse {
+        let studyCourse = new StudyCourse();
+        studyCourse.id = data.id;
+        studyCourse.name = data.name;
+        studyCourse.academicDegree = data.academicDegree;
+        studyCourse._links = data._links;
+        return studyCourse;
+      };
+
+      let createModuleModel = function(data: any): Module {
+        let mod = new Module();
+        mod.id = data.id;
+        mod.name = data.name;
+        mod.projectType = data.projectType;
+        mod._links = data._links;
+        return mod;
+      };
+
+      let createModuleSelectorModel = function(data: any): StudyCourseModuleSelectionModel {
+        let selectedModules: Module[] = [];
+        for (let index = 0; index < data.selectedModules.length; index++) {
+          selectedModules.push(createModuleModel(data.selectedModules[index]));
+        }
+        return new StudyCourseModuleSelectionModel(
+          createStudyCourse(data.studyCourse),
+          selectedModules
+        );
+      };
+
+      if (modules[0] != null) {
+        if (modules.length >= 1) {
+          this.moduleSelectors.controls[0].setValue(createModuleSelectorModel(modules[0]));
+        }
+
+        for (let index = 1; index < modules.length; index++) {
+          this.addStudyCourseModuleSelector();
+          this.moduleSelectors.controls[index].setValue(createModuleSelectorModel(modules[index]));
+        }
+      }
+    }
+  }
+
+  clearStorage() {
+    this.storage.remove(this.STORAGE_KEY);
   }
 
   get moduleSelectors(): FormArray {
@@ -356,5 +446,10 @@ export class ProjectEditorComponent implements OnInit {
     this.snack.open(message, null, {
       duration: 2000
     });
+  }
+
+  cancelButtonClicked() {
+    this.cancel.emit();
+    this.clearStorage();
   }
 }
