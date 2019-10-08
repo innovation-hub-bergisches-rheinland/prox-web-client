@@ -58,6 +58,7 @@ import { LiabilityNoticeComponent } from './components/legal-issues/liability-no
 import { StudyCourseModuleSelectionComponent } from './components/study-course-module-selection/study-course-module-selection.component';
 import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
+import { AuthTimerComponent } from './components/auth-timer/auth-timer.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { ProjectEditorDialogComponent } from './components/project-editor-dialog
     LiabilityNoticeComponent,
     StudyCourseModuleSelectionComponent,
     ProjectListItemComponent,
-    ProjectEditorDialogComponent
+    ProjectEditorDialogComponent,
+    AuthTimerComponent
   ],
   imports: [
     AppRoutingModule,
