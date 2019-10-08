@@ -99,8 +99,11 @@ export class ProjectEditorComponent implements OnInit {
       this.fillInExistingProjectValues();
     } else {
       this.tryLoadState();
+      this.enableAutosave();
     }
+  }
 
+  enableAutosave() {
     const source = interval(5000);
     this.autoSave = source.subscribe(() => {
       this.saveState();
