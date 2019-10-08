@@ -64,7 +64,7 @@ li:before {
 
 .mat-icon-button {
   float: right;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .mat-icon-button.no-hover ::ng-deep .mat-button-focus-overlay {
@@ -128,6 +128,7 @@ li:before {
 .middle {
   display: block;
   overflow: hidden;
+  min-width: 50px;
 }
 
 .right {

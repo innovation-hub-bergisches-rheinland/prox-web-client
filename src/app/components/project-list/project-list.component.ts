@@ -83,10 +83,6 @@ export class ProjectListComponent implements OnInit {
       searchText = 'status="' + this.selectedSearchStatus + '" ' + this.search;
     }
 
-    if (searchText === this.lastSearch) {
-      return;
-    }
-
     this.lastSearch = searchText;
 
     const options = {
