@@ -41,7 +41,12 @@ export class ProjectListComponent implements OnInit {
 
   addSearchQueryForm: FormGroup;
 
-  availableStatus = [{ name: 'Verfügbar' }, { name: 'Laufend' }, { name: 'Abgeschlossen' }];
+  availableStatus = [
+    { name: 'Alle' },
+    { name: 'Verfügbar' },
+    { name: 'Laufend' },
+    { name: 'Abgeschlossen' }
+  ];
 
   selectedSearchOption;
 
@@ -79,7 +84,7 @@ export class ProjectListComponent implements OnInit {
 
   getFilterProjects(pageIndex: number = this.pageIndex, pageSize: number = this.pageSize) {
     let searchText = this.search;
-    if (this.selectedSearchStatus !== undefined) {
+    if (this.selectedSearchStatus !== 'Alle') {
       searchText = 'status="' + this.selectedSearchStatus + '" ' + this.search;
     }
 

@@ -19,7 +19,6 @@
           placeholder="Status"
           [(value)]="selectedSearchStatus"
         >
-          <mat-option>Alle</mat-option>
           <mat-option *ngFor="let status of availableStatus" [value]="status.name">{{
             status.name
           }}</mat-option>
