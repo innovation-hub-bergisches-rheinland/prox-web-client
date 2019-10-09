@@ -2,12 +2,13 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   Component,
   ElementRef,
-  OnInit,
-  ViewChild,
-  Input,
-  Output,
   EventEmitter,
-  Inject
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
@@ -15,14 +16,13 @@ import {
   MatAutocompleteSelectedEvent,
   MatChipInputEvent,
   MatChipSelectionChange,
-  MatDialogRef,
   MatSnackBar
 } from '@angular/material';
 import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection/study-course-module-selection.component';
 import { ProjectService, TagService } from '@prox/core/services';
 import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
-import { forkJoin, Observable, Observer, of, Subscription, interval } from 'rxjs';
+import { forkJoin, interval, Observable, Observer, of, Subscription } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -41,7 +41,7 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
   templateUrl: './project-editor.component.html',
   styleUrls: ['./project-editor.component.scss']
 })
-export class ProjectEditorComponent implements OnInit {
+export class ProjectEditorComponent implements OnInit, OnDestroy {
   private STORAGE_KEY = 'project-editor-state';
 
   @Input() project?: Project;
