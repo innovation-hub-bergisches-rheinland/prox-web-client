@@ -60,6 +60,7 @@ import { ProjectListItemComponent } from './components/project-list-item/project
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { AuthTimerComponent } from './components/auth-timer/auth-timer.component';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site/project-editor-site.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
     StudyCourseModuleSelectionComponent,
     ProjectListItemComponent,
     ProjectEditorDialogComponent,
-    AuthTimerComponent
+    AuthTimerComponent,
+    ProjectEditorSiteComponent
   ],
   imports: [
     AppRoutingModule,

@@ -47,6 +47,19 @@
             Studiengänge
           </button>
         </mat-list-item>
+
+        <mat-list-item *ngIf="hasPermission">
+          <button
+            (click)="sidenav.toggle()"
+            class="sidebar-button"
+            mat-button
+            routerLink="projecteditorsite"
+            routerLinkActive="nav-activated"
+          >
+            <mat-icon class="sidebar-icon">edit</mat-icon>
+            Projekteditor
+          </button>
+        </mat-list-item>
       </mat-list>
     </mat-sidenav>
 

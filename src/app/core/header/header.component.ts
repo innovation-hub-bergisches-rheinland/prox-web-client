@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,13 @@ export class HeaderComponent implements OnInit {
   @Input()
   title: string;
 
-  constructor() {}
+  hasPermission = false;
+
+  constructor(private user: KeyCloakUser) {
+    this.user.Load().then(() => {
+      this.hasPermission = user.hasRole('professor');
+    });
+  }
 
   ngOnInit() {}
 }

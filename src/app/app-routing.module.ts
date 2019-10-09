@@ -11,6 +11,7 @@ import { ImpressumComponent } from './components/legal-issues/impressum/impressu
 import { DataProtectionComponent } from './components/legal-issues/data-protection/data-protection.component';
 import { LiabilityNoticeComponent } from './components/legal-issues/liability-notice/liability-notice.component';
 import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
+import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site/project-editor-site.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'projecteditor',
     component: ProjectEditorComponent
+  },
+  {
+    path: 'projecteditorsite',
+    component: ProjectEditorSiteComponent
   },
   {
     path: 'study-courses',
