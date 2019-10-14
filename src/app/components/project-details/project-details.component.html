@@ -11,7 +11,10 @@
           [class.geplant]="project.status === 'GEPLANT'"
           class="status"
         >
-          {{ project.status.charAt(0).toUpperCase() + project.status.slice(1).toLowerCase() }}
+          {{
+            project.status.charAt(0).toUpperCase() +
+              project.status.slice(1).toLowerCase()
+          }}
         </div>
       </mat-card-title>
       <mat-card-subtitle>Betreuungsperson</mat-card-subtitle>

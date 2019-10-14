@@ -15,7 +15,8 @@ import { ProjectDetailsComponent } from './components/project-details/project-de
 import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -117,7 +118,10 @@ import { LiabilityNoticeComponent } from './components/legal-issues/liability-no
   ],
   entryComponents: [ProjectDialogComponent, MatConfirmDialogComponent],
   providers: [
-    { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
+    {
+      provide: 'ExternalConfigurationService',
+      useClass: ExternalConfigurationService
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: keycloakInitializer,

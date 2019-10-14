@@ -6,7 +6,7 @@ import { UUID } from 'angular2-uuid';
 import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
 import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import { ProjectDialogComponent } from '../project-dialog/project-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-project-details',
@@ -64,6 +64,8 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   private getProject() {
-    this.projectService.get(this.projectID).subscribe(project => (this.project = project));
+    this.projectService
+      .get(this.projectID)
+      .subscribe(project => (this.project = project));
   }
 }
