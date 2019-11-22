@@ -390,6 +390,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         newProject.setModules(modules).then(
           () => {
             this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
+            this.clearStorage();
             this.projectSaved.emit(newProject);
           },
           error => {
