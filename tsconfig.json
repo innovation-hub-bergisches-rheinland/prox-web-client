@@ -10,8 +10,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "paths": { "@angular/*": ["node_modules/@angular/*"] },
-
+    "paths": {
+      "@angular/*": ["node_modules/@angular/*"],
+      "@prox/*": ["src/app/*"]
+    },
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"]

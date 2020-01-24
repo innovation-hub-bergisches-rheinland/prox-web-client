@@ -1,0 +1,38 @@
+.card-contend {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'course-input delete-button'
+    'module-selection delete-button';
+}
+
+.course-input {
+  grid-area: course-input;
+  width: 100%;
+}
+
+.course-name-box {
+  display: flex;
+}
+
+.course-degree {
+  width: 100px;
+}
+
+.module-selection {
+  grid-area: module-selection;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 40px;
+  > .option {
+    margin: 0 10px;
+  }
+}
+
+.delete-button {
+  grid-area: delete-button;
+  justify-self: end;
+  align-self: center;
+}

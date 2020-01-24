@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectDialogComponent } from './project-dialog.component';
+import { ProjectEditorComponent } from './project-editor.component';
 
 describe('ProjectDialogComponent', () => {
-  let component: ProjectDialogComponent;
-  let fixture: ComponentFixture<ProjectDialogComponent>;
+  let component: ProjectEditorComponent;
+  let fixture: ComponentFixture<ProjectEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProjectDialogComponent]
+      declarations: [ProjectEditorComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectDialogComponent);
+    fixture = TestBed.createComponent(ProjectEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
