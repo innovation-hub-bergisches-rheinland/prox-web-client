@@ -51,6 +51,19 @@
             Studiengänge
           </button>
         </mat-list-item>
+
+        <mat-list-item *ngIf="hasPermission">
+          <button
+            (click)="sidenav.toggle()"
+            class="sidebar-button"
+            mat-button
+            routerLink="projecteditorsite"
+            routerLinkActive="nav-activated"
+          >
+            <mat-icon class="sidebar-icon">edit</mat-icon>
+            Projekteditor
+          </button>
+        </mat-list-item>
       </mat-list>
     </mat-sidenav>
 
@@ -71,6 +84,8 @@
           routerLink=""
           src="assets/images/logo-icon.png"
         />
+
+        <app-auth-timer class="logout-timer"></app-auth-timer>
 
         <a href="https://www.th-koeln.de/">
           <img src="assets/images/th-koeln.svg" alt="TH Köln" class="th-logo" />

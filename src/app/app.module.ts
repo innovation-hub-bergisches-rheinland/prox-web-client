@@ -12,8 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
-
+import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -57,6 +56,12 @@ import { ContactComponent } from './components/legal-issues/contact/contact.comp
 import { ImpressumComponent } from './components/legal-issues/impressum/impressum.component';
 import { DataProtectionComponent } from './components/legal-issues/data-protection/data-protection.component';
 import { LiabilityNoticeComponent } from './components/legal-issues/liability-notice/liability-notice.component';
+import { StudyCourseModuleSelectionComponent } from './components/study-course-module-selection/study-course-module-selection.component';
+import { ProjectListItemComponent } from './components/project-list-item/project-list-item.component';
+import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
+import { AuthTimerComponent } from './components/auth-timer/auth-timer.component';
+import { StorageServiceModule } from 'ngx-webstorage-service';
+import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site/project-editor-site.component';
 
 @NgModule({
   declarations: [
@@ -68,13 +73,18 @@ import { LiabilityNoticeComponent } from './components/legal-issues/liability-no
     FooterComponent,
     ProjectListComponent,
     ProjectDetailsComponent,
-    ProjectDialogComponent,
+    ProjectEditorComponent,
     UserComponent,
     MatConfirmDialogComponent,
     ContactComponent,
     ImpressumComponent,
     DataProtectionComponent,
-    LiabilityNoticeComponent
+    LiabilityNoticeComponent,
+    StudyCourseModuleSelectionComponent,
+    ProjectListItemComponent,
+    ProjectEditorDialogComponent,
+    AuthTimerComponent,
+    ProjectEditorSiteComponent
   ],
   imports: [
     AppRoutingModule,
@@ -114,9 +124,10 @@ import { LiabilityNoticeComponent } from './components/legal-issues/liability-no
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    StorageServiceModule
   ],
-  entryComponents: [ProjectDialogComponent, MatConfirmDialogComponent],
+  entryComponents: [ProjectEditorDialogComponent, MatConfirmDialogComponent],
   providers: [
     {
       provide: 'ExternalConfigurationService',

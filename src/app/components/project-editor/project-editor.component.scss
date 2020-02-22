@@ -1,0 +1,46 @@
+.project-editor-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-button {
+  color: var(--th-purple);
+}
+
+.mat-error {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.mat-form-field {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.form-textarea {
+  font-size: 0.8em;
+  height: 100px;
+}
+
+.study-course-module-selectors {
+  margin-top: 20px;
+}
+
+.study-course-module-selector {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.add-study-course-module-selector-button {
+  margin: 0 auto;
+}
+
+.tag-list {
+  width: 100%;
+}
+
+.recommended-tag {
+  border: 1px dashed gray;
+  background: transparent;
+  color: #7a7a7a;
+}

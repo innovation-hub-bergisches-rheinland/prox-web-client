@@ -1,7 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
-import { Project } from '../../shared/hal-resources/project.resource';
+import { Project } from '@prox/shared/hal-resources/';
 import { RestService } from 'angular4-hal';
-import { Observable } from 'angular4-hal/node_modules/rxjs';
+import { Observable } from 'rxjs';
+import { Id } from '@prox/shared/hal-resources/id';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,11 @@ export class ProjectService extends RestService<Project> {
       'findBySupervisorName_SupervisorNameContaining',
       options
     );
+  }
+
+  findByIds(projectIds: Id[]): Observable<Project[]> {
+    let idParam = projectIds.map(project => project.id).join(',');
+    let options = { params: [{ key: 'projectIds', value: idParam }] };
+    return this.search('findAllByIds', options);
   }
 }

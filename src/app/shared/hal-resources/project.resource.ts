@@ -1,16 +1,19 @@
 import { UUID } from 'angular2-uuid';
-import { Module } from './module.resource';
-import { Observable } from 'angular4-hal/node_modules/rxjs';
+import { Observable } from 'rxjs';
 import { CustomResource } from './custom-resource';
+import { Module } from './module.resource';
+import { Tag } from './tag.resource';
 
 export class Project extends CustomResource {
   id: UUID;
   name: string;
+  shortDescription: string;
   description: string;
   status: string;
   creatorID: UUID;
   creatorName: string;
   supervisorName: string;
+  requirement: string;
 
   setModules(newModules: Module[]): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -22,7 +25,15 @@ export class Project extends CustomResource {
     });
   }
 
+  setTags(tags: Tag[]) {
+    this.setRelationArray('tagCollection', tags).subscribe();
+  }
+
   getModules(): Observable<Module[]> {
     return this.getRelationArray(Module, 'modules');
+  }
+
+  getTags(): Observable<Tag[]> {
+    return this.getRelationArray(Tag, 'tagCollection');
   }
 }
