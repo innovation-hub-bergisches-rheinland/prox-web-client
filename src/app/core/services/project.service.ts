@@ -27,8 +27,8 @@ export class ProjectService extends RestService<Project> {
   }
 
   findByIds(projectIds: Id[]): Observable<Project[]> {
-    let idParam = projectIds.map(project => project.id).join(',');
-    let options = { params: [{ key: 'projectIds', value: idParam }] };
+    const idParam = projectIds.map(project => project.id).join(',');
+    const options = { params: [{ key: 'projectIds', value: idParam }] };
     return this.search('findAllByIds', options);
   }
 }

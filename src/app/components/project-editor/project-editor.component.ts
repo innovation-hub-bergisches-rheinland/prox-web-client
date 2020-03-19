@@ -65,7 +65,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   @Output() cancel = new EventEmitter<any>();
 
   projectFormControl: FormGroup;
-  hasSubmitted: boolean = false;
+  hasSubmitted = false;
 
   tags: Tag[] = [];
   filteredTags: Observable<Tag[]>;
@@ -145,12 +145,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   tryLoadState() {
-    let data = this.storage.get(this.STORAGE_KEY);
-    if (data) {
-      let state = JSON.parse(data);
+    const loadedData = this.storage.get(this.STORAGE_KEY);
+    if (loadedData) {
+      const state = JSON.parse(loadedData);
       console.log(state);
 
-      let modules = state.studyCoursesModuleSelectors;
+      const modules = state.studyCoursesModuleSelectors;
 
       this.tags = state.tags;
       this.updateTagRecommendations();
@@ -160,8 +160,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
       this.projectFormControl.patchValue(state);
 
-      let createStudyCourse = function(data: any): StudyCourse {
-        let studyCourse = new StudyCourse();
+      const createStudyCourse = (data: any): StudyCourse => {
+        const studyCourse = new StudyCourse();
         studyCourse.id = data.id;
         studyCourse.name = data.name;
         studyCourse.academicDegree = data.academicDegree;
@@ -169,8 +169,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         return studyCourse;
       };
 
-      let createModuleModel = function(data: any): Module {
-        let mod = new Module();
+      const createModuleModel = (data: any): Module => {
+        const mod = new Module();
         mod.id = data.id;
         mod.name = data.name;
         mod.projectType = data.projectType;
@@ -178,12 +178,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         return mod;
       };
 
-      let createModuleSelectorModel = function(
+      const createModuleSelectorModel = (
         data: any
-      ): StudyCourseModuleSelectionModel {
-        let selectedModules: Module[] = [];
-        for (let index = 0; index < data.selectedModules.length; index++) {
-          selectedModules.push(createModuleModel(data.selectedModules[index]));
+      ): StudyCourseModuleSelectionModel => {
+        const selectedModules: Module[] = [];
+        for (const selectedModule of data.selectedModules) {
+          selectedModules.push(createModuleModel(selectedModule));
         }
         return new StudyCourseModuleSelectionModel(
           createStudyCourse(data.studyCourse),
@@ -235,7 +235,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       const value = event.value;
 
       if ((value || '').trim()) {
-        let tag = new Tag();
+        const tag = new Tag();
         tag.tagName = value.trim();
         this.tags.push(tag);
         this.updateTagRecommendations();
@@ -269,7 +269,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   addRecommendedTag(tag: Tag) {
     this.tags.push(tag);
     const index = this.recommendedTags.indexOf(tag);
-    if (index != -1) {
+    if (index !== -1) {
       this.recommendedTags.splice(index, 1);
     }
     this.tagService
@@ -278,7 +278,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   updateTagRecommendations() {
-    let filteredTags = this.tags.filter(tag => tag.id != null);
+    const filteredTags = this.tags.filter(tag => tag.id != null);
     this.tagService
       .getRecommendations(filteredTags)
       .subscribe(tags => (this.recommendedTags = tags));
@@ -306,13 +306,13 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   ): Observable<StudyCourseModuleSelectionModel[]> {
     return Observable.create(
       (observer: Observer<StudyCourseModuleSelectionModel[]>) => {
-        let observables = [];
+        const observables = [];
 
-        for (let index = 0; index < modules.length; index++) {
+        for (const module of modules) {
           observables.push(
-            modules[index].getRelation(StudyCourse, 'studyCourse').pipe(
+            module.getRelation(StudyCourse, 'studyCourse').pipe(
               map(course => {
-                return { module: modules[index], studyCourse: course };
+                return { module, studyCourse: course };
               })
             )
           );
@@ -320,7 +320,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
         forkJoin(observables).subscribe(
           success => {
-            let result = _.chain(success)
+            const result = _.chain(success)
               .groupBy(element => element.studyCourse.id)
               .map(element => element)
               .map(element => {
@@ -383,13 +383,15 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         tag => this.tagService.findByTagName(tag.tagName),
         (tagSource, foundTags) => {
           return {
-            tagSource: tagSource,
-            foundTags: foundTags
+            tagSource,
+            foundTags
           };
         }
       ),
       mergeMap(x => {
-        if (x.foundTags.length >= 1) return of(x.foundTags[0]);
+        if (x.foundTags.length >= 1) {
+          return of(x.foundTags[0]);
+        }
         return this.tagService.create(x.tagSource);
       }),
       toArray()
@@ -413,7 +415,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     projectResource.name = project.name;
     projectResource.status = project.status;
 
-    if (project.supervisorName.length == 0) {
+    if (project.supervisorName.length === 0) {
       projectResource.supervisorName = projectResource.creatorName;
     } else {
       projectResource.supervisorName = project.supervisorName;
@@ -423,7 +425,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   private createProject(project: Project, modules: Module[], tags: Tag[]) {
-    let newProject = this.createProjectResource(project);
+    const newProject = this.createProjectResource(project);
 
     // Create Project
     this.projectService.create(newProject).subscribe(
@@ -478,7 +480,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
-    let modules = this.getAggregatedSelectedModules();
+    const modules = this.getAggregatedSelectedModules();
     this.createTags(this.tags).subscribe(tags => {
       if (this.project) {
         this.updateProject(project, modules, tags as Tag[]);

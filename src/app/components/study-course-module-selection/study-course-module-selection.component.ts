@@ -42,6 +42,24 @@ const CUSTOM_VALIDATOR: any = {
 })
 export class StudyCourseModuleSelectionComponent
   implements OnInit, ControlValueAccessor, Validator {
+  constructor(
+    private formBuilder: FormBuilder,
+    private projectStudyCourseService: ProjectStudyCourseService
+  ) {}
+
+  get moduleArray(): FormArray {
+    return this.formGroup.get('moduleArray') as FormArray;
+  }
+
+  @Output() delete = new EventEmitter<any>();
+
+  modulesToSet: Module[];
+
+  formGroup: FormGroup;
+  studyCoursesObservable: Observable<StudyCourse[]>;
+  availableStudyCourses: StudyCourse[] = [];
+  filteredStudyCourses: Observable<StudyCourse[]>;
+  availableModules: Module[] = [];
   writeValue(obj: any): void {
     if (obj === null) {
       // reset ?
@@ -53,7 +71,7 @@ export class StudyCourseModuleSelectionComponent
         'Input for StudyCourseModuleSelection must be of type StudyCourseModuleSelectionModel'
       );
     } else {
-      let data = obj as StudyCourseModuleSelectionModel;
+      const data = obj as StudyCourseModuleSelectionModel;
       this.modulesToSet = data.selectedModules;
       this.formGroup.controls.studyCourse.setValue(data.studyCourse);
     }
@@ -82,22 +100,7 @@ export class StudyCourseModuleSelectionComponent
     return null;
   }
 
-  @Output() delete = new EventEmitter<any>();
-
-  modulesToSet: Module[];
-
-  formGroup: FormGroup;
-  studyCoursesObservable: Observable<StudyCourse[]>;
-  availableStudyCourses: StudyCourse[] = [];
-  filteredStudyCourses: Observable<StudyCourse[]>;
-  availableModules: Module[] = [];
-
-  propagateChange = (_: any) => {};
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private projectStudyCourseService: ProjectStudyCourseService
-  ) {}
+  propagateChange = (change: any) => {};
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
@@ -122,15 +125,11 @@ export class StudyCourseModuleSelectionComponent
     });
   }
 
-  get moduleArray(): FormArray {
-    return this.formGroup.get('moduleArray') as FormArray;
-  }
-
   private _createModuleSelection(course: StudyCourse) {
     course.getModules().subscribe(modules => {
-      let moduleArray = this.formBuilder.array([], minSelectedValidator);
+      const moduleArray = this.formBuilder.array([], minSelectedValidator);
 
-      for (let index = 0; index < modules.length; index++) {
+      for (const {} of modules) {
         moduleArray.push(this.formBuilder.control(false));
       }
 
@@ -142,8 +141,8 @@ export class StudyCourseModuleSelectionComponent
       });
 
       if (this.modulesToSet) {
-        for (let index = 0; index < this.modulesToSet.length; index++) {
-          let currentModule: any = this.modulesToSet[index];
+        for (const moduleToSet of this.modulesToSet) {
+          const currentModule: any = moduleToSet;
           const i = _.findIndex(this.availableModules, (x: any) => {
             return x.id === currentModule.id;
           });
@@ -163,8 +162,8 @@ export class StudyCourseModuleSelectionComponent
   }
 
   private _getSelectedModules(): StudyCourseModuleSelectionModel {
-    let selectedModules = [];
-    let moduleArray = this.formGroup.controls.moduleArray as FormArray;
+    const selectedModules = [];
+    const moduleArray = this.formGroup.controls.moduleArray as FormArray;
     for (let index = 0; index < moduleArray.length; index++) {
       if (moduleArray.controls[index].value) {
         selectedModules.push(this.availableModules[index]);

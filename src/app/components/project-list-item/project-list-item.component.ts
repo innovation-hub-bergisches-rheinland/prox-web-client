@@ -16,14 +16,14 @@ export class ProjectListItemComponent implements OnInit {
   @Output() editButtonClicked = new EventEmitter<any>();
   @Output() deleteButtonClicked = new EventEmitter<any>();
 
-  showShortDescription: boolean = false;
+  showShortDescription = false;
 
   projectTags$: Observable<Tag[]>;
   projectModules$: Observable<Module[]>;
 
-  isTypeBA: boolean = false;
-  isTypeMA: boolean = false;
-  isTypePP: boolean = false;
+  isTypeBA = false;
+  isTypeMA = false;
+  isTypePP = false;
 
   constructor(public dialog: MatDialog) {}
 

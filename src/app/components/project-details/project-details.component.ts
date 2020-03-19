@@ -25,9 +25,9 @@ export class ProjectDetailsComponent implements OnInit {
   projectTags$: Observable<Tag[]>;
   projectModules$: Observable<Module[]>;
 
-  isTypeBA: boolean = false;
-  isTypeMA: boolean = false;
-  isTypePP: boolean = false;
+  isTypeBA = false;
+  isTypeMA = false;
+  isTypePP = false;
 
   constructor(
     private projectService: ProjectService,
@@ -35,7 +35,7 @@ export class ProjectDetailsComponent implements OnInit {
     private router: Router,
     private user: KeyCloakUserService,
     public dialog: MatDialog,
-    private _location: Location
+    private location: Location
   ) {
     this.user.Load().then(() => {
       this.hasPermission = user.hasRole('professor');
@@ -103,6 +103,6 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   goBack() {
-    this._location.back();
+    this.location.back();
   }
 }

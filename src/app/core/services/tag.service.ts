@@ -15,7 +15,7 @@ export class TagService extends RestService<Tag> {
     tagName: string,
     exactMatch: boolean = true
   ): Observable<Tag[]> {
-    let options = { params: [{ key: 'tagName', value: tagName }] };
+    const options = { params: [{ key: 'tagName', value: tagName }] };
     if (exactMatch) {
       return this.search('findByTagName_TagName', options);
     } else {
@@ -24,8 +24,8 @@ export class TagService extends RestService<Tag> {
   }
 
   getRecommendations(tags: Tag[]): Observable<Tag[]> {
-    let tagIds = tags.map(tag => tag.id).join(',');
-    let options = { params: [{ key: 'tagIds', value: tagIds }] };
+    const tagIds = tags.map(tag => tag.id).join(',');
+    const options = { params: [{ key: 'tagIds', value: tagIds }] };
     return this.search('tagRecommendations', options);
   }
 }

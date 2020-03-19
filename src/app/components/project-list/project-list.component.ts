@@ -63,7 +63,7 @@ export class ProjectListComponent implements OnInit {
   ];
 
   constructor(
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private projectService: ProjectService,
     private searchService: SearchService,
@@ -176,13 +176,14 @@ export class ProjectListComponent implements OnInit {
             .value.replace(', ', ',')
             .replace(' ,', ',')
             .split(',');
-          for (let index = 0; index < values.length; ++index) {
-            if (values[index].replace(' ', '') !== '') {
+
+          for (const value of values) {
+            if (value.replace(' ', '') !== '') {
               this.search +=
                 ' ' +
                 this.addSearchQueryForm.get('searchQueryType').value +
                 '="' +
-                values[index] +
+                value +
                 '"';
               this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
             }
@@ -213,7 +214,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, '', {
+    this.snackBar.open(message, '', {
       duration: 2000
     });
   }
