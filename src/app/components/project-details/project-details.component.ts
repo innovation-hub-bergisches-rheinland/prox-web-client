@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Project } from '../../shared/hal-resources/project.resource';
-import { ProjectService } from '../../core/services/project.service';
+import { ProjectService, KeyCloakUserService } from '@prox/core/services';
 import { UUID } from 'angular2-uuid';
-import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
-import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
-import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
+import { MatConfirmDialogComponent } from '@prox/shared/components/mat-confirm-dialog';
+import { ProjectEditorDialogComponent } from '@prox/components/project-editor-dialog';
 import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
 import { find, filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Tag, Module } from '@prox/shared/hal-resources';
+import { Tag, Module, Project } from '@prox/shared/hal-resources';
 
 @Component({
-  selector: 'app-project-details',
+  selector: 'prox-project-details',
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.scss']
 })
@@ -35,7 +33,7 @@ export class ProjectDetailsComponent implements OnInit {
     private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
-    private user: KeyCloakUser,
+    private user: KeyCloakUserService,
     public dialog: MatDialog,
     private _location: Location
   ) {

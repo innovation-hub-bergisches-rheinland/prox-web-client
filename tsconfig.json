@@ -12,7 +12,9 @@
     "importHelpers": true,
     "paths": {
       "@angular/*": ["node_modules/@angular/*"],
-      "@prox/*": ["src/app/*"]
+      "@prox/*": ["src/app/*"],
+      "@environment/*": ["src/environments/*"],
+      "@assets/*": ["src/assets/*"]
     },
     "target": "es5",
     "typeRoots": ["node_modules/@types"],

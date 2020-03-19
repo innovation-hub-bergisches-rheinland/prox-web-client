@@ -30,7 +30,7 @@ export class CustomResource extends Resource {
 
     return ResourceHelper.getHttp().put(
       ResourceHelper.getProxy(this._links[relation].href),
-      payload.length == 0 ? undefined : payload,
+      payload.length === 0 ? undefined : payload,
       { headers: header }
     );
   }

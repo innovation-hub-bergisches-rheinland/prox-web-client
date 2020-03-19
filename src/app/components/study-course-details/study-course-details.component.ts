@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { StudyCourse } from '../../shared/hal-resources/study-course.resource';
-import { StudyCourseService } from '../../core/services/study-course.service';
+import { StudyCourse } from '@prox/shared/hal-resources';
+import { StudyCourseService } from '@prox/core/services';
 import { ActivatedRoute } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 
 @Component({
-  selector: 'app-module-detail',
+  selector: 'prox-module-detail',
   templateUrl: './study-course-details.component.html',
   styleUrls: ['./study-course-details.component.scss']
 })

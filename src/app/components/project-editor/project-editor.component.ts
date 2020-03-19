@@ -24,9 +24,12 @@ import {
   MatChipSelectionChange,
   MatSnackBar
 } from '@angular/material';
-import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection/study-course-module-selection.component';
-import { ProjectService, TagService } from '@prox/core/services';
-import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
+import { StudyCourseModuleSelectionModel } from '@prox/components/study-course-module-selection';
+import {
+  ProjectService,
+  TagService,
+  KeyCloakUserService
+} from '@prox/core/services';
 import { Module, Project, StudyCourse, Tag } from '@prox/shared/hal-resources';
 import {
   forkJoin,
@@ -50,7 +53,7 @@ import * as _ from 'underscore';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 @Component({
-  selector: 'app-project-editor',
+  selector: 'prox-project-editor',
   templateUrl: './project-editor.component.html',
   styleUrls: ['./project-editor.component.scss']
 })
@@ -79,7 +82,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     private tagService: TagService,
     private formBuilder: FormBuilder,
     private snack: MatSnackBar,
-    private user: KeyCloakUser,
+    private user: KeyCloakUserService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
 

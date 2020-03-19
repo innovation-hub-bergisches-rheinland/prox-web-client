@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-project-list-item',
+  selector: 'prox-project-list-item',
   templateUrl: './project-list-item.component.html',
   styleUrls: ['./project-list-item.component.scss']
 })

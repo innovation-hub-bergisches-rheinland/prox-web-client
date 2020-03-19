@@ -8,11 +8,14 @@ import {
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
-import { KeyCloakUser } from './KeyCloakUser';
+import { KeyCloakUserService } from '@prox/core/services';
 
 @Injectable()
-export class BearerInterceptor implements HttpInterceptor {
-  constructor(private user: KeyCloakUser, private keycloak: KeycloakService) {}
+export class KeycloakBearerInterceptor implements HttpInterceptor {
+  constructor(
+    private user: KeyCloakUserService,
+    private keycloak: KeycloakService
+  ) {}
 
   public intercept(
     req: HttpRequest<any>,

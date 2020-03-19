@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-impressum',
+  selector: 'prox-impressum',
   templateUrl: './impressum.component.html',
   styleUrls: ['./impressum.component.css']
 })

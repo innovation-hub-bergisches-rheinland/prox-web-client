@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
+import { KeyCloakUserService } from '@prox/core/services';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
+  selector: 'prox-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor(private user: KeyCloakUser, private router: Router) {}
+  constructor(private user: KeyCloakUserService, private router: Router) {}
 
   ngOnInit() {}
 

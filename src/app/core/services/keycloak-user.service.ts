@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 
 @Injectable()
-export class KeyCloakUser {
+export class KeyCloakUserService {
   onUserChanged = new EventEmitter();
 
   private id = '';

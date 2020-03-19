@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { KeyCloakUser } from '../../keycloak/KeyCloakUser';
+import { KeyCloakUserService } from '@prox/core/services';
 
 @Component({
-  selector: 'app-user',
+  selector: 'prox-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
@@ -10,7 +10,7 @@ export class UserComponent implements OnInit {
   username = '';
   isLoggedIn = false;
 
-  constructor(protected user: KeyCloakUser) {
+  constructor(protected user: KeyCloakUserService) {
     user.onUserChanged.subscribe(() => {
       this.onUserChanged();
     });

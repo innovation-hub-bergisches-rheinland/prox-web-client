@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CacheHelper } from 'angular4-hal';
 
 @Component({
-  selector: 'app-root',
+  selector: 'prox-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

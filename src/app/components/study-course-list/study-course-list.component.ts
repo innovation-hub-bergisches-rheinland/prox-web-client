@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { StudyCourse } from '../../shared/hal-resources/study-course.resource';
-import { StudyCourseService } from '../../core/services/study-course.service';
+import { StudyCourse } from '@prox/shared/hal-resources';
+import { StudyCourseService } from '@prox/core/services';
 import { HalOptions } from 'angular4-hal';
 import { MatSelectChange } from '@angular/material/select';
 
 @Component({
-  selector: 'app-module-list',
+  selector: 'prox-module-list',
   templateUrl: './study-course-list.component.html',
   styleUrls: ['./study-course-list.component.scss']
 })

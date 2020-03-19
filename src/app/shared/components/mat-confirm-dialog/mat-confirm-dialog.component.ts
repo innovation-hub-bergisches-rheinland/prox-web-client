@@ -7,7 +7,7 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-mat-confirm-dialog',
+  selector: 'prox-mat-confirm-dialog',
   templateUrl: './mat-confirm-dialog.component.html',
   styleUrls: ['./mat-confirm-dialog.component.css']
 })

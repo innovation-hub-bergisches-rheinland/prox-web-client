@@ -1,6 +1,6 @@
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs';
-import { CustomResource } from './custom-resource';
+import { CustomResource } from './custom-resource.resource';
 import { Module } from './module.resource';
 import { Tag } from './tag.resource';
 

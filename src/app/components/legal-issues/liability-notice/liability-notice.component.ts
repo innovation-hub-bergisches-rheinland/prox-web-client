@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-liability-notice',
+  selector: 'prox-liability-notice',
   templateUrl: './liability-notice.component.html',
   styleUrls: ['./liability-notice.component.css']
 })

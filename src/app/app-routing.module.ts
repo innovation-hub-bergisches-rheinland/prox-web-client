@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { StudyCourseListComponent } from './components/study-course-list/study-course-list.component';
-import { StudyCourseDetailsComponent } from './components/study-course-details/study-course-details.component';
-import { ProjectListComponent } from './components/project-list/project-list.component';
-import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { AppAuthGuard } from './keycloak/AppAuthGuard';
-import { ContactComponent } from './components/legal-issues/contact/contact.component';
-import { ImpressumComponent } from './components/legal-issues/impressum/impressum.component';
-import { DataProtectionComponent } from './components/legal-issues/data-protection/data-protection.component';
-import { LiabilityNoticeComponent } from './components/legal-issues/liability-notice/liability-notice.component';
-import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
-import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site/project-editor-site.component';
+import { HomeComponent } from '@prox/components/home';
+import { StudyCourseListComponent } from '@prox/components/study-course-list';
+import { StudyCourseDetailsComponent } from '@prox/components/study-course-details';
+import { ProjectListComponent } from '@prox/components/project-list';
+import { ProjectDetailsComponent } from '@prox/components/project-details';
+import { AuthGuard } from '@prox/core/guards/auth.guard';
+import {
+  ContactComponent,
+  ImpressumComponent,
+  DataProtectionComponent,
+  LiabilityNoticeComponent
+} from '@prox/components/legal-issues';
+import { ProjectEditorComponent } from '@prox/components/project-editor';
+import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site';
 
 const routes: Routes = [
   {
@@ -63,6 +65,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AppAuthGuard]
+  providers: [AuthGuard]
 })
 export class AppRoutingModule {}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-data-protection',
+  selector: 'prox-data-protection',
   templateUrl: './data-protection.component.html',
   styleUrls: ['./data-protection.component.css']
 })

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
+import { KeyCloakUserService } from '@prox/core/services';
 
 @Component({
-  selector: 'app-header',
+  selector: 'prox-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   hasPermission = false;
 
-  constructor(private user: KeyCloakUser) {
+  constructor(private user: KeyCloakUserService) {
     this.user.Load().then(() => {
       this.hasPermission = user.hasRole('professor');
     });

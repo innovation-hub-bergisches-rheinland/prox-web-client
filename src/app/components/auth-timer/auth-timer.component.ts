@@ -3,7 +3,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { Subscription, interval } from 'rxjs';
 
 @Component({
-  selector: 'app-auth-timer',
+  selector: 'prox-auth-timer',
   templateUrl: './auth-timer.component.html',
   styleUrls: ['./auth-timer.component.scss']
 })

@@ -4,7 +4,7 @@ import {
   ExternalConfigurationHandlerInterface
 } from 'angular4-hal';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '@environment/environment';
 
 @Injectable()
 export class ExternalConfigurationService
@@ -12,11 +12,11 @@ export class ExternalConfigurationService
   constructor(private http: HttpClient) {}
 
   getProxyUri(): string {
-    return environment.url;
+    return environment.apiUrl;
   }
 
   getRootUri(): string {
-    return environment.url;
+    return environment.apiUrl;
   }
 
   getHttp(): HttpClient {

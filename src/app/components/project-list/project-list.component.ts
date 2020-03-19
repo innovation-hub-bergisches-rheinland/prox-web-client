@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, PageEvent } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProjectService, SearchService } from '@prox/core/services';
-import { KeyCloakUser } from '@prox/keycloak/KeyCloakUser';
+import {
+  ProjectService,
+  SearchService,
+  KeyCloakUserService
+} from '@prox/core/services';
 import { Project } from '@prox/shared/hal-resources';
-import { MatConfirmDialogComponent } from '../../shared/mat-confirm-dialog/mat-confirm-dialog.component';
-import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
+import { MatConfirmDialogComponent } from '@prox/shared/components/mat-confirm-dialog';
+import { ProjectEditorDialogComponent } from '@prox/components/project-editor-dialog';
 
 export enum SearchOption {
   Alle = 'Alle',
@@ -18,7 +21,7 @@ export enum SearchOption {
 }
 
 @Component({
-  selector: 'app-project-list',
+  selector: 'prox-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
@@ -64,7 +67,7 @@ export class ProjectListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private projectService: ProjectService,
     private searchService: SearchService,
-    private user: KeyCloakUser,
+    private user: KeyCloakUserService,
     public dialog: MatDialog
   ) {
     this.user.Load().then(() => {

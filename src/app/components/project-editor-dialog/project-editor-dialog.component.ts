@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Project } from '@prox/shared/hal-resources';
 
 @Component({
-  selector: 'app-project-editor-dialog',
+  selector: 'prox-project-editor-dialog',
   templateUrl: './project-editor-dialog.component.html',
   styleUrls: ['./project-editor-dialog.component.scss']
 })
