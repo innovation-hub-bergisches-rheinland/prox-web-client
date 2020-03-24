@@ -66,7 +66,7 @@ const routes: Routes = [
         loadChildren: '@modules/disclaimer/disclaimer.module#DisclaimerModule'
       },
       {
-        path: 'page-not-found',
+        path: '**',
         // loadChildren: () =>
         //   import('@modules/page-not-found/page-not-found.module').then(
         //     m => m.PageNotFoundModule
@@ -75,10 +75,6 @@ const routes: Routes = [
           '@modules/page-not-found/page-not-found.module#PageNotFoundModule'
       }
     ]
-  },
-  {
-    path: '**',
-    redirectTo: '/page-not-found'
   }
 ];
 
