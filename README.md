@@ -11,7 +11,7 @@ To use the services from \*.archi-lab.io
 
 ```bash
 # Execute from the project root folder
-docker build -t docker.nexus.archi-lab.io/archilab/prox-web-client -f ./src/docker/Dockerfile .
+docker build -t docker.nexus.archi-lab.io/archilab/prox-web-client -f ./docker/Dockerfile .
 ```
 
 To use the local/dev services from localhost
@@ -21,7 +21,7 @@ To use the local/dev services from localhost
 
 
 # Execute from the project root folder
-docker build --build-arg APP_ENV="" -t docker.nexus.archi-lab.io/archilab/prox-web-client -f ./src/docker/Dockerfile .
+docker build --build-arg APP_ENV="" -t docker.nexus.archi-lab.io/archilab/prox-web-client -f ./docker/Dockerfile .
 ```
 
 Builds a Docker image based on the source code and the dependencies in the
@@ -34,7 +34,7 @@ Powershell
 ```posh
 $env:IMAGE='prox-web-client'; `
 $env:TAG='latest'; `
-docker-compose -f ./src/docker/docker-compose.yml up
+docker-compose -f ./docker/docker-compose.yml up
 ```
 
 Bash/Shell
@@ -42,7 +42,7 @@ Bash/Shell
 ```bash
 export IMAGE="prox-web-client" &&
 export TAG="latest" &&
-docker-compose -f ./src/docker/docker-compose.yml up
+docker-compose -f ./docker/docker-compose.yml up
 ```
 
 Starts a Docker container based on the compose file and the image. A Docker

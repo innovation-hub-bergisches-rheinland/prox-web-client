@@ -1,9 +1,0 @@
-<div class="project-dialog">
-  <h1 mat-dialog-title *ngIf="project == null">Projekt hinzufügen</h1>
-  <h1 mat-dialog-title *ngIf="project">Projekt bearbeiten</h1>
-  <prox-project-editor
-    [project]="project"
-    (projectSaved)="projectSaved()"
-    (cancel)="closeDialog()"
-  ></prox-project-editor>
-</div>

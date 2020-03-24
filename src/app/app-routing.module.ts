@@ -1,70 +1,80 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from '@prox/components/home';
-import { StudyCourseListComponent } from '@prox/components/study-course-list';
-import { StudyCourseDetailsComponent } from '@prox/components/study-course-details';
-import { ProjectListComponent } from '@prox/components/project-list';
-import { ProjectDetailsComponent } from '@prox/components/project-details';
-import { AuthGuard } from '@prox/core/guards/auth.guard';
-import {
-  ContactComponent,
-  ImpressumComponent,
-  DataProtectionComponent,
-  LiabilityNoticeComponent
-} from '@prox/components/legal-issues';
-import { ProjectEditorComponent } from '@prox/components/project-editor';
-import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site';
+
+import { AuthGuard } from '@app/guard/auth.guard';
+
+import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    redirectTo: '/home',
+    pathMatch: 'full'
   },
   {
-    path: 'projects',
-    component: ProjectListComponent
+    path: '',
+    component: ContentLayoutComponent,
+    // canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('@modules/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'projects',
+        loadChildren: () =>
+          import('@modules/project/project.module').then(m => m.ProjectModule)
+      },
+      {
+        path: 'study-courses',
+        loadChildren: () =>
+          import('@modules/study-course/study-course.module').then(
+            m => m.StudyCourseModule
+          )
+      },
+      {
+        path: 'contact',
+        loadChildren: () =>
+          import('@modules/contact/contact.module').then(m => m.ContactModule)
+      },
+      {
+        path: 'impressum',
+        loadChildren: () =>
+          import('@modules/impressum/impressum.module').then(
+            m => m.ImpressumModule
+          )
+      },
+      {
+        path: 'privacy',
+        loadChildren: () =>
+          import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
+      },
+      {
+        path: 'disclaimer',
+        loadChildren: () =>
+          import('@modules/disclaimer/disclaimer.module').then(
+            m => m.DisclaimerModule
+          )
+      },
+      {
+        path: 'page-not-found',
+        loadChildren: () =>
+          import('@modules/page-not-found/page-not-found.module').then(
+            m => m.PageNotFoundModule
+          )
+      }
+    ]
   },
   {
-    path: 'projects/:id',
-    component: ProjectDetailsComponent
-  },
-  {
-    path: 'projecteditor',
-    component: ProjectEditorComponent
-  },
-  {
-    path: 'projecteditorsite',
-    component: ProjectEditorSiteComponent
-  },
-  {
-    path: 'study-courses',
-    component: StudyCourseListComponent
-  },
-  {
-    path: 'study-courses/:id',
-    component: StudyCourseDetailsComponent
-  },
-  {
-    path: 'contact',
-    component: ContactComponent
-  },
-  {
-    path: 'impressum',
-    component: ImpressumComponent
-  },
-  {
-    path: 'data-protection',
-    component: DataProtectionComponent
-  },
-  {
-    path: 'liability-notice',
-    component: LiabilityNoticeComponent
+    path: '**',
+    redirectTo: '/page-not-found'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: []
 })
 export class AppRoutingModule {}

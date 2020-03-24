@@ -1,10 +1,9 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppModule } from '@prox/app.module';
-import { environment } from '@environment/environment';
-
 import 'hammerjs';
+import { environment } from '@env';
+import { AppModule } from 'app/app.module';
 
 if (environment.production) {
   enableProdMode();

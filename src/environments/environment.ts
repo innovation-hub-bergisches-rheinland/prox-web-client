@@ -3,7 +3,6 @@
 // The list of file replacements can be found in `angular.json`.
 
 import { KeycloakConfig } from 'keycloak-angular';
-import { ExternalConfiguration } from 'angular4-hal';
 
 const keycloakConfig: KeycloakConfig = {
   url: 'https://login.archi-lab.io/auth',
@@ -14,5 +13,5 @@ const keycloakConfig: KeycloakConfig = {
 export const environment = {
   production: false,
   keycloakConfig,
-  apiUrl: 'https://api.dev.prox.archi-lab.io'
+  apiUrl: 'http://127.0.0.1:8081'
 };
