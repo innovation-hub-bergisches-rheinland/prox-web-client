@@ -107,7 +107,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     });
 
     this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
-      filter(value => value !== null && value.length >= 2),
+      filter(value => (value ? value.length >= 2 : false)),
       debounceTime(200),
       switchMap(value =>
         this.tagService
@@ -142,7 +142,9 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.autoSave.unsubscribe();
+    if (this.autoSave) {
+      this.autoSave.unsubscribe();
+    }
   }
 
   saveState() {
