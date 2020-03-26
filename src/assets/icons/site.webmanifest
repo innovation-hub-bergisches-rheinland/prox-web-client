@@ -1,9 +1,9 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Prox",
+  "short_name": "Prox",
   "icons": [
     {
-      "src": "/assets/images/favicon/android-chrome-192x192.png",
+      "src": "/assets/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }
