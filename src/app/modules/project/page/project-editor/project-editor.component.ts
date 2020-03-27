@@ -389,20 +389,18 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
   private createTags(tags: Tag[]): any {
     return of(...tags).pipe(
-      mergeMap(
-        tag => this.tagService.findByTagName(tag.tagName),
-        (tagSource, foundTags) => {
-          return {
-            tagSource,
-            foundTags
-          };
-        }
+      mergeMap(tag =>
+        this.tagService.findByTagName(tag.tagName).pipe(
+          map(foundTags => {
+            return { tag, foundTags };
+          })
+        )
       ),
       mergeMap(x => {
         if (x.foundTags.length >= 1) {
           return of(x.foundTags[0]);
         }
-        return this.tagService.create(x.tagSource);
+        return this.tagService.create(x.tag);
       }),
       toArray()
     );
