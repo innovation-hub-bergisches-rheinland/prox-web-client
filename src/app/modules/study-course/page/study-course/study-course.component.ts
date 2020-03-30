@@ -5,6 +5,7 @@ import { HalOptions } from 'angular4-hal';
 
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { StudyCourseService } from '@data/service/study-course.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-study-course',
@@ -18,7 +19,10 @@ export class StudyCourseComponent implements OnInit {
   selectedName: string;
   selectedAcademicDegree: string;
 
-  constructor(private studyCourseService: StudyCourseService) {}
+  constructor(
+    private studyCourseService: StudyCourseService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.getAllStudyCourses();
@@ -26,13 +30,18 @@ export class StudyCourseComponent implements OnInit {
 
   getAllStudyCourses() {
     const options: HalOptions = { sort: [{ path: 'name', order: 'ASC' }] };
-    this.studyCourseService.getAll(options).subscribe({
-      next: studyCourses => {
+    this.studyCourseService.getAll(options).subscribe(
+      studyCourses => {
         this.studyCourses = studyCourses;
       },
-      error: error => console.error(error),
-      complete: () => this.fillAcademicDegrees(this.studyCourses)
-    });
+      error => {
+        console.error('study course service error', error);
+        this.openSnackBar(
+          'Studiengänge konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+        );
+      },
+      () => this.fillAcademicDegrees(this.studyCourses)
+    );
   }
 
   academicDegreeFilter(academicDegree: string) {
@@ -104,5 +113,9 @@ export class StudyCourseComponent implements OnInit {
     }
     this.studyCourses = this.filteredStudyCourses;
     this.filteredStudyCourses = [];
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Verstanden');
   }
 }
