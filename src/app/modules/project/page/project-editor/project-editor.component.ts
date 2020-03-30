@@ -84,7 +84,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     private projectService: ProjectService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
-    private snack: MatSnackBar,
+    private snackBar: MatSnackBar,
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
@@ -345,7 +345,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
           },
           error => {
             this.showSubmitInfo('Fehler beim parsen der Module');
-            console.log(error);
+            console.error('module parsing error', error);
             observer.complete();
           }
         );
@@ -447,14 +447,14 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
           },
           error => {
             this.showSubmitInfo('Fehler beim Verknüpfen der Module');
-            console.log(error);
+            console.error('project service error', error);
           }
         );
       },
       error => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
         this.hasSubmitted = false;
-        console.log(error);
+        console.error('project service error', error);
       }
     );
   }
@@ -473,14 +473,14 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
           },
           error => {
             this.showSubmitInfo('Fehler beim Verknüpfen der Module');
-            console.log(error);
+            console.error('project service error', error);
           }
         );
       },
       error => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
         this.hasSubmitted = false;
-        console.log(error);
+        console.error('project service error', error);
       }
     );
   }
@@ -499,7 +499,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   private showSubmitInfo(message: string) {
-    this.snack.open(message, null, {
+    this.snackBar.open(message, null, {
       duration: 2000
     });
   }

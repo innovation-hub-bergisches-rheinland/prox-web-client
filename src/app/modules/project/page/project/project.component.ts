@@ -108,12 +108,20 @@ export class ProjectComponent implements OnInit {
 
     this.searchService.getAll(options).subscribe(
       ids => {
-        this.projectService.findByIds(ids).subscribe(projects => {
-          this.projects = projects;
-        });
+        this.projectService.findByIds(ids).subscribe(
+          projects => {
+            this.projects = projects;
+          },
+          error => {
+            console.error('project service error', error);
+            this.openErrorSnackBar(
+              'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+            );
+          }
+        );
         this.totalProjects = this.searchService.totalElement();
       },
-      error => console.log(error)
+      error => console.error('search service error', error)
     );
     this.alterSearchChange(false);
   }
@@ -127,7 +135,7 @@ export class ProjectComponent implements OnInit {
       if (result) {
         this.projectService.delete(project).subscribe(
           () => {},
-          error => console.log(error),
+          error => console.error('project service error', error),
           () => this.getFilterProjects()
         );
       }
@@ -185,7 +193,7 @@ export class ProjectComponent implements OnInit {
                 '="' +
                 value +
                 '"';
-              this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
+              this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
             }
           }
         } else {
@@ -195,12 +203,12 @@ export class ProjectComponent implements OnInit {
             '="' +
             this.addSearchQueryForm.get('searchQuery').value +
             '"';
-          this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
+          this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
         }
       }
     } else if (this.addSearchQueryForm.get('searchQuery').value !== '') {
       this.search += ' ' + this.addSearchQueryForm.get('searchQuery').value;
-      this.openSnackBar('Die Suche wurde erfolgreich erweitert.');
+      this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
     }
     this.addSearchQueryForm.get('searchQuery').setValue('');
     this.getFilterProjects();
@@ -213,9 +221,13 @@ export class ProjectComponent implements OnInit {
     this.getFilterProjects(pageEvent.pageIndex, pageEvent.pageSize);
   }
 
-  openSnackBar(message: string) {
+  openInfoSnackBar(message: string) {
     this.snackBar.open(message, '', {
       duration: 2000
     });
+  }
+
+  openErrorSnackBar(message: string) {
+    this.snackBar.open(message, 'Verstanden');
   }
 }

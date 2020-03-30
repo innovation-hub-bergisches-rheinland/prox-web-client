@@ -79,7 +79,7 @@ export class ProjectDetailsComponent implements OnInit {
       if (result) {
         this.projectService.delete(project).subscribe(
           () => {},
-          error => console.log(error),
+          error => console.error('project service error', error),
           () => this.router.navigateByUrl('/projects')
         );
       }

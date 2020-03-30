@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Project } from '@data/schema/project.resource';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Tag } from '@data/schema/tag.resource';
-import { MatDialog } from '@angular/material';
-import { map } from 'rxjs/operators';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { map, catchError } from 'rxjs/operators';
 import { Module } from '@data/schema/module.resource';
 
 @Component({
@@ -27,11 +27,19 @@ export class ProjectItemComponent implements OnInit {
   isTypeMA = false;
   isTypePP = false;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.projectModules$ = this.project.getModules();
-    this.projectTags$ = this.project.getTags();
+    this.projectTags$ = this.project.getTags().pipe(
+      catchError(error => {
+        console.error('tag service error', error);
+        this.openErrorSnackBar(
+          'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
+        );
+        return throwError(error);
+      })
+    );
 
     this.containsProjectType('BA').subscribe(
       result => (this.isTypeBA = result)
@@ -42,6 +50,9 @@ export class ProjectItemComponent implements OnInit {
     this.containsProjectType('PP').subscribe(
       result => (this.isTypePP = result)
     );
+  }
+  openErrorSnackBar(message: string) {
+    this.snackBar.open(message, 'Verstanden');
   }
 
   editProject() {
