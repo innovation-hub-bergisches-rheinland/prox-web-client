@@ -87,7 +87,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openProjectDialog(project: Project) {
-    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
+    this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
       data: project

@@ -30,7 +30,8 @@ import {
   Observable,
   Observer,
   of,
-  Subscription
+  Subscription,
+  throwError
 } from 'rxjs';
 import {
   debounceTime,
@@ -40,7 +41,8 @@ import {
   skip,
   switchMap,
   takeUntil,
-  toArray
+  toArray,
+  catchError
 } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -110,15 +112,17 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       filter(value => (value ? value.length >= 2 : false)),
       debounceTime(200),
       switchMap(value =>
-        this.tagService
-          .findByTagName(value, false)
-          .pipe(
-            takeUntil(
-              this.projectFormControl.controls.tagInput.valueChanges.pipe(
-                skip(1)
-              )
-            )
+        this.tagService.findByTagName(value, false).pipe(
+          catchError(error => {
+            this.openErrorSnackBar(
+              'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+            );
+            return throwError(error);
+          }),
+          takeUntil(
+            this.projectFormControl.controls.tagInput.valueChanges.pipe(skip(1))
           )
+        )
       )
     );
 
@@ -282,16 +286,30 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       this.recommendedTags.splice(index, 1);
     }
-    this.tagService
-      .getRecommendations(this.tags)
-      .subscribe(tags => (this.recommendedTags = tags));
+    this.tagService.getRecommendations(this.tags).subscribe(
+      tags => {
+        this.recommendedTags = tags;
+      },
+      () => {
+        this.openErrorSnackBar(
+          'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+        );
+      }
+    );
   }
 
   updateTagRecommendations() {
     const filteredTags = this.tags.filter(tag => tag.id != null);
-    this.tagService
-      .getRecommendations(filteredTags)
-      .subscribe(tags => (this.recommendedTags = tags));
+    this.tagService.getRecommendations(filteredTags).subscribe(
+      tags => {
+        this.recommendedTags = tags;
+      },
+      () => {
+        this.openErrorSnackBar(
+          'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+        );
+      }
+    );
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
@@ -502,6 +520,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     this.snackBar.open(message, null, {
       duration: 2000
     });
+  }
+
+  openErrorSnackBar(message: string) {
+    this.snackBar.open(message, 'Verstanden');
   }
 
   cancelButtonClicked() {

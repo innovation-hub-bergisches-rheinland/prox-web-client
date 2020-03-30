@@ -33,7 +33,6 @@ export class ProjectItemComponent implements OnInit {
     this.projectModules$ = this.project.getModules();
     this.projectTags$ = this.project.getTags().pipe(
       catchError(error => {
-        console.error('tag service error', error);
         this.openErrorSnackBar(
           'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
         );
