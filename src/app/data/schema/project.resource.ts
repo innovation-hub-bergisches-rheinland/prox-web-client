@@ -14,14 +14,8 @@ export class Project extends CustomResource {
   supervisorName: string;
   requirement: string;
 
-  setModules(newModules: Module[]): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.setRelationArray('modules', newModules).subscribe(
-        () => {},
-        error => reject(error),
-        () => resolve()
-      );
-    });
+  setModules(newModules: Module[]): Observable<any> {
+    return this.setRelationArray('modules', newModules);
   }
 
   setTags(tags: Tag[]) {
