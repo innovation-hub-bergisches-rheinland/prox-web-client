@@ -115,9 +115,9 @@ export class StudyCourseModuleSelectionComponent
     );
 
     this.studyCoursesObservable = this.projectStudyCourseService.getAll();
-    this.studyCoursesObservable.subscribe(
-      courses => (this.availableStudyCourses = courses)
-    );
+    this.studyCoursesObservable.subscribe(courses => {
+      this.availableStudyCourses = courses;
+    });
 
     this.formGroup.controls.studyCourse.valueChanges.subscribe(value => {
       if (value instanceof StudyCourse) {

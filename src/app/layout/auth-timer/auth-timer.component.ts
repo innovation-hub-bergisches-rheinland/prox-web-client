@@ -44,7 +44,9 @@ export class AuthTimerComponent implements OnInit, OnDestroy {
   }
 
   updateState() {
-    this.kcs.isLoggedIn().then(status => (this.loggedIn = status));
+    this.kcs.isLoggedIn().then(status => {
+      this.loggedIn = status;
+    });
     const kci = this.kcs.getKeycloakInstance();
     if (kci && kci.refreshTokenParsed) {
       this.tokenEOL = kci.refreshTokenParsed.exp;

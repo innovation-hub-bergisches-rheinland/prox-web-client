@@ -58,15 +58,15 @@ export class ProjectDetailsComponent implements OnInit {
       this.projectModules$ = this.project.getModules();
       this.projectTags$ = this.project.getTags();
 
-      this.containsProjectType('BA').subscribe(
-        result => (this.isTypeBA = result)
-      );
-      this.containsProjectType('MA').subscribe(
-        result => (this.isTypeMA = result)
-      );
-      this.containsProjectType('PP').subscribe(
-        result => (this.isTypePP = result)
-      );
+      this.containsProjectType('BA').subscribe(result => {
+        this.isTypeBA = result;
+      });
+      this.containsProjectType('MA').subscribe(result => {
+        this.isTypeMA = result;
+      });
+      this.containsProjectType('PP').subscribe(result => {
+        this.isTypePP = result;
+      });
     });
   }
 

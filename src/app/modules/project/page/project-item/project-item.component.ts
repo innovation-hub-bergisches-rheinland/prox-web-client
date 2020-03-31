@@ -40,15 +40,15 @@ export class ProjectItemComponent implements OnInit {
       })
     );
 
-    this.containsProjectType('BA').subscribe(
-      result => (this.isTypeBA = result)
-    );
-    this.containsProjectType('MA').subscribe(
-      result => (this.isTypeMA = result)
-    );
-    this.containsProjectType('PP').subscribe(
-      result => (this.isTypePP = result)
-    );
+    this.containsProjectType('BA').subscribe(result => {
+      this.isTypeBA = result;
+    });
+    this.containsProjectType('MA').subscribe(result => {
+      this.isTypeMA = result;
+    });
+    this.containsProjectType('PP').subscribe(result => {
+      this.isTypePP = result;
+    });
   }
   openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');

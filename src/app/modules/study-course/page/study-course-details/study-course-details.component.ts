@@ -23,7 +23,9 @@ export class StudyCourseDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => (this.studyCourseID = params.id));
+    this.route.params.subscribe(params => {
+      this.studyCourseID = params.id;
+    });
     this.getStudyCourse();
   }
 
@@ -45,7 +47,9 @@ export class StudyCourseDetailsComponent implements OnInit {
             })
           )
         )
-        .subscribe(modules => (studyCourse.modules = modules));
+        .subscribe(modules => {
+          studyCourse.modules = modules;
+        });
     });
   }
 }

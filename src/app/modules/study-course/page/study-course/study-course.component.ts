@@ -47,7 +47,9 @@ export class StudyCourseComponent implements OnInit {
   academicDegreeFilter(academicDegree: string) {
     this.studyCourseService
       .findByAcademicDegree(academicDegree)
-      .subscribe(studyCourses => (this.studyCourses = studyCourses));
+      .subscribe(studyCourses => {
+        this.studyCourses = studyCourses;
+      });
   }
 
   nameFilter(name: string) {
