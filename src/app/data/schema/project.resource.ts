@@ -14,12 +14,12 @@ export class Project extends CustomResource {
   supervisorName: string;
   requirement: string;
 
-  setModules(newModules: Module[]): Observable<any> {
-    return this.setRelationArray('modules', newModules);
+  setModules(modules: Module[]): Observable<any> {
+    return this.setRelationArray('modules', modules);
   }
 
-  setTags(tags: Tag[]) {
-    this.setRelationArray('tagCollection', tags).subscribe();
+  setTags(tags: Tag[]): Observable<any> {
+    return this.setRelationArray('tagCollection', tags);
   }
 
   getModules(): Observable<Module[]> {

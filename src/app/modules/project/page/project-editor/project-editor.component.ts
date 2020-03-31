@@ -456,7 +456,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     // Create Project
     this.projectService.create(newProject).subscribe(
       () => {
-        newProject.setTags(tags);
+        newProject.setTags(tags).subscribe();
         newProject.setModules(modules).subscribe(
           () => {
             this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
@@ -483,7 +483,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     // Update Project
     this.projectService.update(this.project).subscribe(
       () => {
-        this.project.setTags(tags);
+        this.project.setTags(tags).subscribe();
         this.project.setModules(modules).subscribe(
           () => {
             this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
