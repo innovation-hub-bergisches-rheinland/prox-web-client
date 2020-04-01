@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+
+import { map } from 'rxjs/operators';
 
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { StudyCourseService } from '@data/service/study-course.service';
-import { ActivatedRoute } from '@angular/router';
-import { HalOptions, Sort } from 'angular4-hal';
-import { Module } from '@data/schema/module.resource';
-import { SortOrder } from 'angular4-hal/src/sort';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-study-course-details',
@@ -15,7 +13,6 @@ import { map } from 'rxjs/operators';
 })
 export class StudyCourseDetailsComponent implements OnInit {
   studyCourse: StudyCourse;
-  studyCourseID: string;
 
   constructor(
     private studyCourseService: StudyCourseService,
@@ -23,33 +20,35 @@ export class StudyCourseDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.studyCourseID = params.id;
-    });
-    this.getStudyCourse();
+    const studyCourseID = this.route.snapshot.paramMap.get('id');
+    this.getStudyCourse(studyCourseID);
   }
 
-  private getStudyCourse() {
-    this.studyCourseService.get(this.studyCourseID).subscribe(studyCourse => {
+  private getStudyCourse(id: string) {
+    this.studyCourseService.get(id).subscribe(studyCourse => {
       this.studyCourse = studyCourse;
-      studyCourse
-        .getModules()
-        .pipe(
-          map(modules =>
-            modules.sort((a, b) => {
-              if (a.name < b.name) {
-                return -1;
-              }
-              if (a.name > b.name) {
-                return 1;
-              }
-              return 0;
-            })
-          )
-        )
-        .subscribe(modules => {
-          studyCourse.modules = modules;
-        });
+      this.getModules();
     });
+  }
+
+  private getModules() {
+    this.studyCourse
+      .getModules()
+      .pipe(
+        map(modules =>
+          modules.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          })
+        )
+      )
+      .subscribe(modules => {
+        this.studyCourse.modules = modules;
+      });
   }
 }
