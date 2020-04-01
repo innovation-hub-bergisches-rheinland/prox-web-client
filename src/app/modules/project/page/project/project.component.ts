@@ -7,15 +7,7 @@ import { SearchService } from '@data/service/search.service';
 import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
-
-export enum SearchOption {
-  Alle = 'Alle',
-  Beschreibung = 'Beschreibung',
-  Betreuer = 'Betreuer',
-  Tag = 'Tag',
-  Titel = 'Titel',
-  Voraussetzung = 'Voraussetzung'
-}
+import { SearchOption } from './search-option.enum';
 
 @Component({
   selector: 'app-project',
