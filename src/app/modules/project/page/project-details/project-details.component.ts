@@ -7,7 +7,7 @@ import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
-import { MatConfirmDialogComponent } from '@modules/project/page/mat-confirm-dialog/mat-confirm-dialog.component';
+import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
 import { map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
@@ -71,7 +71,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   deleteProject(project: Project) {
-    const dialogRef = this.dialog.open(MatConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
     });
 

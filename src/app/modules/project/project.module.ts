@@ -8,7 +8,7 @@ import { ProjectDetailsComponent } from './page/project-details/project-details.
 import { ProjectEditorComponent } from './page/project-editor/project-editor.component';
 import { ProjectEditorDialogComponent } from './page/project-editor-dialog/project-editor-dialog.component';
 import { StudyCourseModuleSelectionComponent } from './page/study-course-module-selection/study-course-module-selection.component';
-import { MatConfirmDialogComponent } from '@modules/project/page/mat-confirm-dialog/mat-confirm-dialog.component';
+import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,9 +18,9 @@ import { MatConfirmDialogComponent } from '@modules/project/page/mat-confirm-dia
     ProjectEditorDialogComponent,
     ProjectItemComponent,
     StudyCourseModuleSelectionComponent,
-    MatConfirmDialogComponent
+    ConfirmDialogComponent
   ],
   imports: [SharedModule, ProjectRoutingModule],
-  entryComponents: [ProjectEditorDialogComponent, MatConfirmDialogComponent]
+  entryComponents: [ProjectEditorDialogComponent, ConfirmDialogComponent]
 })
 export class ProjectModule {}

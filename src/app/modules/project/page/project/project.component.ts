@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar, MatDialog, PageEvent } from '@angular/material';
 import { ProjectService } from '@data/service/project.service';
 import { SearchService } from '@data/service/search.service';
-import { MatConfirmDialogComponent } from '@modules/project/page/mat-confirm-dialog/mat-confirm-dialog.component';
+import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -127,7 +127,7 @@ export class ProjectComponent implements OnInit {
   }
 
   deleteProject(project: Project) {
-    const dialogRef = this.dialog.open(MatConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
     });
 
