@@ -19,15 +19,15 @@
     <div class="left">
       <mat-form-field class="status-search">
         <mat-select
-          [(value)]="selectedSearchStatus"
-          (selectionChange)="getFilterProjects()"
+          [formControl]="selectedStatusOption"
+          (selectionChange)="getProjects()"
           placeholder="Status"
         >
           <mat-option
-            *ngFor="let status of availableStatus"
-            [value]="status.name"
+            *ngFor="let statusOption of statusOptions | keyvalue"
+            [value]="statusOption.value"
           >
-            {{ status.name }}
+            {{ statusOption.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -35,7 +35,7 @@
 
     <div class="right">
       <mat-icon
-        (click)="alterExtendedSearch()"
+        (click)="toggleShowExtendedSearch()"
         matTooltip="Erweiterte Suche"
         class="filter-icon"
       >
@@ -47,11 +47,11 @@
       <mat-form-field class="search">
         <label>
           <input
-            [(ngModel)]="search"
-            (keydown)="alterSearchChange(true)"
-            (change)="getFilterProjects()"
+            [formControl]="searchString"
+            (keydown)="setHasSearchChanged(true)"
+            (change)="getProjects()"
             [placeholder]="
-              searchChange
+              hasSearchChanged
                 ? 'Suche (Drücken Sie Enter um die Suche zu bestätigen)'
                 : 'Suche'
             "
@@ -107,15 +107,14 @@
       <div class="left">
         <mat-form-field class="status-search">
           <mat-select
-            [(value)]="selectedSearchOption"
-            [formControl]="addSearchQueryForm.controls['searchQueryType']"
+            [formControl]="extendedSearch.controls['searchQueryType']"
             placeholder="Bereich"
           >
             <mat-option
-              *ngFor="let searchOption of availableSearchOptions"
-              [value]="searchOption"
+              *ngFor="let searchOption of SearchOption | keyvalue"
+              [value]="searchOption.value"
             >
-              {{ searchOption }}
+              {{ searchOption.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -136,7 +135,7 @@
           <label>
             <input
               (keyup.enter)="addSearchOption()"
-              [formControl]="addSearchQueryForm.controls['searchQuery']"
+              [formControl]="extendedSearch.controls['searchQuery']"
               matInput
               placeholder="Suche"
               id="searchQuery"
@@ -147,7 +146,12 @@
       </span>
 
       <div class="hint">
-        <small *ngIf="selectedSearchOption === SearchOption.Tag">
+        <small
+          *ngIf="
+            extendedSearch.controls['searchQueryType'].value ===
+            SearchOption.Tag
+          "
+        >
           <b>Hinweis:</b>
 
           <i>
@@ -156,7 +160,12 @@
           </i>
         </small>
 
-        <small *ngIf="selectedSearchOption === SearchOption.Betreuer">
+        <small
+          *ngIf="
+            extendedSearch.controls['searchQueryType'].value ===
+            SearchOption.Betreuer
+          "
+        >
           <b>Hinweis:</b>
 
           <i>
@@ -180,7 +189,7 @@
   ></app-project-item>
 
   <mat-paginator
-    (page)="pageEvent($event)"
+    (page)="changePageIndexOrSize($event)"
     [length]="totalProjects"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"

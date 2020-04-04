@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from '@data/schema/project.resource';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar, MatDialog, PageEvent } from '@angular/material';
 import { ProjectService } from '@data/service/project.service';
 import { SearchService } from '@data/service/search.service';
@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/con
 import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 import { SearchOption } from './search-option.enum';
+import { StatusOption } from './status-option.enum';
 
 @Component({
   selector: 'app-project',
@@ -15,40 +16,34 @@ import { SearchOption } from './search-option.enum';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  projects: Project[] = [];
-  totalProjects = 0;
-  pageIndex = 0;
-  pageSize = 10;
+  public projects: Project[] = [];
+  public totalProjects = 0;
+  public pageIndex = 0;
+  public pageSize = 10;
+  public hasPermission = false;
+  public showExtendedSearch = false;
+  public hasSearchChanged = false;
 
-  hasPermission: boolean;
-  showExtendedSearch = false;
+  public searchString = new FormControl('');
+  public selectedStatusOption = new FormControl(StatusOption.Verfuegbar);
+  public extendedSearch: FormGroup;
 
-  search = '';
-  searchChange = false;
-  lastSearch = '';
-
-  SearchOption = SearchOption; // wichtig damit enum in template funktioniert
-
-  selectedSearchStatus = 'Verfügbar';
-
-  addSearchQueryForm: FormGroup;
-
-  availableStatus = [
-    { name: 'Alle' },
-    { name: 'Verfügbar' },
-    { name: 'Laufend' },
-    { name: 'Abgeschlossen' }
-  ];
-
-  selectedSearchOption: SearchOption;
-
-  availableSearchOptions: SearchOption[] = [
+  public SearchOption = SearchOption;
+  public searchOptions = [
     SearchOption.Alle,
     SearchOption.Beschreibung,
     SearchOption.Betreuer,
     SearchOption.Tag,
     SearchOption.Titel,
     SearchOption.Voraussetzung
+  ];
+
+  public StatusOption = StatusOption;
+  public statusOptions = [
+    StatusOption.Alle,
+    StatusOption.Verfuegbar,
+    StatusOption.Laufend,
+    StatusOption.Abgeschlossen
   ];
 
   constructor(
@@ -67,33 +62,27 @@ export class ProjectComponent implements OnInit {
       this.hasPermission = false;
     }
 
-    this.getFilterProjects();
-
-    this.addSearchQueryForm = this.formBuilder.group({
-      searchQuery: ['', ''],
-      searchQueryType: ['', '']
-    });
-    this.addSearchQueryForm.get('searchQueryType').setValue(SearchOption.Alle);
+    this.getProjects();
+    this.buildFormGroup();
   }
 
-  getFilterProjects(
-    pageIndex: number = this.pageIndex,
-    pageSize: number = this.pageSize
-  ) {
-    let searchText = this.search;
-    if (this.selectedSearchStatus !== 'Alle') {
-      searchText = 'status="' + this.selectedSearchStatus + '" ' + this.search;
+  public getProjects() {
+    let searchString = this.searchString.value;
+    if (this.selectedStatusOption.value !== SearchOption.Alle) {
+      searchString =
+        'status="' +
+        this.selectedStatusOption.value +
+        '" ' +
+        this.searchString.value;
     }
-
-    this.lastSearch = searchText;
 
     const options = {
       params: [
-        { key: 'size', value: pageSize },
-        { key: 'page', value: pageIndex },
+        { key: 'size', value: this.pageSize },
+        { key: 'page', value: this.pageIndex },
         {
           key: 'searchText',
-          value: searchText
+          value: searchString
         }
       ]
     };
@@ -115,10 +104,10 @@ export class ProjectComponent implements OnInit {
       },
       error => console.error('search service error', error)
     );
-    this.alterSearchChange(false);
+    this.hasSearchChanged = false;
   }
 
-  deleteProject(project: Project) {
+  public deleteProject(project: Project) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
     });
@@ -128,13 +117,13 @@ export class ProjectComponent implements OnInit {
         this.projectService.delete(project).subscribe(
           () => {},
           error => console.error('project service error', error),
-          () => this.getFilterProjects()
+          () => this.getProjects()
         );
       }
     });
   }
 
-  openProjectEditorDialog(project: Project) {
+  public openProjectEditorDialog(project: Project) {
     const dialog = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
@@ -156,22 +145,26 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  alterExtendedSearch() {
+  public toggleShowExtendedSearch() {
     this.showExtendedSearch = !this.showExtendedSearch;
   }
 
-  alterSearchChange(value: boolean) {
-    this.searchChange = value;
+  public setHasSearchChanged(value: boolean) {
+    this.hasSearchChanged = value;
   }
 
-  addSearchOption() {
-    if (this.addSearchQueryForm.get('searchQueryType').value !== 'Alle') {
-      if (this.addSearchQueryForm.get('searchQuery').value !== '') {
+  public addSearchOption() {
+    if (
+      this.extendedSearch.get('searchQueryType').value !== SearchOption.Alle
+    ) {
+      if (this.extendedSearch.get('searchQuery').value !== '') {
         if (
-          this.addSearchQueryForm.get('searchQueryType').value === 'Tag' ||
-          this.addSearchQueryForm.get('searchQueryType').value === 'Betreuer'
+          this.extendedSearch.get('searchQueryType').value ===
+            SearchOption.Tag ||
+          this.extendedSearch.get('searchQueryType').value ===
+            SearchOption.Betreuer
         ) {
-          const values = this.addSearchQueryForm
+          const values = this.extendedSearch
             .get('searchQuery')
             .value.replace(', ', ',')
             .replace(' ,', ',')
@@ -179,47 +172,61 @@ export class ProjectComponent implements OnInit {
 
           for (const value of values) {
             if (value.replace(' ', '') !== '') {
-              this.search +=
-                ' ' +
-                this.addSearchQueryForm.get('searchQueryType').value +
-                '="' +
-                value +
-                '"';
+              this.searchString.setValue(
+                this.searchString.value +
+                  ' ' +
+                  this.extendedSearch.get('searchQueryType').value +
+                  '="' +
+                  value +
+                  '"'
+              );
               this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
             }
           }
         } else {
-          this.search +=
-            ' ' +
-            this.addSearchQueryForm.get('searchQueryType').value +
-            '="' +
-            this.addSearchQueryForm.get('searchQuery').value +
-            '"';
+          this.searchString.setValue(
+            this.searchString.value +
+              ' ' +
+              this.extendedSearch.get('searchQueryType').value +
+              '="' +
+              this.extendedSearch.get('searchQuery').value +
+              '"'
+          );
           this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
         }
       }
-    } else if (this.addSearchQueryForm.get('searchQuery').value !== '') {
-      this.search += ' ' + this.addSearchQueryForm.get('searchQuery').value;
+    } else if (this.extendedSearch.get('searchQuery').value !== '') {
+      this.searchString.setValue(
+        this.searchString.value +
+          ' ' +
+          this.extendedSearch.get('searchQuery').value
+      );
       this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
     }
-    this.addSearchQueryForm.get('searchQuery').setValue('');
-    this.getFilterProjects();
+    this.extendedSearch.get('searchQuery').setValue('');
+    this.getProjects();
   }
 
-  pageEvent(pageEvent: PageEvent) {
-    this.projects = [];
+  public changePageIndexOrSize(pageEvent: PageEvent) {
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
-    this.getFilterProjects(pageEvent.pageIndex, pageEvent.pageSize);
+    this.getProjects();
   }
 
-  openInfoSnackBar(message: string) {
+  private buildFormGroup() {
+    this.extendedSearch = this.formBuilder.group({
+      searchQuery: [''],
+      searchQueryType: [SearchOption.Alle]
+    });
+  }
+
+  private openInfoSnackBar(message: string) {
     this.snackBar.open(message, '', {
       duration: 2000
     });
   }
 
-  openErrorSnackBar(message: string) {
+  private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
   }
 }
