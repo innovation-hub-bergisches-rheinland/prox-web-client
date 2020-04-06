@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from '@data/schema/project.resource';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar, MatDialog, PageEvent } from '@angular/material';
+
+import { KeycloakService } from 'keycloak-angular';
+
+import { Project } from '@data/schema/project.resource';
 import { ProjectService } from '@data/service/project.service';
 import { SearchService } from '@data/service/search.service';
 import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
-import { KeycloakService } from 'keycloak-angular';
 import { SearchOption } from './search-option.enum';
 import { StatusOption } from './status-option.enum';
 
