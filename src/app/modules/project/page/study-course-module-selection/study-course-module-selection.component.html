@@ -9,6 +9,7 @@
         required
         [matAutocomplete]="autoGroup"
       />
+
       <mat-autocomplete
         #autoGroup="matAutocomplete"
         autoActiveFirstOption
@@ -22,10 +23,12 @@
             <span class="course-degree">
               <mat-chip>{{ course.academicDegree }}</mat-chip>
             </span>
+
             <span>{{ course.name }}</span>
           </div>
         </mat-option>
       </mat-autocomplete>
+
       <mat-error
         *ngIf="formGroup.controls['studyCourse'].hasError('invalidStudyCourse')"
       >
@@ -46,6 +49,7 @@
         {{ module.name }}
       </mat-checkbox>
     </section>
+
     <mat-error
       *ngIf="formGroup.controls['moduleArray'].hasError('noneSelected')"
     >

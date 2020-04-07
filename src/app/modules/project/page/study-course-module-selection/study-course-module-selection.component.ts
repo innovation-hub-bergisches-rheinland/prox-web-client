@@ -16,9 +16,11 @@ import {
   ValidationErrors,
   Validator
 } from '@angular/forms';
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import * as _ from 'underscore';
+
 import { ProjectStudyCourseService } from '@data/service/project-study-course.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';

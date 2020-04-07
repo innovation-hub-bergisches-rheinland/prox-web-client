@@ -14,17 +14,18 @@
         placeholder="Bezeichnung"
         required
       />
-      <mat-hint align="end"
-        >{{
-          projectFormControl.controls['name'].value?.length || 0
-        }}/255</mat-hint
-      >
+
+      <mat-hint align="end">
+        {{ projectFormControl.controls['name'].value?.length || 0 }}/255
+      </mat-hint>
+
       <mat-error
         *ngIf="projectFormControl.controls['name'].hasError('required')"
       >
         Bezeichnung <strong>fehlt</strong>!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <textarea
         [formControl]="projectFormControl.controls['shortDescription']"
@@ -34,11 +35,13 @@
         placeholder="Kurzbeschreibung"
         required
       ></textarea>
-      <mat-hint align="end"
-        >{{
+
+      <mat-hint align="end">
+        {{
           projectFormControl.controls['shortDescription'].value?.length || 0
-        }}/10000</mat-hint
-      >
+        }}/10000
+      </mat-hint>
+
       <mat-error
         *ngIf="
           projectFormControl.controls['shortDescription'].hasError('required')
@@ -47,6 +50,7 @@
         Kurzbeschreibung <strong>fehlt</strong>!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <textarea
         [formControl]="projectFormControl.controls['requirement']"
@@ -55,12 +59,14 @@
         maxlength="10000"
         placeholder="Teilnahmevoraussetzungen"
       ></textarea>
-      <mat-hint align="end"
-        >{{
+
+      <mat-hint align="end">
+        {{
           projectFormControl.controls['requirement'].value?.length || 0
-        }}/10000</mat-hint
-      >
+        }}/10000
+      </mat-hint>
     </mat-form-field>
+
     <mat-form-field>
       <textarea
         [formControl]="projectFormControl.controls['description']"
@@ -70,17 +76,20 @@
         maxlength="10000"
         required
       ></textarea>
-      <mat-hint align="end"
-        >{{
+
+      <mat-hint align="end">
+        {{
           projectFormControl.controls['description'].value?.length || 0
-        }}/10000</mat-hint
-      >
+        }}/10000
+      </mat-hint>
+
       <mat-error
         *ngIf="projectFormControl.controls['description'].hasError('required')"
       >
         Beschreibung <strong>fehlt</strong>!
       </mat-error>
     </mat-form-field>
+
     <mat-form-field>
       <input
         [formControl]="projectFormControl.controls['supervisorName']"
@@ -89,12 +98,13 @@
         required
         maxlength="255"
       />
-      <mat-hint align="end"
-        >{{
+      <mat-hint align="end">
+        {{
           projectFormControl.controls['supervisorName'].value?.length || 0
-        }}/255</mat-hint
-      >
+        }}/255
+      </mat-hint>
     </mat-form-field>
+
     <mat-form-field>
       <mat-select
         [formControl]="projectFormControl.controls['status']"
@@ -103,9 +113,12 @@
       >
         <!-- The following options should be implemented either as enums or imported from backend -->
         <mat-option value="VERFÜGBAR">Verfügbar</mat-option>
+
         <mat-option value="LAUFEND">Laufend</mat-option>
+
         <mat-option value="ABGESCHLOSSEN">Abgeschlossen</mat-option>
       </mat-select>
+
       <mat-error
         *ngIf="projectFormControl.controls['status'].hasError('required')"
       >
@@ -143,6 +156,7 @@
           {{ tag.tagName }}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
+
         <mat-chip
           *ngFor="let tag of recommendedTags"
           (selectionChange)="recommendedTagSelected(tag, $event)"
@@ -151,6 +165,7 @@
         >
           {{ tag.tagName }}
         </mat-chip>
+
         <input
           #tagInput
           [formControl]="projectFormControl.controls['tagInput']"
@@ -162,6 +177,7 @@
           (matChipInputTokenEnd)="addTag($event)"
         />
       </mat-chip-list>
+
       <mat-autocomplete
         #tagAuto="matAutocomplete"
         autoActiveFirstOption
@@ -174,11 +190,13 @@
       </mat-autocomplete>
     </mat-form-field>
   </div>
+
   <div mat-dialog-actions>
     <div class="action-buttons">
       <button (click)="cancelButtonClicked()" mat-button type="reset">
         Abbrechen
       </button>
+
       <button
         [disabled]="projectFormControl.invalid || hasSubmitted"
         mat-button

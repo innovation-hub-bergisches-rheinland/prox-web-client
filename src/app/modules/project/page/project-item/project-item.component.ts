@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Project } from '@data/schema/project.resource';
-import { Observable, throwError } from 'rxjs';
-import { Tag } from '@data/schema/tag.resource';
 import { MatDialog, MatSnackBar } from '@angular/material';
+
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+
+import { Project } from '@data/schema/project.resource';
+import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 
 @Component({

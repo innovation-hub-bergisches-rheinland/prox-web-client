@@ -2,15 +2,17 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
+
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { KeycloakService } from 'keycloak-angular';
+
 import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
-import { map } from 'rxjs/operators';
-import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-project-details',

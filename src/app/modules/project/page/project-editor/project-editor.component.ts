@@ -24,6 +24,7 @@ import {
   MatChipSelectionChange,
   MatSnackBar
 } from '@angular/material';
+
 import {
   forkJoin,
   interval,
@@ -46,13 +47,14 @@ import {
 } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { KeycloakService } from 'keycloak-angular';
+
 import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
-import { KeycloakService } from 'keycloak-angular';
 import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
 
 @Component({
