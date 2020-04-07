@@ -27,15 +27,24 @@ import { Module } from '@data/schema/module.resource';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
+  // tslint:disable-next-line: no-use-before-declare
   useExisting: forwardRef(() => StudyCourseModuleSelectionComponent),
   multi: true
 };
 
 const CUSTOM_VALIDATOR: any = {
   provide: NG_VALIDATORS,
+  // tslint:disable-next-line: no-use-before-declare
   useExisting: forwardRef(() => StudyCourseModuleSelectionComponent),
   multi: true
 };
+
+export class StudyCourseModuleSelectionModel {
+  constructor(
+    public studyCourse: StudyCourse,
+    public selectedModules: Module[]
+  ) {}
+}
 
 @Component({
   selector: 'app-study-course-module-selection',
@@ -211,11 +220,4 @@ export function minSelectedValidator(
     .map(control => control.value)
     .reduce((prev, next) => (next ? prev + next : prev), 0);
   return selectedCount >= 1 ? null : { noneSelected: true };
-}
-
-export class StudyCourseModuleSelectionModel {
-  constructor(
-    public studyCourse: StudyCourse,
-    public selectedModules: Module[]
-  ) {}
 }
