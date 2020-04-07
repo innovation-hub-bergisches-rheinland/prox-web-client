@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar, MatDialog, PageEvent } from '@angular/material';
 
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 
 import { Project } from '@data/schema/project.resource';
@@ -132,17 +134,12 @@ export class ProjectComponent implements OnInit {
       data: project
     });
 
-    dialog.afterClosed().subscribe(() => {
-      if (project === null) {
-        return;
-      }
-
-      const i = this.projects.findIndex(p => p.id === project.id);
-      if (i !== -1) {
-        this.projectService.get(project.id).subscribe(p => {
-          this.projects.splice(i, 1, p);
-          this.projects = this.projects;
-        });
+    dialog.afterClosed().subscribe(savedProject => {
+      if (savedProject && !this.projects.includes(savedProject)) {
+        // delay since search service refreshs projects every 3 seconds only
+        of({})
+          .pipe(delay(3000))
+          .subscribe(() => this.getProjects());
       }
     });
   }

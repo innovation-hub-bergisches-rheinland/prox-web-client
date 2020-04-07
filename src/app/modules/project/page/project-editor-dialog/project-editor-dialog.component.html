@@ -5,7 +5,7 @@
 
   <app-project-editor
     [project]="project"
-    (projectSaved)="projectSaved()"
+    (projectSaved)="projectSaved($event)"
     (cancel)="closeDialog()"
   ></app-project-editor>
 </div>
