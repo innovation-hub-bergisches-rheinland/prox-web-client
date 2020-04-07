@@ -138,7 +138,7 @@ export class ProjectComponent implements OnInit {
       if (savedProject && !this.projects.includes(savedProject)) {
         // delay since search service refreshs projects every 3 seconds only
         of({})
-          .pipe(delay(3000))
+          .pipe(delay(5000))
           .subscribe(() => this.getProjects());
       }
     });
