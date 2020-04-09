@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DisclaimerComponent } from './page/disclaimer/disclaimer.component';
+import { DisclaimerComponent } from './pages/disclaimer/disclaimer.component';
 
 const routes: Routes = [
   {

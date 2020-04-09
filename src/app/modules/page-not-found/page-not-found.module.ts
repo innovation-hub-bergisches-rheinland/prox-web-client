@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
 
 import { PageNotFoundRoutingModule } from './page-not-found-routing.module';
-import { PageNotFoundComponent } from './page/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [PageNotFoundComponent],

@@ -11,8 +11,8 @@ import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
-import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
-import { ProjectEditorDialogComponent } from '@modules/project/page/project-editor-dialog/project-editor-dialog.component';
+import { ConfirmDialogComponent } from '@modules/project/pages/confirm-dialog/confirm-dialog.component';
+import { ProjectEditorDialogComponent } from '@modules/project/pages/project-editor-dialog/project-editor-dialog.component';
 
 @Component({
   selector: 'app-project-details',

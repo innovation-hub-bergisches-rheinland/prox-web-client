@@ -87,4 +87,3 @@ To get more help on the Angular CLI use `ng help` or go check out the
 This service is currently developed by members of the ArchiLab staff:
 
 - Julian Lengelsen ([@jlengelsen](https://github.com/jlengelsen))
-- Rudolf Grauberger ([@rudolfgrauberger](https://github.com/rudolfgrauberger))

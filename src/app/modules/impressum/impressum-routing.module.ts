@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ImpressumComponent } from './page/impressum/impressum.component';
+import { ImpressumComponent } from './pages/impressum/impressum.component';
 
 const routes: Routes = [
   {

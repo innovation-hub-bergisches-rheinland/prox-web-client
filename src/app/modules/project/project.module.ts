@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 
 import { ProjectRoutingModule } from './project-routing.module';
-import { ProjectComponent } from './page/project/project.component';
+import { ProjectComponent } from './pages/project/project.component';
 import { SharedModule } from '@shared/shared.module';
-import { ProjectItemComponent } from './page/project-item/project-item.component';
-import { ProjectDetailsComponent } from './page/project-details/project-details.component';
-import { ProjectEditorComponent } from './page/project-editor/project-editor.component';
-import { ProjectEditorDialogComponent } from './page/project-editor-dialog/project-editor-dialog.component';
-import { StudyCourseModuleSelectionComponent } from './page/study-course-module-selection/study-course-module-selection.component';
-import { ConfirmDialogComponent } from '@modules/project/page/confirm-dialog/confirm-dialog.component';
+import { ProjectItemComponent } from './pages/project-item/project-item.component';
+import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { ProjectEditorComponent } from './pages/project-editor/project-editor.component';
+import { ProjectEditorDialogComponent } from './pages/project-editor-dialog/project-editor-dialog.component';
+import { StudyCourseModuleSelectionComponent } from './pages/study-course-module-selection/study-course-module-selection.component';
+import { ConfirmDialogComponent } from '@modules/project/pages/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
