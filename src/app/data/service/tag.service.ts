@@ -1,7 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
+
 import { RestService } from 'angular4-hal';
 import { Observable } from 'rxjs';
-import { Tag } from '../schema/tag.resource';
+
+import { Tag } from '@data/schema/tag.resource';
 
 @Injectable({
   providedIn: 'root'

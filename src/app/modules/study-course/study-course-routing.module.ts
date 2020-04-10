@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { StudyCourseComponent } from './pages/study-course/study-course.component';
 import { StudyCourseDetailsComponent } from './pages/study-course-details/study-course-details.component';
 

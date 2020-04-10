@@ -16,6 +16,7 @@
     "paths": {
       "@app/*": ["app/core/*"],
       "@data/*": ["app/data/*"],
+      "@layout/*": ["app/layout/*"],
       "@modules/*": ["app/modules/*"],
       "@shared/*": ["app/shared/*"],
       "@env": ["environments/environment"]

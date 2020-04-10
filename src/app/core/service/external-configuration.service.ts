@@ -1,9 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import {
   ExternalConfiguration,
   ExternalConfigurationHandlerInterface
 } from 'angular4-hal';
-import { HttpClient } from '@angular/common/http';
+
 import { environment } from '@env';
 
 @Injectable()

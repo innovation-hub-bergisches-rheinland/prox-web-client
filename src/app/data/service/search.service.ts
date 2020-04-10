@@ -1,6 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
+
 import { RestService } from 'angular4-hal';
-import { Id } from '../schema/id.resource';
+
+import { Id } from '@data/schema/id.resource';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
+
 import { RestService } from 'angular4-hal';
-import { Module } from '../schema/module.resource';
+
+import { Module } from '@data/schema/module.resource';
 
 @Injectable({
   providedIn: 'root'

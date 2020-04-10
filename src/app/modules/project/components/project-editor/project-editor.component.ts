@@ -55,6 +55,7 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
+
 import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
 
 @Component({

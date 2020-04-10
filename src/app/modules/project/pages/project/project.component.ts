@@ -9,8 +9,9 @@ import { KeycloakService } from 'keycloak-angular';
 import { Project } from '@data/schema/project.resource';
 import { ProjectService } from '@data/service/project.service';
 import { SearchService } from '@data/service/search.service';
-import { ConfirmDialogComponent } from '@modules/project/pages/confirm-dialog/confirm-dialog.component';
-import { ProjectEditorDialogComponent } from '@modules/project/pages/project-editor-dialog/project-editor-dialog.component';
+import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
+import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
+
 import { SearchOption } from './search-option.enum';
 import { StatusOption } from './status-option.enum';
 

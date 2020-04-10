@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
+
 import { CustomResource } from './custom-resource.resource';
 import { Module } from './module.resource';
-import { map } from 'rxjs/operators';
 
 export class StudyCourse extends CustomResource {
   id: string;
