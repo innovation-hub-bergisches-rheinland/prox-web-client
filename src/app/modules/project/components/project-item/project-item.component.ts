@@ -32,7 +32,15 @@ export class ProjectItemComponent implements OnInit {
   constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    this.projectModules$ = this.project.getModules();
+    this.projectModules$ = this.project.getModules().pipe(
+      catchError(error => {
+        this.openErrorSnackBar(
+          'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
+        );
+        return throwError(error);
+      })
+    );
+
     this.projectTags$ = this.project.getTags().pipe(
       catchError(error => {
         this.openErrorSnackBar(

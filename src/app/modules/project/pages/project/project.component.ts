@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { MatSnackBar, MatDialog, PageEvent } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import {
+  MatSnackBar,
+  MatDialog,
+  PageEvent,
+  MatPaginator
+} from '@angular/material';
 
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
+import Fuse from 'fuse.js';
 
 import { Project } from '@data/schema/project.resource';
 import { ProjectService } from '@data/service/project.service';
-import { SearchService } from '@data/service/search.service';
 import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 
-import { SearchOption } from './search-option.enum';
 import { StatusOption } from './status-option.enum';
 
 @Component({
@@ -21,43 +23,32 @@ import { StatusOption } from './status-option.enum';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  public projects: Project[] = [];
-  public totalProjects = 0;
+  public projectsPage: Project[] = [];
+  public totalFilteredProjects = 0;
   public pageIndex = 0;
   public pageSize = 10;
   public hasPermission = false;
-  public showExtendedSearch = false;
-  public hasSearchChanged = false;
 
   public searchString = new FormControl('');
   public selectedStatusOption = new FormControl(StatusOption.Verfuegbar);
-  public extendedSearch: FormGroup;
-
-  public SearchOption = SearchOption;
-  public searchOptions = [
-    SearchOption.Alle,
-    SearchOption.Beschreibung,
-    SearchOption.Betreuer,
-    SearchOption.Tag,
-    SearchOption.Titel,
-    SearchOption.Voraussetzung
-  ];
 
   public StatusOption = StatusOption;
   public statusOptions = [
-    StatusOption.Alle,
     StatusOption.Verfuegbar,
     StatusOption.Laufend,
     StatusOption.Abgeschlossen
   ];
 
+  private projects: Project[] = [];
+  private filteredProjects: Project[] = [];
+
+  @ViewChild(MatPaginator) private paginator: MatPaginator;
+
   constructor(
-    private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
     private projectService: ProjectService,
-    private searchService: SearchService,
     private keycloakService: KeycloakService,
-    public dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   async ngOnInit() {
@@ -68,48 +59,54 @@ export class ProjectComponent implements OnInit {
     }
 
     this.getProjects();
-    this.buildFormGroup();
   }
 
-  public getProjects() {
-    let searchString = this.searchString.value;
-    if (this.selectedStatusOption.value !== SearchOption.Alle) {
-      searchString =
-        'status="' +
-        this.selectedStatusOption.value +
-        '" ' +
-        this.searchString.value;
-    }
-
-    const options = {
-      params: [
-        { key: 'size', value: this.pageSize },
-        { key: 'page', value: this.pageIndex },
-        {
-          key: 'searchText',
-          value: searchString
-        }
-      ]
-    };
-
-    this.searchService.getAll(options).subscribe(
-      ids => {
-        this.projectService.findByIds(ids).subscribe(
-          projects => {
-            this.projects = projects;
-          },
-          error => {
-            console.error('project service error', error);
-            this.openErrorSnackBar(
-              'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-            );
-          }
-        );
-        this.totalProjects = this.searchService.totalElement();
-      },
-      error => console.error('search service error', error)
+  public filterProjects() {
+    let filteredProjects = this.projects.filter(({ status }) =>
+      this.selectedStatusOption.value
+        ? status === this.selectedStatusOption.value
+        : true
     );
-    this.hasSearchChanged = false;
+
+    if (this.searchString.value) {
+      const fuseOptions: Fuse.IFuseOptions<Project> = {
+        includeScore: true,
+        minMatchCharLength: 2,
+        findAllMatches: true,
+        keys: [
+          {
+            name: 'name',
+            weight: 0.4
+          },
+          {
+            name: 'supervisorName',
+            weight: 0.4
+          },
+          {
+            name: 'description',
+            weight: 0.05
+          },
+          {
+            name: 'shortDescription',
+            weight: 0.05
+          },
+          {
+            name: 'requirement',
+            weight: 0.1
+          }
+        ]
+      };
+      const fuse = new Fuse(filteredProjects, fuseOptions);
+      const results = fuse.search(this.searchString.value);
+
+      filteredProjects = results
+        .filter(result => result.score < 0.2)
+        .map(result => result.item);
+    }
+    this.filteredProjects = filteredProjects;
+    this.totalFilteredProjects = this.filteredProjects.length;
+    this.pageProjects();
+    this.paginator.firstPage();
   }
 
   public deleteProject(project: Project) {
@@ -120,9 +117,11 @@ export class ProjectComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.projectService.delete(project).subscribe(
-          () => {},
-          error => console.error('project service error', error),
-          () => this.getProjects()
+          () => {
+            this.projects = this.projects.filter(p => p !== project);
+            this.filterProjects();
+          },
+          error => console.error('project service error', error)
         );
       }
     });
@@ -136,97 +135,44 @@ export class ProjectComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(savedProject => {
-      if (savedProject && !this.projects.includes(savedProject)) {
-        // delay since search service refreshs projects every 3 seconds only
-        of({})
-          .pipe(delay(5000))
-          .subscribe(() => this.getProjects());
+      if (savedProject) {
+        if (!this.projects.includes(savedProject)) {
+          this.projects.unshift(savedProject);
+        }
+        this.filterProjects();
       }
     });
-  }
-
-  public toggleShowExtendedSearch() {
-    this.showExtendedSearch = !this.showExtendedSearch;
-  }
-
-  public setHasSearchChanged(value: boolean) {
-    this.hasSearchChanged = value;
-  }
-
-  public addSearchOption() {
-    if (
-      this.extendedSearch.get('searchQueryType').value !== SearchOption.Alle
-    ) {
-      if (this.extendedSearch.get('searchQuery').value !== '') {
-        if (
-          this.extendedSearch.get('searchQueryType').value ===
-            SearchOption.Tag ||
-          this.extendedSearch.get('searchQueryType').value ===
-            SearchOption.Betreuer
-        ) {
-          const values = this.extendedSearch
-            .get('searchQuery')
-            .value.replace(', ', ',')
-            .replace(' ,', ',')
-            .split(',');
-
-          for (const value of values) {
-            if (value.replace(' ', '') !== '') {
-              this.searchString.setValue(
-                this.searchString.value +
-                  ' ' +
-                  this.extendedSearch.get('searchQueryType').value +
-                  '="' +
-                  value +
-                  '"'
-              );
-              this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
-            }
-          }
-        } else {
-          this.searchString.setValue(
-            this.searchString.value +
-              ' ' +
-              this.extendedSearch.get('searchQueryType').value +
-              '="' +
-              this.extendedSearch.get('searchQuery').value +
-              '"'
-          );
-          this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
-        }
-      }
-    } else if (this.extendedSearch.get('searchQuery').value !== '') {
-      this.searchString.setValue(
-        this.searchString.value +
-          ' ' +
-          this.extendedSearch.get('searchQuery').value
-      );
-      this.openInfoSnackBar('Die Suche wurde erfolgreich erweitert.');
-    }
-    this.extendedSearch.get('searchQuery').setValue('');
-    this.getProjects();
   }
 
   public changePageIndexOrSize(pageEvent: PageEvent) {
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
-    this.getProjects();
-  }
-
-  private buildFormGroup() {
-    this.extendedSearch = this.formBuilder.group({
-      searchQuery: [''],
-      searchQueryType: [SearchOption.Alle]
-    });
-  }
-
-  private openInfoSnackBar(message: string) {
-    this.snackBar.open(message, '', {
-      duration: 2000
-    });
+    this.pageProjects();
   }
 
   private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
+  }
+
+  private getProjects() {
+    this.projectService.getAll().subscribe(
+      projects => {
+        this.projects = projects;
+        this.filterProjects();
+      },
+      error => {
+        console.error('project service error', error);
+        this.openErrorSnackBar(
+          'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+        );
+      }
+    );
+  }
+
+  private pageProjects() {
+    this.projectsPage = this.filteredProjects.slice(
+      this.pageIndex * this.pageSize,
+      (this.pageIndex + 1) * this.pageSize
+    );
   }
 }
