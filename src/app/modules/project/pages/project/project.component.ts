@@ -71,8 +71,6 @@ export class ProjectComponent implements OnInit {
     if (this.searchString.value) {
       const fuseOptions: Fuse.IFuseOptions<Project> = {
         includeScore: true,
-        minMatchCharLength: 2,
-        findAllMatches: true,
         keys: [
           {
             name: 'name',
