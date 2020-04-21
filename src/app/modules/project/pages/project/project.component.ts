@@ -70,7 +70,9 @@ export class ProjectComponent implements OnInit {
 
     if (this.searchString.value) {
       const fuseOptions: Fuse.IFuseOptions<Project> = {
-        includeScore: true,
+        minMatchCharLength: this.searchString.value.length,
+        threshold: 0.1,
+        distance: Number.MAX_SAFE_INTEGER,
         keys: [
           {
             name: 'name',
@@ -97,9 +99,7 @@ export class ProjectComponent implements OnInit {
       const fuse = new Fuse(filteredProjects, fuseOptions);
       const results = fuse.search(this.searchString.value);
 
-      filteredProjects = results
-        .filter(result => result.score < 0.2)
-        .map(result => result.item);
+      filteredProjects = results.map(result => result.item);
     }
     this.filteredProjects = filteredProjects;
     this.totalFilteredProjects = this.filteredProjects.length;
