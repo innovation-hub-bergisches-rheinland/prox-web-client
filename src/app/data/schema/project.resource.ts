@@ -7,13 +7,15 @@ import { Tag } from './tag.resource';
 export class Project extends CustomResource {
   id: string;
   name: string;
-  shortDescription: string;
   description: string;
+  shortDescription: string;
+  requirement: string;
   status: string;
   creatorID: string;
   creatorName: string;
   supervisorName: string;
-  requirement: string;
+  tagCollection: Tag[];
+  modules: Module[];
 
   setModules(modules: Module[]): Observable<any> {
     return this.setRelationArray('modules', modules);

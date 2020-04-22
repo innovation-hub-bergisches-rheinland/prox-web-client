@@ -99,7 +99,6 @@ export class ProjectDetailsComponent implements OnInit {
   containsProjectType(search: string) {
     return this.project.getModules().pipe(
       map(modules => {
-        console.log(modules);
         return modules.filter(
           module => module.projectType.toLowerCase() === search.toLowerCase()
         );

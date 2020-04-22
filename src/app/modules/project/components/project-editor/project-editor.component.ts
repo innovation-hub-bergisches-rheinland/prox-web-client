@@ -144,7 +144,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     const source = interval(5000);
     this.autoSave = source.subscribe(() => {
       this.saveState();
-      console.log('Autosaving Project-Editor Data...');
     });
   }
 
@@ -157,7 +156,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   saveState() {
     const state = this.projectFormControl.getRawValue();
     state.tags = this.tags;
-    console.log(state);
     this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
   }
 
@@ -165,7 +163,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     const loadedData = this.storage.get(this.STORAGE_KEY);
     if (loadedData) {
       const state = JSON.parse(loadedData);
-      console.log(state);
 
       const modules = state.studyCoursesModuleSelectors;
 
@@ -280,7 +277,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     if (event.isUserInput) {
       this.addRecommendedTag(tag);
     }
-    console.log(event);
   }
 
   addRecommendedTag(tag: Tag) {

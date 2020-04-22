@@ -16,6 +16,9 @@ import { ConfirmDialogComponent } from '@modules/project/components/confirm-dial
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 
 import { StatusOption } from './status-option.enum';
+import { TagService } from '@data/service/tag.service';
+import { Tag } from '@data/schema/tag.resource';
+import { concatAll, map, concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-project',
@@ -68,6 +71,15 @@ export class ProjectComponent implements OnInit {
         : true
     );
 
+    for (const project of filteredProjects) {
+      project.getTags().subscribe(
+        tags => {
+          project.tagCollection = tags;
+        },
+        error => console.error('tag service error', error)
+      );
+    }
+
     if (this.searchString.value) {
       const fuseOptions: Fuse.IFuseOptions<Project> = {
         minMatchCharLength: this.searchString.value.length,
@@ -76,11 +88,7 @@ export class ProjectComponent implements OnInit {
         keys: [
           {
             name: 'name',
-            weight: 0.4
-          },
-          {
-            name: 'supervisorName',
-            weight: 0.4
+            weight: 0.25
           },
           {
             name: 'description',
@@ -92,7 +100,15 @@ export class ProjectComponent implements OnInit {
           },
           {
             name: 'requirement',
-            weight: 0.1
+            weight: 0.2
+          },
+          {
+            name: 'supervisorName',
+            weight: 0.25
+          },
+          {
+            name: 'tagCollection.tagName',
+            weight: 0.2
           }
         ]
       };
