@@ -167,10 +167,10 @@ export class ProjectComponent implements OnInit {
     dialog.afterClosed().subscribe(savedProject => {
       if (savedProject) {
         savedProject.getTags().subscribe(tags => {
-          project.tagCollection = tags;
+          savedProject.tagCollection = tags;
         });
         savedProject.getModules().subscribe(modules => {
-          project.modules = modules;
+          savedProject.modules = modules;
         });
         if (!this.projects.includes(savedProject)) {
           this.projects.unshift(savedProject);
