@@ -114,27 +114,15 @@ li:before {
 }
 
 .status-search {
-  margin-left: 0;
+  width: 135px;
+}
+
+.type-search {
+  width: 50px;
 }
 
 .search {
-  width: 100%;
-}
-
-.left {
-  float: left;
-  display: inline-block;
-}
-
-.middle {
-  display: block;
-  overflow: hidden;
-  min-width: 50px;
-}
-
-.right {
-  float: right;
-  display: inline-block;
+  width: 215px;
 }
 
 .hint {
