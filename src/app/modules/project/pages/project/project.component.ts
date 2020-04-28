@@ -9,7 +9,8 @@ import {
 
 import { KeycloakService } from 'keycloak-angular';
 import Fuse from 'fuse.js';
-import { map } from 'rxjs/operators';
+import { combineLatest, from } from 'rxjs';
+import { map, switchMap, mergeMap, toArray } from 'rxjs/operators';
 
 import { Project } from '@data/schema/project.resource';
 import { ProjectService } from '@data/service/project.service';
@@ -164,20 +165,7 @@ export class ProjectComponent implements OnInit {
       data: project
     });
 
-    dialog.afterClosed().subscribe(savedProject => {
-      if (savedProject) {
-        savedProject.getTags().subscribe(tags => {
-          savedProject.tagCollection = tags;
-        });
-        savedProject.getModules().subscribe(modules => {
-          savedProject.modules = modules;
-        });
-        if (!this.projects.includes(savedProject)) {
-          this.projects.unshift(savedProject);
-        }
-        this.filterProjects();
-      }
-    });
+    dialog.afterClosed().subscribe(() => this.getAllProjects());
   }
 
   public changePageIndexOrSize(pageEvent: PageEvent) {
@@ -194,33 +182,19 @@ export class ProjectComponent implements OnInit {
     this.projectService
       .getAll()
       .pipe(
-        map(projects => {
-          for (const project of projects) {
-            project.getTags().subscribe(
-              tags => {
-                project.tagCollection = tags;
-              },
-              error => {
-                console.error('project service error', error);
-                this.openErrorSnackBar(
-                  'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-                );
-              }
-            );
-            project.getModules().subscribe(
-              modules => {
-                project.modules = modules;
-              },
-              error => {
-                console.error('project service error', error);
-                this.openErrorSnackBar(
-                  'Module konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-                );
-              }
-            );
-          }
-          return projects;
-        })
+        switchMap(projects =>
+          combineLatest(
+            projects.map(project =>
+              combineLatest([project.getTags(), project.getModules()]).pipe(
+                map(([tags, modules]) => {
+                  project.tagCollection = tags;
+                  project.modules = modules;
+                  return project;
+                })
+              )
+            )
+          )
+        )
       )
       .subscribe(
         projects => {
