@@ -8,6 +8,6 @@ const keycloakConfig: KeycloakConfig = {
 
 export const environment = {
   production: true,
-  keycloak: keycloakConfig,
-  url: 'https://api.prox.archi-lab.io'
+  keycloakConfig,
+  apiUrl: 'https://api.prox.archi-lab.io'
 };
