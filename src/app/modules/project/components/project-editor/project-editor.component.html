@@ -1,0 +1,209 @@
+<form
+  (ngSubmit)="onSubmit(projectFormControl.value)"
+  *ngIf="projectFormControl"
+  [formGroup]="projectFormControl"
+  class="row"
+  novalidate
+>
+  <div class="project-editor-form">
+    <mat-form-field>
+      <input
+        [formControl]="projectFormControl.controls['name']"
+        matInput
+        maxlength="255"
+        placeholder="Bezeichnung"
+        required
+      />
+
+      <mat-hint align="end">
+        {{ projectFormControl.controls['name'].value?.length || 0 }}/255
+      </mat-hint>
+
+      <mat-error
+        *ngIf="projectFormControl.controls['name'].hasError('required')"
+      >
+        Bezeichnung <strong>fehlt</strong>!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        [formControl]="projectFormControl.controls['shortDescription']"
+        class="form-textarea"
+        matInput
+        maxlength="10000"
+        placeholder="Kurzbeschreibung"
+        required
+      ></textarea>
+
+      <mat-hint align="end">
+        {{
+          projectFormControl.controls['shortDescription'].value?.length || 0
+        }}/10000
+      </mat-hint>
+
+      <mat-error
+        *ngIf="
+          projectFormControl.controls['shortDescription'].hasError('required')
+        "
+      >
+        Kurzbeschreibung <strong>fehlt</strong>!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        [formControl]="projectFormControl.controls['requirement']"
+        class="form-textarea"
+        matInput
+        maxlength="10000"
+        placeholder="Teilnahmevoraussetzungen"
+      ></textarea>
+
+      <mat-hint align="end">
+        {{
+          projectFormControl.controls['requirement'].value?.length || 0
+        }}/10000
+      </mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea
+        [formControl]="projectFormControl.controls['description']"
+        class="form-textarea"
+        matInput
+        placeholder="Beschreibung"
+        maxlength="10000"
+        required
+      ></textarea>
+
+      <mat-hint align="end">
+        {{
+          projectFormControl.controls['description'].value?.length || 0
+        }}/10000
+      </mat-hint>
+
+      <mat-error
+        *ngIf="projectFormControl.controls['description'].hasError('required')"
+      >
+        Beschreibung <strong>fehlt</strong>!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        [formControl]="projectFormControl.controls['supervisorName']"
+        matInput
+        placeholder="Betreuungsperson"
+        required
+        maxlength="255"
+      />
+      <mat-hint align="end">
+        {{
+          projectFormControl.controls['supervisorName'].value?.length || 0
+        }}/255
+      </mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select
+        [formControl]="projectFormControl.controls['status']"
+        placeholder="Status"
+        required
+      >
+        <!-- The following options should be implemented either as enums or imported from backend -->
+        <mat-option value="VERFÜGBAR">Verfügbar</mat-option>
+
+        <mat-option value="LAUFEND">Laufend</mat-option>
+
+        <mat-option value="ABGESCHLOSSEN">Abgeschlossen</mat-option>
+      </mat-select>
+
+      <mat-error
+        *ngIf="projectFormControl.controls['status'].hasError('required')"
+      >
+        Status <strong>fehlt</strong>!
+      </mat-error>
+    </mat-form-field>
+
+    <section
+      formArrayName="studyCoursesModuleSelectors"
+      class="study-course-module-selectors"
+    >
+      <app-study-course-module-selection
+        *ngFor="let selector of moduleSelectors.controls; index as i"
+        [formControlName]="i"
+        (delete)="removeStudyCourseModuleSelector(i)"
+        class="study-course-module-selector"
+      ></app-study-course-module-selection>
+    </section>
+
+    <a
+      mat-mini-fab
+      class="add-study-course-module-selector-button"
+      (click)="addStudyCourseModuleSelector()"
+    >
+      <mat-icon>add</mat-icon>
+    </a>
+
+    <mat-form-field class="tag-list">
+      <mat-chip-list #tagList>
+        <mat-chip
+          *ngFor="let tag of tags"
+          [removable]="true"
+          (removed)="removeTag(tag)"
+        >
+          {{ tag.tagName }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+
+        <mat-chip
+          *ngFor="let tag of recommendedTags"
+          (selectionChange)="recommendedTagSelected(tag, $event)"
+          (click)="addRecommendedTag(tag)"
+          class="recommended-tag"
+        >
+          {{ tag.tagName }}
+        </mat-chip>
+
+        <input
+          #tagInput
+          [formControl]="projectFormControl.controls['tagInput']"
+          placeholder="Tags"
+          [matAutocomplete]="tagAuto"
+          [matChipInputFor]="tagList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="true"
+          (matChipInputTokenEnd)="addTag($event)"
+        />
+      </mat-chip-list>
+
+      <mat-autocomplete
+        #tagAuto="matAutocomplete"
+        autoActiveFirstOption
+        [displayWith]="displayTagName"
+        (optionSelected)="selectedTag($event)"
+      >
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{ tag.tagName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <div class="action-buttons">
+      <button (click)="cancelButtonClicked()" mat-button type="reset">
+        Abbrechen
+      </button>
+
+      <button
+        [disabled]="projectFormControl.invalid || hasSubmitted"
+        mat-button
+        type="submit"
+      >
+        {{ project ? 'Änderungen speichern' : 'Hinzufügen' }}
+      </button>
+    </div>
+  </div>
+</form>

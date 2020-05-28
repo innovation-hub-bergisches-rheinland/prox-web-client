@@ -1,0 +1,11 @@
+<div class="project-dialog">
+  <h1 mat-dialog-title *ngIf="project === null">Projekt hinzufügen</h1>
+
+  <h1 mat-dialog-title *ngIf="project">Projekt bearbeiten</h1>
+
+  <app-project-editor
+    [project]="project"
+    (projectSaved)="projectSaved($event)"
+    (cancel)="closeDialog()"
+  ></app-project-editor>
+</div>

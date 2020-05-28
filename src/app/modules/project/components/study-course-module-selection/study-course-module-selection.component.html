@@ -1,0 +1,59 @@
+<mat-card [formGroup]="formGroup">
+  <mat-card-content class="card-contend">
+    <mat-form-field class="course-input">
+      <input
+        type="text"
+        matInput
+        placeholder="Studiengang"
+        formControlName="studyCourse"
+        required
+        [matAutocomplete]="autoGroup"
+      />
+
+      <mat-autocomplete
+        #autoGroup="matAutocomplete"
+        autoActiveFirstOption
+        [displayWith]="displayCourseName"
+      >
+        <mat-option
+          *ngFor="let course of filteredStudyCourses | async"
+          [value]="course"
+        >
+          <div class="course-name-box">
+            <span class="course-degree">
+              <mat-chip>{{ course.academicDegree }}</mat-chip>
+            </span>
+
+            <span>{{ course.name }}</span>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+
+      <mat-error
+        *ngIf="formGroup.controls['studyCourse'].hasError('invalidStudyCourse')"
+      >
+        Kein <strong>gültiger</strong> Studiengang ausgewählt!
+      </mat-error>
+    </mat-form-field>
+
+    <a mat-icon-button (click)="deleteCard()" class="delete-button">
+      <mat-icon>delete</mat-icon>
+    </a>
+
+    <section class="module-selection" formArrayName="moduleArray">
+      <mat-checkbox
+        class="option"
+        *ngFor="let module of availableModules; let i = index"
+        [formControlName]="i"
+      >
+        {{ module.name }}
+      </mat-checkbox>
+    </section>
+
+    <mat-error
+      *ngIf="formGroup.controls['moduleArray'].hasError('noneSelected')"
+    >
+      Nicht <strong>mindestens eine</strong> Option ausgewählt!
+    </mat-error>
+  </mat-card-content>
+</mat-card>

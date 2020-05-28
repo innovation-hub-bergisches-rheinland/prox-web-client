@@ -1,0 +1,83 @@
+<div class="project-list">
+  <div class="project-list-header">
+    <h1>
+      Projekte
+
+      <button
+        *ngIf="hasPermission"
+        (click)="openProjectEditorDialog(null)"
+        mat-icon-button
+        matTooltip="Neues Projekt hinzufügen"
+        class="no-hover"
+      >
+        <mat-icon>
+          add
+        </mat-icon>
+      </button>
+    </h1>
+
+    <mat-form-field class="status-search">
+      <mat-select
+        [formControl]="selectedStatusOption"
+        (selectionChange)="filterProjects()"
+        placeholder="Status"
+      >
+        <mat-option>Alle</mat-option>
+
+        <mat-option
+          *ngFor="let statusOption of statusOptions | keyvalue"
+          [value]="statusOption.value"
+        >
+          {{ statusOption.value | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="type-search">
+      <mat-select
+        [formControl]="selectedProjectType"
+        (selectionChange)="filterProjects()"
+        placeholder="Typ"
+      >
+        <mat-option>Alle</mat-option>
+
+        <mat-option
+          *ngFor="let projectType of projectTypes | keyvalue"
+          [value]="projectType.value"
+        >
+          {{ projectType.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="search">
+      <label>
+        <input
+          [formControl]="searchString"
+          (change)="filterProjects()"
+          placeholder="Suche"
+          matInput
+        />
+      </label>
+    </mat-form-field>
+
+    <mat-divider></mat-divider>
+  </div>
+
+  <app-project-item
+    *ngFor="let project of projectsPage"
+    (editButtonClicked)="openProjectEditorDialog(project)"
+    (deleteButtonClicked)="deleteProject(project)"
+    [showEditButton]="hasPermission"
+    [showDeleteButton]="hasPermission"
+    [project]="project"
+  ></app-project-item>
+
+  <mat-paginator
+    (page)="changePageIndexOrSize($event)"
+    [length]="totalFilteredProjects"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[10, 25, 50]"
+  ></mat-paginator>
+</div>

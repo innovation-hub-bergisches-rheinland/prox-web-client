@@ -1,0 +1,135 @@
+<div *ngIf="project" class="project-detail">
+  <div class="page-title">
+    <button
+      (click)="goBack()"
+      matTooltip="Zurück zur Projektübersicht"
+      mat-icon-button
+    >
+      <mat-icon class="back-icon">arrow_back</mat-icon>
+    </button>
+
+    <mat-icon
+      *ngIf="project.status == 'VERFÜGBAR'"
+      matTooltip="Verfügbar"
+      class="status-icon"
+    >
+      lock_open
+    </mat-icon>
+
+    <mat-icon
+      *ngIf="project.status == 'ABGESCHLOSSEN'"
+      matTooltip="Abgeschlossen"
+      class="status-icon"
+    >
+      lock
+    </mat-icon>
+
+    <mat-icon
+      *ngIf="project.status == 'LAUFEND'"
+      matTooltip="Laufend"
+      class="status-icon"
+    >
+      directions_run
+    </mat-icon>
+  </div>
+  <div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <b>{{ project.name }}</b>
+        </mat-card-title>
+
+        <mat-card-subtitle>
+          <span class="supervisorName" matTooltip="Projektbetreuer">
+            <b>{{ project.supervisorName }}</b>
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content>
+        <mat-card-subtitle>
+          Kurze Projektbeschreibung:
+        </mat-card-subtitle>
+
+        <div>
+          <p>{{ project.shortDescription }}</p>
+        </div>
+
+        <mat-card-subtitle>
+          Projektbeschreibung:
+        </mat-card-subtitle>
+
+        <div>
+          <p>{{ project.description }}</p>
+        </div>
+
+        <div class="card-container-wrapper">
+          <div class="card-container">
+            <mat-card-subtitle>
+              Teilnahmevoraussetzungen:
+            </mat-card-subtitle>
+
+            <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
+
+            <p>{{ project.requirement }}</p>
+          </div>
+
+          <div class="card-container">
+            <mat-card-subtitle>
+              Projekttypen:
+            </mat-card-subtitle>
+
+            <p *ngIf="isTypeBA"><b>(BA)</b> Bachelorarbeit</p>
+
+            <p *ngIf="isTypeMA"><b>(MA)</b> Masterarbeit</p>
+
+            <p *ngIf="isTypePP"><b>(PP)</b> Praxisprojekt</p>
+          </div>
+        </div>
+
+        <mat-card-subtitle>
+          <mat-chip-list *ngIf="projectTags$ | async as tags; else noTags">
+            <mat-chip
+              selected
+              *ngFor="let tag of tags"
+              matTooltip="{{ tag.tagName }}"
+              >{{ tag.tagName }}
+            </mat-chip>
+
+            <ng-template #noTags>
+              <mat-chip color="primary" selected>
+                Keine Tags vorhanden
+              </mat-chip>
+            </ng-template>
+          </mat-chip-list>
+        </mat-card-subtitle>
+      </mat-card-content>
+
+      <mat-divider *ngIf="hasPermission"></mat-divider>
+
+      <mat-card-actions>
+        <button
+          (click)="deleteProject(project)"
+          *ngIf="hasPermission"
+          class="no-hover"
+          id="project-remove-button"
+          mat-icon-button
+        >
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+
+        <button
+          (click)="openProjectDialog(project)"
+          *ngIf="hasPermission"
+          class="no-hover"
+          id="project-edit-button"
+          mat-icon-button
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

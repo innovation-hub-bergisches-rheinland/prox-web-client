@@ -1,0 +1,139 @@
+@import '../../../../../styles';
+
+.home {
+  max-width: 1400px;
+  padding: 20px;
+  margin: 70px auto 0 auto;
+}
+
+.lead {
+  padding: 10px 0px 0px 5px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.logo-responsive {
+  max-width: 400px;
+  max-height: 84px;
+}
+
+.mat-card-header {
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.mat-card-content {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.logo-responsive-icon {
+  max-width: 500px;
+  max-height: 84px;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-get-started-container {
+  width: 46%;
+  padding: 20px 20px;
+  margin-left: auto;
+  margin-right: auto;
+  float: inside;
+  box-sizing: border-box;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1),
+    0 1px 5px 0 rgba(0, 0, 0, 0.09);
+  display: inline-block;
+}
+
+.student-get-started-container {
+  vertical-align: top;
+  display: inline-block;
+  min-width: 260px;
+  margin: 2%;
+}
+
+.professor-get-started-container {
+  vertical-align: top;
+  display: inline-block;
+  min-width: 260px;
+  margin: 2%;
+}
+
+.user-get-started-wrapper {
+  overflow: auto;
+  display: flex;
+}
+
+.user-role-heading {
+  font-size: 2em;
+  font-weight: normal;
+  color: var(--th-red);
+  padding: 0 0 0 0;
+  width: 100%;
+  text-align: center;
+}
+
+.user-role-image {
+  display: block;
+  margin: 10px auto 20px auto;
+  height: 250px;
+}
+
+ul {
+  list-style: none;
+  padding: 0 0 0 1em;
+}
+
+ul li::before {
+  font-size: 1em;
+  content: '\25A0';
+  color: var(--th-red);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.mat-raised-button {
+  color: white;
+  font-size: 1.5em;
+  width: 100%;
+  background-color: var(--th-purple);
+}
+
+.button-wrapper {
+  text-align: center;
+}
+
+@media (max-width: 650px) {
+  .logo-responsive {
+    display: none;
+  }
+
+  .logo-responsive-icon {
+    display: block;
+  }
+
+  .user-get-started-wrapper {
+    display: inline;
+  }
+  .student-get-started-container {
+    display: block;
+    width: auto;
+  }
+
+  .professor-get-started-container {
+    display: block;
+    width: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .mat-card-content {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+  }
+}

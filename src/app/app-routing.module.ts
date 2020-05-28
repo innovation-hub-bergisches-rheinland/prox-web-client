@@ -1,68 +1,86 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { StudyCourseListComponent } from './components/study-course-list/study-course-list.component';
-import { StudyCourseDetailsComponent } from './components/study-course-details/study-course-details.component';
-import { ProjectListComponent } from './components/project-list/project-list.component';
-import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { AppAuthGuard } from './keycloak/AppAuthGuard';
-import { ContactComponent } from './components/legal-issues/contact/contact.component';
-import { ImpressumComponent } from './components/legal-issues/impressum/impressum.component';
-import { DataProtectionComponent } from './components/legal-issues/data-protection/data-protection.component';
-import { LiabilityNoticeComponent } from './components/legal-issues/liability-notice/liability-notice.component';
-import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
-import { ProjectEditorSiteComponent } from '@prox/components/project-editor-site/project-editor-site.component';
+
+// import { AuthGuard } from '@app/guard/auth.guard';
+
+import { ContentLayoutComponent } from '@layout/content-layout/content-layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    redirectTo: '/home',
+    pathMatch: 'full'
   },
   {
-    path: 'projects',
-    component: ProjectListComponent
-  },
-  {
-    path: 'projects/:id',
-    component: ProjectDetailsComponent
-  },
-  {
-    path: 'projecteditor',
-    component: ProjectEditorComponent
-  },
-  {
-    path: 'projecteditorsite',
-    component: ProjectEditorSiteComponent
-  },
-  {
-    path: 'study-courses',
-    component: StudyCourseListComponent
-  },
-  {
-    path: 'study-courses/:id',
-    component: StudyCourseDetailsComponent
-  },
-  {
-    path: 'contact',
-    component: ContactComponent
-  },
-  {
-    path: 'impressum',
-    component: ImpressumComponent
-  },
-  {
-    path: 'data-protection',
-    component: DataProtectionComponent
-  },
-  {
-    path: 'liability-notice',
-    component: LiabilityNoticeComponent
+    path: '',
+    component: ContentLayoutComponent,
+    // canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'home',
+        // loadChildren: () =>
+        //   import('@modules/home/home.module').then(m => m.HomeModule)
+        loadChildren: '@modules/home/home.module#HomeModule'
+      },
+      {
+        path: 'projects',
+        // loadChildren: () =>
+        //   import('@modules/project/project.module').then(m => m.ProjectModule)
+        loadChildren: '@modules/project/project.module#ProjectModule'
+      },
+      {
+        path: 'study-courses',
+        // loadChildren: () =>
+        //   import('@modules/study-course/study-course.module').then(
+        //     m => m.StudyCourseModule
+        //   )
+        loadChildren:
+          '@modules/study-course/study-course.module#StudyCourseModule'
+      },
+      {
+        path: 'contact',
+        // loadChildren: () =>
+        //   import('@modules/contact/contact.module').then(m => m.ContactModule)
+        loadChildren: '@modules/contact/contact.module#ContactModule'
+      },
+      {
+        path: 'impressum',
+        // loadChildren: () =>
+        //   import('@modules/impressum/impressum.module').then(
+        //     m => m.ImpressumModule
+        //   )
+        loadChildren: '@modules/impressum/impressum.module#ImpressumModule'
+      },
+      {
+        path: 'privacy',
+        // loadChildren: () =>
+        //   import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
+        loadChildren: '@modules/privacy/privacy.module#PrivacyModule'
+      },
+      {
+        path: 'disclaimer',
+        // loadChildren: () =>
+        //   import('@modules/disclaimer/disclaimer.module').then(
+        //     m => m.DisclaimerModule
+        //   )
+        loadChildren: '@modules/disclaimer/disclaimer.module#DisclaimerModule'
+      },
+      {
+        path: '**',
+        // loadChildren: () =>
+        //   import('@modules/page-not-found/page-not-found.module').then(
+        //     m => m.PageNotFoundModule
+        //   )
+        loadChildren:
+          '@modules/page-not-found/page-not-found.module#PageNotFoundModule'
+      }
+    ]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AppAuthGuard]
+  providers: []
 })
 export class AppRoutingModule {}
