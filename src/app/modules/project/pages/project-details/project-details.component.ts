@@ -72,6 +72,11 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
+  public hasProjectPermission(project: Project): boolean {
+    let userId = this.keycloakService.getKeycloakInstance().subject;
+    return this.hasPermission && userId === project.creatorID;
+  }
+
   deleteProject(project: Project) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }

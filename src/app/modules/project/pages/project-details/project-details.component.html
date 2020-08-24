@@ -112,7 +112,7 @@
       <mat-card-actions>
         <button
           (click)="deleteProject(project)"
-          *ngIf="hasPermission"
+          *ngIf="hasProjectPermission(project)"
           class="no-hover"
           id="project-remove-button"
           mat-icon-button
@@ -122,7 +122,7 @@
 
         <button
           (click)="openProjectDialog(project)"
-          *ngIf="hasPermission"
+          *ngIf="hasProjectPermission(project)"
           class="no-hover"
           id="project-edit-button"
           mat-icon-button
