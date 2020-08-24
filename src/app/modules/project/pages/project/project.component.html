@@ -4,7 +4,6 @@
       Projekte
 
       <button
-        *ngIf="hasPermission"
         *ngIf="hasProjectCreationPermission()"
         (click)="openProjectEditorDialog(null)"
         mat-icon-button
