@@ -107,7 +107,7 @@
         </mat-card-subtitle>
       </mat-card-content>
 
-      <mat-divider *ngIf="hasPermission"></mat-divider>
+      <mat-divider *ngIf="hasProjectPermission(project)"></mat-divider>
 
       <mat-card-actions>
         <button
