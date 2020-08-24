@@ -5,6 +5,7 @@
 
       <button
         *ngIf="hasPermission"
+        *ngIf="hasProjectCreationPermission()"
         (click)="openProjectEditorDialog(null)"
         mat-icon-button
         matTooltip="Neues Projekt hinzufügen"
@@ -68,8 +69,8 @@
     *ngFor="let project of projectsPage"
     (editButtonClicked)="openProjectEditorDialog(project)"
     (deleteButtonClicked)="deleteProject(project)"
-    [showEditButton]="hasPermission"
-    [showDeleteButton]="hasPermission"
+    [showEditButton]="hasProjectPermission(project)"
+    [showDeleteButton]="hasProjectPermission(project)"
     [project]="project"
   ></app-project-item>
 

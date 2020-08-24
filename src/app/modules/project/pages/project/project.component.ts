@@ -20,6 +20,8 @@ import { ProjectEditorDialogComponent } from '@modules/project/components/projec
 import { StatusOption } from './status-option.enum';
 import { ProjectType } from './project-type.enum';
 
+import { promise } from 'protractor';
+
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
@@ -30,7 +32,7 @@ export class ProjectComponent implements OnInit {
   public totalFilteredProjects = 0;
   public pageIndex = 0;
   public pageSize = 10;
-  public hasPermission = false;
+  public isLoggedIn = false;
 
   public searchString = new FormControl('');
   public selectedStatusOption = new FormControl(StatusOption.Verfuegbar);
@@ -64,12 +66,31 @@ export class ProjectComponent implements OnInit {
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
-      this.hasPermission = this.keycloakService.isUserInRole('professor');
+      this.isLoggedIn = true;
     } else {
-      this.hasPermission = false;
+      this.isLoggedIn = false;
     }
 
     this.getAllProjects();
+  }
+
+  public hasProjectCreationPermission(): boolean {
+    if (this.isLoggedIn) {
+      return this.keycloakService.isUserInRole('professor');
+    }
+    return false;
+  }
+
+  public hasProjectPermission(project: Project): boolean {
+    if (this.isLoggedIn) {
+      let userId = this.keycloakService.getKeycloakInstance().subject;
+      return (
+        this.keycloakService.isUserInRole('professor') &&
+        userId === project.creatorID
+      );
+    }
+    return false;
+    //return promise(false)
   }
 
   public filterProjects() {
