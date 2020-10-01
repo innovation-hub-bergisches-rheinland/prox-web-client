@@ -2,7 +2,7 @@ node {
     def revision
     def changelist
 
-    def repository = 'docker.nexus.archi-lab.io/archilab'
+    def repository = 'docker.nexus.archi-lab.io/ihbr'
     def image
     def tag
 
