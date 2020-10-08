@@ -16,7 +16,7 @@
       />
 
       <mat-hint align="end">
-        {{ projectFormControl.controls['name'].value?.length || 0 }}/255
+        {{ projectFormControl.controls['name'].value?.trim().length || 0 }}/255
       </mat-hint>
 
       <mat-error
@@ -38,7 +38,8 @@
 
       <mat-hint align="end">
         {{
-          projectFormControl.controls['shortDescription'].value?.length || 0
+          projectFormControl.controls['shortDescription'].value?.trim()
+            .length || 0
         }}/10000
       </mat-hint>
 
@@ -62,7 +63,7 @@
 
       <mat-hint align="end">
         {{
-          projectFormControl.controls['requirement'].value?.length || 0
+          projectFormControl.controls['requirement'].value?.trim().length || 0
         }}/10000
       </mat-hint>
     </mat-form-field>
@@ -79,7 +80,7 @@
 
       <mat-hint align="end">
         {{
-          projectFormControl.controls['description'].value?.length || 0
+          projectFormControl.controls['description'].value?.trim().length || 0
         }}/10000
       </mat-hint>
 
@@ -100,7 +101,8 @@
       />
       <mat-hint align="end">
         {{
-          projectFormControl.controls['supervisorName'].value?.length || 0
+          projectFormControl.controls['supervisorName'].value?.trim().length ||
+            0
         }}/255
       </mat-hint>
     </mat-form-field>
