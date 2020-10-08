@@ -24,6 +24,11 @@
       >
         Bezeichnung <strong>fehlt</strong>!
       </mat-error>
+      <mat-error
+        *ngIf="projectFormControl.controls['name'].hasError('pattern')"
+      >
+        Bezeichnung enthält ungültige Zeichen.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -50,6 +55,13 @@
       >
         Kurzbeschreibung <strong>fehlt</strong>!
       </mat-error>
+      <mat-error
+        *ngIf="
+          projectFormControl.controls['shortDescription'].hasError('pattern')
+        "
+      >
+        Kurzbeschreibung enthält ungültige Zeichen.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -66,6 +78,11 @@
           projectFormControl.controls['requirement'].value?.trim().length || 0
         }}/10000
       </mat-hint>
+      <mat-error
+        *ngIf="projectFormControl.controls['requirement'].hasError('pattern')"
+      >
+        Teilnahmevoraussetzungen enthält ungültige Zeichen.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -89,6 +106,11 @@
       >
         Beschreibung <strong>fehlt</strong>!
       </mat-error>
+      <mat-error
+        *ngIf="projectFormControl.controls['description'].hasError('pattern')"
+      >
+        Beschreibung enthält ungültige Zeichen.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -105,6 +127,13 @@
             0
         }}/255
       </mat-hint>
+      <mat-error
+        *ngIf="
+          projectFormControl.controls['supervisorName'].hasError('pattern')
+        "
+      >
+        Betreuungsperson enthält ungültige Zeichen.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
