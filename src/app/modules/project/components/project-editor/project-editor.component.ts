@@ -65,6 +65,15 @@ import { StudyCourseModuleSelectionModel } from '../study-course-module-selectio
 })
 export class ProjectEditorComponent implements OnInit, OnDestroy {
   private STORAGE_KEY = 'project-editor-state';
+
+  /*
+   * Regular Expression to match valid strings in the text fields.
+   * A valid string should only contain printable unicode characters and whitespaces
+   * and should contain at least one printable character which can be sorrounded
+   * by leading/ending whitespaces since they will be trimmed.
+   * See: http://www.regular-expressions.info/posixbrackets.html for detailed
+   * information about the unicode character classes in regular expressions
+   */
   private REGEX_PRINTABLE = /^\P{C}*[^\p{Z}\p{C}]+\P{C}*$/u;
 
   @Input() project?: Project;
