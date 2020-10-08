@@ -65,6 +65,7 @@ import { StudyCourseModuleSelectionModel } from '../study-course-module-selectio
 })
 export class ProjectEditorComponent implements OnInit, OnDestroy {
   private STORAGE_KEY = 'project-editor-state';
+  private REGEX_PRINTABLE = /^\P{C}+$/u;
 
   @Input() project?: Project;
   @Output() projectSaved = new EventEmitter<Project>();
@@ -101,12 +102,27 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       this.fullname = `${userProfile.firstName} ${userProfile.lastName}`;
     }
     this.projectFormControl = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      shortDescription: ['', [Validators.required]],
-      requirement: [''],
-      description: ['', [Validators.required]],
-      supervisorName: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+      name: [
+        '',
+        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
+      ],
+      shortDescription: [
+        '',
+        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
+      ],
+      requirement: ['', [Validators.pattern(this.REGEX_PRINTABLE)]],
+      description: [
+        '',
+        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
+      ],
+      supervisorName: [
+        '',
+        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
+      ],
+      status: [
+        '',
+        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
+      ],
       studyCoursesModuleSelectors: this.formBuilder.array([]),
       tagInput: []
     });
