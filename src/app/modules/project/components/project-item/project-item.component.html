@@ -47,7 +47,10 @@
     <div class="button-toggle-description">
       <button
         matTooltip="Ganze Projektkurzbeschreibung anzeigen"
-        *ngIf="project.shortDescription.length > 800"
+        *ngIf="
+          project.shortDescription != null &&
+          project.shortDescription.length > 800
+        "
         mat-button
         color="primary"
         class="show-more-button"

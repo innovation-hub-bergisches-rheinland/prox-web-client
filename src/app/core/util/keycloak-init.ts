@@ -1,4 +1,4 @@
-import { KeycloakService } from 'keycloak-angular';
+import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
 
 import { environment } from '@env';
 
@@ -16,6 +16,13 @@ export function keycloakInitializer(
             checkLoginIframe: false
           },
           bearerExcludedUrls: []
+        });
+        keycloakService.keycloakEvents$.subscribe({
+          next: e => {
+            if (e.type == KeycloakEventType.OnTokenExpired) {
+              keycloakService.updateToken(20);
+            }
+          }
         });
         resolve();
       } catch (error) {
