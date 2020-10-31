@@ -13,9 +13,9 @@ import { Project } from '@data/schema/project.resource';
 import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
 
 /**
- * Implementation of CrudRestService using angular4-hal
+ * Implementation of RestService using angular4-hal
  */
-export abstract class HalCrudRestService<T extends Resource>
+export abstract class HalRestService<T extends Resource>
   implements CrudRestService<T> {
   halRestService: RestService<T>;
   constructor(type: new () => T, resource: string, injector: Injector) {

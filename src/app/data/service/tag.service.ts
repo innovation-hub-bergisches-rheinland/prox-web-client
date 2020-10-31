@@ -4,12 +4,12 @@ import { RestService } from 'angular4-hal';
 import { Observable } from 'rxjs';
 
 import { Tag } from '@data/schema/tag.resource';
-import { HalCrudRestService } from './base/hal-crud-rest-service';
+import { HalRestService } from './base/hal-crud-rest-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TagService extends HalCrudRestService<Tag> {
+export class TagService extends HalRestService<Tag> {
   constructor(injector: Injector) {
     super(Tag, 'tags', injector);
   }
