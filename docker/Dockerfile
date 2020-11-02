@@ -38,7 +38,7 @@ RUN ng build ${APP_ENV}
 ##################
 
 # base image
-FROM nginx:1.17.9-alpine
+FROM nginx:1.19.3-alpine
 
 # copy artifact build from the 'build environment'
 COPY --from=builder /usr/src/app/dist/prox-web-client /usr/share/nginx/html
