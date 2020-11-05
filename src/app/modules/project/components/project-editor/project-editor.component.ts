@@ -477,21 +477,11 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   private createProject(project: Project, modules: Module[], tags: Tag[]) {
     const newProject = this.createProjectResource(project);
 
-    // Create Project
-    this.projectService.create(newProject).subscribe(
+    this.projectService.createProject(newProject, tags, modules).subscribe(
       () => {
-        newProject.setTags(tags).subscribe();
-        newProject.setModules(modules).subscribe(
-          () => {
-            this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
-            this.clearStorage();
-            this.projectSaved.emit(newProject);
-          },
-          error => {
-            this.showSubmitInfo('Fehler beim Verknüpfen der Module');
-            console.error('project service error', error);
-          }
-        );
+        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
+        this.clearStorage();
+        this.projectSaved.emit(newProject);
       },
       error => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
@@ -504,20 +494,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   private updateProject(project: Project, modules: Module[], tags: Tag[]) {
     this.project = this.createProjectResource(project);
 
-    // Update Project
-    this.projectService.update(this.project).subscribe(
+    this.projectService.updateProject(this.project, tags, modules).subscribe(
       () => {
-        this.project.setTags(tags).subscribe();
-        this.project.setModules(modules).subscribe(
-          () => {
-            this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
-            this.projectSaved.emit(this.project);
-          },
-          error => {
-            this.showSubmitInfo('Fehler beim Verknüpfen der Module');
-            console.error('project service error', error);
-          }
-        );
+        this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
+        this.projectSaved.emit(this.project);
       },
       error => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');

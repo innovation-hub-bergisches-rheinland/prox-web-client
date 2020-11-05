@@ -17,14 +17,6 @@ export class Project extends CustomResource {
   tagCollection: Tag[];
   modules: Module[];
 
-  setModules(modules: Module[]): Observable<any> {
-    return this.setRelationArray('modules', modules);
-  }
-
-  setTags(tags: Tag[]): Observable<any> {
-    return this.setRelationArray('tagCollection', tags);
-  }
-
   getModules(): Observable<Module[]> {
     return this.getRelationArray(Module, 'modules');
   }
