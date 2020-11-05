@@ -164,7 +164,7 @@ export class ProjectComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.delete(project).subscribe(
+        this.projectService.deleteProject(project).subscribe(
           () => {
             this.projects = this.projects.filter(p => p !== project);
             this.filterProjects();
@@ -201,7 +201,7 @@ export class ProjectComponent implements OnInit {
 
   private getAllProjects() {
     this.projectService
-      .getAll()
+      .getAllProjects()
       .pipe(
         switchMap(projects =>
           combineLatest(

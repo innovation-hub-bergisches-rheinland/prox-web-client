@@ -13,4 +13,8 @@ export class ProjectStudyCourseService extends HalRestService<StudyCourse> {
   constructor(injector: Injector) {
     super(StudyCourse, 'projectStudyCourses', injector);
   }
+
+  getAllProjectStudyCourses(): Observable<StudyCourse[]> {
+    return this.getAll();
+  }
 }

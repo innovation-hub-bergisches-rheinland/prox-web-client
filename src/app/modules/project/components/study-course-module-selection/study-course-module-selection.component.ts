@@ -125,7 +125,7 @@ export class StudyCourseModuleSelectionComponent
       map(value => this._filterCourseName(value))
     );
 
-    this.studyCoursesObservable = this.projectStudyCourseService.getAll();
+    this.studyCoursesObservable = this.projectStudyCourseService.getAllProjectStudyCourses();
     this.studyCoursesObservable.subscribe(courses => {
       this.availableStudyCourses = courses;
     });

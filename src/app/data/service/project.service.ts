@@ -53,4 +53,16 @@ export class ProjectService extends HalRestService<Project> {
       })
     );
   }
+
+  getProject(id: any): Observable<Project> {
+    return this.get(id);
+  }
+
+  getAllProjects(): Observable<Project[]> {
+    return this.getAll();
+  }
+
+  deleteProject(project: Project): Observable<any> {
+    return this.delete(project);
+  }
 }

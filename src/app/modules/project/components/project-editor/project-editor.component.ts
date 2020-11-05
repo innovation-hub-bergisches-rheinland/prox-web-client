@@ -442,7 +442,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         if (x.foundTags.length >= 1) {
           return of(x.foundTags[0]);
         }
-        return this.tagService.create(x.tag);
+        return this.tagService.createTag(x.tag);
       }),
       toArray()
     );

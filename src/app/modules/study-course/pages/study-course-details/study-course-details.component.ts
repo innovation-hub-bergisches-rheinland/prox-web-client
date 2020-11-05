@@ -25,7 +25,7 @@ export class StudyCourseDetailsComponent implements OnInit {
   }
 
   private getStudyCourse(id: string) {
-    this.studyCourseService.get(id).subscribe(studyCourse => {
+    this.studyCourseService.getStudyCourse(id).subscribe(studyCourse => {
       this.studyCourse = studyCourse;
       this.getModules();
     });

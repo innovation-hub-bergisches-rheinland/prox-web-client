@@ -31,4 +31,8 @@ export class TagService extends HalRestService<Tag> {
     const options = { params: [{ key: 'tagIds', value: tagIds }] };
     return this.search('tagRecommendations', options);
   }
+
+  createTag(tag: Tag): Observable<Tag | any> {
+    return this.create(tag);
+  }
 }

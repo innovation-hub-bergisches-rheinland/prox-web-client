@@ -52,7 +52,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     this.projectID = this.route.snapshot.paramMap.get('id');
 
-    this.project$ = this.projectService.get(this.projectID);
+    this.project$ = this.projectService.getProject(this.projectID);
 
     this.project$.subscribe(project => {
       this.project = project;
@@ -84,7 +84,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.delete(project).subscribe(
+        this.projectService.deleteProject(project).subscribe(
           () => {},
           error => console.error('project service error', error),
           () => this.router.navigateByUrl('/projects')
