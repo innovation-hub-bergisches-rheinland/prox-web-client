@@ -57,8 +57,8 @@ export class ProjectDetailsComponent implements OnInit {
     this.project$.subscribe(project => {
       this.project = project;
 
-      this.projectModules$ = this.project.getModules();
-      this.projectTags$ = this.project.getTags();
+      this.projectModules$ = this.projectService.getModulesOfProject(project);
+      this.projectTags$ = this.projectService.getTagsOfProject(project);
 
       this.containsProjectType('BA').subscribe(result => {
         this.isTypeBA = result;
@@ -102,7 +102,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   containsProjectType(search: string) {
-    return this.project.getModules().pipe(
+    return this.projectService.getModulesOfProject(this.project).pipe(
       map(modules => {
         return modules.filter(
           module => module.projectType.toLowerCase() === search.toLowerCase()

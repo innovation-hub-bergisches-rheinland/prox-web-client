@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
+import { ProjectService } from '@data/service/project.service';
 
 @Component({
   selector: 'app-project-item',
@@ -29,19 +30,25 @@ export class ProjectItemComponent implements OnInit {
   isTypeMA = false;
   isTypePP = false;
 
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit() {
-    this.projectModules$ = this.project.getModules().pipe(
-      catchError(error => {
-        this.openErrorSnackBar(
-          'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
-        );
-        return throwError(error);
-      })
-    );
+    this.projectModules$ = this.projectService
+      .getModulesOfProject(this.project)
+      .pipe(
+        catchError(error => {
+          this.openErrorSnackBar(
+            'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
+          );
+          return throwError(error);
+        })
+      );
 
-    this.projectTags$ = this.project.getTags().pipe(
+    this.projectTags$ = this.projectService.getTagsOfProject(this.project).pipe(
       catchError(error => {
         this.openErrorSnackBar(
           'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
@@ -77,7 +84,7 @@ export class ProjectItemComponent implements OnInit {
   }
 
   containsProjectType(search: string) {
-    return this.project.getModules().pipe(
+    return this.projectService.getModulesOfProject(this.project).pipe(
       map(modules => modules.filter(module => module.projectType === search)),
       map(modules => (modules.length >= 1 ? true : false))
     );

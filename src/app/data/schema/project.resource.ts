@@ -16,12 +16,4 @@ export class Project extends CustomResource {
   supervisorName: string;
   tagCollection: Tag[];
   modules: Module[];
-
-  getModules(): Observable<Module[]> {
-    return this.getRelationArray(Module, 'modules');
-  }
-
-  getTags(): Observable<Tag[]> {
-    return this.getRelationArray(Tag, 'tagCollection');
-  }
 }

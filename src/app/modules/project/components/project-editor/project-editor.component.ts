@@ -411,7 +411,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
     this.projectFormControl.controls.status.setValue(this.project.status);
 
-    this.project.getModules().subscribe(modules =>
+    this.projectService.getModulesOfProject(this.project).subscribe(modules =>
       this.prepareStudyCourseSelectorData(modules).subscribe(success => {
         if (success.length >= 1) {
           this.moduleSelectors.controls[0].setValue(success[0]);
@@ -423,7 +423,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.project.getTags().subscribe(tags => {
+    this.projectService.getTagsOfProject(this.project).subscribe(tags => {
       this.tags = tags;
       this.updateTagRecommendations();
     });

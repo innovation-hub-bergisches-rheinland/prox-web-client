@@ -206,7 +206,10 @@ export class ProjectComponent implements OnInit {
         switchMap(projects =>
           combineLatest(
             projects.map(project =>
-              combineLatest([project.getTags(), project.getModules()]).pipe(
+              combineLatest([
+                this.projectService.getTagsOfProject(project),
+                this.projectService.getModulesOfProject(project)
+              ]).pipe(
                 map(([tags, modules]) => {
                   project.tagCollection = tags;
                   project.modules = modules;

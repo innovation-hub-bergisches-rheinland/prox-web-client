@@ -65,4 +65,12 @@ export class ProjectService extends HalRestService<Project> {
   deleteProject(project: Project): Observable<any> {
     return this.delete(project);
   }
+
+  getModulesOfProject(project: Project): Observable<Module[]> {
+    return project.getRelationArray(Module, 'modules');
+  }
+
+  getTagsOfProject(project: Project): Observable<Tag[]> {
+    return project.getRelationArray(Tag, 'tagCollection');
+  }
 }
