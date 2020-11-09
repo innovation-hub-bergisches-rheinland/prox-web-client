@@ -66,16 +66,6 @@ import { StudyCourseModuleSelectionModel } from '../study-course-module-selectio
 export class ProjectEditorComponent implements OnInit, OnDestroy {
   private STORAGE_KEY = 'project-editor-state';
 
-  /*
-   * Regular Expression to match valid strings in the text fields.
-   * A valid string should only contain printable unicode characters and whitespaces
-   * and should contain at least one printable character which can be sorrounded
-   * by leading/ending whitespaces since they will be trimmed.
-   * See: http://www.regular-expressions.info/posixbrackets.html for detailed
-   * information about the unicode character classes in regular expressions
-   */
-  private REGEX_PRINTABLE = /^\P{C}*[^\p{Z}\p{C}]+\P{C}*$/u;
-
   @Input() project?: Project;
   @Output() projectSaved = new EventEmitter<Project>();
   @Output() cancel = new EventEmitter<any>();
@@ -111,27 +101,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       this.fullname = `${userProfile.firstName} ${userProfile.lastName}`;
     }
     this.projectFormControl = this.formBuilder.group({
-      name: [
-        '',
-        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
-      ],
-      shortDescription: [
-        '',
-        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
-      ],
-      requirement: ['', [Validators.pattern(this.REGEX_PRINTABLE)]],
-      description: [
-        '',
-        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
-      ],
-      supervisorName: [
-        '',
-        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
-      ],
-      status: [
-        '',
-        [Validators.required, Validators.pattern(this.REGEX_PRINTABLE)]
-      ],
+      name: ['', [Validators.required]],
+      shortDescription: ['', [Validators.required]],
+      requirement: [''],
+      description: ['', [Validators.required]],
+      supervisorName: ['', [Validators.required]],
+      status: ['', [Validators.required]],
       studyCoursesModuleSelectors: this.formBuilder.array([]),
       tagInput: []
     });
