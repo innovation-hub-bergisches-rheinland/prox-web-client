@@ -7,6 +7,8 @@ import { map, catchError } from 'rxjs/operators';
 import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
+import Autolinker from 'autolinker';
+import { TextProcessor } from '@app/util/text-processor';
 
 @Component({
   selector: 'app-project-item',
@@ -29,7 +31,11 @@ export class ProjectItemComponent implements OnInit {
   isTypeMA = false;
   isTypePP = false;
 
-  constructor(public dialog: MatDialog, private snackBar: MatSnackBar) {}
+  constructor(
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    public textProcessor: TextProcessor
+  ) {}
 
   ngOnInit() {
     this.projectModules$ = this.project.getModules().pipe(
