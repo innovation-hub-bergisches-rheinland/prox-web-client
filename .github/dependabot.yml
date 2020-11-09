@@ -1,0 +1,14 @@
+version: 2
+
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    target-branch: 'dev'
+    open-pull-requests-limit: 0
+  - package-ecosystem: 'docker'
+    directory: '/docker'
+    schedule:
+      interval: 'daily'
+    target-branch: 'dev'
