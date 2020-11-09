@@ -13,6 +13,7 @@ import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
+import { TextProcessor } from '@app/util/text-processor';
 
 @Component({
   selector: 'app-project-details',
@@ -39,7 +40,8 @@ export class ProjectDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    public textProcessor: TextProcessor
   ) {}
 
   async ngOnInit() {
