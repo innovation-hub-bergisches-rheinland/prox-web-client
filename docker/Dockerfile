@@ -3,7 +3,7 @@
 #########################
 
 # base image
-FROM node:15.0.1-stretch as builder
+FROM node:15.1.0-stretch as builder
 
 # install chrome for protractor tests
 #RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -38,7 +38,7 @@ RUN ng build ${APP_ENV}
 ##################
 
 # base image
-FROM nginx:1.19.3-alpine
+FROM nginx:1.19.4-alpine
 
 # copy artifact build from the 'build environment'
 COPY --from=builder /usr/src/app/dist/prox-web-client /usr/share/nginx/html
