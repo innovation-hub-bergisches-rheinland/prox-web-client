@@ -44,12 +44,12 @@ const routes: Routes = [
         loadChildren: '@modules/contact/contact.module#ContactModule'
       },
       {
-        path: 'impressum',
+        path: 'imprint',
         // loadChildren: () =>
-        //   import('@modules/impressum/impressum.module').then(
-        //     m => m.ImpressumModule
+        //   import('@modules/imprint/imprint.module').then(
+        //     m => m.ImprintModule
         //   )
-        loadChildren: '@modules/impressum/impressum.module#ImpressumModule'
+        loadChildren: '@modules/imprint/imprint.module#ImprintModule'
       },
       {
         path: 'privacy',
