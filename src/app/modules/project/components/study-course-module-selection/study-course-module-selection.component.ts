@@ -68,8 +68,6 @@ export class StudyCourseModuleSelectionComponent
 
   @Output() delete = new EventEmitter<any>();
 
-  @ViewChild(MatAutocompleteTrigger) trigger;
-
   modulesToSet: Module[];
 
   formGroup: FormGroup;
