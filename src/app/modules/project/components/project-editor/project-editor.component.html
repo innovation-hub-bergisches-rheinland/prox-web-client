@@ -95,7 +95,6 @@
         matInput
         placeholder="Beschreibung"
         maxlength="10000"
-        required
       ></textarea>
 
       <mat-hint align="end">
@@ -103,12 +102,6 @@
           projectFormControl.controls['description'].value?.length || 0
         }}/10000
       </mat-hint>
-
-      <mat-error
-        *ngIf="projectFormControl.controls['description'].hasError('required')"
-      >
-        Beschreibung <strong>fehlt</strong>!
-      </mat-error>
       <mat-error
         *ngIf="projectFormControl.controls['description'].hasError('pattern')"
       >
@@ -126,9 +119,7 @@
         maxlength="255"
       />
       <mat-hint align="end">
-        {{
-          projectFormControl.controls['supervisorName'].value?.length || 0
-        }}/255
+        {{ projectFormControl.controls['supervisorName'].value.length }}/255
       </mat-hint>
       <mat-error
         *ngIf="

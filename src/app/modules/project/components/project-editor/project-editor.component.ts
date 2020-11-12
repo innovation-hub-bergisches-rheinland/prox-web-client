@@ -83,7 +83,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
   autoSave: Subscription;
   userID: string;
-  fullname: string = '';
+  fullname: string;
 
   constructor(
     private projectService: ProjectService,
@@ -104,7 +104,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       name: ['', [Validators.required]],
       shortDescription: ['', [Validators.required]],
       requirement: [''],
-      description: ['', [Validators.required]],
+      description: [''],
       supervisorName: ['', [Validators.required]],
       status: ['', [Validators.required]],
       studyCoursesModuleSelectors: this.formBuilder.array([]),
