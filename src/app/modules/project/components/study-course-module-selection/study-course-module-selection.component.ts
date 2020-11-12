@@ -72,7 +72,6 @@ export class StudyCourseModuleSelectionComponent
   modulesToSet: Module[];
 
   formGroup: FormGroup;
-  studyCoursesObservable: Observable<StudyCourse[]>;
   availableStudyCourses: StudyCourse[] = [];
   filteredStudyCourses: Observable<StudyCourse[]>;
   availableModules: Module[] = [];
@@ -91,15 +90,6 @@ export class StudyCourseModuleSelectionComponent
       this.modulesToSet = data.selectedModules;
       this.formGroup.controls.studyCourse.setValue(data.studyCourse);
     }
-  }
-
-  /*
-   * Workaround to make the auto completion panel visible when focused.
-   * See: https://github.com/angular/components/issues/3106#issuecomment-423881286
-   */
-  onFocus() {
-    this.trigger._onChange('');
-    this.trigger.openPanel();
   }
 
   registerOnChange(fn: any): void {
@@ -127,23 +117,22 @@ export class StudyCourseModuleSelectionComponent
 
   propagateChange = (change: any) => {};
 
-  ngOnInit() {
+  async ngOnInit() {
     this.formGroup = this.formBuilder.group({
       studyCourse: ['', [isStudyCourseValidator]],
       moduleArray: this.formBuilder.array([])
     });
+
+    this.availableStudyCourses = await this.projectStudyCourseService
+      .getAll()
+      .toPromise();
 
     this.filteredStudyCourses = this.formGroup.controls.studyCourse.valueChanges.pipe(
       startWith<string>(''),
       map(value => this._filterCourseName(value))
     );
 
-    this.formGroup.controls.studyCourse.setValue('');
-
-    this.studyCoursesObservable = this.projectStudyCourseService.getAll();
-    this.studyCoursesObservable.subscribe(courses => {
-      this.availableStudyCourses = courses;
-    });
+    //this.formGroup.controls.studyCourse.setValue('');
 
     this.formGroup.controls.studyCourse.valueChanges.subscribe(value => {
       if (value instanceof StudyCourse) {

@@ -1,13 +1,17 @@
 <mat-card [formGroup]="formGroup">
   <mat-card-content class="card-contend">
-    <mat-form-field class="course-input">
+    <mat-form-field
+      class="course-input"
+      matTooltip="Um einen Studiengang auszuwählen geben Sie die Bezeichnung in das Textfeld ein und verwenden das Auswahlfeld"
+      matTooltipPosition="above"
+      matTooltipShowDelay="500"
+    >
       <input
         type="text"
         matInput
         placeholder="Studiengang"
         formControlName="studyCourse"
         required
-        (focus)="onFocus()"
         [matAutocomplete]="autoGroup"
       />
 
