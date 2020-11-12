@@ -83,7 +83,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
   autoSave: Subscription;
   userID: string;
-  fullname: string;
+  fullname: string = '';
 
   constructor(
     private projectService: ProjectService,
