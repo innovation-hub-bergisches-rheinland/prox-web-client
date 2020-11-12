@@ -26,6 +26,7 @@ import { ProjectStudyCourseService } from '@data/service/project-study-course.se
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
 import { MatAutocompleteTrigger } from '@angular/material';
+import { addAllToArray } from '@angular/core/src/render3/util';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -126,6 +127,10 @@ export class StudyCourseModuleSelectionComponent
     this.availableStudyCourses = await this.projectStudyCourseService
       .getAll()
       .toPromise();
+
+    this.availableStudyCourses
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.academicDegree.localeCompare(b.academicDegree));
 
     this.filteredStudyCourses = this.formGroup.controls.studyCourse.valueChanges.pipe(
       startWith<string>(''),
