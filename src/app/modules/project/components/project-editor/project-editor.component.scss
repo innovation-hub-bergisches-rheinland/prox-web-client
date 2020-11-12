@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+.action-buttons {
+  margin-left: auto;
+  margin-right: 0;
+}
+
 .mat-button {
   color: var(--th-purple);
 }
