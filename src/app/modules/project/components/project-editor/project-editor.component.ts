@@ -147,7 +147,9 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
      * When supvisorname is set programmatically in ngOnInit() it is not shown in the view so it is necessary to update the Value and validity
      * Possibly obsolete with Angular ~8
      */
-    this.projectFormControl.updateValueAndValidity();
+    if (this.projectFormControl) {
+      this.projectFormControl.updateValueAndValidity();
+    }
   }
 
   enableAutosave() {

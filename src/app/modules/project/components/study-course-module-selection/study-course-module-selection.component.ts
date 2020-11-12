@@ -3,7 +3,8 @@ import {
   EventEmitter,
   forwardRef,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -24,6 +25,7 @@ import * as _ from 'underscore';
 import { ProjectStudyCourseService } from '@data/service/project-study-course.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
+import { MatAutocompleteTrigger } from '@angular/material';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -65,6 +67,8 @@ export class StudyCourseModuleSelectionComponent
 
   @Output() delete = new EventEmitter<any>();
 
+  @ViewChild(MatAutocompleteTrigger) trigger;
+
   modulesToSet: Module[];
 
   formGroup: FormGroup;
@@ -87,6 +91,15 @@ export class StudyCourseModuleSelectionComponent
       this.modulesToSet = data.selectedModules;
       this.formGroup.controls.studyCourse.setValue(data.studyCourse);
     }
+  }
+
+  /*
+   * Workaround to make the auto completion panel visible when focused.
+   * See: https://github.com/angular/components/issues/3106#issuecomment-423881286
+   */
+  onFocus() {
+    this.trigger._onChange('');
+    this.trigger.openPanel();
   }
 
   registerOnChange(fn: any): void {
@@ -121,9 +134,11 @@ export class StudyCourseModuleSelectionComponent
     });
 
     this.filteredStudyCourses = this.formGroup.controls.studyCourse.valueChanges.pipe(
-      startWith(''),
+      startWith<string>(''),
       map(value => this._filterCourseName(value))
     );
+
+    this.formGroup.controls.studyCourse.setValue('');
 
     this.studyCoursesObservable = this.projectStudyCourseService.getAll();
     this.studyCoursesObservable.subscribe(courses => {
@@ -188,12 +203,10 @@ export class StudyCourseModuleSelectionComponent
   }
 
   private _filterCourseName(value: string): StudyCourse[] {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
-      return this.availableStudyCourses.filter(course =>
-        course.name.toLowerCase().includes(filterValue)
-      );
-    }
+    const filterValue = value.toLowerCase();
+    return this.availableStudyCourses.filter(course =>
+      course.name.toLowerCase().includes(filterValue)
+    );
   }
 
   displayCourseName(course?: StudyCourse): string | undefined {
