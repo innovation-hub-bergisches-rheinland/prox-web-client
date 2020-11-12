@@ -135,9 +135,19 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       this.clearStorage();
       this.fillInExistingProjectValues();
     } else {
+      //Default value for supervisor when new project should be created
+      this.projectFormControl.controls.supervisorName.setValue(this.fullname);
       this.tryLoadState();
       this.enableAutosave();
     }
+  }
+
+  ngAfterViewChecked() {
+    /*
+     * When supvisorname is set programmatically in ngOnInit() it is not shown in the view so it is necessary to update the Value and validity
+     * Possibly obsolete with Angular ~8
+     */
+    this.projectFormControl.updateValueAndValidity();
   }
 
   enableAutosave() {
