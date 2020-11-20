@@ -12,5 +12,5 @@
 import { EntityModelTag } from './entityModelTag';
 
 export interface CollectionModelTagAllOfEmbedded {
-  projects?: Array<EntityModelTag>;
+  tags?: Array<EntityModelTag>;
 }

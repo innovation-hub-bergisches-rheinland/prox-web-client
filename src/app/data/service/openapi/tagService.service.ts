@@ -44,17 +44,19 @@ export class TagServiceService {
 
   constructor(
     protected httpClient: HttpClient,
-    basePath: string,
+    //TODO Injection basePath: string,
     @Optional() configuration: Configuration
   ) {
     if (configuration) {
       this.configuration = configuration;
     }
     if (typeof this.configuration.basePath !== 'string') {
-      if (typeof basePath !== 'string') {
+      this.configuration.basePath = 'http://127.0.0.1:8081';
+      //TODO
+      /*if (typeof basePath !== 'string') {
         basePath = this.basePath;
       }
-      this.configuration.basePath = basePath;
+      this.configuration.basePath = basePath;*/
     }
     this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
   }
