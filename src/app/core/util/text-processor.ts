@@ -12,7 +12,7 @@ export class TextProcessor {
       tldMatches: true
     },
     email: true,
-    phone: true,
+    phone: false,
     mention: false,
     hashtag: false,
 

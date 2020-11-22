@@ -10,6 +10,7 @@ import { ProjectEditorComponent } from './components/project-editor/project-edit
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { StudyCourseModuleSelectionComponent } from './components/study-course-module-selection/study-course-module-selection.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     StudyCourseModuleSelectionComponent,
     ConfirmDialogComponent
   ],
-  imports: [SharedModule, ProjectRoutingModule],
+  imports: [SharedModule, ProjectRoutingModule, ScrollingModule],
   entryComponents: [ProjectEditorDialogComponent, ConfirmDialogComponent]
 })
 export class ProjectModule {}

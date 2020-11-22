@@ -3,7 +3,8 @@ import {
   EventEmitter,
   forwardRef,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -24,6 +25,8 @@ import * as _ from 'underscore';
 import { ProjectStudyCourseService } from '@data/service/project-study-course.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
+import { MatAutocompleteTrigger } from '@angular/material';
+import { addAllToArray } from '@angular/core/src/render3/util';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -68,7 +71,6 @@ export class StudyCourseModuleSelectionComponent
   modulesToSet: Module[];
 
   formGroup: FormGroup;
-  studyCoursesObservable: Observable<StudyCourse[]>;
   availableStudyCourses: StudyCourse[] = [];
   filteredStudyCourses: Observable<StudyCourse[]>;
   availableModules: Module[] = [];
@@ -114,21 +116,26 @@ export class StudyCourseModuleSelectionComponent
 
   propagateChange = (change: any) => {};
 
-  ngOnInit() {
+  async ngOnInit() {
     this.formGroup = this.formBuilder.group({
       studyCourse: ['', [isStudyCourseValidator]],
       moduleArray: this.formBuilder.array([])
     });
 
+    this.availableStudyCourses = await this.projectStudyCourseService
+      .getAll()
+      .toPromise();
+
+    this.availableStudyCourses
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.academicDegree.localeCompare(b.academicDegree));
+
     this.filteredStudyCourses = this.formGroup.controls.studyCourse.valueChanges.pipe(
-      startWith(''),
+      startWith<string>(''),
       map(value => this._filterCourseName(value))
     );
 
-    this.studyCoursesObservable = this.projectStudyCourseService.getAll();
-    this.studyCoursesObservable.subscribe(courses => {
-      this.availableStudyCourses = courses;
-    });
+    //this.formGroup.controls.studyCourse.setValue('');
 
     this.formGroup.controls.studyCourse.valueChanges.subscribe(value => {
       if (value instanceof StudyCourse) {
@@ -188,12 +195,10 @@ export class StudyCourseModuleSelectionComponent
   }
 
   private _filterCourseName(value: string): StudyCourse[] {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
-      return this.availableStudyCourses.filter(course =>
-        course.name.toLowerCase().includes(filterValue)
-      );
-    }
+    const filterValue = value.toLowerCase();
+    return this.availableStudyCourses.filter(course =>
+      course.name.toLowerCase().includes(filterValue)
+    );
   }
 
   displayCourseName(course?: StudyCourse): string | undefined {
