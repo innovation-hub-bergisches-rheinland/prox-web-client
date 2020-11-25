@@ -3,7 +3,7 @@
 #########################
 
 # base image
-FROM node:15.1.0-stretch as builder
+FROM node:15.3.0-stretch as builder
 
 # install chrome for protractor tests
 #RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
