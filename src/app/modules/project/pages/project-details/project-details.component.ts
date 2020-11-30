@@ -14,6 +14,7 @@ import { ProjectService } from '@data/service/project.service';
 import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { TextProcessor } from '@app/util/text-processor';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-project-details',
@@ -37,6 +38,7 @@ export class ProjectDetailsComponent implements OnInit {
   constructor(
     private keycloakService: KeycloakService,
     private projectService: ProjectService,
+    private tagService: TagService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
@@ -60,7 +62,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.project = project;
 
       this.projectModules$ = this.projectService.getModulesOfProject(project);
-      this.projectTags$ = this.projectService.getTagsOfProject(project);
+      this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
 
       this.containsProjectType('BA').subscribe(result => {
         this.isTypeBA = result;

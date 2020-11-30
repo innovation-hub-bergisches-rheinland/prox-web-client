@@ -408,7 +408,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.projectService.getTagsOfProject(this.project).subscribe(tags => {
+    this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
       this.tags = tags;
       this.updateTagRecommendations();
     });

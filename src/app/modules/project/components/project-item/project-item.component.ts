@@ -10,6 +10,7 @@ import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import Autolinker from 'autolinker';
 import { TextProcessor } from '@app/util/text-processor';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-project-item',
@@ -36,6 +37,7 @@ export class ProjectItemComponent implements OnInit {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private projectService: ProjectService,
+    private tagService: TagService,
     public textProcessor: TextProcessor
   ) {}
 
@@ -51,14 +53,16 @@ export class ProjectItemComponent implements OnInit {
         })
       );
 
-    this.projectTags$ = this.projectService.getTagsOfProject(this.project).pipe(
-      catchError(error => {
-        this.openErrorSnackBar(
-          'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
-        );
-        return throwError(error);
-      })
-    );
+    this.projectTags$ = this.tagService
+      .getAllTagsOfProject(this.project.id)
+      .pipe(
+        catchError(error => {
+          this.openErrorSnackBar(
+            'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
+          );
+          return throwError(error);
+        })
+      );
 
     this.containsProjectType('BA').subscribe(result => {
       this.isTypeBA = result;

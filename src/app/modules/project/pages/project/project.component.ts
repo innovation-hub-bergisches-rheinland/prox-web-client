@@ -21,6 +21,7 @@ import { StatusOption } from './status-option.enum';
 import { ProjectType } from './project-type.enum';
 
 import { promise } from 'protractor';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-project',
@@ -59,6 +60,7 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
+    private tagService: TagService,
     private keycloakService: KeycloakService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -207,7 +209,7 @@ export class ProjectComponent implements OnInit {
           combineLatest(
             projects.map(project =>
               combineLatest([
-                this.projectService.getTagsOfProject(project),
+                this.tagService.getAllTagsOfProject(project.id),
                 this.projectService.getModulesOfProject(project)
               ]).pipe(
                 map(([tags, modules]) => {

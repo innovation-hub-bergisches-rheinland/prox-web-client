@@ -5,12 +5,17 @@ import { Tag } from '@data/schema/tag.resource';
 import { HalRestService } from './base/hal-crud-rest-service';
 import { map, tap } from 'rxjs/operators';
 import { TagEntityService } from './openapi/tag-service/tagEntity.service';
+import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TagService extends HalRestService<Tag> {
-  constructor(injector: Injector, private tagEntityService: TagEntityService) {
+  constructor(
+    injector: Injector,
+    private tagEntityService: TagEntityService,
+    private tagCollectionEntityService: TagCollectionEntityService
+  ) {
     super(Tag, 'tags', injector);
   }
 
@@ -44,5 +49,11 @@ export class TagService extends HalRestService<Tag> {
     return this.tagEntityService
       .tagRecommendationsTagUsingGET(tagIds)
       .pipe(map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2))));
+  }
+
+  getAllTagsOfProject(id: any): Observable<Tag[]> {
+    return this.tagCollectionEntityService
+      .tagCollectionTagsUsingGET(id)
+      .pipe(map(e => e._embedded.tags.map(e2 => Object.assign(new Tag(), e2))));
   }
 }

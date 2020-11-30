@@ -26,6 +26,7 @@ import { Observable } from 'rxjs';
 import { CollectionModelOfTag } from '@data/schema/openapi/tag-service/models';
 import { CollectionModelOfTagCollection } from '@data/schema/openapi/tag-service/models';
 import { EntityModelOfTagCollection } from '@data/schema/openapi/tag-service/models';
+import { EntityModelOfTag } from '@data/schema/openapi/tag-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { Configuration } from '../configuration';
@@ -302,6 +303,162 @@ export class TagCollectionEntityService {
       `${this.configuration.basePath}/tagCollections/${encodeURIComponent(
         String(id)
       )}`,
+      {
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * tagCollectionTags
+   * @param id id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public tagCollectionTagsUsingGET(
+    id: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<CollectionModelOfTag>;
+  public tagCollectionTagsUsingGET(
+    id: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<HttpResponse<CollectionModelOfTag>>;
+  public tagCollectionTagsUsingGET(
+    id: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<HttpEvent<CollectionModelOfTag>>;
+  public tagCollectionTagsUsingGET(
+    id: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling tagCollectionTagsUsingGET.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfTag>(
+      `${this.configuration.basePath}/tagCollections/${encodeURIComponent(
+        String(id)
+      )}/tags`,
+      {
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * tagCollectionTags
+   * @param id id
+   * @param tagId tagId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public tagCollectionTagsUsingGET1(
+    id: string,
+    tagId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<EntityModelOfTag>;
+  public tagCollectionTagsUsingGET1(
+    id: string,
+    tagId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<EntityModelOfTag>>;
+  public tagCollectionTagsUsingGET1(
+    id: string,
+    tagId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<EntityModelOfTag>>;
+  public tagCollectionTagsUsingGET1(
+    id: string,
+    tagId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling tagCollectionTagsUsingGET1.'
+      );
+    }
+    if (tagId === null || tagId === undefined) {
+      throw new Error(
+        'Required parameter tagId was null or undefined when calling tagCollectionTagsUsingGET1.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<EntityModelOfTag>(
+      `${this.configuration.basePath}/tagCollections/${encodeURIComponent(
+        String(id)
+      )}/tags/${encodeURIComponent(String(tagId))}`,
       {
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,
