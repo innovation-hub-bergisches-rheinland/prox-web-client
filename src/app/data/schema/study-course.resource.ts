@@ -7,7 +7,7 @@ export class StudyCourse extends CustomResource {
   id: string;
   name: string;
   academicDegree: string;
-  modules: Module[];
+  modules: Module[] | Set<Module>;
 
   getModules(): Observable<Module[]> {
     return this.getRelationArray(Module, 'modules');

@@ -32,8 +32,8 @@ export class StudyCourseDetailsComponent implements OnInit {
   }
 
   private getModules() {
-    this.studyCourse
-      .getModules()
+    this.studyCourseService
+      .findModulesOfStudyCourse(this.studyCourse.id)
       .pipe(
         map(modules =>
           modules.sort((a, b) => {

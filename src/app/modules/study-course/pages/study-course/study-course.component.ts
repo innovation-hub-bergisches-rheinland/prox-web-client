@@ -44,8 +44,7 @@ export class StudyCourseComponent implements OnInit {
   }
 
   private getAllStudyCourses() {
-    const options: HalOptions = { sort: [{ path: 'name', order: 'ASC' }] };
-    this.studyCourseService.getAllStudyCourses(options).subscribe(
+    this.studyCourseService.getAllStudyCourses({ sort: 'name' }).subscribe(
       studyCourses => {
         this.studyCourses = studyCourses;
         this.filteredStudyCourses = this.studyCourses;
