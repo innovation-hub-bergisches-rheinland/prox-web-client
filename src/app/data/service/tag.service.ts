@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Tag } from '@data/schema/tag.resource';
 import { HalRestService } from './base/hal-crud-rest-service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from '@env';
 import { TagEntityService } from './openapi/tag-service/tagEntity.service';
 
@@ -13,12 +13,12 @@ import { TagEntityService } from './openapi/tag-service/tagEntity.service';
   providedIn: 'root'
 })
 export class TagService extends HalRestService<Tag> {
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private tagEntityService: TagEntityService) {
     super(Tag, 'tags', injector);
   }
 
   createTag(tag: Tag): Observable<Tag | any> {
-    return this.halRestService.create(tag);
+    return this.tagEntityService.saveTagUsingPOST(tag).pipe(map(t => t as Tag));
   }
 
   findByTagName(
@@ -27,14 +27,22 @@ export class TagService extends HalRestService<Tag> {
   ): Observable<Tag[]> {
     const options = { params: [{ key: 'tagName', value: tagName }] };
     if (exactMatch) {
-      return this.search('findByTagName', options);
+      return this.tagEntityService
+        .findByTagNameTagNameIgnoreCaseTagUsingGET(tagName)
+        .pipe(map(t => t._embedded.tags as Tag[]));
     } else {
-      return this.search('findByTagNameContaining', options);
+      return this.tagEntityService
+        .findByTagNameTagNameContainingIgnoreCaseTagUsingGET(tagName)
+        .pipe(map(t => t._embedded.tags as Tag[]));
     }
   }
 
   getRecommendations(tags: Tag[]): Observable<Tag[]> {
     const tagIds = tags.map(tag => tag.id).join(',');
+    return this.tagEntityService.tagRecommendationsTagUsingGET(tagIds).pipe(
+      map(t => t._embedded.tags as Tag[]),
+      tap(t => console.log(t))
+    );
     const options = { params: [{ key: 'tagIds', value: tagIds }] };
     return this.search('tagRecommendations', options);
   }
