@@ -8,6 +8,8 @@ import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
+import Autolinker from 'autolinker';
+import { TextProcessor } from '@app/util/text-processor';
 
 @Component({
   selector: 'app-project-item',
@@ -33,7 +35,8 @@ export class ProjectItemComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    public textProcessor: TextProcessor
   ) {}
 
   ngOnInit() {

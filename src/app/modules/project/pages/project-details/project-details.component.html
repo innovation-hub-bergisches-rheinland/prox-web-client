@@ -54,7 +54,7 @@
         </mat-card-subtitle>
 
         <div>
-          <p>{{ project.shortDescription }}</p>
+          <p [innerHTML]="textProcessor.process(project.shortDescription)"></p>
         </div>
 
         <mat-card-subtitle>
@@ -62,7 +62,7 @@
         </mat-card-subtitle>
 
         <div>
-          <p>{{ project.description }}</p>
+          <p [innerHTML]="textProcessor.process(project.description)"></p>
         </div>
 
         <div class="card-container-wrapper">

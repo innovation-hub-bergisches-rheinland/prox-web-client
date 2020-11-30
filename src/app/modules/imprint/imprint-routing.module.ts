@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ImpressumComponent } from './pages/impressum/impressum.component';
+import { ImprintComponent } from './pages/imprint/imprint.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ImpressumComponent
+    component: ImprintComponent
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ImpressumRoutingModule {}
+export class ImprintRoutingModule {}

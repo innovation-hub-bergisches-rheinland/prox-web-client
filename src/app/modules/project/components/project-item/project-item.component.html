@@ -41,7 +41,7 @@
     <mat-card-subtitle>Kurze Projektbeschreibung:</mat-card-subtitle>
 
     <div [ngClass]="{ 'show-less': !showShortDescription }">
-      <p>{{ project.shortDescription }}</p>
+      <p [innerHTML]="textProcessor.process(project.shortDescription)"></p>
     </div>
 
     <div class="button-toggle-description">
