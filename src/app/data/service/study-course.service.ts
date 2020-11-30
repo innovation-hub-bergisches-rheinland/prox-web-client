@@ -22,20 +22,32 @@ export class StudyCourseService extends HalRestService<StudyCourse> {
   }
 
   findModulesOfStudyCourse(id: any): Observable<Module[]> {
-    return this.studyCourseEntityService
-      .studyCourseModulesUsingGET(id)
-      .pipe(map(m => m._embedded.modules as Module[]));
+    return this.studyCourseEntityService.studyCourseModulesUsingGET(id).pipe(
+      map(m =>
+        m._embedded.modules.map(m2 => {
+          const module = new Module();
+          return Object.assign(module, m2);
+        })
+      )
+    );
   }
 
   getAllStudyCourses(pageable: PageableOptions): Observable<StudyCourse[]> {
     return this.studyCourseEntityService
       .findAllStudyCourseUsingGET(pageable.page, pageable.size, pageable.sort)
-      .pipe(map(s => s._embedded.studyCourses as StudyCourse[]));
+      .pipe(
+        map(s =>
+          s._embedded.studyCourses.map(s2 => {
+            const sc = new StudyCourse();
+            return Object.assign(sc, s2);
+          })
+        )
+      );
   }
 
   getStudyCourse(id: any): Observable<StudyCourse> {
     return this.studyCourseEntityService
       .findByIdStudyCourseUsingGET(id)
-      .pipe(map(s => s as StudyCourse));
+      .pipe(map(s => Object.assign(new StudyCourse(), s)));
   }
 }

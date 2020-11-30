@@ -15,7 +15,9 @@ export class TagService extends HalRestService<Tag> {
   }
 
   createTag(tag: Tag): Observable<Tag | any> {
-    return this.tagEntityService.saveTagUsingPOST(tag).pipe(map(t => t as Tag));
+    return this.tagEntityService
+      .saveTagUsingPOST(tag)
+      .pipe(map(t => Object.assign(new Tag(), t)));
   }
 
   findByTagName(
@@ -25,19 +27,22 @@ export class TagService extends HalRestService<Tag> {
     if (exactMatch) {
       return this.tagEntityService
         .findByTagNameTagNameIgnoreCaseTagUsingGET(tagName)
-        .pipe(map(t => t._embedded.tags as Tag[]));
+        .pipe(
+          map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2)))
+        );
     } else {
       return this.tagEntityService
         .findByTagNameTagNameContainingIgnoreCaseTagUsingGET(tagName)
-        .pipe(map(t => t._embedded.tags as Tag[]));
+        .pipe(
+          map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2)))
+        );
     }
   }
 
   getRecommendations(tags: Tag[]): Observable<Tag[]> {
     const tagIds = tags.map(tag => tag.id).join(',');
-    return this.tagEntityService.tagRecommendationsTagUsingGET(tagIds).pipe(
-      map(t => t._embedded.tags as Tag[]),
-      tap(t => console.log(t))
-    );
+    return this.tagEntityService
+      .tagRecommendationsTagUsingGET(tagIds)
+      .pipe(map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2))));
   }
 }

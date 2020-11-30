@@ -123,7 +123,7 @@ export class StudyCourseModuleSelectionComponent
     });
 
     this.availableStudyCourses = await this.projectStudyCourseService
-      .getAll()
+      .getAllProjectStudyCourses()
       .toPromise();
 
     this.availableStudyCourses
@@ -138,46 +138,46 @@ export class StudyCourseModuleSelectionComponent
     //this.formGroup.controls.studyCourse.setValue('');
 
     this.formGroup.controls.studyCourse.valueChanges.subscribe(value => {
-      if (value instanceof StudyCourse) {
-        this._createModuleSelection(value);
-      }
+      this._createModuleSelection(value);
     });
   }
 
   private _createModuleSelection(course: StudyCourse) {
-    course.getModules().subscribe(modules => {
-      const moduleArray = this.formBuilder.array([], minSelectedValidator);
+    this.projectStudyCourseService
+      .findAllModulesOfStudyCourse(course.id)
+      .subscribe(modules => {
+        const moduleArray = this.formBuilder.array([], minSelectedValidator);
 
-      for (const {} of modules) {
-        moduleArray.push(this.formBuilder.control(false));
-      }
+        for (const {} of modules) {
+          moduleArray.push(this.formBuilder.control(false));
+        }
 
-      this.formGroup.setControl('moduleArray', moduleArray);
-      this.availableModules = modules;
+        this.formGroup.setControl('moduleArray', moduleArray);
+        this.availableModules = modules;
 
-      moduleArray.valueChanges.subscribe(value => {
-        this.propagateChange(this._getSelectedModules());
-      });
+        moduleArray.valueChanges.subscribe(value => {
+          this.propagateChange(this._getSelectedModules());
+        });
 
-      if (this.modulesToSet) {
-        for (const moduleToSet of this.modulesToSet) {
-          const currentModule: any = moduleToSet;
-          const i = _.findIndex(this.availableModules, (x: any) => {
-            return x.id === currentModule.id;
-          });
-          if (i >= 0) {
-            moduleArray.controls[i].setValue(true);
+        if (this.modulesToSet) {
+          for (const moduleToSet of this.modulesToSet) {
+            const currentModule: any = moduleToSet;
+            const i = _.findIndex(this.availableModules, (x: any) => {
+              return x.id === currentModule.id;
+            });
+            if (i >= 0) {
+              moduleArray.controls[i].setValue(true);
+            }
+          }
+          this.modulesToSet = null;
+        } else {
+          if (modules.length === 1) {
+            moduleArray.controls[0].setValue(true);
+          } else {
+            this.propagateChange([]);
           }
         }
-        this.modulesToSet = null;
-      } else {
-        if (modules.length === 1) {
-          moduleArray.controls[0].setValue(true);
-        } else {
-          this.propagateChange([]);
-        }
-      }
-    });
+      });
   }
 
   private _getSelectedModules(): StudyCourseModuleSelectionModel {
@@ -194,8 +194,14 @@ export class StudyCourseModuleSelectionComponent
     );
   }
 
-  private _filterCourseName(value: string): StudyCourse[] {
-    const filterValue = value.toLowerCase();
+  private _filterCourseName(value: string | StudyCourse): StudyCourse[] {
+    console.log(value);
+    let filterValue;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    } else {
+      filterValue = value.name.toLowerCase();
+    }
     return this.availableStudyCourses.filter(course =>
       course.name.toLowerCase().includes(filterValue)
     );
