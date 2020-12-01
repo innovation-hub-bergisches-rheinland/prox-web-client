@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  MatSnackBar,
-  MatDialog,
-  PageEvent,
-  MatPaginator
-} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { KeycloakService } from 'keycloak-angular';
 import Fuse from 'fuse.js';
@@ -56,7 +53,7 @@ export class ProjectComponent implements OnInit {
   private projects: Project[] = [];
   private filteredProjects: Project[] = [];
 
-  @ViewChild(MatPaginator) private paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
   constructor(
     private projectService: ProjectService,

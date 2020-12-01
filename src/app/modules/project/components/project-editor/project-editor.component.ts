@@ -19,11 +19,13 @@ import {
 } from '@angular/forms';
 import {
   MatAutocomplete,
-  MatAutocompleteSelectedEvent,
+  MatAutocompleteSelectedEvent
+} from '@angular/material/autocomplete';
+import {
   MatChipInputEvent,
-  MatChipSelectionChange,
-  MatSnackBar
-} from '@angular/material';
+  MatChipSelectionChange
+} from '@angular/material/chips';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
   forkJoin,
@@ -344,7 +346,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   ): Observable<StudyCourseModuleSelectionModel[]> {
     return Observable.create(
       (observer: Observer<StudyCourseModuleSelectionModel[]>) => {
-        const observables = [];
+        const observables: Observable<{
+          module: Module;
+          studyCourse: StudyCourse;
+        }>[] = [];
 
         for (const module of modules) {
           observables.push(

@@ -25,8 +25,7 @@ import * as _ from 'underscore';
 import { ProjectStudyCourseService } from '@data/service/project-study-course.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
-import { MatAutocompleteTrigger } from '@angular/material';
-import { addAllToArray } from '@angular/core/src/render3/util';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 const CUSTOM_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

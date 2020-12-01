@@ -20,13 +20,15 @@ const routes: Routes = [
         path: 'home',
         // loadChildren: () =>
         //   import('@modules/home/home.module').then(m => m.HomeModule)
-        loadChildren: '@modules/home/home.module#HomeModule'
+        loadChildren: () =>
+          import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
         path: 'projects',
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
-        loadChildren: '@modules/project/project.module#ProjectModule'
+        loadChildren: () =>
+          import('@modules/project/project.module').then(m => m.ProjectModule)
       },
       {
         path: 'study-courses',
@@ -34,14 +36,17 @@ const routes: Routes = [
         //   import('@modules/study-course/study-course.module').then(
         //     m => m.StudyCourseModule
         //   )
-        loadChildren:
-          '@modules/study-course/study-course.module#StudyCourseModule'
+        loadChildren: () =>
+          import('@modules/study-course/study-course.module').then(
+            m => m.StudyCourseModule
+          )
       },
       {
         path: 'contact',
         // loadChildren: () =>
         //   import('@modules/contact/contact.module').then(m => m.ContactModule)
-        loadChildren: '@modules/contact/contact.module#ContactModule'
+        loadChildren: () =>
+          import('@modules/contact/contact.module').then(m => m.ContactModule)
       },
       {
         path: 'imprint',
@@ -49,13 +54,15 @@ const routes: Routes = [
         //   import('@modules/imprint/imprint.module').then(
         //     m => m.ImprintModule
         //   )
-        loadChildren: '@modules/imprint/imprint.module#ImprintModule'
+        loadChildren: () =>
+          import('@modules/imprint/imprint.module').then(m => m.ImprintModule)
       },
       {
         path: 'privacy',
         // loadChildren: () =>
         //   import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
-        loadChildren: '@modules/privacy/privacy.module#PrivacyModule'
+        loadChildren: () =>
+          import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
       },
       {
         path: 'disclaimer',
@@ -63,7 +70,10 @@ const routes: Routes = [
         //   import('@modules/disclaimer/disclaimer.module').then(
         //     m => m.DisclaimerModule
         //   )
-        loadChildren: '@modules/disclaimer/disclaimer.module#DisclaimerModule'
+        loadChildren: () =>
+          import('@modules/disclaimer/disclaimer.module').then(
+            m => m.DisclaimerModule
+          )
       },
       {
         path: '**',
@@ -71,15 +81,17 @@ const routes: Routes = [
         //   import('@modules/page-not-found/page-not-found.module').then(
         //     m => m.PageNotFoundModule
         //   )
-        loadChildren:
-          '@modules/page-not-found/page-not-found.module#PageNotFoundModule'
+        loadChildren: () =>
+          import('@modules/page-not-found/page-not-found.module').then(
+            m => m.PageNotFoundModule
+          )
       }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
   providers: []
 })

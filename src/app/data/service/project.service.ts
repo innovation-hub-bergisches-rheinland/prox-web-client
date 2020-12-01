@@ -8,7 +8,6 @@ import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { map } from 'rxjs/operators';
 import { ProjectEntityService } from './openapi/project-service/projectEntity.service';
-import { _MatTabHeaderMixinBase } from '@angular/material/tabs/typings/tab-header';
 import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
 
 @Injectable({
