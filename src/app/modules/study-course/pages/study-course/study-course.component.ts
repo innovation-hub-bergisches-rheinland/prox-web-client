@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 
-import { HalOptions } from 'angular4-hal';
-
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { StudyCourseService } from '@data/service/study-course.service';
 

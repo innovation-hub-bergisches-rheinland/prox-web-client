@@ -1,10 +1,7 @@
-import { Observable } from 'rxjs';
-
-import { CustomResource } from './custom-resource.resource';
 import { Module } from './module.resource';
 import { Tag } from './tag.resource';
 
-export class Project extends CustomResource {
+export class Project {
   id: string;
   name: string;
   description: string;
@@ -14,6 +11,6 @@ export class Project extends CustomResource {
   creatorID: string;
   creatorName: string;
   supervisorName: string;
-  tagCollection: Tag[];
-  modules: Module[];
+  tagCollection: Tag[]; //TODO use this
+  modules: Module[]; //TODO use this
 }

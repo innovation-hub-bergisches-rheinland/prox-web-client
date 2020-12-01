@@ -195,7 +195,6 @@ export class StudyCourseModuleSelectionComponent
   }
 
   private _filterCourseName(value: string | StudyCourse): StudyCourse[] {
-    console.log(value);
     let filterValue;
     if (typeof value === 'string') {
       filterValue = value.toLowerCase();

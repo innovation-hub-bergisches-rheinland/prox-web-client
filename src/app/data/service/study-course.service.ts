@@ -1,9 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 
-import { HalOptions, RestService } from 'angular4-hal';
-
 import { StudyCourse } from '@data/schema/study-course.resource';
-import { HalRestService } from './base/hal-crud-rest-service';
 import { Observable } from 'rxjs';
 import { PageableOptions } from './base/pageable-options';
 import { StudyCourseEntityService } from './openapi/module-service/studyCourseEntity.service';
@@ -13,13 +10,11 @@ import { Module } from '@data/schema/module.resource';
 @Injectable({
   providedIn: 'root'
 })
-export class StudyCourseService extends HalRestService<StudyCourse> {
+export class StudyCourseService {
   constructor(
     injector: Injector,
     private studyCourseEntityService: StudyCourseEntityService
-  ) {
-    super(StudyCourse, 'studyCourses', injector);
-  }
+  ) {}
 
   findModulesOfStudyCourse(id: any): Observable<Module[]> {
     return this.studyCourseEntityService.studyCourseModulesUsingGET(id).pipe(

@@ -2,22 +2,19 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Tag } from '@data/schema/tag.resource';
-import { HalRestService } from './base/hal-crud-rest-service';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { TagEntityService } from './openapi/tag-service/tagEntity.service';
 import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TagService extends HalRestService<Tag> {
+export class TagService {
   constructor(
     injector: Injector,
     private tagEntityService: TagEntityService,
     private tagCollectionEntityService: TagCollectionEntityService
-  ) {
-    super(Tag, 'tags', injector);
-  }
+  ) {}
 
   createTag(tag: Tag): Observable<Tag | any> {
     return this.tagEntityService

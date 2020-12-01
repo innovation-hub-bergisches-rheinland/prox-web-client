@@ -1,6 +1,4 @@
-import { CustomResource } from './custom-resource.resource';
-
-export class Module extends CustomResource {
+export class Module {
   id: string;
   name: string;
   description: string;

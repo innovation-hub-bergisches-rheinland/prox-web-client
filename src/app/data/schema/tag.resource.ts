@@ -1,6 +1,4 @@
-import { CustomResource } from './custom-resource.resource';
-
-export class Tag extends CustomResource {
+export class Tag {
   id: string;
   tagName: string;
 }

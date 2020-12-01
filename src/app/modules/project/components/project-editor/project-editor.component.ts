@@ -57,6 +57,8 @@ import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
 
 import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
+import { ProjectStudyCourseService } from '@data/service/project-study-course.service';
+import { ProjectModuleService } from '@data/service/project-module.service';
 
 @Component({
   selector: 'app-project-editor',
@@ -87,6 +89,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private projectService: ProjectService,
+    private projectModuleService: ProjectModuleService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -191,7 +194,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         studyCourse.id = data.id;
         studyCourse.name = data.name;
         studyCourse.academicDegree = data.academicDegree;
-        studyCourse._links = data._links;
         return studyCourse;
       };
 
@@ -200,7 +202,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         mod.id = data.id;
         mod.name = data.name;
         mod.projectType = data.projectType;
-        mod._links = data._links;
         return mod;
       };
 
@@ -347,7 +348,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
         for (const module of modules) {
           observables.push(
-            module.getRelation(StudyCourse, 'studyCourse').pipe(
+            this.projectModuleService.findStudyCourseOfModule(module.id).pipe(
               map(course => {
                 return { module, studyCourse: course };
               })
@@ -396,8 +397,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
     this.projectFormControl.controls.status.setValue(this.project.status);
 
-    this.projectService.getModulesOfProject(this.project).subscribe(modules =>
-      this.prepareStudyCourseSelectorData(modules).subscribe(success => {
+    this.projectService.getModulesOfProject(this.project).subscribe(modules => {
+      return this.prepareStudyCourseSelectorData(modules).subscribe(success => {
         if (success.length >= 1) {
           this.moduleSelectors.controls[0].setValue(success[0]);
         }
@@ -405,8 +406,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
           this.addStudyCourseModuleSelector();
           this.moduleSelectors.controls[index].setValue(success[index]);
         }
-      })
-    );
+      });
+    });
 
     this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
       this.tags = tags;

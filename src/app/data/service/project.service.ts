@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 
 import { Project } from '@data/schema/project.resource';
 import { Project as ProjectSchema } from '@data/schema/openapi/project-service/models';
-import { HalRestService } from './base/hal-crud-rest-service';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ProjectEntityService } from './openapi/project-service/projectEntity.service';
 import { _MatTabHeaderMixinBase } from '@angular/material/tabs/typings/tab-header';
 import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
@@ -15,14 +14,12 @@ import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionE
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService extends HalRestService<Project> {
+export class ProjectService {
   constructor(
     injector: Injector,
     private projectEntityService: ProjectEntityService,
     private tagCollectionEntityService: TagCollectionEntityService
-  ) {
-    super(Project, 'projects', injector);
-  }
+  ) {}
 
   createProject(
     project: Project,
