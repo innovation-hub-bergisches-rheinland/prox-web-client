@@ -478,28 +478,28 @@ export class TagCollectionEntityService {
    */
   public tagCollectionTagsUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<CollectionModelOfTag>;
   public tagCollectionTagsUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<CollectionModelOfTag>>;
   public tagCollectionTagsUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<CollectionModelOfTag>>;
   public tagCollectionTagsUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -533,11 +533,7 @@ export class TagCollectionEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-      'application/x-spring-data-compact+json',
-      'text/uri-list'
-    ];
+    const consumes: string[] = ['text/uri-list'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
@@ -577,28 +573,28 @@ export class TagCollectionEntityService {
    */
   public tagCollectionTagsUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<CollectionModelOfTag>;
   public tagCollectionTagsUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<CollectionModelOfTag>>;
   public tagCollectionTagsUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<CollectionModelOfTag>>;
   public tagCollectionTagsUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -632,11 +628,7 @@ export class TagCollectionEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-      'application/x-spring-data-compact+json',
-      'text/uri-list'
-    ];
+    const consumes: string[] = ['text/uri-list'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
@@ -676,28 +668,28 @@ export class TagCollectionEntityService {
    */
   public tagCollectionTagsUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<CollectionModelOfTag>;
   public tagCollectionTagsUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<CollectionModelOfTag>>;
   public tagCollectionTagsUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<CollectionModelOfTag>>;
   public tagCollectionTagsUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -731,11 +723,7 @@ export class TagCollectionEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-      'application/x-spring-data-compact+json',
-      'text/uri-list'
-    ];
+    const consumes: string[] = ['text/uri-list'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);

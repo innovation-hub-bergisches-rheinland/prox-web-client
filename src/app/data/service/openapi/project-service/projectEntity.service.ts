@@ -1035,28 +1035,28 @@ export class ProjectEntityService {
    */
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<CollectionModelOfModule>;
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<CollectionModelOfModule>>;
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<CollectionModelOfModule>>;
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -1090,11 +1090,7 @@ export class ProjectEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-      'application/x-spring-data-compact+json',
-      'text/uri-list'
-    ];
+    const consumes: string[] = ['text/uri-list'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
@@ -1134,28 +1130,28 @@ export class ProjectEntityService {
    */
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<CollectionModelOfModule>;
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<CollectionModelOfModule>>;
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<CollectionModelOfModule>>;
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -1189,11 +1185,7 @@ export class ProjectEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-      'application/x-spring-data-compact+json',
-      'text/uri-list'
-    ];
+    const consumes: string[] = ['text/uri-list'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
@@ -1233,28 +1225,28 @@ export class ProjectEntityService {
    */
   public projectModulesUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<CollectionModelOfModule>;
   public projectModulesUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<CollectionModelOfModule>>;
   public projectModulesUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<CollectionModelOfModule>>;
   public projectModulesUsingPUT(
     id: string,
-    requestBody?: Array<string>,
+    requestBody?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -1288,11 +1280,7 @@ export class ProjectEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-      'application/x-spring-data-compact+json',
-      'text/uri-list'
-    ];
+    const consumes: string[] = ['text/uri-list'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);

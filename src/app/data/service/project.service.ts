@@ -1,22 +1,26 @@
 import { Injectable, Injector } from '@angular/core';
 
-import { RestService } from 'angular4-hal';
 import { Observable } from 'rxjs';
 
 import { Project } from '@data/schema/project.resource';
-import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
-import { CrudRestService } from './base/crud-rest-service';
+import { Project as ProjectSchema } from '@data/schema/openapi/project-service/models';
 import { HalRestService } from './base/hal-crud-rest-service';
-//import { map, tap } from 'rxjs/operators';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { map, tap } from 'rxjs/operators';
+import { ProjectEntityService } from './openapi/project-service/projectEntity.service';
+import { _MatTabHeaderMixinBase } from '@angular/material/tabs/typings/tab-header';
+import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService extends HalRestService<Project> {
-  constructor(injector: Injector) {
+  constructor(
+    injector: Injector,
+    private projectEntityService: ProjectEntityService,
+    private tagCollectionEntityService: TagCollectionEntityService
+  ) {
     super(Project, 'projects', injector);
   }
 
@@ -25,16 +29,22 @@ export class ProjectService extends HalRestService<Project> {
     tags?: Tag[],
     modules?: Module[]
   ): Observable<Project | any> {
-    return this.create(project).pipe(
-      map(p => {
-        if (tags) {
-          p.setRelationArray('tagCollection', tags).subscribe();
-        }
-        if (modules) {
-          p.setRelationArray('modules', modules).subscribe();
-        }
-      })
-    );
+    return this.projectEntityService
+      .saveProjectUsingPOST(project as ProjectSchema)
+      .pipe(
+        map(p => {
+          if (modules) {
+            this.projectEntityService
+              .projectModulesUsingPUT(p.id, modules.map(m => m.id).join('\n'))
+              .subscribe();
+          }
+          if (tags) {
+            this.tagCollectionEntityService
+              .tagCollectionTagsUsingPUT(p.id, tags.map(t => t.id).join('\n'))
+              .subscribe();
+          }
+        })
+      );
   }
 
   updateProject(
@@ -42,35 +52,51 @@ export class ProjectService extends HalRestService<Project> {
     tags?: Tag[],
     modules?: Module[]
   ): Observable<Project | any> {
-    return this.update(project).pipe(
-      map(p => {
-        if (tags) {
-          p.setRelationArray('tagCollection', tags).subscribe();
-        }
-        if (modules) {
-          p.setRelationArray('modules', modules).subscribe();
-        }
-      })
-    );
+    return this.projectEntityService
+      .saveProjectUsingPUT(project.id, project as ProjectSchema)
+      .pipe(
+        map(p => {
+          if (modules) {
+            this.projectEntityService
+              .projectModulesUsingPUT(p.id, modules.map(m => m.id).join('\n'))
+              .subscribe();
+          }
+          if (tags) {
+            this.tagCollectionEntityService
+              .tagCollectionTagsUsingPUT(p.id, tags.map(t => t.id).join('\n'))
+              .subscribe();
+          }
+        })
+      );
   }
 
   getProject(id: any): Observable<Project> {
-    return this.get(id);
+    return this.projectEntityService
+      .findByIdProjectUsingGET(id)
+      .pipe(map(p => Object.assign(new Project(), p)));
   }
 
   getAllProjects(): Observable<Project[]> {
-    return this.getAll();
+    return this.projectEntityService
+      .findAllProjectUsingGET()
+      .pipe(
+        map(p =>
+          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
+        )
+      );
   }
 
   deleteProject(project: Project): Observable<any> {
-    return this.delete(project);
+    return this.projectEntityService.deleteProjectUsingDELETE(project.id);
   }
 
   getModulesOfProject(project: Project): Observable<Module[]> {
-    return project.getRelationArray(Module, 'modules');
-  }
-
-  getTagsOfProject(project: Project): Observable<Tag[]> {
-    return project.getRelationArray(Tag, 'tagCollection');
+    return this.projectEntityService
+      .projectModulesUsingGET(project.id)
+      .pipe(
+        map(m =>
+          m._embedded.projectModules.map(m2 => Object.assign(new Module(), m2))
+        )
+      );
   }
 }
