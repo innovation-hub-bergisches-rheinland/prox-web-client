@@ -76,6 +76,17 @@ const routes: Routes = [
           )
       },
       {
+        path: 'professors',
+        // loadChildren: () =>
+        //   import('@modules/disclaimer/disclaimer.module').then(
+        //     m => m.DisclaimerModule
+        //   )
+        loadChildren: () =>
+          import('@modules/professor/professor-profile.module').then(
+            m => m.ProfessorProfileModule
+          )
+      },
+      {
         path: '**',
         // loadChildren: () =>
         //   import('@modules/page-not-found/page-not-found.module').then(
