@@ -1,0 +1,31 @@
+.prof-image-tile,
+.prof-info-tile > ::ng-deep figure {
+  justify-content: flex-start !important ;
+  align-items: flex-start !important;
+}
+
+.prof-info-table {
+  font-family: 'Roboto';
+  font-size: 14px;
+  color: #000000;
+}
+
+.prof-info-table td:nth-child(2) {
+  padding: 0 15px;
+}
+
+h1 {
+  font-family: 'Roboto';
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+h2 {
+  font-family: 'Roboto';
+  font-size: 14px;
+  color: #6c6c6c;
+  margin-top: 0px;
+}

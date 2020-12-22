@@ -1,0 +1,14 @@
+<div fxLayout="column">
+  <h1>Abgeschlossene Projekte</h1>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <button mat-raised-button (click)="goBackward()">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <div fxFlex class="slider-body-wrapper">
+      <ng-content></ng-content>
+    </div>
+    <button mat-raised-button (click)="goForward()">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+</div>

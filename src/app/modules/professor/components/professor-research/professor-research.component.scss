@@ -1,0 +1,28 @@
+.prof-research-div {
+  color: #000000;
+  font-family: 'Roboto';
+}
+
+.prof-research-div h1 {
+  font-size: 24px;
+  line-height: 38px;
+}
+
+.prof-research-div ul {
+  column-count: 2;
+  column-gap: 35px;
+  list-style: none;
+}
+
+.prof-research-div li {
+  line-height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prof-research-div li::before {
+  content: '•';
+  font-size: 40px;
+  color: var(--th-purple);
+}
