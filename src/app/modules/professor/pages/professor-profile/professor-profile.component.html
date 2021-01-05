@@ -2,9 +2,11 @@
   <app-professor-information
     [professor]="professor$"
   ></app-professor-information>
-  <app-professor-vita></app-professor-vita>
-  <app-professor-research></app-professor-research>
-  <app-professor-publications></app-professor-publications>
+  <app-professor-vita [professor]="professor$"></app-professor-vita>
+  <app-professor-research [professor]="professor$"></app-professor-research>
+  <app-professor-publications
+    [professor]="professor$"
+  ></app-professor-publications>
   <app-professor-running-projects></app-professor-running-projects>
   <!--<app-professor-projects-history>
     <app-professor-projects-history-item></app-professor-projects-history-item>

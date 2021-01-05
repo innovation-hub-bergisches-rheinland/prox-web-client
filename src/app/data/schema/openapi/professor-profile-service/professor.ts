@@ -17,6 +17,8 @@ import { ContactInformation } from './contactInformation';
 export interface Professor {
   contactInformation?: ContactInformation;
   id?: string;
+  affiliation?: string;
+  mainSubject?: string;
   name?: string;
   profileImage?: ProfileImage;
   publications?: Array<Publication>;

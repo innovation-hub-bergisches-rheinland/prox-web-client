@@ -1,38 +1,44 @@
-<div fxLayout="row" fxLayoutGap="15px">
-  <div class="prof-image-div">
+<div fxLayout="row" fxLayoutGap="15px" *ngIf="prof">
+  <div class="prof-image-div" *ngIf="imgUrl">
     <img alt="blank" [src]="imgUrl" width="200" />
   </div>
   <div class="prof-info-div">
-    <h1>{{ name }}</h1>
-    <h2>{{ faculty }}</h2>
+    <h1>{{ prof?.name }}</h1>
+    <h2 *ngIf="faculty">{{ faculty.name }}</h2>
     <table class="prof-info-table">
-      <tr>
+      <tr *ngIf="prof.affiliation">
         <td>Hochschulzugehörigkeit seit:</td>
-        <td>TODO</td>
+        <td>{{ prof.affiliation }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="prof.mainSubject">
         <td>Lehrgebiet:</td>
-        <td>TODO</td>
+        <td>{{ prof.mainSubject }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="prof.contactInformation.room">
         <td>Standort, Raum:</td>
-        <td>{{ room }}</td>
+        <td>{{ prof.contactInformation.room }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="prof.contactInformation.consultationHour">
         <td>Sprechstunde:</td>
-        <td>{{ consultationHour }}</td>
+        <td>{{ prof.contactInformation.consultationHour }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="prof.contactInformation.telephone">
         <td>Telefonnummer:</td>
-        <td [innerHTML]="textProcessor.process(telephone)"></td>
+        <td
+          [innerHTML]="textProcessor.process(prof.contactInformation.telephone)"
+        ></td>
       </tr>
-      <tr>
+      <tr *ngIf="prof.contactInformation.email">
         <td>E-Mail:</td>
-        <td [innerHTML]="textProcessor.process(email)"></td>
+        <td
+          [innerHTML]="textProcessor.process(prof.contactInformation.email)"
+        ></td>
       </tr>
-      <tr>
+      <tr *ngIf="prof.contactInformation.homepage">
         <td>Homepage:</td>
-        <td [innerHTML]="textProcessor.process(homepage)"></td>
+        <td
+          [innerHTML]="textProcessor.process(prof.contactInformation.homepage)"
+        ></td>
       </tr>
     </table>
   </div>

@@ -1,10 +1,11 @@
-<div class="prof-research-div" fxLayout="column" fxLayoutAlign="center center">
+<div
+  class="prof-research-div"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  *ngIf="researchSubjects && researchSubjects.length"
+>
   <h1>Forschungsgebiete</h1>
   <ul>
-    <li>Ubiquitous Computing</li>
-    <li>Internet of Things</li>
-    <li>Context-aware Applications</li>
-    <li>Mobile Applications and Smartphone Usage</li>
-    <li>Distributed Interactive Systems</li>
+    <li *ngFor="let subject of researchSubjects">{{ subject.subject }}</li>
   </ul>
 </div>
