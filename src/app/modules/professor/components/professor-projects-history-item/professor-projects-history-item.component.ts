@@ -7,6 +7,7 @@ import {
   animate,
   AnimationEvent
 } from '@angular/animations';
+import { Project } from '@data/schema/project.resource';
 
 @Component({
   selector: 'app-professor-projects-history-item',
@@ -28,6 +29,13 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
   _position;
   _positionIndex;
   _displayContent = false;
+
+  _project;
+
+  @Input()
+  set project(project: Project) {
+    this._project = project;
+  }
 
   @Input()
   set position(positionValue: number) {
