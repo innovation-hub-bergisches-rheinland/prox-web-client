@@ -282,25 +282,25 @@ export class ProfessorControllerService {
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
+    options?: { httpHeaderAccept?: 'image/png' }
   ): Observable<string>;
   public getProfessorImageUsingGET(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
+    options?: { httpHeaderAccept?: 'image/png' }
   ): Observable<HttpResponse<string>>;
   public getProfessorImageUsingGET(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
+    options?: { httpHeaderAccept?: 'image/png' }
   ): Observable<HttpEvent<string>>;
   public getProfessorImageUsingGET(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
+    options?: { httpHeaderAccept?: 'image/png' }
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
@@ -314,7 +314,7 @@ export class ProfessorControllerService {
       options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
+      const httpHeaderAccepts: string[] = ['image/png'];
       httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
         httpHeaderAccepts
       );

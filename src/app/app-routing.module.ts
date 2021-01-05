@@ -87,7 +87,7 @@ const routes: Routes = [
           )
       },
       {
-        path: '**',
+        path: '404',
         // loadChildren: () =>
         //   import('@modules/page-not-found/page-not-found.module').then(
         //     m => m.PageNotFoundModule
@@ -96,6 +96,10 @@ const routes: Routes = [
           import('@modules/page-not-found/page-not-found.module').then(
             m => m.PageNotFoundModule
           )
+      },
+      {
+        path: '**',
+        redirectTo: '/404'
       }
     ]
   }
