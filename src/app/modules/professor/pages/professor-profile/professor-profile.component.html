@@ -7,7 +7,9 @@
   <app-professor-publications
     [professor]="professor$"
   ></app-professor-publications>
-  <app-professor-running-projects></app-professor-running-projects>
+  <app-professor-running-projects
+    [projects]="availableProjects$"
+  ></app-professor-running-projects>
   <!--<app-professor-projects-history>
     <app-professor-projects-history-item></app-professor-projects-history-item>
     <app-professor-projects-history-item></app-professor-projects-history-item>

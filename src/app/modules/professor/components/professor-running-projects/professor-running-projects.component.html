@@ -1,15 +1,15 @@
 <div fxLayout="column" fxLayoutAlign="start center">
   <h1>Aktuelle Projektthemen</h1>
-  <table mat-table [dataSource]="dataSource" class="mat-flat-z8">
-    <ng-container matColumnDef="subject">
+  <table mat-table [dataSource]="availableProjects" class="mat-flat-z8">
+    <ng-container matColumnDef="name">
       <th id="hSubject" mat-header-cell *matHeaderCellDef>Thema</th>
       <td mat-cell *matCellDef="let element">
-        <a href=""> {{ element.subject }} </a>
+        <a [routerLink]="['/projects/' + element.id]"> {{ element.name }} </a>
       </td>
     </ng-container>
     <ng-container matColumnDef="type">
       <th id="hType" mat-header-cell *matHeaderCellDef>Art</th>
-      <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      <td mat-cell *matCellDef="let element">{{ getProjectType(element) }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Route } from '@angular/compiler/src/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Professor } from '@data/schema/openapi/professor-profile-service/models';
+import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
+import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
-import { VirtualTimeScheduler } from 'rxjs';
-import { times } from 'underscore';
+import { map, mergeMap, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-professor-profile',
@@ -16,11 +16,13 @@ import { times } from 'underscore';
 export class ProfessorProfileComponent implements OnInit {
   private professorId: string;
   professor$: Observable<Professor>;
+  availableProjects$: Observable<Project[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private professorService: ProfessorProfileService
+    private professorService: ProfessorProfileService,
+    private projectService: ProjectService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +31,7 @@ export class ProfessorProfileComponent implements OnInit {
       this.professorId
     );
     this.professor$.subscribe(
-      res => {},
+      _ => {},
       err => {
         if (err instanceof HttpErrorResponse) {
           if (err.status == 404) {
@@ -42,6 +44,24 @@ export class ProfessorProfileComponent implements OnInit {
         }
       }
     );
-    //console.log(this.professor)
+
+    this.availableProjects$ = this.professor$.pipe(
+      mergeMap(prof =>
+        this.projectService.findAvailableProjectsOfCreator(prof.id)
+      )
+    );
+
+    this.availableProjects$ = this.availableProjects$.pipe(
+      mergeMap(projects => projects),
+      mergeMap(project =>
+        this.projectService.getModulesOfProject(project).pipe(
+          map(modules => {
+            project.modules = modules;
+            return project;
+          })
+        )
+      ),
+      toArray()
+    );
   }
 }

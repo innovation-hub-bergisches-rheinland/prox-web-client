@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 import { Project } from '@data/schema/project.resource';
 import { Project as ProjectSchema } from '@data/schema/openapi/project-service/models';
@@ -92,6 +92,26 @@ export class ProjectService {
       .pipe(
         map(m =>
           m._embedded.projectModules.map(m2 => Object.assign(new Module(), m2))
+        )
+      );
+  }
+
+  findAvailableProjectsOfCreator(id: string): Observable<Project[]> {
+    return this.projectEntityService
+      .findAvailableProjectsOfCreatorProjectUsingGET(id)
+      .pipe(
+        map(p =>
+          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
+        )
+      );
+  }
+
+  findRunningAndFinishedProjectsOfCreator(id: string): Observable<Project[]> {
+    return this.projectEntityService
+      .findRunningAndFinishedProjectsOfCreatorProjectUsingGET(id)
+      .pipe(
+        map(p =>
+          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
         )
       );
   }
