@@ -1,0 +1,193 @@
+<div>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    *ngIf="hasPermission"
+  >
+    <mat-card class="card">
+      <mat-card-title>Professorenprofil bearbeiten</mat-card-title>
+      <mat-card-content>
+        <div>
+          <h3>Persönliche Daten</h3>
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <div
+              fxLayout="column"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="5px"
+              fxFlex="25"
+            >
+              <div class="profileImageContainer">
+                <img class="profileImage" [src]="imageSrc" />
+              </div>
+
+              <button mat-raised-button (click)="fileInput.click()">
+                <mat-icon>publish</mat-icon> Profilbild hochladen
+                <input
+                  #fileInput
+                  style="display: none"
+                  type="file"
+                  id="file"
+                  accept="image/jpeg, image/png, image/gif"
+                  (change)="uploadImage($event.target.files)"
+                />
+              </button>
+            </div>
+            <div
+              fxLayout="column"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="5px"
+              fxFlex="75"
+            >
+              <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput [value]="name" />
+              </mat-form-field>
+              <br />
+              <mat-form-field apperance="fill" *ngIf="faculties">
+                <mat-label>Fakultät</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let faculty of faculties"
+                    >[{{ faculty.abbreviation }}] {{ faculty.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+              <br />
+              <mat-form-field appearance="fill">
+                <mat-label>Hochschulzugehörigkeit seit:</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <br />
+          <div
+            fxLayout="column"
+            fxLayoutAlign="start stretch"
+            fxLayoutGap="20px"
+          >
+            <div
+              fxLayout="row"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="5px"
+              fxFlex="50"
+            >
+              <mat-form-field appearance="fill">
+                <mat-label>Lehrgebiet</mat-label>
+                <input matInput />
+              </mat-form-field>
+              <br />
+              <mat-form-field appearance="fill">
+                <mat-label>Standort, Raum</mat-label>
+                <input matInput />
+              </mat-form-field>
+              <br />
+            </div>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="5px"
+              fxFlex="50"
+            >
+              <mat-form-field appearance="fill">
+                <mat-label>Sprechstunde</mat-label>
+                <input matInput />
+              </mat-form-field>
+              <br />
+              <mat-form-field appearance="fill">
+                <mat-label>Telefonnummer</mat-label>
+                <input matInput />
+              </mat-form-field>
+              <br />
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+              <mat-form-field appearance="fill">
+                <mat-label>E-Mail</mat-label>
+                <input matInput />
+              </mat-form-field>
+              <br />
+              <mat-form-field appearance="fill">
+                <mat-label>Homepage</mat-label>
+                <input matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <br />
+          <mat-divider></mat-divider>
+          <br />
+          <div>
+            <h3>Forschungsgebiete</h3>
+            <mat-form-field class="researchSubjects-chip-list">
+              <mat-chip-list #subjectChipList>
+                <mat-chip
+                  *ngFor="let subject of researchSubjects"
+                  [removable]="true"
+                  (removed)="removeSubject(subject)"
+                >
+                  {{ subject }}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+
+                <input
+                  #researchSubjectInput
+                  placeholder="Forschungsgebiete"
+                  [matChipInputFor]="subjectChipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="true"
+                  (matChipInputTokenEnd)="addSubject($event)"
+                />
+              </mat-chip-list>
+            </mat-form-field>
+          </div>
+          <br />
+          <mat-divider></mat-divider>
+          <br />
+          <div>
+            <h3>Werdegang</h3>
+            <mat-form-field appearance="fill">
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="20"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <br />
+          <mat-divider></mat-divider>
+          <br />
+          <div>
+            <h3>Publikationen</h3>
+            <mat-form-field appearance="fill">
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <br />
+          <mat-divider></mat-divider>
+          <br />
+          <div class="buttonContainer">
+            <button
+              class="saveButton"
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="saveProfile()"
+            >
+              <mat-icon>save</mat-icon> Speichern
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <br />
+  </div>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    *ngIf="!hasPermission"
+  >
+    Sie haben keine Berechtigung für diese Seite.
+  </div>
+</div>

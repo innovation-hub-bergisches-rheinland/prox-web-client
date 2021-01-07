@@ -14,6 +14,7 @@ import {
 } from '@data/schema/openapi/professor-profile-service/models';
 import { HttpResponse } from '@angular/common/http';
 import { environment } from '@env';
+import { FacultyControllerService } from './openapi/professor-profile-service/facultyController.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ import { environment } from '@env';
 export class ProfessorProfileService {
   constructor(
     injector: Injector,
-    private professorControllerService: ProfessorControllerService
+    private professorControllerService: ProfessorControllerService,
+    private facultyControllerService: FacultyControllerService
   ) {}
 
   getProfessorProfile(id: any): Observable<Professor> {
@@ -39,5 +41,11 @@ export class ProfessorProfileService {
 
   getProfessorFaculty(id: any): Observable<Faculty> {
     return this.professorControllerService.getFacultyUsingGET1(id);
+  }
+
+  getAllFaculties(): Observable<Faculty[]> {
+    return this.facultyControllerService
+      .getALlFacultiesUsingGET()
+      .pipe(map(f => f._embedded['facultyList']));
   }
 }
