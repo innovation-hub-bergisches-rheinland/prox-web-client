@@ -19,7 +19,8 @@ import {
 } from '@angular/forms';
 import {
   MatAutocomplete,
-  MatAutocompleteSelectedEvent
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger
 } from '@angular/material/autocomplete';
 import {
   MatChipInputEvent,
@@ -84,6 +85,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
+  @ViewChild(MatAutocompleteTrigger)
+  tagAutocompleteTrigger: MatAutocompleteTrigger;
 
   autoSave: Subscription;
   userID: string;
@@ -259,20 +262,21 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   addTag(event: MatChipInputEvent) {
-    if (!this.tagAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
+    const input = event.input;
+    const value = event.value;
 
-      if ((value || '').trim()) {
-        const tag = new Tag();
-        tag.tagName = value.trim();
-        this.tags.push(tag);
-        this.updateTagRecommendations();
-      }
+    if ((value || '').trim()) {
+      const tag = new Tag();
+      tag.tagName = value.trim();
+      this.tags.push(tag);
+      this.updateTagRecommendations();
+    }
 
-      if (input) {
-        input.value = '';
-      }
+    if (input) {
+      input.value = '';
+    }
+    if (this.tagAutocomplete.isOpen) {
+      this.tagAutocompleteTrigger.closePanel();
     }
   }
 
