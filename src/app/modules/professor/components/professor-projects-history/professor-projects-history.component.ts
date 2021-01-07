@@ -13,8 +13,8 @@ import { ProfessorProjectsHistoryItemComponent } from '../professor-projects-his
 @Component({
   selector: 'app-professor-projects-history',
   templateUrl: './professor-projects-history.component.html',
-  styleUrls: ['./professor-projects-history.component.scss']
-  //host: { class: 'prof-projects-history' }
+  styleUrls: ['./professor-projects-history.component.scss'],
+  host: { class: 'prof-projects-history' }
 })
 export class ProfessorProjectsHistoryComponent implements AfterContentChecked {
   @ContentChildren(ProfessorProjectsHistoryItemComponent)
