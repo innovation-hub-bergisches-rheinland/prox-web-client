@@ -7,7 +7,10 @@ import {
   OnChanges,
   SimpleChanges,
   ChangeDetectorRef,
-  AfterViewInit
+  AfterViewInit,
+  AfterViewChecked,
+  AfterContentChecked,
+  DoCheck
 } from '@angular/core';
 import {
   trigger,
@@ -33,7 +36,8 @@ import { Project } from '@data/schema/project.resource';
         animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
       )
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush //Prevent ExpressionChangedAfterItHasBeenCheckedError by manual pushing changes
 })
 export class ProfessorProjectsHistoryItemComponent implements OnInit {
   _position;
@@ -41,15 +45,21 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
   _displayContent = false;
   _project: Project;
 
+  constructor(private cd: ChangeDetectorRef) {}
+
   @Input()
   set project(project: Project) {
     this._project = project;
+
+    this.cd.detectChanges(); //Change
   }
 
   @Input()
   set position(positionValue: number) {
     this._positionIndex = positionValue;
     this.computePosition();
+
+    this.cd.detectChanges(); //Change
   }
 
   get activeClass() {
@@ -61,8 +71,6 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
       ? 'slider-content-item-active'
       : 'slider-content-item';
   }
-
-  constructor() {}
 
   ngOnInit() {
     this.computePosition();
@@ -76,17 +84,23 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
     } else {
       this._position = 'center';
     }
+
+    this.cd.detectChanges(); //Change
   }
 
   onTranslateSlideStart(event: AnimationEvent) {
     if (event.toState === 'center') {
       this._displayContent = true;
     }
+
+    this.cd.detectChanges(); //Change
   }
 
   onTranslateSlideEnd(event: AnimationEvent) {
     if (event.fromState === 'center' && event.toState !== 'center') {
       this._displayContent = false;
     }
+
+    this.cd.detectChanges(); //Change
   }
 }
