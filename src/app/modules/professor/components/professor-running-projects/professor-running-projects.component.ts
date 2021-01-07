@@ -23,10 +23,7 @@ export class ProfessorRunningProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.projects$.subscribe(
-      res => {
-        console.log(res);
-        this.availableProjects = res;
-      },
+      res => (this.availableProjects = res),
       err => console.error(err)
     );
   }
