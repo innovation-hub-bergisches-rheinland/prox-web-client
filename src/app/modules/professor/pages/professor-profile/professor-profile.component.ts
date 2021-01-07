@@ -17,6 +17,7 @@ import { map, mergeMap, toArray } from 'rxjs/operators';
 export class ProfessorProfileComponent implements OnInit {
   private professorId: string;
   private isLoggedIn: boolean;
+  noContent: boolean = false;
   professor$: Observable<Professor>;
   availableProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
@@ -51,7 +52,11 @@ export class ProfessorProfileComponent implements OnInit {
       err => {
         if (err instanceof HttpErrorResponse) {
           if (err.status == 404) {
-            this.router.navigate(['/404']);
+            if (this.hasPermission) {
+              this.noContent = true;
+            } else {
+              this.router.navigate(['/404']);
+            }
           } else {
             console.error('Unexpected error occurred');
           }
@@ -61,40 +66,42 @@ export class ProfessorProfileComponent implements OnInit {
       }
     );
 
-    this.availableProjects$ = this.professor$.pipe(
-      mergeMap(prof =>
-        this.projectService.findAvailableProjectsOfCreator(prof.id)
-      )
-    );
-
-    this.availableProjects$ = this.availableProjects$.pipe(
-      mergeMap(projects => projects),
-      mergeMap(project =>
-        this.projectService.getModulesOfProject(project).pipe(
-          map(modules => {
-            project.modules = modules;
-            return project;
-          })
+    if (!this.noContent) {
+      this.availableProjects$ = this.professor$.pipe(
+        mergeMap(prof =>
+          this.projectService.findAvailableProjectsOfCreator(prof.id)
         )
-      ),
-      toArray()
-    );
+      );
 
-    this.projectHistory$ = this.professor$.pipe(
-      mergeMap(prof =>
-        this.projectService.findRunningAndFinishedProjectsOfCreator(prof.id)
-      )
-    );
+      this.availableProjects$ = this.availableProjects$.pipe(
+        mergeMap(projects => projects),
+        mergeMap(project =>
+          this.projectService.getModulesOfProject(project).pipe(
+            map(modules => {
+              project.modules = modules;
+              return project;
+            })
+          )
+        ),
+        toArray()
+      );
 
-    this.projectHistory$.subscribe(
-      res => (this.projectHistory = res),
-      err => console.error(err)
-    );
+      this.projectHistory$ = this.professor$.pipe(
+        mergeMap(prof =>
+          this.projectService.findRunningAndFinishedProjectsOfCreator(prof.id)
+        )
+      );
 
-    if (await this.keycloakService.isLoggedIn()) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
+      this.projectHistory$.subscribe(
+        res => (this.projectHistory = res),
+        err => console.error(err)
+      );
+
+      if (await this.keycloakService.isLoggedIn()) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
     }
   }
 

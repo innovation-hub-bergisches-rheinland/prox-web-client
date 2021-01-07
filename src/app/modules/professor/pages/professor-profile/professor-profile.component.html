@@ -4,7 +4,7 @@
       <mat-icon>create</mat-icon> Profilseite bearbeiten
     </button>
   </div>
-  <div fxLayout="column" fxLayoutAlign="space-around center">
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="!noContent">
     <app-professor-information
       [professor]="professor$"
     ></app-professor-information>
@@ -24,5 +24,9 @@
         [project]="project"
       ></app-professor-projects-history-item>
     </app-professor-projects-history>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="noContent">
+    Sie haben noch kein Professorenprofil eingerichtet, Sie können das mit einem
+    Klick auf den Button "Profilseite bearbeiten" tun.
   </div>
 </div>
