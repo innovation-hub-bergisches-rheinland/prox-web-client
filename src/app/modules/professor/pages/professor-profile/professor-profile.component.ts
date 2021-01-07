@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Professor } from '@data/schema/openapi/professor-profile-service/models';
@@ -105,5 +106,7 @@ export class ProfessorProfileComponent implements OnInit {
     }
   }
 
-  editProfilePage() {}
+  editProfilePage() {
+    this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
+  }
 }
