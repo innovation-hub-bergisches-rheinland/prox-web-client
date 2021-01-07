@@ -5,6 +5,7 @@ import { Project } from '@data/schema/project.resource';
 import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
 import { environment } from '@env';
+import { type } from 'os';
 
 @Component({
   selector: 'app-professor-running-projects',
@@ -28,12 +29,41 @@ export class ProfessorRunningProjectsComponent implements OnInit {
     );
   }
 
-  getProjectType(project: Project): string {
-    return project.modules.map(module => module.name).join(' / ');
-  }
-
-  getProjectLink(project: Project): string {
-    return ``;
+  /**
+   * Returns the available project types of the project.
+   * The function distincts all available modules by their projectType and returns the name.
+   *
+   * For example a project has the following modules:
+   * ```
+   * [
+   *   {
+   *     projectType = 'BA',
+   *     name = 'Bachelorarbeit'
+   *   },
+   *   {
+   *     projectType = 'BA',
+   *     name = 'Bachelor Arbeit'
+   *   }
+   * ]
+   * ```
+   *
+   * The return value would be:
+   * ```
+   * [
+   *   'Bachelorarbeit'
+   * ]
+   * ```
+   *
+   * @param project Project
+   */
+  getProjectType(project: Project): string[] {
+    return project.modules
+      .filter((obj, pos, arr) => {
+        return (
+          arr.map(m => m['projectType']).indexOf(obj['projectType']) === pos
+        );
+      })
+      .map(m => m.name);
   }
 
   @Input()

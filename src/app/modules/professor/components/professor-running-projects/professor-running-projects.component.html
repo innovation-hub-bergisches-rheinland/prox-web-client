@@ -13,7 +13,11 @@
     </ng-container>
     <ng-container matColumnDef="type">
       <th id="hType" mat-header-cell *matHeaderCellDef>Art</th>
-      <td mat-cell *matCellDef="let element">{{ getProjectType(element) }}</td>
+      <td mat-cell *matCellDef="let element">
+        <ul>
+          <li *ngFor="let type of getProjectType(element)">{{ type }}</li>
+        </ul>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
