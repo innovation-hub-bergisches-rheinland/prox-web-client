@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Project } from '@data/schema/project.resource';
 import { Observable } from 'rxjs';
-import { ProfessorProjectsHistoryItemComponent } from '../professor-projects-history-item/professor-projects-history-item.component';
+import { ProfessorProjectsHistoryItemComponent } from './professor-projects-history-item/professor-projects-history-item.component';
 
 @Component({
   selector: 'app-professor-projects-history',
