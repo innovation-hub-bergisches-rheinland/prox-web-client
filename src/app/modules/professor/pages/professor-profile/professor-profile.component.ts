@@ -17,6 +17,8 @@ export class ProfessorProfileComponent implements OnInit {
   private professorId: string;
   professor$: Observable<Professor>;
   availableProjects$: Observable<Project[]>;
+  projectHistory$: Observable<Project[]>;
+  projectHistory: Project[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,6 +64,17 @@ export class ProfessorProfileComponent implements OnInit {
         )
       ),
       toArray()
+    );
+
+    this.projectHistory$ = this.professor$.pipe(
+      mergeMap(prof =>
+        this.projectService.findRunningAndFinishedProjectsOfCreator(prof.id)
+      )
+    );
+
+    this.projectHistory$.subscribe(
+      res => (this.projectHistory = res),
+      err => console.error(err)
     );
   }
 }

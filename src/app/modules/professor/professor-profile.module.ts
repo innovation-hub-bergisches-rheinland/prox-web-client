@@ -10,7 +10,6 @@ import { ProfessorResearchComponent } from './components/professor-research/prof
 import { ProfessorPublicationsComponent } from './components/professor-publications/professor-publications.component';
 import { ProfessorProjectsHistoryComponent } from './components/professor-projects-history/professor-projects-history.component';
 import { ProfessorProjectsHistoryItemComponent } from './components/professor-projects-history-item/professor-projects-history-item.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProfessorRunningProjectsComponent } from './components/professor-running-projects/professor-running-projects.component';
 
 @NgModule({
@@ -24,12 +23,7 @@ import { ProfessorRunningProjectsComponent } from './components/professor-runnin
     ProfessorProjectsHistoryItemComponent,
     ProfessorRunningProjectsComponent
   ],
-  imports: [
-    SharedModule,
-    ProfessorProfileRoutingModule,
-    FlexLayoutModule,
-    FontAwesomeModule
-  ],
+  imports: [SharedModule, ProfessorProfileRoutingModule, FlexLayoutModule],
   entryComponents: []
 })
 export class ProfessorProfileModule {}

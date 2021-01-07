@@ -1,4 +1,8 @@
-<div fxLayout="column" fxLayoutAlign="start center">
+<div
+  fxLayout="column"
+  fxLayoutAlign="start center"
+  *ngIf="availableProjects && availableProjects.length > 0"
+>
   <h1>Aktuelle Projektthemen</h1>
   <table mat-table [dataSource]="availableProjects" class="mat-flat-z8">
     <ng-container matColumnDef="name">

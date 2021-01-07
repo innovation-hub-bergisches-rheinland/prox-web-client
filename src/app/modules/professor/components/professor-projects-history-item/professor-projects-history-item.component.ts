@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostBinding,
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+  AfterViewInit
+} from '@angular/core';
 import {
   trigger,
   state,
@@ -29,8 +39,7 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
   _position;
   _positionIndex;
   _displayContent = false;
-
-  _project;
+  _project: Project;
 
   @Input()
   set project(project: Project) {
@@ -43,8 +52,14 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
     this.computePosition();
   }
 
-  activeClass() {
+  get activeClass() {
     return this._positionIndex === 0;
+  }
+
+  get className(): string {
+    return this.activeClass
+      ? 'slider-content-item-active'
+      : 'slider-content-item';
   }
 
   constructor() {}
