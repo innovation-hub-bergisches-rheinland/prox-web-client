@@ -45,6 +45,8 @@ export class UserComponent implements OnInit {
   profProfile() {
     const navigationDetails: string[] = ['/professors'];
     navigationDetails.push(this.userId);
-    this.router.navigate(navigationDetails);
+    this.router.navigate(navigationDetails).then(
+      () => window.location.reload() //Reload to hide sidenav and take some complexity away when profile does not exist
+    );
   }
 }
