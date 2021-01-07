@@ -5,6 +5,7 @@ import { Professor } from '@data/schema/openapi/professor-profile-service/models
 import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
+import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
 
@@ -15,6 +16,7 @@ import { map, mergeMap, toArray } from 'rxjs/operators';
 })
 export class ProfessorProfileComponent implements OnInit {
   private professorId: string;
+  private isLoggedIn: boolean;
   professor$: Observable<Professor>;
   availableProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
@@ -24,10 +26,22 @@ export class ProfessorProfileComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private professorService: ProfessorProfileService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private keycloakService: KeycloakService
   ) {}
 
-  ngOnInit(): void {
+  get hasPermission(): boolean {
+    if (this.isLoggedIn) {
+      let userId = this.keycloakService.getKeycloakInstance().subject;
+      return (
+        this.keycloakService.isUserInRole('professor') &&
+        userId === this.professorId
+      );
+    }
+    return false;
+  }
+
+  async ngOnInit() {
     this.activatedRoute.params.subscribe(res => (this.professorId = res['id']));
     this.professor$ = this.professorService.getProfessorProfile(
       this.professorId
@@ -76,5 +90,13 @@ export class ProfessorProfileComponent implements OnInit {
       res => (this.projectHistory = res),
       err => console.error(err)
     );
+
+    if (await this.keycloakService.isLoggedIn()) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
   }
+
+  editProfilePage() {}
 }
