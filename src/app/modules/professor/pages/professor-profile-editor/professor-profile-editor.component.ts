@@ -1,21 +1,14 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   Faculty,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
-import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import { ProjectService } from '@data/service/project.service';
-import { profile } from 'console';
 import { KeycloakService } from 'keycloak-angular';
-import { Observable } from 'rxjs';
-import { map, mergeMap, toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-professor-profile-editor',
@@ -142,7 +135,9 @@ export class ProfessorProfileEditor implements OnInit {
       researchSubjects: this.researchSubjects.map(s => ({ subject: s.trim() })),
       vita: formValue['vita']?.trim(),
       publications: formValue['publications']
+        ?.trim()
         .split(/\n\n+/)
+        .filter(p => p && p.trim().length !== 0)
         .map(p => ({ publication: p.trim() })),
       contactInformation: {
         consultationHour: formValue['consultationHour']?.trim(),
