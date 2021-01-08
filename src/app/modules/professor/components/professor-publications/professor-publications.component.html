@@ -5,9 +5,9 @@
   *ngIf="publications && publications.length"
 >
   <h1>Publikationen</h1>
-  <ul>
-    <li *ngFor="let publication of publications">
+  <div>
+    <p *ngFor="let publication of publications">
       {{ publication.publication }}
-    </li>
-  </ul>
+    </p>
+  </div>
 </div>
