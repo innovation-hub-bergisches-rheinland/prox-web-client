@@ -136,20 +136,20 @@ export class ProfessorProfileEditor implements OnInit {
   buildProfessor(formValue): Professor {
     return {
       id: this.professorId,
-      name: formValue['name'].trim(),
-      mainSubject: formValue['subject'].trim(),
-      affiliation: formValue['affiliation'].trim(),
+      name: formValue['name']?.trim(),
+      mainSubject: formValue['subject']?.trim(),
+      affiliation: formValue['affiliation']?.trim(),
       researchSubjects: this.researchSubjects.map(s => ({ subject: s.trim() })),
-      vita: formValue['vita'].trim(),
+      vita: formValue['vita']?.trim(),
       publications: formValue['publications']
         .split(/\n\n+/)
         .map(p => ({ publication: p.trim() })),
       contactInformation: {
-        consultationHour: formValue['consultationHour'].trim(),
-        email: formValue['email'].trim(),
-        homepage: formValue['homepage'].trim(),
-        room: formValue['room'].trim(),
-        telephone: formValue['telephone'].trim()
+        consultationHour: formValue['consultationHour']?.trim(),
+        email: formValue['email']?.trim(),
+        homepage: formValue['homepage']?.trim(),
+        room: formValue['room']?.trim(),
+        telephone: formValue['telephone']?.trim()
       }
     };
   }
@@ -167,6 +167,12 @@ export class ProfessorProfileEditor implements OnInit {
               f => console.log(f),
               err => console.error(err)
             );
+        }
+        if (this.image) {
+          this.professorService.saveProfessorImage(p.id, this.image).subscribe(
+            i => console.log('Image successful updated'),
+            err => console.error(err)
+          );
         }
       },
       err => console.error(err)

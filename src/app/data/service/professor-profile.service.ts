@@ -12,7 +12,7 @@ import {
   Faculty,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '@env';
 import { FacultyControllerService } from './openapi/professor-profile-service/facultyController.service';
 
@@ -23,7 +23,8 @@ export class ProfessorProfileService {
   constructor(
     injector: Injector,
     private professorControllerService: ProfessorControllerService,
-    private facultyControllerService: FacultyControllerService
+    private facultyControllerService: FacultyControllerService,
+    private httpClient: HttpClient
   ) {}
 
   getProfessorProfile(id: any): Observable<Professor> {
@@ -51,5 +52,19 @@ export class ProfessorProfileService {
 
   saveProfessorFaculty(id: any, faculty: Faculty): Observable<Faculty> {
     return this.professorControllerService.saveFacultyUsingPUT(id, faculty.id);
+  }
+
+  saveProfessorImage(id: any, image: Blob): Observable<any> {
+    /*return this.professorControllerService.postProfessorImageUsingPOST(
+      id,
+      image
+    );*/
+    //TODO use the OpenAPI implementation
+    const formData = new FormData();
+    formData.append('image', image);
+    return this.httpClient.post(
+      `${environment.apiUrl}/professors/${id}/image`,
+      formData
+    );
   }
 }
