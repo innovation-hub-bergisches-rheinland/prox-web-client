@@ -49,7 +49,11 @@
               <br />
               <mat-form-field apperance="fill" *ngIf="faculties">
                 <mat-label>Fakultät</mat-label>
-                <mat-select [(value)]="selectedFaculty">
+                <mat-select
+                  [(value)]="selectedFaculty"
+                  [compareWith]="compareFaculties"
+                  [formControl]="facultySelection"
+                >
                   <mat-option
                     *ngFor="let faculty of faculties"
                     [value]="faculty"
@@ -187,7 +191,6 @@
               mat-raised-button
               color="primary"
               type="submit"
-              (click)="saveProfile()"
             >
               <mat-icon>save</mat-icon> Speichern
             </button>

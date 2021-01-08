@@ -35,6 +35,13 @@ export class ProfessorProfileService {
     return this.professorControllerService.saveProfessorUsingPOST(professor);
   }
 
+  updateProfessorProfile(professor: Professor): Observable<Professor | any> {
+    return this.professorControllerService.updateProfessorUsingPUT(
+      professor.id,
+      professor
+    );
+  }
+
   getProfessorImageUrl(professor: Professor): Observable<string> {
     return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
     //return this.professorControllerService.getProfessorImageUsingGET(professor.id, 'response').pipe(map(r => r.url))
