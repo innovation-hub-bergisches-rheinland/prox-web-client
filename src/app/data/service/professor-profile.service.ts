@@ -48,4 +48,8 @@ export class ProfessorProfileService {
       .getALlFacultiesUsingGET()
       .pipe(map(f => f._embedded['facultyList']));
   }
+
+  saveProfessorFaculty(id: any, faculty: Faculty): Observable<Faculty> {
+    return this.professorControllerService.saveFacultyUsingPUT(id, faculty.id);
+  }
 }

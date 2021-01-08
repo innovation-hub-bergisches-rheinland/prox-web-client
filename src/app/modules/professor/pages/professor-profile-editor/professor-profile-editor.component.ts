@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,7 @@ import {
 import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
+import { profile } from 'console';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
@@ -31,7 +32,8 @@ export class ProfessorProfileEditor implements OnInit {
   researchSubjects: string[] = [];
   image: File;
   imageSrc;
-  professorProfileFormControl: FormGroup;
+  profileForm: FormGroup;
+  selectedFaculty: Faculty;
 
   @Input()
   set professor(professor: Professor) {
@@ -70,6 +72,19 @@ export class ProfessorProfileEditor implements OnInit {
         .loadUserProfile()
         .then(u => (this.name = `${u.firstName} ${u.lastName}`));
     }
+
+    this.profileForm = new FormGroup({
+      name: new FormControl(this.name),
+      affiliation: new FormControl(''),
+      subject: new FormControl(''),
+      room: new FormControl(''),
+      consultationHour: new FormControl(''),
+      telephone: new FormControl(''),
+      email: new FormControl(''),
+      homepage: new FormControl(''),
+      vita: new FormControl(''),
+      publications: new FormControl('')
+    });
 
     if (!this.imageSrc) {
       this.imageSrc = 'assets/images/blank-profile-picture.png';
@@ -116,6 +131,46 @@ export class ProfessorProfileEditor implements OnInit {
 
       reader.readAsDataURL(this.image);
     }
+  }
+
+  buildProfessor(formValue): Professor {
+    return {
+      id: this.professorId,
+      name: formValue['name'].trim(),
+      mainSubject: formValue['subject'].trim(),
+      affiliation: formValue['affiliation'].trim(),
+      researchSubjects: this.researchSubjects.map(s => ({ subject: s.trim() })),
+      vita: formValue['vita'].trim(),
+      publications: formValue['publications']
+        .split(/\n\n+/)
+        .map(p => ({ publication: p.trim() })),
+      contactInformation: {
+        consultationHour: formValue['consultationHour'].trim(),
+        email: formValue['email'].trim(),
+        homepage: formValue['homepage'].trim(),
+        room: formValue['room'].trim(),
+        telephone: formValue['telephone'].trim()
+      }
+    };
+  }
+
+  onSubmit() {
+    const formValue = this.profileForm.value;
+    const professor: Professor = this.buildProfessor(formValue);
+    console.log(professor);
+    this.professorService.saveProfessorProfile(professor).subscribe(
+      p => {
+        if (this.selectedFaculty) {
+          this.professorService
+            .saveProfessorFaculty(p.id, this.selectedFaculty)
+            .subscribe(
+              f => console.log(f),
+              err => console.error(err)
+            );
+        }
+      },
+      err => console.error(err)
+    );
   }
 
   saveProfile(professor: Professor) {

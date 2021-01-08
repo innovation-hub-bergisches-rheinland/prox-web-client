@@ -577,7 +577,7 @@ export class ProfessorControllerService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['application/json', 'text/plain'];
+    const consumes: string[] = ['text/plain'];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
