@@ -28,6 +28,7 @@ export class ProfessorProfileEditor implements OnInit {
   researchSubjects: string[] = [];
   image: File;
   imageSrc;
+  deleteImage = false;
   profileForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     affiliation: new FormControl(''),
@@ -234,12 +235,22 @@ export class ProfessorProfileEditor implements OnInit {
     if (this.image) {
       const reader = new FileReader();
 
+      this.deleteImage = false;
+
       reader.onload = e => {
         this.imageSrc = e.target.result;
       };
 
       reader.readAsDataURL(this.image); //Set preview
     }
+  }
+
+  /**
+   * Button Handler for delete Image
+   */
+  deleteProfileImage() {
+    this.deleteImage = true;
+    this.imageSrc = 'assets/images/blank-profile-picture.png';
   }
 
   /**
@@ -275,12 +286,21 @@ export class ProfessorProfileEditor implements OnInit {
                 )
             );
         }
-        if (this.image) {
+        console.log(this.image);
+        if (this.image && !this.deleteImage) {
           this.professorService.saveProfessorImage(p.id, this.image).subscribe(
             i => console.log('Image successful updated'),
             err =>
               this.snackbar.open(
                 'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
+              )
+          );
+        } else if (this.deleteImage) {
+          this.professorService.deleteImage(p.id).subscribe(
+            i => console.log('Image successful deleted'),
+            err =>
+              this.snackbar.open(
+                'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
               )
           );
         }

@@ -7,7 +7,7 @@
     <mat-card class="card">
       <mat-card-title>Professorenprofil bearbeiten</mat-card-title>
       <mat-card-content>
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="profileForm">
           <h3>Persönliche Daten</h3>
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
             <div
@@ -24,6 +24,9 @@
                 />
               </div>
 
+              <button mat-raised-button (click)="deleteProfileImage()">
+                <mat-icon>close</mat-icon> Profilbild entfernen
+              </button>
               <button mat-raised-button (click)="fileInput.click()">
                 <mat-icon>publish</mat-icon> Profilbild hochladen
                 <input
@@ -190,6 +193,7 @@
               class="saveButton"
               mat-raised-button
               color="primary"
+              (click)="onSubmit()"
               type="submit"
             >
               <mat-icon>save</mat-icon> Speichern

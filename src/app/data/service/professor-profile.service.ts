@@ -27,7 +27,7 @@ export class ProfessorProfileService {
     private httpClient: HttpClient
   ) {}
 
-  getProfessorProfile(id: any): Observable<Professor> {
+  getProfessorProfile(id: string): Observable<Professor> {
     return this.professorControllerService.getProfessor(id);
   }
 
@@ -46,7 +46,7 @@ export class ProfessorProfileService {
     return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
   }
 
-  getProfessorFaculty(id: any): Observable<Faculty> {
+  getProfessorFaculty(id: string): Observable<Faculty> {
     return this.professorControllerService
       .getFaculty(id)
       .pipe(map(em => <Faculty>em));
@@ -63,13 +63,17 @@ export class ProfessorProfileService {
     );
   }
 
-  saveProfessorFaculty(id: any, faculty: Faculty): Observable<Faculty> {
+  saveProfessorFaculty(id: string, faculty: Faculty): Observable<Faculty> {
     return this.professorControllerService
       .saveFaculty(id, faculty.id)
       .pipe(map(f => <Faculty>f));
   }
 
-  saveProfessorImage(id: any, image: Blob): Observable<any> {
+  saveProfessorImage(id: string, image: Blob): Observable<any> {
     return this.professorControllerService.postProfessorImage(id, image);
+  }
+
+  deleteImage(id: string): Observable<any> {
+    return this.professorControllerService.deleteProfessorImage(id);
   }
 }
