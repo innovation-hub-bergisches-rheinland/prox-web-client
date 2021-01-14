@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { StudyCourseEntityService } from './openapi/project-service/studyCourseEntity.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Module } from '@data/schema/module.resource';
 import { ModuleEntityService } from './openapi/project-service/moduleEntity.service';
 import { ProfessorControllerService } from './openapi/professor-profile-service/professorController.service';
@@ -28,15 +28,15 @@ export class ProfessorProfileService {
   ) {}
 
   getProfessorProfile(id: any): Observable<Professor> {
-    return this.professorControllerService.getProfessorUsingGET(id);
+    return this.professorControllerService.getProfessor(id);
   }
 
   saveProfessorProfile(professor: Professor): Observable<Professor | any> {
-    return this.professorControllerService.saveProfessorUsingPOST(professor);
+    return this.professorControllerService.saveProfessor(professor);
   }
 
   updateProfessorProfile(professor: Professor): Observable<Professor | any> {
-    return this.professorControllerService.updateProfessorUsingPUT(
+    return this.professorControllerService.updateProfessor(
       professor.id,
       professor
     );
@@ -44,34 +44,32 @@ export class ProfessorProfileService {
 
   getProfessorImageUrl(professor: Professor): Observable<string> {
     return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
-    //return this.professorControllerService.getProfessorImageUsingGET(professor.id, 'response').pipe(map(r => r.url))
   }
 
   getProfessorFaculty(id: any): Observable<Faculty> {
-    return this.professorControllerService.getFacultyUsingGET1(id);
+    return this.professorControllerService
+      .getFaculty(id)
+      .pipe(map(em => <Faculty>em));
   }
 
   getAllFaculties(): Observable<Faculty[]> {
-    return this.facultyControllerService
-      .getALlFacultiesUsingGET()
-      .pipe(map(f => f._embedded['facultyList']));
+    return this.facultyControllerService.getAllFaculties({}).pipe(
+      map(f => {
+        console.log(f._embedded.facultyList);
+        const facs = <Faculty[]>f._embedded.facultyList;
+        console.log(facs);
+        return facs;
+      })
+    );
   }
 
   saveProfessorFaculty(id: any, faculty: Faculty): Observable<Faculty> {
-    return this.professorControllerService.saveFacultyUsingPUT(id, faculty.id);
+    return this.professorControllerService
+      .saveFaculty(id, faculty.id)
+      .pipe(map(f => <Faculty>f));
   }
 
   saveProfessorImage(id: any, image: Blob): Observable<any> {
-    /*return this.professorControllerService.postProfessorImageUsingPOST(
-      id,
-      image
-    );*/
-    //TODO use the OpenAPI implementation
-    const formData = new FormData();
-    formData.append('image', image);
-    return this.httpClient.post(
-      `${environment.apiUrl}/professors/${id}/image`,
-      formData
-    );
+    return this.professorControllerService.postProfessorImage(id, image);
   }
 }

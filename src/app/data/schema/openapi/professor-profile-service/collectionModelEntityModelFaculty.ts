@@ -9,11 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CollectionModelEntityModelFacultyEmbedded } from './collectionModelEntityModelFacultyEmbedded';
+import { Link } from './link';
 
-export interface ContactInformation {
-  room?: string;
-  consultationHour?: string;
-  email?: string;
-  telephone?: string;
-  homepage?: string;
+export interface CollectionModelEntityModelFaculty {
+  _embedded?: CollectionModelEntityModelFacultyEmbedded;
+  _links?: { [key: string]: Link };
 }

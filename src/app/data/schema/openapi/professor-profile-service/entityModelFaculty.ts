@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Link } from './link';
 
-export interface ContactInformation {
-  room?: string;
-  consultationHour?: string;
-  email?: string;
-  telephone?: string;
-  homepage?: string;
+export interface EntityModelFaculty {
+  id?: string;
+  abbreviation?: string;
+  name?: string;
+  _links?: { [key: string]: Link };
 }

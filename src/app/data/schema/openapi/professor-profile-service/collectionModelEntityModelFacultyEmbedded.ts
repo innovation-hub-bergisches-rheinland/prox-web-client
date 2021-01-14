@@ -9,11 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { EntityModelFaculty } from './entityModelFaculty';
 
-export interface ContactInformation {
-  room?: string;
-  consultationHour?: string;
-  email?: string;
-  telephone?: string;
-  homepage?: string;
+export interface CollectionModelEntityModelFacultyEmbedded {
+  facultyList?: Array<EntityModelFaculty>;
 }

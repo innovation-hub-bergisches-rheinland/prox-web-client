@@ -10,10 +10,6 @@
  * Do not edit the class manually.
  */
 
-export interface ContactInformation {
-  room?: string;
-  consultationHour?: string;
-  email?: string;
-  telephone?: string;
-  homepage?: string;
+export interface InlineObject {
+  image?: Blob;
 }

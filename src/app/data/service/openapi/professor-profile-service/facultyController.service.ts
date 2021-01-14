@@ -23,8 +23,11 @@ import {
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfEntityModelOfFaculty } from '@data/schema/openapi/professor-profile-service/models';
-import { EntityModelOfFaculty } from '@data/schema/openapi/professor-profile-service/models';
+import {
+  CollectionModelEntityModelFaculty,
+  Sort,
+  EntityModelFaculty
+} from '@data/schema/openapi/professor-profile-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { Configuration } from '../configuration';
@@ -33,7 +36,7 @@ import { Configuration } from '../configuration';
   providedIn: 'root'
 })
 export class FacultyControllerService {
-  protected basePath = 'http://host.docker.internal:8081';
+  protected basePath = 'http://localhost:9005';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -111,53 +114,46 @@ export class FacultyControllerService {
   }
 
   /**
-   * getALlFaculties
-   * @param sorted
-   * @param unsorted
+   * @param sort
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getALlFacultiesUsingGET(
-    sorted?: boolean,
-    unsorted?: boolean,
+  public getAllFaculties(
+    sort: Sort,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<CollectionModelOfEntityModelOfFaculty>;
-  public getALlFacultiesUsingGET(
-    sorted?: boolean,
-    unsorted?: boolean,
+  ): Observable<CollectionModelEntityModelFaculty>;
+  public getAllFaculties(
+    sort: Sort,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpResponse<CollectionModelOfEntityModelOfFaculty>>;
-  public getALlFacultiesUsingGET(
-    sorted?: boolean,
-    unsorted?: boolean,
+  ): Observable<HttpResponse<CollectionModelEntityModelFaculty>>;
+  public getAllFaculties(
+    sort: Sort,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpEvent<CollectionModelOfEntityModelOfFaculty>>;
-  public getALlFacultiesUsingGET(
-    sorted?: boolean,
-    unsorted?: boolean,
+  ): Observable<HttpEvent<CollectionModelEntityModelFaculty>>;
+  public getAllFaculties(
+    sort: Sort,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: 'application/hal+json' }
   ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (sorted !== undefined && sorted !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>sorted,
-        'sorted'
+    if (sort === null || sort === undefined) {
+      throw new Error(
+        'Required parameter sort was null or undefined when calling getAllFaculties.'
       );
     }
-    if (unsorted !== undefined && unsorted !== null) {
+
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (sort !== undefined && sort !== null) {
       queryParameters = this.addToHttpParams(
         queryParameters,
-        <any>unsorted,
-        'unsorted'
+        <any>sort,
+        'sort'
       );
     }
 
@@ -184,7 +180,7 @@ export class FacultyControllerService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfEntityModelOfFaculty>(
+    return this.httpClient.get<CollectionModelEntityModelFaculty>(
       `${this.configuration.basePath}/faculties`,
       {
         params: queryParameters,
@@ -198,30 +194,29 @@ export class FacultyControllerService {
   }
 
   /**
-   * getFaculty
-   * @param id id
+   * @param id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getFacultyUsingGET(
+  public getFaculty1(
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<EntityModelOfFaculty>;
-  public getFacultyUsingGET(
+  ): Observable<EntityModelFaculty>;
+  public getFaculty1(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpResponse<EntityModelOfFaculty>>;
-  public getFacultyUsingGET(
+  ): Observable<HttpResponse<EntityModelFaculty>>;
+  public getFaculty1(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpEvent<EntityModelOfFaculty>>;
-  public getFacultyUsingGET(
+  ): Observable<HttpEvent<EntityModelFaculty>>;
+  public getFaculty1(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -229,7 +224,7 @@ export class FacultyControllerService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling getFacultyUsingGET.'
+        'Required parameter id was null or undefined when calling getFaculty1.'
       );
     }
 
@@ -256,7 +251,7 @@ export class FacultyControllerService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<EntityModelOfFaculty>(
+    return this.httpClient.get<EntityModelFaculty>(
       `${this.configuration.basePath}/faculties/${encodeURIComponent(
         String(id)
       )}`,

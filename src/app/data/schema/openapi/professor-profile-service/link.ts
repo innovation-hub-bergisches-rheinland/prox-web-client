@@ -10,10 +10,13 @@
  * Do not edit the class manually.
  */
 
-export interface ContactInformation {
-  room?: string;
-  consultationHour?: string;
-  email?: string;
-  telephone?: string;
-  homepage?: string;
+export interface Link {
+  href?: string;
+  hreflang?: string;
+  title?: string;
+  type?: string;
+  deprecation?: string;
+  profile?: string;
+  name?: string;
+  templated?: boolean;
 }
