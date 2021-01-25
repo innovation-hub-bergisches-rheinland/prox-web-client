@@ -40,6 +40,14 @@
           [innerHTML]="textProcessor.process(prof.contactInformation.homepage)"
         ></td>
       </tr>
+      <tr *ngIf="prof.contactInformation.homepage">
+        <td>Personalseite:</td>
+        <td
+          [innerHTML]="
+            textProcessor.process(prof.contactInformation.collegePage)
+          "
+        ></td>
+      </tr>
     </table>
   </div>
 </div>

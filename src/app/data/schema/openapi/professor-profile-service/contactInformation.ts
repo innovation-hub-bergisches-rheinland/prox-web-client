@@ -16,4 +16,5 @@ export interface ContactInformation {
   email?: string;
   telephone?: string;
   homepage?: string;
+  collegePage?: string;
 }

@@ -38,6 +38,7 @@ export class ProfessorProfileEditor implements OnInit {
     telephone: new FormControl(''),
     email: new FormControl(''),
     homepage: new FormControl(''),
+    collegePage: new FormControl(''),
     vita: new FormControl(''),
     publications: new FormControl('')
   });
@@ -78,6 +79,9 @@ export class ProfessorProfileEditor implements OnInit {
       homepage: professor.contactInformation.homepage
         ? professor.contactInformation.homepage
         : '',
+      collegePage: professor.contactInformation.collegePage
+        ? professor.contactInformation.collegePage
+        : '',
       vita: professor.vita ? professor.vita : '',
       publications: professor.publications
         ? professor.publications.map(p => p.publication).join('\n\n')
@@ -102,7 +106,8 @@ export class ProfessorProfileEditor implements OnInit {
         consultationHour: this.profileForm.value.consultationHour,
         telephone: this.profileForm.value.telephone,
         email: this.profileForm.value.email,
-        homepage: this.profileForm.value.homepage
+        homepage: this.profileForm.value.homepage,
+        collegePage: this.profileForm.value.collegePage
       },
       vita: this.profileForm.value.vita,
       researchSubjects: this.researchSubjects?.map(s => ({ subject: s })),
