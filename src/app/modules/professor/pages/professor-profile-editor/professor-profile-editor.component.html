@@ -9,13 +9,16 @@
       <mat-card-content>
         <form [formGroup]="profileForm">
           <h3>Persönliche Daten</h3>
-          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-            <div
-              fxLayout="column"
-              fxLayoutAlign="start stretch"
-              fxLayoutGap="5px"
-              fxFlex="25"
-            >
+          <div
+            gdAreas="picture mainInfo | info info"
+            gdRows="auto auto"
+            gdColumns="25% 73%"
+            gdGap="2%"
+            gdAreas.lt-md="picture | mainInfo | info"
+            gdColumns.lt-md="auto"
+            gdRows.lt-md="auto auto auto"
+          >
+            <div gdArea="picture">
               <div class="profileImageContainer">
                 <img
                   class="profileImage"
@@ -39,12 +42,7 @@
                 />
               </button>
             </div>
-            <div
-              fxLayout="column"
-              fxLayoutAlign="start stretch"
-              fxLayoutGap="5px"
-              fxFlex="75"
-            >
+            <div gdArea="mainInfo">
               <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name" />
@@ -75,60 +73,38 @@
                 <input matInput formControlName="collegePage" />
               </mat-form-field>
             </div>
-          </div>
-          <br />
-          <div
-            fxLayout="column"
-            fxLayoutAlign="start stretch"
-            fxLayoutGap="20px"
-          >
             <div
-              fxLayout="row"
-              fxLayoutAlign="start stretch"
-              fxLayoutGap="5px"
-              fxFlex="50"
+              gdArea="info"
+              fxLayout="row wrap"
+              fxLayoutAlign="center center"
+              fxLayoutGap="1%"
             >
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Lehrgebiet</mat-label>
                 <input matInput formControlName="subject" />
               </mat-form-field>
-              <br />
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Standort, Raum</mat-label>
                 <input matInput formControlName="room" />
               </mat-form-field>
-              <br />
-            </div>
-            <div
-              fxLayout="row"
-              fxLayoutAlign="start stretch"
-              fxLayoutGap="5px"
-              fxFlex="50"
-            >
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Sprechstunde</mat-label>
                 <input matInput formControlName="consultationHour" />
               </mat-form-field>
-              <br />
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Telefonnummer</mat-label>
                 <input matInput formControlName="telephone" />
               </mat-form-field>
-              <br />
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>E-Mail</mat-label>
                 <input matInput formControlName="email" />
               </mat-form-field>
-              <br />
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Homepage</mat-label>
                 <input matInput formControlName="homepage" />
               </mat-form-field>
             </div>
           </div>
-          <br />
           <mat-divider></mat-divider>
           <br />
           <div>

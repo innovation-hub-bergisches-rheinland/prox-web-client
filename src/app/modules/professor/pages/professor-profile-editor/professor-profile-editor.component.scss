@@ -4,6 +4,7 @@
 
 .card {
   width: 50%;
+  min-width: 900px;
 }
 
 .mat-form-field {
@@ -28,6 +29,9 @@
   justify-content: flex-end;
 }
 
-/*.saveButton {
-  color: primar;
-}*/
+@media screen and (max-width: 960px) {
+  .card {
+    width: 90%;
+    min-width: 120px;
+  }
+}
