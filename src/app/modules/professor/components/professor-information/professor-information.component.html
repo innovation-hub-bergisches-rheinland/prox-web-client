@@ -1,53 +1,110 @@
-<div fxLayout="row" fxLayoutGap="15px" *ngIf="prof">
-  <div class="prof-image-div" *ngIf="imgUrl">
+<div
+  gdAreas="header header | subtitle subtitle | picture information"
+  gdRows="auto auto auto"
+  gdAreas.lt-md="header | subtitle | picture | information"
+  gdRows.lt-md="auto auto auto auto"
+  *ngIf="prof"
+>
+  <div gdArea="header" fxLayoutAlign.lt-md="center center">
+    <h1>
+      {{ prof?.name }}
+    </h1>
+  </div>
+  <div gdArea="subtitle" fxLayoutAlign.lt-md="center center" *ngIf="faculty">
+    <h2>
+      {{ faculty.name }}
+    </h2>
+  </div>
+  <div
+    gdArea="picture"
+    fxLayoutAlign.lt-md="center center"
+    class="prof-image-div"
+    *ngIf="imgUrl"
+  >
     <img alt="blank" [src]="imgUrl" width="200" />
   </div>
-  <div class="prof-info-div">
-    <h1>{{ prof?.name }}</h1>
-    <h2 *ngIf="faculty">{{ faculty.name }}</h2>
-    <table class="prof-info-table">
-      <tr *ngIf="prof.affiliation">
-        <td>Hochschulzugehörigkeit seit:</td>
-        <td>{{ prof.affiliation }}</td>
-      </tr>
-      <tr *ngIf="prof.mainSubject">
-        <td>Lehrgebiet:</td>
-        <td>{{ prof.mainSubject }}</td>
-      </tr>
-      <tr *ngIf="prof.contactInformation.room">
-        <td>Standort, Raum:</td>
-        <td>{{ prof.contactInformation.room }}</td>
-      </tr>
-      <tr *ngIf="prof.contactInformation.consultationHour">
-        <td>Sprechstunde:</td>
-        <td>{{ prof.contactInformation.consultationHour }}</td>
-      </tr>
-      <tr *ngIf="prof.contactInformation.telephone">
-        <td>Telefonnummer:</td>
-        <td
-          [innerHTML]="textProcessor.process(prof.contactInformation.telephone)"
-        ></td>
-      </tr>
-      <tr *ngIf="prof.contactInformation.email">
-        <td>E-Mail:</td>
-        <td
-          [innerHTML]="textProcessor.process(prof.contactInformation.email)"
-        ></td>
-      </tr>
-      <tr *ngIf="prof.contactInformation.homepage">
-        <td>Homepage:</td>
-        <td
-          [innerHTML]="textProcessor.process(prof.contactInformation.homepage)"
-        ></td>
-      </tr>
-      <tr *ngIf="prof.contactInformation.homepage">
-        <td>Personalseite:</td>
-        <td
-          [innerHTML]="
-            textProcessor.process(prof.contactInformation.collegePage)
-          "
-        ></td>
-      </tr>
-    </table>
+  <div gdArea="information">
+    <div fxLayout="column">
+      <!-- Hochschluzugehörigkeit -->
+      <div fxLayout="row" fxLayout.xs="column" *ngIf="prof.affiliation">
+        <div class="title" fxFlex="30">Hochschulzugehörigkeit seit:</div>
+        <div class="content" fxFlex>
+          {{ prof.affiliation }}
+        </div>
+      </div>
+      <!-- Lehrgebiet -->
+      <div fxLayout="row" fxLayout.xs="column" *ngIf="prof.mainSubject">
+        <div class="title" fxFlex="30">Lehrgebiet:</div>
+        <div class="content" fxFlex>
+          {{ prof.mainSubject }}
+        </div>
+      </div>
+      <!-- Standort, Raum -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        *ngIf="prof.contactInformation.room"
+      >
+        <div class="title" fxFlex="30">Standort, Raum:</div>
+        <div class="content" fxFlex>
+          {{ prof.contactInformation.room }}
+        </div>
+      </div>
+      <!-- Sprechstunde -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        *ngIf="prof.contactInformation.consultationHour"
+      >
+        <div class="title" fxFlex="30">Sprechstunde:</div>
+        <div class="content" fxFlex>
+          {{ prof.contactInformation.consultationHour }}
+        </div>
+      </div>
+      <!-- Telefonnummer -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        *ngIf="prof.contactInformation.telephone"
+      >
+        <div class="title" fxFlex="30">Telefonnummer:</div>
+        <div class="content" fxFlex>
+          {{ prof.contactInformation.telephone }}
+        </div>
+      </div>
+      <!-- E-Mail -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        *ngIf="prof.contactInformation.email"
+      >
+        <div class="title" fxFlex="30">E-Mail:</div>
+        <div class="content" fxFlex>
+          {{ prof.contactInformation.email }}
+        </div>
+      </div>
+      <!-- Homepage -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        *ngIf="prof.contactInformation.homepage"
+      >
+        <div class="title" fxFlex="30">Homepage:</div>
+        <div class="content" fxFlex>
+          {{ prof.contactInformation.homepage }}
+        </div>
+      </div>
+      <!-- Hochschluzugehörigkeit -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        *ngIf="prof.contactInformation.collegePage"
+      >
+        <div class="title" fxFlex="30">Personalseite:</div>
+        <div class="content" fxFlex>
+          {{ prof.contactInformation.collegePage }}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
