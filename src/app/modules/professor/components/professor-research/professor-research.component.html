@@ -5,7 +5,16 @@
   *ngIf="researchSubjects && researchSubjects.length"
 >
   <h1>Lehr- und Forschungsgebiete</h1>
-  <ul>
-    <li *ngFor="let subject of researchSubjects">{{ subject.subject }}</li>
-  </ul>
+  <div fxLayout="row wrap">
+    <div *ngFor="let subject of researchSubjects" fxFlex="50" fxFlex.xs="100">
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px">
+          <circle cx="5" cy="5" r="5" class="circle" />
+        </svg>
+        <div class="subjectText">
+          {{ subject.subject }}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
