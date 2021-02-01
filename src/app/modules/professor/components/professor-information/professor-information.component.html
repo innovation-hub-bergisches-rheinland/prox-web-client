@@ -1,6 +1,7 @@
 <div
   gdAreas="header header | subtitle subtitle | picture information"
   gdRows="auto auto auto"
+  gdGap="10px"
   gdAreas.lt-md="header | subtitle | picture | information"
   gdRows.lt-md="auto auto auto auto"
   *ngIf="prof"
@@ -24,87 +25,44 @@
     <img alt="blank" [src]="imgUrl" width="200" />
   </div>
   <div gdArea="information">
-    <div fxLayout="column">
-      <!-- Hochschluzugehörigkeit -->
-      <div fxLayout="row" fxLayout.xs="column" *ngIf="prof.affiliation">
-        <div class="title" fxFlex="30">Hochschulzugehörigkeit seit:</div>
-        <div class="content" fxFlex>
-          {{ prof.affiliation }}
-        </div>
+    <div gdAreas="attribute value" gdGap="5px">
+      <div gdArea="attribute" gdRow="1">Hochschulzugehörigkeit seit:</div>
+      <div gdArea="attribute" gdRow="2">Lehrgebiet:</div>
+      <div gdArea="attribute" gdRow="3">Standort, Raum:</div>
+      <div gdArea="attribute" gdRow="4">Sprechstunde:</div>
+      <div gdArea="attribute" gdRow="5">Telefonnummer:</div>
+      <div gdArea="attribute" gdRow="6">E-Mail:</div>
+      <div gdArea="attribute" gdRow="7">Homepage:</div>
+      <div gdArea="attribute" gdRow="8">Personalseite:</div>
+      <div gdArea="value" gdRow="1" gdColumn="2">{{ prof.affiliation }}</div>
+      <div gdArea="value" gdRow="2" gdColumn="2">{{ prof.mainSubject }}</div>
+      <div gdArea="value" gdRow="3" gdColumn="2">
+        {{ prof.contactInformation.room }}
       </div>
-      <!-- Lehrgebiet -->
-      <div fxLayout="row" fxLayout.xs="column" *ngIf="prof.mainSubject">
-        <div class="title" fxFlex="30">Lehrgebiet:</div>
-        <div class="content" fxFlex>
-          {{ prof.mainSubject }}
-        </div>
+      <div gdArea="value" gdRow="4" gdColumn="2">
+        {{ prof.contactInformation.consultationHour }}
       </div>
-      <!-- Standort, Raum -->
+      <div gdArea="value" gdRow="5" gdColumn="2">
+        {{ prof.contactInformation.telephone }}
+      </div>
       <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        *ngIf="prof.contactInformation.room"
-      >
-        <div class="title" fxFlex="30">Standort, Raum:</div>
-        <div class="content" fxFlex>
-          {{ prof.contactInformation.room }}
-        </div>
-      </div>
-      <!-- Sprechstunde -->
+        gdArea="value"
+        gdRow="6"
+        gdColumn="2"
+        [innerHTML]="textProcessor.process(prof.contactInformation.email)"
+      ></div>
       <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        *ngIf="prof.contactInformation.consultationHour"
-      >
-        <div class="title" fxFlex="30">Sprechstunde:</div>
-        <div class="content" fxFlex>
-          {{ prof.contactInformation.consultationHour }}
-        </div>
-      </div>
-      <!-- Telefonnummer -->
+        gdArea="value"
+        gdRow="7"
+        gdColumn="2"
+        [innerHTML]="textProcessor.process(prof.contactInformation.homepage)"
+      ></div>
       <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        *ngIf="prof.contactInformation.telephone"
-      >
-        <div class="title" fxFlex="30">Telefonnummer:</div>
-        <div class="content" fxFlex>
-          {{ prof.contactInformation.telephone }}
-        </div>
-      </div>
-      <!-- E-Mail -->
-      <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        *ngIf="prof.contactInformation.email"
-      >
-        <div class="title" fxFlex="30">E-Mail:</div>
-        <div class="content" fxFlex>
-          {{ prof.contactInformation.email }}
-        </div>
-      </div>
-      <!-- Homepage -->
-      <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        *ngIf="prof.contactInformation.homepage"
-      >
-        <div class="title" fxFlex="30">Homepage:</div>
-        <div class="content" fxFlex>
-          {{ prof.contactInformation.homepage }}
-        </div>
-      </div>
-      <!-- Hochschluzugehörigkeit -->
-      <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        *ngIf="prof.contactInformation.collegePage"
-      >
-        <div class="title" fxFlex="30">Personalseite:</div>
-        <div class="content" fxFlex>
-          {{ prof.contactInformation.collegePage }}
-        </div>
-      </div>
+        gdArea="value"
+        gdRow="8"
+        gdColumn="2"
+        [innerHTML]="textProcessor.process(prof.contactInformation.collegePage)"
+      ></div>
     </div>
   </div>
 </div>
