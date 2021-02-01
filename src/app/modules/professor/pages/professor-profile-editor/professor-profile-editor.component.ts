@@ -5,14 +5,21 @@ import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   Faculty,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { KeycloakService } from 'keycloak-angular';
-import { combineLatest, forkJoin, from, merge, Observable } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  from,
+  merge,
+  Observable,
+  throwError
+} from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
 
 @Component({
@@ -50,6 +57,7 @@ export class ProfessorProfileEditor implements OnInit {
   constructor(
     private keycloakService: KeycloakService,
     private route: ActivatedRoute,
+    private router: Router,
     private professorService: ProfessorProfileService,
     private snackbar: MatSnackBar
   ) {}
@@ -278,6 +286,9 @@ export class ProfessorProfileEditor implements OnInit {
       ? this.professorService.updateProfessorProfile(this.professor)
       : this.professorService.saveProfessorProfile(this.professor);
 
+    let error = false;
+
+    //TODO refactor
     saveObservable.subscribe(
       p => {
         if (this.selectedFaculty) {
@@ -285,35 +296,46 @@ export class ProfessorProfileEditor implements OnInit {
             .saveProfessorFaculty(p.id, this.selectedFaculty)
             .subscribe(
               f => console.log(f),
-              err =>
+              err => {
                 this.snackbar.open(
                   'Konnte Fakultät nicht speichern. Bitte versuchen Sie es später erneut.'
-                )
+                );
+                error = true;
+              }
             );
         }
         console.log(this.image);
         if (this.image && !this.deleteImage) {
           this.professorService.saveProfessorImage(p.id, this.image).subscribe(
             i => console.log('Image successful updated'),
-            err =>
+            err => {
               this.snackbar.open(
                 'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
-              )
+              );
+              error = true;
+            }
           );
         } else if (this.deleteImage) {
           this.professorService.deleteImage(p.id).subscribe(
             i => console.log('Image successful deleted'),
-            err =>
+            err => {
               this.snackbar.open(
                 'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
-              )
+              );
+              error = true;
+            }
           );
         }
       },
       _ =>
         this.snackbar.open(
           'Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.'
-        )
+        ),
+      () => {
+        if (!error) {
+          this.router.navigate(['..'], { relativeTo: this.route });
+        }
+      }
     );
   }
 }
