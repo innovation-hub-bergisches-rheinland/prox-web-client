@@ -2,7 +2,13 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { formatCurrency } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,7 +43,7 @@ export class ProfessorProfileEditor implements OnInit {
   imageSrc;
   deleteImage = false;
   profileForm: FormGroup = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', Validators.required),
     affiliation: new FormControl(''),
     subject: new FormControl(''),
     room: new FormControl(''),
@@ -47,7 +53,7 @@ export class ProfessorProfileEditor implements OnInit {
     homepage: new FormControl(''),
     collegePage: new FormControl(''),
     vita: new FormControl(''),
-    publications: new FormControl('')
+    publications: new FormControl('') //TODO Validator
   });
   selectedFaculty: Faculty;
   hasPermission: boolean = false;
@@ -121,10 +127,12 @@ export class ProfessorProfileEditor implements OnInit {
       researchSubjects: this.researchSubjects?.map(s => ({ subject: s })),
       //publications are separeted with at least two line-breaks
       publications: this.profileForm.value.publications
-        ?.trim()
-        .split(/\n\n+/)
-        .filter(p => p && p.trim().length !== 0)
-        .map(p => ({ publication: p.trim() }))
+        ? this.profileForm.value.publications
+            .trim()
+            .split(/\n\n+/)
+            .filter(p => p && p.trim().length !== 0)
+            .map(p => ({ publication: p.trim() }))
+        : null
     };
   }
 

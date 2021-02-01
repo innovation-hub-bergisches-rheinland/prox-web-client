@@ -45,7 +45,12 @@
             <div gdArea="mainInfo">
               <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput formControlName="name" />
+                <input
+                  matInput
+                  formControlName="name"
+                  maxlength="255"
+                  required
+                />
               </mat-form-field>
               <br />
               <mat-form-field apperance="fill" *ngIf="faculties">
@@ -65,12 +70,12 @@
               <br />
               <mat-form-field appearance="fill">
                 <mat-label>Hochschulzugehörigkeit seit:</mat-label>
-                <input matInput formControlName="affiliation" />
+                <input matInput formControlName="affiliation" maxlength="255" />
               </mat-form-field>
               <br />
               <mat-form-field appearance="fill">
                 <mat-label>Personalseite</mat-label>
-                <input matInput formControlName="collegePage" />
+                <input matInput formControlName="collegePage" maxlength="255" />
               </mat-form-field>
             </div>
             <div
@@ -81,30 +86,35 @@
             >
               <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Lehrgebiet</mat-label>
-                <input matInput formControlName="subject" />
+                <input matInput formControlName="subject" maxlength="255" />
               </mat-form-field>
               <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Standort, Raum</mat-label>
-                <input matInput formControlName="room" />
+                <input matInput formControlName="room" maxlength="255" />
               </mat-form-field>
               <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Sprechstunde</mat-label>
-                <input matInput formControlName="consultationHour" />
+                <input
+                  matInput
+                  formControlName="consultationHour"
+                  maxlength="255"
+                />
               </mat-form-field>
               <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Telefonnummer</mat-label>
-                <input matInput formControlName="telephone" />
+                <input matInput formControlName="telephone" maxlength="255" />
               </mat-form-field>
               <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>E-Mail</mat-label>
-                <input matInput formControlName="email" />
+                <input matInput formControlName="email" maxlength="255" />
               </mat-form-field>
               <mat-form-field appearance="fill" fxFlex="49" fxFlex.lt-md="100">
                 <mat-label>Homepage</mat-label>
-                <input matInput formControlName="homepage" />
+                <input matInput formControlName="homepage" maxlength="255" />
               </mat-form-field>
             </div>
           </div>
+          <br />
           <mat-divider></mat-divider>
           <br />
           <div>
@@ -127,6 +137,7 @@
                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                   [matChipInputAddOnBlur]="true"
                   (matChipInputTokenEnd)="addSubject($event)"
+                  maxlength="255"
                 />
               </mat-chip-list>
             </mat-form-field>
@@ -176,6 +187,7 @@
               color="primary"
               (click)="onSubmit()"
               type="submit"
+              [disabled]="this.profileForm.invalid"
             >
               <mat-icon>save</mat-icon> Speichern
             </button>
