@@ -8,10 +8,27 @@
   line-height: 38px;
 }
 
-.circle {
-  fill: var(--th-purple);
+.prof-research-div ul {
+  column-count: 2;
+  column-gap: 35px;
+  list-style: none;
 }
 
-.subjectText {
-  word-break: break-all;
+@media (max-width: 480px) {
+  .prof-research-div ul {
+    column-count: 1;
+  }
+}
+
+.prof-research-div li {
+  line-height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.prof-research-div li::before {
+  content: '•';
+  font-size: 40px;
+  color: var(--th-purple);
 }
