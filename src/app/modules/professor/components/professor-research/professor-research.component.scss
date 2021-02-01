@@ -14,6 +14,12 @@
   list-style: none;
 }
 
+@media (max-width: 480px) {
+  .prof-research-div ul {
+    column-count: 1;
+  }
+}
+
 .prof-research-div li {
   line-height: 24px;
   display: flex;

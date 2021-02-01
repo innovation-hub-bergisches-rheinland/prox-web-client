@@ -1,4 +1,17 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostBinding,
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+  AfterViewInit,
+  AfterViewChecked,
+  AfterContentChecked,
+  DoCheck
+} from '@angular/core';
 import {
   trigger,
   state,
@@ -23,31 +36,41 @@ import { Project } from '@data/schema/project.resource';
         animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
       )
     ])
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush //Prevent ExpressionChangedAfterItHasBeenCheckedError by manual pushing changes
 })
 export class ProfessorProjectsHistoryItemComponent implements OnInit {
   _position;
   _positionIndex;
   _displayContent = false;
+  _project: Project;
 
-  _project;
+  constructor(private cd: ChangeDetectorRef) {}
 
   @Input()
   set project(project: Project) {
     this._project = project;
+
+    this.cd.detectChanges(); //Change
   }
 
   @Input()
   set position(positionValue: number) {
     this._positionIndex = positionValue;
     this.computePosition();
+
+    this.cd.detectChanges(); //Change
   }
 
-  activeClass() {
+  get activeClass() {
     return this._positionIndex === 0;
   }
 
-  constructor() {}
+  get className(): string {
+    return this.activeClass
+      ? 'slider-content-item-active'
+      : 'slider-content-item';
+  }
 
   ngOnInit() {
     this.computePosition();
@@ -61,17 +84,23 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
     } else {
       this._position = 'center';
     }
+
+    this.cd.detectChanges(); //Change
   }
 
   onTranslateSlideStart(event: AnimationEvent) {
     if (event.toState === 'center') {
       this._displayContent = true;
     }
+
+    this.cd.detectChanges(); //Change
   }
 
   onTranslateSlideEnd(event: AnimationEvent) {
     if (event.fromState === 'center' && event.toState !== 'center') {
       this._displayContent = false;
     }
+
+    this.cd.detectChanges(); //Change
   }
 }

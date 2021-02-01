@@ -1,5 +1,5 @@
-<div fxLayout="column">
-  <h1>Abgeschlossene Projekte</h1>
+<div fxLayout="column" *ngIf="_items && _items.length > 0">
+  <h1>Abgeschlossene und Laufende Projekte</h1>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
     <button mat-raised-button (click)="goBackward()">
       <mat-icon>keyboard_arrow_left</mat-icon>

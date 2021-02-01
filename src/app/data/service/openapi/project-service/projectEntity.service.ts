@@ -1489,6 +1489,156 @@ export class ProjectEntityService {
   }
 
   /**
+   * findAvailableProjectsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfProject>;
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfProject>>;
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfProject>>;
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfProject>(
+      `${this.configuration.basePath}/projects/search/findAvailableProjectsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * findRunningAndFinishedProjectsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfProject>;
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfProject>>;
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfProject>>;
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfProject>(
+      `${this.configuration.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * saveProject
    * @param id id
    * @param project

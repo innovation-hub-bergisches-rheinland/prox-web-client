@@ -1,14 +1,33 @@
-<div fxLayout="column" fxLayoutAlign="space-around center">
-  <app-professor-information></app-professor-information>
-  <app-professor-vita></app-professor-vita>
-  <app-professor-research></app-professor-research>
-  <app-professor-publications></app-professor-publications>
-  <app-professor-running-projects></app-professor-running-projects>
-  <app-professor-projects-history>
-    <app-professor-projects-history-item></app-professor-projects-history-item>
-    <app-professor-projects-history-item></app-professor-projects-history-item>
-    <app-professor-projects-history-item></app-professor-projects-history-item>
-    <app-professor-projects-history-item></app-professor-projects-history-item>
-    <app-professor-projects-history-item></app-professor-projects-history-item>
-  </app-professor-projects-history>
+<div class="outerDiv">
+  <div class="topBar" *ngIf="hasPermission">
+    <button mat-raised-button (click)="editProfilePage()">
+      <mat-icon>create</mat-icon> Profilseite bearbeiten
+    </button>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="!noContent">
+    <app-professor-information
+      [professor]="professor$"
+    ></app-professor-information>
+    <br />
+    <app-professor-vita [professor]="professor$"></app-professor-vita>
+    <app-professor-research [professor]="professor$"></app-professor-research>
+    <app-professor-publications
+      [professor]="professor$"
+    ></app-professor-publications>
+    <app-professor-running-projects
+      [projects]="availableProjects$"
+    ></app-professor-running-projects>
+    <app-professor-projects-history
+      *ngIf="projectHistory && projectHistory.length > 0"
+    >
+      <app-professor-projects-history-item
+        *ngFor="let project of projectHistory"
+        [project]="project"
+      ></app-professor-projects-history-item>
+    </app-professor-projects-history>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="noContent">
+    Sie haben noch kein Professorenprofil eingerichtet, Sie können das mit einem
+    Klick auf den Button "Profilseite bearbeiten" tun.
+  </div>
 </div>

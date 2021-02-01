@@ -2,20 +2,12 @@
   class="prof-publications-div"
   fxLayout="column"
   fxLayoutAlign="center center"
+  *ngIf="publications && publications.length > 0"
 >
   <h1>Publikationen</h1>
-  <ul>
-    <li>
-      Interrupted by a Phone Call: Exploring Designs for Lowering the Impact of
-      Call Notifications for Smartphone Users <br />
-      Matthias Böhmer, Christian Lander, Sven Gehring, Duncan Brumby, Antonio
-      Krüger, In: Proceedings of CHI ’14, Toronto, ON, Canada.
-    </li>
-    <li>
-      Falling Asleep with Angry Birds, Facebook and Kindle – A Large Scale Study
-      on Mobile Application Usage <br />
-      Matthias Böhmer, Brent Hecht, Johannes Schöning, Antonio Krüger, Gernot
-      Bauer, In: Proceedings of Mobile HCI 2011. Stockholm 2011, Sweden.
-    </li>
-  </ul>
+  <div>
+    <p *ngFor="let publication of publications">
+      {{ publication.publication }}
+    </p>
+  </div>
 </div>

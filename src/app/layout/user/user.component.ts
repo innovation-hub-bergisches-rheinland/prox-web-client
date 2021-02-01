@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { KeycloakService } from 'keycloak-angular';
 
@@ -10,14 +11,23 @@ import { KeycloakService } from 'keycloak-angular';
 export class UserComponent implements OnInit {
   username: string;
   isLoggedIn: boolean;
+  isProfessor: boolean;
+  userId: string;
 
-  constructor(private keycloakService: KeycloakService) {}
+  constructor(
+    private keycloakService: KeycloakService,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       const userProfile = await this.keycloakService.loadUserProfile();
       this.username = `${userProfile.firstName} ${userProfile.lastName}`;
       this.isLoggedIn = true;
+      this.isProfessor = this.keycloakService
+        .getUserRoles()
+        .includes('professor');
+      this.userId = this.keycloakService.getKeycloakInstance().subject;
     } else {
       this.isLoggedIn = false;
       this.username = '';
@@ -30,5 +40,13 @@ export class UserComponent implements OnInit {
 
   async logout() {
     await this.keycloakService.logout();
+  }
+
+  profProfile() {
+    const navigationDetails: string[] = ['/professors'];
+    navigationDetails.push(this.userId);
+    this.router.navigate(navigationDetails).then(
+      () => window.location.reload() //Reload to hide sidenav and take some complexity away when profile does not exist
+    );
   }
 }
