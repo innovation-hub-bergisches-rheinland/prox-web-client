@@ -8,12 +8,6 @@
   line-height: 38px;
 }
 
-.prof-publications-div ul {
-  list-style: none;
-}
-
-.prof-publications-div li {
-  margin: 0 0 10px 0;
-  padding-left: 2em;
-  text-indent: -2em;
+.prof-publications-div p {
+  word-break: break-all;
 }
