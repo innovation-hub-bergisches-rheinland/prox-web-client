@@ -10,11 +10,13 @@ import { ModuleEntityService } from './openapi/project-service/moduleEntity.serv
 import { ProfessorControllerService } from './openapi/professor-profile-service/professorController.service';
 import {
   Faculty,
-  Professor
+  Professor,
+  Sort
 } from '@data/schema/openapi/professor-profile-service/models';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '@env';
 import { FacultyControllerService } from './openapi/professor-profile-service/facultyController.service';
+import { ProfessorSearchControllerService } from './openapi/professor-profile-service/professorSearchController.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,7 @@ export class ProfessorProfileService {
     injector: Injector,
     private professorControllerService: ProfessorControllerService,
     private facultyControllerService: FacultyControllerService,
+    private professorSearchControllerService: ProfessorSearchControllerService,
     private httpClient: HttpClient
   ) {}
 
@@ -46,6 +49,12 @@ export class ProfessorProfileService {
     return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
   }
 
+  getAllProfessors(sort: Sort = {}): Observable<Professor[]> {
+    return this.professorControllerService
+      .getAllProfessors(sort)
+      .pipe(map(cm => cm._embedded.professorList));
+  }
+
   getProfessorFaculty(id: string): Observable<Faculty> {
     return this.professorControllerService
       .getFaculty(id)
@@ -55,9 +64,7 @@ export class ProfessorProfileService {
   getAllFaculties(): Observable<Faculty[]> {
     return this.facultyControllerService.getAllFaculties({}).pipe(
       map(f => {
-        console.log(f._embedded.facultyList);
         const facs = <Faculty[]>f._embedded.facultyList;
-        console.log(facs);
         return facs;
       })
     );
@@ -75,5 +82,11 @@ export class ProfessorProfileService {
 
   deleteImage(id: string): Observable<any> {
     return this.professorControllerService.deleteProfessorImage(id);
+  }
+
+  getProfessorsByFaculty(id: string): Observable<Professor[]> {
+    return this.professorSearchControllerService
+      .findProfessorsByFacultyId(id)
+      .pipe(map(p => p?._embedded?.professorList ?? []));
   }
 }

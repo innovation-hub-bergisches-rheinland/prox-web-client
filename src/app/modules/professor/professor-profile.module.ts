@@ -12,6 +12,8 @@ import { ProfessorProjectsHistoryComponent } from './components/professor-projec
 import { ProfessorProjectsHistoryItemComponent } from './components/professor-projects-history/professor-projects-history-item/professor-projects-history-item.component';
 import { ProfessorRunningProjectsComponent } from './components/professor-running-projects/professor-running-projects.component';
 import { ProfessorProfileEditor } from './pages/professor-profile-editor/professor-profile-editor.component';
+import { ProfessorsComponent } from './pages/professors/professors.component';
+import { ProfessorsItemComponent } from './pages/professors-item/professors-item.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ProfessorProfileEditor } from './pages/professor-profile-editor/profess
     ProfessorPublicationsComponent,
     ProfessorProjectsHistoryComponent,
     ProfessorProjectsHistoryItemComponent,
-    ProfessorRunningProjectsComponent
+    ProfessorRunningProjectsComponent,
+    ProfessorsComponent,
+    ProfessorsItemComponent
   ],
   imports: [SharedModule, ProfessorProfileRoutingModule, FlexLayoutModule],
   entryComponents: []

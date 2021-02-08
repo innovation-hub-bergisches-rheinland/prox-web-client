@@ -1,0 +1,41 @@
+.mat-button {
+  margin-bottom: 5px !important;
+  font-size: 1em;
+  color: var(--th-purple);
+}
+
+b {
+  color: var(--th-red);
+}
+
+ul {
+  margin: 0.75em 0;
+  padding: 0 1em;
+  list-style: none;
+}
+
+li:before {
+  content: '';
+  border-style: solid;
+  border-width: 0.35em 0 0.35em 0.45em;
+  display: block;
+  height: 0;
+  width: 0;
+  left: -1em;
+  top: 0.9em;
+  position: relative;
+}
+
+.research li:before {
+  border-color: transparent var(--th-red);
+}
+
+.projects li:before {
+  border-color: transparent var(--th-orange);
+}
+
+.mat-card-avatar {
+  object-fit: cover;
+  width: 75px;
+  height: 75px;
+}

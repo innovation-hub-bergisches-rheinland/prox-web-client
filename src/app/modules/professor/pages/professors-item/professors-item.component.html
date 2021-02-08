@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header>
+    <img
+      mat-card-avatar
+      [src]="this.getProfessorUrl(professor) | async"
+      alt="Profilbild"
+    />
+    <mat-card-title>{{ professor.name }}</mat-card-title>
+    <mat-card-subtitle>{{ this.faculty?.name }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ professor.mainSubject }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content fxLayout="row">
+    <div class="research" fxFlex="60">
+      <b>Lehr- und Forschungsgebiete:</b>
+      <ul>
+        <li *ngFor="let subject of professor.researchSubjects">
+          {{ subject.subject }}
+        </li>
+      </ul>
+    </div>
+    <div class="projects" fxFlex="40">
+      <b>Projektstatistik</b>
+      <ul>
+        <li>XX verfügbare Projekte</li>
+        <li>XX laufende Projekte</li>
+        <li>XX abgeschlossene Projekte</li>
+      </ul>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button routerLink="/professors/{{ professor.id }}">
+      Zur Profilseite
+    </button>
+  </mat-card-actions>
+</mat-card>

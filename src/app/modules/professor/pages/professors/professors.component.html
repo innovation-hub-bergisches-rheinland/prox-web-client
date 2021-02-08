@@ -1,0 +1,37 @@
+<div class="professor-list">
+  <div>
+    <h1>Professoren</h1>
+    <mat-form-field class="facultySelector">
+      <mat-label>Fakultät</mat-label>
+
+      <mat-select
+        [formControl]="selectedFaculty"
+        (selectionChange)="filterProfessorsByFaculty()"
+      >
+        <mat-option>Alle</mat-option>
+
+        <mat-option *ngFor="let faculty of faculties" [value]="faculty"
+          >[{{ faculty.abbreviation }}] {{ faculty.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="searchField">
+      <input
+        matInput
+        [formControl]="searchString"
+        (keyup)="filterProfessorsBySearchString()"
+        placeholder="Suche"
+      />
+    </mat-form-field>
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="2% grid">
+    <app-professors-item
+      *ngFor="let professor of filteredProfessors"
+      [professor]="professor"
+      fxFlex="48"
+      fxFlex.lt-md="100"
+    >
+    </app-professors-item>
+  </div>
+</div>
