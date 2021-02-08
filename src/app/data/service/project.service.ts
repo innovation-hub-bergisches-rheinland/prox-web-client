@@ -106,6 +106,26 @@ export class ProjectService {
       );
   }
 
+  findRunningProjectsOfCreator(id: string): Observable<Project[]> {
+    return this.projectEntityService
+      .findRunningProjectsOfCreatorProjectUsingGET(id)
+      .pipe(
+        map(p =>
+          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
+        )
+      );
+  }
+
+  findFinishedProjectsOfCreator(id: string): Observable<Project[]> {
+    return this.projectEntityService
+      .findFinishedProjectsOfCreatorProjectUsingGET(id)
+      .pipe(
+        map(p =>
+          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
+        )
+      );
+  }
+
   findRunningAndFinishedProjectsOfCreator(id: string): Observable<Project[]> {
     return this.projectEntityService
       .findRunningAndFinishedProjectsOfCreatorProjectUsingGET(id)
