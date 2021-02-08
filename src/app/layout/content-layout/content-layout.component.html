@@ -52,6 +52,18 @@
               Studiengänge
             </button>
           </mat-list-item>
+          <mat-list-item>
+            <button
+              (click)="sidenav.toggle()"
+              class="sidebar-button"
+              mat-button
+              routerLink="/professors"
+              routerLinkActive="nav-activated"
+            >
+              <mat-icon class="sidebar-icon">people_alt</mat-icon>
+              Professoren
+            </button>
+          </mat-list-item>
         </mat-list>
       </mat-sidenav>
 
