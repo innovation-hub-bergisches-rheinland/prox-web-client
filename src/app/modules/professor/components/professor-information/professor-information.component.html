@@ -26,41 +26,95 @@
   </div>
   <div gdArea="information">
     <div gdAreas="attribute value" gdGap="5px">
-      <div gdArea="attribute" gdRow="1">Hochschulzugehörigkeit seit:</div>
-      <div gdArea="attribute" gdRow="2">Lehrgebiet:</div>
-      <div gdArea="attribute" gdRow="3">Standort, Raum:</div>
-      <div gdArea="attribute" gdRow="4">Sprechstunde:</div>
-      <div gdArea="attribute" gdRow="5">Telefonnummer:</div>
-      <div gdArea="attribute" gdRow="6">E-Mail:</div>
-      <div gdArea="attribute" gdRow="7">Homepage:</div>
-      <div gdArea="attribute" gdRow="8">Personalseite:</div>
-      <div gdArea="value" gdRow="1" gdColumn="2">{{ prof.affiliation }}</div>
-      <div gdArea="value" gdRow="2" gdColumn="2">{{ prof.mainSubject }}</div>
-      <div gdArea="value" gdRow="3" gdColumn="2">
+      <div gdArea="attribute" gdRow="1" *ngIf="prof.affiliation">
+        Hochschulzugehörigkeit seit:
+      </div>
+      <div gdArea="attribute" gdRow="2" *ngIf="prof.mainSubject">
+        Lehrgebiet:
+      </div>
+      <div gdArea="attribute" gdRow="3" *ngIf="prof.contactInformation?.room">
+        Standort, Raum:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="4"
+        *ngIf="prof.contactInformation?.consultationHour"
+      >
+        Sprechstunde:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="5"
+        *ngIf="prof.contactInformation?.telephone"
+      >
+        Telefonnummer:
+      </div>
+      <div gdArea="attribute" gdRow="6" *ngIf="prof.contactInformation?.email">
+        E-Mail:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="7"
+        *ngIf="prof.contactInformation?.homepage"
+      >
+        Homepage:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="8"
+        *ngIf="prof.contactInformation?.collegePage"
+      >
+        Personalseite:
+      </div>
+      <div gdArea="value" gdRow="1" gdColumn="2" *ngIf="prof.affiliation">
+        {{ prof.affiliation }}
+      </div>
+      <div gdArea="value" gdRow="2" gdColumn="2" *ngIf="prof.mainSubject">
+        {{ prof.mainSubject }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="3"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.room"
+      >
         {{ prof.contactInformation.room }}
       </div>
-      <div gdArea="value" gdRow="4" gdColumn="2">
+      <div
+        gdArea="value"
+        gdRow="4"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.consultationHour"
+      >
         {{ prof.contactInformation.consultationHour }}
       </div>
-      <div gdArea="value" gdRow="5" gdColumn="2">
+      <div
+        gdArea="value"
+        gdRow="5"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.telephone"
+      >
         {{ prof.contactInformation.telephone }}
       </div>
       <div
         gdArea="value"
         gdRow="6"
         gdColumn="2"
+        *ngIf="prof.contactInformation?.email"
         [innerHTML]="textProcessor.process(prof.contactInformation.email)"
       ></div>
       <div
         gdArea="value"
         gdRow="7"
         gdColumn="2"
+        *ngIf="prof.contactInformation?.homepage"
         [innerHTML]="textProcessor.process(prof.contactInformation.homepage)"
       ></div>
       <div
         gdArea="value"
         gdRow="8"
         gdColumn="2"
+        *ngIf="prof.contactInformation?.collegePage"
         [innerHTML]="textProcessor.process(prof.contactInformation.collegePage)"
       ></div>
     </div>
