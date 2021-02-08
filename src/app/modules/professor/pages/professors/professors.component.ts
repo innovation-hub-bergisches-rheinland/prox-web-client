@@ -16,11 +16,20 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./professors.component.scss']
 })
 export class ProfessorsComponent implements OnInit {
-  professors: Professor[] = [];
+  _professors: Professor[] = [];
   faculties: Faculty[] = [];
   filteredProfessors: Professor[] = [];
   searchString = new FormControl('');
   selectedFaculty = new FormControl('');
+
+  set professors(professors: Professor[]) {
+    this._professors = professors;
+    professors.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  get professors(): Professor[] {
+    return this._professors;
+  }
 
   constructor(private professorProfileService: ProfessorProfileService) {}
 
@@ -74,11 +83,11 @@ export class ProfessorsComponent implements OnInit {
           },
           {
             name: 'mainSubject',
-            weight: 0.05
+            weight: 0.2
           },
           {
             name: 'researchSubjects.subject',
-            weight: 0.2
+            weight: 0.1
           }
         ]
       };
