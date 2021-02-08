@@ -36,7 +36,6 @@ import { mergeMap, map } from 'rxjs/operators';
 export class ProfessorProfileEditor implements OnInit {
   _professor: Professor;
   professorId: string;
-  faculties: Faculty[];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   researchSubjects: string[] = [];
   image: File;
@@ -55,9 +54,10 @@ export class ProfessorProfileEditor implements OnInit {
     vita: new FormControl(''),
     publications: new FormControl('') //TODO Validator
   });
+  faculties: Faculty[] = [];
   selectedFaculty: Faculty;
   hasPermission: boolean = false;
-  facultySelection: FormControl;
+  facultySelection: FormControl = new FormControl('');
   private exists: boolean = false;
 
   constructor(
@@ -211,7 +211,7 @@ export class ProfessorProfileEditor implements OnInit {
     //Load available faculties
     this.professorService.getAllFaculties().subscribe(
       res => (this.faculties = res),
-      err => console.log(err)
+      err => console.error(err)
     );
   }
 
@@ -287,8 +287,6 @@ export class ProfessorProfileEditor implements OnInit {
    * Saves the professor
    */
   onSubmit() {
-    console.log(this.professor);
-
     //When exists update, else save new
     const saveObservable: Observable<Professor> = this.exists
       ? this.professorService.updateProfessorProfile(this.professor)
@@ -303,7 +301,7 @@ export class ProfessorProfileEditor implements OnInit {
           this.professorService
             .saveProfessorFaculty(p.id, this.selectedFaculty)
             .subscribe(
-              f => console.log(f),
+              _ => {},
               err => {
                 this.snackbar.open(
                   'Konnte Fakultät nicht speichern. Bitte versuchen Sie es später erneut.'
@@ -312,10 +310,9 @@ export class ProfessorProfileEditor implements OnInit {
               }
             );
         }
-        console.log(this.image);
         if (this.image && !this.deleteImage) {
           this.professorService.saveProfessorImage(p.id, this.image).subscribe(
-            i => console.log('Image successful updated'),
+            _ => {},
             err => {
               this.snackbar.open(
                 'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
@@ -325,7 +322,7 @@ export class ProfessorProfileEditor implements OnInit {
           );
         } else if (this.deleteImage) {
           this.professorService.deleteImage(p.id).subscribe(
-            i => console.log('Image successful deleted'),
+            _ => {},
             err => {
               this.snackbar.open(
                 'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
