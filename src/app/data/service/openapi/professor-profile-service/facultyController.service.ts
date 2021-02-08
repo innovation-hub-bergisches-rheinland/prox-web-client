@@ -26,7 +26,8 @@ import { Observable } from 'rxjs';
 import {
   CollectionModelEntityModelFaculty,
   Sort,
-  EntityModelFaculty
+  EntityModelFaculty,
+  Faculty
 } from '@data/schema/openapi/professor-profile-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -36,7 +37,7 @@ import { Configuration } from '../configuration';
   providedIn: 'root'
 })
 export class FacultyControllerService {
-  protected basePath = 'http://localhost:9005';
+  protected basePath = 'https://api.prox.innovation-hub.de';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -119,25 +120,25 @@ export class FacultyControllerService {
    * @param reportProgress flag to report request and response progress.
    */
   public getAllFaculties(
-    sort: Sort,
+    sort: Array<string>,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
   ): Observable<CollectionModelEntityModelFaculty>;
   public getAllFaculties(
-    sort: Sort,
+    sort: Array<string>,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
   ): Observable<HttpResponse<CollectionModelEntityModelFaculty>>;
   public getAllFaculties(
-    sort: Sort,
+    sort: Array<string>,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
   ): Observable<HttpEvent<CollectionModelEntityModelFaculty>>;
   public getAllFaculties(
-    sort: Sort,
+    sort: Array<string>,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: 'application/hal+json' }
@@ -149,12 +150,14 @@ export class FacultyControllerService {
     }
 
     let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (sort !== undefined && sort !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>sort,
-        'sort'
-      );
+    if (sort) {
+      sort.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'sort'
+        );
+      });
     }
 
     let headers = this.defaultHeaders;
@@ -255,6 +258,86 @@ export class FacultyControllerService {
       `${this.configuration.basePath}/faculties/${encodeURIComponent(
         String(id)
       )}`,
+      {
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param faculty
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public saveFaculty1(
+    faculty: Faculty,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<EntityModelFaculty>;
+  public saveFaculty1(
+    faculty: Faculty,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<HttpResponse<EntityModelFaculty>>;
+  public saveFaculty1(
+    faculty: Faculty,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<HttpEvent<EntityModelFaculty>>;
+  public saveFaculty1(
+    faculty: Faculty,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: 'application/hal+json' }
+  ): Observable<any> {
+    if (faculty === null || faculty === undefined) {
+      throw new Error(
+        'Required parameter faculty was null or undefined when calling saveFaculty1.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected:
+      | string
+      | undefined = this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      headers = headers.set('Content-Type', httpContentTypeSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.post<EntityModelFaculty>(
+      `${this.configuration.basePath}/faculties`,
+      faculty,
       {
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,

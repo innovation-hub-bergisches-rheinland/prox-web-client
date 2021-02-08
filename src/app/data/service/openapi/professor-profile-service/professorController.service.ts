@@ -38,7 +38,7 @@ import { Configuration } from '../configuration';
   providedIn: 'root'
 })
 export class ProfessorControllerService {
-  protected basePath = 'http://localhost:9005';
+  protected basePath = 'https://api.prox.innovation-hub.de';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -130,86 +130,6 @@ export class ProfessorControllerService {
   }
 
   /**
-   * @param sort
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public getAllProfessors(
-    sort: Sort,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelEntityModelProfessor>;
-  public getAllProfessors(
-    sort: Sort,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelEntityModelProfessor>>;
-  public getAllProfessors(
-    sort: Sort,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelEntityModelProfessor>>;
-  public getAllProfessors(
-    sort: Sort,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    if (sort === null || sort === undefined) {
-      throw new Error(
-        'Required parameter sort was null or undefined when calling getAllProfessors.'
-      );
-    }
-
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (sort !== undefined && sort !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>sort,
-        'sort'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<CollectionModelEntityModelProfessor>(
-      `${this.configuration.basePath}/professors`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
    * @param id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
@@ -219,19 +139,19 @@ export class ProfessorControllerService {
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<object>;
+  ): Observable<string>;
   public deleteProfessorImage(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<object>>;
+  ): Observable<HttpResponse<string>>;
   public deleteProfessorImage(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<object>>;
+  ): Observable<HttpEvent<string>>;
   public deleteProfessorImage(
     id: string,
     observe: any = 'body',
@@ -267,11 +187,93 @@ export class ProfessorControllerService {
       responseType = 'text';
     }
 
-    return this.httpClient.delete<object>(
+    return this.httpClient.delete<string>(
       `${this.configuration.basePath}/professors/${encodeURIComponent(
         String(id)
       )}/image`,
       {
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param sort
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getAllProfessors(
+    sort: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelEntityModelProfessor>;
+  public getAllProfessors(
+    sort: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelEntityModelProfessor>>;
+  public getAllProfessors(
+    sort: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelEntityModelProfessor>>;
+  public getAllProfessors(
+    sort: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (sort === null || sort === undefined) {
+      throw new Error(
+        'Required parameter sort was null or undefined when calling getAllProfessors.'
+      );
+    }
+
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (sort) {
+      sort.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'sort'
+        );
+      });
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelEntityModelProfessor>(
+      `${this.configuration.basePath}/professors`,
+      {
+        params: queryParameters,
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -509,21 +511,21 @@ export class ProfessorControllerService {
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<object>;
+  ): Observable<string>;
   public postProfessorImage(
     id: string,
     image?: Blob,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<object>>;
+  ): Observable<HttpResponse<string>>;
   public postProfessorImage(
     id: string,
     image?: Blob,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<object>>;
+  ): Observable<HttpEvent<string>>;
   public postProfessorImage(
     id: string,
     image?: Blob,
@@ -582,7 +584,7 @@ export class ProfessorControllerService {
       responseType = 'text';
     }
 
-    return this.httpClient.post<object>(
+    return this.httpClient.post<string>(
       `${this.configuration.basePath}/professors/${encodeURIComponent(
         String(id)
       )}/image`,

@@ -49,7 +49,7 @@ export class ProfessorProfileService {
     return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
   }
 
-  getAllProfessors(sort: Sort = {}): Observable<Professor[]> {
+  getAllProfessors(sort: string[] = ['name,asc']): Observable<Professor[]> {
     return this.professorControllerService
       .getAllProfessors(sort)
       .pipe(map(cm => cm._embedded.professorList));
@@ -61,8 +61,8 @@ export class ProfessorProfileService {
       .pipe(map(em => <Faculty>em));
   }
 
-  getAllFaculties(): Observable<Faculty[]> {
-    return this.facultyControllerService.getAllFaculties({}).pipe(
+  getAllFaculties(sort: string[] = []): Observable<Faculty[]> {
+    return this.facultyControllerService.getAllFaculties(sort).pipe(
       map(f => {
         const facs = <Faculty[]>f._embedded.facultyList;
         return facs;
