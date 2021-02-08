@@ -4,6 +4,7 @@ import {
   Professor,
   ResearchSubject
 } from '@data/schema/openapi/professor-profile-service/models';
+import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
@@ -26,7 +27,7 @@ export class ProfessorResearchComponent implements OnInit {
   }
 
   @Input()
-  set professor(professor: Observable<Professor>) {
-    this.professor$ = professor;
+  set professor(professor: Professor) {
+    this.professor$ = of(professor);
   }
 }

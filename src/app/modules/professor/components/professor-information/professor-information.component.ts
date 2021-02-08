@@ -6,6 +6,7 @@ import {
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
+import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -41,7 +42,7 @@ export class ProfessorInformationComponent implements OnInit {
   }
 
   @Input()
-  set professor(professor: Observable<Professor>) {
-    this.professor$ = professor;
+  set professor(professor: Professor) {
+    this.professor$ = of(professor);
   }
 }

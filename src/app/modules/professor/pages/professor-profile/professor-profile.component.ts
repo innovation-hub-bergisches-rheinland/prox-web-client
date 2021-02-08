@@ -7,7 +7,7 @@ import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
 import { KeycloakService } from 'keycloak-angular';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
 
 @Component({
@@ -19,7 +19,7 @@ export class ProfessorProfileComponent implements OnInit {
   private professorId: string;
   private isLoggedIn: boolean;
   noContent: boolean = false;
-  professor$: Observable<Professor>;
+  professor: Professor;
   availableProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
   projectHistory: Project[];
@@ -45,11 +45,10 @@ export class ProfessorProfileComponent implements OnInit {
 
   async ngOnInit() {
     this.activatedRoute.params.subscribe(res => (this.professorId = res['id']));
-    this.professor$ = this.professorService.getProfessorProfile(
-      this.professorId
-    );
-    this.professor$.subscribe(
-      _ => {},
+    this.professorService.getProfessorProfile(this.professorId).subscribe(
+      res => {
+        this.professor = res;
+      },
       err => {
         if (err instanceof HttpErrorResponse) {
           if (err.status == 404) {
@@ -68,10 +67,8 @@ export class ProfessorProfileComponent implements OnInit {
     );
 
     if (!this.noContent) {
-      this.availableProjects$ = this.professor$.pipe(
-        mergeMap(prof =>
-          this.projectService.findAvailableProjectsOfCreator(prof.id)
-        )
+      this.availableProjects$ = this.projectService.findAvailableProjectsOfCreator(
+        this.professorId
       );
 
       this.availableProjects$ = this.availableProjects$.pipe(
@@ -87,10 +84,8 @@ export class ProfessorProfileComponent implements OnInit {
         toArray()
       );
 
-      this.projectHistory$ = this.professor$.pipe(
-        mergeMap(prof =>
-          this.projectService.findRunningAndFinishedProjectsOfCreator(prof.id)
-        )
+      this.projectHistory$ = this.projectService.findRunningAndFinishedProjectsOfCreator(
+        this.professorId
       );
 
       this.projectHistory$.subscribe(

@@ -6,13 +6,21 @@
   </div>
   <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="!noContent">
     <app-professor-information
-      [professor]="professor$"
+      *ngIf="professor"
+      [professor]="professor"
     ></app-professor-information>
     <br />
-    <app-professor-vita [professor]="professor$"></app-professor-vita>
-    <app-professor-research [professor]="professor$"></app-professor-research>
+    <app-professor-vita
+      *ngIf="professor"
+      [professor]="professor"
+    ></app-professor-vita>
+    <app-professor-research
+      *ngIf="professor"
+      [professor]="professor"
+    ></app-professor-research>
     <app-professor-publications
-      [professor]="professor$"
+      *ngIf="professor"
+      [professor]="professor"
     ></app-professor-publications>
     <app-professor-running-projects
       [projects]="availableProjects$"
