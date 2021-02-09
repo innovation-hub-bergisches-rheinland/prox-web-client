@@ -30,7 +30,7 @@ export class ProfessorInformationComponent implements OnInit {
   ngOnInit(): void {
     this.professor$.subscribe(res => {
       this.prof = res;
-      this.professorProfileService.getProfessorImageUrl(res).subscribe(
+      this.professorProfileService.getProfessorImageUrl(res.id).subscribe(
         res2 => (this.imgUrl = res2),
         err => console.error(err)
       );

@@ -9,6 +9,8 @@ import { Module } from '@data/schema/module.resource';
 import { ModuleEntityService } from './openapi/project-service/moduleEntity.service';
 import { ProfessorControllerService } from './openapi/professor-profile-service/professorController.service';
 import {
+  CollectionModelEntityModelProfessorOverviewDto,
+  EntityModelProfessorOverviewDto,
   Faculty,
   PagedModelEntityModelProfessor,
   Professor
@@ -17,6 +19,8 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '@env';
 import { FacultyControllerService } from './openapi/professor-profile-service/facultyController.service';
 import { ProfessorSearchControllerService } from './openapi/professor-profile-service/professorSearchController.service';
+import { ProfessorOverviewControllerService } from './openapi/professor-profile-service/professorOverviewController.service';
+import { ProfessorOverview } from '@modules/professor/pages/professors-item/professor-overview';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +31,7 @@ export class ProfessorProfileService {
     private professorControllerService: ProfessorControllerService,
     private facultyControllerService: FacultyControllerService,
     private professorSearchControllerService: ProfessorSearchControllerService,
+    private ProfessorOverviewControllerService: ProfessorOverviewControllerService,
     private httpClient: HttpClient
   ) {}
 
@@ -45,8 +50,8 @@ export class ProfessorProfileService {
     );
   }
 
-  getProfessorImageUrl(professor: Professor): Observable<string> {
-    return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
+  getProfessorImageUrl(id: string): Observable<string> {
+    return of(`${environment.apiUrl}/professors/${id}/image`); //TODO Hardcoded - this might be refactored
   }
 
   getAllProfessors(
@@ -127,6 +132,12 @@ export class ProfessorProfileService {
       sort,
       page,
       size
+    );
+  }
+
+  getProfessorOverview(): Observable<EntityModelProfessorOverviewDto[]> {
+    return this.ProfessorOverviewControllerService.getProfessorOverview().pipe(
+      map(p => p._embedded.professorOverviewDtoList)
     );
   }
 }

@@ -161,13 +161,15 @@ export class ProfessorProfileEditor implements OnInit {
           this.exists = true;
           //TODO get rid of inner subscriptions
           //Build image url and set it
-          this.professorService.getProfessorImageUrl(professor).subscribe(
-            url => (this.imageSrc = url),
-            err =>
-              this.snackbar.open(
-                'Konnte Profilbild nicht laden, versuchen Sie es später erneut'
-              )
-          );
+          this.professorService
+            .getProfessorImageUrl(this.professor.id)
+            .subscribe(
+              url => (this.imageSrc = url),
+              err =>
+                this.snackbar.open(
+                  'Konnte Profilbild nicht laden, versuchen Sie es später erneut'
+                )
+            );
           //Load faculty and set it
           this.professorService
             .getProfessorFaculty(this.professor.id)
