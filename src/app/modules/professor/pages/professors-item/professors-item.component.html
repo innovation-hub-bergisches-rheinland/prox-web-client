@@ -2,33 +2,35 @@
   <mat-card-header>
     <img
       mat-card-avatar
-      [src]="this.getProfessorUrl(professor) | async"
+      [src]="getProfilePictureUrl(this.professor)"
       alt="Profilbild"
     />
-    <mat-card-title>{{ professor.name }}</mat-card-title>
-    <mat-card-subtitle>{{ this.faculty?.name }}</mat-card-subtitle>
-    <mat-card-subtitle>{{ professor.mainSubject }}</mat-card-subtitle>
+    <mat-card-title>{{ this.professor.name }}</mat-card-title>
+    <mat-card-subtitle>{{ this.professor.faculty }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ this.professor.mainSubject }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content fxLayout="row">
     <div class="research" fxFlex="60">
       <b>Lehr- und Forschungsgebiete:</b>
       <ul>
-        <li *ngFor="let subject of professor.researchSubjects">
-          {{ subject.subject }}
+        <li *ngFor="let subject of this.professor.researchSubjects">
+          {{ subject }}
         </li>
       </ul>
     </div>
     <div class="projects" fxFlex="40">
       <b>Projektstatistik</b>
       <ul>
-        <li>{{ this.sumOfAvailableProjects }} verfügbare Projekte</li>
-        <li>{{ this.sumOfRunningProjects }} laufende Projekte</li>
-        <li>{{ this.sumOfFinishedProjects }} abgeschlossene Projekte</li>
+        <li>{{ this.professor.sumAvailableProjects }} verfügbare Projekte</li>
+        <li>{{ this.professor.sumRunningProjects }} laufende Projekte</li>
+        <li>
+          {{ this.professor.sumFinishedProjects }} abgeschlossene Projekte
+        </li>
       </ul>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button routerLink="/professors/{{ professor.id }}">
+    <button mat-button routerLink="/professors/{{ this.professor.id }}">
       Zur Profilseite
     </button>
   </mat-card-actions>

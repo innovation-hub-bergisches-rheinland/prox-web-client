@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import {
+  EntityModelProfessorOverviewDto,
   Faculty,
   PagedModelEntityModelProfessor,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
+import { ProfessorOverview } from '@modules/professor/pages/professors-item/professor-overview';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import Fuse from 'fuse.js';
 import { Observable } from 'rxjs';
@@ -18,21 +20,22 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./professors.component.scss']
 })
 export class ProfessorsComponent implements OnInit {
-  _professors: Professor[] = [];
+  _professors: ProfessorOverview[] = [];
   faculties: Faculty[] = [];
-  filteredProfessors: Professor[] = [];
+  filteredProfessors: ProfessorOverview[] = [];
+  professorPage: ProfessorOverview[] = [];
   searchString = new FormControl('');
   selectedFaculty = new FormControl('');
   pageIndex = 0;
   pageSize = 10;
   totalItems = 0;
 
-  set professors(professors: Professor[]) {
+  set professors(professors: ProfessorOverview[]) {
     this._professors = professors;
     professors.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  get professors(): Professor[] {
+  get professors(): ProfessorOverview[] {
     return this._professors;
   }
 
@@ -52,70 +55,45 @@ export class ProfessorsComponent implements OnInit {
       .pipe(map(f => f.name));
   }
 
-  getProfessorUrl(professor: Professor): Observable<string> {
-    return this.professorProfileService.getProfessorImageUrl(professor);
-  }
-
-  filterProfessorsByFaculty() {
-    this.getProfessors();
+  getProfessorUrl(id: string): Observable<string> {
+    return this.professorProfileService.getProfessorImageUrl(id);
   }
 
   public changePageIndexOrSize(pageEvent: PageEvent) {
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
-    this.getProfessors();
+    this.pageProfessors();
   }
 
-  public getProfessors(
-    searchParameters: { faculty?: Faculty; search?: string } = {
-      faculty: this.selectedFaculty.value,
-      search: this.searchString.value
-    }
-  ) {
-    const faculty = searchParameters.faculty;
-    const search = searchParameters.search;
+  private pageProfessors() {
+    this.professorPage = this.filteredProfessors.slice(
+      this.pageIndex * this.pageSize,
+      (this.pageIndex + 1) * this.pageSize
+    );
+  }
 
-    let professors$: Observable<PagedModelEntityModelProfessor>;
-
-    if (faculty && search) {
-      professors$ = this.professorProfileService.getProfessorsByFacultyIdAndName(
-        faculty.id,
-        search,
-        this.pageIndex,
-        this.pageSize
-      );
-    } else if (faculty) {
-      professors$ = this.professorProfileService.getProfessorsByFaculty(
-        faculty.id,
-        this.pageIndex,
-        this.pageSize
-      );
-    } else if (search) {
-      professors$ = this.professorProfileService.getProfessorsByName(
-        search,
-        this.pageIndex,
-        this.pageSize
-      );
-    } else {
-      professors$ = this.professorProfileService.getAllProfessors(
-        this.pageIndex,
-        this.pageSize
-      );
-    }
-    professors$.subscribe(
-      res => {
-        console.log(res);
-        this.professors = this.filteredProfessors =
-          res?._embedded?.professorList ?? [];
-        this.pageIndex = res.page.number;
-        this.pageSize = res.page.size;
-        this.totalItems = res.page.totalElements;
+  public getProfessors() {
+    this.professorProfileService.getProfessorOverview().subscribe(
+      p => {
+        this.professors = this.filteredProfessors = p.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+        this.totalItems = this.professors.length;
+        this.pageProfessors();
       },
       err => console.error(err)
     );
   }
 
-  filterProfessorsBySearchString() {
-    this.getProfessors();
+  filterProfessors() {
+    const facultyId = this.selectedFaculty?.value?.id;
+    if (facultyId) {
+      this.filteredProfessors = this.professors.filter(
+        p => p.facultyId == facultyId
+      );
+    } else {
+      this.filteredProfessors = this.professors;
+    }
+    this.pageProfessors();
   }
 }

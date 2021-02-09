@@ -3,6 +3,7 @@ import {
   Faculty,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
+import { ProfessorOverview } from '@modules/professor/pages/professors-item/professor-overview';
 import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
@@ -15,49 +16,26 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./professors-item.component.scss']
 })
 export class ProfessorsItemComponent implements OnInit {
-  _professor: Professor;
-  faculty: Faculty;
-  sumOfAvailableProjects: number = 0;
-  sumOfRunningProjects: number = 0;
-  sumOfFinishedProjects: number = 0;
+  _professor: ProfessorOverview;
 
   @Input()
-  set professor(professor: Professor) {
+  set professor(professor: ProfessorOverview) {
     this._professor = professor;
   }
 
-  get professor(): Professor {
+  get professor(): ProfessorOverview {
     return this._professor;
   }
 
-  constructor(
-    private professorProfileService: ProfessorProfileService,
-    private projectService: ProjectService
-  ) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.professorProfileService
-      .getProfessorFaculty(this.professor.id)
-      .subscribe(
-        res => (this.faculty = res),
-        err => console.error(err)
-      );
+  ngOnInit() {}
 
-    combineLatest([
-      this.projectService.findFinishedProjectsOfCreator(this.professor.id),
-      this.projectService.findAvailableProjectsOfCreator(this.professor.id),
-      this.projectService.findRunningProjectsOfCreator(this.professor.id)
-    ]).subscribe(
-      ([finished, available, running]) => {
-        this.sumOfFinishedProjects = finished.length;
-        this.sumOfAvailableProjects = available.length;
-        this.sumOfRunningProjects = running.length;
-      },
-      err => console.error(err)
-    );
+  getProfilePictureUrl(professor: ProfessorOverview): string {
+    return professor._links?.image?.href ?? this.getDefaultPic();
   }
 
-  getProfessorUrl(professor: Professor): Observable<string> {
-    return this.professorProfileService.getProfessorImageUrl(professor);
+  getDefaultPic(): string {
+    return './assets/images/blank-profile-picture.png';
   }
 }

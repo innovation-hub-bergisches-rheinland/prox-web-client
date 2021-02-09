@@ -6,7 +6,7 @@
 
       <mat-select
         [formControl]="selectedFaculty"
-        (selectionChange)="filterProfessorsByFaculty()"
+        (selectionChange)="filterProfessors()"
       >
         <mat-option>Alle</mat-option>
 
@@ -16,18 +16,18 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="searchField">
+    <!--<mat-form-field class="searchField">
       <input
         matInput
         [formControl]="searchString"
-        (keyup)="filterProfessorsBySearchString()"
+        (keyup)="filterProfessors()"
         placeholder="Suche"
       />
-    </mat-form-field>
+    </mat-form-field>-->
   </div>
   <div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="2% grid">
     <app-professors-item
-      *ngFor="let professor of filteredProfessors"
+      *ngFor="let professor of professorPage"
       [professor]="professor"
       fxFlex="48"
       fxFlex.lt-md="100"
