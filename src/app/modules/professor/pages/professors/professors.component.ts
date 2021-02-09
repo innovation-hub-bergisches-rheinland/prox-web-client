@@ -66,6 +66,7 @@ export class ProfessorsComponent implements OnInit {
   }
 
   private pageProfessors() {
+    this.setPageMetadata();
     this.professorPage = this.filteredProfessors.slice(
       this.pageIndex * this.pageSize,
       (this.pageIndex + 1) * this.pageSize
@@ -78,11 +79,20 @@ export class ProfessorsComponent implements OnInit {
         this.professors = this.filteredProfessors = p.sort((a, b) =>
           a.name.localeCompare(b.name)
         );
-        this.totalItems = this.professors.length;
         this.pageProfessors();
       },
       err => console.error(err)
     );
+  }
+
+  setPageMetadata() {
+    this.totalItems = this.filteredProfessors.length;
+    while (
+      this.pageIndex > 0 &&
+      this.pageSize * this.pageIndex >= this.totalItems
+    ) {
+      this.pageIndex -= 1;
+    }
   }
 
   filterProfessors() {
