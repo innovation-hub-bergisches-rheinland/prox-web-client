@@ -23,7 +23,7 @@ import {
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelEntityModelProfessor } from '@data/schema/openapi/professor-profile-service/models';
+import { PagedModelEntityModelProfessor } from '@data/schema/openapi/professor-profile-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { Configuration } from '../configuration';
@@ -111,29 +111,44 @@ export class ProfessorSearchControllerService {
 
   /**
    * @param id
+   * @param sort
+   * @param page
+   * @param size
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public findProfessorsByFacultyId(
     id: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelEntityModelProfessor>;
+  ): Observable<PagedModelEntityModelProfessor>;
   public findProfessorsByFacultyId(
     id: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelEntityModelProfessor>>;
+  ): Observable<HttpResponse<PagedModelEntityModelProfessor>>;
   public findProfessorsByFacultyId(
     id: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelEntityModelProfessor>>;
+  ): Observable<HttpEvent<PagedModelEntityModelProfessor>>;
   public findProfessorsByFacultyId(
     id: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -147,6 +162,29 @@ export class ProfessorSearchControllerService {
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (id !== undefined && id !== null) {
       queryParameters = this.addToHttpParams(queryParameters, <any>id, 'id');
+    }
+    if (sort) {
+      sort.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'sort'
+        );
+      });
+    }
+    if (page !== undefined && page !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>page,
+        'page'
+      );
+    }
+    if (size !== undefined && size !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>size,
+        'size'
+      );
     }
 
     let headers = this.defaultHeaders;
@@ -172,8 +210,257 @@ export class ProfessorSearchControllerService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelEntityModelProfessor>(
+    return this.httpClient.get<PagedModelEntityModelProfessor>(
       `${this.configuration.basePath}/professors/search/findProfessorsByFacultyId`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param id
+   * @param name
+   * @param sort
+   * @param page
+   * @param size
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findProfessorsByFacultyIdAndName(
+    id: string,
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<PagedModelEntityModelProfessor>;
+  public findProfessorsByFacultyIdAndName(
+    id: string,
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<PagedModelEntityModelProfessor>>;
+  public findProfessorsByFacultyIdAndName(
+    id: string,
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<PagedModelEntityModelProfessor>>;
+  public findProfessorsByFacultyIdAndName(
+    id: string,
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling findProfessorsByFacultyIdAndName.'
+      );
+    }
+    if (name === null || name === undefined) {
+      throw new Error(
+        'Required parameter name was null or undefined when calling findProfessorsByFacultyIdAndName.'
+      );
+    }
+
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (id !== undefined && id !== null) {
+      queryParameters = this.addToHttpParams(queryParameters, <any>id, 'id');
+    }
+    if (name !== undefined && name !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>name,
+        'name'
+      );
+    }
+    if (sort) {
+      sort.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'sort'
+        );
+      });
+    }
+    if (page !== undefined && page !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>page,
+        'page'
+      );
+    }
+    if (size !== undefined && size !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>size,
+        'size'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<PagedModelEntityModelProfessor>(
+      `${this.configuration.basePath}/professors/search/findProfessorsByFacultyIdAndName`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param name
+   * @param sort
+   * @param page
+   * @param size
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findProfessorsByName(
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<PagedModelEntityModelProfessor>;
+  public findProfessorsByName(
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<PagedModelEntityModelProfessor>>;
+  public findProfessorsByName(
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<PagedModelEntityModelProfessor>>;
+  public findProfessorsByName(
+    name: string,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (name === null || name === undefined) {
+      throw new Error(
+        'Required parameter name was null or undefined when calling findProfessorsByName.'
+      );
+    }
+
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (name !== undefined && name !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>name,
+        'name'
+      );
+    }
+    if (sort) {
+      sort.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'sort'
+        );
+      });
+    }
+    if (page !== undefined && page !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>page,
+        'page'
+      );
+    }
+    if (size !== undefined && size !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>size,
+        'size'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<PagedModelEntityModelProfessor>(
+      `${this.configuration.basePath}/professors/search/findProfessorsByName`,
       {
         params: queryParameters,
         responseType: <any>responseType,

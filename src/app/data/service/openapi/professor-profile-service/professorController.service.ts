@@ -26,9 +26,8 @@ import { Observable } from 'rxjs';
 import {
   Professor,
   EntityModelProfessor,
-  CollectionModelEntityModelProfessor,
-  EntityModelFaculty,
-  Sort
+  PagedModelEntityModelProfessor,
+  EntityModelFaculty
 } from '@data/schema/openapi/professor-profile-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -203,39 +202,43 @@ export class ProfessorControllerService {
 
   /**
    * @param sort
+   * @param page
+   * @param size
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public getAllProfessors(
-    sort: Array<string>,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelEntityModelProfessor>;
+  ): Observable<PagedModelEntityModelProfessor>;
   public getAllProfessors(
-    sort: Array<string>,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelEntityModelProfessor>>;
+  ): Observable<HttpResponse<PagedModelEntityModelProfessor>>;
   public getAllProfessors(
-    sort: Array<string>,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelEntityModelProfessor>>;
+  ): Observable<HttpEvent<PagedModelEntityModelProfessor>>;
   public getAllProfessors(
-    sort: Array<string>,
+    sort?: Array<string>,
+    page?: number,
+    size?: number,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
-    if (sort === null || sort === undefined) {
-      throw new Error(
-        'Required parameter sort was null or undefined when calling getAllProfessors.'
-      );
-    }
-
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (sort) {
       sort.forEach(element => {
@@ -245,6 +248,20 @@ export class ProfessorControllerService {
           'sort'
         );
       });
+    }
+    if (page !== undefined && page !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>page,
+        'page'
+      );
+    }
+    if (size !== undefined && size !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>size,
+        'size'
+      );
     }
 
     let headers = this.defaultHeaders;
@@ -270,7 +287,7 @@ export class ProfessorControllerService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelEntityModelProfessor>(
+    return this.httpClient.get<PagedModelEntityModelProfessor>(
       `${this.configuration.basePath}/professors`,
       {
         params: queryParameters,

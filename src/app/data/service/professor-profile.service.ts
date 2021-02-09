@@ -10,8 +10,8 @@ import { ModuleEntityService } from './openapi/project-service/moduleEntity.serv
 import { ProfessorControllerService } from './openapi/professor-profile-service/professorController.service';
 import {
   Faculty,
-  Professor,
-  Sort
+  PagedModelEntityModelProfessor,
+  Professor
 } from '@data/schema/openapi/professor-profile-service/models';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '@env';
@@ -49,10 +49,12 @@ export class ProfessorProfileService {
     return of(`${environment.apiUrl}/professors/${professor.id}/image`); //TODO Hardcoded - this might be refactored
   }
 
-  getAllProfessors(sort: string[] = ['name,asc']): Observable<Professor[]> {
-    return this.professorControllerService
-      .getAllProfessors(sort)
-      .pipe(map(cm => cm._embedded.professorList));
+  getAllProfessors(
+    page?: number,
+    size?: number,
+    sort: string[] = ['name']
+  ): Observable<PagedModelEntityModelProfessor> {
+    return this.professorControllerService.getAllProfessors(sort, page, size);
   }
 
   getProfessorFaculty(id: string): Observable<Faculty> {
@@ -84,9 +86,47 @@ export class ProfessorProfileService {
     return this.professorControllerService.deleteProfessorImage(id);
   }
 
-  getProfessorsByFaculty(id: string): Observable<Professor[]> {
-    return this.professorSearchControllerService
-      .findProfessorsByFacultyId(id)
-      .pipe(map(p => p?._embedded?.professorList ?? []));
+  getProfessorsByFaculty(
+    id: string,
+    page?: number,
+    size?: number,
+    sort: string[] = ['name']
+  ): Observable<PagedModelEntityModelProfessor> {
+    return this.professorSearchControllerService.findProfessorsByFacultyId(
+      id,
+      sort,
+      page,
+      size
+    );
+  }
+
+  getProfessorsByName(
+    name: string,
+    page?: number,
+    size?: number,
+    sort: string[] = ['name']
+  ): Observable<PagedModelEntityModelProfessor> {
+    return this.professorSearchControllerService.findProfessorsByName(
+      name,
+      sort,
+      page,
+      size
+    );
+  }
+
+  getProfessorsByFacultyIdAndName(
+    id: string,
+    name: string,
+    page?: number,
+    size?: number,
+    sort: string[] = ['name']
+  ): Observable<PagedModelEntityModelProfessor> {
+    return this.professorSearchControllerService.findProfessorsByFacultyIdAndName(
+      id,
+      name,
+      sort,
+      page,
+      size
+    );
   }
 }

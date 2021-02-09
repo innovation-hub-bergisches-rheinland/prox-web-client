@@ -25,7 +25,6 @@ import { Observable } from 'rxjs';
 
 import {
   CollectionModelEntityModelFaculty,
-  Sort,
   EntityModelFaculty,
   Faculty
 } from '@data/schema/openapi/professor-profile-service/models';
