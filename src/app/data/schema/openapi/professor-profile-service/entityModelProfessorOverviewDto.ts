@@ -9,19 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Publication } from './publication';
-import { ResearchSubject } from './researchSubject';
-import { ContactInformation } from './contactInformation';
 import { Link } from './link';
 
-export interface EntityModelProfessor {
+export interface EntityModelProfessorOverviewDto {
   id?: string;
   name: string;
-  affiliation?: string;
+  faculty?: string;
+  facultyId?: string;
   mainSubject?: string;
-  contactInformation?: ContactInformation;
-  researchSubjects?: Array<ResearchSubject>;
-  publications?: Array<Publication>;
-  vita?: string;
+  researchSubjects?: Array<string>;
+  sumRunningProjects?: number;
+  sumFinishedProjects?: number;
+  sumAvailableProjects?: number;
   _links?: { [key: string]: Link };
 }
