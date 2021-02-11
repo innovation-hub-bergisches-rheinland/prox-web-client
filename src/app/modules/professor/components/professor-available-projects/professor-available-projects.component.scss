@@ -3,19 +3,26 @@ h1 {
   text-align: center;
 }
 
-th {
+.mat-header-cell {
   font-family: 'Roboto';
   font-weight: bold;
 }
 
-td {
-  font-family: 'Roboto';
-}
-
-table {
-  width: 100%;
-}
-
 .mat-cell {
+  font-family: 'Roboto';
   word-wrap: break-word;
+}
+
+/* {
+  width: 100%;
+}*/
+
+.mat-column-name {
+  word-break: break-all;
+  width: 80%;
+}
+
+.mat-column-type {
+  width: 20%;
+  min-width: 20ch;
 }

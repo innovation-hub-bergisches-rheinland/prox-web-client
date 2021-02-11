@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import { environment } from '@env';
 import { type } from 'os';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-professor-available-projects',
@@ -39,7 +39,6 @@ export class ProfessorRunningProjectsComponent
     this.paginator.changes.subscribe((comps: QueryList<MatPaginator>) => {
       this.dataSource.paginator = comps.first;
     });
-    console.log(this.paginator);
   }
 
   ngOnInit() {
