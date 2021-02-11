@@ -1,4 +1,10 @@
-import { Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Input,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Professor } from '@data/schema/openapi/professor-profile-service/models';
 import { Project } from '@data/schema/project.resource';
@@ -6,25 +12,42 @@ import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
 import { environment } from '@env';
 import { type } from 'os';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-professor-running-projects',
-  templateUrl: './professor-running-projects.component.html',
-  styleUrls: ['./professor-running-projects.component.scss'],
-  host: { class: 'prof-running-projects' }
+  selector: 'app-professor-available-projects',
+  templateUrl: './professor-available-projects.component.html',
+  styleUrls: ['./professor-available-projects.component.scss'],
+  host: { class: 'prof-avaialable-projects' }
 })
-export class ProfessorRunningProjectsComponent implements OnInit {
+export class ProfessorRunningProjectsComponent
+  implements OnInit, AfterViewInit {
   displayedColumns = ['name', 'type'];
 
   //professor$: Observable<Professor>
   projects$: Observable<Project[]>;
   availableProjects: Project[];
+  dataSource = new MatTableDataSource<Project>();
+
+  //Because the paginator is wrapped inside a *ngIf, @ViewChild cannot be used
+  @ViewChildren('paginator') paginator: QueryList<MatPaginator>;
 
   constructor() {}
 
+  ngAfterViewInit() {
+    this.paginator.changes.subscribe((comps: QueryList<MatPaginator>) => {
+      this.dataSource.paginator = comps.first;
+    });
+    console.log(this.paginator);
+  }
+
   ngOnInit() {
     this.projects$.subscribe(
-      res => (this.availableProjects = res),
+      res => {
+        this.availableProjects = res;
+        this.dataSource.data.push(...res);
+      },
       err => console.error(err)
     );
   }
