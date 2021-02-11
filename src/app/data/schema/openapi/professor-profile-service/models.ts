@@ -1,3 +1,4 @@
+export * from './apiError';
 export * from './collectionModelEntityModelFaculty';
 export * from './collectionModelEntityModelFacultyEmbedded';
 export * from './collectionModelEntityModelProfessorOverviewDto';
@@ -6,7 +7,6 @@ export * from './contactInformation';
 export * from './entityModelFaculty';
 export * from './entityModelProfessor';
 export * from './entityModelProfessorOverviewDto';
-export * from './faculty';
 export * from './inlineObject';
 export * from './link';
 export * from './pageMetadata';

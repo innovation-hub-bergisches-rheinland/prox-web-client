@@ -12,10 +12,7 @@ import {
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Faculty,
-  Professor
-} from '@data/schema/openapi/professor-profile-service/models';
+import { Professor } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import {
@@ -27,6 +24,7 @@ import {
   throwError
 } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
+import { Faculty } from './faculty';
 
 @Component({
   selector: 'app-professor-profile-editor',
@@ -200,11 +198,6 @@ export class ProfessorProfileEditor implements OnInit {
         }
       );
 
-    //TODO necessary?
-    this.professor = {
-      contactInformation: {}
-    };
-
     //When no image is present (likely when no profile exists)
     if (!this.imageSrc) {
       this.imageSrc = 'assets/images/blank-profile-picture.png';
@@ -301,7 +294,7 @@ export class ProfessorProfileEditor implements OnInit {
       p => {
         if (this.selectedFaculty) {
           this.professorService
-            .saveProfessorFaculty(p.id, this.selectedFaculty)
+            .saveProfessorFaculty(p.id, this.selectedFaculty.id)
             .subscribe(
               _ => {},
               err => {

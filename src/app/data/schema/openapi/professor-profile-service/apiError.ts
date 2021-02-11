@@ -10,9 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface PageMetadata {
-  size?: number;
-  totalElements?: number;
-  totalPages?: number;
-  number?: number;
+export interface ApiError {
+  code?: number;
+  error?: string;
+  message?: string;
 }

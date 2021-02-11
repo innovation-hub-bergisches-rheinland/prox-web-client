@@ -4,7 +4,6 @@ import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import {
   EntityModelProfessorOverviewDto,
-  Faculty,
   PagedModelEntityModelProfessor,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
@@ -13,6 +12,7 @@ import { ProfessorProfileService } from '@data/service/professor-profile.service
 import Fuse from 'fuse.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Faculty } from './faculty';
 
 @Component({
   selector: 'app-professors',

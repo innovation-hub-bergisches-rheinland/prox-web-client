@@ -1,14 +1,12 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { TextProcessor } from '@app/util/text-processor';
-import {
-  Faculty,
-  Professor
-} from '@data/schema/openapi/professor-profile-service/models';
+import { Professor } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Faculty } from './faculty';
 
 @Component({
   selector: 'app-professor-information',

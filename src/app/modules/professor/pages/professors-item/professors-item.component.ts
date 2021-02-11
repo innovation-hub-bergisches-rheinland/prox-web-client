@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  Faculty,
-  Professor
-} from '@data/schema/openapi/professor-profile-service/models';
+import { Professor } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorOverview } from '@modules/professor/pages/professors-item/professor-overview';
 import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
