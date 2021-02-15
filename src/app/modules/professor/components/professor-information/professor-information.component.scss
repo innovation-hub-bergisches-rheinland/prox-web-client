@@ -4,12 +4,6 @@
   align-items: flex-start !important;
 }*/
 
-.prof-info-div {
-  font-family: 'Roboto';
-  font-size: 14px;
-  color: #000000;
-}
-
 .title {
   font-weight: bold;
 }
@@ -28,4 +22,25 @@ h2 {
   font-size: 14px;
   color: #6c6c6c;
   margin-top: 0px;
+}
+
+.profileImage {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: scale-down; //Or cover
+  width: auto;
+  height: auto;
+  margin: auto;
+}
+
+.prof-image-div {
+  width: 200px;
+  height: 200px;
+}
+
+.prof-info-div {
+  font-family: 'Roboto';
+  font-size: 14px;
+  color: #000000;
 }

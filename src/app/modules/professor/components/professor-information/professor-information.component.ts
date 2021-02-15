@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { TextProcessor } from '@app/util/text-processor';
@@ -32,11 +33,13 @@ export class ProfessorInformationComponent implements OnInit {
       this.prof = res;
       this.professorProfileService.getProfessorImageUrl(res.id).subscribe(
         res2 => (this.imgUrl = res2),
-        err => console.error(err)
+        (err: HttpErrorResponse) =>
+          err.status != 404 ? console.error(err) : {}
       );
       this.professorProfileService.getProfessorFaculty(res.id).subscribe(
         res2 => (this.faculty = res2),
-        err => console.error(err)
+        (err: HttpErrorResponse) =>
+          err.status != 404 ? console.error(err) : {}
       );
     });
   }

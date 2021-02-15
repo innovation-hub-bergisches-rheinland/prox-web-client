@@ -22,9 +22,9 @@
     class="prof-image-div"
     *ngIf="imgUrl"
   >
-    <img alt="blank" [src]="imgUrl" width="200" />
+    <img class="profileImage" alt="blank" [src]="imgUrl" width="200" />
   </div>
-  <div gdArea="information">
+  <div gdArea="information" class="prof-info-div">
     <div gdAreas="attribute value" gdGap="5px">
       <div gdArea="attribute" gdRow="1" *ngIf="prof.affiliation">
         Hochschulzugehörigkeit seit:

@@ -12,7 +12,10 @@ import {
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Professor } from '@data/schema/openapi/professor-profile-service/models';
+import {
+  Faculty,
+  Professor
+} from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import {
@@ -24,7 +27,6 @@ import {
   throwError
 } from 'rxjs';
 import { mergeMap, map } from 'rxjs/operators';
-import { Faculty } from './faculty';
 
 @Component({
   selector: 'app-professor-profile-editor',
