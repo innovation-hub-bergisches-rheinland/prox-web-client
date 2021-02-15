@@ -105,65 +105,6 @@ export class ProfessorProfileService {
     return this.professorApiService.deleteProfessorImage(id);
   }
 
-  getProfessorsByFaculty(
-    id: string,
-    page?: number,
-    size?: number,
-    sort: string[] = ['name']
-  ): Observable<PagedModelEntityModelProfessor> {
-    return this.professorApiService.findProfessorsByFacultyId(
-      id,
-      sort,
-      page,
-      size,
-      'body',
-      false,
-      {
-        httpHeaderAccept: 'application/hal+json'
-      }
-    );
-  }
-
-  getProfessorsByName(
-    name: string,
-    page?: number,
-    size?: number,
-    sort: string[] = ['name']
-  ): Observable<PagedModelEntityModelProfessor> {
-    return this.professorApiService.findProfessorsByName(
-      name,
-      sort,
-      page,
-      size,
-      'body',
-      false,
-      {
-        httpHeaderAccept: 'application/hal+json'
-      }
-    );
-  }
-
-  getProfessorsByFacultyIdAndName(
-    id: string,
-    name: string,
-    page?: number,
-    size?: number,
-    sort: string[] = ['name']
-  ): Observable<PagedModelEntityModelProfessor> {
-    return this.professorApiService.findProfessorsByFacultyIdAndName(
-      id,
-      name,
-      sort,
-      page,
-      size,
-      'body',
-      false,
-      {
-        httpHeaderAccept: 'application/hal+json'
-      }
-    );
-  }
-
   getProfessorOverview(): Observable<EntityModelProfessorOverviewDto[]> {
     return this.professorApiService
       .getProfessorOverview('body', false, {
