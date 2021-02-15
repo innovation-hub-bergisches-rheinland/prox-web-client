@@ -9,8 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EntityModelFaculty } from './entityModelFaculty';
 
-export interface CollectionModelEntityModelFacultyEmbedded {
-  facultyList?: Array<EntityModelFaculty>;
+export interface Faculty {
+  id: string;
+  abbreviation: string;
+  name: string;
 }

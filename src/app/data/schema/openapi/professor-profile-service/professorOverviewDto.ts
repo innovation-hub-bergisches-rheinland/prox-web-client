@@ -9,8 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EntityModelFaculty } from './entityModelFaculty';
 
-export interface CollectionModelEntityModelFacultyEmbedded {
-  facultyList?: Array<EntityModelFaculty>;
+export interface ProfessorOverviewDto {
+  id: string;
+  facultyId?: string;
+  name: string;
+  faculty?: string;
+  mainSubject?: string;
+  researchSubjects?: Array<string>;
+  sumRunningProjects: number;
+  sumFinishedProjects: number;
+  sumAvailableProjects: number;
 }

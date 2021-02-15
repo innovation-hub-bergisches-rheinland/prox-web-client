@@ -4,15 +4,15 @@ import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import {
   EntityModelProfessorOverviewDto,
+  Faculty,
   PagedModelEntityModelProfessor,
-  Professor
+  Professor,
+  ProfessorOverviewDto
 } from '@data/schema/openapi/professor-profile-service/models';
-import { ProfessorOverview } from '@modules/professor/pages/professors-item/professor-overview';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import Fuse from 'fuse.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Faculty } from './faculty';
 
 @Component({
   selector: 'app-professors',
@@ -20,22 +20,22 @@ import { Faculty } from './faculty';
   styleUrls: ['./professors.component.scss']
 })
 export class ProfessorsComponent implements OnInit {
-  _professors: ProfessorOverview[] = [];
+  _professors: EntityModelProfessorOverviewDto[] = [];
   faculties: Faculty[] = [];
-  filteredProfessors: ProfessorOverview[] = [];
-  professorPage: ProfessorOverview[] = [];
+  filteredProfessors: EntityModelProfessorOverviewDto[] = [];
+  professorPage: EntityModelProfessorOverviewDto[] = [];
   searchString = new FormControl('');
   selectedFaculty = new FormControl('');
   pageIndex = 0;
   pageSize = 10;
   totalItems = 0;
 
-  set professors(professors: ProfessorOverview[]) {
+  set professors(professors: EntityModelProfessorOverviewDto[]) {
     this._professors = professors;
     professors.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  get professors(): ProfessorOverview[] {
+  get professors(): EntityModelProfessorOverviewDto[] {
     return this._professors;
   }
 

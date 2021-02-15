@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Professor } from '@data/schema/openapi/professor-profile-service/models';
-import { ProfessorOverview } from '@modules/professor/pages/professors-item/professor-overview';
+import {
+  EntityModelProfessorOverviewDto,
+  Professor,
+  ProfessorOverviewDto
+} from '@data/schema/openapi/professor-profile-service/models';
 import { Project } from '@data/schema/project.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
@@ -13,14 +16,14 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./professors-item.component.scss']
 })
 export class ProfessorsItemComponent implements OnInit {
-  _professor: ProfessorOverview;
+  _professor: EntityModelProfessorOverviewDto;
 
   @Input()
-  set professor(professor: ProfessorOverview) {
+  set professor(professor: EntityModelProfessorOverviewDto) {
     this._professor = professor;
   }
 
-  get professor(): ProfessorOverview {
+  get professor(): EntityModelProfessorOverviewDto {
     return this._professor;
   }
 
@@ -28,7 +31,7 @@ export class ProfessorsItemComponent implements OnInit {
 
   ngOnInit() {}
 
-  getProfilePictureUrl(professor: ProfessorOverview): string {
+  getProfilePictureUrl(professor: EntityModelProfessorOverviewDto): string {
     return professor._links?.image?.href ?? this.getDefaultPic();
   }
 
