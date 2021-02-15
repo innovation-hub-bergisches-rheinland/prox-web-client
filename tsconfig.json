@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "alwaysStrict": true,
     "baseUrl": "./src",
     "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
