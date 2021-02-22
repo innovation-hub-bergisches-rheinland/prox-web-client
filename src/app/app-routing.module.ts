@@ -76,7 +76,7 @@ const routes: Routes = [
           )
       },
       {
-        path: 'professors',
+        path: 'lecturers',
         // loadChildren: () =>
         //   import('@modules/disclaimer/disclaimer.module').then(
         //     m => m.DisclaimerModule
