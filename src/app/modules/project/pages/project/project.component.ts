@@ -9,8 +9,8 @@ import {
 
 import { KeycloakService } from 'keycloak-angular';
 import Fuse from 'fuse.js';
-import { combineLatest, from } from 'rxjs';
-import { map, switchMap, mergeMap, toArray } from 'rxjs/operators';
+import { combineLatest, from, of } from 'rxjs';
+import { map, switchMap, mergeMap, toArray, catchError } from 'rxjs/operators';
 
 import { Project } from '@data/schema/project.resource';
 import { ProjectService } from '@data/service/project.service';
@@ -200,35 +200,18 @@ export class ProjectComponent implements OnInit {
   }
 
   private getAllProjects() {
-    this.projectService
-      .getAll()
-      .pipe(
-        switchMap(projects =>
-          combineLatest(
-            projects.map(project =>
-              combineLatest([project.getTags(), project.getModules()]).pipe(
-                map(([tags, modules]) => {
-                  project.tagCollection = tags;
-                  project.modules = modules;
-                  return project;
-                })
-              )
-            )
-          )
-        )
-      )
-      .subscribe(
-        projects => {
-          this.projects = projects;
-          this.filterProjects();
-        },
-        error => {
-          console.error('project service error', error);
-          this.openErrorSnackBar(
-            'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-          );
-        }
-      );
+    this.projectService.getAll().subscribe(
+      projects => {
+        this.projects = projects;
+        this.filterProjects();
+      },
+      error => {
+        console.error('project service error', error);
+        this.openErrorSnackBar(
+          'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+        );
+      }
+    );
   }
 
   private pageProjects() {
