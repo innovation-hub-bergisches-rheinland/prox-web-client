@@ -53,6 +53,7 @@ export class ProfessorProfileComponent implements OnInit {
         if (err instanceof HttpErrorResponse) {
           if (err.status == 404) {
             if (this.hasPermission) {
+              this.editProfilePage();
               this.noContent = true;
             } else {
               this.router.navigate(['/404']);
