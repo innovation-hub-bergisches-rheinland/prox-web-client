@@ -1,11 +1,6 @@
 .mat-button {
   margin-bottom: 5px !important;
   font-size: 1em;
-  color: var(--th-purple);
-}
-
-b {
-  color: var(--th-red);
 }
 
 ul {
@@ -27,11 +22,11 @@ li:before {
 }
 
 .research li:before {
-  border-color: transparent var(--th-red);
+  border-color: transparent var(--primary-color); //TODO refactor to material design
 }
 
 .projects li:before {
-  border-color: transparent var(--th-orange);
+  border-color: transparent var(--secondary-color); //TODO refactor to material design
 }
 
 .mat-card-avatar {

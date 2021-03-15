@@ -1,0 +1,91 @@
+@import '~@angular/material/theming';
+@import './theme_variables.scss';
+@import './app/modules/home/pages/home/home.component.mixin.scss';
+@import './app/modules/imprint/pages/imprint/imprint.component.mixin.scss';
+@import './app/modules/privacy/pages/privacy/privacy.component.mixin.scss';
+@import './app/modules/disclaimer/pages/disclaimer/disclaimer.component.mixin.scss';
+@import './app/modules/contact/pages/contact/contact.component.mixin.scss';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Angular Material Typography
+$prox-typography: mat-typography-config(
+  $font-family: 'Roboto',
+  $headline: mat-typography-level(24px, 38px, 700),
+  $title: mat-typography-level(18px, 38px, 700),
+  $subheading-2: mat-typography-level(18px, 38px, 400),
+  $body-1: mat-typography-level(14px, 24px, 400)
+);
+
+$prox-app-theme-1: mat-light-theme(
+  (
+    color: (
+      primary: $prox-app-primary-1,
+      accent: $prox-app-accent-1,
+      warn: $prox-app-warn-1
+    ),
+    typography: $prox-typography
+  )
+);
+
+$prox-app-theme-2: mat-light-theme(
+  (
+    color: (
+      primary: $prox-app-primary-2,
+      accent: $prox-app-accent-2,
+      warn: $prox-app-warn-2
+    ),
+    typography: $prox-typography
+  )
+);
+
+$prox-app-theme-3: mat-light-theme(
+  (
+    color: (
+      primary: $prox-app-primary-3,
+      accent: $prox-app-accent-3,
+      warn: $prox-app-warn-3
+    ),
+    typography: $prox-typography
+  )
+);
+
+@mixin mat-card-subtitle-color($config-or-theme) {
+  // Extract the color configuration in case a theme has been passed.
+  // This allows consumers to either pass a theme object or a color configuration.
+  $config: mat-get-color-config($config-or-theme);
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($config, primary);
+  $accent: map-get($config, accent);
+
+  .mat-card-subtitle {
+    color: mat-color($primary);
+  }
+}
+
+@mixin mat-card-subtitle-theme($theme) {
+  // Extracts the color configurations from the theme.
+  $color: mat-get-color-config($theme);
+
+  // Do not generate styles if configurations for individual theming
+  // systems have been explicitly set to `null`.
+  @if $color != null {
+    @include mat-card-subtitle-color($color);
+  }
+}
+
+// Inject Themes into angular components
+//@include angular-material-theme($prox-app-theme-1);
+@include mat-core($prox-typography);
+@include mat-core-theme($prox-app-theme-1);
+@include mat-button-theme($prox-app-theme-2);
+@include mat-chips-theme($prox-app-theme-3);
+@include mat-icon-theme($prox-app-theme-2);
+@include mat-card-subtitle-theme($prox-app-theme-1);
+/*@include home-component-theme($prox-app-theme-1);
+@include imprint-component-theme($prox-app-theme-1);
+@include privacy-component-theme($prox-app-theme-1);
+@include disclaimer-component-theme($prox-app-theme-1);*/

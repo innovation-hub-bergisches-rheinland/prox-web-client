@@ -1,4 +1,7 @@
-@import '../../../../../styles';
+@import './home.component.mixin.scss';
+@import '../../../../../theme.scss';
+
+@include home-component-theme($prox-app-theme-1);
 
 .home {
   max-width: 1400px;
@@ -8,7 +11,6 @@
 
 .lead {
   padding: 10px 0px 0px 5px;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .logo-responsive {
@@ -66,9 +68,6 @@
 }
 
 .user-role-heading {
-  font-size: 2em;
-  font-weight: normal;
-  color: var(--th-red);
   padding: 0 0 0 0;
   width: 100%;
   text-align: center;
@@ -86,7 +85,6 @@ ul {
 
 ul li::before {
   content: '\25A0';
-  color: var(--th-red);
   font-weight: bold;
   display: inline-block;
   width: 1em;
@@ -94,10 +92,8 @@ ul li::before {
 }
 
 .mat-raised-button {
-  color: white;
-  font-size: 1.5em;
   width: 100%;
-  background-color: var(--th-purple);
+  font-size: large;
 }
 
 .button-wrapper {

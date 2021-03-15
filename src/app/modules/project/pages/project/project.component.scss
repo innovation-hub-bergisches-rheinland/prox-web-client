@@ -23,9 +23,6 @@
 }
 
 h1 {
-  font-family: 'Lato', sans-serif;
-  font-size: 1.8em;
-  color: var(--th-red);
   padding-top: 15px;
 }
 
@@ -67,9 +64,9 @@ li:before {
   margin-top: 0;
 }
 
-.mat-icon-button.no-hover ::ng-deep .mat-button-focus-overlay {
+/*.mat-icon-button.no-hover ::ng-deep .mat-button-focus-overlay {
   background: none;
-}
+}*/
 
 .mat-icon {
   background-color: white;

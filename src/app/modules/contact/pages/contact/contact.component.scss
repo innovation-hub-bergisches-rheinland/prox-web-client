@@ -1,3 +1,8 @@
+@import './contact.component.mixin.scss';
+@import '../../../../../theme.scss';
+
+@include contact-component-theme($prox-app-theme-1);
+
 .contact {
   margin-top: 75px;
   margin-left: auto;
@@ -37,18 +42,12 @@ img.userLogo {
 }
 
 h1 {
-  font-family: 'Lato', sans-serif;
-  font-size: 1.8em;
   margin-bottom: 20px;
-  color: var(--th-red);
   padding-top: 15px;
   padding-left: 30px;
 }
 
 h2 {
-  font-family: 'Lato', sans-serif;
-  font-size: 1.5em;
-  color: var(--th-purple);
   margin-top: 50px;
   margin-bottom: 10px;
   padding-top: 0px;
