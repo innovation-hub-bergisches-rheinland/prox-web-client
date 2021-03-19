@@ -9,14 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Module } from './module';
+import { Links } from './links';
 
-/**
- * Embedded collection of Module
- */
-export interface EmbeddedCollectionOfModule {
-  /**
-   * Resource collection
-   */
-  projectModules: Array<Module>;
+export interface EntityModelOfModuleType {
+  id?: string;
+  key: string;
+  links?: Links;
+  name: string;
 }

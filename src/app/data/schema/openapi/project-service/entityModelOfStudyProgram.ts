@@ -12,17 +12,10 @@
 import { ModuleType } from './moduleType';
 import { Links } from './links';
 
-export interface EntityModelOfProject {
-  created?: string;
-  creatorID: string;
-  creatorName: string;
-  description?: string;
+export interface EntityModelOfStudyProgram {
   id?: string;
+  key: string;
   links?: Links;
-  modified?: string;
   modules?: Array<ModuleType>;
   name: string;
-  requirement?: string;
-  shortDescription: string;
-  supervisorName: string;
 }

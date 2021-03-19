@@ -10,19 +10,10 @@
  * Do not edit the class manually.
  */
 import { ModuleType } from './moduleType';
-import { Links } from './links';
 
-export interface EntityModelOfProject {
-  created?: string;
-  creatorID: string;
-  creatorName: string;
-  description?: string;
+export interface StudyProgram {
   id?: string;
-  links?: Links;
-  modified?: string;
+  key: string;
   modules?: Array<ModuleType>;
   name: string;
-  requirement?: string;
-  shortDescription: string;
-  supervisorName: string;
 }

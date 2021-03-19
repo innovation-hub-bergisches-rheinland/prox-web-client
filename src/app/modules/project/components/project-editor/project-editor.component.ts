@@ -59,9 +59,9 @@ import { TagService } from '@data/service/tag.service';
 import { StudyCourse } from '@data/schema/study-course.resource';
 import { Module } from '@data/schema/module.resource';
 
-import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
-import { ProjectStudyCourseService } from '@data/service/project-study-course.service';
-import { ProjectModuleService } from '@data/service/project-module.service';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
+import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-project-editor',
@@ -92,9 +92,11 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   userID: string;
   fullname: string;
 
+  modules: ModuleType[] = [];
+  _moduleSelection: { module: ModuleType; selected: boolean }[] = [];
+
   constructor(
     private projectService: ProjectService,
-    private projectModuleService: ProjectModuleService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -115,9 +117,24 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       description: [''],
       supervisorName: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      studyCoursesModuleSelectors: this.formBuilder.array([]),
+      moduleSelectors: this.formBuilder.array([]),
       tagInput: []
     });
+
+    this.projectService.getAllModuleTypes().subscribe(
+      res => {
+        res.forEach(module => {
+          this._moduleSelection.push({ module: module, selected: false });
+          this.moduleSelectors.push(new FormControl(false));
+        });
+      },
+      err => console.error(err),
+      () => {
+        if (!this.project) {
+          this.tryLoadState();
+        }
+      }
+    );
 
     this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
       filter(value => (value ? value.length >= 2 : false)),
@@ -137,15 +154,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.addStudyCourseModuleSelector();
-
     if (this.project) {
       this.clearStorage();
       this.fillInExistingProjectValues();
     } else {
       //Default value for supervisor when new project should be created
       this.projectFormControl.controls.supervisorName.setValue(this.fullname);
-      this.tryLoadState();
       this.enableAutosave();
     }
   }
@@ -184,7 +198,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     if (loadedData) {
       const state = JSON.parse(loadedData);
 
-      const modules = state.studyCoursesModuleSelectors;
+      const modules: Array<boolean> = state.moduleSelectors;
 
       this.tags = state.tags;
       this.updateTagRecommendations();
@@ -193,50 +207,11 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       delete state.studyCoursesModuleSelectors;
 
       this.projectFormControl.patchValue(state);
+      console.log(modules);
 
-      const createStudyCourse = (data: any): StudyCourse => {
-        const studyCourse = new StudyCourse();
-        studyCourse.id = data.id;
-        studyCourse.name = data.name;
-        studyCourse.academicDegree = data.academicDegree;
-        return studyCourse;
-      };
-
-      const createModuleModel = (data: any): Module => {
-        const mod = new Module();
-        mod.id = data.id;
-        mod.name = data.name;
-        mod.projectType = data.projectType;
-        return mod;
-      };
-
-      const createModuleSelectorModel = (
-        data: any
-      ): StudyCourseModuleSelectionModel => {
-        const selectedModules: Module[] = [];
-        for (const selectedModule of data.selectedModules) {
-          selectedModules.push(createModuleModel(selectedModule));
-        }
-        return new StudyCourseModuleSelectionModel(
-          createStudyCourse(data.studyCourse),
-          selectedModules
-        );
-      };
-
-      if (modules[0] != null) {
-        if (modules.length >= 1) {
-          this.moduleSelectors.controls[0].setValue(
-            createModuleSelectorModel(modules[0])
-          );
-        }
-
-        for (let index = 1; index < modules.length; index++) {
-          this.addStudyCourseModuleSelector();
-          this.moduleSelectors.controls[index].setValue(
-            createModuleSelectorModel(modules[index])
-          );
-        }
-      }
+      modules.forEach(
+        (value, index) => (this._moduleSelection[index].selected = value)
+      );
     }
   }
 
@@ -245,20 +220,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   }
 
   get moduleSelectors(): FormArray {
-    return this.projectFormControl.get(
-      'studyCoursesModuleSelectors'
-    ) as FormArray;
-  }
-
-  addStudyCourseModuleSelector() {
-    this.moduleSelectors.push(new FormControl());
-  }
-
-  removeStudyCourseModuleSelector(index: number) {
-    this.moduleSelectors.removeAt(index);
-    if (this.moduleSelectors.length < 1) {
-      this.addStudyCourseModuleSelector();
-    }
+    return this.projectFormControl.get('moduleSelectors') as FormArray;
   }
 
   addTag(event: MatChipInputEvent) {
@@ -337,22 +299,38 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     this.projectFormControl.controls.tagInput.setValue(null);
   }
 
+  toggleModule(event: MatCheckboxChange) {
+    const id = event.source.id;
+    console.log(id);
+    this._moduleSelection.find(m => m.module.id == id).selected = event.checked;
+  }
+
+  private getSelectedModules(): ModuleType[] {
+    return this._moduleSelection
+      .filter(m => m.selected == true)
+      .map(m => m.module);
+  }
+
   private getAggregatedSelectedModules() {
+    console.log(this._moduleSelection);
     return _.chain(this.moduleSelectors.getRawValue())
       .pluck('selectedModules')
       .flatten()
-      .uniq(x => x.id)
+      .uniq(x => {
+        console.log(x);
+        x.id;
+      })
       .value();
   }
 
-  private prepareStudyCourseSelectorData(
-    modules: Module[]
+  /*private prepareStudyCourseSelectorData(
+    modules: ModuleType[]
   ): Observable<StudyCourseModuleSelectionModel[]> {
-    return Observable.create(
+    /*return Observable.create(
       (observer: Observer<StudyCourseModuleSelectionModel[]>) => {
         const observables: Observable<{
-          module: Module;
-          studyCourse: StudyCourse;
+          module: ModuleType;
+          studyCourse: StudyProgram;
         }>[] = [];
 
         for (const module of modules) {
@@ -388,7 +366,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         );
       }
     );
-  }
+    return of();
+  }*/
 
   private fillInExistingProjectValues() {
     this.projectFormControl.controls.name.setValue(this.project.name);
@@ -407,15 +386,18 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     this.projectFormControl.controls.status.setValue(this.project.status);
 
     this.projectService.getModulesOfProject(this.project).subscribe(modules => {
-      return this.prepareStudyCourseSelectorData(modules).subscribe(success => {
-        if (success.length >= 1) {
-          this.moduleSelectors.controls[0].setValue(success[0]);
-        }
-        for (let index = 1; index < success.length; index++) {
-          this.addStudyCourseModuleSelector();
-          this.moduleSelectors.controls[index].setValue(success[index]);
-        }
-      });
+      modules.forEach(module =>
+        this.moduleSelectors.controls[module.id].setValue(true)
+      );
+    });
+
+    this.projectService.getModulesOfProject(this.project).subscribe(modules => {
+      modules.forEach(
+        module =>
+          (this._moduleSelection.find(
+            m => m.module.id == module.id
+          ).selected = true)
+      );
     });
 
     this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
@@ -469,7 +451,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     return projectResource;
   }
 
-  private createProject(project: Project, modules: Module[], tags: Tag[]) {
+  private createProject(project: Project, modules: ModuleType[], tags: Tag[]) {
     const newProject = this.createProjectResource(project);
 
     this.projectService.createProject(newProject, tags, modules).subscribe(
@@ -486,7 +468,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateProject(project: Project, modules: Module[], tags: Tag[]) {
+  private updateProject(project: Project, modules: ModuleType[], tags: Tag[]) {
     this.project = this.createProjectResource(project);
 
     this.projectService.updateProject(this.project, tags, modules).subscribe(
@@ -505,7 +487,8 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
-    const modules = this.getAggregatedSelectedModules();
+    const modules = this.getSelectedModules();
+    console.log(modules);
     this.createTags(this.tags).subscribe(tags => {
       if (this.project) {
         this.updateProject(project, modules, tags as Tag[]);

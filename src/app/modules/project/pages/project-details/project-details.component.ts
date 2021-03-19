@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from '@modules/project/components/confirm-dial
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 
 @Component({
   selector: 'app-project-details',
@@ -29,11 +30,7 @@ export class ProjectDetailsComponent implements OnInit {
   project$: Observable<Project>;
 
   projectTags$: Observable<Tag[]>;
-  projectModules$: Observable<Module[]>;
-
-  isTypeBA: boolean;
-  isTypeMA: boolean;
-  isTypePP: boolean;
+  projectModules: ModuleType[];
 
   constructor(
     private keycloakService: KeycloakService,
@@ -61,18 +58,11 @@ export class ProjectDetailsComponent implements OnInit {
     this.project$.subscribe(project => {
       this.project = project;
 
-      this.projectModules$ = this.projectService.getModulesOfProject(project);
+      this.projectService.getModulesOfProject(project).subscribe(
+        res => (this.projectModules = res),
+        err => console.error(err)
+      );
       this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
-
-      this.containsProjectType('BA').subscribe(result => {
-        this.isTypeBA = result;
-      });
-      this.containsProjectType('MA').subscribe(result => {
-        this.isTypeMA = result;
-      });
-      this.containsProjectType('PP').subscribe(result => {
-        this.isTypePP = result;
-      });
     });
   }
 
@@ -103,17 +93,6 @@ export class ProjectDetailsComponent implements OnInit {
       maxHeight: '85vh',
       data: project
     });
-  }
-
-  containsProjectType(search: string) {
-    return this.projectService.getModulesOfProject(this.project).pipe(
-      map(modules => {
-        return modules.filter(
-          module => module.projectType.toLowerCase() === search.toLowerCase()
-        );
-      }),
-      map(modules => (modules.length >= 1 ? true : false))
-    );
   }
 
   goBack() {

@@ -9,14 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { StudyCourse } from './studyCourse';
 
-/**
- * Embedded collection of StudyCourse
- */
-export interface EmbeddedCollectionOfStudyCourse {
-  /**
-   * Resource collection
-   */
-  projectStudyCourses: Array<StudyCourse>;
+export interface Links {
+  empty?: boolean;
 }

@@ -4,6 +4,7 @@
       (click)="goBack()"
       matTooltip="Zurück zur Projektübersicht"
       mat-icon-button
+      color="primary"
     >
       <mat-icon class="back-icon">arrow_back</mat-icon>
     </button>
@@ -76,11 +77,9 @@
           <div class="card-container">
             <mat-card-subtitle> Projekttypen: </mat-card-subtitle>
 
-            <p *ngIf="isTypeBA"><b>(BA)</b> Bachelorarbeit</p>
-
-            <p *ngIf="isTypeMA"><b>(MA)</b> Masterarbeit</p>
-
-            <p *ngIf="isTypePP"><b>(PP)</b> Praxisprojekt</p>
+            <p *ngFor="let module of projectModules">
+              <strong>({{ module.key }})</strong> {{ module.name }}
+            </p>
           </div>
         </div>
 

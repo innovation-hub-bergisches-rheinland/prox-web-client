@@ -3,12 +3,18 @@ import { Injectable, Injector } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 
 import { Project } from '@data/schema/project.resource';
-import { Project as ProjectSchema } from '@data/schema/openapi/project-service/models';
+import {
+  ModuleType,
+  Project as ProjectSchema,
+  StudyProgram
+} from '@data/schema/openapi/project-service/models';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { map } from 'rxjs/operators';
 import { ProjectEntityService } from './openapi/project-service/projectEntity.service';
 import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
+import { StudyProgramEntityService } from './openapi/project-service/studyProgramEntity.service';
+import { ModuleTypeEntityService } from './openapi/project-service/moduleTypeEntity.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,39 +23,39 @@ export class ProjectService {
   constructor(
     injector: Injector,
     private projectEntityService: ProjectEntityService,
-    private tagCollectionEntityService: TagCollectionEntityService
+    private tagCollectionEntityService: TagCollectionEntityService,
+    private studyProgramEntityService: StudyProgramEntityService,
+    private moduleTypeEntityService: ModuleTypeEntityService
   ) {}
 
   createProject(
-    project: Project,
+    project: ProjectSchema,
     tags?: Tag[],
-    modules?: Module[]
+    modules?: ModuleType[]
   ): Observable<Project | any> {
-    return this.projectEntityService
-      .saveProjectUsingPOST(project as ProjectSchema)
-      .pipe(
-        map(p => {
-          if (modules) {
-            this.projectEntityService
-              .projectModulesUsingPUT(p.id, modules.map(m => m.id).join('\n'))
-              .subscribe();
-          }
-          if (tags) {
-            this.tagCollectionEntityService
-              .tagCollectionTagsUsingPUT(p.id, tags.map(t => t.id).join('\n'))
-              .subscribe();
-          }
-        })
-      );
+    return this.projectEntityService.saveProjectUsingPOST(project).pipe(
+      map(p => {
+        if (modules) {
+          this.projectEntityService
+            .projectModulesUsingPUT(p.id, modules.map(m => m.id).join('\n'))
+            .subscribe();
+        }
+        if (tags) {
+          this.tagCollectionEntityService
+            .tagCollectionTagsUsingPUT(p.id, tags.map(t => t.id).join('\n'))
+            .subscribe();
+        }
+      })
+    );
   }
 
   updateProject(
-    project: Project,
+    project: ProjectSchema,
     tags?: Tag[],
-    modules?: Module[]
+    modules?: ModuleType[]
   ): Observable<Project | any> {
     return this.projectEntityService
-      .saveProjectUsingPUT(project.id, project as ProjectSchema)
+      .saveProjectUsingPUT(project.id, project)
       .pipe(
         map(p => {
           if (modules) {
@@ -86,14 +92,10 @@ export class ProjectService {
     return this.projectEntityService.deleteProjectUsingDELETE(project.id);
   }
 
-  getModulesOfProject(project: Project): Observable<Module[]> {
+  getModulesOfProject(project: Project): Observable<ModuleType[]> {
     return this.projectEntityService
       .projectModulesUsingGET(project.id)
-      .pipe(
-        map(m =>
-          m._embedded.projectModules.map(m2 => Object.assign(new Module(), m2))
-        )
-      );
+      .pipe(map(m => m._embedded.moduleTypes));
   }
 
   findAvailableProjectsOfCreator(id: string): Observable<Project[]> {
@@ -116,16 +118,6 @@ export class ProjectService {
       );
   }
 
-  findFinishedProjectsOfCreator(id: string): Observable<Project[]> {
-    return this.projectEntityService
-      .findFinishedProjectsOfCreatorProjectUsingGET(id)
-      .pipe(
-        map(p =>
-          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
-        )
-      );
-  }
-
   findRunningAndFinishedProjectsOfCreator(id: string): Observable<Project[]> {
     return this.projectEntityService
       .findRunningAndFinishedProjectsOfCreatorProjectUsingGET(id)
@@ -134,5 +126,23 @@ export class ProjectService {
           p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
         )
       );
+  }
+
+  getAllStudyPrograms(): Observable<StudyProgram[]> {
+    return this.studyProgramEntityService
+      .findAllStudyProgramUsingGET()
+      .pipe(map(sp => sp._embedded.studyPrograms));
+  }
+
+  getAllModuleTypesOfStudyProgram(id: any): Observable<ModuleType[]> {
+    return this.studyProgramEntityService
+      .studyProgramModulesUsingGET(id)
+      .pipe(map(m => m._embedded.moduleTypes));
+  }
+
+  getAllModuleTypes(): Observable<ModuleType[]> {
+    return this.moduleTypeEntityService
+      .findAllModuleTypeUsingGET()
+      .pipe(map(m => m._embedded.moduleTypes));
   }
 }

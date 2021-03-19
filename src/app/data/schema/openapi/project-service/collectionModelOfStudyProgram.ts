@@ -9,14 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EmbeddedCollectionOfStudyCourse } from './embeddedCollectionOfStudyCourse';
-import { Link } from '../common/link';
+import { EmbeddedCollectionOfStudyProgram } from './embeddedCollectionOfStudyProgram';
+import { Link } from './link';
 
 /**
- * Resources of StudyCourse
+ * Resources of StudyProgram
  */
-export interface CollectionModelOfStudyCourse {
-  _embedded: EmbeddedCollectionOfStudyCourse;
+export interface CollectionModelOfStudyProgram {
+  _embedded: EmbeddedCollectionOfStudyProgram;
   /**
    * Link collection
    */

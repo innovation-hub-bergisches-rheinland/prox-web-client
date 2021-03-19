@@ -31,17 +31,6 @@ const routes: Routes = [
           import('@modules/project/project.module').then(m => m.ProjectModule)
       },
       {
-        path: 'study-courses',
-        // loadChildren: () =>
-        //   import('@modules/study-course/study-course.module').then(
-        //     m => m.StudyCourseModule
-        //   )
-        loadChildren: () =>
-          import('@modules/study-course/study-course.module').then(
-            m => m.StudyCourseModule
-          )
-      },
-      {
         path: 'contact',
         // loadChildren: () =>
         //   import('@modules/contact/contact.module').then(m => m.ContactModule)

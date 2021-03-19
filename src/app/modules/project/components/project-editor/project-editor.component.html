@@ -152,26 +152,27 @@
         </mat-error>
       </mat-form-field>
 
-      <section
-        formArrayName="studyCoursesModuleSelectors"
-        class="study-course-module-selectors"
-      >
-        <app-study-course-module-selection
+      <section formArrayName="moduleSelectors">
+        <!--<app-study-course-module-selection
           *ngFor="let selector of moduleSelectors.controls; index as i"
           [formControlName]="i"
           (delete)="removeStudyCourseModuleSelector(i)"
           class="study-course-module-selector"
         >
-        </app-study-course-module-selection>
+        </app-study-course-module-selection>-->
+        <ul class="moduleList">
+          <li *ngFor="let module of _moduleSelection; index as i">
+            <mat-checkbox
+              [formControlName]="i"
+              [checked]="module.selected"
+              [id]="module.module.id"
+              (change)="toggleModule($event)"
+            >
+              {{ module.module.name }}
+            </mat-checkbox>
+          </li>
+        </ul>
       </section>
-
-      <a
-        mat-mini-fab
-        class="add-study-course-module-selector-button"
-        (click)="addStudyCourseModuleSelector()"
-      >
-        <mat-icon>add</mat-icon>
-      </a>
 
       <mat-form-field class="tag-list">
         <mat-label>Tags</mat-label>

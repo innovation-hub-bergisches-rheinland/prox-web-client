@@ -10,9 +10,7 @@
         matTooltip="Neues Projekt hinzufügen"
         class="no-hover"
       >
-        <mat-icon>
-          add
-        </mat-icon>
+        <mat-icon> add </mat-icon>
       </button>
     </h1>
 
@@ -29,23 +27,6 @@
           [value]="statusOption.value"
         >
           {{ statusOption.value | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="type-search">
-      <mat-select
-        [formControl]="selectedProjectType"
-        (selectionChange)="filterProjects()"
-        placeholder="Typ"
-      >
-        <mat-option>Alle</mat-option>
-
-        <mat-option
-          *ngFor="let projectType of projectTypes | keyvalue"
-          [value]="projectType.value"
-        >
-          {{ projectType.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>

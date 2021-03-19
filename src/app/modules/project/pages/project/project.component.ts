@@ -15,7 +15,6 @@ import { ConfirmDialogComponent } from '@modules/project/components/confirm-dial
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 
 import { StatusOption } from './status-option.enum';
-import { ProjectType } from './project-type.enum';
 
 import { promise } from 'protractor';
 import { TagService } from '@data/service/tag.service';
@@ -34,20 +33,12 @@ export class ProjectComponent implements OnInit {
 
   public searchString = new FormControl('');
   public selectedStatusOption = new FormControl(StatusOption.Verfuegbar);
-  public selectedProjectType = new FormControl('');
 
   public StatusOption = StatusOption;
   public statusOptions = [
     StatusOption.Verfuegbar,
     StatusOption.Laufend,
     StatusOption.Abgeschlossen
-  ];
-
-  public ProjectType = ProjectType;
-  public projectTypes = [
-    ProjectType.Bachelorarbeit,
-    ProjectType.Masterarbeit,
-    ProjectType.Praxisprojekt
   ];
 
   private projects: Project[] = [];
@@ -93,25 +84,11 @@ export class ProjectComponent implements OnInit {
   }
 
   public filterProjects() {
-    let filteredProjects = this.projects
-      .filter(({ status }) =>
-        this.selectedStatusOption.value
-          ? status === this.selectedStatusOption.value
-          : true
-      )
-      .filter(({ modules }) => {
-        if (!this.selectedProjectType.value) {
-          return true;
-        } else {
-          let containsProjectType = false;
-          for (const module of modules) {
-            if (module.projectType === this.selectedProjectType.value) {
-              containsProjectType = true;
-            }
-          }
-          return containsProjectType;
-        }
-      });
+    let filteredProjects = this.projects.filter(({ status }) =>
+      this.selectedStatusOption.value
+        ? status === this.selectedStatusOption.value
+        : true
+    );
 
     if (this.searchString.value) {
       const fuseOptions: Fuse.IFuseOptions<Project> = {

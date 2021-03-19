@@ -23,10 +23,10 @@ import {
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfModule } from '@data/schema/openapi/project-service/models';
-import { CollectionModelOfStudyCourse } from '@data/schema/openapi/project-service/models';
-import { EntityModelOfModule } from '@data/schema/openapi/project-service/models';
-import { EntityModelOfStudyCourse } from '@data/schema/openapi/project-service/models';
+import { CollectionModelOfModuleType } from '@data/schema/openapi/project-service/models';
+import { CollectionModelOfStudyProgram } from '@data/schema/openapi/project-service/models';
+import { EntityModelOfModuleType } from '@data/schema/openapi/project-service/models';
+import { EntityModelOfStudyProgram } from '@data/schema/openapi/project-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { Configuration } from '../configuration';
@@ -34,8 +34,8 @@ import { Configuration } from '../configuration';
 @Injectable({
   providedIn: 'root'
 })
-export class StudyCourseEntityService {
-  protected basePath = 'http://host.docker.internal:8081';
+export class StudyProgramEntityService {
+  protected basePath = 'http://localhost:8081';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -113,14 +113,14 @@ export class StudyCourseEntityService {
   }
 
   /**
-   * findAllStudyCourse
+   * findAllStudyProgram
    * @param page page
    * @param size size
    * @param sort sort
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public findAllStudyCourseUsingGET(
+  public findAllStudyProgramUsingGET(
     page?: number,
     size?: number,
     sort?: string,
@@ -133,8 +133,8 @@ export class StudyCourseEntityService {
         | 'text/uri-list'
         | 'application/x-spring-data-compact+json';
     }
-  ): Observable<CollectionModelOfStudyCourse>;
-  public findAllStudyCourseUsingGET(
+  ): Observable<CollectionModelOfStudyProgram>;
+  public findAllStudyProgramUsingGET(
     page?: number,
     size?: number,
     sort?: string,
@@ -147,8 +147,8 @@ export class StudyCourseEntityService {
         | 'text/uri-list'
         | 'application/x-spring-data-compact+json';
     }
-  ): Observable<HttpResponse<CollectionModelOfStudyCourse>>;
-  public findAllStudyCourseUsingGET(
+  ): Observable<HttpResponse<CollectionModelOfStudyProgram>>;
+  public findAllStudyProgramUsingGET(
     page?: number,
     size?: number,
     sort?: string,
@@ -161,8 +161,8 @@ export class StudyCourseEntityService {
         | 'text/uri-list'
         | 'application/x-spring-data-compact+json';
     }
-  ): Observable<HttpEvent<CollectionModelOfStudyCourse>>;
-  public findAllStudyCourseUsingGET(
+  ): Observable<HttpEvent<CollectionModelOfStudyProgram>>;
+  public findAllStudyProgramUsingGET(
     page?: number,
     size?: number,
     sort?: string,
@@ -227,8 +227,8 @@ export class StudyCourseEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfStudyCourse>(
-      `${this.configuration.basePath}/projectStudyCourses`,
+    return this.httpClient.get<CollectionModelOfStudyProgram>(
+      `${this.configuration.basePath}/studyPrograms`,
       {
         params: queryParameters,
         responseType: <any>responseType,
@@ -241,180 +241,30 @@ export class StudyCourseEntityService {
   }
 
   /**
-   * findByAcademicDegreeStudyCourse
-   * @param academicDegree academicDegree
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findByAcademicDegreeStudyCourseUsingGET(
-    academicDegree?: 'BACHELOR' | 'MASTER',
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfStudyCourse>;
-  public findByAcademicDegreeStudyCourseUsingGET(
-    academicDegree?: 'BACHELOR' | 'MASTER',
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfStudyCourse>>;
-  public findByAcademicDegreeStudyCourseUsingGET(
-    academicDegree?: 'BACHELOR' | 'MASTER',
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfStudyCourse>>;
-  public findByAcademicDegreeStudyCourseUsingGET(
-    academicDegree?: 'BACHELOR' | 'MASTER',
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (academicDegree !== undefined && academicDegree !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>academicDegree,
-        'academicDegree'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<CollectionModelOfStudyCourse>(
-      `${this.configuration.basePath}/projectStudyCourses/search/findByAcademicDegree`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * findByExternalStudyCourseIDStudyCourse
-   * @param selfRef
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findByExternalStudyCourseIDStudyCourseUsingGET(
-    selfRef?: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<EntityModelOfStudyCourse>;
-  public findByExternalStudyCourseIDStudyCourseUsingGET(
-    selfRef?: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<EntityModelOfStudyCourse>>;
-  public findByExternalStudyCourseIDStudyCourseUsingGET(
-    selfRef?: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<EntityModelOfStudyCourse>>;
-  public findByExternalStudyCourseIDStudyCourseUsingGET(
-    selfRef?: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (selfRef !== undefined && selfRef !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>selfRef,
-        'selfRef'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<EntityModelOfStudyCourse>(
-      `${this.configuration.basePath}/projectStudyCourses/search/findByExternalStudyCourseID`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * findByIdStudyCourse
+   * findByIdStudyProgram
    * @param id id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public findByIdStudyCourseUsingGET(
+  public findByIdStudyProgramUsingGET(
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<EntityModelOfStudyCourse>;
-  public findByIdStudyCourseUsingGET(
+  ): Observable<EntityModelOfStudyProgram>;
+  public findByIdStudyProgramUsingGET(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<EntityModelOfStudyCourse>>;
-  public findByIdStudyCourseUsingGET(
+  ): Observable<HttpResponse<EntityModelOfStudyProgram>>;
+  public findByIdStudyProgramUsingGET(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<EntityModelOfStudyCourse>>;
-  public findByIdStudyCourseUsingGET(
+  ): Observable<HttpEvent<EntityModelOfStudyProgram>>;
+  public findByIdStudyProgramUsingGET(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -422,7 +272,7 @@ export class StudyCourseEntityService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling findByIdStudyCourseUsingGET.'
+        'Required parameter id was null or undefined when calling findByIdStudyProgramUsingGET.'
       );
     }
 
@@ -449,8 +299,8 @@ export class StudyCourseEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<EntityModelOfStudyCourse>(
-      `${this.configuration.basePath}/projectStudyCourses/${encodeURIComponent(
+    return this.httpClient.get<EntityModelOfStudyProgram>(
+      `${this.configuration.basePath}/studyPrograms/${encodeURIComponent(
         String(id)
       )}`,
       {
@@ -464,30 +314,30 @@ export class StudyCourseEntityService {
   }
 
   /**
-   * studyCourseModules
+   * studyProgramModules
    * @param id id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public studyCourseModulesUsingGET(
+  public studyProgramModulesUsingGET(
     id: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<CollectionModelOfModule>;
-  public studyCourseModulesUsingGET(
+  ): Observable<CollectionModelOfModuleType>;
+  public studyProgramModulesUsingGET(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpResponse<CollectionModelOfModule>>;
-  public studyCourseModulesUsingGET(
+  ): Observable<HttpResponse<CollectionModelOfModuleType>>;
+  public studyProgramModulesUsingGET(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpEvent<CollectionModelOfModule>>;
-  public studyCourseModulesUsingGET(
+  ): Observable<HttpEvent<CollectionModelOfModuleType>>;
+  public studyProgramModulesUsingGET(
     id: string,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -495,7 +345,7 @@ export class StudyCourseEntityService {
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling studyCourseModulesUsingGET.'
+        'Required parameter id was null or undefined when calling studyProgramModulesUsingGET.'
       );
     }
 
@@ -522,8 +372,8 @@ export class StudyCourseEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfModule>(
-      `${this.configuration.basePath}/projectStudyCourses/${encodeURIComponent(
+    return this.httpClient.get<CollectionModelOfModuleType>(
+      `${this.configuration.basePath}/studyPrograms/${encodeURIComponent(
         String(id)
       )}/modules`,
       {
@@ -537,48 +387,48 @@ export class StudyCourseEntityService {
   }
 
   /**
-   * studyCourseModules
+   * studyProgramModules
    * @param id id
-   * @param moduleId moduleId
+   * @param moduletypeId moduletypeId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public studyCourseModulesUsingGET1(
+  public studyProgramModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<EntityModelOfModule>;
-  public studyCourseModulesUsingGET1(
+  ): Observable<EntityModelOfModuleType>;
+  public studyProgramModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<EntityModelOfModule>>;
-  public studyCourseModulesUsingGET1(
+  ): Observable<HttpResponse<EntityModelOfModuleType>>;
+  public studyProgramModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<EntityModelOfModule>>;
-  public studyCourseModulesUsingGET1(
+  ): Observable<HttpEvent<EntityModelOfModuleType>>;
+  public studyProgramModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error(
-        'Required parameter id was null or undefined when calling studyCourseModulesUsingGET1.'
+        'Required parameter id was null or undefined when calling studyProgramModulesUsingGET1.'
       );
     }
-    if (moduleId === null || moduleId === undefined) {
+    if (moduletypeId === null || moduletypeId === undefined) {
       throw new Error(
-        'Required parameter moduleId was null or undefined when calling studyCourseModulesUsingGET1.'
+        'Required parameter moduletypeId was null or undefined when calling studyProgramModulesUsingGET1.'
       );
     }
 
@@ -605,10 +455,10 @@ export class StudyCourseEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<EntityModelOfModule>(
-      `${this.configuration.basePath}/projectStudyCourses/${encodeURIComponent(
+    return this.httpClient.get<EntityModelOfModuleType>(
+      `${this.configuration.basePath}/studyPrograms/${encodeURIComponent(
         String(id)
-      )}/modules/${encodeURIComponent(String(moduleId))}`,
+      )}/modules/${encodeURIComponent(String(moduletypeId))}`,
       {
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,

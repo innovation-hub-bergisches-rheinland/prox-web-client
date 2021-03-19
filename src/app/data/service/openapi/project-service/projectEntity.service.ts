@@ -23,10 +23,11 @@ import {
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfModule } from '@data/schema/openapi/project-service/models';
+import { CollectionModelOfModuleType } from '@data/schema/openapi/project-service/models';
 import { CollectionModelOfProject } from '@data/schema/openapi/project-service/models';
-import { EntityModelOfModule } from '@data/schema/openapi/project-service/models';
+import { EntityModelOfModuleType } from '@data/schema/openapi/project-service/models';
 import { EntityModelOfProject } from '@data/schema/openapi/project-service/models';
+import { EntityModelOfProjectStats } from '@data/schema/openapi/project-service/models';
 import { Project } from '@data/schema/openapi/project-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -36,7 +37,7 @@ import { Configuration } from '../configuration';
   providedIn: 'root'
 })
 export class ProjectEntityService {
-  protected basePath = 'http://host.docker.internal:8081';
+  protected basePath = 'http://localhost:8081';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -478,6 +479,81 @@ export class ProjectEntityService {
   }
 
   /**
+   * findAvailableProjectsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfProject>;
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfProject>>;
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfProject>>;
+  public findAvailableProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfProject>(
+      `${this.configuration.basePath}/projects/search/findAvailableProjectsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * findByIdProject
    * @param id id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -701,36 +777,336 @@ export class ProjectEntityService {
   }
 
   /**
+   * findProjectStatsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findProjectStatsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<EntityModelOfProjectStats>;
+  public findProjectStatsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<EntityModelOfProjectStats>>;
+  public findProjectStatsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<EntityModelOfProjectStats>>;
+  public findProjectStatsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<EntityModelOfProjectStats>(
+      `${this.configuration.basePath}/projects/search/findProjectStatsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * findRunningAndFinishedProjectsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfProject>;
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfProject>>;
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfProject>>;
+  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfProject>(
+      `${this.configuration.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * findRunningProjectsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findRunningProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfProject>;
+  public findRunningProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfProject>>;
+  public findRunningProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfProject>>;
+  public findRunningProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfProject>(
+      `${this.configuration.basePath}/projects/search/findRunningProjectsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * findinishedProjectsOfCreatorProject
+   * @param creatorId creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfProject>;
+  public findinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfProject>>;
+  public findinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfProject>>;
+  public findinishedProjectsOfCreatorProjectUsingGET(
+    creatorId?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfProject>(
+      `${this.configuration.basePath}/projects/search/findFinishedProjectsOfCreator`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * projectModules
    * @param id id
-   * @param moduleId moduleId
+   * @param moduletypeId moduletypeId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public projectModulesUsingDELETE(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined }
   ): Observable<any>;
   public projectModulesUsingDELETE(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined }
   ): Observable<HttpResponse<any>>;
   public projectModulesUsingDELETE(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined }
   ): Observable<HttpEvent<any>>;
   public projectModulesUsingDELETE(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: undefined }
@@ -740,9 +1116,9 @@ export class ProjectEntityService {
         'Required parameter id was null or undefined when calling projectModulesUsingDELETE.'
       );
     }
-    if (moduleId === null || moduleId === undefined) {
+    if (moduletypeId === null || moduletypeId === undefined) {
       throw new Error(
-        'Required parameter moduleId was null or undefined when calling projectModulesUsingDELETE.'
+        'Required parameter moduletypeId was null or undefined when calling projectModulesUsingDELETE.'
       );
     }
 
@@ -779,7 +1155,7 @@ export class ProjectEntityService {
     return this.httpClient.delete<any>(
       `${this.configuration.basePath}/projects/${encodeURIComponent(
         String(id)
-      )}/modules/${encodeURIComponent(String(moduleId))}`,
+      )}/modules/${encodeURIComponent(String(moduletypeId))}`,
       {
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,
@@ -881,19 +1257,19 @@ export class ProjectEntityService {
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<CollectionModelOfModule>;
+  ): Observable<CollectionModelOfModuleType>;
   public projectModulesUsingGET(
     id: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpResponse<CollectionModelOfModule>>;
+  ): Observable<HttpResponse<CollectionModelOfModuleType>>;
   public projectModulesUsingGET(
     id: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: 'application/hal+json' }
-  ): Observable<HttpEvent<CollectionModelOfModule>>;
+  ): Observable<HttpEvent<CollectionModelOfModuleType>>;
   public projectModulesUsingGET(
     id: string,
     observe: any = 'body',
@@ -929,7 +1305,7 @@ export class ProjectEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfModule>(
+    return this.httpClient.get<CollectionModelOfModuleType>(
       `${this.configuration.basePath}/projects/${encodeURIComponent(
         String(id)
       )}/modules`,
@@ -946,34 +1322,34 @@ export class ProjectEntityService {
   /**
    * projectModules
    * @param id id
-   * @param moduleId moduleId
+   * @param moduletypeId moduletypeId
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
   public projectModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<EntityModelOfModule>;
+  ): Observable<EntityModelOfModuleType>;
   public projectModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<EntityModelOfModule>>;
+  ): Observable<HttpResponse<EntityModelOfModuleType>>;
   public projectModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<EntityModelOfModule>>;
+  ): Observable<HttpEvent<EntityModelOfModuleType>>;
   public projectModulesUsingGET1(
     id: string,
-    moduleId: string,
+    moduletypeId: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -983,9 +1359,9 @@ export class ProjectEntityService {
         'Required parameter id was null or undefined when calling projectModulesUsingGET1.'
       );
     }
-    if (moduleId === null || moduleId === undefined) {
+    if (moduletypeId === null || moduletypeId === undefined) {
       throw new Error(
-        'Required parameter moduleId was null or undefined when calling projectModulesUsingGET1.'
+        'Required parameter moduletypeId was null or undefined when calling projectModulesUsingGET1.'
       );
     }
 
@@ -1012,10 +1388,10 @@ export class ProjectEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.get<EntityModelOfModule>(
+    return this.httpClient.get<EntityModelOfModuleType>(
       `${this.configuration.basePath}/projects/${encodeURIComponent(
         String(id)
-      )}/modules/${encodeURIComponent(String(moduleId))}`,
+      )}/modules/${encodeURIComponent(String(moduletypeId))}`,
       {
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,
@@ -1035,28 +1411,28 @@ export class ProjectEntityService {
    */
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfModule>;
+  ): Observable<CollectionModelOfModuleType>;
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfModule>>;
+  ): Observable<HttpResponse<CollectionModelOfModuleType>>;
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfModule>>;
+  ): Observable<HttpEvent<CollectionModelOfModuleType>>;
   public projectModulesUsingPATCH(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -1090,7 +1466,11 @@ export class ProjectEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['text/uri-list'];
+    const consumes: string[] = [
+      'application/json',
+      'application/x-spring-data-compact+json',
+      'text/uri-list'
+    ];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
@@ -1106,7 +1486,7 @@ export class ProjectEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.patch<CollectionModelOfModule>(
+    return this.httpClient.patch<CollectionModelOfModuleType>(
       `${this.configuration.basePath}/projects/${encodeURIComponent(
         String(id)
       )}/modules`,
@@ -1130,28 +1510,28 @@ export class ProjectEntityService {
    */
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfModule>;
+  ): Observable<CollectionModelOfModuleType>;
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfModule>>;
+  ): Observable<HttpResponse<CollectionModelOfModuleType>>;
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfModule>>;
+  ): Observable<HttpEvent<CollectionModelOfModuleType>>;
   public projectModulesUsingPOST(
     id: string,
-    requestBody?: string,
+    requestBody?: Array<string>,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*' }
@@ -1185,7 +1565,11 @@ export class ProjectEntityService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = ['text/uri-list'];
+    const consumes: string[] = [
+      'application/json',
+      'application/x-spring-data-compact+json',
+      'text/uri-list'
+    ];
     const httpContentTypeSelected:
       | string
       | undefined = this.configuration.selectHeaderContentType(consumes);
@@ -1201,7 +1585,7 @@ export class ProjectEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.post<CollectionModelOfModule>(
+    return this.httpClient.post<CollectionModelOfModuleType>(
       `${this.configuration.basePath}/projects/${encodeURIComponent(
         String(id)
       )}/modules`,
@@ -1229,21 +1613,21 @@ export class ProjectEntityService {
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfModule>;
+  ): Observable<CollectionModelOfModuleType>;
   public projectModulesUsingPUT(
     id: string,
     requestBody?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfModule>>;
+  ): Observable<HttpResponse<CollectionModelOfModuleType>>;
   public projectModulesUsingPUT(
     id: string,
     requestBody?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfModule>>;
+  ): Observable<HttpEvent<CollectionModelOfModuleType>>;
   public projectModulesUsingPUT(
     id: string,
     requestBody?: string,
@@ -1296,7 +1680,7 @@ export class ProjectEntityService {
       responseType = 'text';
     }
 
-    return this.httpClient.put<CollectionModelOfModule>(
+    return this.httpClient.put<CollectionModelOfModuleType>(
       `${this.configuration.basePath}/projects/${encodeURIComponent(
         String(id)
       )}/modules`,
@@ -1479,306 +1863,6 @@ export class ProjectEntityService {
       `${this.configuration.basePath}/projects`,
       project,
       {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * findAvailableProjectsOfCreatorProject
-   * @param creatorId creatorId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findAvailableProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfProject>;
-  public findAvailableProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfProject>>;
-  public findAvailableProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfProject>>;
-  public findAvailableProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (creatorId !== undefined && creatorId !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>creatorId,
-        'creatorId'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<CollectionModelOfProject>(
-      `${this.configuration.basePath}/projects/search/findAvailableProjectsOfCreator`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * findRunningProjectsOfCreatorProject
-   * @param creatorId creatorId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findRunningProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfProject>;
-  public findRunningProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfProject>>;
-  public findRunningProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfProject>>;
-  public findRunningProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (creatorId !== undefined && creatorId !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>creatorId,
-        'creatorId'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<CollectionModelOfProject>(
-      `${this.configuration.basePath}/projects/search/findRunningProjectsOfCreator`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * findFinishedProjectsOfCreatorProject
-   * @param creatorId creatorId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfProject>;
-  public findFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfProject>>;
-  public findFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfProject>>;
-  public findFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (creatorId !== undefined && creatorId !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>creatorId,
-        'creatorId'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<CollectionModelOfProject>(
-      `${this.configuration.basePath}/projects/search/findFinishedProjectsOfCreator`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * findRunningAndFinishedProjectsOfCreatorProject
-   * @param creatorId creatorId
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'body',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<CollectionModelOfProject>;
-  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'response',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpResponse<CollectionModelOfProject>>;
-  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe?: 'events',
-    reportProgress?: boolean,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<HttpEvent<CollectionModelOfProject>>;
-  public findRunningAndFinishedProjectsOfCreatorProjectUsingGET(
-    creatorId?: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
-    let queryParameters = new HttpParams({ encoder: this.encoder });
-    if (creatorId !== undefined && creatorId !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>creatorId,
-        'creatorId'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
-    if (httpHeaderAcceptSelected === undefined) {
-      // to determine the Accept header
-      const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
-    }
-    if (httpHeaderAcceptSelected !== undefined) {
-      headers = headers.set('Accept', httpHeaderAcceptSelected);
-    }
-
-    let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
-      responseType = 'text';
-    }
-
-    return this.httpClient.get<CollectionModelOfProject>(
-      `${this.configuration.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`,
-      {
-        params: queryParameters,
         responseType: <any>responseType,
         withCredentials: this.configuration.withCredentials,
         headers: headers,

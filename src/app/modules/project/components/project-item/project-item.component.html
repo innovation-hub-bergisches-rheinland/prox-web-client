@@ -75,11 +75,9 @@
       <div class="card-container">
         <mat-card-subtitle>Projekttypen:</mat-card-subtitle>
 
-        <p *ngIf="isTypeBA"><b>(BA)</b> Bachelorarbeit</p>
-
-        <p *ngIf="isTypeMA"><b>(MA)</b> Masterarbeit</p>
-
-        <p *ngIf="isTypePP"><b>(PP)</b> Praxisprojekt</p>
+        <p *ngFor="let module of projectModules">
+          <b>({{ module.key }})</b> {{ module.name }}
+        </p>
       </div>
     </div>
 

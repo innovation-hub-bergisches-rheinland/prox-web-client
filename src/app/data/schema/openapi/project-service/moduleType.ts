@@ -9,18 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ModuleType } from './moduleType';
 
-export interface Project {
-  created?: string;
-  creatorID: string;
-  creatorName: string;
-  description?: string;
+export interface ModuleType {
   id?: string;
-  modified?: string;
-  modules?: Array<ModuleType>;
+  key: string;
   name: string;
-  requirement?: string;
-  shortDescription: string;
-  supervisorName: string;
 }

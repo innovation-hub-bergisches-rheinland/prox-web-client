@@ -12,6 +12,7 @@ import { ProjectService } from '@data/service/project.service';
 import Autolinker from 'autolinker';
 import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 
 @Component({
   selector: 'app-project-item',
@@ -28,7 +29,7 @@ export class ProjectItemComponent implements OnInit {
   showShortDescription = false;
 
   projectTags$: Observable<Tag[]>;
-  projectModules$: Observable<Module[]>;
+  projectModules: ModuleType[];
 
   isTypeBA = false;
   isTypeMA = false;
@@ -43,16 +44,13 @@ export class ProjectItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.projectModules$ = this.projectService
-      .getModulesOfProject(this.project)
-      .pipe(
-        catchError(error => {
-          this.openErrorSnackBar(
-            'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
-          );
-          return throwError(error);
-        })
-      );
+    this.projectService.getModulesOfProject(this.project).subscribe(
+      res => (this.projectModules = res),
+      err =>
+        this.openErrorSnackBar(
+          'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
+        )
+    );
 
     this.projectTags$ = this.tagService
       .getAllTagsOfProject(this.project.id)
@@ -64,16 +62,6 @@ export class ProjectItemComponent implements OnInit {
           return throwError(error);
         })
       );
-
-    this.containsProjectType('BA').subscribe(result => {
-      this.isTypeBA = result;
-    });
-    this.containsProjectType('MA').subscribe(result => {
-      this.isTypeMA = result;
-    });
-    this.containsProjectType('PP').subscribe(result => {
-      this.isTypePP = result;
-    });
   }
   openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
@@ -89,12 +77,5 @@ export class ProjectItemComponent implements OnInit {
 
   toggleShortDescription() {
     this.showShortDescription = !this.showShortDescription;
-  }
-
-  containsProjectType(search: string) {
-    return this.projectService.getModulesOfProject(this.project).pipe(
-      map(modules => modules.filter(module => module.projectType === search)),
-      map(modules => (modules.length >= 1 ? true : false))
-    );
   }
 }

@@ -1,4 +1,5 @@
 import { Module } from './module.resource';
+import { ModuleType } from './openapi/project-service/moduleType';
 import { Tag } from './tag.resource';
 
 export class Project {
@@ -12,5 +13,5 @@ export class Project {
   creatorName: string;
   supervisorName: string;
   tagCollection: Tag[]; //TODO use this
-  modules: Module[]; //TODO use this
+  modules: ModuleType[]; //TODO use this
 }

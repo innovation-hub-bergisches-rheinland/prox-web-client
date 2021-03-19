@@ -9,14 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EmbeddedCollectionOfProject } from './embeddedCollectionOfProject';
+import { EmbeddedCollectionOfModuleType } from './embeddedCollectionOfModuleType';
 import { Link } from './link';
 
 /**
- * Resources of Project
+ * Resources of ModuleType
  */
-export interface CollectionModelOfProject {
-  _embedded: EmbeddedCollectionOfProject;
+export interface CollectionModelOfModuleType {
+  _embedded: EmbeddedCollectionOfModuleType;
   /**
    * Link collection
    */
