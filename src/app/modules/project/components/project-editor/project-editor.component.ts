@@ -28,15 +28,7 @@ import {
 } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import {
-  forkJoin,
-  interval,
-  Observable,
-  Observer,
-  of,
-  Subscription,
-  throwError
-} from 'rxjs';
+import { interval, Observable, of, Subscription, throwError } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -56,11 +48,8 @@ import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { StudyCourse } from '@data/schema/study-course.resource';
-import { Module } from '@data/schema/module.resource';
 
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
-import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
@@ -310,64 +299,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       .filter(m => m.selected == true)
       .map(m => m.module);
   }
-
-  private getAggregatedSelectedModules() {
-    console.log(this.moduleSelection);
-    return _.chain(this.moduleSelectors.getRawValue())
-      .pluck('selectedModules')
-      .flatten()
-      .uniq(x => {
-        console.log(x);
-        x.id;
-      })
-      .value();
-  }
-
-  /*private prepareStudyCourseSelectorData(
-    modules: ModuleType[]
-  ): Observable<StudyCourseModuleSelectionModel[]> {
-    /*return Observable.create(
-      (observer: Observer<StudyCourseModuleSelectionModel[]>) => {
-        const observables: Observable<{
-          module: ModuleType;
-          studyCourse: StudyProgram;
-        }>[] = [];
-
-        for (const module of modules) {
-          observables.push(
-            this.projectModuleService.findStudyCourseOfModule(module.id).pipe(
-              map(course => {
-                return { module, studyCourse: course };
-              })
-            )
-          );
-        }
-
-        forkJoin(observables).subscribe(
-          success => {
-            const result = _.chain(success)
-              .groupBy(element => element.studyCourse.id)
-              .map(element => element)
-              .map(element => {
-                return new StudyCourseModuleSelectionModel(
-                  element[0].studyCourse,
-                  element.map(x => x.module)
-                );
-              })
-              .value();
-            observer.next(result);
-            observer.complete();
-          },
-          error => {
-            this.showSubmitInfo('Fehler beim parsen der Module');
-            console.error('module parsing error', error);
-            observer.complete();
-          }
-        );
-      }
-    );
-    return of();
-  }*/
 
   private fillInExistingProjectValues() {
     this.projectFormControl.controls.name.setValue(this.project.name);
