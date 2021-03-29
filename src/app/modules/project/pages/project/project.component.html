@@ -31,6 +31,48 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-label *ngIf="isLoadingStudyPrograms">
+        <div class="select-placeholder-container">
+          <span>Lädt Studiengänge...</span>
+          <mat-spinner class="spinner" diameter="20"></mat-spinner>
+        </div>
+      </mat-label>
+      <mat-select
+        placeholder="Studiengänge"
+        [formControl]="selectedStudyPrograms"
+        multiple
+        (selectionChange)="filterModuleTypesByStudyProgram($event)"
+      >
+        <mat-option
+          *ngFor="let studyProgram of suitableStudyPrograms"
+          [value]="studyProgram"
+          >{{ studyProgram.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label *ngIf="isLoadingModuleTypes">
+        <div class="select-placeholder-container">
+          <span>Lädt Module...</span>
+          <mat-spinner class="spinner" diameter="20"></mat-spinner>
+        </div>
+      </mat-label>
+      <mat-select
+        placeholder="Module"
+        [formControl]="selectedModuleTypes"
+        multiple
+        (selectionChange)="filterProjects()"
+      >
+        <mat-option
+          *ngFor="let moduleType of suitableModuleTypes"
+          [value]="moduleType"
+          >{{ moduleType.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field class="search">
       <label>
         <input

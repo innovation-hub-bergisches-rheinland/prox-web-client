@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { KeycloakService } from 'keycloak-angular';
 import Fuse from 'fuse.js';
-import { combineLatest, from } from 'rxjs';
+import { combineLatest, forkJoin, from } from 'rxjs';
 import { map, switchMap, mergeMap, toArray } from 'rxjs/operators';
 
 import { Project } from '@data/schema/project.resource';
@@ -18,6 +18,11 @@ import { StatusOption } from './status-option.enum';
 
 import { promise } from 'protractor';
 import { TagService } from '@data/service/tag.service';
+import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
+import { MatSelectChange } from '@angular/material/select';
+import { uniq } from 'underscore';
+//import 'array-flat-polyfill';
 
 @Component({
   selector: 'app-project',
@@ -33,6 +38,8 @@ export class ProjectComponent implements OnInit {
 
   public searchString = new FormControl('');
   public selectedStatusOption = new FormControl(StatusOption.Verfuegbar);
+  public selectedModuleTypes = new FormControl();
+  public selectedStudyPrograms = new FormControl();
 
   public StatusOption = StatusOption;
   public statusOptions = [
@@ -44,7 +51,26 @@ export class ProjectComponent implements OnInit {
   private projects: Project[] = [];
   private filteredProjects: Project[] = [];
 
+  private allStudyPrograms: StudyProgram[] = [];
+  private allModuleTypes: ModuleType[] = [];
+  private _suitableStudyPrograms: StudyProgram[] = [];
+  private _suitableModuleTypes: ModuleType[] = [];
+  public isLoadingModuleTypes = true;
+  public isLoadingStudyPrograms = true;
+
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
+
+  get suitableModuleTypes(): ModuleType[] {
+    return this._suitableModuleTypes.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  }
+
+  get suitableStudyPrograms(): StudyProgram[] {
+    return this._suitableStudyPrograms.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  }
 
   constructor(
     private projectService: ProjectService,
@@ -61,7 +87,57 @@ export class ProjectComponent implements OnInit {
       this.isLoggedIn = false;
     }
 
+    this.projectService.getAllStudyPrograms().subscribe(
+      res => (this.allStudyPrograms = this._suitableStudyPrograms = res),
+      err => console.error(err),
+      () => (this.isLoadingStudyPrograms = false)
+    );
+
+    this.projectService.getAllModuleTypes().subscribe(
+      res => (this.allModuleTypes = this._suitableModuleTypes = res),
+      err => console.error(err),
+      () => (this.isLoadingModuleTypes = false)
+    );
+
     this.getAllProjects();
+  }
+
+  public filterModuleTypesByStudyProgram(event: MatSelectChange) {
+    this.isLoadingModuleTypes = true;
+    if (event.value && Array.isArray(event.value) && event.value.length > 0) {
+      forkJoin(
+        event.value.map((s: StudyProgram) => {
+          return this.projectService.getAllModuleTypesOfStudyProgram(s.id);
+        })
+      ).subscribe(
+        val => {
+          /* emits a nested Array of ModuleTypes so it needs to be flatten by 1,
+           * then the produced array need to be distinct for which we use a Map
+           * with the id as a key and the whole ModuleType as value.
+           * An alternative to it would be the following:
+           * ```js
+           * val.flat(1)
+           *  .filter((c, i, a) => a.findIndex(e => e.id === c.id) === i)
+           * ```
+           */
+          this._suitableModuleTypes = [
+            ...new Map(val.flat(1).map(i => [i.id, i])).values()
+          ];
+
+          /* One step further pre-filter current projects by only displaying
+           * projects which contain modules of the studyProgram by selecting all
+           * options
+           */
+          this.selectedModuleTypes.setValue(this.suitableModuleTypes);
+          this.filterProjects();
+        },
+        err => console.error(err),
+        () => (this.isLoadingModuleTypes = false)
+      );
+    } else {
+      this._suitableModuleTypes = this.allModuleTypes;
+      this.isLoadingModuleTypes = false;
+    }
   }
 
   public hasProjectCreationPermission(): boolean {
@@ -84,12 +160,22 @@ export class ProjectComponent implements OnInit {
   }
 
   public filterProjects() {
-    let filteredProjects = this.projects.filter(({ status }) =>
+    //Initialize with all projects
+    let filteredProjects = this.projects;
+
+    //Apply Status Filter
+    filteredProjects = this.filterProjectsByStatus(
+      filteredProjects,
       this.selectedStatusOption.value
-        ? status === this.selectedStatusOption.value
-        : true
     );
 
+    //Apply ModuleType Filter
+    filteredProjects = this.filterProjectsByModuleTypes(
+      filteredProjects,
+      this.selectedModuleTypes.value
+    );
+
+    //When a text is entered in the search field, do a fuzzy search
     if (this.searchString.value) {
       const fuseOptions: Fuse.IFuseOptions<Project> = {
         minMatchCharLength: this.searchString.value.length,
@@ -127,10 +213,36 @@ export class ProjectComponent implements OnInit {
 
       filteredProjects = results.map(result => result.item);
     }
+
+    //Set filtered projects and page the items
     this.filteredProjects = filteredProjects;
     this.totalFilteredProjects = this.filteredProjects.length;
     this.pageProjects();
     this.paginator.firstPage();
+  }
+
+  private filterProjectsByModuleTypes(
+    projects: Project[],
+    moduleTypes: ModuleType[]
+  ): Project[] {
+    console.log(moduleTypes);
+    return moduleTypes && moduleTypes.length > 0
+      ? projects.filter(project =>
+          project.modules.some(
+            m =>
+              this.selectedModuleTypes.value.map(mt => mt.id).indexOf(m.id) >= 0
+          )
+        )
+      : projects;
+  }
+
+  private filterProjectsByStatus(
+    projects: Project[],
+    status: string
+  ): Project[] {
+    return status
+      ? projects.filter(project => project.status == status)
+      : projects;
   }
 
   public deleteProject(project: Project) {
