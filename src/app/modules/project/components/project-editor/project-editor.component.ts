@@ -93,7 +93,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   fullname: string;
 
   modules: ModuleType[] = [];
-  _moduleSelection: { module: ModuleType; selected: boolean }[] = [];
+  moduleSelection: { module: ModuleType; selected: boolean }[] = [];
 
   constructor(
     private projectService: ProjectService,
@@ -124,7 +124,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     this.projectService.getAllModuleTypes().subscribe(
       res => {
         res.forEach(module => {
-          this._moduleSelection.push({ module: module, selected: false });
+          this.moduleSelection.push({ module: module, selected: false });
           this.moduleSelectors.push(new FormControl(false));
         });
       },
@@ -204,13 +204,13 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       this.updateTagRecommendations();
 
       delete state.tags;
-      delete state.studyCoursesModuleSelectors;
+      delete state.moduleSelectors;
 
       this.projectFormControl.patchValue(state);
       console.log(modules);
 
       modules.forEach(
-        (value, index) => (this._moduleSelection[index].selected = value)
+        (value, index) => (this.moduleSelection[index].selected = value)
       );
     }
   }
@@ -302,17 +302,17 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   toggleModule(event: MatCheckboxChange) {
     const id = event.source.id;
     console.log(id);
-    this._moduleSelection.find(m => m.module.id == id).selected = event.checked;
+    this.moduleSelection.find(m => m.module.id == id).selected = event.checked;
   }
 
   private getSelectedModules(): ModuleType[] {
-    return this._moduleSelection
+    return this.moduleSelection
       .filter(m => m.selected == true)
       .map(m => m.module);
   }
 
   private getAggregatedSelectedModules() {
-    console.log(this._moduleSelection);
+    console.log(this.moduleSelection);
     return _.chain(this.moduleSelectors.getRawValue())
       .pluck('selectedModules')
       .flatten()
@@ -394,7 +394,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     this.projectService.getModulesOfProject(this.project).subscribe(modules => {
       modules.forEach(
         module =>
-          (this._moduleSelection.find(
+          (this.moduleSelection.find(
             m => m.module.id == module.id
           ).selected = true)
       );

@@ -153,15 +153,8 @@
       </mat-form-field>
 
       <section formArrayName="moduleSelectors">
-        <!--<app-study-course-module-selection
-          *ngFor="let selector of moduleSelectors.controls; index as i"
-          [formControlName]="i"
-          (delete)="removeStudyCourseModuleSelector(i)"
-          class="study-course-module-selector"
-        >
-        </app-study-course-module-selection>-->
         <ul class="moduleList">
-          <li *ngFor="let module of _moduleSelection; index as i">
+          <li *ngFor="let module of moduleSelection; index as i">
             <mat-checkbox
               [formControlName]="i"
               [checked]="module.selected"
