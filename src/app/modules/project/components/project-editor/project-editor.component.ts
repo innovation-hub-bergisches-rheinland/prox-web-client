@@ -318,7 +318,13 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     const filteredTags = this.tags.filter(tag => tag.id); //Must have a id
     this.tagService.getRecommendations(filteredTags).subscribe(
       tags => {
-        this.recommendedTags = tags;
+        /**
+         * Filter out tags which are already in the input field
+         * This occures when the user manually inputs a tag which already exists in the backend.
+         */
+        this.recommendedTags = tags.filter(
+          t => this.tags.filter(t1 => t1.tagName === t.tagName).length === 0
+        );
       },
       () => {
         this.openErrorSnackBar(
