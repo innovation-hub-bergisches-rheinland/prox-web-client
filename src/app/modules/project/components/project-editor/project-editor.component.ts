@@ -84,6 +84,19 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   modules: ModuleType[] = [];
   moduleSelection: { module: ModuleType; selected: boolean }[] = [];
 
+  get moduleSelectors(): FormArray {
+    return this.projectFormControl.get('moduleSelectors') as FormArray;
+  }
+
+  /**
+   * Constructor
+   * @param projectService Service for prox-project-service
+   * @param tagService Service for prox-tag-service
+   * @param formBuilder FormBuilder to build a form out of editors input elements
+   * @param snackBar MatSnackBar for errors
+   * @param keycloakService Service for Keycloak
+   * @param storage Service for local Storage
+   */
   constructor(
     private projectService: ProjectService,
     private tagService: TagService,
@@ -93,12 +106,18 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
 
+  /**
+   * Initialize Angular Component
+   */
   async ngOnInit() {
+    //If user is logged in set its ID and Full Name
     if (await this.keycloakService.isLoggedIn()) {
       this.userID = this.keycloakService.getKeycloakInstance().subject;
       const userProfile = await this.keycloakService.loadUserProfile();
       this.fullname = `${userProfile.firstName} ${userProfile.lastName}`;
     }
+
+    //Build the form
     this.projectFormControl = this.formBuilder.group({
       name: ['', [Validators.required]],
       shortDescription: ['', [Validators.required]],
@@ -110,6 +129,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       tagInput: []
     });
 
+    //Get All Modules and set the associated form control values
     this.projectService.getAllModuleTypes().subscribe(
       res => {
         res.forEach(module => {
@@ -119,6 +139,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       },
       err => console.error(err),
       () => {
+        //State can only be loaded this observable is completed as the form controls are initialized here
         if (!this.project) {
           this.tryLoadState();
         }
@@ -143,6 +164,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       )
     );
 
+    //If the component has project as input try load it's values into the editor
     if (this.project) {
       this.clearStorage();
       this.fillInExistingProjectValues();
@@ -153,16 +175,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngAfterViewChecked() {
-    /*
-     * When supvisorname is set programmatically in ngOnInit() it is not shown in the view so it is necessary to update the Value and validity
-     * Possibly obsolete with Angular ~8
-     */
-    if (this.projectFormControl) {
-      this.projectFormControl.updateValueAndValidity();
-    }
-  }
-
+  /**
+   * Initialize autosave
+   * TODO refactor
+   */
   enableAutosave() {
     const source = interval(5000);
     this.autoSave = source.subscribe(() => {
@@ -176,12 +192,18 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * save the current state into local storage
+   */
   saveState() {
     const state = this.projectFormControl.getRawValue();
     state.tags = this.tags;
     this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
   }
 
+  /**
+   * load the state from local storage and set form control values
+   */
   tryLoadState() {
     const loadedData = this.storage.get(this.STORAGE_KEY);
     if (loadedData) {
@@ -196,41 +218,63 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       delete state.moduleSelectors;
 
       this.projectFormControl.patchValue(state);
-      console.log(modules);
-
       modules.forEach(
         (value, index) => (this.moduleSelection[index].selected = value)
       );
     }
   }
 
+  /**
+   * Removes the data from local storage
+   */
   clearStorage() {
     this.storage.remove(this.STORAGE_KEY);
   }
 
-  get moduleSelectors(): FormArray {
-    return this.projectFormControl.get('moduleSelectors') as FormArray;
-  }
+  /**
+   * Add the tag which is created or selected from form control to project data
+   * @param event event emittet from matChipInputTokenEnd
+   */
+  addTagEvent(event: MatChipInputEvent) {
+    /**
+     * Workaround: https://stackoverflow.com/a/52814543/4567795
+     * When an option from the autocompletion is selected the MatChipInputEvent
+     * is somehow fired before the MatAutocompleteSelectedEvent so it is necessary
+     * to check whether the panel is open
+     */
+    if (!this.tagAutocomplete.isOpen) {
+      const value = event.value.trim();
 
-  addTag(event: MatChipInputEvent) {
-    const input = event.input;
-    const value = event.value;
+      //If a valid value is submitted, save tag to data
+      if (value) {
+        const tag = new Tag();
+        tag.tagName = value;
+        this.addTag(tag);
+      }
 
-    if ((value || '').trim()) {
-      const tag = new Tag();
-      tag.tagName = value.trim();
-      this.tags.push(tag);
-      this.updateTagRecommendations();
-    }
-
-    if (input) {
-      input.value = '';
-    }
-    if (this.tagAutocomplete.isOpen) {
+      //Remove input from field
+      event.input.value = '';
+    } else {
       this.tagAutocompleteTrigger.closePanel();
     }
   }
 
+  /**
+   * function which adds a tag to project data. The tag should be only added
+   * if it is unique in the list
+   * @param tag tag to add to project data
+   */
+  private addTag(tag: Tag) {
+    if (this.tags.filter(t => t.tagName === tag.tagName).length === 0) {
+      this.tags.push(tag);
+      this.updateTagRecommendations();
+    }
+  }
+
+  /**
+   * Remove tag from project data
+   * @param tag Tag to remove
+   */
   removeTag(tag: Tag) {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
@@ -239,36 +283,39 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayTagName(tag?: Tag): string | undefined {
-    return tag ? tag.tagName : undefined;
-  }
-
+  /**
+   * Action to perform when a recommended tag is selected
+   * @param tag selected tag from recommendations
+   * @param event emitted event
+   */
   recommendedTagSelected(tag: Tag, event: MatChipSelectionChange) {
     if (event.isUserInput) {
       this.addRecommendedTag(tag);
     }
   }
 
-  addRecommendedTag(tag: Tag) {
-    this.tags.push(tag);
+  /**
+   * Add the recommended tag to project data
+   * @param tag Recommended tag to add
+   */
+  private addRecommendedTag(tag: Tag) {
+    this.addTag(tag);
+
+    //Remove added tag from recommendations - necessary for the case when the tag service can not load recommendations
     const index = this.recommendedTags.indexOf(tag);
     if (index !== -1) {
       this.recommendedTags.splice(index, 1);
     }
-    this.tagService.getRecommendations(this.tags).subscribe(
-      tags => {
-        this.recommendedTags = tags;
-      },
-      () => {
-        this.openErrorSnackBar(
-          'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-        );
-      }
-    );
+
+    //Recalculate recommendations
+    this.updateTagRecommendations();
   }
 
-  updateTagRecommendations() {
-    const filteredTags = this.tags.filter(tag => tag.id != null);
+  /**
+   * Update the tag recommendations based on currently selected tags
+   */
+  private updateTagRecommendations() {
+    const filteredTags = this.tags.filter(tag => tag.id); //Must have a id
     this.tagService.getRecommendations(filteredTags).subscribe(
       tags => {
         this.recommendedTags = tags;
@@ -281,25 +328,39 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Add selected tag from autocompletion to project data
+   * @param event event emitted when tag from autocompletion is selected
+   */
   selectedTag(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.value);
-    this.updateTagRecommendations();
+    const selectedTag = event.option.value as Tag;
+    this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
     this.projectFormControl.controls.tagInput.setValue(null);
   }
 
+  /**
+   * Add checked modules to project data
+   * @param event event emitted from checkbox change
+   */
   toggleModule(event: MatCheckboxChange) {
     const id = event.source.id;
-    console.log(id);
     this.moduleSelection.find(m => m.module.id == id).selected = event.checked;
   }
 
+  /**
+   * retrieves all selected modules
+   * @returns array of selected moduley
+   */
   private getSelectedModules(): ModuleType[] {
     return this.moduleSelection
       .filter(m => m.selected == true)
       .map(m => m.module);
   }
 
+  /**
+   * Procedural method to set input element values to project values
+   */
   private fillInExistingProjectValues() {
     this.projectFormControl.controls.name.setValue(this.project.name);
     this.projectFormControl.controls.shortDescription.setValue(
@@ -337,7 +398,13 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createTags(tags: Tag[]): any {
+  /**
+   * This function creates non-existent tags in backend and will
+   * retrieve tags which already exist and can be used to prevent collisions
+   * @param tags tags which should be created
+   * @returns created and retrieved tags
+   */
+  private createTags(tags: Tag[]): Observable<Tag[]> {
     return of(...tags).pipe(
       mergeMap(tag =>
         this.tagService.findByTagName(tag.tagName).pipe(
@@ -356,6 +423,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Function which creates a valid project resource based on the given input params
+   * It mainly trims strings and sets possible default values
+   * @param project project to parse
+   * @returns valid project resource
+   */
   private createProjectResource(project: Project): Project {
     let projectResource: Project;
     if (this.project) {
@@ -382,6 +455,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     return projectResource;
   }
 
+  /**
+   * Creates a new project in backend
+   * @param project project to create
+   * @param modules moduleTypes of project
+   * @param tags tags of project
+   */
   private createProject(project: Project, modules: ModuleType[], tags: Tag[]) {
     const newProject = this.createProjectResource(project);
 
@@ -399,6 +478,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Updates a existing project in backend
+   * @param project project to update
+   * @param modules moduleTypes of project
+   * @param tags tags of project
+   */
   private updateProject(project: Project, modules: ModuleType[], tags: Tag[]) {
     this.project = this.createProjectResource(project);
 
@@ -415,16 +500,19 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Form Submit method
+   * @param project project which is submitted
+   */
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
     const modules = this.getSelectedModules();
-    console.log(modules);
     this.createTags(this.tags).subscribe(tags => {
       if (this.project) {
-        this.updateProject(project, modules, tags as Tag[]);
+        this.updateProject(project, modules, tags);
       } else {
-        this.createProject(project, modules, tags as Tag[]);
+        this.createProject(project, modules, tags);
       }
     });
   }
@@ -435,7 +523,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  openErrorSnackBar(message: string) {
+  private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
   }
 
