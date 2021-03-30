@@ -2,6 +2,7 @@ import { Module } from './module.resource';
 import { ModuleType } from './openapi/project-service/moduleType';
 import { Tag } from './tag.resource';
 
+//TODO Refactor to use interface
 export class Project {
   id: string;
   name: string;

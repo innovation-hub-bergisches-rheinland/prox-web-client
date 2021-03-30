@@ -1,5 +1,6 @@
 import { Module } from './module.resource';
 
+//TODO Refactor to use interface
 export class StudyCourse {
   id: string;
   name: string;
