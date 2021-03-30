@@ -64,7 +64,8 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './project-editor.component.html',
   styleUrls: ['./project-editor.component.scss']
 })
-export class ProjectEditorComponent implements OnInit, OnDestroy {
+export class ProjectEditorComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   private STORAGE_KEY = 'project-editor-state';
 
   @Input() project?: Project;
@@ -107,6 +108,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     return this._modules.sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
+
   /**
    * Constructor
    * @param projectService Service for prox-project-service
@@ -124,6 +129,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.dataSource.data = this.modules;
+  }
 
   /**
    * Initialize Angular Component

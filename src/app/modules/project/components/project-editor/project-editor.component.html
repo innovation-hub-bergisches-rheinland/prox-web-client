@@ -175,6 +175,9 @@
 
         <table
           mat-table
+          matSort
+          matSortActive="name"
+          matSortDirection="asc"
           [dataSource]="dataSource"
           class="mat-elevation-z0 moduleTable"
         >
@@ -188,7 +191,7 @@
           </ng-container>
           <!-- Name Column -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
             <td mat-cell *matCellDef="let element">
               {{ element.name }}
             </td>
