@@ -1,5 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -51,6 +52,12 @@ import { TagService } from '@data/service/tag.service';
 
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import * as Module from 'node:module';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-project-editor',
@@ -81,11 +88,23 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   userID: string;
   fullname: string;
 
-  modules: ModuleType[] = [];
-  moduleSelection: { module: ModuleType; selected: boolean }[] = [];
+  private _modules: ModuleType[] = [];
+  studyPrograms: StudyProgram[] = [];
+  dataSource = new MatTableDataSource<ModuleType>(this.modules);
+  displayedColumns: string[] = ['select', 'name'];
+  moduleSelection = new SelectionModel<ModuleType>(true, []);
+  studyProgramSelection = new SelectionModel<StudyProgram>(true, []);
 
   get moduleSelectors(): FormArray {
     return this.projectFormControl.get('moduleSelectors') as FormArray;
+  }
+
+  set modules(modules: ModuleType[]) {
+    this._modules = modules;
+  }
+
+  get modules(): ModuleType[] {
+    return this._modules.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   /**
@@ -125,20 +144,22 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       description: [''],
       supervisorName: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      moduleSelectors: this.formBuilder.array([]),
       tagInput: []
     });
+
+    this.projectService.getAllStudyPrograms().subscribe(
+      res => this.studyPrograms.push(...res),
+      err => console.error(err)
+    );
 
     //Get All Modules and set the associated form control values
     this.projectService.getAllModuleTypes().subscribe(
       res => {
-        res.forEach(module => {
-          this.moduleSelection.push({ module: module, selected: false });
-          this.moduleSelectors.push(new FormControl(false));
-        });
+        this.modules.push(...res);
       },
       err => console.error(err),
       () => {
+        this.dataSource._updateChangeSubscription();
         //State can only be loaded this observable is completed as the form controls are initialized here
         if (!this.project) {
           this.tryLoadState();
@@ -349,19 +370,17 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
    * Add checked modules to project data
    * @param event event emitted from checkbox change
    */
-  toggleModule(event: MatCheckboxChange) {
+  /*toggleModule(event: MatCheckboxChange) {
     const id = event.source.id;
     this.moduleSelection.find(m => m.module.id == id).selected = event.checked;
-  }
+  }*/
 
   /**
    * retrieves all selected modules
    * @returns array of selected moduley
    */
   private getSelectedModules(): ModuleType[] {
-    return this.moduleSelection
-      .filter(m => m.selected == true)
-      .map(m => m.module);
+    return this.moduleSelection.selected;
   }
 
   /**
@@ -389,14 +408,9 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       );
     });
 
-    this.projectService.getModulesOfProject(this.project).subscribe(modules => {
-      modules.forEach(
-        module =>
-          (this.moduleSelection.find(
-            m => m.module.id == module.id
-          ).selected = true)
-      );
-    });
+    this.projectService
+      .getModulesOfProject(this.project)
+      .subscribe(modules => this.moduleSelection.select(...modules));
 
     this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
       this.tags = tags;
@@ -536,5 +550,22 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
   cancelButtonClicked() {
     this.cancel.emit();
     this.clearStorage();
+  }
+
+  /**
+   * Called when the studyPrograms value is changed
+   * @param event Event emitted
+   * @param studyProgram studyProgram
+   */
+  toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
+    /*this.studyProgramSelection.select(studyProgram);
+    this.projectService
+      .getAllModuleTypesOfStudyprograms(
+        this.studyProgramSelection.selected.map(sp => sp.id)
+      )
+      .subscribe(res => {
+        this.dataSource.data = this.modules = res;
+        this.dataSource._updateChangeSubscription();
+      });*/
   }
 }
