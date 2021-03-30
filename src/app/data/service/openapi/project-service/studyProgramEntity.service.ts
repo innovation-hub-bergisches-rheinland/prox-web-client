@@ -113,6 +113,81 @@ export class StudyProgramEntityService {
   }
 
   /**
+   * findAllModulesOfStudyProgramsStudyProgram
+   * @param studyProgramIds studyProgramIds
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findAllModulesOfStudyProgramsStudyProgramUsingGET(
+    studyProgramIds?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfModuleType>;
+  public findAllModulesOfStudyProgramsStudyProgramUsingGET(
+    studyProgramIds?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfModuleType>>;
+  public findAllModulesOfStudyProgramsStudyProgramUsingGET(
+    studyProgramIds?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfModuleType>>;
+  public findAllModulesOfStudyProgramsStudyProgramUsingGET(
+    studyProgramIds?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (studyProgramIds !== undefined && studyProgramIds !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>studyProgramIds,
+        'studyProgramIds'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
+        httpHeaderAccepts
+      );
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfModuleType>(
+      `${this.configuration.basePath}/studyPrograms/search/findAllModulesOfStudyPrograms`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * findAllStudyProgram
    * @param page page
    * @param size size

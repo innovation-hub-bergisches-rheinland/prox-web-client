@@ -145,4 +145,10 @@ export class ProjectService {
       .findAllModuleTypeUsingGET()
       .pipe(map(m => m._embedded.moduleTypes));
   }
+
+  getAllModuleTypesOfStudyprograms(ids: string[]): Observable<ModuleType[]> {
+    return this.studyProgramEntityService
+      .findAllModulesOfStudyProgramsStudyProgramUsingGET(ids.join(','))
+      .pipe(map(m => m._embedded.moduleTypes));
+  }
 }
