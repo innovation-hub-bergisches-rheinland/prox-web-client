@@ -21,8 +21,6 @@ import { TagService } from '@data/service/tag.service';
 import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
-import { uniq } from 'underscore';
-//import 'array-flat-polyfill';
 
 @Component({
   selector: 'app-project',
