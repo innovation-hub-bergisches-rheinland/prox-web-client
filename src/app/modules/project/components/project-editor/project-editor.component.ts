@@ -51,12 +51,10 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import * as Module from 'node:module';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -157,7 +155,13 @@ export class ProjectEditorComponent
     });
 
     this.projectService.getAllStudyPrograms().subscribe(
-      res => this.studyPrograms.push(...res),
+      res => {
+        this.studyPrograms.push(...res);
+
+        //By default select all studyProgram Filters
+        //TODO: A lecturer should provide information about his study program preferences that would be used here
+        this.studyProgramSelection.select(...res);
+      },
       err => console.error(err)
     );
 
@@ -376,15 +380,6 @@ export class ProjectEditorComponent
   }
 
   /**
-   * Add checked modules to project data
-   * @param event event emitted from checkbox change
-   */
-  /*toggleModule(event: MatCheckboxChange) {
-    const id = event.source.id;
-    this.moduleSelection.find(m => m.module.id == id).selected = event.checked;
-  }*/
-
-  /**
    * retrieves all selected modules
    * @returns array of selected moduley
    */
@@ -567,14 +562,26 @@ export class ProjectEditorComponent
    * @param studyProgram studyProgram
    */
   toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
-    /*this.studyProgramSelection.select(studyProgram);
-    this.projectService
-      .getAllModuleTypesOfStudyprograms(
-        this.studyProgramSelection.selected.map(sp => sp.id)
-      )
-      .subscribe(res => {
-        this.dataSource.data = this.modules = res;
-        this.dataSource._updateChangeSubscription();
-      });*/
+    //TODO Possible refactor -> maybe a template binding?
+    if (event.checked) {
+      this.studyProgramSelection.select(studyProgram);
+    } else {
+      this.studyProgramSelection.deselect(studyProgram);
+    }
+
+    //TODO Refactor: Make use of debounceTime to reduce network traffic
+    if (this.studyProgramSelection.selected.length > 0) {
+      this.projectService
+        .getAllModuleTypesOfStudyprograms(
+          this.studyProgramSelection.selected.map(sp => sp.id)
+        )
+        .subscribe(res => {
+          this.dataSource.data = this.modules = res;
+          this.dataSource._updateChangeSubscription();
+        });
+    } else {
+      this.dataSource.data = this.modules = [];
+      this.dataSource._updateChangeSubscription();
+    }
   }
 }
