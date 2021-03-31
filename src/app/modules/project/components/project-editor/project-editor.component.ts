@@ -29,7 +29,14 @@ import {
 } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { interval, Observable, of, Subscription, throwError } from 'rxjs';
+import {
+  forkJoin,
+  interval,
+  Observable,
+  of,
+  Subscription,
+  throwError
+} from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -41,7 +48,7 @@ import {
   toArray,
   catchError
 } from 'rxjs/operators';
-import * as _ from 'underscore';
+import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -56,6 +63,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-project-editor',
@@ -91,8 +99,8 @@ export class ProjectEditorComponent
   studyPrograms: StudyProgram[] = [];
   dataSource = new MatTableDataSource<ModuleType>(this.modules);
   displayedColumns: string[] = ['select', 'name'];
-  moduleSelection = new SelectionModel<ModuleType>(true, []);
-  studyProgramSelection = new SelectionModel<StudyProgram>(true, []);
+  moduleSelection = new SelectionModel<ModuleType>(true);
+  studyProgramSelection = new SelectionModel<StudyProgram>(true);
 
   get moduleSelectors(): FormArray {
     return this.projectFormControl.get('moduleSelectors') as FormArray;
@@ -103,7 +111,7 @@ export class ProjectEditorComponent
   }
 
   get modules(): ModuleType[] {
-    return this._modules.sort((a, b) => a.name.localeCompare(b.name));
+    return this._modules;
   }
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
@@ -154,21 +162,14 @@ export class ProjectEditorComponent
       tagInput: []
     });
 
-    this.projectService.getAllStudyPrograms().subscribe(
+    forkJoin({
+      studyPrograms: this.projectService.getAllStudyPrograms(),
+      moduleTypes: this.projectService.getAllModuleTypes()
+    }).subscribe(
       res => {
-        this.studyPrograms.push(...res);
-
-        //By default select all studyProgram Filters
-        //TODO: A lecturer should provide information about his study program preferences that would be used here
-        this.studyProgramSelection.select(...res);
-      },
-      err => console.error(err)
-    );
-
-    //Get All Modules and set the associated form control values
-    this.projectService.getAllModuleTypes().subscribe(
-      res => {
-        this.modules.push(...res);
+        this.studyPrograms.push(...res.studyPrograms);
+        this.studyProgramSelection.select(...res.studyPrograms);
+        this.modules.push(...res.moduleTypes);
       },
       err => console.error(err),
       () => {
@@ -243,18 +244,11 @@ export class ProjectEditorComponent
     if (loadedData) {
       const state = JSON.parse(loadedData);
 
-      const modules: Array<boolean> = state.moduleSelectors;
-
       this.tags = state.tags;
       this.updateTagRecommendations();
-
       delete state.tags;
-      delete state.moduleSelectors;
 
       this.projectFormControl.patchValue(state);
-      modules.forEach(
-        (value, index) => (this.moduleSelection[index].selected = value)
-      );
     }
   }
 
@@ -377,14 +371,6 @@ export class ProjectEditorComponent
     this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
     this.projectFormControl.controls.tagInput.setValue(null);
-  }
-
-  /**
-   * retrieves all selected modules
-   * @returns array of selected moduley
-   */
-  private getSelectedModules(): ModuleType[] {
-    return this.moduleSelection.selected;
   }
 
   /**
@@ -531,7 +517,7 @@ export class ProjectEditorComponent
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
-    const modules = this.getSelectedModules();
+    const modules = this.moduleSelection.selected;
     this.createTags(this.tags).subscribe(tags => {
       if (this.project) {
         this.updateProject(project, modules, tags);
@@ -576,7 +562,19 @@ export class ProjectEditorComponent
           this.studyProgramSelection.selected.map(sp => sp.id)
         )
         .subscribe(res => {
-          this.dataSource.data = this.modules = res;
+          //Elements to add
+          const diffA = _.differenceWith(res, this.modules, _.isEqual);
+
+          //Elements to remove
+          const diffB = _.differenceWith(this.modules, res, _.isEqual);
+
+          //Add elements
+          this.modules.push(...diffA);
+
+          //Pull elements to remove out - this mutates this.modules
+          _.pullAllWith(this.modules, diffB, _.isEqual);
+
+          this.dataSource.data = this.modules;
           this.dataSource._updateChangeSubscription();
         });
     } else {
