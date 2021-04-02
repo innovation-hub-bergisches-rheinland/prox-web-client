@@ -103,6 +103,22 @@ $prox-app-theme-4: map-merge(
   }
 }
 
+@mixin app-text-color-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  a {
+    color: mat-color($primary);
+  }
+
+  h1 {
+    color: mat-color($primary);
+  }
+
+  h2 {
+    color: mat-color($primary);
+  }
+}
+
 // Inject Themes into angular components
 //@include angular-material-theme($prox-app-theme-1);
 @include mat-core($prox-typography);
@@ -121,3 +137,4 @@ $prox-app-theme-4: map-merge(
 @include professor-research-theme($prox-app-theme-3);
 @include professor-projects-history-theme($prox-app-theme-2);
 @include content-layout-theme($prox-app-theme-2);
+@include app-text-color-theme($prox-app-theme-1);
