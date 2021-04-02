@@ -13,7 +13,8 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-professors-item',
   templateUrl: './professors-item.component.html',
-  styleUrls: ['./professors-item.component.scss']
+  styleUrls: ['./professors-item.component.scss'],
+  host: { '[class.professor-item-wrapper]': 'true' }
 })
 export class ProfessorsItemComponent implements OnInit {
   _professor: EntityModelProfessorOverviewDto;

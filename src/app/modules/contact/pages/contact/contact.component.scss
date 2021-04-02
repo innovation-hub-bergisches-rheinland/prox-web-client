@@ -1,8 +1,3 @@
-@import './contact.component.mixin.scss';
-@import '../../../../../theme.scss';
-
-@include contact-component-theme($prox-app-theme-1);
-
 .contact {
   margin-top: 75px;
   margin-left: auto;

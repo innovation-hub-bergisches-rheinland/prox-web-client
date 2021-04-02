@@ -1,0 +1,12 @@
+@mixin professor-projects-history-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .prof-projects-history {
+    button {
+      background-color: mat-color($primary);
+      color: mat-contrast($primary, 400);
+    }
+  }
+}

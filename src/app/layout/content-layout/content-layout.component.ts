@@ -5,7 +5,8 @@ import { KeycloakService } from 'keycloak-angular';
 @Component({
   selector: 'app-content-layout',
   templateUrl: './content-layout.component.html',
-  styleUrls: ['./content-layout.component.scss']
+  styleUrls: ['./content-layout.component.scss'],
+  host: { class: 'content-layout' }
 })
 export class ContentLayoutComponent implements OnInit {
   @Input()

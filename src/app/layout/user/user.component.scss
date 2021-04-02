@@ -1,8 +1,3 @@
-@import '../../../theme.scss';
-@import './user.component.mixin.scss';
-
-@include user-component-theme($prox-app-theme-1);
-
 h1 {
   color: var(--th-red);
   text-align: center;

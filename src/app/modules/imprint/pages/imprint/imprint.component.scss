@@ -1,8 +1,3 @@
-@import './imprint.component.mixin.scss';
-@import '../../../../../theme.scss';
-
-@include imprint-component-theme($prox-app-theme-1);
-
 .imprint {
   margin-top: 75px;
   margin-left: auto;

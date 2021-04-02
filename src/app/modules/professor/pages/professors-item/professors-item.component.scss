@@ -21,14 +21,6 @@ li:before {
   position: relative;
 }
 
-.research li:before {
-  border-color: transparent var(--primary-color); //TODO refactor to material design
-}
-
-.projects li:before {
-  border-color: transparent var(--secondary-color); //TODO refactor to material design
-}
-
 .mat-card-avatar {
   object-fit: cover;
   width: 75px;

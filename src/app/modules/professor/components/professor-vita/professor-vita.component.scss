@@ -1,6 +1,5 @@
 .professor-vita > * {
   text-align: center;
-  color: #ffffff;
 }
 
 .professor-vita h1 {
@@ -11,8 +10,6 @@
   font-weight: bold;
   font-size: 24px;
   line-height: 38px;
-
-  color: #ffffff;
 }
 
 .professor-vita p {
@@ -25,14 +22,4 @@
   padding-left: 15%;
   padding-right: 15%;
   text-align: justify;
-}
-
-.professor-vita {
-  color: #ffffff;
-  background: linear-gradient(
-      274.88deg,
-      var(--th-orange) 13.12%,
-      rgba(255, 255, 255, 0) 86.52%
-    ),
-    var(--th-purple);
 }

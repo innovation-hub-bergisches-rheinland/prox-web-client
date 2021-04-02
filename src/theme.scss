@@ -1,10 +1,11 @@
 @import '~@angular/material/theming';
 @import './theme_variables.scss';
 @import './app/modules/home/pages/home/home.component.mixin.scss';
-@import './app/modules/imprint/pages/imprint/imprint.component.mixin.scss';
-@import './app/modules/privacy/pages/privacy/privacy.component.mixin.scss';
-@import './app/modules/disclaimer/pages/disclaimer/disclaimer.component.mixin.scss';
-@import './app/modules/contact/pages/contact/contact.component.mixin.scss';
+@import './app/layout/content-layout/content-layout.component.theming.scss';
+@import './app/modules/professor/pages/professors-item/professors-item.component.theming.scss';
+@import './app/modules/professor/components/professor-vita/professor-vita.component.theming.scss';
+@import './app/modules/professor/components/professor-research/professor-research.component.theming.scss';
+@import './app/modules/professor/components/professor-projects-history/professor-projects-history.component.theming.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -20,6 +21,8 @@ $prox-typography: mat-typography-config(
   $body-1: mat-typography-level(14px, 24px, 400)
 );
 
+/* This is the first theme which is used in general for 
+ * backgrounds and design elements as well as  headings */
 $prox-app-theme-1: mat-light-theme(
   (
     color: (
@@ -31,6 +34,8 @@ $prox-app-theme-1: mat-light-theme(
   )
 );
 
+/* Second theme mainly used for interaction elements such as 
+ * buttons */
 $prox-app-theme-2: mat-light-theme(
   (
     color: (
@@ -42,6 +47,7 @@ $prox-app-theme-2: mat-light-theme(
   )
 );
 
+/* Third theme mainly used for chips as of now */
 $prox-app-theme-3: mat-light-theme(
   (
     color: (
@@ -53,6 +59,26 @@ $prox-app-theme-3: mat-light-theme(
   )
 );
 
+/* Special theme used to provide material-like features
+ * for non-material elements.
+ * It contains all three primary colors from the themes above
+ * which can be queried in the stylesheet.
+ * Note that this theme could be not appliable for angular material
+ * components or only the primary, accent, warn color is used.
+ */
+$prox-app-theme-4: map-merge(
+  $prox-app-theme-1,
+  (
+    prox-primary-color-1: $prox-app-primary-1,
+    prox-accent-color-1: $prox-app-accent-1,
+    prox-primary-color-2: $prox-app-primary-2,
+    prox-accent-color-2: $prox-app-accent-2,
+    prox-primary-color-3: $prox-app-primary-3,
+    prox-accent-color-3: $prox-app-accent-3
+  )
+);
+
+/** Used to set the color of mat-cards subtitle */
 @mixin mat-card-subtitle-color($config-or-theme) {
   // Extract the color configuration in case a theme has been passed.
   // This allows consumers to either pass a theme object or a color configuration.
@@ -89,3 +115,9 @@ $prox-app-theme-3: mat-light-theme(
 @include imprint-component-theme($prox-app-theme-1);
 @include privacy-component-theme($prox-app-theme-1);
 @include disclaimer-component-theme($prox-app-theme-1);*/
+
+@include professor-item-theme($prox-app-theme-4);
+@include professor-vita-theme($prox-app-theme-4);
+@include professor-research-theme($prox-app-theme-3);
+@include professor-projects-history-theme($prox-app-theme-2);
+@include content-layout-theme($prox-app-theme-2);
