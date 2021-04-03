@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 
 import { Observable } from 'rxjs';
@@ -14,6 +14,8 @@ import { ProjectService } from '@data/service/project.service';
 import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { TextProcessor } from '@app/util/text-processor';
+import { TagService } from '@data/service/tag.service';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 
 @Component({
   selector: 'app-project-details',
@@ -28,15 +30,12 @@ export class ProjectDetailsComponent implements OnInit {
   project$: Observable<Project>;
 
   projectTags$: Observable<Tag[]>;
-  projectModules$: Observable<Module[]>;
-
-  isTypeBA: boolean;
-  isTypeMA: boolean;
-  isTypePP: boolean;
+  projectModules: ModuleType[];
 
   constructor(
     private keycloakService: KeycloakService,
     private projectService: ProjectService,
+    private tagService: TagService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
@@ -54,23 +53,16 @@ export class ProjectDetailsComponent implements OnInit {
 
     this.projectID = this.route.snapshot.paramMap.get('id');
 
-    this.project$ = this.projectService.get(this.projectID);
+    this.project$ = this.projectService.getProject(this.projectID);
 
     this.project$.subscribe(project => {
       this.project = project;
 
-      this.projectModules$ = this.project.getModules();
-      this.projectTags$ = this.project.getTags();
-
-      this.containsProjectType('BA').subscribe(result => {
-        this.isTypeBA = result;
-      });
-      this.containsProjectType('MA').subscribe(result => {
-        this.isTypeMA = result;
-      });
-      this.containsProjectType('PP').subscribe(result => {
-        this.isTypePP = result;
-      });
+      this.projectService.getModulesOfProject(project).subscribe(
+        res => (this.projectModules = res),
+        err => console.error(err)
+      );
+      this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
     });
   }
 
@@ -86,7 +78,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.delete(project).subscribe(
+        this.projectService.deleteProject(project).subscribe(
           () => {},
           error => console.error('project service error', error),
           () => this.router.navigateByUrl('/projects')
@@ -101,17 +93,6 @@ export class ProjectDetailsComponent implements OnInit {
       maxHeight: '85vh',
       data: project
     });
-  }
-
-  containsProjectType(search: string) {
-    return this.project.getModules().pipe(
-      map(modules => {
-        return modules.filter(
-          module => module.projectType.toLowerCase() === search.toLowerCase()
-        );
-      }),
-      map(modules => (modules.length >= 1 ? true : false))
-    );
   }
 
   goBack() {

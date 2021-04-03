@@ -7,4 +7,9 @@
   <button (click)="logout()" *ngIf="isLoggedIn" mat-flat-button>
     Ausloggen
   </button>
+
+  <button (click)="profProfile()" *ngIf="isProfessor" mat-flat-button>
+    <mat-icon>account_box</mat-icon>
+    Benutzerprofil
+  </button>
 </div>

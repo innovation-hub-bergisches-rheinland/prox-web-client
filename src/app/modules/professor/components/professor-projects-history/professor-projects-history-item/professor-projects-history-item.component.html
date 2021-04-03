@@ -1,0 +1,21 @@
+<div
+  class="slider-content-item-wrapper"
+  [ngClass]="className"
+  [@translateSlide]="_position"
+  (@translateSlide.start)="onTranslateSlideStart($event)"
+  (@translateSlide.done)="onTranslateSlideEnd($event)"
+>
+  <div class="content-item-wrapper">
+    <mat-card *ngIf="_displayContent">
+      <mat-card-header>
+        <mat-card-title [innerText]="_project.name"></mat-card-title>
+        <mat-card-subtitle
+          [innerText]="_project.supervisorName"
+        ></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerText]="_project.shortDescription"></p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

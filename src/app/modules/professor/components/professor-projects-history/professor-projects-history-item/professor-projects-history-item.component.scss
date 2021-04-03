@@ -1,0 +1,18 @@
+mat-card {
+  background-color: #c4c4c4;
+}
+
+.slider-content-item {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.slider-content-item-active {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

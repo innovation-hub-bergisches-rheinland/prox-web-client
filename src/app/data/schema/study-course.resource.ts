@@ -1,15 +1,9 @@
-import { Observable } from 'rxjs';
-
-import { CustomResource } from './custom-resource.resource';
 import { Module } from './module.resource';
 
-export class StudyCourse extends CustomResource {
+//TODO Refactor to use interface
+export class StudyCourse {
   id: string;
   name: string;
   academicDegree: string;
-  modules: Module[];
-
-  getModules(): Observable<Module[]> {
-    return this.getRelationArray(Module, 'modules');
-  }
+  modules: Module[] | Set<Module>; //TODO use this
 }

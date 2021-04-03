@@ -1,0 +1,122 @@
+<div
+  gdAreas="header header | subtitle subtitle | picture information"
+  gdRows="auto auto auto"
+  gdGap="10px"
+  gdAreas.lt-md="header | subtitle | picture | information"
+  gdRows.lt-md="auto auto auto auto"
+  *ngIf="prof"
+>
+  <div gdArea="header" fxLayoutAlign.lt-md="center center">
+    <h1>
+      {{ prof?.name }}
+    </h1>
+  </div>
+  <div gdArea="subtitle" fxLayoutAlign.lt-md="center center" *ngIf="faculty">
+    <h2>
+      {{ faculty.name }}
+    </h2>
+  </div>
+  <div
+    gdArea="picture"
+    fxLayoutAlign.lt-md="center center"
+    class="prof-image-div"
+    *ngIf="imgUrl"
+  >
+    <img class="profileImage" alt="blank" [src]="imgUrl" width="200" />
+  </div>
+  <div gdArea="information" class="prof-info-div">
+    <div gdAreas="attribute value" gdGap="5px">
+      <div gdArea="attribute" gdRow="1" *ngIf="prof.affiliation">
+        Hochschulzugehörigkeit seit:
+      </div>
+      <div gdArea="attribute" gdRow="2" *ngIf="prof.mainSubject">
+        Lehrgebiet:
+      </div>
+      <div gdArea="attribute" gdRow="3" *ngIf="prof.contactInformation?.room">
+        Standort, Raum:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="4"
+        *ngIf="prof.contactInformation?.consultationHour"
+      >
+        Sprechstunde:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="5"
+        *ngIf="prof.contactInformation?.telephone"
+      >
+        Telefonnummer:
+      </div>
+      <div gdArea="attribute" gdRow="6" *ngIf="prof.contactInformation?.email">
+        E-Mail:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="7"
+        *ngIf="prof.contactInformation?.homepage"
+      >
+        Homepage:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="8"
+        *ngIf="prof.contactInformation?.collegePage"
+      >
+        Personalseite:
+      </div>
+      <div gdArea="value" gdRow="1" gdColumn="2" *ngIf="prof.affiliation">
+        {{ prof.affiliation }}
+      </div>
+      <div gdArea="value" gdRow="2" gdColumn="2" *ngIf="prof.mainSubject">
+        {{ prof.mainSubject }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="3"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.room"
+      >
+        {{ prof.contactInformation.room }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="4"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.consultationHour"
+      >
+        {{ prof.contactInformation.consultationHour }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="5"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.telephone"
+      >
+        {{ prof.contactInformation.telephone }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="6"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.email"
+        [innerHTML]="textProcessor.process(prof.contactInformation.email)"
+      ></div>
+      <div
+        gdArea="value"
+        gdRow="7"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.homepage"
+        [innerHTML]="textProcessor.process(prof.contactInformation.homepage)"
+      ></div>
+      <div
+        gdArea="value"
+        gdRow="8"
+        gdColumn="2"
+        *ngIf="prof.contactInformation?.collegePage"
+        [innerHTML]="textProcessor.process(prof.contactInformation.collegePage)"
+      ></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,140 @@
+@import '~@angular/material/theming';
+@import './theme_variables.scss';
+@import './app/modules/home/pages/home/home.component.mixin.scss';
+@import './app/layout/content-layout/content-layout.component.theming.scss';
+@import './app/modules/professor/pages/professors-item/professors-item.component.theming.scss';
+@import './app/modules/professor/components/professor-vita/professor-vita.component.theming.scss';
+@import './app/modules/professor/components/professor-research/professor-research.component.theming.scss';
+@import './app/modules/professor/components/professor-projects-history/professor-projects-history.component.theming.scss';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Angular Material Typography
+$prox-typography: mat-typography-config(
+  $font-family: 'Roboto',
+  $headline: mat-typography-level(24px, 38px, 700),
+  $title: mat-typography-level(18px, 38px, 700),
+  $subheading-2: mat-typography-level(18px, 38px, 400),
+  $body-1: mat-typography-level(14px, 24px, 400)
+);
+
+/* This is the first theme which is used in general for 
+ * backgrounds and design elements as well as  headings */
+$prox-app-theme-1: mat-light-theme(
+  (
+    color: (
+      primary: $prox-app-primary-1,
+      accent: $prox-app-accent-1,
+      warn: $prox-app-warn-1
+    ),
+    typography: $prox-typography
+  )
+);
+
+/* Second theme mainly used for interaction elements such as 
+ * buttons */
+$prox-app-theme-2: mat-light-theme(
+  (
+    color: (
+      primary: $prox-app-primary-2,
+      accent: $prox-app-accent-2,
+      warn: $prox-app-warn-2
+    ),
+    typography: $prox-typography
+  )
+);
+
+/* Third theme mainly used for chips as of now */
+$prox-app-theme-3: mat-light-theme(
+  (
+    color: (
+      primary: $prox-app-primary-3,
+      accent: $prox-app-accent-3,
+      warn: $prox-app-warn-3
+    ),
+    typography: $prox-typography
+  )
+);
+
+/* Special theme used to provide material-like features
+ * for non-material elements.
+ * It contains all three primary colors from the themes above
+ * which can be queried in the stylesheet.
+ * Note that this theme could be not appliable for angular material
+ * components or only the primary, accent, warn color is used.
+ */
+$prox-app-theme-4: map-merge(
+  $prox-app-theme-1,
+  (
+    prox-primary-color-1: $prox-app-primary-1,
+    prox-accent-color-1: $prox-app-accent-1,
+    prox-primary-color-2: $prox-app-primary-2,
+    prox-accent-color-2: $prox-app-accent-2,
+    prox-primary-color-3: $prox-app-primary-3,
+    prox-accent-color-3: $prox-app-accent-3
+  )
+);
+
+/** Used to set the color of mat-cards subtitle */
+@mixin mat-card-subtitle-color($config-or-theme) {
+  // Extract the color configuration in case a theme has been passed.
+  // This allows consumers to either pass a theme object or a color configuration.
+  $config: mat-get-color-config($config-or-theme);
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($config, primary);
+  $accent: map-get($config, accent);
+
+  .mat-card-subtitle {
+    color: mat-color($primary);
+  }
+}
+
+@mixin mat-card-subtitle-theme($theme) {
+  // Extracts the color configurations from the theme.
+  $color: mat-get-color-config($theme);
+
+  // Do not generate styles if configurations for individual theming
+  // systems have been explicitly set to `null`.
+  @if $color != null {
+    @include mat-card-subtitle-color($color);
+  }
+}
+
+/* Mixin used to set the color schmes of frequently used text
+ * styles like hyperlink and headings */
+@mixin app-text-color-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  a {
+    color: mat-color($primary);
+  }
+
+  h1 {
+    color: mat-color($primary);
+  }
+
+  h2 {
+    color: mat-color($primary);
+  }
+}
+
+// Inject themes into angular components
+@include mat-core($prox-typography);
+@include mat-core-theme($prox-app-theme-1);
+@include mat-button-theme($prox-app-theme-2);
+@include mat-chips-theme($prox-app-theme-3);
+@include mat-icon-theme($prox-app-theme-2);
+@include mat-card-subtitle-theme($prox-app-theme-1);
+
+// Inject themes into custom components
+@include professor-item-theme($prox-app-theme-4);
+@include professor-vita-theme($prox-app-theme-4);
+@include professor-research-theme($prox-app-theme-3);
+@include professor-projects-history-theme($prox-app-theme-2);
+@include content-layout-theme($prox-app-theme-2);
+
+// Set global styles by injecting themes
+@include app-text-color-theme($prox-app-theme-1);

@@ -1,0 +1,20 @@
+@mixin professor-item-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $prox-primary-color-1: map-get($theme, prox-primary-color-1);
+  $prox-accent-color-1: map-get($theme, prox-accent-color-1);
+  $prox-primary-color-2: map-get($theme, prox-primary-color-2);
+  $prox-accent-color-2: map-get($theme, prox-accent-color-2);
+  $prox-primary-color-3: map-get($theme, prox-primary-color-3);
+  $prox-accent-color-3: map-get($theme, prox-accent-color-3);
+
+  .professor-item-wrapper {
+    .research li:before {
+      border-color: transparent mat-color($prox-primary-color-1);
+    }
+    .projects li:before {
+      border-color: transparent mat-color($prox-primary-color-2);
+    }
+  }
+}

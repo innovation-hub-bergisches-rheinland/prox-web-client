@@ -1,10 +1,9 @@
-import { Observable } from 'rxjs';
-
-import { CustomResource } from './custom-resource.resource';
 import { Module } from './module.resource';
+import { ModuleType } from './openapi/project-service/moduleType';
 import { Tag } from './tag.resource';
 
-export class Project extends CustomResource {
+//TODO Refactor to use interface
+export class Project {
   id: string;
   name: string;
   description: string;
@@ -14,22 +13,6 @@ export class Project extends CustomResource {
   creatorID: string;
   creatorName: string;
   supervisorName: string;
-  tagCollection: Tag[];
-  modules: Module[];
-
-  setModules(modules: Module[]): Observable<any> {
-    return this.setRelationArray('modules', modules);
-  }
-
-  setTags(tags: Tag[]): Observable<any> {
-    return this.setRelationArray('tagCollection', tags);
-  }
-
-  getModules(): Observable<Module[]> {
-    return this.getRelationArray(Module, 'modules');
-  }
-
-  getTags(): Observable<Tag[]> {
-    return this.getRelationArray(Tag, 'tagCollection');
-  }
+  tagCollection: Tag[]; //TODO use this
+  modules: ModuleType[]; //TODO use this
 }

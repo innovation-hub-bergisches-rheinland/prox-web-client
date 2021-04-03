@@ -1,5 +1,3 @@
-// Top - Right - Bottom - Left
-
 .mat-sidenav {
   width: 300px;
   box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2),
@@ -43,8 +41,6 @@
   padding-left: 20px;
   height: 100%;
   width: 100%;
-  font-size: 16px;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .sidebar-icon {
@@ -52,7 +48,7 @@
 }
 
 .header-line {
-  background-color: var(--th-red);
+  //background-color: var(--th-red);
   height: 3px;
 }
 
@@ -68,8 +64,6 @@
 
 .header-main span {
   position: absolute;
-  font-family: 'Lato', sans-serif;
-  font-size: 18px;
   //top: 18px;
   top: 9px;
   left: 50%;

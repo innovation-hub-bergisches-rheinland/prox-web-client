@@ -11,6 +11,8 @@ import { UserComponent } from '@layout/user/user.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BASE_PATH } from '@data/service/openapi/variables';
+import { environment } from '@env';
 
 @NgModule({
   declarations: [
@@ -25,10 +27,14 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     CoreModule,
     SharedModule,
-
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: BASE_PATH,
+      useValue: environment.apiUrl
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

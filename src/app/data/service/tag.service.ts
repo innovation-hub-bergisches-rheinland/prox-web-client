@@ -1,33 +1,56 @@
 import { Injectable, Injector } from '@angular/core';
-
-import { RestService } from 'angular4-hal';
 import { Observable } from 'rxjs';
 
 import { Tag } from '@data/schema/tag.resource';
+import { map } from 'rxjs/operators';
+import { TagEntityService } from './openapi/tag-service/tagEntity.service';
+import { TagCollectionEntityService } from './openapi/tag-service/tagCollectionEntity.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TagService extends RestService<Tag> {
-  constructor(injector: Injector) {
-    super(Tag, 'tags', injector);
+export class TagService {
+  constructor(
+    injector: Injector,
+    private tagEntityService: TagEntityService,
+    private tagCollectionEntityService: TagCollectionEntityService
+  ) {}
+
+  createTag(tag: Tag): Observable<Tag | any> {
+    return this.tagEntityService
+      .saveTagUsingPOST(tag)
+      .pipe(map(t => Object.assign(new Tag(), t)));
   }
 
   findByTagName(
     tagName: string,
     exactMatch: boolean = true
   ): Observable<Tag[]> {
-    const options = { params: [{ key: 'tagName', value: tagName }] };
     if (exactMatch) {
-      return this.search('findByTagName', options);
+      return this.tagEntityService
+        .findByTagNameTagNameIgnoreCaseTagUsingGET(tagName)
+        .pipe(
+          map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2)))
+        );
     } else {
-      return this.search('findByTagNameContaining', options);
+      return this.tagEntityService
+        .findByTagNameTagNameContainingIgnoreCaseTagUsingGET(tagName)
+        .pipe(
+          map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2)))
+        );
     }
   }
 
   getRecommendations(tags: Tag[]): Observable<Tag[]> {
     const tagIds = tags.map(tag => tag.id).join(',');
-    const options = { params: [{ key: 'tagIds', value: tagIds }] };
-    return this.search('tagRecommendations', options);
+    return this.tagEntityService
+      .tagRecommendationsTagUsingGET(tagIds)
+      .pipe(map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2))));
+  }
+
+  getAllTagsOfProject(id: any): Observable<Tag[]> {
+    return this.tagCollectionEntityService
+      .tagCollectionTagsUsingGET(id)
+      .pipe(map(e => e._embedded.tags.map(e2 => Object.assign(new Tag(), e2))));
   }
 }

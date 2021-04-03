@@ -5,6 +5,7 @@
         *ngIf="project.status == 'VERFÜGBAR'"
         matTooltip="Verfügbar"
         class="status-icon"
+        color="primary"
       >
         lock_open
       </mat-icon>
@@ -13,6 +14,7 @@
         *ngIf="project.status == 'ABGESCHLOSSEN'"
         matTooltip="Abgeschlossen"
         class="status-icon"
+        color="primary"
       >
         lock
       </mat-icon>
@@ -21,6 +23,7 @@
         *ngIf="project.status == 'LAUFEND'"
         matTooltip="Laufend"
         class="status-icon"
+        color="primary"
       >
         directions_run
       </mat-icon>
@@ -72,11 +75,9 @@
       <div class="card-container">
         <mat-card-subtitle>Projekttypen:</mat-card-subtitle>
 
-        <p *ngIf="isTypeBA"><b>(BA)</b> Bachelorarbeit</p>
-
-        <p *ngIf="isTypeMA"><b>(MA)</b> Masterarbeit</p>
-
-        <p *ngIf="isTypePP"><b>(PP)</b> Praxisprojekt</p>
+        <p *ngFor="let module of projectModules">
+          <b>({{ module.key }})</b> {{ module.name }}
+        </p>
       </div>
     </div>
 
@@ -102,6 +103,7 @@
   <mat-card-actions>
     <button
       mat-raised-button
+      color="primary"
       class="project-button"
       routerLink="/projects/{{ project.id }}"
       matTooltip="Weiterführende Projektdetails"
@@ -115,6 +117,7 @@
       class="no-hover"
       id="project-remove-button"
       mat-icon-button
+      color="warn"
     >
       <mat-icon>delete_forever</mat-icon>
     </button>

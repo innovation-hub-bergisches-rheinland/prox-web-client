@@ -1,0 +1,24 @@
+@mixin professor-vita-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $prox-primary-color-1: map-get($theme, prox-primary-color-1);
+  $prox-accent-color-1: map-get($theme, prox-accent-color-1);
+  $prox-primary-color-2: map-get($theme, prox-primary-color-2);
+  $prox-accent-color-2: map-get($theme, prox-accent-color-2);
+  $prox-primary-color-3: map-get($theme, prox-primary-color-3);
+  $prox-accent-color-3: map-get($theme, prox-accent-color-3);
+
+  .professor-vita {
+    h1 {
+      color: mat-contrast($prox-primary-color-1, 400);
+    }
+    color: mat-contrast($prox-primary-color-1, 400);
+    background: linear-gradient(
+        274.88deg,
+        mat-color($prox-primary-color-3) 13.12%,
+        rgba(255, 255, 255, 0) 86.52%
+      ),
+      mat-color($prox-primary-color-2);
+  }
+}

@@ -1,6 +1,5 @@
-import { CustomResource } from './custom-resource.resource';
-
-export class Module extends CustomResource {
+//TODO Refactor to use interface
+export class Module {
   id: string;
   name: string;
   description: string;

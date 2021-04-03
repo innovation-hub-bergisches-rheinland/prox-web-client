@@ -1,6 +1,5 @@
-import { CustomResource } from './custom-resource.resource';
-
-export class Tag extends CustomResource {
+//TODO Refactor to use interface
+export class Tag {
   id: string;
   tagName: string;
 }

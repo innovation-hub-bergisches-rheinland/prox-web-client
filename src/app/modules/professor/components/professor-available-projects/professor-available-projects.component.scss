@@ -1,0 +1,25 @@
+h1 {
+  text-align: center;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.mat-cell {
+  word-wrap: break-word;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.mat-column-name {
+  word-break: break-all;
+  width: 80%;
+}
+
+.mat-column-type {
+  width: 20%;
+  min-width: 20ch;
+}

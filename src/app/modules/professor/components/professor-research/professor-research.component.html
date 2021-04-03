@@ -1,0 +1,11 @@
+<div
+  class="prof-research-div"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  *ngIf="researchSubjects && researchSubjects.length"
+>
+  <h1>Lehr- und Forschungsgebiete</h1>
+  <ul>
+    <li *ngFor="let subject of researchSubjects">{{ subject.subject }}</li>
+  </ul>
+</div>

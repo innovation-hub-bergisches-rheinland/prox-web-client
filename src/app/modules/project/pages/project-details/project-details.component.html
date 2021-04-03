@@ -4,6 +4,7 @@
       (click)="goBack()"
       matTooltip="Zurück zur Projektübersicht"
       mat-icon-button
+      color="primary"
     >
       <mat-icon class="back-icon">arrow_back</mat-icon>
     </button>
@@ -12,6 +13,7 @@
       *ngIf="project.status == 'VERFÜGBAR'"
       matTooltip="Verfügbar"
       class="status-icon"
+      color="primary"
     >
       lock_open
     </mat-icon>
@@ -20,6 +22,7 @@
       *ngIf="project.status == 'ABGESCHLOSSEN'"
       matTooltip="Abgeschlossen"
       class="status-icon"
+      color="primary"
     >
       lock
     </mat-icon>
@@ -28,6 +31,7 @@
       *ngIf="project.status == 'LAUFEND'"
       matTooltip="Laufend"
       class="status-icon"
+      color="primary"
     >
       directions_run
     </mat-icon>
@@ -49,17 +53,13 @@
       <mat-divider></mat-divider>
 
       <mat-card-content>
-        <mat-card-subtitle>
-          Kurze Projektbeschreibung:
-        </mat-card-subtitle>
+        <mat-card-subtitle> Kurze Projektbeschreibung: </mat-card-subtitle>
 
         <div>
           <p [innerHTML]="textProcessor.process(project.shortDescription)"></p>
         </div>
 
-        <mat-card-subtitle>
-          Projektbeschreibung:
-        </mat-card-subtitle>
+        <mat-card-subtitle> Projektbeschreibung: </mat-card-subtitle>
 
         <div>
           <p [innerHTML]="textProcessor.process(project.description)"></p>
@@ -67,9 +67,7 @@
 
         <div class="card-container-wrapper">
           <div class="card-container">
-            <mat-card-subtitle>
-              Teilnahmevoraussetzungen:
-            </mat-card-subtitle>
+            <mat-card-subtitle> Teilnahmevoraussetzungen: </mat-card-subtitle>
 
             <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
 
@@ -77,15 +75,11 @@
           </div>
 
           <div class="card-container">
-            <mat-card-subtitle>
-              Projekttypen:
-            </mat-card-subtitle>
+            <mat-card-subtitle> Projekttypen: </mat-card-subtitle>
 
-            <p *ngIf="isTypeBA"><b>(BA)</b> Bachelorarbeit</p>
-
-            <p *ngIf="isTypeMA"><b>(MA)</b> Masterarbeit</p>
-
-            <p *ngIf="isTypePP"><b>(PP)</b> Praxisprojekt</p>
+            <p *ngFor="let module of projectModules">
+              <strong>({{ module.key }})</strong> {{ module.name }}
+            </p>
           </div>
         </div>
 
@@ -116,6 +110,7 @@
           class="no-hover"
           id="project-remove-button"
           mat-icon-button
+          color="warn"
         >
           <mat-icon>delete_forever</mat-icon>
         </button>

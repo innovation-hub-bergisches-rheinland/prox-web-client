@@ -1,5 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -20,16 +21,18 @@ import {
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger
+} from '@angular/material/autocomplete';
+import {
   MatChipInputEvent,
-  MatChipSelectionChange,
-  MatSnackBar
-} from '@angular/material';
+  MatChipSelectionChange
+} from '@angular/material/chips';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
   forkJoin,
   interval,
   Observable,
-  Observer,
   of,
   Subscription,
   throwError
@@ -45,7 +48,7 @@ import {
   toArray,
   catchError
 } from 'rxjs/operators';
-import * as _ from 'underscore';
+import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -53,17 +56,22 @@ import { Project } from '@data/schema/project.resource';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { StudyCourse } from '@data/schema/study-course.resource';
-import { Module } from '@data/schema/module.resource';
 
-import { StudyCourseModuleSelectionModel } from '../study-course-module-selection/study-course-module-selection.component';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
+import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSort } from '@angular/material/sort';
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
   styleUrls: ['./project-editor.component.scss']
 })
-export class ProjectEditorComponent implements OnInit, OnDestroy {
+export class ProjectEditorComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   private STORAGE_KEY = 'project-editor-state';
 
   @Input() project?: Project;
@@ -80,11 +88,45 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
+  @ViewChild(MatAutocompleteTrigger)
+  tagAutocompleteTrigger: MatAutocompleteTrigger;
 
   autoSave: Subscription;
   userID: string;
   fullname: string;
 
+  private _modules: ModuleType[] = [];
+  studyPrograms: StudyProgram[] = [];
+  dataSource = new MatTableDataSource<ModuleType>(this.modules);
+  displayedColumns: string[] = ['select', 'name'];
+  moduleSelection = new SelectionModel<ModuleType>(true);
+  studyProgramSelection = new SelectionModel<StudyProgram>(true);
+
+  get moduleSelectors(): FormArray {
+    return this.projectFormControl.get('moduleSelectors') as FormArray;
+  }
+
+  set modules(modules: ModuleType[]) {
+    this._modules = modules;
+  }
+
+  get modules(): ModuleType[] {
+    return this._modules;
+  }
+
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
+
+  /**
+   * Constructor
+   * @param projectService Service for prox-project-service
+   * @param tagService Service for prox-tag-service
+   * @param formBuilder FormBuilder to build a form out of editors input elements
+   * @param snackBar MatSnackBar for errors
+   * @param keycloakService Service for Keycloak
+   * @param storage Service for local Storage
+   */
   constructor(
     private projectService: ProjectService,
     private tagService: TagService,
@@ -94,12 +136,22 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
 
+  ngAfterViewInit(): void {
+    this.dataSource.data = this.modules;
+  }
+
+  /**
+   * Initialize Angular Component
+   */
   async ngOnInit() {
+    //If user is logged in set its ID and Full Name
     if (await this.keycloakService.isLoggedIn()) {
       this.userID = this.keycloakService.getKeycloakInstance().subject;
       const userProfile = await this.keycloakService.loadUserProfile();
       this.fullname = `${userProfile.firstName} ${userProfile.lastName}`;
     }
+
+    //Build the form
     this.projectFormControl = this.formBuilder.group({
       name: ['', [Validators.required]],
       shortDescription: ['', [Validators.required]],
@@ -107,9 +159,27 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       description: [''],
       supervisorName: ['', [Validators.required]],
       status: ['', [Validators.required]],
-      studyCoursesModuleSelectors: this.formBuilder.array([]),
       tagInput: []
     });
+
+    forkJoin({
+      studyPrograms: this.projectService.getAllStudyPrograms(),
+      moduleTypes: this.projectService.getAllModuleTypes()
+    }).subscribe(
+      res => {
+        this.studyPrograms.push(...res.studyPrograms);
+        this.studyProgramSelection.select(...res.studyPrograms);
+        this.modules.push(...res.moduleTypes);
+      },
+      err => console.error(err),
+      () => {
+        this.dataSource._updateChangeSubscription();
+        //State can only be loaded this observable is completed as the form controls are initialized here
+        if (!this.project) {
+          this.tryLoadState();
+        }
+      }
+    );
 
     this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
       filter(value => (value ? value.length >= 2 : false)),
@@ -129,29 +199,21 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.addStudyCourseModuleSelector();
-
+    //If the component has project as input try load it's values into the editor
     if (this.project) {
       this.clearStorage();
       this.fillInExistingProjectValues();
     } else {
       //Default value for supervisor when new project should be created
       this.projectFormControl.controls.supervisorName.setValue(this.fullname);
-      this.tryLoadState();
       this.enableAutosave();
     }
   }
 
-  ngAfterViewChecked() {
-    /*
-     * When supvisorname is set programmatically in ngOnInit() it is not shown in the view so it is necessary to update the Value and validity
-     * Possibly obsolete with Angular ~8
-     */
-    if (this.projectFormControl) {
-      this.projectFormControl.updateValueAndValidity();
-    }
-  }
-
+  /**
+   * Initialize autosave
+   * TODO refactor
+   */
   enableAutosave() {
     const source = interval(5000);
     this.autoSave = source.subscribe(() => {
@@ -165,114 +227,82 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * save the current state into local storage
+   */
   saveState() {
     const state = this.projectFormControl.getRawValue();
     state.tags = this.tags;
     this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
   }
 
+  /**
+   * load the state from local storage and set form control values
+   */
   tryLoadState() {
     const loadedData = this.storage.get(this.STORAGE_KEY);
     if (loadedData) {
       const state = JSON.parse(loadedData);
 
-      const modules = state.studyCoursesModuleSelectors;
-
       this.tags = state.tags;
       this.updateTagRecommendations();
-
       delete state.tags;
-      delete state.studyCoursesModuleSelectors;
 
       this.projectFormControl.patchValue(state);
-
-      const createStudyCourse = (data: any): StudyCourse => {
-        const studyCourse = new StudyCourse();
-        studyCourse.id = data.id;
-        studyCourse.name = data.name;
-        studyCourse.academicDegree = data.academicDegree;
-        studyCourse._links = data._links;
-        return studyCourse;
-      };
-
-      const createModuleModel = (data: any): Module => {
-        const mod = new Module();
-        mod.id = data.id;
-        mod.name = data.name;
-        mod.projectType = data.projectType;
-        mod._links = data._links;
-        return mod;
-      };
-
-      const createModuleSelectorModel = (
-        data: any
-      ): StudyCourseModuleSelectionModel => {
-        const selectedModules: Module[] = [];
-        for (const selectedModule of data.selectedModules) {
-          selectedModules.push(createModuleModel(selectedModule));
-        }
-        return new StudyCourseModuleSelectionModel(
-          createStudyCourse(data.studyCourse),
-          selectedModules
-        );
-      };
-
-      if (modules[0] != null) {
-        if (modules.length >= 1) {
-          this.moduleSelectors.controls[0].setValue(
-            createModuleSelectorModel(modules[0])
-          );
-        }
-
-        for (let index = 1; index < modules.length; index++) {
-          this.addStudyCourseModuleSelector();
-          this.moduleSelectors.controls[index].setValue(
-            createModuleSelectorModel(modules[index])
-          );
-        }
-      }
     }
   }
 
+  /**
+   * Removes the data from local storage
+   */
   clearStorage() {
     this.storage.remove(this.STORAGE_KEY);
   }
 
-  get moduleSelectors(): FormArray {
-    return this.projectFormControl.get(
-      'studyCoursesModuleSelectors'
-    ) as FormArray;
-  }
-
-  addStudyCourseModuleSelector() {
-    this.moduleSelectors.push(new FormControl());
-  }
-
-  removeStudyCourseModuleSelector(index: number) {
-    this.moduleSelectors.removeAt(index);
-    if (this.moduleSelectors.length < 1) {
-      this.addStudyCourseModuleSelector();
-    }
-  }
-
-  addTag(event: MatChipInputEvent) {
+  /**
+   * Add the tag which is created or selected from form control to project data
+   * @param event event emittet from matChipInputTokenEnd
+   */
+  addTagEvent(event: MatChipInputEvent) {
+    /**
+     * Workaround: https://stackoverflow.com/a/52814543/4567795
+     * When an option from the autocompletion is selected the MatChipInputEvent
+     * is somehow fired before the MatAutocompleteSelectedEvent so it is necessary
+     * to check whether the panel is open
+     */
     if (!this.tagAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
+      const value = event.value.trim();
 
-      if ((value || '').trim()) {
+      //If a valid value is submitted, save tag to data
+      if (value) {
         const tag = new Tag();
-        tag.tagName = value.trim();
-        this.tags.push(tag);
-        this.updateTagRecommendations();
+        tag.tagName = value;
+        this.addTag(tag);
       }
 
-      if (input) {
-        input.value = '';
-      }
+      //Remove input from field
+      event.input.value = '';
+    } else {
+      this.tagAutocompleteTrigger.closePanel();
     }
   }
 
+  /**
+   * function which adds a tag to project data. The tag should be only added
+   * if it is unique in the list
+   * @param tag tag to add to project data
+   */
+  private addTag(tag: Tag) {
+    if (this.tags.filter(t => t.tagName === tag.tagName).length === 0) {
+      this.tags.push(tag);
+      this.updateTagRecommendations();
+    }
+  }
+
+  /**
+   * Remove tag from project data
+   * @param tag Tag to remove
+   */
   removeTag(tag: Tag) {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
@@ -281,39 +311,48 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayTagName(tag?: Tag): string | undefined {
-    return tag ? tag.tagName : undefined;
-  }
-
+  /**
+   * Action to perform when a recommended tag is selected
+   * @param tag selected tag from recommendations
+   * @param event emitted event
+   */
   recommendedTagSelected(tag: Tag, event: MatChipSelectionChange) {
     if (event.isUserInput) {
       this.addRecommendedTag(tag);
     }
   }
 
-  addRecommendedTag(tag: Tag) {
-    this.tags.push(tag);
+  /**
+   * Add the recommended tag to project data
+   * @param tag Recommended tag to add
+   */
+  private addRecommendedTag(tag: Tag) {
+    this.addTag(tag);
+
+    //Remove added tag from recommendations - necessary for the case when the tag service can not load recommendations
     const index = this.recommendedTags.indexOf(tag);
     if (index !== -1) {
       this.recommendedTags.splice(index, 1);
     }
-    this.tagService.getRecommendations(this.tags).subscribe(
-      tags => {
-        this.recommendedTags = tags;
-      },
-      () => {
-        this.openErrorSnackBar(
-          'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-        );
-      }
-    );
+
+    //Recalculate recommendations
+    this.updateTagRecommendations();
   }
 
-  updateTagRecommendations() {
-    const filteredTags = this.tags.filter(tag => tag.id != null);
+  /**
+   * Update the tag recommendations based on currently selected tags
+   */
+  private updateTagRecommendations() {
+    const filteredTags = this.tags.filter(tag => tag.id); //Must have a id
     this.tagService.getRecommendations(filteredTags).subscribe(
       tags => {
-        this.recommendedTags = tags;
+        /**
+         * Filter out tags which are already in the input field
+         * This occures when the user manually inputs a tag which already exists in the backend.
+         */
+        this.recommendedTags = tags.filter(
+          t => this.tags.filter(t1 => t1.tagName === t.tagName).length === 0
+        );
       },
       () => {
         this.openErrorSnackBar(
@@ -323,65 +362,20 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Add selected tag from autocompletion to project data
+   * @param event event emitted when tag from autocompletion is selected
+   */
   selectedTag(event: MatAutocompleteSelectedEvent): void {
-    if (event.option.value instanceof Tag) {
-      this.tags.push(event.option.value);
-      this.updateTagRecommendations();
-    }
+    const selectedTag = event.option.value as Tag;
+    this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
     this.projectFormControl.controls.tagInput.setValue(null);
   }
 
-  private getAggregatedSelectedModules() {
-    return _.chain(this.moduleSelectors.getRawValue())
-      .pluck('selectedModules')
-      .flatten()
-      .uniq(x => x.id)
-      .value();
-  }
-
-  private prepareStudyCourseSelectorData(
-    modules: Module[]
-  ): Observable<StudyCourseModuleSelectionModel[]> {
-    return Observable.create(
-      (observer: Observer<StudyCourseModuleSelectionModel[]>) => {
-        const observables = [];
-
-        for (const module of modules) {
-          observables.push(
-            module.getRelation(StudyCourse, 'studyCourse').pipe(
-              map(course => {
-                return { module, studyCourse: course };
-              })
-            )
-          );
-        }
-
-        forkJoin(observables).subscribe(
-          success => {
-            const result = _.chain(success)
-              .groupBy(element => element.studyCourse.id)
-              .map(element => element)
-              .map(element => {
-                return new StudyCourseModuleSelectionModel(
-                  element[0].studyCourse,
-                  element.map(x => x.module)
-                );
-              })
-              .value();
-            observer.next(result);
-            observer.complete();
-          },
-          error => {
-            this.showSubmitInfo('Fehler beim parsen der Module');
-            console.error('module parsing error', error);
-            observer.complete();
-          }
-        );
-      }
-    );
-  }
-
+  /**
+   * Procedural method to set input element values to project values
+   */
   private fillInExistingProjectValues() {
     this.projectFormControl.controls.name.setValue(this.project.name);
     this.projectFormControl.controls.shortDescription.setValue(
@@ -398,25 +392,29 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
     this.projectFormControl.controls.status.setValue(this.project.status);
 
-    this.project.getModules().subscribe(modules =>
-      this.prepareStudyCourseSelectorData(modules).subscribe(success => {
-        if (success.length >= 1) {
-          this.moduleSelectors.controls[0].setValue(success[0]);
-        }
-        for (let index = 1; index < success.length; index++) {
-          this.addStudyCourseModuleSelector();
-          this.moduleSelectors.controls[index].setValue(success[index]);
-        }
-      })
-    );
+    this.projectService.getModulesOfProject(this.project).subscribe(modules => {
+      modules.forEach(module =>
+        this.moduleSelectors.controls[module.id].setValue(true)
+      );
+    });
 
-    this.project.getTags().subscribe(tags => {
+    this.projectService
+      .getModulesOfProject(this.project)
+      .subscribe(modules => this.moduleSelection.select(...modules));
+
+    this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
       this.tags = tags;
       this.updateTagRecommendations();
     });
   }
 
-  private createTags(tags: Tag[]): any {
+  /**
+   * This function creates non-existent tags in backend and will
+   * retrieve tags which already exist and can be used to prevent collisions
+   * @param tags tags which should be created
+   * @returns created and retrieved tags
+   */
+  private createTags(tags: Tag[]): Observable<Tag[]> {
     return of(...tags).pipe(
       mergeMap(tag =>
         this.tagService.findByTagName(tag.tagName).pipe(
@@ -429,12 +427,18 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
         if (x.foundTags.length >= 1) {
           return of(x.foundTags[0]);
         }
-        return this.tagService.create(x.tag);
+        return this.tagService.createTag(x.tag);
       }),
       toArray()
     );
   }
 
+  /**
+   * Function which creates a valid project resource based on the given input params
+   * It mainly trims strings and sets possible default values
+   * @param project project to parse
+   * @returns valid project resource
+   */
   private createProjectResource(project: Project): Project {
     let projectResource: Project;
     if (this.project) {
@@ -461,24 +465,20 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     return projectResource;
   }
 
-  private createProject(project: Project, modules: Module[], tags: Tag[]) {
+  /**
+   * Creates a new project in backend
+   * @param project project to create
+   * @param modules moduleTypes of project
+   * @param tags tags of project
+   */
+  private createProject(project: Project, modules: ModuleType[], tags: Tag[]) {
     const newProject = this.createProjectResource(project);
 
-    // Create Project
-    this.projectService.create(newProject).subscribe(
+    this.projectService.createProject(newProject, tags, modules).subscribe(
       () => {
-        newProject.setTags(tags).subscribe();
-        newProject.setModules(modules).subscribe(
-          () => {
-            this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
-            this.clearStorage();
-            this.projectSaved.emit(newProject);
-          },
-          error => {
-            this.showSubmitInfo('Fehler beim Verknüpfen der Module');
-            console.error('project service error', error);
-          }
-        );
+        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
+        this.clearStorage();
+        this.projectSaved.emit(newProject);
       },
       error => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
@@ -488,23 +488,19 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateProject(project: Project, modules: Module[], tags: Tag[]) {
+  /**
+   * Updates a existing project in backend
+   * @param project project to update
+   * @param modules moduleTypes of project
+   * @param tags tags of project
+   */
+  private updateProject(project: Project, modules: ModuleType[], tags: Tag[]) {
     this.project = this.createProjectResource(project);
 
-    // Update Project
-    this.projectService.update(this.project).subscribe(
+    this.projectService.updateProject(this.project, tags, modules).subscribe(
       () => {
-        this.project.setTags(tags).subscribe();
-        this.project.setModules(modules).subscribe(
-          () => {
-            this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
-            this.projectSaved.emit(this.project);
-          },
-          error => {
-            this.showSubmitInfo('Fehler beim Verknüpfen der Module');
-            console.error('project service error', error);
-          }
-        );
+        this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
+        this.projectSaved.emit(this.project);
       },
       error => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
@@ -514,15 +510,19 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Form Submit method
+   * @param project project which is submitted
+   */
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
-    const modules = this.getAggregatedSelectedModules();
+    const modules = this.moduleSelection.selected;
     this.createTags(this.tags).subscribe(tags => {
       if (this.project) {
-        this.updateProject(project, modules, tags as Tag[]);
+        this.updateProject(project, modules, tags);
       } else {
-        this.createProject(project, modules, tags as Tag[]);
+        this.createProject(project, modules, tags);
       }
     });
   }
@@ -533,12 +533,53 @@ export class ProjectEditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  openErrorSnackBar(message: string) {
+  private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
   }
 
   cancelButtonClicked() {
     this.cancel.emit();
     this.clearStorage();
+  }
+
+  /**
+   * Called when the studyPrograms value is changed
+   * @param event Event emitted
+   * @param studyProgram studyProgram
+   */
+  toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
+    //TODO Possible refactor -> maybe a template binding?
+    if (event.checked) {
+      this.studyProgramSelection.select(studyProgram);
+    } else {
+      this.studyProgramSelection.deselect(studyProgram);
+    }
+
+    //TODO Refactor: Make use of debounceTime to reduce network traffic
+    if (this.studyProgramSelection.selected.length > 0) {
+      this.projectService
+        .getAllModuleTypesOfStudyprograms(
+          this.studyProgramSelection.selected.map(sp => sp.id)
+        )
+        .subscribe(res => {
+          //Elements to add
+          const diffA = _.differenceWith(res, this.modules, _.isEqual);
+
+          //Elements to remove
+          const diffB = _.differenceWith(this.modules, res, _.isEqual);
+
+          //Add elements
+          this.modules.push(...diffA);
+
+          //Pull elements to remove out - this mutates this.modules
+          _.pullAllWith(this.modules, diffB, _.isEqual);
+
+          this.dataSource.data = this.modules;
+          this.dataSource._updateChangeSubscription();
+        });
+    } else {
+      this.dataSource.data = this.modules = [];
+      this.dataSource._updateChangeSubscription();
+    }
   }
 }
