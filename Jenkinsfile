@@ -5,6 +5,7 @@ node {
     def repository = 'docker.nexus.archi-lab.io/ihbr'
     def image
     def tag
+    def appenv
 
     def server
     def certs
@@ -12,6 +13,7 @@ node {
 
     stage('Set dev Variables') {
         if (env.JOB_BASE_NAME == 'prox-web-client-dev') {
+            appenv = 'dev'
             server = 'tcp://10.10.10.42:2376'
             certs = 'prox-dev-certs'
             tagPrefix = '-dev'
@@ -20,6 +22,7 @@ node {
 
     stage('Set master Variables') {
         if (env.JOB_BASE_NAME == 'prox-web-client') {
+            appenv = 'production'
             server = 'tcp://10.10.10.41:2376'
             certs = 'prox-prod-certs'
             tagPrefix = ''
@@ -39,7 +42,7 @@ node {
 
     stage('Build') {
         docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-            sh "docker build -t ${repository}/${image} -f docker/Dockerfile ."
+            sh "docker build --build-arg APP_ENV=${appenv} -t ${repository}/${image} -f docker/Dockerfile ."
             sh "docker tag ${repository}/${image} ${repository}/${image}:${tag}"
             sh "docker push ${repository}/${image}:${tag}"
         }

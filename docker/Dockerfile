@@ -4,6 +4,7 @@
 
 # base image
 FROM node:15.1.0-stretch as builder
+ARG APP_ENV=production
 
 # install chrome for protractor tests
 #RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -26,12 +27,11 @@ RUN npm install -g @angular/cli@8.3.20 --unsafe
 # add app
 COPY . /usr/src/app
 
-ARG APP_ENV=--prod
 # run tests
 #RUN ng test --watch=false
 
 # generate build
-RUN ng build ${APP_ENV}
+RUN ng build --configuration=${APP_ENV}
 
 ##################
 ### production ###
