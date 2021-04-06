@@ -128,6 +128,10 @@ $prox-app-theme-4: map-merge(
 @include mat-chips-theme($prox-app-theme-3);
 @include mat-icon-theme($prox-app-theme-2);
 @include mat-card-subtitle-theme($prox-app-theme-1);
+@include mat-checkbox-theme($prox-app-theme-1);
+@include mat-pseudo-checkbox-theme($prox-app-theme-1);
+@include mat-select-theme($prox-app-theme-1);
+@include mat-option-theme($prox-app-theme-1);
 
 // Inject themes into custom components
 @include professor-item-theme($prox-app-theme-4);
