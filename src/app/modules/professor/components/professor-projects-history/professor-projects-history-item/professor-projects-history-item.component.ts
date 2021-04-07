@@ -21,6 +21,7 @@ import {
   AnimationEvent
 } from '@angular/animations';
 import { Project } from '@data/schema/project.resource';
+import { TextProcessor } from '@app/util/text-processor';
 
 @Component({
   selector: 'app-professor-projects-history-item',
@@ -45,7 +46,10 @@ export class ProfessorProjectsHistoryItemComponent implements OnInit {
   _displayContent = false;
   _project: Project;
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(
+    private cd: ChangeDetectorRef,
+    public textProcessor: TextProcessor
+  ) {}
 
   @Input()
   set project(project: Project) {

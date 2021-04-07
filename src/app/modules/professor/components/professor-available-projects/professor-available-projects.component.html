@@ -1,14 +1,21 @@
 <div
   fxLayout="column"
-  fxLayoutAlign="start center"
+  fxLayoutAlign="start stretch"
   *ngIf="availableProjects && availableProjects.length > 0"
 >
   <h1>Aktuelle Projektthemen</h1>
   <mat-table [dataSource]="dataSource" class="mat-flat-z8">
     <ng-container matColumnDef="name">
       <mat-header-cell id="hSubject" *matHeaderCellDef>Thema</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let element">
-        <a [routerLink]="['/projects/' + element.id]"> {{ element.name }} </a>
+      <mat-cell
+        mat-cell
+        *matCellDef="let element"
+        fxLayout="column"
+        fxLayoutAlign="start "
+      >
+        <a [routerLink]="['/projects/' + element.id]" class="project-name">
+          {{ element.name }}
+        </a>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="type">

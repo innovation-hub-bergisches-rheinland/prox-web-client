@@ -3,9 +3,12 @@ import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Professor } from '@data/schema/openapi/professor-profile-service/models';
+import { ModuleType } from '@data/schema/openapi/project-service/models';
 import { Project } from '@data/schema/project.resource';
+import { Tag } from '@data/schema/tag.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
+import { TagService } from '@data/service/tag.service';
 import { KeycloakService } from 'keycloak-angular';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
@@ -29,6 +32,7 @@ export class ProfessorProfileComponent implements OnInit {
     private router: Router,
     private professorService: ProfessorProfileService,
     private projectService: ProjectService,
+    private tagService: TagService,
     private keycloakService: KeycloakService
   ) {}
 
@@ -75,9 +79,11 @@ export class ProfessorProfileComponent implements OnInit {
       this.availableProjects$ = this.availableProjects$.pipe(
         mergeMap(projects => projects),
         mergeMap(project =>
-          this.projectService.getModulesOfProject(project).pipe(
-            map(modules => {
-              project.modules = modules;
+          forkJoin({
+            modules: this.projectService.getModulesOfProject(project)
+          }).pipe(
+            map((value: { modules: ModuleType[] }) => {
+              project.modules = value.modules;
               return project;
             })
           )
