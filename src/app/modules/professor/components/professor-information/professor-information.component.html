@@ -84,10 +84,10 @@
         gdArea="value"
         gdRow="4"
         gdColumn="2"
-        *ngIf="prof.contactInformation?.consultationHour"
-      >
-        {{ prof.contactInformation.consultationHour }}
-      </div>
+        [innerHTML]="
+          textProcessor.process(prof.contactInformation.consultationHour)
+        "
+      ></div>
       <div
         gdArea="value"
         gdRow="5"
