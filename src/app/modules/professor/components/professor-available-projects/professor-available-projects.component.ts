@@ -53,39 +53,11 @@ export class ProfessorRunningProjectsComponent
 
   /**
    * Returns the available project types of the project.
-   * The function distincts all available modules by their projectType and returns the name.
-   *
-   * For example a project has the following modules:
-   * ```
-   * [
-   *   {
-   *     projectType = 'BA',
-   *     name = 'Bachelorarbeit'
-   *   },
-   *   {
-   *     projectType = 'BA',
-   *     name = 'Bachelor Arbeit'
-   *   }
-   * ]
-   * ```
-   *
-   * The return value would be:
-   * ```
-   * [
-   *   'Bachelorarbeit'
-   * ]
-   * ```
    *
    * @param project Project
    */
   getProjectType(project: Project): string[] {
-    return project.modules
-      .filter((obj, pos, arr) => {
-        return (
-          arr.map(m => m['projectType']).indexOf(obj['projectType']) === pos
-        );
-      })
-      .map(m => m.name);
+    return project.modules.map(m => m.name);
   }
 
   @Input()

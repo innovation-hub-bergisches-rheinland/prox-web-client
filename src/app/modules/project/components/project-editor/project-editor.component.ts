@@ -64,11 +64,26 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
+import {
+  MatCheckboxChange,
+  MatCheckboxDefaultOptions,
+  MAT_CHECKBOX_DEFAULT_OPTIONS
+} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
-  styleUrls: ['./project-editor.component.scss']
+  styleUrls: ['./project-editor.component.scss'],
+  providers: [
+    {
+      /* Change the default click behaviour of MatCheckbox to no operation
+       * as the selection is determined by a selection model
+       * NOTE: This will possibly affect every checkbox in this component
+       * */
+      provide: MAT_CHECKBOX_DEFAULT_OPTIONS,
+      useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions
+    }
+  ]
 })
 export class ProjectEditorComponent
   implements OnInit, OnDestroy, AfterViewInit {
@@ -270,7 +285,7 @@ export class ProjectEditorComponent
      * is somehow fired before the MatAutocompleteSelectedEvent so it is necessary
      * to check whether the panel is open
      */
-    if (!this.tagAutocomplete.isOpen) {
+    if ((event.value || '').trim() && !this.tagAutocomplete.isOpen) {
       const value = event.value.trim();
 
       //If a valid value is submitted, save tag to data
@@ -282,8 +297,6 @@ export class ProjectEditorComponent
 
       //Remove input from field
       event.input.value = '';
-    } else {
-      this.tagAutocompleteTrigger.closePanel();
     }
   }
 
@@ -583,9 +596,7 @@ export class ProjectEditorComponent
     }
   }
 
-  selectModule(element: ModuleType, checked: boolean) {
-    checked
-      ? this.moduleSelection.select(element)
-      : this.moduleSelection.deselect(element);
+  selectModule(element: ModuleType) {
+    this.moduleSelection.toggle(element);
   }
 }

@@ -27,7 +27,6 @@ export class ProjectDetailsComponent implements OnInit {
   hasPermission = false;
 
   project: Project;
-  project$: Observable<Project>;
 
   projectTags$: Observable<Tag[]>;
   projectModules: ModuleType[];
@@ -53,17 +52,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     this.projectID = this.route.snapshot.paramMap.get('id');
 
-    this.project$ = this.projectService.getProject(this.projectID);
-
-    this.project$.subscribe(project => {
-      this.project = project;
-
-      this.projectService.getModulesOfProject(project).subscribe(
-        res => (this.projectModules = res),
-        err => console.error(err)
-      );
-      this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
-    });
+    this.getProject();
   }
 
   public hasProjectPermission(project: Project): boolean {
@@ -88,14 +77,28 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openProjectDialog(project: Project) {
-    this.dialog.open(ProjectEditorDialogComponent, {
+    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
       data: project
     });
+
+    dialog.afterClosed().subscribe(() => this.getProject());
   }
 
   goBack() {
     this.location.back();
+  }
+
+  getProject() {
+    this.projectService.getProject(this.projectID).subscribe(project => {
+      this.project = project;
+
+      this.projectService.getModulesOfProject(project).subscribe(
+        res => (this.projectModules = res),
+        err => console.error(err)
+      );
+      this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
+    });
   }
 }

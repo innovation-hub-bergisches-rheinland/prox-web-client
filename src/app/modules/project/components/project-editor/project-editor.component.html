@@ -185,10 +185,7 @@
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>Auswahl</th>
             <td mat-cell *matCellDef="let element">
-              <mat-checkbox
-                [checked]="moduleSelection.isSelected(element)"
-                (change)="selectModule(element, $event.checked)"
-              >
+              <mat-checkbox [checked]="moduleSelection.isSelected(element)">
               </mat-checkbox>
             </td>
           </ng-container>
@@ -204,24 +201,10 @@
           <tr
             mat-row
             *matRowDef="let element; columns: displayedColumns"
-            (click)="moduleSelection.toggle(element)"
+            (click)="selectModule(element)"
           ></tr>
         </table>
       </div>
-      <!--<section formArrayName="moduleSelectors">
-        <ul class="moduleList">
-          <li *ngFor="let module of moduleSelection; index as i">
-            <mat-checkbox
-              [formControlName]="i"
-              [checked]="module.selected"
-              [id]="module.module.id"
-              (change)="toggleModule($event)"
-            >
-              {{ module.module.name }}
-            </mat-checkbox>
-          </li>
-        </ul>
-      </section>-->
 
       <mat-form-field class="tag-list">
         <mat-label>Tags</mat-label>
