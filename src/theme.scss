@@ -123,7 +123,7 @@ $prox-app-theme-4: map-merge(
 
 // Inject themes into angular components
 @include mat-core($prox-typography);
-@include mat-core-theme($prox-app-theme-1);
+//@include mat-core-theme($prox-app-theme-1);
 @include mat-button-theme($prox-app-theme-2);
 @include mat-chips-theme($prox-app-theme-3);
 @include mat-icon-theme($prox-app-theme-2);

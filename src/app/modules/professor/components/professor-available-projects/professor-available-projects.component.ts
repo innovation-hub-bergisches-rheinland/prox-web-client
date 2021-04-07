@@ -19,7 +19,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   selector: 'app-professor-available-projects',
   templateUrl: './professor-available-projects.component.html',
   styleUrls: ['./professor-available-projects.component.scss'],
-  host: { class: 'prof-avaialable-projects' }
+  host: { class: 'prof-available-projects' }
 })
 export class ProfessorRunningProjectsComponent
   implements OnInit, AfterViewInit {
@@ -57,7 +57,7 @@ export class ProfessorRunningProjectsComponent
    * @param project Project
    */
   getProjectType(project: Project): string[] {
-    return project.modules.map(m => m.name);
+    return project.modules.map(m => m.name).sort((a, b) => a.localeCompare(b));
   }
 
   @Input()
