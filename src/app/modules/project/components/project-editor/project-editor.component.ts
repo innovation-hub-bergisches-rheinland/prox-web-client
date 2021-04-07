@@ -11,13 +11,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
@@ -63,9 +57,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 import {
-  MatCheckboxChange,
   MatCheckboxDefaultOptions,
   MAT_CHECKBOX_DEFAULT_OPTIONS
 } from '@angular/material/checkbox';
@@ -279,25 +271,21 @@ export class ProjectEditorComponent
    * @param event event emittet from matChipInputTokenEnd
    */
   addTagEvent(event: MatChipInputEvent) {
-    /**
-     * Workaround: https://stackoverflow.com/a/52814543/4567795
-     * When an option from the autocompletion is selected the MatChipInputEvent
-     * is somehow fired before the MatAutocompleteSelectedEvent so it is necessary
-     * to check whether the panel is open
-     */
-    if ((event.value || '').trim() && !this.tagAutocomplete.isOpen) {
-      const value = event.value.trim();
+    const input = event.input;
+    const value = event.value;
 
-      //If a valid value is submitted, save tag to data
-      if (value) {
-        const tag = new Tag();
-        tag.tagName = value;
-        this.addTag(tag);
-      }
-
-      //Remove input from field
-      event.input.value = '';
+    if ((value || '').trim()) {
+      const tag = new Tag();
+      tag.tagName = value;
+      this.addTag(tag);
     }
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.tagAutocompleteTrigger.closePanel();
+    this.projectFormControl.controls.tagInput.setValue(null);
   }
 
   /**
@@ -310,6 +298,17 @@ export class ProjectEditorComponent
       this.tags.push(tag);
       this.updateTagRecommendations();
     }
+  }
+
+  /**
+   * Add selected tag from autocompletion to project data
+   * @param event event emitted when tag from autocompletion is selected
+   */
+  selectedTag(event: MatAutocompleteSelectedEvent): void {
+    const selectedTag = event.option.value as Tag;
+    this.addTag(selectedTag);
+    this.tagInput.nativeElement.value = '';
+    this.projectFormControl.controls.tagInput.setValue(null);
   }
 
   /**
@@ -373,17 +372,6 @@ export class ProjectEditorComponent
         );
       }
     );
-  }
-
-  /**
-   * Add selected tag from autocompletion to project data
-   * @param event event emitted when tag from autocompletion is selected
-   */
-  selectedTag(event: MatAutocompleteSelectedEvent): void {
-    const selectedTag = event.option.value as Tag;
-    this.addTag(selectedTag);
-    this.tagInput.nativeElement.value = '';
-    this.projectFormControl.controls.tagInput.setValue(null);
   }
 
   /**
