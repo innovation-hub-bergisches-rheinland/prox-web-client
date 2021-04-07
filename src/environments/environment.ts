@@ -13,5 +13,5 @@ const keycloakConfig: KeycloakConfig = {
 export const environment = {
   production: false,
   keycloakConfig,
-  apiUrl: 'http://127.0.0.1:8081'
+  apiUrl: 'https://api.dev.prox.innovation-hub.de'
 };
