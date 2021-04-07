@@ -392,15 +392,15 @@ export class ProjectEditorComponent
     );
     this.projectFormControl.controls.status.setValue(this.project.status);
 
-    this.projectService.getModulesOfProject(this.project).subscribe(modules => {
-      modules.forEach(module =>
-        this.moduleSelectors.controls[module.id].setValue(true)
-      );
-    });
-
     this.projectService
       .getModulesOfProject(this.project)
-      .subscribe(modules => this.moduleSelection.select(...modules));
+      .subscribe(modules =>
+        modules.forEach(m =>
+          this.modules
+            .filter(m1 => m1.id === m.id)
+            .forEach(m2 => this.moduleSelection.select(m2))
+        )
+      );
 
     this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
       this.tags = tags;
@@ -581,5 +581,11 @@ export class ProjectEditorComponent
       this.dataSource.data = this.modules = [];
       this.dataSource._updateChangeSubscription();
     }
+  }
+
+  selectModule(element: ModuleType, checked: boolean) {
+    checked
+      ? this.moduleSelection.select(element)
+      : this.moduleSelection.deselect(element);
   }
 }
