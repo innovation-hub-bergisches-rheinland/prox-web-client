@@ -80,6 +80,7 @@ import {
 export class ProjectEditorComponent
   implements OnInit, OnDestroy, AfterViewInit {
   private STORAGE_KEY = 'project-editor-state';
+  private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
   @Input() project?: Project;
   @Output() projectSaved = new EventEmitter<Project>();
@@ -103,7 +104,7 @@ export class ProjectEditorComponent
   fullname: string;
 
   private _modules: ModuleType[] = [];
-  studyPrograms: StudyProgram[] = [];
+  private _studyPrograms: StudyProgram[] = [];
   dataSource = new MatTableDataSource<ModuleType>(this.modules);
   displayedColumns: string[] = ['select', 'name'];
   moduleSelection = new SelectionModel<ModuleType>(true);
@@ -119,6 +120,14 @@ export class ProjectEditorComponent
 
   get modules(): ModuleType[] {
     return this._modules;
+  }
+
+  set studyPrograms(studyPrograms: StudyProgram[]) {
+    this._studyPrograms = studyPrograms;
+  }
+
+  get studyPrograms(): StudyProgram[] {
+    return this._studyPrograms.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   @ViewChild(MatSort) set matSort(sort: MatSort) {
@@ -175,8 +184,8 @@ export class ProjectEditorComponent
     }).subscribe(
       res => {
         this.studyPrograms.push(...res.studyPrograms);
-        this.studyProgramSelection.select(...res.studyPrograms);
         this.modules.push(...res.moduleTypes);
+        this.tryLoadSelectedStudyPrograms();
       },
       err => console.error(err),
       () => {
@@ -241,6 +250,7 @@ export class ProjectEditorComponent
     const state = this.projectFormControl.getRawValue();
     state.tags = this.tags;
     this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
+    this.saveSelectedStudyPrograms();
   }
 
   /**
@@ -257,6 +267,27 @@ export class ProjectEditorComponent
 
       this.projectFormControl.patchValue(state);
     }
+  }
+
+  saveSelectedStudyPrograms() {
+    this.storage.set(
+      this.STORAGE_PRE_SELECTED_KEY,
+      JSON.stringify(this.studyProgramSelection.selected.filter(sp => sp.id))
+    );
+  }
+
+  tryLoadSelectedStudyPrograms() {
+    const loadedData = this.storage.get(this.STORAGE_PRE_SELECTED_KEY);
+    if (loadedData) {
+      const state: StudyProgram[] = JSON.parse(loadedData);
+      console.log(state);
+      this.studyProgramSelection.select(
+        ...this.studyPrograms.filter(sp => state.map(s => s.id).includes(sp.id))
+      );
+    } else {
+      this.studyProgramSelection.select(...this.studyPrograms);
+    }
+    this.filterModuleTypes();
   }
 
   /**
@@ -526,6 +557,8 @@ export class ProjectEditorComponent
         this.createProject(project, modules, tags);
       }
     });
+
+    this.saveSelectedStudyPrograms();
   }
 
   private showSubmitInfo(message: string) {
@@ -549,6 +582,8 @@ export class ProjectEditorComponent
    * @param studyProgram studyProgram
    */
   toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
+    console.log(studyProgram);
+
     //TODO Possible refactor -> maybe a template binding?
     if (event.checked) {
       this.studyProgramSelection.select(studyProgram);
@@ -556,6 +591,13 @@ export class ProjectEditorComponent
       this.studyProgramSelection.deselect(studyProgram);
     }
 
+    this.filterModuleTypes();
+  }
+
+  /**
+   * Filters Module types based on the study program selectio
+   */
+  filterModuleTypes() {
     //TODO Refactor: Make use of debounceTime to reduce network traffic
     if (this.studyProgramSelection.selected.length > 0) {
       this.projectService
