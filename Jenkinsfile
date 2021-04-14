@@ -42,7 +42,7 @@ node {
 
     stage('Build') {
         docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-            sh "docker build --build-arg APP_ENV=${appenv} -t ${repository}/${image} -f docker/Dockerfile ."
+            sh "docker build --no-cache --build-arg APP_ENV=${appenv} -t ${repository}/${image} -f docker/Dockerfile ."
             sh "docker tag ${repository}/${image} ${repository}/${image}:${tag}"
             sh "docker push ${repository}/${image}:${tag}"
         }
