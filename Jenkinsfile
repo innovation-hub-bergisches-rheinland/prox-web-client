@@ -13,6 +13,7 @@ node {
 
     stage('Set dev Variables') {
         if (env.JOB_BASE_NAME == 'prox-web-client-dev') {
+            echo "detected dev job, setting variables to match dev environemnt..."
             appenv = 'dev'
             server = 'tcp://10.10.10.42:2376'
             certs = 'prox-dev-certs'
@@ -22,6 +23,7 @@ node {
 
     stage('Set master Variables') {
         if (env.JOB_BASE_NAME == 'prox-web-client') {
+            echo "detected master job, setting variables to match production environment..."
             appenv = 'production'
             server = 'tcp://10.10.10.41:2376'
             certs = 'prox-prod-certs'
@@ -42,7 +44,11 @@ node {
 
     stage('Build') {
         docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
-            sh "docker build --no-cache --build-arg APP_ENV=${appenv} -t ${repository}/${image} -f docker/Dockerfile ."
+            echo "Building docker image ${repository}/${image} with APP_ENV=${appenv}..."
+            sh "env DOCKER_BUILDKIT=1 \
+                docker build --progress=plain --build-arg APP_ENV=${appenv} -t ${repository}/${image} -f docker/Dockerfile ."
+            //For Buildkit use: sh "docker build --progress=plain --build-arg APP_ENV=${appenv} -t ${repository}/${image} -f docker/Dockerfile ."
+
             sh "docker tag ${repository}/${image} ${repository}/${image}:${tag}"
             sh "docker push ${repository}/${image}:${tag}"
         }
