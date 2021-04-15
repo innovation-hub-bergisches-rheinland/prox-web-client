@@ -3,7 +3,7 @@
 #########################
 
 # base image
-FROM node:15.1.0-stretch as builder
+FROM node:15.14.0-stretch as builder
 ARG APP_ENV=production
 
 # install chrome for protractor tests
@@ -21,8 +21,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm install
-RUN npm install -g @angular/cli@8.3.20 --unsafe
+RUN npm ci
+RUN npm install -g @angular/cli@11.2.9 --unsafe
 
 # add app
 COPY . /usr/src/app
@@ -38,7 +38,7 @@ RUN ng build --configuration=${APP_ENV}
 ##################
 
 # base image
-FROM nginx:1.19.4-alpine
+FROM nginx:1.19.10-alpine
 
 # copy artifact build from the 'build environment'
 COPY --from=builder /usr/src/app/dist/prox-web-client /usr/share/nginx/html
