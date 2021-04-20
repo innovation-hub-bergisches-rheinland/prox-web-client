@@ -82,7 +82,7 @@
                 }
               ]
             },
-            "local": {
+            "local1": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -92,7 +92,21 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
+                  "with": "src/environments/environment.local1.ts"
+                }
+              ]
+            },
+            "local2": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local2.ts"
                 }
               ]
             }
@@ -110,8 +124,11 @@
             "dev": {
               "browserTarget": "prox-web-client:build:dev"
             },
-            "local": {
-              "browserTarget": "prox-web-client:build:local"
+            "local1": {
+              "browserTarget": "prox-web-client:build:local1"
+            },
+            "local2": {
+              "browserTarget": "prox-web-client:build:local2"
             }
           }
         },

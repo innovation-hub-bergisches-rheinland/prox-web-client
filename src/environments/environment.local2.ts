@@ -1,5 +1,5 @@
-import { Environment } from './IEnvironment';
 import { KeycloakConfig } from 'keycloak-js';
+import { Environment } from './IEnvironment';
 
 const keycloakConfig: KeycloakConfig = {
   url: 'https://login.archi-lab.io/auth',
@@ -8,7 +8,7 @@ const keycloakConfig: KeycloakConfig = {
 };
 
 export const environment: Environment = {
-  production: true,
+  production: false,
   keycloakConfig,
-  apiUrl: 'https://api.prox.innovation-hub.de'
+  apiUrl: 'http://127.0.0.1:8081'
 };
