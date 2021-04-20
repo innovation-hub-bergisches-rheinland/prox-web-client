@@ -185,13 +185,16 @@ export class ProfessorProfileEditor implements OnInit {
             );
         },
         err => {
-          //If the professor is NOT existent pre-fill the name based on keycloak service
+          //If the professor is NOT existent pre-fill the name and email based on keycloak service
           if (err instanceof HttpErrorResponse && err.status == 404) {
-            this.keycloakService
-              .loadUserProfile()
-              .then(
-                u => (this.professor.name = `${u.firstName} ${u.lastName}`)
+            this.keycloakService.loadUserProfile().then(u => {
+              this.professor.name = `${u.firstName} ${u.lastName}`;
+              this.professor.contactInformation.email = u.email ?? '';
+              this.profileForm.controls['name'].setValue(
+                `${u.firstName} ${u.lastName}` ?? ''
               );
+              this.profileForm.controls['email'].setValue(u.email ?? '');
+            });
           } else {
             this.snackbar.open(
               'Konnte Profil nicht laden, versuchen Sie es später erneut.'
