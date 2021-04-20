@@ -1,3 +1,4 @@
+import { Environment } from './IEnvironment';
 import { KeycloakConfig } from 'keycloak-js';
 
 const keycloakConfig: KeycloakConfig = {
@@ -6,7 +7,7 @@ const keycloakConfig: KeycloakConfig = {
   clientId: 'prox-web-client'
 };
 
-export const environment = {
+export const environment: Environment = {
   production: true,
   keycloakConfig,
   apiUrl: 'https://api.prox.innovation-hub.de'
