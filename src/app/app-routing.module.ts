@@ -76,6 +76,13 @@ const routes: Routes = [
           )
       },
       {
+        path: 'companies',
+        loadChildren: () =>
+          import('@modules/company/company-profile.module').then(
+            m => m.CompanyProfileModule
+          )
+      },
+      {
         path: '404',
         // loadChildren: () =>
         //   import('@modules/page-not-found/page-not-found.module').then(

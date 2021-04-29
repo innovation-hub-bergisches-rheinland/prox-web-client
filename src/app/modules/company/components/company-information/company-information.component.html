@@ -1,0 +1,84 @@
+<div
+  gdAreas="header header | subtitle subtitle | picture information"
+  gdRows="auto auto auto"
+  gdGap="10px"
+  gdAreas.lt-md="header | subtitle | picture | information"
+  gdRows.lt-md="auto auto auto auto"
+  *ngIf="company"
+>
+  <div gdArea="header" fxLayoutAlign.lt-md="center center">
+    <h1 [innerText]="company.information.name"></h1>
+  </div>
+  <div gdArea="subtitle" fxLayoutAlign.lt-md="center center" *ngIf="branches">
+    <h2 [innerText]="branches"></h2>
+  </div>
+  <div
+    gdArea="picture"
+    fxLayoutAlign.lt-md="center center"
+    class="company-logo-div"
+  >
+    <img
+      class="logo"
+      alt="blank"
+      [src]="logo"
+      onerror="this.src='/assets/images/blank-profile-picture.png'"
+      width="200"
+    />
+  </div>
+  <div gdArea="information" class="company-info-div">
+    <div gdAreas="attribute value">
+      <div
+        gdArea="attribute"
+        gdRow="1"
+        *ngIf="company.information.foundingDate"
+      >
+        Gründungsjahr:
+      </div>
+      <div
+        gdArea="attribute"
+        gdRow="2"
+        *ngIf="company.information.numberOfEmployees"
+      >
+        Mitarbeiteranzahl:
+      </div>
+      <div gdArea="attribute" gdRow="3" *ngIf="company.headquarter">
+        Hauptsitz:
+      </div>
+      <div gdArea="attribute" gdRow="4" *ngIf="quarters">
+        Weitere Standorte:
+      </div>
+      <div gdArea="attribute" gdRow="5" *ngIf="company.information.homepage">
+        Homepage:
+      </div>
+      <div
+        gdArea="value"
+        gdRow="1"
+        gdColumn="2"
+        *ngIf="company.information.foundingDate"
+      >
+        {{ company.information.foundingDate }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="2"
+        gdColumn="2"
+        *ngIf="company.information.numberOfEmployees"
+      >
+        {{ company.information.numberOfEmployees }}
+      </div>
+      <div gdArea="value" gdRow="3" gdColumn="2" *ngIf="company.headquarter">
+        {{ company.headquarter.location }}
+      </div>
+      <div gdArea="value" gdRow="4" gdColumn="2" *ngIf="quarters">
+        {{ quarters }}
+      </div>
+      <div
+        gdArea="value"
+        gdRow="5"
+        gdColumn="2"
+        *ngIf="company.information.homepage"
+        [innerHTML]="textProcessor.process(company.information.homepage)"
+      ></div>
+    </div>
+  </div>
+</div>
