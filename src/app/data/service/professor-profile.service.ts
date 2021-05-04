@@ -7,7 +7,8 @@ import {
   EntityModelProfessorOverviewDto,
   EntityModelFaculty,
   PagedModelEntityModelProfessor,
-  Professor
+  Professor,
+  EntityModelProfessor
 } from '@data/schema/openapi/professor-profile-service/models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env';
@@ -111,5 +112,18 @@ export class ProfessorProfileService {
         httpHeaderAccept: 'application/hal+json'
       })
       .pipe(map(p => p._embedded.professorOverviewDtoList));
+  }
+
+  findProfessorWithNameLike(
+    names: string[]
+  ): Observable<{ [key: string]: string }> {
+    return this.professorApiService.findProfessorWithNameLike(
+      names,
+      'body',
+      false,
+      {
+        httpHeaderAccept: 'application/json'
+      }
+    );
   }
 }

@@ -45,7 +45,7 @@
 
         <mat-card-subtitle>
           <span class="supervisorName" matTooltip="Projektbetreuer">
-            <b>{{ project.supervisorName }}</b>
+            <b [innerHTML]="getProjectSupervisors()"></b>
           </span>
         </mat-card-subtitle>
       </mat-card-header>
