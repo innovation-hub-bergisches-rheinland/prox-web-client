@@ -83,7 +83,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   getProjectSupervisors() {
-    return this.projectSupervisors.join(',');
+    return this.projectSupervisors.join(', ');
   }
 
   public hasProjectPermission(project: Project): boolean {
