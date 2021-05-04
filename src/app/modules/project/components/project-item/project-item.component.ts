@@ -95,7 +95,7 @@ export class ProjectItemComponent implements OnInit {
   }
 
   getProjectSupervisors() {
-    return this.projectSupervisors.join(',');
+    return this.projectSupervisors.join(', ');
   }
 
   openErrorSnackBar(message: string) {
