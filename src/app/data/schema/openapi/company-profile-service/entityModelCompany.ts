@@ -15,8 +15,8 @@ import { Branch } from './branch';
 import { Link } from './link';
 
 export interface EntityModelCompany {
-  id?: string;
-  information?: CompanyInformation;
+  id: string;
+  information: CompanyInformation;
   headquarter?: Quarter;
   quarters?: Set<Quarter>;
   branches?: Set<Branch>;

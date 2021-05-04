@@ -21,6 +21,14 @@ import { TagService } from '@data/service/tag.service';
 import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { error } from 'node:console';
+
+interface QueryParams {
+  state?: string;
+  moduleTypes?: string;
+  filter?: string;
+}
 
 @Component({
   selector: 'app-project',
@@ -75,7 +83,9 @@ export class ProjectComponent implements OnInit {
     private tagService: TagService,
     private keycloakService: KeycloakService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -85,19 +95,72 @@ export class ProjectComponent implements OnInit {
       this.isLoggedIn = false;
     }
 
-    this.projectService.getAllStudyPrograms().subscribe(
-      res => (this.allStudyPrograms = this._suitableStudyPrograms = res),
+    forkJoin({
+      studyPrograms: this.projectService.getAllStudyPrograms(),
+      moduleTypes: this.projectService.getAllModuleTypes()
+    }).subscribe(
+      res => {
+        this.allStudyPrograms = this._suitableStudyPrograms = res.studyPrograms;
+        this.allModuleTypes = this._suitableModuleTypes = res.moduleTypes;
+      },
       err => console.error(err),
-      () => (this.isLoadingStudyPrograms = false)
-    );
-
-    this.projectService.getAllModuleTypes().subscribe(
-      res => (this.allModuleTypes = this._suitableModuleTypes = res),
-      err => console.error(err),
-      () => (this.isLoadingModuleTypes = false)
+      () => {
+        this.isLoadingStudyPrograms = false;
+        this.isLoadingModuleTypes = false;
+        this.loadQueryParams();
+      }
     );
 
     this.getAllProjects();
+  }
+
+  loadQueryParams() {
+    this.route.queryParams.subscribe(
+      (params: QueryParams) => {
+        if (params.state) {
+          const statusOption = StatusOption[params.state];
+          if (statusOption) {
+            this.selectedStatusOption.setValue(statusOption);
+          }
+        }
+        if (params.moduleTypes) {
+          const split: string[] = params.moduleTypes.split(',');
+          this.selectedModuleTypes.setValue(
+            this.suitableModuleTypes.filter(m => split.includes(m.key))
+          );
+        }
+        if (params.filter) {
+          this.searchString.setValue(params.filter);
+        }
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  setQueryParams() {
+    const queryParams: QueryParams = {};
+
+    if (this.selectedStatusOption.value as string) {
+      queryParams.state = this.selectedStatusOption.value;
+    }
+
+    if (this.searchString.value as string) {
+      queryParams.filter = this.searchString.value;
+    }
+
+    if (this.selectedModuleTypes.value as ModuleType[]) {
+      queryParams.moduleTypes = this.selectedModuleTypes.value
+        .map(m => m.key)
+        .join(',');
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
   }
 
   public filterModuleTypesByStudyProgram(event: MatSelectChange) {
@@ -158,6 +221,7 @@ export class ProjectComponent implements OnInit {
   }
 
   public filterProjects() {
+    this.setQueryParams();
     //Initialize with all projects
     let filteredProjects = this.projects;
 
@@ -223,7 +287,6 @@ export class ProjectComponent implements OnInit {
     projects: Project[],
     moduleTypes: ModuleType[]
   ): Project[] {
-    console.log(moduleTypes);
     return moduleTypes && moduleTypes.length > 0
       ? projects.filter(project =>
           project.modules.some(
