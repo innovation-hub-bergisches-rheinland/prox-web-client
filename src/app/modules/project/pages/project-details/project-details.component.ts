@@ -16,6 +16,7 @@ import { ProjectEditorDialogComponent } from '@modules/project/components/projec
 import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
+import { ProfessorProfileService } from '@data/service/professor-profile.service';
 
 @Component({
   selector: 'app-project-details',
@@ -30,6 +31,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   projectTags$: Observable<Tag[]>;
   projectModules: ModuleType[];
+  projectSupervisors: string[] = [];
 
   constructor(
     private keycloakService: KeycloakService,
@@ -39,7 +41,8 @@ export class ProjectDetailsComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private location: Location,
-    public textProcessor: TextProcessor
+    public textProcessor: TextProcessor,
+    private professorService: ProfessorProfileService
   ) {}
 
   async ngOnInit() {
@@ -53,6 +56,34 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectID = this.route.snapshot.paramMap.get('id');
 
     this.getProject();
+  }
+
+  private loadSupervisorLinks() {
+    //Split supervisors and collect them
+    const splitChars = /,|;|\//g;
+    this.projectSupervisors = this.project.supervisorName
+      .split(splitChars)
+      .map(s => s.trim())
+      .filter(s => s.length >= 0);
+
+    this.professorService
+      .findProfessorWithNameLike(this.projectSupervisors)
+      .subscribe(res => {
+        this.projectSupervisors = [];
+        for (const [key, value] of Object.entries(res)) {
+          if (value == null) {
+            this.projectSupervisors.push(key);
+          } else {
+            this.projectSupervisors.push(
+              `<a href="/lecturers/${value}">${key}</a>`
+            );
+          }
+        }
+      });
+  }
+
+  getProjectSupervisors() {
+    return this.projectSupervisors.join(', ');
   }
 
   public hasProjectPermission(project: Project): boolean {
@@ -99,6 +130,7 @@ export class ProjectDetailsComponent implements OnInit {
         err => console.error(err)
       );
       this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
+      this.loadSupervisorLinks();
     });
   }
 }
