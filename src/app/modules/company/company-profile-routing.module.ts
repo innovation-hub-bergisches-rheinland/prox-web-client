@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: ':id',
     component: CompanyProfileComponent
+  },
+  {
+    path: '/me',
+    component: CompanyProfileComponent
   }
 ];
 

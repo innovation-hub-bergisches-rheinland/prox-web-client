@@ -15,6 +15,7 @@ import { Branch } from './branch';
 
 export interface Company {
   id: string;
+  creatorId: string;
   information: CompanyInformation;
   headquarter?: Quarter;
   quarters?: Set<Quarter>;

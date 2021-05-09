@@ -7,6 +7,7 @@
 @import './app/modules/professor/components/professor-research/professor-research.component.theming.scss';
 @import './app/modules/professor/components/professor-projects-history/professor-projects-history.component.theming.scss';
 @import './app/modules/company/components/company-vita/company-vita.component.theming.scss';
+@import './app/modules/company/components/company-branches/company-branches.component.theming.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -142,6 +143,7 @@ $prox-app-theme-4: map-merge(
 @include content-layout-theme($prox-app-theme-2);
 
 @include company-vita-theme($prox-app-theme-4);
+@include company-branches-theme($prox-app-theme-3);
 
 // Set global styles by injecting themes
 @include app-text-color-theme($prox-app-theme-1);

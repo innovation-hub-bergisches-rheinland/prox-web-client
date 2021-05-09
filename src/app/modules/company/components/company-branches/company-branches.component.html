@@ -1,0 +1,11 @@
+<div
+  class="company-branches-div"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  *ngIf="this.company"
+>
+  <h1>Branchen</h1>
+  <ul>
+    <li *ngFor="let branch of branches">{{ branch.branchName }}</li>
+  </ul>
+</div>

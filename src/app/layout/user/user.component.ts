@@ -12,6 +12,7 @@ export class UserComponent implements OnInit {
   username: string;
   isLoggedIn: boolean;
   isProfessor: boolean;
+  isCompanyManager: boolean = false;
   userId: string;
 
   constructor(
@@ -27,6 +28,9 @@ export class UserComponent implements OnInit {
       this.isProfessor = this.keycloakService
         .getUserRoles()
         .includes('professor');
+      this.isCompanyManager = this.keycloakService
+        .getUserRoles()
+        .includes('company-manager');
       this.userId = this.keycloakService.getKeycloakInstance().subject;
     } else {
       this.isLoggedIn = false;
@@ -45,6 +49,13 @@ export class UserComponent implements OnInit {
   profProfile() {
     const navigationDetails: string[] = ['/lecturers'];
     navigationDetails.push(this.userId);
+    this.router.navigate(navigationDetails).then(
+      () => window.location.reload() //Reload to hide sidenav and take some complexity away when profile does not exist
+    );
+  }
+
+  companyProfile() {
+    const navigationDetails: string[] = ['/companies/me'];
     this.router.navigate(navigationDetails).then(
       () => window.location.reload() //Reload to hide sidenav and take some complexity away when profile does not exist
     );

@@ -1,0 +1,11 @@
+@mixin company-branches-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .company-branches {
+    .company-branches-div li::before {
+      color: mat-color($primary);
+    }
+  }
+}

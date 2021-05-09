@@ -16,6 +16,7 @@ import { Link } from './link';
 
 export interface EntityModelCompany {
   id: string;
+  creatorId: string;
   information: CompanyInformation;
   headquarter?: Quarter;
   quarters?: Set<Quarter>;

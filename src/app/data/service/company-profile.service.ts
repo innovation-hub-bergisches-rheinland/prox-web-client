@@ -26,6 +26,12 @@ export class CompanyProfileService {
     });
   }
 
+  getMyCompany(): Observable<Company> {
+    return this.companyApiService.getMyCompany('body', false, {
+      httpHeaderAccept: 'application/hal+json'
+    });
+  }
+
   getCompanyLogoUrl(id: string): string {
     return `${environment.apiUrl}/companies/${id}/logo`;
   }

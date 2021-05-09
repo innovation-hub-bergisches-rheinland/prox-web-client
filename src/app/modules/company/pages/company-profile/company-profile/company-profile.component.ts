@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { CompanyProfileService } from '@data/service/company-profile.service';
+import { KeycloakService } from 'keycloak-angular';
 import { forkJoin } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -13,23 +14,45 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class CompanyProfileComponent implements OnInit {
   company: Company;
+  hasPermission: boolean = false;
+  isMe: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private companyProfileService: CompanyProfileService
+    private companyProfileService: CompanyProfileService,
+    private keycloakService: KeycloakService
   ) {}
 
   async ngOnInit() {
     this.activatedRoute.params
       .pipe(
         map(route => route['id']),
-        mergeMap(id => this.companyProfileService.getCompanyById(id))
+        mergeMap(id => {
+          if (id === 'me') {
+            this.isMe = true;
+            return this.companyProfileService.getMyCompany();
+          }
+          return this.companyProfileService.getCompanyById(id);
+        })
       )
       .subscribe(
         res => {
           this.company = res;
           console.log(this.company);
+
+          if (this.isMe) {
+            this.router.navigate(['/companies', this.company.id]);
+          }
+
+          this.keycloakService.isLoggedIn().then(isLoggedIn => {
+            if (isLoggedIn) {
+              let userId = this.keycloakService.getKeycloakInstance().subject;
+              this.hasPermission =
+                this.keycloakService.isUserInRole('company-manager') &&
+                userId === this.company.creatorId;
+            }
+          });
         },
         err => {
           if (err instanceof HttpErrorResponse) {
@@ -44,4 +67,6 @@ export class CompanyProfileComponent implements OnInit {
         }
       );
   }
+
+  editProfilePage() {}
 }
