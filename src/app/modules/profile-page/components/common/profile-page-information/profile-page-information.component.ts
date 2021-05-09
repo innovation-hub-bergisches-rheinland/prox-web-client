@@ -26,9 +26,7 @@ export class ProfilePageInformationComponent implements OnInit {
 
   constructor(public textProcessor: TextProcessor) {}
 
-  ngOnInit(): void {
-    console.log('Hello, World');
-  }
+  ngOnInit(): void {}
 
   getDescription(description: string): string {
     if (!description.trim().endsWith(':')) {

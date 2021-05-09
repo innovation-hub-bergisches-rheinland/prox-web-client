@@ -89,7 +89,6 @@ export class CompanyProfileComponent implements OnInit {
       .subscribe(
         res => {
           this.company = res;
-          console.log(this.company);
 
           if (this.isMe) {
             this.router.navigate(['/companies', this.company.id]);
