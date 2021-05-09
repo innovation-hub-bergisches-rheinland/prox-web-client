@@ -35,4 +35,12 @@ export class CompanyProfileService {
   getCompanyLogoUrl(id: string): string {
     return `${environment.apiUrl}/companies/${id}/logo`;
   }
+
+  getAllCompanies(): Observable<Company[]> {
+    return this.companyApiService
+      .getAllCompanies('body', false, {
+        httpHeaderAccept: 'application/hal+json'
+      })
+      .pipe(map(c => c._embedded.companyList));
+  }
 }

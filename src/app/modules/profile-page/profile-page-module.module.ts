@@ -14,7 +14,9 @@ import { ProfilePageAvailableProjects } from './components/common/profile-page-a
 import { ProfilePageProjectsHistoryComponent } from './components/common/profile-page-projects-history/profile-page-projects-history.component';
 import { ProfilePageProjectsHistoryItemComponent } from './components/common/profile-page-projects-history/profile-page-projects-history-item/profile-page-projects-history-item.component';
 import { SharedModule } from '@shared/shared.module';
-import { ProfessorsItemComponent } from './pages/professor/professors-item/professors-item.component';
+import { ProfessorsItemComponent } from './components/professor/professors-overview-item/professors-item.component';
+import { CompanyItemComponent } from './components/company/company-overview-item/company-item.component';
+import { CompanyOverviewComponent } from './pages/company/companies-overview/companies-overview.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { ProfessorsItemComponent } from './pages/professor/professors-item/profe
     ProfilePageAvailableProjects,
     ProfilePageProjectsHistoryComponent,
     ProfilePageProjectsHistoryItemComponent,
+    CompanyItemComponent,
+    CompanyOverviewComponent,
     CompanyProfileComponent
   ],
   imports: [
