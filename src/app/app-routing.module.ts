@@ -14,6 +14,14 @@ const routes: Routes = [
   {
     path: '',
     component: ContentLayoutComponent,
+    loadChildren: () =>
+      import('@modules/profile-page/profile-page-module.module').then(
+        m => m.ProfilePageModule
+      )
+  },
+  {
+    path: '',
+    component: ContentLayoutComponent,
     // canActivate: [AuthGuard],
     children: [
       {
@@ -62,24 +70,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('@modules/disclaimer/disclaimer.module').then(
             m => m.DisclaimerModule
-          )
-      },
-      {
-        path: 'lecturers',
-        // loadChildren: () =>
-        //   import('@modules/disclaimer/disclaimer.module').then(
-        //     m => m.DisclaimerModule
-        //   )
-        loadChildren: () =>
-          import('@modules/professor/professor-profile.module').then(
-            m => m.ProfessorProfileModule
-          )
-      },
-      {
-        path: 'companies',
-        loadChildren: () =>
-          import('@modules/company/company-profile.module').then(
-            m => m.CompanyProfileModule
           )
       },
       {

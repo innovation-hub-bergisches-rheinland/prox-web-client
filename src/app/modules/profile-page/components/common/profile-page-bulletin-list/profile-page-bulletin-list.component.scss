@@ -1,0 +1,28 @@
+.profile-bulletin-div {
+  color: #000000;
+}
+
+.profile-bulletin-div ul {
+  column-count: 2;
+  column-gap: 35px;
+  list-style: none;
+}
+
+@media (max-width: 480px) {
+  .profile-bulletin-div ul {
+    column-count: 1;
+  }
+}
+
+.profile-bulletin-div li {
+  line-height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-bulletin-div li::before {
+  content: '•';
+  font-size: 50px;
+  margin-right: 10px;
+}

@@ -2,12 +2,10 @@
 @import './theme_variables.scss';
 @import './app/modules/home/pages/home/home.component.mixin.scss';
 @import './app/layout/content-layout/content-layout.component.theming.scss';
-@import './app/modules/professor/pages/professors-item/professors-item.component.theming.scss';
-@import './app/modules/professor/components/professor-vita/professor-vita.component.theming.scss';
-@import './app/modules/professor/components/professor-research/professor-research.component.theming.scss';
-@import './app/modules/professor/components/professor-projects-history/professor-projects-history.component.theming.scss';
-@import './app/modules/company/components/company-vita/company-vita.component.theming.scss';
-@import './app/modules/company/components/company-branches/company-branches.component.theming.scss';
+@import './app/modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component.theming.scss';
+@import './app/modules/profile-page/components/common/profile-page-vita/profile-page-vita.component.theming.scss';
+@import './app/modules/profile-page/pages/professor/professors-item/professors-item.component.theming.scss';
+@import './app/modules/profile-page/components/common/profile-page-projects-history/profile-page-projects-history.component.theming.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -137,13 +135,11 @@ $prox-app-theme-4: map-merge(
 
 // Inject themes into custom components
 @include professor-item-theme($prox-app-theme-4);
-@include professor-vita-theme($prox-app-theme-4);
-@include professor-research-theme($prox-app-theme-3);
-@include professor-projects-history-theme($prox-app-theme-2);
+@include profile-page-projects-history-theme($prox-app-theme-2);
 @include content-layout-theme($prox-app-theme-2);
 
-@include company-vita-theme($prox-app-theme-4);
-@include company-branches-theme($prox-app-theme-3);
+@include profile-page-bulletin-list-theme($prox-app-theme-3);
+@include profile-page-vita-theme($prox-app-theme-4);
 
 // Set global styles by injecting themes
 @include app-text-color-theme($prox-app-theme-1);

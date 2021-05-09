@@ -1,0 +1,11 @@
+<div
+  class="profile-bulletin-div"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  *ngIf="bulletinList"
+>
+  <h1>{{ bulletinList.title }}</h1>
+  <ul>
+    <li *ngFor="let bulletin of bulletinList.bulletins">{{ bulletin }}</li>
+  </ul>
+</div>

@@ -1,0 +1,11 @@
+@mixin profile-page-bulletin-list-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .profile-bulletin {
+    .profile-bulletin-div li::before {
+      color: mat-color($primary);
+    }
+  }
+}
