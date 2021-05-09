@@ -33,29 +33,20 @@
     />
   </div>
   <div gdArea="information" class="profile-info-div">
-    <div gdAreas="attribute value">
+    <div gdAreas="attribute value" gdGap="10px">
       <div
         gdArea="attribute"
-        *ngFor="let attribute of information.properties; index as i"
         [gdRow]="i"
+        *ngFor="let attribute of informationProperties; index as i"
       >
-        <p *ngIf="attribute.value">
-          {{ getDescription(attribute.description) }}
-        </p>
+        {{ getDescription(attribute.description) }}
       </div>
       <div
         gdArea="value"
-        *ngFor="let attribute of information.properties; index as i"
         [gdRow]="i"
-      >
-        <p
-          *ngIf="attribute.value && attribute.urlProcessing"
-          [innerHTML]="textProcessor.process(attribute.value)"
-        ></p>
-        <p *ngIf="attribute.value && !attribute.urlProcessing">
-          {{ attribute.value }}
-        </p>
-      </div>
+        *ngFor="let attribute of informationProperties; index as i"
+        [innerHTML]="getValue(attribute.value, attribute.urlProcessing)"
+      ></div>
     </div>
   </div>
 </div>

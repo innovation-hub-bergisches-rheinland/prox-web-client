@@ -24,6 +24,12 @@ export class ProfilePageInformationComponent implements OnInit {
   @Input()
   information: ProfilePageInformation;
 
+  get informationProperties(): InformationProperty[] {
+    return this.information.properties.filter(
+      it => it.value && it.value.trim().length > 0
+    );
+  }
+
   constructor(public textProcessor: TextProcessor) {}
 
   ngOnInit(): void {}
@@ -33,5 +39,12 @@ export class ProfilePageInformationComponent implements OnInit {
       return description.trim() + ':';
     }
     return description.trim();
+  }
+
+  getValue(value: string, process: boolean = false): string {
+    if (process) {
+      return this.textProcessor.process(value);
+    }
+    return value;
   }
 }
