@@ -24,6 +24,7 @@
     "@angular/router": "~11.2.13",
     "autolinker": "^3.14.2",
     "core-js": "^3.8.0",
+    "country-flag-icons": "^1.2.10",
     "fuse.js": "^6.4.3",
     "keycloak-angular": "^8.0.1",
     "keycloak-js": "^11.0.3",

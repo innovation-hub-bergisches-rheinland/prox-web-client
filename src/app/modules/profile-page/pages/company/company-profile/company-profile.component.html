@@ -13,4 +13,8 @@
     ></app-profile-page-bulletin-list>
     <app-profile-page-vita [vita]="companyVita"></app-profile-page-vita>
   </div>
+  <div *ngIf="!company && isMe">
+    Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf
+    den Button "Profilseite bearbeiten" tun.
+  </div>
 </div>

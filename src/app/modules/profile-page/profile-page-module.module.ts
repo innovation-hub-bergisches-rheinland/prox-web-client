@@ -17,6 +17,7 @@ import { SharedModule } from '@shared/shared.module';
 import { ProfessorsItemComponent } from './components/professor/professors-overview-item/professors-item.component';
 import { CompanyItemComponent } from './components/company/company-overview-item/company-item.component';
 import { CompanyOverviewComponent } from './pages/company/companies-overview/companies-overview.component';
+import { CompanyProfileEditor } from './pages/company/company-profile-editor/company-profile-editor.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CompanyOverviewComponent } from './pages/company/companies-overview/com
     ProfilePageProjectsHistoryItemComponent,
     CompanyItemComponent,
     CompanyOverviewComponent,
-    CompanyProfileComponent
+    CompanyProfileComponent,
+    CompanyProfileEditor
   ],
   imports: [
     CommonModule,

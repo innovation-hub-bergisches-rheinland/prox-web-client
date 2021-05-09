@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CompanyOverviewComponent } from './pages/company/companies-overview/companies-overview.component';
+import { CompanyProfileEditor } from './pages/company/company-profile-editor/company-profile-editor.component';
 import { CompanyProfileComponent } from './pages/company/company-profile/company-profile.component';
 import { ProfessorProfileEditor } from './pages/professor/professor-profile-editor/professor-profile-editor.component';
 import { ProfessorProfileComponent } from './pages/professor/professor-profile/professor-profile.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'me',
         component: CompanyProfileComponent
+      },
+      {
+        path: ':id/edit',
+        component: CompanyProfileEditor
       }
     ]
   },

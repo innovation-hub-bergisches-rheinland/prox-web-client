@@ -1,21 +1,7 @@
-import { ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
-import {
-  EntityModelProfessorOverviewDto,
-  Faculty,
-  PagedModelEntityModelProfessor,
-  Professor,
-  ProfessorOverviewDto
-} from '@data/schema/openapi/professor-profile-service/models';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import Fuse from 'fuse.js';
-import { of } from 'rxjs';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-companies-overview',

@@ -8,6 +8,7 @@ import { CompanyAPIService } from './openapi/company-profile-service/companyAPI.
 import { LanguageAPIService } from './openapi/company-profile-service/languageAPI.service';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { environment } from '@env';
+import { Language } from '@data/schema/openapi/company-profile-service/language';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,13 @@ export class CompanyProfileService {
         httpHeaderAccept: 'application/hal+json'
       })
       .pipe(map(c => c._embedded.companyList));
+  }
+
+  getAllLanguages(): Observable<Language[]> {
+    return this.languageApiService
+      .getAllLanguages(['LIVING'], 'body', false, {
+        httpHeaderAccept: 'application/hal+json'
+      })
+      .pipe(map(c => c._embedded.languageList));
   }
 }

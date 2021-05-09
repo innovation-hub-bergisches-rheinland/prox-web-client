@@ -18,7 +18,7 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class CompanyProfileComponent implements OnInit {
   company: Company;
-  hasPermission: boolean = false;
+  hasPermission: boolean;
   isMe: boolean = false;
 
   constructor(
@@ -106,7 +106,17 @@ export class CompanyProfileComponent implements OnInit {
         err => {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 404) {
-              this.router.navigate(['/404']);
+              if (!this.isMe) {
+                this.router.navigate(['/404']);
+              } else {
+                this.keycloakService.isLoggedIn().then(isLoggedIn => {
+                  if (isLoggedIn) {
+                    this.hasPermission =
+                      this.keycloakService.isUserInRole('company-manager') &&
+                      this.isMe;
+                  }
+                });
+              }
             } else {
               console.error(err);
             }
@@ -117,5 +127,7 @@ export class CompanyProfileComponent implements OnInit {
       );
   }
 
-  editProfilePage() {}
+  editProfilePage() {
+    this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
+  }
 }
