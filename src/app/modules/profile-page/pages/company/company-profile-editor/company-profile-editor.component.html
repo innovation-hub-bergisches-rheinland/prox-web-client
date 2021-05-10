@@ -196,17 +196,8 @@
                   [value]="language"
                 >
                   <mat-chip>
-                    <img
-                      *ngIf="hasFlag(language)"
-                      alt="language.germanName"
-                      [src]="getFlagUrl(language)"
-                      width="20"
-                    />
-                    <p *ngIf="!hasFlag(language)">
-                      {{ language.isoIdentifier2.toUpperCase() }}
-                    </p></mat-chip
-                  >
-
+                    {{ language.isoIdentifier2.toUpperCase() }}
+                  </mat-chip>
                   {{ language.germanName }}
                 </mat-option>
               </mat-autocomplete>

@@ -1,6 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { HttpErrorResponse } from '@angular/common/http';
-import { hasFlag } from 'country-flag-icons';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
@@ -267,14 +266,6 @@ export class CompanyProfileEditor implements OnInit {
    */
   onSubmit() {
     console.log(this.company);
-  }
-
-  hasFlag(language: Language): boolean {
-    return hasFlag(language.isoIdentifier2.toUpperCase());
-  }
-
-  getFlagUrl(language: Language): string {
-    return `http://purecatamphetamine.github.io/country-flag-icons/3x2/${language.isoIdentifier2.toUpperCase()}.svg`;
   }
 
   private _filterLanguages(language: string | Language): Language[] {
