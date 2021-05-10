@@ -1,21 +1,8 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { formatCurrency } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { hasFlag } from 'country-flag-icons';
-import {
-  AfterViewChecked,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent
@@ -27,23 +14,11 @@ import { Branch } from '@data/schema/openapi/company-profile-service/branch';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
 import { Quarter } from '@data/schema/openapi/company-profile-service/quarter';
-import {
-  Faculty,
-  Professor
-} from '@data/schema/openapi/professor-profile-service/models';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { KeycloakService } from 'keycloak-angular';
-import { of } from 'rxjs';
-import {
-  combineLatest,
-  forkJoin,
-  from,
-  merge,
-  Observable,
-  throwError
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap, map, startWith } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-company-profile-editor',
@@ -86,7 +61,7 @@ export class CompanyProfileEditor implements OnInit {
   ) {}
 
   /**
-   * Setter for professor. When a professor is set in the editor, the form fields should be filled.
+   * Setter for company. When a company is set in the editor, the form fields should be filled.
    */
   set company(company: Company) {
     this._company = company;
@@ -103,7 +78,7 @@ export class CompanyProfileEditor implements OnInit {
   }
 
   /**
-   * Getter for professor. Whenever the professor is retrieved from this component, it should return a professor based on the form fields
+   * Getter for company. Whenever the company is retrieved from this component, it should return a company based on the form fields
    */
   get company(): Company {
     return {
@@ -132,7 +107,7 @@ export class CompanyProfileEditor implements OnInit {
       .subscribe(res => (this.allLanguages = res));
 
     this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
-      startWith(null),
+      startWith(null as string),
       map((language: string | Language | null) =>
         language ? this._filterLanguages(language) : this.allLanguages.slice()
       )
@@ -164,69 +139,90 @@ export class CompanyProfileEditor implements OnInit {
       );
   }
 
-  addQuarter(event: MatChipInputEvent) {
+  handleChipInput<T>(
+    event: MatChipInputEvent,
+    proj: (s: string) => T,
+    action: (v: T) => void
+  ) {
     const input = event.input;
     const value = event.value;
 
     if ((value || '').trim()) {
       const subject = value.trim();
-      if (
-        this.quarters.filter(
-          q => q.location.toLowerCase() === subject.toLowerCase()
-        ).length === 0
-      ) {
-        this.quarters.push({
-          location: subject.trim()
-        });
-      }
+      const obj = proj(subject);
+
+      action(obj);
     }
 
     if (input) {
       input.value = '';
     }
+  }
+
+  addToArrayIfNotExists<T>(
+    valueList: T[],
+    value: T,
+    predicate: (a: T, b: T) => boolean = (a, b) => _.isEqual(a, b)
+  ) {
+    if (valueList.filter(item => predicate(item, value)).length === 0) {
+      valueList.push(value);
+    }
+  }
+
+  removeFromArrayIfExists<T>(
+    valueList: T[],
+    predicate: (value: T, index: number, obj: T[]) => unknown
+  ) {
+    const index = valueList.findIndex(predicate);
+    if (index >= 0) {
+      valueList.splice(index, 1);
+    }
+  }
+
+  addQuarter(event: MatChipInputEvent) {
+    const mapping: (s: string) => Quarter = (s: string) => {
+      return {
+        location: s.trim()
+      };
+    };
+    const action: (v: Quarter) => void = (v: Quarter) =>
+      this.addToArrayIfNotExists(
+        this.quarters,
+        v,
+        (a, b) => a.location.toLowerCase() === b.location.toLowerCase()
+      );
+
+    this.handleChipInput(event, mapping, action);
   }
 
   removeQuarter(subject: Quarter) {
-    const index = this.quarters.findIndex(
+    this.removeFromArrayIfExists(
+      this.quarters,
       q => q.location.toLowerCase() === subject.location.toLowerCase()
     );
-
-    if (index >= 0) {
-      this.quarters.splice(index, 1);
-    }
   }
 
   addBranch(event: MatChipInputEvent) {
-    const input = event.input;
-    const value = event.value;
+    const mapping: (s: string) => Branch = (s: string) => {
+      return {
+        branchName: s.trim()
+      };
+    };
+    const action: (v: Branch) => void = (v: Branch) =>
+      this.addToArrayIfNotExists(
+        this.branches,
+        v,
+        (a, b) => a.branchName.toLowerCase() === b.branchName.toLowerCase()
+      );
 
-    if ((value || '').trim()) {
-      const subject = value.trim();
-      if (
-        this.branches.filter(
-          b => b.branchName.toLowerCase() === subject.toLowerCase()
-        ).length === 0
-      ) {
-        //Distinct
-        this.branches.push({
-          branchName: subject.trim()
-        });
-      }
-    }
-
-    if (input) {
-      input.value = '';
-    }
+    this.handleChipInput(event, mapping, action);
   }
 
   removeBranch(subject: Branch) {
-    const index = this.branches.findIndex(
+    this.removeFromArrayIfExists(
+      this.branches,
       b => b.branchName.toLowerCase() === subject.branchName.toLowerCase()
     );
-
-    if (index >= 0) {
-      this.branches.splice(index, 1);
-    }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -236,11 +232,7 @@ export class CompanyProfileEditor implements OnInit {
   }
 
   removeLanguage(subject: Language) {
-    const index = this.languages.map(l => l.id).indexOf(subject.id);
-
-    if (index >= 0) {
-      this.languages.splice(index, 1);
-    }
+    this.removeFromArrayIfExists(this.languages, l => l.id === subject.id);
   }
 
   /**
