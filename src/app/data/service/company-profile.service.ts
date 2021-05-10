@@ -52,4 +52,44 @@ export class CompanyProfileService {
       })
       .pipe(map(c => c._embedded.languageList));
   }
+
+  updateCompanyProfile(id: string, company: Company): Observable<Company> {
+    return this.companyApiService.updateCompany(id, company, 'body', false, {
+      httpHeaderAccept: 'application/hal+json'
+    });
+  }
+
+  saveCompanyProfile(company: Company): Observable<Company> {
+    return this.companyApiService.saveCompany(company, 'body', false, {
+      httpHeaderAccept: 'application/hal+json'
+    });
+  }
+
+  saveCompanyLogo(id: string, image: Blob): Observable<any> {
+    return this.companyApiService.postCompanyLogo(id, image);
+  }
+
+  deleteCompanyLogo(id: string): Observable<any> {
+    return this.companyApiService.deleteCompanyLogo(id);
+  }
+
+  saveCompanyLanguages(id: string, languages: Language[]): Observable<any> {
+    return this.companyApiService.putCompanyLanguages(
+      id,
+      languages.map(l => l.id),
+      'body',
+      false,
+      {
+        httpHeaderAccept: 'application/hal+json'
+      }
+    );
+  }
+
+  getCompanyLanguages(id: string): Observable<Language[]> {
+    return this.companyApiService
+      .getCompanyLanguages(id, 'body', false, {
+        httpHeaderAccept: 'application/hal+json'
+      })
+      .pipe(map(l => l._embedded?.languageList ?? []));
+  }
 }

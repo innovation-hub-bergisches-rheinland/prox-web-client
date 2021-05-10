@@ -19,7 +19,7 @@ export interface EntityModelCompany {
   creatorId: string;
   information: CompanyInformation;
   headquarter?: Quarter;
-  quarters?: Set<Quarter>;
-  branches?: Set<Branch>;
+  quarters?: Quarter[];
+  branches?: Branch[];
   _links?: { [key: string]: Link };
 }

@@ -64,8 +64,9 @@ export class CompanyProfileEditor implements OnInit {
    */
   set company(company: Company) {
     this._company = company;
-    this.branches = [...company.branches];
-    this.quarters = [...company.quarters];
+    this.companyId = company.id;
+    this.branches = company.branches;
+    this.quarters = company.quarters;
     this.profileForm.setValue({
       name: company.information.name ?? '',
       foundation: company.information.foundingDate ?? '',
@@ -83,8 +84,8 @@ export class CompanyProfileEditor implements OnInit {
     return {
       id: this.companyId,
       creatorId: this._company.creatorId ?? null,
-      branches: new Set(this.branches),
-      quarters: new Set(this.quarters),
+      branches: this.branches,
+      quarters: this.quarters,
       information: {
         name: this.profileForm.value['name'],
         foundingDate: this.profileForm.value['foundation'],
@@ -125,6 +126,9 @@ export class CompanyProfileEditor implements OnInit {
           this.imageSrc = this.companyProfileService.getCompanyLogoUrl(
             this.company.id
           );
+          this.companyProfileService
+            .getCompanyLanguages(this.company.id)
+            .subscribe(res => this.languages.push(...res));
         },
         err => {
           if (err instanceof HttpErrorResponse && err.status == 404) {
@@ -265,7 +269,67 @@ export class CompanyProfileEditor implements OnInit {
    * Saves the professor
    */
   onSubmit() {
+    //When exists update, else save new
+    const saveObservable: Observable<Company> = this.exists
+      ? this.companyProfileService.updateCompanyProfile(
+          this.companyId,
+          this.company
+        )
+      : this.companyProfileService.saveCompanyProfile(this.company);
+
+    let error = false;
+
     console.log(this.company);
+    console.log(JSON.stringify(this.company));
+
+    //TODO refactor
+    saveObservable.subscribe(
+      p => {
+        this.companyProfileService
+          .saveCompanyLanguages(p.id, this.languages)
+          .subscribe(
+            _ => {},
+            err => {
+              this.snackbar.open(
+                'Konnte Sprachen nicht speichern. Bitte versuchen Sie es später erneut.'
+              );
+              error = true;
+            }
+          );
+        if (this.image && !this.deleteImage) {
+          this.companyProfileService
+            .saveCompanyLogo(p.id, this.image)
+            .subscribe(
+              _ => {},
+              err => {
+                this.snackbar.open(
+                  'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
+                );
+                error = true;
+              }
+            );
+        } else if (this.deleteImage) {
+          this.companyProfileService.deleteCompanyLogo(p.id).subscribe(
+            _ => {},
+            err => {
+              this.snackbar.open(
+                'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
+              );
+              error = true;
+            }
+          );
+        }
+      },
+      _ =>
+        this.snackbar.open(
+          'Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.'
+        ),
+      () => {
+        if (!error) {
+          this.router.navigate(['..'], { relativeTo: this.route });
+        }
+      }
+    );
   }
 
   private _filterLanguages(language: string | Language): Language[] {

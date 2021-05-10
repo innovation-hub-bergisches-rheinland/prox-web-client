@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
+import { Language } from '@data/schema/openapi/company-profile-service/language';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 import { ProfileBulletin } from '@modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component';
 import { ProfilePageInformation } from '@modules/profile-page/components/common/profile-page-information/profile-page-information.component';
@@ -18,6 +19,7 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class CompanyProfileComponent implements OnInit {
   company: Company;
+  languages: Language[];
   hasPermission: boolean;
   isMe: boolean = false;
 
@@ -74,6 +76,13 @@ export class CompanyProfileComponent implements OnInit {
     };
   }
 
+  get companyLanguages(): ProfileBulletin {
+    return {
+      title: 'Sprachen im Unternehmen',
+      bulletins: [...this.languages].map(l => l.germanName)
+    };
+  }
+
   async ngOnInit() {
     this.activatedRoute.params
       .pipe(
@@ -89,6 +98,10 @@ export class CompanyProfileComponent implements OnInit {
       .subscribe(
         res => {
           this.company = res;
+
+          this.companyProfileService
+            .getCompanyLanguages(this.company.id)
+            .subscribe(res => (this.languages = res));
 
           if (this.isMe) {
             this.router.navigate(['/companies', this.company.id]);

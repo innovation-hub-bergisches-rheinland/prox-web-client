@@ -8,10 +8,16 @@
     <app-profile-page-information
       [information]="companyInformation"
     ></app-profile-page-information>
+    <br />
+    <app-profile-page-vita [vita]="companyVita"></app-profile-page-vita>
+    <br />
     <app-profile-page-bulletin-list
       [bulletinList]="companyBranches"
     ></app-profile-page-bulletin-list>
-    <app-profile-page-vita [vita]="companyVita"></app-profile-page-vita>
+    <br />
+    <app-profile-page-bulletin-list
+      [bulletinList]="companyLanguages"
+    ></app-profile-page-bulletin-list>
   </div>
   <div *ngIf="!company && isMe">
     Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf

@@ -18,6 +18,6 @@ export interface Company {
   creatorId: string;
   information: CompanyInformation;
   headquarter?: Quarter;
-  quarters?: Set<Quarter>;
-  branches?: Set<Branch>;
+  quarters?: Quarter[];
+  branches?: Branch[];
 }
