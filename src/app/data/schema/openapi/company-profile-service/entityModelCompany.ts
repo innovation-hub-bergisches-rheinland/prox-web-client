@@ -11,14 +11,17 @@
  */
 import { Quarter } from './quarter';
 import { CompanyInformation } from './companyInformation';
+import { SocialMedia } from './socialMedia';
 import { Branch } from './branch';
 import { Link } from './link';
 
 export interface EntityModelCompany {
   id: string;
+  creatorId?: string;
   information: CompanyInformation;
   headquarter?: Quarter;
-  quarters?: Set<Quarter>;
-  branches?: Set<Branch>;
+  quarters?: Quarter[];
+  branches?: Branch[];
+  socialMedia?: SocialMedia[];
   _links?: { [key: string]: Link };
 }

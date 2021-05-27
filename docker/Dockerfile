@@ -3,7 +3,7 @@
 #########################
 
 # base image
-FROM node:16.1.0-stretch as builder
+FROM node:16.2.0-stretch as builder
 ARG APP_ENV=production
 
 # install chrome for protractor tests
@@ -38,7 +38,7 @@ RUN ng build --configuration=${APP_ENV}
 ##################
 
 # base image
-FROM nginx:1.19.10-alpine
+FROM nginx:1.21.0-alpine
 
 # copy artifact build from the 'build environment'
 COPY --from=builder /usr/src/app/dist/prox-web-client /usr/share/nginx/html

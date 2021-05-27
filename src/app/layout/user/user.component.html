@@ -12,4 +12,8 @@
     <mat-icon>account_box</mat-icon>
     Benutzerprofil
   </button>
+  <button (click)="companyProfile()" *ngIf="isCompanyManager" mat-flat-button>
+    <mat-icon>apartment</mat-icon>
+    Unternehmensprofil
+  </button>
 </div>

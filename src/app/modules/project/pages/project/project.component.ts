@@ -22,7 +22,6 @@ import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram'
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { error } from 'node:console';
 
 interface QueryParams {
   state?: string;

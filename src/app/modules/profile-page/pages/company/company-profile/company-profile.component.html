@@ -1,0 +1,27 @@
+<div>
+  <div class="topBar" *ngIf="hasPermission">
+    <button mat-raised-button (click)="editProfilePage()">
+      <mat-icon>create</mat-icon> Profilseite bearbeiten
+    </button>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="company">
+    <app-profile-page-information
+      [information]="companyInformation"
+      [socialMedia]="company.socialMedia"
+    ></app-profile-page-information>
+    <br />
+    <app-profile-page-vita [vita]="companyVita"></app-profile-page-vita>
+    <br />
+    <app-profile-page-bulletin-list
+      [bulletinList]="companyBranches"
+    ></app-profile-page-bulletin-list>
+    <br />
+    <app-profile-page-bulletin-list
+      [bulletinList]="companyLanguages"
+    ></app-profile-page-bulletin-list>
+  </div>
+  <div *ngIf="!company && hasPermission">
+    Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf
+    den Button "Profilseite bearbeiten" tun.
+  </div>
+</div>

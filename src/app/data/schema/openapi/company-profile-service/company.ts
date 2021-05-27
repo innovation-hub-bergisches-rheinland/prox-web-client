@@ -11,12 +11,15 @@
  */
 import { Quarter } from './quarter';
 import { CompanyInformation } from './companyInformation';
+import { SocialMedia } from './socialMedia';
 import { Branch } from './branch';
 
 export interface Company {
   id: string;
+  creatorId?: string;
   information: CompanyInformation;
   headquarter?: Quarter;
-  quarters?: Set<Quarter>;
-  branches?: Set<Branch>;
+  quarters?: Quarter[];
+  branches?: Branch[];
+  socialMedia?: SocialMedia[];
 }

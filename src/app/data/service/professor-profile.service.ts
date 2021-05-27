@@ -52,8 +52,8 @@ export class ProfessorProfileService {
     );
   }
 
-  getProfessorImageUrl(id: string): Observable<string> {
-    return of(`${environment.apiUrl}/professors/${id}/image`); //TODO Hardcoded - this might be refactored
+  getProfessorImageUrl(id: string): string {
+    return `${environment.apiUrl}/professors/${id}/image`; //TODO Hardcoded - this might be refactored
   }
 
   getAllProfessors(

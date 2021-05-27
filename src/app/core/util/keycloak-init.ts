@@ -24,7 +24,7 @@ export function keycloakInitializer(
             }
           }
         });
-        resolve();
+        resolve(undefined);
       } catch (error) {
         reject(error);
       }

@@ -280,7 +280,6 @@ export class ProjectEditorComponent
     const loadedData = this.storage.get(this.STORAGE_PRE_SELECTED_KEY);
     if (loadedData) {
       const state: StudyProgram[] = JSON.parse(loadedData);
-      console.log(state);
       this.studyProgramSelection.select(
         ...this.studyPrograms.filter(sp => state.map(s => s.id).includes(sp.id))
       );
@@ -582,8 +581,6 @@ export class ProjectEditorComponent
    * @param studyProgram studyProgram
    */
   toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
-    console.log(studyProgram);
-
     //TODO Possible refactor -> maybe a template binding?
     if (event.checked) {
       this.studyProgramSelection.select(studyProgram);

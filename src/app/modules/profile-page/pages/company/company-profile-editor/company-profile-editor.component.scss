@@ -1,0 +1,51 @@
+.researchSubjects-chip-list {
+  width: 100%;
+}
+
+.valid-example {
+  mark {
+    background-color: rgba(21, 255, 0, 0.6);
+    color: black;
+  }
+}
+
+.invalid-example {
+  mark {
+    background-color: rgba(255, 0, 0, 0.6);
+    color: black;
+  }
+}
+
+.card {
+  width: 50%;
+  min-width: 900px;
+}
+
+.mat-form-field {
+  width: 100% !important;
+}
+
+.profileImage {
+  display: block;
+  max-width: 240px;
+  max-height: 240px;
+  object-fit: scale-down; //Or cover
+  width: auto;
+  height: auto;
+}
+
+.profileImageContainer {
+  min-height: 240px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 960px) {
+  .card {
+    width: 90%;
+    min-width: 120px;
+  }
+}

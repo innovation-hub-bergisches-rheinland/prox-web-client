@@ -12,11 +12,11 @@
 import { Link } from './link';
 
 export interface EntityModelLanguage {
-  id?: string;
-  isoIdentifier2?: string;
-  englishName?: string;
-  germanName?: string;
-  type?: EntityModelLanguage.TypeEnum;
+  id: string;
+  isoIdentifier2: string;
+  englishName: string;
+  germanName: string;
+  type: EntityModelLanguage.TypeEnum;
   _links?: { [key: string]: Link };
 }
 export namespace EntityModelLanguage {

@@ -1,0 +1,56 @@
+.title {
+  font-weight: bold;
+}
+
+h1 {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+h2 {
+  margin-top: 0px;
+}
+
+.profileImage {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: scale-down; //Or cover
+  width: auto;
+  height: auto;
+  margin: auto;
+}
+
+.profile-image-div {
+  width: 200px;
+  height: 200px;
+}
+
+.profile-info-div {
+  color: #000000;
+}
+
+.socialMedia {
+  font-size: xx-large;
+
+  .facebook {
+    color: #4267b2;
+  }
+
+  .twitter {
+    color: #1da1f2;
+  }
+
+  .instagram {
+    color: #f77737;
+  }
+
+  .xing {
+    color: #026466;
+  }
+
+  .linkedin {
+    color: #0077b5;
+  }
+}

@@ -1,0 +1,39 @@
+<div class="outerDiv">
+  <div class="topBar" *ngIf="hasPermission">
+    <button mat-raised-button (click)="editProfilePage()">
+      <mat-icon>create</mat-icon> Profilseite bearbeiten
+    </button>
+  </div>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    *ngIf="!noContent && professor"
+  >
+    <app-profile-page-information
+      [information]="professorInformation"
+    ></app-profile-page-information>
+    <br />
+    <app-profile-page-vita [vita]="professorVita"></app-profile-page-vita>
+    <app-profile-page-bulletin-list
+      [bulletinList]="professorResearchTopics"
+    ></app-profile-page-bulletin-list>
+    <app-professor-publications
+      [publications]="professor.publications"
+    ></app-professor-publications>
+    <app-profile-page-available-projects
+      [projects]="availableProjects$"
+    ></app-profile-page-available-projects>
+    <app-profile-page-projects-history
+      *ngIf="projectHistory && projectHistory.length > 0"
+    >
+      <app-profile-page-projects-history-item
+        *ngFor="let project of projectHistory"
+        [project]="project"
+      ></app-profile-page-projects-history-item>
+    </app-profile-page-projects-history>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="noContent">
+    Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf
+    den Button "Profilseite bearbeiten" tun.
+  </div>
+</div>
