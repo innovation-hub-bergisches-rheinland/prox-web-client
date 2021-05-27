@@ -1,5 +1,6 @@
 import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { TextProcessor } from '@app/util/text-processor';
 import {
   Professor,
   Publication
@@ -17,7 +18,7 @@ export class ProfessorPublicationsComponent implements OnInit {
   @Input()
   publications: Publication[];
 
-  constructor() {}
+  constructor(public textProcessor: TextProcessor) {}
 
   ngOnInit(): void {}
 }

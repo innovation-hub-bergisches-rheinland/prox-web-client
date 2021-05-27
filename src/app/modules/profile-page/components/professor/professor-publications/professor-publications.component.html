@@ -6,8 +6,9 @@
 >
   <h1>Publikationen</h1>
   <div>
-    <p *ngFor="let publication of publications">
-      {{ publication.publication }}
-    </p>
+    <p
+      *ngFor="let publication of publications"
+      [innerHTML]="textProcessor.process(publication.publication)"
+    ></p>
   </div>
 </div>
