@@ -9,8 +9,6 @@ import { ProfileBulletin } from '@modules/profile-page/components/common/profile
 import { ProfilePageInformation } from '@modules/profile-page/components/common/profile-page-information/profile-page-information.component';
 import { ProfileVita } from '@modules/profile-page/components/common/profile-page-vita/profile-page-vita.component';
 import { KeycloakService } from 'keycloak-angular';
-import { info } from 'node:console';
-import { forkJoin } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
