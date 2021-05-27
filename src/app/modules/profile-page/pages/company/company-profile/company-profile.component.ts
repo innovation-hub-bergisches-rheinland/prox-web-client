@@ -33,7 +33,7 @@ export class CompanyProfileComponent implements OnInit {
   ) {}
 
   get companyInformation(): ProfilePageInformation {
-    const information: ProfilePageInformation = {
+    return {
       title: this.company.information.name,
       imageUrl: this.companyProfileService.getCompanyLogoUrl(this.company.id),
       properties: [
@@ -60,8 +60,6 @@ export class CompanyProfileComponent implements OnInit {
         }
       ]
     };
-
-    return information;
   }
 
   get companyBranches(): string[] {
