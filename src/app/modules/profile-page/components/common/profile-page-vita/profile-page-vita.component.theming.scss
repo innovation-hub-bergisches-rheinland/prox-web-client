@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin profile-page-vita-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
@@ -5,9 +6,9 @@
 
   .profile-vita {
     h1 {
-      color: mat-contrast($primary, 400);
+      color: mat.get-contrast-color-from-palette($primary, 400);
     }
-    color: mat-contrast($primary, 400);
-    background: mat-color($primary);
+    color: mat.get-contrast-color-from-palette($primary, 400);
+    background: mat.get-color-from-palette($primary);
   }
 }

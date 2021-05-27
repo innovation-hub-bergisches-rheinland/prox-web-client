@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin professor-item-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
@@ -11,10 +12,12 @@
 
   .professor-item-wrapper {
     .research li:before {
-      border-color: transparent mat-color($prox-primary-color-1);
+      border-color: transparent
+        mat.get-color-from-palette($prox-primary-color-1);
     }
     .projects li:before {
-      border-color: transparent mat-color($prox-primary-color-2);
+      border-color: transparent
+        mat.get-color-from-palette($prox-primary-color-2);
     }
   }
 }

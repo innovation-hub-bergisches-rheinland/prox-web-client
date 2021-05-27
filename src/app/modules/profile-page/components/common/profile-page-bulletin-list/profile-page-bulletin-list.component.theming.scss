@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin profile-page-bulletin-list-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
@@ -5,7 +6,7 @@
 
   .profile-bulletin {
     .profile-bulletin-div li::before {
-      color: mat-color($primary);
+      color: mat.get-color-from-palette($primary);
     }
   }
 }

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 @mixin home-component-color($config-or-theme) {
@@ -10,11 +11,11 @@
 
   // Define any styles affected by the theme.
   .user-role-heading {
-    color: mat-color($primary);
+    color: mat.get-color-from-palette($primary);
   }
 
   ul li::before {
-    color: mat-color($primary);
+    color: mat.get-color-from-palette($primary);
   }
 }
 
