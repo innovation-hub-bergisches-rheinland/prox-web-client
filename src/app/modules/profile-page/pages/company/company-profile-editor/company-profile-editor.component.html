@@ -120,46 +120,21 @@
               ❌ Falsch: <i>https://www.facebook.com/MusterfirmaGmbH/</i>
             </p>
             <div fxLayout="column">
-              <mat-form-field appearance="fill">
-                <mat-label>Facebook</mat-label>
+              <mat-form-field
+                appearance="fill"
+                *ngFor="let platform of socialMediaPlatforms"
+              >
+                <mat-label>{{ platform[3] }}</mat-label>
                 <mat-icon
                   fontSet="fab"
-                  fontIcon="fa-facebook"
+                  [fontIcon]="platform[2]"
                   matPrefix
                 ></mat-icon>
-                <input matInput formControlName="facebook" maxlength="255" />
-              </mat-form-field>
-              <mat-form-field appearance="fill">
-                <mat-label>Twitter</mat-label>
-                <mat-icon
-                  fontSet="fab"
-                  fontIcon="fa-twitter"
-                  matPrefix
-                ></mat-icon>
-                <input matInput formControlName="twitter" maxlength="255" />
-              </mat-form-field>
-              <mat-form-field appearance="fill">
-                <mat-label>Instagram</mat-label>
-                <mat-icon
-                  fontSet="fab"
-                  fontIcon="fa-instagram"
-                  matPrefix
-                ></mat-icon>
-                <input matInput formControlName="instagram" maxlength="255" />
-              </mat-form-field>
-              <mat-form-field appearance="fill">
-                <mat-label>Xing</mat-label>
-                <mat-icon fontSet="fab" fontIcon="fa-xing" matPrefix></mat-icon>
-                <input matInput formControlName="xing" maxlength="255" />
-              </mat-form-field>
-              <mat-form-field appearance="fill">
-                <mat-label>LinkedIn</mat-label>
-                <mat-icon
-                  fontSet="fab"
-                  fontIcon="fa-linkedin"
-                  matPrefix
-                ></mat-icon>
-                <input matInput formControlName="linkedIn" maxlength="255" />
+                <input
+                  matInput
+                  [formControlName]="platform[0]"
+                  maxlength="255"
+                />
               </mat-form-field>
             </div>
           </div>

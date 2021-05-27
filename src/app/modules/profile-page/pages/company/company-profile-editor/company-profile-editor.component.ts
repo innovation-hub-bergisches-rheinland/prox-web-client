@@ -16,7 +16,7 @@ import { Quarter } from '@data/schema/openapi/company-profile-service/quarter';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
-import { mergeMap, map, startWith } from 'rxjs/operators';
+import { mergeMap, map, startWith, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
 
@@ -26,6 +26,14 @@ import { SocialMedia } from '@data/schema/openapi/company-profile-service/social
   styleUrls: ['./company-profile-editor.component.scss']
 })
 export class CompanyProfileEditor implements OnInit {
+  socialMediaPlatforms: [string, SocialMedia.TypeEnum, string, string][] = [
+    ['facebook', SocialMedia.TypeEnum.Facebook, 'fa-facebook', 'Facebook'],
+    ['twitter', SocialMedia.TypeEnum.Twitter, 'fa-twitter', 'Twitter'],
+    ['instagram', SocialMedia.TypeEnum.Instagram, 'fa-instagram', 'Instagram'],
+    ['xing', SocialMedia.TypeEnum.Xing, 'fa-xing', 'Xing'],
+    ['linkedin', SocialMedia.TypeEnum.Linkedin, 'fa-linkedin', 'LinkedIn']
+  ];
+
   _company: Company;
   companyId: string;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -41,28 +49,7 @@ export class CompanyProfileEditor implements OnInit {
     homepage: new FormControl(''),
     foundation: new FormControl(''),
     vita: new FormControl(''),
-    socialMedia: new FormGroup({
-      facebook: new FormControl(
-        '',
-        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
-      ),
-      twitter: new FormControl(
-        '',
-        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
-      ),
-      instagram: new FormControl(
-        '',
-        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
-      ),
-      xing: new FormControl(
-        '',
-        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
-      ),
-      linkedIn: new FormControl(
-        '',
-        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
-      )
-    })
+    socialMedia: new FormGroup({}) //Populated in ngOnInit
   });
   languageCtrl = new FormControl();
   allLanguages: Language[] = [];
@@ -97,27 +84,20 @@ export class CompanyProfileEditor implements OnInit {
       numberOfEmployees: company.information.numberOfEmployees ?? '',
       vita: company.information.vita ?? '',
       headquarter: company.headquarter.location ?? '',
-      socialMedia: {
-        facebook: this.getSocialMediaLink(
-          SocialMedia.TypeEnum.Facebook,
-          company
-        ),
-        twitter: this.getSocialMediaLink(SocialMedia.TypeEnum.Twitter, company),
-        instagram: this.getSocialMediaLink(
-          SocialMedia.TypeEnum.Instagram,
-          company
-        ),
-        linkedIn: this.getSocialMediaLink(
-          SocialMedia.TypeEnum.Linkedin,
-          company
-        ),
-        xing: this.getSocialMediaLink(SocialMedia.TypeEnum.Xing, company)
-      }
+      socialMedia: this.buildSocialMediaObject(company)
     });
   }
 
+  private buildSocialMediaObject(company: Company): any {
+    const obj = {};
+    this.socialMediaPlatforms.forEach(
+      p => (obj[p[0]] = this.getSocialMediaLink(p[1], company))
+    );
+    return obj;
+  }
+
   private getSocialMediaLink(type: SocialMedia.TypeEnum, company: Company) {
-    return company.socialMedia.find(s => s.type == type).account ?? '';
+    return company.socialMedia.find(s => s.type == type)?.account ?? '';
   }
 
   /**
@@ -139,49 +119,51 @@ export class CompanyProfileEditor implements OnInit {
       headquarter: {
         location: this.profileForm.value['headquarter']
       },
-      socialMedia: this.buildSocialMedia()
+      socialMedia: this.buildSocialMediaArray()
     };
   }
 
-  private buildSocialMedia(): SocialMedia[] {
-    const smForm: FormGroup = this.profileForm.get('socialMedia') as FormGroup;
+  private buildSocialMediaArray(): SocialMedia[] {
     const socialMedia: SocialMedia[] = [];
-
-    if (!(smForm.get('facebook') as FormControl).invalid) {
-      socialMedia.push({
-        type: SocialMedia.TypeEnum.Facebook,
-        account: (smForm.value['facebook'] as string).trim()
-      });
-    }
-    if (!(smForm.get('twitter') as FormControl).invalid) {
-      socialMedia.push({
-        type: SocialMedia.TypeEnum.Twitter,
-        account: (smForm.value['twitter'] as string).trim()
-      });
-    }
-    if (!(smForm.get('instagram') as FormControl).invalid) {
-      socialMedia.push({
-        type: SocialMedia.TypeEnum.Instagram,
-        account: (smForm.value['instagram'] as string).trim()
-      });
-    }
-    if (!(smForm.get('xing') as FormControl).invalid) {
-      socialMedia.push({
-        type: SocialMedia.TypeEnum.Xing,
-        account: (smForm.value['xing'] as string).trim()
-      });
-    }
-    if (!(smForm.get('linkedIn') as FormControl).invalid) {
-      socialMedia.push({
-        type: SocialMedia.TypeEnum.Linkedin,
-        account: (smForm.value['linkedIn'] as string).trim()
-      });
-    }
+    //string is the form control name
+    const socialMediaPlatforms: [string, SocialMedia.TypeEnum][] = [
+      ['facebook', SocialMedia.TypeEnum.Facebook],
+      ['twitter', SocialMedia.TypeEnum.Twitter],
+      ['instagram', SocialMedia.TypeEnum.Instagram],
+      ['xing', SocialMedia.TypeEnum.Xing],
+      ['linkedin', SocialMedia.TypeEnum.Linkedin]
+    ];
+    socialMediaPlatforms.forEach(p =>
+      this.getSocialMediaAndAddToArray(p[0], p[1], socialMedia)
+    );
     return socialMedia;
   }
 
+  private getSocialMediaAndAddToArray(
+    sm: string,
+    type: SocialMedia.TypeEnum,
+    arr: SocialMedia[]
+  ) {
+    const smForm: FormGroup = this.profileForm.get('socialMedia') as FormGroup;
+    const fc = smForm.get(sm) as FormControl;
+    if (fc && !fc.invalid) {
+      const value = (smForm.value[sm] as string).trim();
+      if (value && value.length > 0) {
+        arr.push({
+          type: type,
+          account: value
+        });
+      }
+    }
+  }
+
   ngOnInit() {
-    this.hasPermission = true; //TODO
+    this.socialMediaPlatforms.forEach(p =>
+      (this.profileForm.get('socialMedia') as FormGroup).registerControl(
+        p[0],
+        new FormControl('', Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g))
+      )
+    );
 
     this.companyProfileService
       .getAllLanguages()
@@ -198,10 +180,20 @@ export class CompanyProfileEditor implements OnInit {
       .pipe(
         mergeMap(params =>
           this.companyProfileService.getCompanyById(params['id'])
-        )
+        ),
+        tap(c => {
+          this.keycloakService.isLoggedIn().then(isLoggedIn => {
+            if (isLoggedIn) {
+              let userId = this.keycloakService.getKeycloakInstance().subject;
+              this.hasPermission =
+                this.keycloakService.isUserInRole('company-manager') &&
+                userId === c.creatorId;
+            }
+          });
+        })
       )
-      .subscribe(
-        company => {
+      .subscribe({
+        next: company => {
           this.company = company;
           this.exists = true;
           this.imageSrc = this.companyProfileService.getCompanyLogoUrl(
@@ -211,7 +203,7 @@ export class CompanyProfileEditor implements OnInit {
             .getCompanyLanguages(this.company.id)
             .subscribe(res => this.languages.push(...res));
         },
-        err => {
+        error: err => {
           if (err instanceof HttpErrorResponse && err.status == 404) {
             this.exists = false;
           } else {
@@ -220,7 +212,7 @@ export class CompanyProfileEditor implements OnInit {
             );
           }
         }
-      );
+      });
   }
 
   handleChipInput<T>(
@@ -228,7 +220,7 @@ export class CompanyProfileEditor implements OnInit {
     proj: (s: string) => T,
     action: (v: T) => void
   ) {
-    const input = event.input;
+    const input = event.chipInput.inputElement;
     const value = event.value;
 
     if ((value || '').trim()) {
@@ -360,57 +352,55 @@ export class CompanyProfileEditor implements OnInit {
 
     let error = false;
 
-    console.log(this.company);
-    console.log(JSON.stringify(this.company));
-
-    //TODO refactor
-    saveObservable.subscribe(
-      p => {
+    saveObservable.subscribe({
+      next: p => {
         this.companyProfileService
           .saveCompanyLanguages(p.id, this.languages)
-          .subscribe(
-            _ => {},
-            err => {
+          .subscribe({
+            error: err => {
+              console.error(err);
               this.snackbar.open(
                 'Konnte Sprachen nicht speichern. Bitte versuchen Sie es später erneut.'
               );
               error = true;
             }
-          );
+          });
         if (this.image && !this.deleteImage) {
           this.companyProfileService
             .saveCompanyLogo(p.id, this.image)
-            .subscribe(
-              _ => {},
-              err => {
+            .subscribe({
+              error: err => {
+                console.error(err);
                 this.snackbar.open(
                   'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
                 );
                 error = true;
               }
-            );
+            });
         } else if (this.deleteImage) {
-          this.companyProfileService.deleteCompanyLogo(p.id).subscribe(
-            _ => {},
-            err => {
+          this.companyProfileService.deleteCompanyLogo(p.id).subscribe({
+            error: err => {
+              console.error(err);
               this.snackbar.open(
                 'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
               );
               error = true;
             }
-          );
+          });
         }
       },
-      _ =>
+      error: err => {
+        console.error(err);
         this.snackbar.open(
           'Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.'
-        ),
-      () => {
+        );
+      },
+      complete: () => {
         if (!error) {
           this.router.navigate(['..'], { relativeTo: this.route });
         }
       }
-    );
+    });
   }
 
   private _filterLanguages(language: string | Language): Language[] {
