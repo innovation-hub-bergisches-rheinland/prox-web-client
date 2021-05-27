@@ -16,7 +16,8 @@ import { map, mergeMap } from 'rxjs/operators';
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
-  styleUrls: ['./company-profile.component.scss']
+  styleUrls: ['./company-profile.component.scss'],
+  host: { class: 'company-profile' }
 })
 export class CompanyProfileComponent implements OnInit {
   company: Company;
