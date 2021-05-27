@@ -1,9 +1,9 @@
 <div
-  gdAreas="header header | subtitle subtitle | picture information"
-  gdRows="auto auto auto"
+  gdAreas="header header | subtitle subtitle | picture information | socialMedia socialMedia"
+  gdRows="auto auto auto auto"
   gdGap="10px"
-  gdAreas.lt-md="header | subtitle | picture | information"
-  gdRows.lt-md="auto auto auto auto"
+  gdAreas.lt-md="header | subtitle | picture | information | socialMedia"
+  gdRows.lt-md="auto auto auto auto auto"
 >
   <div gdArea="header" fxLayoutAlign.lt-md="center center">
     <h1>
@@ -31,6 +31,48 @@
       onerror="this.src='/assets/images/blank-profile-picture.png'"
       width="200"
     />
+  </div>
+  <div gdArea="socialMedia" class="socialMedia" fxLayoutGap="5px">
+    <a *ngIf="facebookUrl" [href]="facebookUrl">
+      <mat-icon
+        fontSet="fab"
+        fontIcon="fa-facebook-square"
+        inline="true"
+        class="facebook"
+      ></mat-icon>
+    </a>
+    <a *ngIf="twitterUrl" [href]="twitterUrl">
+      <mat-icon
+        fontSet="fab"
+        fontIcon="fa-twitter-square"
+        inline="true"
+        class="twitter"
+      ></mat-icon>
+    </a>
+    <a *ngIf="instagramUrl" [href]="instagramUrl">
+      <mat-icon
+        fontSet="fab"
+        fontIcon="fa-instagram-square"
+        inline="true"
+        class="instagram"
+      ></mat-icon>
+    </a>
+    <a *ngIf="xingUrl" [href]="xingUrl">
+      <mat-icon
+        fontSet="fab"
+        fontIcon="fa-xing-square"
+        inline="true"
+        class="xing"
+      ></mat-icon>
+    </a>
+    <a *ngIf="linkedinUrl" [href]="linkedinUrl">
+      <mat-icon
+        fontSet="fab"
+        fontIcon="fa-linkedin"
+        inline="true"
+        class="linkedin"
+      ></mat-icon>
+    </a>
   </div>
   <div gdArea="information" class="profile-info-div">
     <div gdAreas="attribute value" gdGap="10px">

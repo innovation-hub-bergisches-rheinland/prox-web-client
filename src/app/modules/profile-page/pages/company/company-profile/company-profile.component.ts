@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
+import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 import { ProfileBulletin } from '@modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component';
 import { ProfilePageInformation } from '@modules/profile-page/components/common/profile-page-information/profile-page-information.component';
@@ -19,7 +20,8 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class CompanyProfileComponent implements OnInit {
   company: Company;
-  languages: Language[];
+  languages: Language[] = [];
+  socialMedia: SocialMedia[] = [];
   hasPermission: boolean;
   isMe: boolean = false;
 
@@ -98,6 +100,7 @@ export class CompanyProfileComponent implements OnInit {
       .subscribe(
         res => {
           this.company = res;
+          this.socialMedia = this.company.socialMedia ?? [];
 
           this.companyProfileService
             .getCompanyLanguages(this.company.id)

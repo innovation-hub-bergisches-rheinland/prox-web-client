@@ -7,6 +7,7 @@
   <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="company">
     <app-profile-page-information
       [information]="companyInformation"
+      [socialMedia]="company.socialMedia"
     ></app-profile-page-information>
     <br />
     <app-profile-page-vita [vita]="companyVita"></app-profile-page-vita>
