@@ -12,3 +12,4 @@ export * from './entityModelLanguage';
 export * from './language';
 export * from './link';
 export * from './quarter';
+export * from './socialMedia';

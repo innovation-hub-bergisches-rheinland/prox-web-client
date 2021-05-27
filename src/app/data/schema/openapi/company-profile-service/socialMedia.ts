@@ -9,17 +9,23 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Quarter } from './quarter';
-import { CompanyInformation } from './companyInformation';
-import { SocialMedia } from './socialMedia';
-import { Branch } from './branch';
 
-export interface Company {
-  id: string;
-  creatorId?: string;
-  information: CompanyInformation;
-  headquarter?: Quarter;
-  quarters?: Quarter[];
-  branches?: Branch[];
-  socialMedia?: SocialMedia[];
+export interface SocialMedia {
+  type?: SocialMedia.TypeEnum;
+  account?: string;
+}
+export namespace SocialMedia {
+  export type TypeEnum =
+    | 'FACEBOOK'
+    | 'TWITTER'
+    | 'INSTAGRAM'
+    | 'XING'
+    | 'LINKEDIN';
+  export const TypeEnum = {
+    Facebook: 'FACEBOOK' as TypeEnum,
+    Twitter: 'TWITTER' as TypeEnum,
+    Instagram: 'INSTAGRAM' as TypeEnum,
+    Xing: 'XING' as TypeEnum,
+    Linkedin: 'LINKEDIN' as TypeEnum
+  };
 }
