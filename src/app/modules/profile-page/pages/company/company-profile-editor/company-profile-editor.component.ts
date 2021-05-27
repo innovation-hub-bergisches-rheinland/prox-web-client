@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { mergeMap, map, startWith, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-company-profile-editor',
@@ -302,7 +303,11 @@ export class CompanyProfileEditor implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.languages.push(event.option.value);
+    this.addToArrayIfNotExists(
+      this.languages,
+      event.option.value as Language,
+      (a, b) => a.id === b.id
+    );
     this.languageInput.nativeElement.value = '';
     this.languageCtrl.setValue(null);
   }
@@ -409,8 +414,8 @@ export class CompanyProfileEditor implements OnInit {
       filterValue = language.toLowerCase();
     }
 
-    return this.allLanguages.filter(lang =>
-      lang.germanName.toLowerCase().includes(filterValue)
-    );
+    return this.allLanguages
+      .filter(lang => !this.languages.map(l => l.id).includes(lang.id))
+      .filter(lang => lang.germanName.toLowerCase().includes(filterValue));
   }
 }

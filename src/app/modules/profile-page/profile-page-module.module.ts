@@ -18,10 +18,13 @@ import { ProfessorsItemComponent } from './components/professor/professors-overv
 import { CompanyItemComponent } from './components/company/company-overview-item/company-item.component';
 import { CompanyOverviewComponent } from './pages/company/companies-overview/companies-overview.component';
 import { CompanyProfileEditor } from './pages/company/company-profile-editor/company-profile-editor.component';
+import { ProfilePageChipListComponent } from './components/common/profile-page-chip-list/profile-page-chip-list.component';
+import { CompanyLanguageInformationComponent } from './components/company/company-language-information/company-language-information';
 
 @NgModule({
   declarations: [
     ProfilePageInformationComponent,
+    ProfilePageChipListComponent,
     ProfilePageBulletinListComponent,
     ProfilePageVitaComponent,
     ProfessorsComponent,
@@ -35,7 +38,8 @@ import { CompanyProfileEditor } from './pages/company/company-profile-editor/com
     CompanyItemComponent,
     CompanyOverviewComponent,
     CompanyProfileComponent,
-    CompanyProfileEditor
+    CompanyProfileEditor,
+    CompanyLanguageInformationComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,30 @@
+h1 {
+  text-align: center;
+}
+
+ul {
+  column-count: 4;
+  column-gap: 35px;
+  list-style: none;
+}
+
+@media (max-width: 480px) {
+  ul {
+    column-count: 2;
+  }
+}
+
+li {
+  line-height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+li span {
+  margin-right: 5px;
+}
+
+li::before {
+  content: '';
+}

@@ -8,6 +8,7 @@ import { CompanyProfileService } from '@data/service/company-profile.service';
 import { ProfileBulletin } from '@modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component';
 import { ProfilePageInformation } from '@modules/profile-page/components/common/profile-page-information/profile-page-information.component';
 import { ProfileVita } from '@modules/profile-page/components/common/profile-page-vita/profile-page-vita.component';
+import { LanguageInformation } from '@modules/profile-page/components/company/company-language-information/company-language-information';
 import { KeycloakService } from 'keycloak-angular';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -63,11 +64,8 @@ export class CompanyProfileComponent implements OnInit {
     return information;
   }
 
-  get companyBranches(): ProfileBulletin {
-    return {
-      title: 'Branchen',
-      bulletins: [...this.company.branches].map(b => b.branchName)
-    };
+  get companyBranches(): string[] {
+    return [...this.company.branches].map(b => b.branchName);
   }
 
   get companyVita(): ProfileVita {
@@ -77,10 +75,10 @@ export class CompanyProfileComponent implements OnInit {
     };
   }
 
-  get companyLanguages(): ProfileBulletin {
+  get companyLanguages(): LanguageInformation {
     return {
       title: 'Sprachen im Unternehmen',
-      bulletins: [...this.languages].map(l => l.germanName)
+      languages: this.languages
     };
   }
 
@@ -96,14 +94,16 @@ export class CompanyProfileComponent implements OnInit {
           return this.companyProfileService.getCompanyById(id);
         })
       )
-      .subscribe(
-        res => {
+      .subscribe({
+        next: res => {
           this.company = res;
           this.socialMedia = this.company.socialMedia ?? [];
 
           this.companyProfileService
             .getCompanyLanguages(this.company.id)
-            .subscribe(res => (this.languages = res));
+            .subscribe(res => {
+              this.languages = res;
+            });
 
           if (this.isMe) {
             this.router.navigate(['/companies', this.company.id]);
@@ -118,7 +118,7 @@ export class CompanyProfileComponent implements OnInit {
             }
           });
         },
-        err => {
+        error: err => {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 404) {
               if (!this.isMe) {
@@ -149,7 +149,7 @@ export class CompanyProfileComponent implements OnInit {
             console.error(err);
           }
         }
-      );
+      });
   }
 
   editProfilePage() {
