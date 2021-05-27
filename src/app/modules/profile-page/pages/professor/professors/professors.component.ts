@@ -98,12 +98,24 @@ export class ProfessorsComponent implements OnInit {
 
   filterProfessors() {
     const facultyId = this.selectedFaculty?.value?.id;
+    const search = this.searchString.value as string;
     if (facultyId) {
       this.filteredProfessors = this.professors.filter(
         p => p.facultyId == facultyId
       );
+      if (search) {
+        this.filteredProfessors = this.filteredProfessors.filter(p =>
+          p.name.toLowerCase().includes(search.toLowerCase())
+        );
+      }
     } else {
-      this.filteredProfessors = this.professors;
+      if (search) {
+        this.filteredProfessors = this.professors.filter(p =>
+          p.name.toLowerCase().includes(search.toLowerCase())
+        );
+      } else {
+        this.filteredProfessors = this.professors;
+      }
     }
     this.pageProfessors();
   }
