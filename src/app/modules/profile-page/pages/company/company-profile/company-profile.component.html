@@ -20,7 +20,7 @@
       [bulletinList]="companyLanguages"
     ></app-profile-page-bulletin-list>
   </div>
-  <div *ngIf="!company && isMe">
+  <div *ngIf="!company && hasPermission">
     Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf
     den Button "Profilseite bearbeiten" tun.
   </div>

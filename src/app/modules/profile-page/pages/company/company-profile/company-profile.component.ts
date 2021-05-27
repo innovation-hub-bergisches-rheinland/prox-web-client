@@ -131,6 +131,16 @@ export class CompanyProfileComponent implements OnInit {
                     this.hasPermission =
                       this.keycloakService.isUserInRole('company-manager') &&
                       this.isMe;
+
+                    if (this.hasPermission) {
+                      this.router.navigate(['edit'], {
+                        relativeTo: this.activatedRoute
+                      });
+                    } else {
+                      this.router.navigate(['/404']);
+                    }
+                  } else {
+                    this.router.navigate(['/404']);
                   }
                 });
               }
