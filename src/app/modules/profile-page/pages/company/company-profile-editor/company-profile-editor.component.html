@@ -109,6 +109,62 @@
           </div>
           <br />
           <mat-divider></mat-divider>
+          <div formGroupName="socialMedia" class="socialMedia">
+            <h3>Social Media Links</h3>
+            <b>
+              Derzeit ist es zwingend nötig, dass Sie die Accountkennung
+              angeben.
+            </b>
+            <p class="valid-example">✔️ Richtig: <i>MusterfirmaGmbH</i></p>
+            <p class="invalid-example">
+              ❌ Falsch: <i>https://www.facebook.com/MusterfirmaGmbH/</i>
+            </p>
+            <div fxLayout="column">
+              <mat-form-field appearance="fill">
+                <mat-label>Facebook</mat-label>
+                <mat-icon
+                  fontSet="fab"
+                  fontIcon="fa-facebook"
+                  matPrefix
+                ></mat-icon>
+                <input matInput formControlName="facebook" maxlength="255" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Twitter</mat-label>
+                <mat-icon
+                  fontSet="fab"
+                  fontIcon="fa-twitter"
+                  matPrefix
+                ></mat-icon>
+                <input matInput formControlName="twitter" maxlength="255" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Instagram</mat-label>
+                <mat-icon
+                  fontSet="fab"
+                  fontIcon="fa-instagram"
+                  matPrefix
+                ></mat-icon>
+                <input matInput formControlName="instagram" maxlength="255" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Xing</mat-label>
+                <mat-icon fontSet="fab" fontIcon="fa-xing" matPrefix></mat-icon>
+                <input matInput formControlName="xing" maxlength="255" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>LinkedIn</mat-label>
+                <mat-icon
+                  fontSet="fab"
+                  fontIcon="fa-linkedin"
+                  matPrefix
+                ></mat-icon>
+                <input matInput formControlName="linkedIn" maxlength="255" />
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <br />
           <div>
             <h3>Weitere Standorte</h3>
             <mat-form-field class="quarters-chip-list">

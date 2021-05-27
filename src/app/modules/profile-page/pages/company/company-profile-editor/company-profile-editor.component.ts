@@ -18,6 +18,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { Observable } from 'rxjs';
 import { mergeMap, map, startWith } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
 
 @Component({
   selector: 'app-company-profile-editor',
@@ -39,7 +40,29 @@ export class CompanyProfileEditor implements OnInit {
     headquarter: new FormControl(''),
     homepage: new FormControl(''),
     foundation: new FormControl(''),
-    vita: new FormControl('')
+    vita: new FormControl(''),
+    socialMedia: new FormGroup({
+      facebook: new FormControl(
+        '',
+        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
+      ),
+      twitter: new FormControl(
+        '',
+        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
+      ),
+      instagram: new FormControl(
+        '',
+        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
+      ),
+      xing: new FormControl(
+        '',
+        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
+      ),
+      linkedIn: new FormControl(
+        '',
+        Validators.pattern(/^\s*[-a-zA-Z0-9()_\+.]*\s*$/g)
+      )
+    })
   });
   languageCtrl = new FormControl();
   allLanguages: Language[] = [];
@@ -73,8 +96,28 @@ export class CompanyProfileEditor implements OnInit {
       homepage: company.information.homepage ?? '',
       numberOfEmployees: company.information.numberOfEmployees ?? '',
       vita: company.information.vita ?? '',
-      headquarter: company.headquarter.location ?? ''
+      headquarter: company.headquarter.location ?? '',
+      socialMedia: {
+        facebook: this.getSocialMediaLink(
+          SocialMedia.TypeEnum.Facebook,
+          company
+        ),
+        twitter: this.getSocialMediaLink(SocialMedia.TypeEnum.Twitter, company),
+        instagram: this.getSocialMediaLink(
+          SocialMedia.TypeEnum.Instagram,
+          company
+        ),
+        linkedIn: this.getSocialMediaLink(
+          SocialMedia.TypeEnum.Linkedin,
+          company
+        ),
+        xing: this.getSocialMediaLink(SocialMedia.TypeEnum.Xing, company)
+      }
     });
+  }
+
+  private getSocialMediaLink(type: SocialMedia.TypeEnum, company: Company) {
+    return company.socialMedia.find(s => s.type == type).account ?? '';
   }
 
   /**
@@ -95,8 +138,46 @@ export class CompanyProfileEditor implements OnInit {
       },
       headquarter: {
         location: this.profileForm.value['headquarter']
-      }
+      },
+      socialMedia: this.buildSocialMedia()
     };
+  }
+
+  private buildSocialMedia(): SocialMedia[] {
+    const smForm: FormGroup = this.profileForm.get('socialMedia') as FormGroup;
+    const socialMedia: SocialMedia[] = [];
+
+    if (!(smForm.get('facebook') as FormControl).invalid) {
+      socialMedia.push({
+        type: SocialMedia.TypeEnum.Facebook,
+        account: (smForm.value['facebook'] as string).trim()
+      });
+    }
+    if (!(smForm.get('twitter') as FormControl).invalid) {
+      socialMedia.push({
+        type: SocialMedia.TypeEnum.Twitter,
+        account: (smForm.value['twitter'] as string).trim()
+      });
+    }
+    if (!(smForm.get('instagram') as FormControl).invalid) {
+      socialMedia.push({
+        type: SocialMedia.TypeEnum.Instagram,
+        account: (smForm.value['instagram'] as string).trim()
+      });
+    }
+    if (!(smForm.get('xing') as FormControl).invalid) {
+      socialMedia.push({
+        type: SocialMedia.TypeEnum.Xing,
+        account: (smForm.value['xing'] as string).trim()
+      });
+    }
+    if (!(smForm.get('linkedIn') as FormControl).invalid) {
+      socialMedia.push({
+        type: SocialMedia.TypeEnum.Linkedin,
+        account: (smForm.value['linkedIn'] as string).trim()
+      });
+    }
+    return socialMedia;
   }
 
   ngOnInit() {
