@@ -141,7 +141,7 @@ $prox-app-theme-4: map-merge(
 @include content-layout-theme($prox-app-theme-2);
 
 @include profile-page-bulletin-list-theme($prox-app-theme-3);
-@include profile-page-vita-theme($prox-app-theme-4);
+@include profile-page-vita-theme($prox-app-theme-1);
 
 // Set global styles by injecting themes
 @include app-text-color-theme($prox-app-theme-1);
