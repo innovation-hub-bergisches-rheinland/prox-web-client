@@ -18,6 +18,8 @@ export class ProfessorPublicationsComponent implements OnInit {
   @Input()
   publications: Publication[];
 
+  limit = 10;
+
   constructor(public textProcessor: TextProcessor) {}
 
   ngOnInit(): void {}
