@@ -5,7 +5,7 @@ import { CompanyProfileEditor } from './pages/company/company-profile-editor/com
 import { CompanyProfileComponent } from './pages/company/company-profile/company-profile.component';
 import { ProfessorProfileEditor } from './pages/professor/professor-profile-editor/professor-profile-editor.component';
 import { ProfessorProfileComponent } from './pages/professor/professor-profile/professor-profile.component';
-import { ProfessorsComponent } from './pages/professor/professors/professors.component';
+import { ProfessorsOverviewComponent } from './pages/professor/professors-overview/professors-overview.component';
 
 const routes: Routes = [
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ProfessorsComponent
+        component: ProfessorsOverviewComponent
       },
       {
         path: ':id',

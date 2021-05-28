@@ -13,24 +13,39 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-company-item',
-  templateUrl: './company-item.component.html',
-  styleUrls: ['./company-item.component.scss'],
+  selector: 'app-company-overview-item',
+  template: `
+    <app-profile-overview-card
+      [title]="companyName"
+      [href]="profileLink"
+      [chipTitle]="'Branchen'"
+      [imgSrc]="logoUrl"
+      [chips]="branches"
+    ></app-profile-overview-card>
+  `,
   host: { '[class.company-item-wrapper]': 'true' }
 })
 export class CompanyItemComponent implements OnInit {
   @Input()
   company: Company;
 
+  get companyName(): string {
+    return this.company.information.name;
+  }
+
+  get logoUrl(): string {
+    return this.companyService.getCompanyLogoUrl(this.company.id);
+  }
+
+  get branches(): string[] {
+    return [...this.company.branches].map(b => b.branchName);
+  }
+
+  get profileLink(): string {
+    return `./lecturers/${this.company.id}`;
+  }
+
   constructor(public companyService: CompanyProfileService) {}
 
   ngOnInit() {}
-
-  getProfilePictureUrl(company: Company): string {
-    return this.companyService.getCompanyLogoUrl(company.id);
-  }
-
-  getBranches(): string[] {
-    return [...this.company.branches].map(b => b.branchName);
-  }
 }

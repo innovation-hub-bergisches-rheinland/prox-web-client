@@ -5,9 +5,8 @@
 @import './app/layout/content-layout/content-layout.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-vita/profile-page-vita.component.theming.scss';
-@import './app/modules/profile-page/components/professor/professors-overview-item/professors-item.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-projects-history/profile-page-projects-history.component.theming.scss';
-@import './app/modules/profile-page/components/company/company-overview-item/company-item.component.theming.scss';
+@import './app/modules/profile-page/components/common/profile-overview-card/profile-overview-card.component.theming.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -136,8 +135,6 @@ $prox-app-theme-4: map-merge(
 @include mat.option-theme($prox-app-theme-1);
 
 // Inject themes into custom components
-@include professor-item-theme($prox-app-theme-4);
-@include company-item-theme($prox-app-theme-4);
 @include profile-page-projects-history-theme($prox-app-theme-2);
 @include content-layout-theme($prox-app-theme-2);
 
@@ -146,3 +143,5 @@ $prox-app-theme-4: map-merge(
 
 // Set global styles by injecting themes
 @include app-text-color-theme($prox-app-theme-1);
+
+@include profile-overview-card-theme($prox-app-theme-1);

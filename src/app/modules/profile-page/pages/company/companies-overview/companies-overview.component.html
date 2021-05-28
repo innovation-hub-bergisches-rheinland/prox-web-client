@@ -2,14 +2,18 @@
   <div>
     <h1 mat-h1>Unternehmen</h1>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="2% grid">
-    <app-company-item
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-around stretch"
+    fxLayoutGap="20px"
+  >
+    <app-company-overview-item
       *ngFor="let company of companies"
       [company]="company"
       fxFlex="48"
       fxFlex.lt-md="100"
     >
-    </app-company-item>
+    </app-company-overview-item>
   </div>
   <mat-paginator
     fxLayout="column"
