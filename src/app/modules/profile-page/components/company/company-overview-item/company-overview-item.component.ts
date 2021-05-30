@@ -42,7 +42,7 @@ export class CompanyItemComponent implements OnInit {
   }
 
   get profileLink(): string {
-    return `./lecturers/${this.company.id}`;
+    return `./companies/${this.company.id}`;
   }
 
   constructor(public companyService: CompanyProfileService) {}
