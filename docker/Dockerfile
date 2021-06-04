@@ -3,7 +3,7 @@
 #########################
 
 # base image
-FROM node:16.2.0-stretch as builder
+FROM node:16.3.0-stretch as builder
 ARG APP_ENV=production
 
 # install chrome for protractor tests
