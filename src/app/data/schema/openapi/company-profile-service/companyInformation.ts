@@ -16,4 +16,5 @@ export interface CompanyInformation {
   numberOfEmployees?: string;
   homepage?: string;
   vita?: string;
+  contactEmail?: string;
 }

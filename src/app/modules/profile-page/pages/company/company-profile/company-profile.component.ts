@@ -57,6 +57,11 @@ export class CompanyProfileComponent implements OnInit {
           description: 'Homepage',
           value: this.company.information.homepage,
           urlProcessing: true
+        },
+        {
+          description: 'E-Mail Adresse',
+          value: this.company.information.contactEmail,
+          urlProcessing: true
         }
       ]
     };

@@ -109,6 +109,19 @@
           </div>
           <br />
           <mat-divider></mat-divider>
+          <div formGroupName="contact">
+            <h3>Kontaktinformationen</h3>
+            <b>
+              Die angegebenen Kontaktinformationen sollen von Interessierten zu
+              Projektangeboten für die Kontaktaufnahme genutzt werden
+            </b>
+            <mat-form-field appearance="fill">
+              <mat-label>E-Mail Adresse</mat-label>
+              <input matInput formControlName="contactEmail" maxlength="255" />
+            </mat-form-field>
+          </div>
+          <br />
+          <mat-divider></mat-divider>
           <div formGroupName="socialMedia" class="socialMedia">
             <h3>Social Media Links</h3>
             <b>

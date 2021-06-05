@@ -50,7 +50,10 @@ export class CompanyProfileEditor implements OnInit {
     homepage: new FormControl(''),
     foundation: new FormControl(''),
     vita: new FormControl(''),
-    socialMedia: new FormGroup({}) //Populated in ngOnInit
+    socialMedia: new FormGroup({}), //Populated in ngOnInit,
+    contact: new FormGroup({
+      contactEmail: new FormControl('', Validators.email)
+    })
   });
   languageCtrl = new FormControl();
   allLanguages: Language[] = [];
@@ -85,7 +88,10 @@ export class CompanyProfileEditor implements OnInit {
       numberOfEmployees: company.information.numberOfEmployees ?? '',
       vita: company.information.vita ?? '',
       headquarter: company.headquarter.location ?? '',
-      socialMedia: this.buildSocialMediaObject(company)
+      socialMedia: this.buildSocialMediaObject(company),
+      contact: {
+        contactEmail: company.information.contactEmail ?? ''
+      }
     });
   }
 
@@ -115,7 +121,10 @@ export class CompanyProfileEditor implements OnInit {
         foundingDate: this.profileForm.value['foundation'],
         homepage: this.profileForm.value['homepage'],
         numberOfEmployees: this.profileForm.value['numberOfEmployees'],
-        vita: this.profileForm.value['vita']
+        vita: this.profileForm.value['vita'],
+        contactEmail: (this.profileForm.get('contact') as FormGroup).value[
+          'contactEmail'
+        ]
       },
       headquarter: {
         location: this.profileForm.value['headquarter']
