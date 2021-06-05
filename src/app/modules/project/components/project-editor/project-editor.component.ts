@@ -78,7 +78,8 @@ import {
   ]
 })
 export class ProjectEditorComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   private STORAGE_KEY = 'project-editor-state';
   private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
@@ -173,7 +174,7 @@ export class ProjectEditorComponent
       shortDescription: ['', [Validators.required]],
       requirement: [''],
       description: [''],
-      supervisorName: ['', [Validators.required]],
+      supervisorName: [''],
       status: ['', [Validators.required]],
       tagInput: []
     });
@@ -197,23 +198,26 @@ export class ProjectEditorComponent
       }
     );
 
-    this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
-      filter(value => (value ? value.length >= 2 : false)),
-      debounceTime(200),
-      switchMap(value =>
-        this.tagService.findByTagName(value, false).pipe(
-          catchError(error => {
-            this.openErrorSnackBar(
-              'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-            );
-            return throwError(error);
-          }),
-          takeUntil(
-            this.projectFormControl.controls.tagInput.valueChanges.pipe(skip(1))
+    this.filteredTags =
+      this.projectFormControl.controls.tagInput.valueChanges.pipe(
+        filter(value => (value ? value.length >= 2 : false)),
+        debounceTime(200),
+        switchMap(value =>
+          this.tagService.findByTagName(value, false).pipe(
+            catchError(error => {
+              this.openErrorSnackBar(
+                'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+              );
+              return throwError(error);
+            }),
+            takeUntil(
+              this.projectFormControl.controls.tagInput.valueChanges.pipe(
+                skip(1)
+              )
+            )
           )
         )
-      )
-    );
+      );
 
     //If the component has project as input try load it's values into the editor
     if (this.project) {

@@ -24,5 +24,5 @@ export interface EntityModelOfProject {
   name: string;
   requirement?: string;
   shortDescription: string;
-  supervisorName: string;
+  supervisorName?: string;
 }

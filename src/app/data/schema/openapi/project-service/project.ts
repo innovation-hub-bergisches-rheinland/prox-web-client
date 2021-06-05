@@ -22,5 +22,5 @@ export interface Project {
   name: string;
   requirement?: string;
   shortDescription: string;
-  supervisorName: string;
+  supervisorName?: string;
 }
