@@ -32,7 +32,7 @@ export class ProfilePageAvailableProjects implements OnInit, AfterViewInit {
   //Because the paginator is wrapped inside a *ngIf, @ViewChild cannot be used
   @ViewChildren('paginator') paginator: QueryList<MatPaginator>;
 
-  constructor() {}
+  constructor(private projectService: ProjectService) {}
 
   ngAfterViewInit() {
     this.paginator.changes.subscribe((comps: QueryList<MatPaginator>) => {

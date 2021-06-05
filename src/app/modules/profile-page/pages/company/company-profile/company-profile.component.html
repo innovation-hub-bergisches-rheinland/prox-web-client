@@ -19,6 +19,17 @@
     <app-company-language-information
       [information]="companyLanguages"
     ></app-company-language-information>
+    <app-profile-page-available-projects
+      [projects]="availableProjects$"
+    ></app-profile-page-available-projects>
+    <app-profile-page-projects-history
+      *ngIf="projectHistory && projectHistory.length > 0"
+    >
+      <app-profile-page-projects-history-item
+        *ngFor="let project of projectHistory"
+        [project]="project"
+      ></app-profile-page-projects-history-item>
+    </app-profile-page-projects-history>
   </div>
   <div *ngIf="!company && hasPermission">
     Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf

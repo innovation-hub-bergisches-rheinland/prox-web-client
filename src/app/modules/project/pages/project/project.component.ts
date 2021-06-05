@@ -202,7 +202,10 @@ export class ProjectComponent implements OnInit {
 
   public hasProjectCreationPermission(): boolean {
     if (this.isLoggedIn) {
-      return this.keycloakService.isUserInRole('professor');
+      return (
+        this.keycloakService.isUserInRole('professor') ||
+        this.keycloakService.isUserInRole('company-manager')
+      );
     }
     return false;
   }
@@ -211,7 +214,8 @@ export class ProjectComponent implements OnInit {
     if (this.isLoggedIn) {
       let userId = this.keycloakService.getKeycloakInstance().subject;
       return (
-        this.keycloakService.isUserInRole('professor') &&
+        (this.keycloakService.isUserInRole('professor') ||
+          this.keycloakService.isUserInRole('company-manager')) &&
         userId === project.creatorID
       );
     }

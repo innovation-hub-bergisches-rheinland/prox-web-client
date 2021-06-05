@@ -131,6 +131,10 @@ export class ProjectEditorComponent
     return this._studyPrograms.sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  get isProfessor(): boolean {
+    return this.keycloakService.isUserInRole('professor');
+  }
+
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     this.dataSource.sort = sort;
   }
@@ -224,8 +228,10 @@ export class ProjectEditorComponent
       this.clearStorage();
       this.fillInExistingProjectValues();
     } else {
-      //Default value for supervisor when new project should be created
-      this.projectFormControl.controls.supervisorName.setValue(this.fullname);
+      if (this.keycloakService.isUserInRole('professor')) {
+        //Default value for supervisor when new project should be created
+        this.projectFormControl.controls.supervisorName.setValue(this.fullname);
+      }
       this.enableAutosave();
     }
   }
@@ -491,8 +497,13 @@ export class ProjectEditorComponent
     projectResource.name = project.name.trim();
     projectResource.status = project.status;
 
-    if (project.supervisorName.length === 0) {
+    if (
+      project.supervisorName.length === 0 &&
+      this.keycloakService.isUserInRole('professor')
+    ) {
       projectResource.supervisorName = projectResource.creatorName;
+    } else if (this.keycloakService.isUserInRole('company-manager')) {
+      projectResource.supervisorName = null;
     } else {
       projectResource.supervisorName = project.supervisorName.trim();
     }

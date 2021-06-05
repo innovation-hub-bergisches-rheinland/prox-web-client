@@ -110,7 +110,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="isProfessor">
         <mat-label>Betreuer</mat-label>
         <input
           [formControl]="projectFormControl.controls['supervisorName']"

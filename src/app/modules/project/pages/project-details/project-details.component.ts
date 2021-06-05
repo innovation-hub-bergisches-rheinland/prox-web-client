@@ -48,7 +48,9 @@ export class ProjectDetailsComponent implements OnInit {
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       const userRoles = this.keycloakService.getUserRoles();
-      this.hasPermission = userRoles.includes('professor');
+      this.hasPermission =
+        userRoles.includes('professor') ||
+        userRoles.includes('company-manager');
     } else {
       this.hasPermission = false;
     }
