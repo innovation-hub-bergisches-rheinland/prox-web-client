@@ -35,6 +35,15 @@
     >
       directions_run
     </mat-icon>
+
+    <mat-icon
+      *ngIf="project.context == 'COMPANY'"
+      matTooltip="Projekt in einem Unternehmen"
+      class="context-icon"
+      color="primary"
+    >
+      domain
+    </mat-icon>
   </div>
   <div>
     <mat-card>
