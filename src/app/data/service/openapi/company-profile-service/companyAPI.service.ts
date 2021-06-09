@@ -128,6 +128,89 @@ export class CompanyAPIService {
   }
 
   /**
+   * Get company
+   * @param creatorId
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findCompanyByCreatorId(
+    creatorId: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
+  ): Observable<EntityModelCompany>;
+  public findCompanyByCreatorId(
+    creatorId: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
+  ): Observable<HttpResponse<EntityModelCompany>>;
+  public findCompanyByCreatorId(
+    creatorId: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
+  ): Observable<HttpEvent<EntityModelCompany>>;
+  public findCompanyByCreatorId(
+    creatorId: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
+  ): Observable<any> {
+    if (creatorId === null || creatorId === undefined) {
+      throw new Error(
+        'Required parameter creatorId was null or undefined when calling findCompanyByCreatorId.'
+      );
+    }
+
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (creatorId !== undefined && creatorId !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>creatorId,
+        'creatorId'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = [
+        'application/json',
+        'application/hal+json'
+      ];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.get<EntityModelCompany>(
+      `${this.configuration.basePath}/companies/search/findCompanyByCreatorId`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * delete company logo
    * @param id
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -176,9 +259,8 @@ export class CompanyAPIService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = [];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -238,9 +320,8 @@ export class CompanyAPIService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/hal+json'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -312,9 +393,8 @@ export class CompanyAPIService {
         'application/json',
         'application/hal+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -388,9 +468,8 @@ export class CompanyAPIService {
         'application/json',
         'application/hal+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -460,9 +539,8 @@ export class CompanyAPIService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['image/_*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -531,9 +609,8 @@ export class CompanyAPIService {
         'application/json',
         'application/hal+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -613,9 +690,8 @@ export class CompanyAPIService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = [];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -728,9 +804,8 @@ export class CompanyAPIService {
         'application/json',
         'application/hal+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -738,9 +813,8 @@ export class CompanyAPIService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
@@ -820,9 +894,8 @@ export class CompanyAPIService {
         'application/json',
         'application/hal+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -830,9 +903,8 @@ export class CompanyAPIService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
@@ -920,9 +992,8 @@ export class CompanyAPIService {
         'application/json',
         'application/hal+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -930,9 +1001,8 @@ export class CompanyAPIService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }

@@ -15,6 +15,7 @@ import { TagService } from '@data/service/tag.service';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
+import { CompanyProfileService } from '@data/service/company-profile.service';
 
 @Component({
   selector: 'app-project-item',
@@ -33,6 +34,7 @@ export class ProjectItemComponent implements OnInit {
   projectTags$: Observable<Tag[]>;
   projectModules: ModuleType[];
   projectSupervisors: string[] = [];
+  projectCompany: string = '';
 
   isTypeBA = false;
   isTypeMA = false;
@@ -42,19 +44,24 @@ export class ProjectItemComponent implements OnInit {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private projectService: ProjectService,
+    private companyService: CompanyProfileService,
     private tagService: TagService,
     public textProcessor: TextProcessor,
     private professorService: ProfessorProfileService
   ) {}
 
+  get isCompanyProject(): boolean {
+    return this.project.context === Project.ContextEnum.Company;
+  }
+
   ngOnInit() {
-    this.projectService.getModulesOfProject(this.project).subscribe(
-      res => (this.projectModules = res),
-      err =>
+    this.projectService.getModulesOfProject(this.project).subscribe({
+      next: res => (this.projectModules = res),
+      error: err =>
         this.openErrorSnackBar(
           'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
         )
-    );
+    });
 
     this.projectTags$ = this.tagService
       .getAllTagsOfProject(this.project.id)
@@ -63,11 +70,28 @@ export class ProjectItemComponent implements OnInit {
           this.openErrorSnackBar(
             'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
           );
-          return throwError(error);
+          return throwError(() => error);
         })
       );
 
-    this.loadSupervisorLinks();
+    if (this.project.context === Project.ContextEnum.Professor) {
+      this.loadSupervisorLinks();
+    } else if (this.project.context === Project.ContextEnum.Company) {
+      this.loadCompanyLink();
+    }
+  }
+
+  private loadCompanyLink() {
+    this.companyService
+      .findCompanyByCreatorId(this.project.creatorID)
+      .subscribe({
+        next: res => {
+          this.projectCompany = `<a href=${this.companyService.getCompanyProfileUrl(
+            res.id
+          )}>${res.information.name}</a>`;
+        },
+        error: err => console.error(err)
+      });
   }
 
   private loadSupervisorLinks() {

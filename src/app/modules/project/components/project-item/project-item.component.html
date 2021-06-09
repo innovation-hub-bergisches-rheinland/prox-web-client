@@ -40,6 +40,12 @@
       <b>{{ project.name }}</b>
     </mat-card-title>
 
+    <mat-card-subtitle *ngIf="isCompanyProject">
+      <span class="companyName" matTooltip="Unternehmen">
+        <b [innerHTML]="projectCompany"></b>
+      </span>
+    </mat-card-subtitle>
+
     <mat-card-subtitle>
       <span class="supervisorName" matTooltip="Projektbetreuer">
         <b [innerHTML]="getProjectSupervisors()"></b>

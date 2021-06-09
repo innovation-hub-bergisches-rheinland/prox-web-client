@@ -37,6 +37,10 @@ export class CompanyProfileService {
     return `${environment.apiUrl}/companies/${id}/logo`;
   }
 
+  getCompanyProfileUrl(id: string): string {
+    return `/companies/${id}`;
+  }
+
   getAllCompanies(): Observable<Company[]> {
     return this.companyApiService
       .getAllCompanies('body', false, {
@@ -91,5 +95,11 @@ export class CompanyProfileService {
         httpHeaderAccept: 'application/hal+json'
       })
       .pipe(map(l => l._embedded?.languageList ?? []));
+  }
+
+  findCompanyByCreatorId(id: string): Observable<Company> {
+    return this.companyApiService.findCompanyByCreatorId(id, 'body', false, {
+      httpHeaderAccept: 'application/hal+json'
+    });
   }
 }
