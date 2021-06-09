@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { concat, Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
@@ -73,25 +73,28 @@ export class ProjectItemComponent implements OnInit {
   private loadSupervisorLinks() {
     //Split supervisors and collect them
     const splitChars = /,|;|\//g;
-    this.projectSupervisors = this.project.supervisorName
-      .split(splitChars)
-      .map(s => s.trim())
-      .filter(s => s.length >= 0);
+    this.projectSupervisors =
+      this.project.supervisorName
+        ?.split(splitChars)
+        ?.map(s => s.trim())
+        ?.filter(s => s.length >= 0) ?? [];
 
-    this.professorService
-      .findProfessorWithNameLike(this.projectSupervisors)
-      .subscribe(res => {
-        this.projectSupervisors = [];
-        for (const [key, value] of Object.entries(res)) {
-          if (value == null) {
-            this.projectSupervisors.push(key);
-          } else {
-            this.projectSupervisors.push(
-              `<a href="/lecturers/${value}">${key}</a>`
-            );
+    if (this.projectSupervisors.length > 0) {
+      this.professorService
+        .findProfessorWithNameLike(this.projectSupervisors)
+        .subscribe(res => {
+          this.projectSupervisors = [];
+          for (const [key, value] of Object.entries(res)) {
+            if (value == null) {
+              this.projectSupervisors.push(key);
+            } else {
+              this.projectSupervisors.push(
+                `<a href="/lecturers/${value}">${key}</a>`
+              );
+            }
           }
-        }
-      });
+        });
+    }
   }
 
   getProjectSupervisors() {

@@ -46,7 +46,7 @@ import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
@@ -83,7 +83,7 @@ export class ProjectEditorComponent
   private STORAGE_KEY = 'project-editor-state';
   private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
-  @Input() project?: Project;
+  @Input() project: Project;
   @Output() projectSaved = new EventEmitter<Project>();
   @Output() cancel = new EventEmitter<any>();
 
@@ -186,21 +186,32 @@ export class ProjectEditorComponent
     forkJoin({
       studyPrograms: this.projectService.getAllStudyPrograms(),
       moduleTypes: this.projectService.getAllModuleTypes()
-    }).subscribe(
-      res => {
+    }).subscribe({
+      next: res => {
         this.studyPrograms.push(...res.studyPrograms);
         this.modules.push(...res.moduleTypes);
         this.tryLoadSelectedStudyPrograms();
       },
-      err => console.error(err),
-      () => {
+      error: err => console.error(err),
+      complete: () => {
         this.dataSource._updateChangeSubscription();
-        //State can only be loaded this observable is completed as the form controls are initialized here
-        if (!this.project) {
+
+        //If the component has project as input try load it's values into the editor
+        if (this.project) {
+          this.clearStorage();
+          this.fillInExistingProjectValues();
+        } else {
           this.tryLoadState();
+          if (this.keycloakService.isUserInRole('professor')) {
+            //Default value for supervisor when new project should be created
+            this.projectFormControl.controls.supervisorName.setValue(
+              this.fullname
+            );
+          }
+          this.enableAutosave();
         }
       }
-    );
+    });
 
     this.filteredTags =
       this.projectFormControl.controls.tagInput.valueChanges.pipe(
@@ -212,7 +223,7 @@ export class ProjectEditorComponent
               this.openErrorSnackBar(
                 'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
               );
-              return throwError(error);
+              return throwError(() => error);
             }),
             takeUntil(
               this.projectFormControl.controls.tagInput.valueChanges.pipe(
@@ -222,18 +233,6 @@ export class ProjectEditorComponent
           )
         )
       );
-
-    //If the component has project as input try load it's values into the editor
-    if (this.project) {
-      this.clearStorage();
-      this.fillInExistingProjectValues();
-    } else {
-      if (this.keycloakService.isUserInRole('professor')) {
-        //Default value for supervisor when new project should be created
-        this.projectFormControl.controls.supervisorName.setValue(this.fullname);
-      }
-      this.enableAutosave();
-    }
   }
 
   /**
@@ -433,15 +432,13 @@ export class ProjectEditorComponent
     );
     this.projectFormControl.controls.status.setValue(this.project.status);
 
-    this.projectService
-      .getModulesOfProject(this.project)
-      .subscribe(modules =>
-        modules.forEach(m =>
-          this.modules
-            .filter(m1 => m1.id === m.id)
-            .forEach(m2 => this.moduleSelection.select(m2))
-        )
-      );
+    this.projectService.getModulesOfProject(this.project).subscribe(modules =>
+      modules.forEach(m => {
+        this.modules
+          .filter(m1 => m1.id === m.id)
+          .forEach(m2 => this.moduleSelection.select(m2));
+      })
+    );
 
     this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
       this.tags = tags;
@@ -481,11 +478,9 @@ export class ProjectEditorComponent
    * @returns valid project resource
    */
   private createProjectResource(project: Project): Project {
-    let projectResource: Project;
+    let projectResource: any = {};
     if (this.project) {
       projectResource = this.project;
-    } else {
-      projectResource = new Project();
     }
 
     projectResource.creatorID = this.userID;
@@ -502,13 +497,15 @@ export class ProjectEditorComponent
       this.keycloakService.isUserInRole('professor')
     ) {
       projectResource.supervisorName = projectResource.creatorName;
+      projectResource.context = Project.ContextEnum.Professor;
     } else if (this.keycloakService.isUserInRole('company-manager')) {
       projectResource.supervisorName = null;
+      projectResource.context = Project.ContextEnum.Company;
     } else {
       projectResource.supervisorName = project.supervisorName.trim();
     }
 
-    return projectResource;
+    return projectResource as Project;
   }
 
   /**

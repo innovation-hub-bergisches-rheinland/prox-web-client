@@ -7,7 +7,7 @@ import {
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
 import { ModuleType } from '@data/schema/openapi/project-service/models';
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
@@ -143,9 +143,8 @@ export class ProfessorProfileComponent implements OnInit {
     );
 
     if (!this.noContent) {
-      this.availableProjects$ = this.projectService.findAvailableProjectsOfCreator(
-        this.professorId
-      );
+      this.availableProjects$ =
+        this.projectService.findAvailableProjectsOfCreator(this.professorId);
 
       this.availableProjects$ = this.availableProjects$.pipe(
         mergeMap(projects => projects),
@@ -162,9 +161,10 @@ export class ProfessorProfileComponent implements OnInit {
         toArray()
       );
 
-      this.projectHistory$ = this.projectService.findRunningAndFinishedProjectsOfCreator(
-        this.professorId
-      );
+      this.projectHistory$ =
+        this.projectService.findRunningAndFinishedProjectsOfCreator(
+          this.professorId
+        );
 
       this.projectHistory$.subscribe(
         res => (this.projectHistory = res),

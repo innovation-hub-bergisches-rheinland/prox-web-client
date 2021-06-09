@@ -1,16 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Company } from '@data/schema/openapi/company-profile-service/company';
-import {
-  EntityModelProfessorOverviewDto,
-  Professor,
-  ProfessorOverviewDto
-} from '@data/schema/openapi/professor-profile-service/models';
-import { Project } from '@data/schema/project.resource';
-import { CompanyProfileService } from '@data/service/company-profile.service';
-import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import { ProjectService } from '@data/service/project.service';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-overview-card',

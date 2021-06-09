@@ -14,6 +14,6 @@ import { ModuleType } from './moduleType';
 export interface StudyProgram {
   id?: string;
   key: string;
-  modules?: Array<ModuleType>;
+  modules?: Set<ModuleType>;
   name: string;
 }

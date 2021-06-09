@@ -1,13 +1,9 @@
-import { Input, OnInit } from '@angular/core';
 import {
   AfterContentChecked,
   Component,
   ContentChildren,
-  QueryList,
-  ViewEncapsulation
+  QueryList
 } from '@angular/core';
-import { Project } from '@data/schema/project.resource';
-import { Observable } from 'rxjs';
 import { ProfilePageProjectsHistoryItemComponent } from './profile-page-projects-history-item/profile-page-projects-history-item.component';
 
 @Component({
@@ -17,7 +13,8 @@ import { ProfilePageProjectsHistoryItemComponent } from './profile-page-projects
   host: { class: 'profile-projects-history' }
 })
 export class ProfilePageProjectsHistoryComponent
-  implements AfterContentChecked {
+  implements AfterContentChecked
+{
   @ContentChildren(ProfilePageProjectsHistoryItemComponent)
   _items: QueryList<ProfilePageProjectsHistoryItemComponent>;
   selectedIndex = 0;

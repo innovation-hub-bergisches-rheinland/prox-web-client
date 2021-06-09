@@ -14,7 +14,7 @@
         fxLayoutAlign="start "
       >
         <a [routerLink]="['/projects/' + element.id]" class="project-name">
-          {{ element.name }}
+          {{ element.project.name }}
         </a>
       </mat-cell>
     </ng-container>
@@ -22,7 +22,9 @@
       <mat-header-cell id="hType" *matHeaderCellDef>Art</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ul>
-          <li *ngFor="let type of getProjectType(element)">{{ type }}</li>
+          <li *ngFor="let type of getProjectType(element.project)">
+            {{ type }}
+          </li>
         </ul>
       </mat-cell>
     </ng-container>

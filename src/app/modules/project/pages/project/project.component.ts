@@ -5,23 +5,20 @@ import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { KeycloakService } from 'keycloak-angular';
-import Fuse from 'fuse.js';
-import { combineLatest, forkJoin, from } from 'rxjs';
-import { map, switchMap, mergeMap, toArray } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
 import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 
 import { StatusOption } from './status-option.enum';
 
-import { promise } from 'protractor';
 import { TagService } from '@data/service/tag.service';
 import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface QueryParams {
   state?: string;
@@ -42,16 +39,11 @@ export class ProjectComponent implements OnInit {
   public isLoggedIn = false;
 
   public searchString = new FormControl('');
-  public selectedStatusOption = new FormControl(StatusOption.Verfuegbar);
+  public selectedStatusOption = new FormControl(StatusOption.Available);
   public selectedModuleTypes = new FormControl();
   public selectedStudyPrograms = new FormControl();
 
-  public StatusOption = StatusOption;
-  public statusOptions = [
-    StatusOption.Verfuegbar,
-    StatusOption.Laufend,
-    StatusOption.Abgeschlossen
-  ];
+  public statusOptions = StatusOption;
 
   private projects: Project[] = [];
   private filteredProjects: Project[] = [];
@@ -97,18 +89,18 @@ export class ProjectComponent implements OnInit {
     forkJoin({
       studyPrograms: this.projectService.getAllStudyPrograms(),
       moduleTypes: this.projectService.getAllModuleTypes()
-    }).subscribe(
-      res => {
+    }).subscribe({
+      next: res => {
         this.allStudyPrograms = this._suitableStudyPrograms = res.studyPrograms;
         this.allModuleTypes = this._suitableModuleTypes = res.moduleTypes;
       },
-      err => console.error(err),
-      () => {
+      error: err => console.error(err),
+      complete: () => {
         this.isLoadingStudyPrograms = false;
         this.isLoadingModuleTypes = false;
         this.loadQueryParams();
       }
-    );
+    });
 
     this.getAllProjects();
   }
@@ -225,88 +217,25 @@ export class ProjectComponent implements OnInit {
 
   public filterProjects() {
     this.setQueryParams();
-    //Initialize with all projects
-    let filteredProjects = this.projects;
 
-    //Apply Status Filter
-    filteredProjects = this.filterProjectsByStatus(
-      filteredProjects,
-      this.selectedStatusOption.value
-    );
-
-    //Apply ModuleType Filter
-    filteredProjects = this.filterProjectsByModuleTypes(
-      filteredProjects,
-      this.selectedModuleTypes.value
-    );
-
-    //When a text is entered in the search field, do a fuzzy search
-    if (this.searchString.value) {
-      const fuseOptions: Fuse.IFuseOptions<Project> = {
-        minMatchCharLength: this.searchString.value.length,
-        threshold: 0.1,
-        distance: Number.MAX_SAFE_INTEGER,
-        keys: [
-          {
-            name: 'name',
-            weight: 0.25
-          },
-          {
-            name: 'description',
-            weight: 0.05
-          },
-          {
-            name: 'shortDescription',
-            weight: 0.05
-          },
-          {
-            name: 'requirement',
-            weight: 0.2
-          },
-          {
-            name: 'supervisorName',
-            weight: 0.25
-          },
-          {
-            name: 'tagCollection.tagName',
-            weight: 0.2
-          }
-        ]
-      };
-      const fuse = new Fuse(filteredProjects, fuseOptions);
-      const results = fuse.search(this.searchString.value);
-
-      filteredProjects = results.map(result => result.item);
-    }
-
-    //Set filtered projects and page the items
-    this.filteredProjects = filteredProjects;
-    this.totalFilteredProjects = this.filteredProjects.length;
-    this.pageProjects();
-    this.paginator.firstPage();
-  }
-
-  private filterProjectsByModuleTypes(
-    projects: Project[],
-    moduleTypes: ModuleType[]
-  ): Project[] {
-    return moduleTypes && moduleTypes.length > 0
-      ? projects.filter(project =>
-          project.modules.some(
-            m =>
-              this.selectedModuleTypes.value.map(mt => mt.id).indexOf(m.id) >= 0
-          )
-        )
-      : projects;
-  }
-
-  private filterProjectsByStatus(
-    projects: Project[],
-    status: string
-  ): Project[] {
-    return status
-      ? projects.filter(project => project.status == status)
-      : projects;
+    this.projectService
+      .filterProjects(
+        this.selectedStatusOption.value,
+        this.selectedModuleTypes?.value?.map(mt => mt.key) ?? null,
+        this.searchString.value
+      )
+      .subscribe({
+        next: res => {
+          this.filteredProjects = res;
+        },
+        error: err => console.error(err),
+        complete: () => {
+          //Set filtered projects and page the items
+          this.totalFilteredProjects = this.filteredProjects.length;
+          this.pageProjects();
+          this.paginator.firstPage();
+        }
+      });
   }
 
   public deleteProject(project: Project) {
@@ -328,10 +257,6 @@ export class ProjectComponent implements OnInit {
   }
 
   public openProjectEditorDialog(project: Project) {
-    if (project) {
-      project.tagCollection = [];
-      project.modules = [];
-    }
     const dialog = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
@@ -352,38 +277,18 @@ export class ProjectComponent implements OnInit {
   }
 
   private getAllProjects() {
-    this.projectService
-      .getAllProjects()
-      .pipe(
-        switchMap(projects =>
-          combineLatest(
-            projects.map(project =>
-              combineLatest([
-                this.tagService.getAllTagsOfProject(project.id),
-                this.projectService.getModulesOfProject(project)
-              ]).pipe(
-                map(([tags, modules]) => {
-                  project.tagCollection = tags;
-                  project.modules = modules;
-                  return project;
-                })
-              )
-            )
-          )
-        )
-      )
-      .subscribe(
-        projects => {
-          this.projects = projects;
-          this.filterProjects();
-        },
-        error => {
-          console.error('project service error', error);
-          this.openErrorSnackBar(
-            'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-          );
-        }
-      );
+    this.projectService.getAllProjects().subscribe({
+      next: projects => {
+        this.projects = projects;
+        this.filterProjects();
+      },
+      error: error => {
+        console.error('project service error', error);
+        this.openErrorSnackBar(
+          'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+        );
+      }
+    });
   }
 
   private pageProjects() {

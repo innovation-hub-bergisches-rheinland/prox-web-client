@@ -5,7 +5,7 @@ import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
 import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
 import { ModuleType } from '@data/schema/openapi/project-service/models';
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 import { ProjectService } from '@data/service/project.service';
 import { ProfileBulletin } from '@modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component';
@@ -109,22 +109,8 @@ export class CompanyProfileComponent implements OnInit {
           this.company = res;
           this.socialMedia = this.company.socialMedia ?? [];
 
-          this.availableProjects$ = this.projectService
-            .findAvailableProjectsOfCreator(res.creatorId)
-            .pipe(
-              mergeMap(projects => projects),
-              mergeMap(project =>
-                forkJoin({
-                  modules: this.projectService.getModulesOfProject(project)
-                }).pipe(
-                  map((value: { modules: ModuleType[] }) => {
-                    project.modules = value.modules;
-                    return project;
-                  })
-                )
-              ),
-              toArray()
-            );
+          this.availableProjects$ =
+            this.projectService.findAvailableProjectsOfCreator(res.creatorId);
 
           this.projectService
             .findRunningAndFinishedProjectsOfCreator(res.creatorId)

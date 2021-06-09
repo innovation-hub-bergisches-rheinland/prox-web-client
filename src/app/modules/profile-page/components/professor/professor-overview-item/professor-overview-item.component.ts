@@ -1,13 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  EntityModelProfessorOverviewDto,
-  Professor,
-  ProfessorOverviewDto
-} from '@data/schema/openapi/professor-profile-service/models';
-import { Project } from '@data/schema/project.resource';
+import { EntityModelProfessorOverviewDto } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import { ProjectService } from '@data/service/project.service';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({

@@ -1,19 +1,17 @@
-import {
-  AfterViewInit,
-  Input,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import { AfterViewInit, Input, QueryList, ViewChildren } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { Professor } from '@data/schema/openapi/professor-profile-service/models';
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
-import { Observable } from 'rxjs';
-import { environment } from '@env';
-import { type } from 'os';
+import { forkJoin, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
+import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
+import { map, mergeMap, toArray } from 'rxjs/operators';
+
+export interface AvailableProject {
+  project: Project;
+  modules: ModuleType[];
+}
 
 @Component({
   selector: 'app-profile-page-available-projects',
@@ -26,8 +24,8 @@ export class ProfilePageAvailableProjects implements OnInit, AfterViewInit {
 
   //professor$: Observable<Professor>
   projects$: Observable<Project[]>;
-  availableProjects: Project[];
-  dataSource = new MatTableDataSource<Project>();
+  availableProjects: AvailableProject[];
+  dataSource = new MatTableDataSource<AvailableProject>();
 
   //Because the paginator is wrapped inside a *ngIf, @ViewChild cannot be used
   @ViewChildren('paginator') paginator: QueryList<MatPaginator>;
@@ -41,13 +39,30 @@ export class ProfilePageAvailableProjects implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.projects$.subscribe(
-      res => {
-        this.availableProjects = res;
-        this.dataSource.data.push(...res);
-      },
-      err => console.error(err)
-    );
+    this.projects$
+      .pipe(
+        mergeMap(projects => projects),
+        mergeMap(project =>
+          forkJoin({
+            modules: this.projectService.getModulesOfProject(project)
+          }).pipe(
+            map((value: { modules: ModuleType[] }) => {
+              return {
+                project: project,
+                modules: value.modules
+              };
+            })
+          )
+        ),
+        toArray()
+      )
+      .subscribe({
+        next: res => {
+          this.availableProjects = res;
+          this.dataSource.data.push(...res);
+        },
+        error: err => console.error(err)
+      });
   }
 
   /**
@@ -56,7 +71,12 @@ export class ProfilePageAvailableProjects implements OnInit, AfterViewInit {
    * @param project Project
    */
   getProjectType(project: Project): string[] {
-    return project.modules.map(m => m.name).sort((a, b) => a.localeCompare(b));
+    return (
+      this.availableProjects
+        .find(p => p.project.id === project.id)
+        .modules.map(m => m.name)
+        .sort((a, b) => a.localeCompare(b)) ?? []
+    );
   }
 
   @Input()
