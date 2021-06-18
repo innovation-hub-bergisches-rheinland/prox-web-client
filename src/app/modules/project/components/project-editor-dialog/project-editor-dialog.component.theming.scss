@@ -1,0 +1,13 @@
+@use '~@angular/material' as mat;
+@mixin project-editor-dialog($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .draft {
+    color: mat.get-color-from-palette($primary);
+    //background-color: mat.get-color-from-palette($accent, 200);
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}

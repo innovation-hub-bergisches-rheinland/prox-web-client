@@ -9,6 +9,8 @@ import { Project } from '@data/schema/openapi/project-service/project';
   styleUrls: ['./project-editor-dialog.component.scss']
 })
 export class ProjectEditorDialogComponent implements OnInit {
+  isDraft: boolean = false;
+
   constructor(
     public projectDialogRef: MatDialogRef<ProjectEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public project: Project
@@ -22,5 +24,9 @@ export class ProjectEditorDialogComponent implements OnInit {
 
   closeDialog() {
     this.projectDialogRef.close();
+  }
+
+  markDraft(draft: boolean) {
+    this.isDraft = draft;
   }
 }
