@@ -17,14 +17,17 @@ import { Toast } from './types';
   styleUrls: ['./toast.component.scss']
 })
 export class ToastComponent implements OnInit, OnDestroy {
+  data: Toast[] = [];
   constructor(
     public snackbar: MatSnackBar,
     private changeDetection: ChangeDetectorRef,
     private _snackRef: MatSnackBarRef<ToastComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: Toast[]
+    @Inject(MAT_SNACK_BAR_DATA) public snackbarData: { content: Toast[] }
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.data = this.snackbarData.content;
+  }
 
   private close($event: any, index: number) {
     this.data.splice(index, 1);
