@@ -46,7 +46,7 @@ import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
@@ -78,15 +78,25 @@ import {
   ]
 })
 export class ProjectEditorComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   private STORAGE_KEY = 'project-editor-state';
   private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
-  @Input() project?: Project;
+  private projectId?: string = undefined;
   @Output() projectSaved = new EventEmitter<Project>();
   @Output() cancel = new EventEmitter<any>();
+  @Output() markDraft = new EventEmitter<boolean>();
 
-  projectFormControl: FormGroup;
+  projectFormControl: FormGroup = this.formBuilder.group({
+    name: ['', [Validators.required]],
+    shortDescription: ['', [Validators.required]],
+    requirement: [''],
+    description: [''],
+    supervisorName: [''],
+    status: ['', [Validators.required]],
+    tagInput: []
+  });
   hasSubmitted = false;
 
   tags: Tag[] = [];
@@ -100,8 +110,8 @@ export class ProjectEditorComponent
   tagAutocompleteTrigger: MatAutocompleteTrigger;
 
   autoSave: Subscription;
-  userID: string;
-  fullname: string;
+  userID: string = '';
+  fullname: string = '';
 
   private _modules: ModuleType[] = [];
   private _studyPrograms: StudyProgram[] = [];
@@ -130,8 +140,78 @@ export class ProjectEditorComponent
     return this._studyPrograms.sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  get isProfessor(): boolean {
+    return this.keycloakService.isUserInRole('professor');
+  }
+
+  get _project(): Project {
+    return {
+      creatorID: this.userID,
+      creatorName: this.fullname.trim(),
+      shortDescription:
+        this.projectFormControl.value['shortDescription'].trim(),
+      requirement: this.projectFormControl.value['requirement'].trim(),
+      description: this.projectFormControl.value['description'].trim(),
+      name: this.projectFormControl.value['name'].trim(),
+      status: this.projectFormControl.value['status'].trim(),
+      supervisorName: this.projectFormControl.value['supervisorName'].trim(),
+      context: (() => {
+        if (this.keycloakService.isUserInRole('professor')) {
+          return Project.ContextEnum.Professor;
+        } else if (this.keycloakService.isUserInRole('company-manager')) {
+          return Project.ContextEnum.Company;
+        }
+      })(),
+      id: undefined
+    };
+  }
+
+  set _project(project: Project) {
+    this.projectFormControl.setValue(
+      {
+        name: project.name ?? '',
+        shortDescription: project.shortDescription ?? '',
+        requirement: project.requirement ?? '',
+        description: project.description ?? '',
+        supervisorName: project.supervisorName ?? '',
+        status: project.status ?? Project.StatusEnum.Verfgbar,
+        tagInput: ''
+      },
+      {
+        emitEvent: false
+      }
+    );
+
+    if (this.isEditProject()) {
+      this.projectService.getModulesOfProject(project).subscribe(modules =>
+        modules.forEach(m => {
+          this.modules
+            .filter(m1 => m1.id === m.id)
+            .forEach(m2 => this.moduleSelection.select(m2));
+        })
+      );
+
+      this.tagService.getAllTagsOfProject(project.id).subscribe(tags => {
+        this.tags = tags;
+        this.updateTagRecommendations();
+      });
+    }
+  }
+
+  @Input()
+  set project(project: Project) {
+    if (project) {
+      this.projectId = project.id;
+      this._project = project;
+    }
+  }
+
   @ViewChild(MatSort) set matSort(sort: MatSort) {
     this.dataSource.sort = sort;
+  }
+
+  private isEditProject(): boolean {
+    return !!this.projectId;
   }
 
   /**
@@ -167,63 +247,54 @@ export class ProjectEditorComponent
       this.fullname = `${userProfile.firstName} ${userProfile.lastName}`;
     }
 
-    //Build the form
-    this.projectFormControl = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      shortDescription: ['', [Validators.required]],
-      requirement: [''],
-      description: [''],
-      supervisorName: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      tagInput: []
-    });
-
     forkJoin({
       studyPrograms: this.projectService.getAllStudyPrograms(),
       moduleTypes: this.projectService.getAllModuleTypes()
-    }).subscribe(
-      res => {
+    }).subscribe({
+      next: res => {
         this.studyPrograms.push(...res.studyPrograms);
         this.modules.push(...res.moduleTypes);
         this.tryLoadSelectedStudyPrograms();
       },
-      err => console.error(err),
-      () => {
+      error: err => console.error(err),
+      complete: () => {
         this.dataSource._updateChangeSubscription();
-        //State can only be loaded this observable is completed as the form controls are initialized here
-        if (!this.project) {
-          this.tryLoadState();
-        }
-      }
-    );
 
-    this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
-      filter(value => (value ? value.length >= 2 : false)),
-      debounceTime(200),
-      switchMap(value =>
-        this.tagService.findByTagName(value, false).pipe(
-          catchError(error => {
-            this.openErrorSnackBar(
-              'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-            );
-            return throwError(error);
-          }),
-          takeUntil(
-            this.projectFormControl.controls.tagInput.valueChanges.pipe(skip(1))
+        const project = this._project;
+        if (
+          (!project.supervisorName ||
+            project.supervisorName.trim().length === 0) &&
+          this.keycloakService.isUserInRole('professor')
+        ) {
+          project.supervisorName = this.fullname;
+          this._project = project;
+        }
+
+        this.enableAutosave();
+        this.tryLoadState();
+      }
+    });
+
+    this.filteredTags =
+      this.projectFormControl.controls.tagInput.valueChanges.pipe(
+        filter(value => (value ? value.length >= 2 : false)),
+        debounceTime(200),
+        switchMap(value =>
+          this.tagService.findByTagName(value, false).pipe(
+            catchError(error => {
+              this.openErrorSnackBar(
+                'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+              );
+              return throwError(() => error);
+            }),
+            takeUntil(
+              this.projectFormControl.controls.tagInput.valueChanges.pipe(
+                skip(1)
+              )
+            )
           )
         )
-      )
-    );
-
-    //If the component has project as input try load it's values into the editor
-    if (this.project) {
-      this.clearStorage();
-      this.fillInExistingProjectValues();
-    } else {
-      //Default value for supervisor when new project should be created
-      this.projectFormControl.controls.supervisorName.setValue(this.fullname);
-      this.enableAutosave();
-    }
+      );
   }
 
   /**
@@ -247,9 +318,36 @@ export class ProjectEditorComponent
    * save the current state into local storage
    */
   saveState() {
+    // Get from storage
+    const loadedData: string = this.storage.get(this.STORAGE_KEY);
+    let storage: Array<Project & { tags?: Tag[] }> = [];
+    if (loadedData) {
+      try {
+        storage = JSON.parse(loadedData);
+      } catch (e) {
+        console.warn({
+          message: 'Could not parse storage, resetting',
+          error: e
+        });
+        this.clearStorage();
+      }
+    }
     const state = this.projectFormControl.getRawValue();
     state.tags = this.tags;
-    this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
+    state.id = this.projectId;
+
+    // Does an item already exist?
+    const index = storage.findIndex(i => i.id === this.projectId);
+    if (index === -1) {
+      storage.push(state);
+    } else {
+      // Replace all possible items
+      const newArr = storage.filter(i => i.id !== this.projectId);
+      newArr.push(state);
+      storage = newArr;
+    }
+
+    this.storage.set(this.STORAGE_KEY, JSON.stringify(storage));
     this.saveSelectedStudyPrograms();
   }
 
@@ -257,15 +355,27 @@ export class ProjectEditorComponent
    * load the state from local storage and set form control values
    */
   tryLoadState() {
-    const loadedData = this.storage.get(this.STORAGE_KEY);
-    if (loadedData) {
-      const state = JSON.parse(loadedData);
+    const storage = this.storage.get(this.STORAGE_KEY);
+    let loadedData: Array<Project & { tags?: Tag[] }> = [];
+    if (storage) {
+      try {
+        loadedData = JSON.parse(storage);
+      } catch (e) {
+        console.warn({
+          message: 'Could not parse storage, resetting',
+          error: e
+        });
+        this.clearStorage();
+      }
+    }
+    const state = loadedData.find(p => p.id === this.projectId);
 
+    if (state) {
       this.tags = state.tags;
       this.updateTagRecommendations();
       delete state.tags;
-
       this.projectFormControl.patchValue(state);
+      this.markDraft.emit(true);
     }
   }
 
@@ -293,7 +403,22 @@ export class ProjectEditorComponent
    * Removes the data from local storage
    */
   clearStorage() {
-    this.storage.remove(this.STORAGE_KEY);
+    const storage = this.storage.get(this.STORAGE_KEY);
+    let loadedData: Array<Project & { tags?: Tag[] }> = [];
+    if (storage) {
+      try {
+        loadedData = JSON.parse(storage);
+      } catch (e) {
+        console.warn({
+          message: 'Could not parse storage, resetting',
+          error: e
+        });
+        this.clearStorage();
+      }
+    }
+
+    const state = loadedData.filter(p => p.id !== this.projectId);
+    this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
   }
 
   /**
@@ -315,7 +440,9 @@ export class ProjectEditorComponent
     }
 
     this.tagAutocompleteTrigger.closePanel();
-    this.projectFormControl.controls.tagInput.setValue(null);
+    this.projectFormControl.controls.tagInput.setValue(null, {
+      emitEvent: false
+    });
   }
 
   /**
@@ -338,7 +465,9 @@ export class ProjectEditorComponent
     const selectedTag = event.option.value as Tag;
     this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
-    this.projectFormControl.controls.tagInput.setValue(null);
+    this.projectFormControl.controls.tagInput.setValue(null, {
+      emitEvent: false
+    });
   }
 
   /**
@@ -405,41 +534,6 @@ export class ProjectEditorComponent
   }
 
   /**
-   * Procedural method to set input element values to project values
-   */
-  private fillInExistingProjectValues() {
-    this.projectFormControl.controls.name.setValue(this.project.name);
-    this.projectFormControl.controls.shortDescription.setValue(
-      this.project.shortDescription
-    );
-    this.projectFormControl.controls.requirement.setValue(
-      this.project.requirement
-    );
-    this.projectFormControl.controls.description.setValue(
-      this.project.description
-    );
-    this.projectFormControl.controls.supervisorName.setValue(
-      this.project.supervisorName
-    );
-    this.projectFormControl.controls.status.setValue(this.project.status);
-
-    this.projectService
-      .getModulesOfProject(this.project)
-      .subscribe(modules =>
-        modules.forEach(m =>
-          this.modules
-            .filter(m1 => m1.id === m.id)
-            .forEach(m2 => this.moduleSelection.select(m2))
-        )
-      );
-
-    this.tagService.getAllTagsOfProject(this.project.id).subscribe(tags => {
-      this.tags = tags;
-      this.updateTagRecommendations();
-    });
-  }
-
-  /**
    * This function creates non-existent tags in backend and will
    * retrieve tags which already exist and can be used to prevent collisions
    * @param tags tags which should be created
@@ -465,58 +559,24 @@ export class ProjectEditorComponent
   }
 
   /**
-   * Function which creates a valid project resource based on the given input params
-   * It mainly trims strings and sets possible default values
-   * @param project project to parse
-   * @returns valid project resource
-   */
-  private createProjectResource(project: Project): Project {
-    let projectResource: Project;
-    if (this.project) {
-      projectResource = this.project;
-    } else {
-      projectResource = new Project();
-    }
-
-    projectResource.creatorID = this.userID;
-    projectResource.creatorName = this.fullname.trim();
-
-    projectResource.shortDescription = project.shortDescription.trim();
-    projectResource.requirement = project.requirement.trim();
-    projectResource.description = project.description.trim();
-    projectResource.name = project.name.trim();
-    projectResource.status = project.status;
-
-    if (project.supervisorName.length === 0) {
-      projectResource.supervisorName = projectResource.creatorName;
-    } else {
-      projectResource.supervisorName = project.supervisorName.trim();
-    }
-
-    return projectResource;
-  }
-
-  /**
    * Creates a new project in backend
    * @param project project to create
    * @param modules moduleTypes of project
    * @param tags tags of project
    */
   private createProject(project: Project, modules: ModuleType[], tags: Tag[]) {
-    const newProject = this.createProjectResource(project);
-
-    this.projectService.createProject(newProject, tags, modules).subscribe(
-      () => {
+    this.projectService.createProject(project, tags, modules).subscribe({
+      next: newProject => {
         this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
         this.clearStorage();
         this.projectSaved.emit(newProject);
       },
-      error => {
+      error: err => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
         this.hasSubmitted = false;
-        console.error('project service error', error);
+        console.error('project service error', err);
       }
-    );
+    });
   }
 
   /**
@@ -526,19 +586,19 @@ export class ProjectEditorComponent
    * @param tags tags of project
    */
   private updateProject(project: Project, modules: ModuleType[], tags: Tag[]) {
-    this.project = this.createProjectResource(project);
-
-    this.projectService.updateProject(this.project, tags, modules).subscribe(
-      () => {
-        this.showSubmitInfo('Projekt wurde erfolgreich bearbeitet');
-        this.projectSaved.emit(this.project);
+    project.id = this.projectId;
+    this.projectService.updateProject(project, tags, modules).subscribe({
+      next: newProject => {
+        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
+        this.clearStorage();
+        this.projectSaved.emit(newProject);
       },
-      error => {
+      error: err => {
         this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
         this.hasSubmitted = false;
-        console.error('project service error', error);
+        console.error('project service error', err);
       }
-    );
+    });
   }
 
   /**
@@ -550,7 +610,7 @@ export class ProjectEditorComponent
 
     const modules = this.moduleSelection.selected;
     this.createTags(this.tags).subscribe(tags => {
-      if (this.project) {
+      if (this.isEditProject()) {
         this.updateProject(project, modules, tags);
       } else {
         this.createProject(project, modules, tags);

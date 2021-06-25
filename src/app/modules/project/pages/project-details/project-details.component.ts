@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
@@ -17,6 +17,7 @@ import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
+import { CompanyProfileService } from '@data/service/company-profile.service';
 
 @Component({
   selector: 'app-project-details',
@@ -32,11 +33,13 @@ export class ProjectDetailsComponent implements OnInit {
   projectTags$: Observable<Tag[]>;
   projectModules: ModuleType[];
   projectSupervisors: string[] = [];
+  projectCompany: string = '';
 
   constructor(
     private keycloakService: KeycloakService,
     private projectService: ProjectService,
     private tagService: TagService,
+    private companyService: CompanyProfileService,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
@@ -45,10 +48,16 @@ export class ProjectDetailsComponent implements OnInit {
     private professorService: ProfessorProfileService
   ) {}
 
+  get isCompanyProject(): boolean {
+    return this.project.context === Project.ContextEnum.Company;
+  }
+
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       const userRoles = this.keycloakService.getUserRoles();
-      this.hasPermission = userRoles.includes('professor');
+      this.hasPermission =
+        userRoles.includes('professor') ||
+        userRoles.includes('company-manager');
     } else {
       this.hasPermission = false;
     }
@@ -56,6 +65,19 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectID = this.route.snapshot.paramMap.get('id');
 
     this.getProject();
+  }
+
+  private loadCompanyLink() {
+    this.companyService
+      .findCompanyByCreatorId(this.project.creatorID)
+      .subscribe({
+        next: res => {
+          this.projectCompany = `<a href=${this.companyService.getCompanyProfileUrl(
+            res.id
+          )}>${res.information.name}</a>`;
+        },
+        error: err => console.error(err)
+      });
   }
 
   private loadSupervisorLinks() {
@@ -130,7 +152,11 @@ export class ProjectDetailsComponent implements OnInit {
         err => console.error(err)
       );
       this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
-      this.loadSupervisorLinks();
+      if (this.project.context === Project.ContextEnum.Professor) {
+        this.loadSupervisorLinks();
+      } else if (this.project.context === Project.ContextEnum.Company) {
+        this.loadCompanyLink();
+      }
     });
   }
 }

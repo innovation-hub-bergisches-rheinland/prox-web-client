@@ -16,6 +16,7 @@ export interface EntityModelLanguage {
   isoIdentifier2: string;
   englishName: string;
   germanName: string;
+  iso3166Mapping?: string;
   type: EntityModelLanguage.TypeEnum;
   _links?: { [key: string]: Link };
 }

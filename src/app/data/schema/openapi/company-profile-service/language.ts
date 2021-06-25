@@ -15,6 +15,7 @@ export interface Language {
   isoIdentifier2: string;
   englishName: string;
   germanName: string;
+  iso3166Mapping?: string;
   type: Language.TypeEnum;
 }
 export namespace Language {

@@ -2,9 +2,9 @@ import { Injectable, Injector } from '@angular/core';
 
 import { forkJoin, Observable } from 'rxjs';
 
-import { Project } from '@data/schema/project.resource';
 import {
   ModuleType,
+  Project,
   Project as ProjectSchema,
   StudyProgram
 } from '@data/schema/openapi/project-service/models';
@@ -73,19 +73,13 @@ export class ProjectService {
   }
 
   getProject(id: any): Observable<Project> {
-    return this.projectEntityService
-      .findByIdProjectUsingGET(id)
-      .pipe(map(p => Object.assign(new Project(), p)));
+    return this.projectEntityService.findByIdProjectUsingGET(id);
   }
 
   getAllProjects(): Observable<Project[]> {
     return this.projectEntityService
       .findAllProjectUsingGET()
-      .pipe(
-        map(p =>
-          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
-        )
-      );
+      .pipe(map(p => p._embedded.projects));
   }
 
   deleteProject(project: Project): Observable<any> {
@@ -101,31 +95,19 @@ export class ProjectService {
   findAvailableProjectsOfCreator(id: string): Observable<Project[]> {
     return this.projectEntityService
       .findAvailableProjectsOfCreatorProjectUsingGET(id)
-      .pipe(
-        map(p =>
-          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
-        )
-      );
+      .pipe(map(p => p._embedded.projects));
   }
 
   findRunningProjectsOfCreator(id: string): Observable<Project[]> {
     return this.projectEntityService
       .findRunningProjectsOfCreatorProjectUsingGET(id)
-      .pipe(
-        map(p =>
-          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
-        )
-      );
+      .pipe(map(p => p._embedded.projects));
   }
 
   findRunningAndFinishedProjectsOfCreator(id: string): Observable<Project[]> {
     return this.projectEntityService
       .findRunningAndFinishedProjectsOfCreatorProjectUsingGET(id)
-      .pipe(
-        map(p =>
-          p._embedded.projects.map(p2 => Object.assign(new Project(), p2))
-        )
-      );
+      .pipe(map(p => p._embedded.projects));
   }
 
   getAllStudyPrograms(): Observable<StudyProgram[]> {
@@ -150,5 +132,15 @@ export class ProjectService {
     return this.studyProgramEntityService
       .findAllModulesOfStudyProgramsStudyProgramUsingGET(ids.join(','))
       .pipe(map(m => m._embedded.moduleTypes));
+  }
+
+  filterProjects(
+    status?: Project.StatusEnum,
+    moduleTypeKeys?: string[],
+    text?: string
+  ): Observable<Project[]> {
+    return this.projectEntityService
+      .filterProjectsProjectUsingGET(status, moduleTypeKeys?.join(','), text)
+      .pipe(map(p => p._embedded.projects));
   }
 }

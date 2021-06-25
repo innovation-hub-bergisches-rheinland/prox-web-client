@@ -10,15 +10,26 @@
       [socialMedia]="company.socialMedia"
     ></app-profile-page-information>
     <br />
+    <app-profile-page-chip-list
+      [items]="companyBranches"
+    ></app-profile-page-chip-list>
+    <br />
     <app-profile-page-vita [vita]="companyVita"></app-profile-page-vita>
     <br />
-    <app-profile-page-bulletin-list
-      [bulletinList]="companyBranches"
-    ></app-profile-page-bulletin-list>
-    <br />
-    <app-profile-page-bulletin-list
-      [bulletinList]="companyLanguages"
-    ></app-profile-page-bulletin-list>
+    <app-company-language-information
+      [information]="companyLanguages"
+    ></app-company-language-information>
+    <app-profile-page-available-projects
+      [projects]="availableProjects$"
+    ></app-profile-page-available-projects>
+    <app-profile-page-projects-history
+      *ngIf="projectHistory && projectHistory.length > 0"
+    >
+      <app-profile-page-projects-history-item
+        *ngFor="let project of projectHistory"
+        [project]="project"
+      ></app-profile-page-projects-history-item>
+    </app-profile-page-projects-history>
   </div>
   <div *ngIf="!company && hasPermission">
     Sie haben noch kein Profil eingerichtet, Sie können das mit einem Klick auf

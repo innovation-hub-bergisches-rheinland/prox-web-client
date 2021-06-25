@@ -13,16 +13,31 @@ import { ModuleType } from './moduleType';
 import { Links } from './links';
 
 export interface EntityModelOfProject {
+  context: EntityModelOfProject.ContextEnum;
   created?: string;
   creatorID: string;
   creatorName: string;
   description?: string;
-  id?: string;
+  id: string;
   links?: Links;
   modified?: string;
-  modules?: Array<ModuleType>;
+  modules?: ModuleType[];
   name: string;
   requirement?: string;
   shortDescription: string;
-  supervisorName: string;
+  status: EntityModelOfProject.StatusEnum;
+  supervisorName?: string;
+}
+export namespace EntityModelOfProject {
+  export type ContextEnum = 'COMPANY' | 'PROFESSOR';
+  export const ContextEnum = {
+    Company: 'COMPANY' as ContextEnum,
+    Professor: 'PROFESSOR' as ContextEnum
+  };
+  export type StatusEnum = 'ABGESCHLOSSEN' | 'LAUFEND' | 'VERFÜGBAR';
+  export const StatusEnum = {
+    Abgeschlossen: 'ABGESCHLOSSEN' as StatusEnum,
+    Laufend: 'LAUFEND' as StatusEnum,
+    Verfgbar: 'VERFÜGBAR' as StatusEnum
+  };
 }

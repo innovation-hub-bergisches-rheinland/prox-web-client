@@ -16,6 +16,6 @@ export interface EntityModelOfStudyProgram {
   id?: string;
   key: string;
   links?: Links;
-  modules?: Array<ModuleType>;
+  modules?: Set<ModuleType>;
   name: string;
 }

@@ -20,7 +20,7 @@ import {
   animate,
   AnimationEvent
 } from '@angular/animations';
-import { Project } from '@data/schema/project.resource';
+import { Project } from '@data/schema/openapi/project-service/project';
 import { TextProcessor } from '@app/util/text-processor';
 
 @Component({

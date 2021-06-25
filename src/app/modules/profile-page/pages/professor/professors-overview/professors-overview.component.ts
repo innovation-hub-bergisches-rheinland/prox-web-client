@@ -16,11 +16,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-professors',
-  templateUrl: './professors.component.html',
-  styleUrls: ['./professors.component.scss']
+  selector: 'app-professors-overview',
+  templateUrl: './professors-overview.component.html',
+  styleUrls: ['./professors-overview.component.scss']
 })
-export class ProfessorsComponent implements OnInit {
+export class ProfessorsOverviewComponent implements OnInit {
   _professors: EntityModelProfessorOverviewDto[] = [];
   faculties: Faculty[] = [];
   filteredProfessors: EntityModelProfessorOverviewDto[] = [];
@@ -50,14 +50,21 @@ export class ProfessorsComponent implements OnInit {
     );
   }
 
-  getFacultyName(professor: Professor): Observable<string> {
+  getFacultyName(
+    professor: EntityModelProfessorOverviewDto
+  ): Observable<string> {
     return this.professorProfileService
       .getProfessorFaculty(professor.id)
       .pipe(map(f => f.name));
   }
 
-  getProfessorUrl(id: string): Observable<string> {
-    return of(this.professorProfileService.getProfessorImageUrl(id));
+  getProfessorUrl(professor: EntityModelProfessorOverviewDto): string {
+    return this.professorProfileService.getProfessorImageUrl(professor.id);
+  }
+
+  getResearchSubjects(professor: EntityModelProfessorOverviewDto): string[] {
+    console.log(professor);
+    return professor.researchSubjects ?? [];
   }
 
   public changePageIndexOrSize(pageEvent: PageEvent) {

@@ -25,15 +25,24 @@
       />
     </mat-form-field>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="2% grid">
-    <app-professors-item
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-around stretch"
+    fxLayoutGap="20px"
+  >
+    <app-professor-overview-item
+      *ngFor="let professor of professorPage"
+      [professor]="professor"
+    >
+    </app-professor-overview-item>
+  </div>
+  <!--<app-professors-item
       *ngFor="let professor of professorPage"
       [professor]="professor"
       fxFlex="48"
       fxFlex.lt-md="100"
     >
-    </app-professors-item>
-  </div>
+    </app-professors-item>-->
   <mat-paginator
     fxLayout="column"
     fxLayoutAlign="center center"
