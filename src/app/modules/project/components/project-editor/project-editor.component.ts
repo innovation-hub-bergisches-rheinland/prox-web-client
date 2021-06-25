@@ -62,6 +62,9 @@ import {
   MatCheckboxDefaultOptions,
   MAT_CHECKBOX_DEFAULT_OPTIONS
 } from '@angular/material/checkbox';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '@modules/toast/toast.service';
+import { Toast } from '@modules/toast/types';
 
 @Component({
   selector: 'app-project-editor',
@@ -228,7 +231,7 @@ export class ProjectEditorComponent
     private projectService: ProjectService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
+    private toastService: ToastService,
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
@@ -283,9 +286,12 @@ export class ProjectEditorComponent
         switchMap(value =>
           this.tagService.findByTagName(value, false).pipe(
             catchError(error => {
-              this.openErrorSnackBar(
-                'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-              );
+              this.toastService.showToasts([
+                {
+                  message:
+                    'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+                }
+              ]);
               return throwError(() => error);
             }),
             takeUntil(
@@ -527,9 +533,12 @@ export class ProjectEditorComponent
         );
       },
       () => {
-        this.openErrorSnackBar(
-          'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-        );
+        this.toastService.showToasts([
+          {
+            message:
+              'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+          }
+        ]);
       }
     );
   }
@@ -575,28 +584,14 @@ export class ProjectEditorComponent
       .pipe(
         mergeMap((p: Project) =>
           forkJoin({
-            modules: this.projectService.setProjectModules(p.id, modules).pipe(
-              catchError(err => {
-                console.error(err);
-                return of(
-                  this.openErrorSnackBar(
-                    'Module konnten nicht gespeichert werden, versuchen Sie es später nochmal'
-                  )
-                );
-              })
-            ),
+            modules: this.projectService
+              .setProjectModules(p.id, modules)
+              .pipe(catchError(err => of(err))),
             tags: this.createTags(this.tags).pipe(
               mergeMap(tags =>
-                this.tagService.setProjectTags(p.id, tags).pipe(
-                  catchError(err => {
-                    console.error(err);
-                    return of(
-                      this.openErrorSnackBar(
-                        'Tags konnten nicht gespeichert werden, versuchen Sie es später nochmal'
-                      )
-                    );
-                  })
-                )
+                this.tagService
+                  .setProjectTags(p.id, tags)
+                  .pipe(catchError(err => of(err)))
               )
             ),
             project: of(p)
@@ -605,21 +600,44 @@ export class ProjectEditorComponent
       )
       .subscribe({
         next: res => {
-          this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
+          const toasts: Toast[] = [
+            {
+              message: 'Projekt wurde erfolgreich erstellt'
+            }
+          ];
+          if (res.modules instanceof HttpErrorResponse) {
+            toasts.push({
+              message:
+                'Module konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              isError: true
+            });
+          }
+          if (res.tags instanceof HttpErrorResponse) {
+            toasts.push({
+              message:
+                'Tags konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              isError: true
+            });
+          }
+          this.toastService.showToasts(toasts);
           this.clearStorage();
           this.projectSaved.emit(res.project);
         },
         error: err => {
           console.error(err);
-          this.openErrorSnackBar(
-            'Projekt konnte nicht gespeichert werden, versuchen Sie es später nochmal'
-          );
+          const toasts: Toast[] = [
+            {
+              message:
+                'Projekt konnte nicht gespeichert werden, versuchen Sie es später nochmal'
+            }
+          ];
+          this.toastService.showToasts(toasts);
         },
         complete: () => this.saveSelectedStudyPrograms()
       });
   }
 
-  private showSubmitInfo(message: string) {
+  /*private showSubmitInfo(message: string) {
     this.snackBar.open(message, null, {
       duration: 2000
     });
@@ -627,7 +645,7 @@ export class ProjectEditorComponent
 
   private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
-  }
+  }*/
 
   cancelButtonClicked() {
     this.cancel.emit();
