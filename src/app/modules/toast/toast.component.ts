@@ -32,8 +32,6 @@ export class ToastComponent implements OnInit, OnDestroy {
   private close($event: any, index: number) {
     this.data.splice(index, 1);
     if (this.data.length === 0) {
-      console.log('Going to dismiss');
-      console.log(this._snackRef);
       this._snackRef.dismiss();
     }
     this.changeDetection.detectChanges();
