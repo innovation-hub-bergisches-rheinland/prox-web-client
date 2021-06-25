@@ -53,4 +53,11 @@ export class TagService {
       .tagCollectionTagsUsingGET(id)
       .pipe(map(e => e._embedded.tags.map(e2 => Object.assign(new Tag(), e2))));
   }
+
+  setProjectTags(id: string, tags: Tag[]): Observable<Tag[] | any> {
+    return this.tagCollectionEntityService.tagCollectionTagsUsingPUT(
+      id,
+      tags.map(t => t.id).join('\n')
+    );
+  }
 }

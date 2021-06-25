@@ -28,48 +28,22 @@ export class ProjectService {
     private moduleTypeEntityService: ModuleTypeEntityService
   ) {}
 
-  createProject(
-    project: ProjectSchema,
-    tags?: Tag[],
-    modules?: ModuleType[]
-  ): Observable<Project | any> {
-    return this.projectEntityService.saveProjectUsingPOST(project).pipe(
-      map(p => {
-        if (modules) {
-          this.projectEntityService
-            .projectModulesUsingPUT(p.id, modules.map(m => m.id).join('\n'))
-            .subscribe();
-        }
-        if (tags) {
-          this.tagCollectionEntityService
-            .tagCollectionTagsUsingPUT(p.id, tags.map(t => t.id).join('\n'))
-            .subscribe();
-        }
-      })
+  createProject(project: ProjectSchema): Observable<Project | any> {
+    return this.projectEntityService.saveProjectUsingPOST(project);
+  }
+
+  setProjectModules(
+    id: string,
+    modules: ModuleType[]
+  ): Observable<ModuleType[] | any> {
+    return this.projectEntityService.projectModulesUsingPUT(
+      id,
+      modules.map(m => m.id).join('\n')
     );
   }
 
-  updateProject(
-    project: ProjectSchema,
-    tags?: Tag[],
-    modules?: ModuleType[]
-  ): Observable<Project | any> {
-    return this.projectEntityService
-      .saveProjectUsingPUT(project.id, project)
-      .pipe(
-        map(p => {
-          if (modules) {
-            this.projectEntityService
-              .projectModulesUsingPUT(p.id, modules.map(m => m.id).join('\n'))
-              .subscribe();
-          }
-          if (tags) {
-            this.tagCollectionEntityService
-              .tagCollectionTagsUsingPUT(p.id, tags.map(t => t.id).join('\n'))
-              .subscribe();
-          }
-        })
-      );
+  updateProject(id: string, project: ProjectSchema): Observable<Project | any> {
+    return this.projectEntityService.saveProjectUsingPUT(id, project);
   }
 
   getProject(id: any): Observable<Project> {

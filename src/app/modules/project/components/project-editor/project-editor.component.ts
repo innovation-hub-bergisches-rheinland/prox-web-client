@@ -40,7 +40,8 @@ import {
   switchMap,
   takeUntil,
   toArray,
-  catchError
+  catchError,
+  concatAll
 } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -559,65 +560,63 @@ export class ProjectEditorComponent
   }
 
   /**
-   * Creates a new project in backend
-   * @param project project to create
-   * @param modules moduleTypes of project
-   * @param tags tags of project
-   */
-  private createProject(project: Project, modules: ModuleType[], tags: Tag[]) {
-    this.projectService.createProject(project, tags, modules).subscribe({
-      next: newProject => {
-        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
-        this.clearStorage();
-        this.projectSaved.emit(newProject);
-      },
-      error: err => {
-        this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
-        this.hasSubmitted = false;
-        console.error('project service error', err);
-      }
-    });
-  }
-
-  /**
-   * Updates a existing project in backend
-   * @param project project to update
-   * @param modules moduleTypes of project
-   * @param tags tags of project
-   */
-  private updateProject(project: Project, modules: ModuleType[], tags: Tag[]) {
-    project.id = this.projectId;
-    this.projectService.updateProject(project, tags, modules).subscribe({
-      next: newProject => {
-        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
-        this.clearStorage();
-        this.projectSaved.emit(newProject);
-      },
-      error: err => {
-        this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
-        this.hasSubmitted = false;
-        console.error('project service error', err);
-      }
-    });
-  }
-
-  /**
    * Form Submit method
    * @param project project which is submitted
    */
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
+    const createOrUpdateProject = this.isEditProject()
+      ? this.projectService.updateProject(this.projectId, project)
+      : this.projectService.createProject(project);
     const modules = this.moduleSelection.selected;
-    this.createTags(this.tags).subscribe(tags => {
-      if (this.isEditProject()) {
-        this.updateProject(project, modules, tags);
-      } else {
-        this.createProject(project, modules, tags);
-      }
-    });
 
-    this.saveSelectedStudyPrograms();
+    createOrUpdateProject
+      .pipe(
+        mergeMap((p: Project) =>
+          forkJoin({
+            modules: this.projectService.setProjectModules(p.id, modules).pipe(
+              catchError(err => {
+                console.error(err);
+                return of(
+                  this.openErrorSnackBar(
+                    'Module konnten nicht gespeichert werden, versuchen Sie es später nochmal'
+                  )
+                );
+              })
+            ),
+            tags: this.createTags(this.tags).pipe(
+              mergeMap(tags =>
+                this.tagService.setProjectTags(p.id, tags).pipe(
+                  catchError(err => {
+                    console.error(err);
+                    return of(
+                      this.openErrorSnackBar(
+                        'Tags konnten nicht gespeichert werden, versuchen Sie es später nochmal'
+                      )
+                    );
+                  })
+                )
+              )
+            ),
+            project: of(p)
+          })
+        )
+      )
+      .subscribe({
+        next: res => {
+          this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
+          this.clearStorage();
+          this.projectSaved.emit(res.project);
+        },
+        error: err => {
+          console.error(err);
+          this.openErrorSnackBar(
+            'Projekt konnte nicht gespeichert werden, versuchen Sie es später nochmal'
+          );
+        },
+        complete: () => this.saveSelectedStudyPrograms()
+      });
   }
 
   private showSubmitInfo(message: string) {
