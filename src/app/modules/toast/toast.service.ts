@@ -11,7 +11,7 @@ export class ToastService {
     window['toastService'] = this;
   }
 
-  showToasts(content: Toast[], duration: number = 99999999999999) {
+  showToasts(content: Toast[], duration: number = 2000) {
     this.snackBar.openFromComponent(ToastComponent, {
       duration: duration,
       verticalPosition: 'bottom',
