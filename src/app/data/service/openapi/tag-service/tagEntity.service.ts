@@ -34,7 +34,7 @@ import { Configuration } from '../configuration';
   providedIn: 'root'
 })
 export class TagEntityService {
-  protected basePath = 'http://host.docker.internal:8081';
+  protected basePath = 'http://10.255.0.7:8081';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
@@ -161,26 +161,25 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = [];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.delete<any>(
       `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
       {
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -288,27 +287,26 @@ export class TagEntityService {
         'text/uri-list',
         'application/x-spring-data-compact+json'
       ];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.get<CollectionModelOfTag>(
       `${this.configuration.basePath}/tags`,
       {
         params: queryParameters,
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -360,26 +358,25 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.get<EntityModelOfTag>(
       `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
       {
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -434,27 +431,26 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.get<CollectionModelOfTag>(
       `${this.configuration.basePath}/tags/search/findByTagNameContaining`,
       {
         params: queryParameters,
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -509,27 +505,26 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.get<CollectionModelOfTag>(
       `${this.configuration.basePath}/tags/search/findByTagName`,
       {
         params: queryParameters,
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -593,9 +588,8 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -603,26 +597,25 @@ export class TagEntityService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.patch<EntityModelOfTag>(
       `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
       tag,
       {
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -675,9 +668,8 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -685,26 +677,25 @@ export class TagEntityService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.post<EntityModelOfTag>(
       `${this.configuration.basePath}/tags`,
       tag,
       {
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -768,9 +759,8 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -778,26 +768,25 @@ export class TagEntityService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected:
-      | string
-      | undefined = this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.put<EntityModelOfTag>(
       `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
       tag,
       {
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,
@@ -858,27 +847,26 @@ export class TagEntityService {
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(
-        httpHeaderAccepts
-      );
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    let responseType: 'text' | 'json' = 'json';
+    let responseType_: 'text' | 'json' = 'json';
     if (
       httpHeaderAcceptSelected &&
       httpHeaderAcceptSelected.startsWith('text')
     ) {
-      responseType = 'text';
+      responseType_ = 'text';
     }
 
     return this.httpClient.get<CollectionModelOfTag>(
       `${this.configuration.basePath}/tags/search/tagRecommendations`,
       {
         params: queryParameters,
-        responseType: <any>responseType,
+        responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: headers,
         observe: observe,

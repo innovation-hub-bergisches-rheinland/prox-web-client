@@ -9,11 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Links } from './links';
-import { Tag } from './tag';
+import { TemplateVariable } from './templateVariable';
 
-export interface EntityModelOfTagCollection {
-  links?: Links;
-  referencedEntity?: string;
-  tags?: Array<Tag>;
+export interface UriTemplate {
+  variableNames?: Array<string>;
+  variables?: Array<TemplateVariable>;
 }

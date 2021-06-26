@@ -9,11 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Links } from './links';
-import { Tag } from './tag';
 
-export interface EntityModelOfTagCollection {
-  links?: Links;
-  referencedEntity?: string;
-  tags?: Array<Tag>;
+export interface Link {
+  deprecation?: string;
+  href?: string;
+  hreflang?: string;
+  media?: string;
+  name?: string;
+  profile?: string;
+  rel?: object;
+  title?: string;
+  type?: string;
 }
