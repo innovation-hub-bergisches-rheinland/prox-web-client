@@ -1,13 +1,13 @@
 @use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 @import './theme_variables.scss';
-@import './app/modules/home/pages/home/home.component.mixin.scss';
 @import './app/layout/content-layout/content-layout.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-vita/profile-page-vita.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-projects-history/profile-page-projects-history.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-overview-card/profile-overview-card.component.theming.scss';
 @import './app/modules/project/components/project-editor-dialog/project-editor-dialog.component.theming.scss';
+@import './app/modules/home/pages/home/home.component.theming.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -148,3 +148,5 @@ $prox-app-theme-4: map-merge(
 @include profile-overview-card-theme($prox-app-theme-1);
 
 @include project-editor-dialog($prox-app-theme-3);
+
+@include home-component-theme($prox-app-theme-1);

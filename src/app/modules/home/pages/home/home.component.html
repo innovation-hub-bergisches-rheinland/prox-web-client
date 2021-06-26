@@ -1,60 +1,66 @@
-<div class="home">
-  <div>
-    <img class="logo-responsive" src="assets/images/prox-logo_250x150.png" />
-    <img
-      class="logo-responsive-icon"
-      src="assets/images/prox-icon_160x160.png"
-    />
-  </div>
-  <div>
-    <p class="lead">
-      PROX (Project Exchange TH Köln) ist ein Webportal, auf dem Studierende der
-      TH Köln, lokale Unternehmen und Lehrende der TH Köln zusammengebracht
-      werden. In PROX finden Sie Bachelor- und Masterarbeiten, aber auch
-      Projekte aus den Studiengängen der TH-Köln, wie z.B. Praxis- und
-      Informatikprojekte.
-      <br /><br />
-      PROX ist ein Service, der für die TH Köln und regionale Unternehmen durch
-      den
-      <a href="https://www.innovation-hub.de"
-        >Innovation Hub Bergisches RheinLand</a
-      >
-      bereitgestellt wird.
-    </p>
+<div fxLayout="column" fxLayoutAlign="space-around center">
+  <div class="container">
+    <img alt="Banner" src="/assets/images/home-banner.jpg" />
+    <div class="caption mat-display-1">Finde dein perfektes Projekt</div>
   </div>
 
-  <div class="user-get-started-wrapper">
-    <mat-card class="user-get-started-container student-get-started-container">
-      <h2 class="user-role-heading">Studierende</h2>
-      <img class="user-role-image" src="assets/images/student.png" />
-      <button mat-raised-button color="primary" routerLink="/projects">
-        Projekte suchen
-      </button>
-      <ul class="available-functions-list">
-        <li>
-          Praxisprojekte, Bachelorarbeiten und Masterarbeiten suchen und finden
-        </li>
-      </ul>
-    </mat-card>
-    <mat-card
-      class="user-get-started-container professor-get-started-container"
+  <div class="search">
+    <form
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="searchForm"
     >
-      <h2 class="user-role-heading">Lehrende</h2>
-      <img class="user-role-image" src="assets/images/professor.png" />
-      <button mat-raised-button color="primary" (click)="editProject()">
-        Projekte verwalten
-      </button>
-      <ul class="available-functions-list">
-        <li>
-          Praxisprojekte, Bachelorarbeiten und Masterarbeiten einstellen und
-          bearbeiten
-        </li>
-        <li>
-          <a href="https://vimeo.com/492434034" target="_blank"
-            >Hier ist ein kurzes Video</a
-          >, wie man das macht!
-        </li>
-      </ul>
-    </mat-card>
+      <mat-form-field appearance="outline">
+        <mat-label [innerText]="placeholder"></mat-label>
+        <input
+          type="search"
+          matInput
+          placeholder="Suchbegriff"
+          formControlName="searchInput"
+        />
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-hint
+          >Ein Suchbegriff um nach Projekten zu suchen. Leer um alle Projekte
+          anzuzeigen.</mat-hint
+        >
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit">Suchen</button>
+    </form>
+  </div>
+
+  <br />
+
+  <div class="description">
+    <b>PROX</b> (Project Exchange TH Köln) ist ein Webportal, auf dem
+    Studierende der TH Köln, lokale Unternehmen und Lehrende der TH Köln
+    zusammengebracht werden. In <b>PROX</b> finden Sie Bachelor- und
+    Masterarbeiten, aber auch Projekte aus den Studiengängen der TH-Köln, wie
+    z.B. Praxis- und Informatikprojekte. <br /><br />
+    <b>PROX</b> ist ein Service, der für die TH Köln und regionale Unternehmen
+    durch den
+    <a href="https://www.innovation-hub.de"
+      >Innovation Hub Bergisches RheinLand</a
+    >
+    bereitgestellt wird.
+  </div>
+
+  <div
+    class="popularTags"
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+  >
+    <h1>Häufige Tags</h1>
+    <mat-chip-list *ngIf="popularTags$ | async as tags">
+      <mat-chip
+        selected
+        *ngFor="let tag of tags"
+        matTooltip="{{ tag.tagName }}"
+        [routerLink]="['/projects']"
+        [queryParams]="buildTagFilter(tag)"
+      >
+        {{ tag.tagName }}
+      </mat-chip>
+    </mat-chip-list>
   </div>
 </div>
