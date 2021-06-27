@@ -24,6 +24,10 @@
 .popularTags {
   margin-right: 20%;
   margin-left: 20%;
+
+  .mat-chip:hover {
+    cursor: pointer;
+  }
 }
 
 .search {

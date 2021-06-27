@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="space-around center">
+<div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="20px">
   <div class="container">
     <img alt="Banner" src="/assets/images/home-banner.jpg" />
     <div class="caption mat-display-1">Finde dein perfektes Projekt</div>
@@ -18,6 +18,8 @@
           matInput
           placeholder="Suchbegriff"
           formControlName="searchInput"
+          (focus)="stopTypewriter()"
+          (blur)="startTypewriter()"
         />
         <mat-icon matPrefix>search</mat-icon>
         <mat-hint
@@ -28,8 +30,6 @@
       <button mat-flat-button color="primary" type="submit">Suchen</button>
     </form>
   </div>
-
-  <br />
 
   <div class="description">
     <b>PROX</b> (Project Exchange TH Köln) ist ein Webportal, auf dem
@@ -49,13 +49,13 @@
     class="popularTags"
     fxLayout="column"
     fxLayoutAlign="space-around center"
+    *ngIf="popularTags$ | async as tags"
   >
     <h1>Häufige Tags</h1>
-    <mat-chip-list *ngIf="popularTags$ | async as tags">
+    <mat-chip-list>
       <mat-chip
         selected
         *ngFor="let tag of tags"
-        matTooltip="{{ tag.tagName }}"
         [routerLink]="['/projects']"
         [queryParams]="buildTagFilter(tag)"
       >

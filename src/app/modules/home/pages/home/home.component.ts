@@ -24,19 +24,7 @@ export class HomeComponent implements OnInit {
   });
 
   placeholder: string = '';
-  typewriter = new Typewriter(null, {
-    loop: true,
-    delay: 75,
-    onCreateTextNode: character => {
-      this.placeholder += character;
-      return null;
-    },
-    onRemoveNode: () => {
-      if (this.placeholder) {
-        this.placeholder = this.placeholder.slice(0, -1);
-      }
-    }
-  });
+  typewriter: Typewriter;
 
   constructor(
     private keycloakService: KeycloakService,
@@ -53,10 +41,24 @@ export class HomeComponent implements OnInit {
 
     console.log(this.typewriter);
 
-    this.setupTypewriter();
+    this.startTypewriter();
   }
 
-  private setupTypewriter() {
+  startTypewriter() {
+    this.placeholder = '';
+    this.typewriter = new Typewriter(null, {
+      loop: true,
+      delay: 75,
+      onCreateTextNode: character => {
+        this.placeholder += character;
+        return null;
+      },
+      onRemoveNode: () => {
+        if (this.placeholder) {
+          this.placeholder = this.placeholder.slice(0, -1);
+        }
+      }
+    });
     const keywords = [
       'Künstliche Intelligenz',
       'Agil',
@@ -84,6 +86,11 @@ export class HomeComponent implements OnInit {
         .deleteAll();
     }
     this.typewriter.start();
+  }
+
+  stopTypewriter() {
+    this.typewriter.stop();
+    this.placeholder = 'Suchbegriff';
   }
 
   editProject() {
