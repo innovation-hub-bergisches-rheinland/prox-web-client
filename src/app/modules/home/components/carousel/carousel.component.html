@@ -1,0 +1,13 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="goBackward()">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+      <ng-content></ng-content>
+    </div>
+    <button mat-raised-button color="primary" (click)="goForward()">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+</div>
