@@ -1,0 +1,38 @@
+.trapezoid {
+  border-bottom: 10px solid #2d52a0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  height: 0;
+  max-width: 140px; // 140px because border takes additional 20px
+  width: 140px;
+}
+
+.logo-container {
+  width: 160px;
+  height: 120px;
+  left: 340px;
+  top: 951px;
+
+  background: linear-gradient(
+      180deg,
+      #f7f7f7 8.33%,
+      rgba(237, 237, 237, 0) 100%
+    ),
+    #c4c4c4;
+}
+
+.logo {
+  background-color: white;
+  margin: 10px;
+  height: 100px;
+  min-height: 100px;
+  max-height: 100px;
+}
+
+:host {
+  display: none;
+}
+
+:host(.active) {
+  display: block;
+}

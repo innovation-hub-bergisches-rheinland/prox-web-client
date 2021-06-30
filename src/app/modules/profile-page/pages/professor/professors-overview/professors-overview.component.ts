@@ -63,7 +63,6 @@ export class ProfessorsOverviewComponent implements OnInit {
   }
 
   getResearchSubjects(professor: EntityModelProfessorOverviewDto): string[] {
-    console.log(professor);
     return professor.researchSubjects ?? [];
   }
 

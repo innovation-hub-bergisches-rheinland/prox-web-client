@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BASE_PATH } from '@data/service/openapi/variables';
 import { environment } from '@env';
+import { ToastModule } from '@modules/toast/toast.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { environment } from '@env';
     HttpClientModule,
     CoreModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ToastModule
   ],
   providers: [
     {

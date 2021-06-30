@@ -18,9 +18,9 @@ import { TagService } from '@data/service/tag.service';
 import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-interface QueryParams {
+export interface QueryParams extends Params {
   state?: string;
   moduleTypes?: string;
   filter?: string;

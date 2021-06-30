@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { EmbeddedCollectionOfTagCollection } from './embeddedCollectionOfTagCollection';
-import { Link } from '../common/link';
+import { Link } from './link';
 
 /**
  * Resources of TagCollection

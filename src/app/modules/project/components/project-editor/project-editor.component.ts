@@ -40,7 +40,8 @@ import {
   switchMap,
   takeUntil,
   toArray,
-  catchError
+  catchError,
+  concatAll
 } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -61,6 +62,9 @@ import {
   MatCheckboxDefaultOptions,
   MAT_CHECKBOX_DEFAULT_OPTIONS
 } from '@angular/material/checkbox';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '@modules/toast/toast.service';
+import { Toast } from '@modules/toast/types';
 
 @Component({
   selector: 'app-project-editor',
@@ -227,7 +231,7 @@ export class ProjectEditorComponent
     private projectService: ProjectService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
+    private toastService: ToastService,
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
@@ -282,9 +286,12 @@ export class ProjectEditorComponent
         switchMap(value =>
           this.tagService.findByTagName(value, false).pipe(
             catchError(error => {
-              this.openErrorSnackBar(
-                'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-              );
+              this.toastService.showToasts([
+                {
+                  message:
+                    'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+                }
+              ]);
               return throwError(() => error);
             }),
             takeUntil(
@@ -526,9 +533,12 @@ export class ProjectEditorComponent
         );
       },
       () => {
-        this.openErrorSnackBar(
-          'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-        );
+        this.toastService.showToasts([
+          {
+            message:
+              'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+          }
+        ]);
       }
     );
   }
@@ -559,68 +569,75 @@ export class ProjectEditorComponent
   }
 
   /**
-   * Creates a new project in backend
-   * @param project project to create
-   * @param modules moduleTypes of project
-   * @param tags tags of project
-   */
-  private createProject(project: Project, modules: ModuleType[], tags: Tag[]) {
-    this.projectService.createProject(project, tags, modules).subscribe({
-      next: newProject => {
-        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
-        this.clearStorage();
-        this.projectSaved.emit(newProject);
-      },
-      error: err => {
-        this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
-        this.hasSubmitted = false;
-        console.error('project service error', err);
-      }
-    });
-  }
-
-  /**
-   * Updates a existing project in backend
-   * @param project project to update
-   * @param modules moduleTypes of project
-   * @param tags tags of project
-   */
-  private updateProject(project: Project, modules: ModuleType[], tags: Tag[]) {
-    project.id = this.projectId;
-    this.projectService.updateProject(project, tags, modules).subscribe({
-      next: newProject => {
-        this.showSubmitInfo('Projekt wurde erfolgreich erstellt');
-        this.clearStorage();
-        this.projectSaved.emit(newProject);
-      },
-      error: err => {
-        this.showSubmitInfo('Fehler beim Bearbeiten der Anfrage');
-        this.hasSubmitted = false;
-        console.error('project service error', err);
-      }
-    });
-  }
-
-  /**
    * Form Submit method
    * @param project project which is submitted
    */
   onSubmit(project: Project) {
     this.hasSubmitted = true;
 
+    const createOrUpdateProject = this.isEditProject()
+      ? this.projectService.updateProject(this.projectId, project)
+      : this.projectService.createProject(project);
     const modules = this.moduleSelection.selected;
-    this.createTags(this.tags).subscribe(tags => {
-      if (this.isEditProject()) {
-        this.updateProject(project, modules, tags);
-      } else {
-        this.createProject(project, modules, tags);
-      }
-    });
 
-    this.saveSelectedStudyPrograms();
+    createOrUpdateProject
+      .pipe(
+        mergeMap((p: Project) =>
+          forkJoin({
+            modules: this.projectService
+              .setProjectModules(p.id, modules)
+              .pipe(catchError(err => of(err))),
+            tags: this.createTags(this.tags).pipe(
+              mergeMap(tags =>
+                this.tagService
+                  .setProjectTags(p.id, tags)
+                  .pipe(catchError(err => of(err)))
+              )
+            ),
+            project: of(p)
+          })
+        )
+      )
+      .subscribe({
+        next: res => {
+          const toasts: Toast[] = [
+            {
+              message: 'Projekt wurde erfolgreich erstellt'
+            }
+          ];
+          if (res.modules instanceof HttpErrorResponse) {
+            toasts.push({
+              message:
+                'Module konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              isError: true
+            });
+          }
+          if (res.tags instanceof HttpErrorResponse) {
+            toasts.push({
+              message:
+                'Tags konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              isError: true
+            });
+          }
+          this.toastService.showToasts(toasts);
+          this.clearStorage();
+          this.projectSaved.emit(res.project);
+        },
+        error: err => {
+          console.error(err);
+          const toasts: Toast[] = [
+            {
+              message:
+                'Projekt konnte nicht gespeichert werden, versuchen Sie es später nochmal'
+            }
+          ];
+          this.toastService.showToasts(toasts);
+        },
+        complete: () => this.saveSelectedStudyPrograms()
+      });
   }
 
-  private showSubmitInfo(message: string) {
+  /*private showSubmitInfo(message: string) {
     this.snackBar.open(message, null, {
       duration: 2000
     });
@@ -628,7 +645,7 @@ export class ProjectEditorComponent
 
   private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
-  }
+  }*/
 
   cancelButtonClicked() {
     this.cancel.emit();

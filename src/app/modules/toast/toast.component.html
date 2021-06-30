@@ -1,0 +1,21 @@
+<ng-container *ngFor="let item of this.data; let i = index">
+  <div
+    class="toast-component"
+    [ngClass]="{ error: item.isError === true }"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="20px"
+  >
+    <div class="icon">
+      <mat-icon
+        inline="true"
+        >{{ item.icon ?? item.isError ? 'error' : 'info' }}</mat-icon
+      >
+    </div>
+    <div class="text">{{ item.message }}</div>
+
+    <button class="close-button" (click)="close($event, i)">
+      <mat-icon inline="true">close</mat-icon>
+    </button>
+  </div>
+</ng-container>

@@ -1,7 +1,58 @@
-@import './home.component.mixin.scss';
-@import '../../../../../theme.scss';
+/* Container holding the image and the text */
+.header {
+  position: relative;
+  margin-top: -30px; // TODO: Take a look the content-layout to refactor this
+  overflow: hidden;
 
-@include home-component-theme($prox-app-theme-1);
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Bottom right text */
+.caption {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  background-color: rgba(50, 50, 50, 0.85);
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+@media only screen and (max-width: 720px) {
+  .caption {
+    display: none;
+  }
+}
+
+.description {
+  margin-left: 20%;
+  margin-right: 20%;
+  text-align: center;
+}
+
+.popularTags {
+  margin-right: 20%;
+  margin-left: 20%;
+
+  .mat-chip:hover {
+    cursor: pointer;
+  }
+}
+
+.search {
+  margin-right: 20%;
+  margin-left: 20%;
+  width: 55vw;
+
+  .mat-form-field {
+    width: 50vw;
+  }
+}
 
 .home {
   max-width: 1400px;

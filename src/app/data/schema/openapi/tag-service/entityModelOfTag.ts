@@ -9,10 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Link } from '../common/link';
+import { Links } from './links';
 
 export interface EntityModelOfTag {
   id?: string;
-  _links: { [key: string]: Link };
+  links?: Links;
   tagName: string;
 }

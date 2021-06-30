@@ -11,6 +11,6 @@
  */
 
 export interface Tag {
-  id?: string;
+  id: string;
   tagName: string;
 }
