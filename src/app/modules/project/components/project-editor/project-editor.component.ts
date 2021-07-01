@@ -186,13 +186,12 @@ export class ProjectEditorComponent
 
     if (this.isEditProject()) {
       this.projectService.getModulesOfProject(project).subscribe({
-        next: modules => {
+        next: modules =>
           modules.forEach(m =>
             this.modules
               .filter(m1 => m1.id === m.id)
               .forEach(m2 => this.moduleSelection.select(m2))
-          );
-        }
+          )
       });
 
       this.tagService.getAllTagsOfProject(project.id).subscribe(tags => {
@@ -257,6 +256,8 @@ export class ProjectEditorComponent
           project.supervisorName = this.fullName;
           this._project = project;
         }
+
+        this.project = project;
 
         this.enableAutosave();
         this.tryLoadState();
