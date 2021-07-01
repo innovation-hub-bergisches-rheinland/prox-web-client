@@ -331,7 +331,13 @@ export class ProjectEditorComponent
     let storage: Array<Project & { tags?: Tag[] }> = [];
     if (loadedData) {
       try {
-        storage = JSON.parse(loadedData);
+        const parsedData = JSON.parse(loadedData);
+        if (parsedData && Array.isArray(parsedData)) {
+          storage = parsedData;
+        } else {
+          console.warn('Storage is invalid, resetting');
+          this.clearStorage();
+        }
       } catch (e) {
         console.warn({
           message: 'Could not parse storage, resetting',
@@ -367,7 +373,13 @@ export class ProjectEditorComponent
     let loadedData: Array<Project & { tags?: Tag[] }> = [];
     if (storage) {
       try {
-        loadedData = JSON.parse(storage);
+        const parsedData = JSON.parse(storage);
+        if (parsedData && Array.isArray(parsedData)) {
+          loadedData = parsedData;
+        } else {
+          console.warn('Storage is invalid, resetting');
+          this.clearStorage();
+        }
       } catch (e) {
         console.warn({
           message: 'Could not parse storage, resetting',
