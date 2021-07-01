@@ -232,7 +232,6 @@ export class ProjectComponent implements OnInit {
           this.searchForm.controls.selectedModuleTypes.setValue(
             this.suitableModuleTypes
           );
-          this.filterProjects();
         },
         err => console.error(err),
         () => (this.isLoadingModuleTypes = false)
