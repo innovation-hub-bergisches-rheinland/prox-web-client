@@ -327,19 +327,7 @@ export class ProjectEditorComponent
    */
   saveState() {
     // Get from storage
-    const loadedData: string = this.storage.get(this.STORAGE_KEY);
-    let storage: Array<Project & { tags?: Tag[] }> = [];
-    if (loadedData) {
-      try {
-        storage = JSON.parse(loadedData);
-      } catch (e) {
-        console.warn({
-          message: 'Could not parse storage, resetting',
-          error: e
-        });
-        this.clearStorage();
-      }
-    }
+    let storage: Array<Project & { tags?: Tag[] }> = this.loadDataFromStorage();
     const state = this.projectFormControl.getRawValue();
     state.tags = this.tags;
     state.id = this.projectId;
@@ -363,19 +351,8 @@ export class ProjectEditorComponent
    * load the state from local storage and set form control values
    */
   tryLoadState() {
-    const storage = this.storage.get(this.STORAGE_KEY);
-    let loadedData: Array<Project & { tags?: Tag[] }> = [];
-    if (storage) {
-      try {
-        loadedData = JSON.parse(storage);
-      } catch (e) {
-        console.warn({
-          message: 'Could not parse storage, resetting',
-          error: e
-        });
-        this.clearStorage();
-      }
-    }
+    const loadedData: Array<Project & { tags?: Tag[] }> =
+      this.loadDataFromStorage();
     const state = loadedData.find(p => p.id === this.projectId);
 
     if (state) {
@@ -427,6 +404,28 @@ export class ProjectEditorComponent
 
     const state = loadedData.filter(p => p.id !== this.projectId);
     this.storage.set(this.STORAGE_KEY, JSON.stringify(state));
+  }
+
+  private loadDataFromStorage(): Array<Project & { tags?: Tag[] }> {
+    const storage = this.storage.get(this.STORAGE_KEY);
+    let loadedData: Array<Project & { tags?: Tag[] }> = [];
+    if (storage) {
+      try {
+        const storageData = JSON.parse(storage);
+        if (storageData && Array.isArray(storageData)) {
+          loadedData = storageData;
+        } else {
+          this.storage.set(this.STORAGE_KEY, []);
+        }
+      } catch (e) {
+        console.warn({
+          message: 'Could not parse storage, resetting',
+          error: e
+        });
+        this.storage.set(this.STORAGE_KEY, []);
+      }
+    }
+    return loadedData;
   }
 
   /**
