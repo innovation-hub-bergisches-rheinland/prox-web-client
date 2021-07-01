@@ -257,8 +257,6 @@ export class ProjectEditorComponent
           this._project = project;
         }
 
-        this.project = project;
-
         this.enableAutosave();
         this.tryLoadState();
       }
@@ -573,6 +571,10 @@ export class ProjectEditorComponent
    * @param project project which is submitted
    */
   onSubmit(project: Project) {
+    console.log({
+      edit: this.isEditProject(),
+      id: this.projectId
+    });
     // Decide whether a project should be updated or created
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
