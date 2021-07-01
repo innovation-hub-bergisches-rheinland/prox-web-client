@@ -53,12 +53,10 @@
   >
     <h1>Häufige Tags</h1>
     <mat-chip-list>
-      <mat-chip
-        selected
-        *ngFor="let tag of tags"
+      <!-- TODO: Add bindings:
         [routerLink]="['/projects']"
-        [queryParams]="buildTagFilter(tag)"
-      >
+        [queryParams]="buildTagFilter(tag)" -->
+      <mat-chip selected *ngFor="let tag of tags">
         {{ tag.tagName }}
       </mat-chip>
     </mat-chip-list>
