@@ -87,6 +87,7 @@ export class ProjectEditorComponent
   private STORAGE_KEY = 'project-editor-state';
   private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
+  private hasSubmitted = false;
   private projectId?: string = undefined;
   @Output() projectSaved = new EventEmitter<Project>();
   @Output() cancel = new EventEmitter<any>();
@@ -571,10 +572,7 @@ export class ProjectEditorComponent
    * @param project project which is submitted
    */
   onSubmit(project: Project) {
-    console.log({
-      edit: this.isEditProject(),
-      id: this.projectId
-    });
+    this.hasSubmitted = true;
     // Decide whether a project should be updated or created
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
