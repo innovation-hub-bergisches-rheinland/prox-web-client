@@ -101,7 +101,6 @@ export class ProjectEditorComponent
     status: ['', [Validators.required]],
     tagInput: []
   });
-  hasSubmitted = false;
 
   tags: Tag[] = [];
   filteredTags: Observable<Tag[]>;
@@ -114,8 +113,8 @@ export class ProjectEditorComponent
   tagAutocompleteTrigger: MatAutocompleteTrigger;
 
   autoSave: Subscription;
-  userID: string = '';
-  fullname: string = '';
+  userID = '';
+  fullName = '';
 
   private _modules: ModuleType[] = [];
   private _studyPrograms: StudyProgram[] = [];
@@ -151,14 +150,13 @@ export class ProjectEditorComponent
   get _project(): Project {
     return {
       creatorID: this.userID,
-      creatorName: this.fullname.trim(),
-      shortDescription:
-        this.projectFormControl.value['shortDescription'].trim(),
-      requirement: this.projectFormControl.value['requirement'].trim(),
-      description: this.projectFormControl.value['description'].trim(),
-      name: this.projectFormControl.value['name'].trim(),
-      status: this.projectFormControl.value['status'].trim(),
-      supervisorName: this.projectFormControl.value['supervisorName'].trim(),
+      creatorName: this.fullName.trim(),
+      shortDescription: this.projectFormControl.value.shortDescription.trim(),
+      requirement: this.projectFormControl.value.requirement.trim(),
+      description: this.projectFormControl.value.description.trim(),
+      name: this.projectFormControl.value.name.trim(),
+      status: this.projectFormControl.value.status.trim(),
+      supervisorName: this.projectFormControl.value.supervisorName.trim(),
       context: (() => {
         if (this.keycloakService.isUserInRole('professor')) {
           return Project.ContextEnum.Professor;
@@ -187,13 +185,15 @@ export class ProjectEditorComponent
     );
 
     if (this.isEditProject()) {
-      this.projectService.getModulesOfProject(project).subscribe(modules =>
-        modules.forEach(m => {
-          this.modules
-            .filter(m1 => m1.id === m.id)
-            .forEach(m2 => this.moduleSelection.select(m2));
-        })
-      );
+      this.projectService.getModulesOfProject(project).subscribe({
+        next: modules => {
+          modules.forEach(m =>
+            this.modules
+              .filter(m1 => m1.id === m.id)
+              .forEach(m2 => this.moduleSelection.select(m2))
+          );
+        }
+      });
 
       this.tagService.getAllTagsOfProject(project.id).subscribe(tags => {
         this.tags = tags;
@@ -234,23 +234,7 @@ export class ProjectEditorComponent
     private toastService: ToastService,
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
-  ) {}
-
-  ngAfterViewInit(): void {
-    this.dataSource.data = this.modules;
-  }
-
-  /**
-   * Initialize Angular Component
-   */
-  async ngOnInit() {
-    //If user is logged in set its ID and Full Name
-    if (await this.keycloakService.isLoggedIn()) {
-      this.userID = this.keycloakService.getKeycloakInstance().subject;
-      const userProfile = await this.keycloakService.loadUserProfile();
-      this.fullname = `${userProfile.firstName} ${userProfile.lastName}`;
-    }
-
+  ) {
     forkJoin({
       studyPrograms: this.projectService.getAllStudyPrograms(),
       moduleTypes: this.projectService.getAllModuleTypes()
@@ -270,7 +254,7 @@ export class ProjectEditorComponent
             project.supervisorName.trim().length === 0) &&
           this.keycloakService.isUserInRole('professor')
         ) {
-          project.supervisorName = this.fullname;
+          project.supervisorName = this.fullName;
           this._project = project;
         }
 
@@ -278,6 +262,22 @@ export class ProjectEditorComponent
         this.tryLoadState();
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.data = this.modules;
+  }
+
+  /**
+   * Initialize Angular Component
+   */
+  async ngOnInit() {
+    // If user is logged in set its ID and Full Name
+    if (await this.keycloakService.isLoggedIn()) {
+      this.userID = this.keycloakService.getKeycloakInstance().subject;
+      const userProfile = await this.keycloakService.loadUserProfile();
+      this.fullName = `${userProfile.firstName} ${userProfile.lastName}`;
+    }
 
     this.filteredTags =
       this.projectFormControl.controls.tagInput.valueChanges.pipe(
@@ -507,13 +507,13 @@ export class ProjectEditorComponent
   private addRecommendedTag(tag: Tag) {
     this.addTag(tag);
 
-    //Remove added tag from recommendations - necessary for the case when the tag service can not load recommendations
+    // Remove added tag from recommendations - necessary for the case when the tag service can not load recommendations
     const index = this.recommendedTags.indexOf(tag);
     if (index !== -1) {
       this.recommendedTags.splice(index, 1);
     }
 
-    //Recalculate recommendations
+    // Recalculate recommendations
     this.updateTagRecommendations();
   }
 
@@ -521,7 +521,7 @@ export class ProjectEditorComponent
    * Update the tag recommendations based on currently selected tags
    */
   private updateTagRecommendations() {
-    const filteredTags = this.tags.filter(tag => tag.id); //Must have a id
+    const filteredTags = this.tags.filter(tag => tag.id); // Must have a id
     this.tagService.getRecommendations(filteredTags).subscribe(
       tags => {
         /**
@@ -573,19 +573,18 @@ export class ProjectEditorComponent
    * @param project project which is submitted
    */
   onSubmit(project: Project) {
-    this.hasSubmitted = true;
-
+    // Decide whether a project should be updated or created
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
       : this.projectService.createProject(project);
-    const modules = this.moduleSelection.selected;
+    const selectedModules = this.moduleSelection.selected;
 
     createOrUpdateProject
       .pipe(
         mergeMap((p: Project) =>
           forkJoin({
             modules: this.projectService
-              .setProjectModules(p.id, modules)
+              .setProjectModules(p.id, selectedModules)
               .pipe(catchError(err => of(err))),
             tags: this.createTags(this.tags).pipe(
               mergeMap(tags =>
@@ -633,19 +632,11 @@ export class ProjectEditorComponent
           ];
           this.toastService.showToasts(toasts);
         },
-        complete: () => this.saveSelectedStudyPrograms()
+        complete: () => {
+          this.saveSelectedStudyPrograms();
+        }
       });
   }
-
-  /*private showSubmitInfo(message: string) {
-    this.snackBar.open(message, null, {
-      duration: 2000
-    });
-  }
-
-  private openErrorSnackBar(message: string) {
-    this.snackBar.open(message, 'Verstanden');
-  }*/
 
   cancelButtonClicked() {
     this.cancel.emit();
@@ -658,7 +649,7 @@ export class ProjectEditorComponent
    * @param studyProgram studyProgram
    */
   toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
-    //TODO Possible refactor -> maybe a template binding?
+    // TODO Possible refactor -> maybe a template binding?
     if (event.checked) {
       this.studyProgramSelection.select(studyProgram);
     } else {
@@ -672,23 +663,23 @@ export class ProjectEditorComponent
    * Filters Module types based on the study program selectio
    */
   filterModuleTypes() {
-    //TODO Refactor: Make use of debounceTime to reduce network traffic
+    // TODO Refactor: Make use of debounceTime to reduce network traffic
     if (this.studyProgramSelection.selected.length > 0) {
       this.projectService
         .getAllModuleTypesOfStudyprograms(
           this.studyProgramSelection.selected.map(sp => sp.id)
         )
         .subscribe(res => {
-          //Elements to add
+          // Elements to add
           const diffA = _.differenceWith(res, this.modules, _.isEqual);
 
-          //Elements to remove
+          // Elements to remove
           const diffB = _.differenceWith(this.modules, res, _.isEqual);
 
-          //Add elements
+          // Add elements
           this.modules.push(...diffA);
 
-          //Pull elements to remove out - this mutates this.modules
+          // Pull elements to remove out - this mutates this.modules
           _.pullAllWith(this.modules, diffB, _.isEqual);
 
           this.dataSource.data = this.modules;
