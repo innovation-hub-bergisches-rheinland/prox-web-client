@@ -10,6 +10,7 @@ import { ProjectEditorComponent } from './components/project-editor/project-edit
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { FlexModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ProjectItemComponent,
     ConfirmDialogComponent
   ],
-  imports: [SharedModule, ProjectRoutingModule, ScrollingModule],
+  imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
   entryComponents: [ProjectEditorDialogComponent, ConfirmDialogComponent]
 })
 export class ProjectModule {}
