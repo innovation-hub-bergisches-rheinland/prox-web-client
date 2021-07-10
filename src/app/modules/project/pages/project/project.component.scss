@@ -1,7 +1,6 @@
 .project-list {
   margin-top: 70px;
   margin-left: 20px;
-  /*margin-right: 20px;*/
   padding-bottom: 20px;
 }
 
@@ -35,18 +34,15 @@ h2 {
   margin: 15px auto;
 }
 
-.mat-form-field {
+.search-form {
   margin-left: 30px;
+  margin-right: 30px;
 }
 
 .mat-icon-button {
   float: right;
   margin-top: 0;
 }
-
-/*.mat-icon-button.no-hover ::ng-deep .mat-button-focus-overlay {
-  background: none;
-}*/
 
 .mat-icon {
   background-color: white;
@@ -72,18 +68,6 @@ h2 {
 .button-toggle-description {
   text-align: center;
 }
-
-.status-search {
-  width: 135px;
-}
-
-.type-search {
-  width: 50px;
-}
-
-/*.search {
-  width: 215px;
-}*/
 
 .hint {
   margin-top: -10px;
