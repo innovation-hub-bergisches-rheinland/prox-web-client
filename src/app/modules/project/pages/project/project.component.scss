@@ -44,7 +44,7 @@ h2 {
   margin-top: 0;
 }
 
-.mat-icon {
+#add {
   background-color: white;
   border-radius: 50%;
   padding: 8px;
@@ -95,4 +95,9 @@ h2 {
 
 .select-placeholder-container > span {
   flex: 1;
+}
+
+.expansion-headers-align .mat-expansion-panel-header-title,
+.expansion-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
 }

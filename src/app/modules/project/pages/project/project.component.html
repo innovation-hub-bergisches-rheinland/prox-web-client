@@ -10,13 +10,15 @@
         matTooltip="Neues Projekt hinzufügen"
         class="no-hover"
       >
-        <mat-icon> add </mat-icon>
+        <mat-icon id="add"> add </mat-icon>
       </button>
     </h1>
 
-    <mat-expansion-panel hideToggle>
+    <mat-expansion-panel class="expansion-headers-align" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title> Suchfilter </mat-panel-title>
+        <mat-panel-description> Nach Projekten suchen </mat-panel-description>
+        <mat-icon>search</mat-icon>
       </mat-expansion-panel-header>
       <form
         class="search-form"
