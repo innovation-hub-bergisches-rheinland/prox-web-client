@@ -158,6 +158,8 @@ export class ProjectComponent implements OnInit {
               statusOption
             );
           }
+        } else {
+          this.searchForm.controls.selectedStatusOption.setValue(null);
         }
         if (params.moduleTypes) {
           const split: string[] = params.moduleTypes.split(',');
@@ -265,8 +267,6 @@ export class ProjectComponent implements OnInit {
   }
 
   public filterProjects() {
-    this.setQueryParams();
-
     forkJoin({
       projects: this.projectService.filterProjects(
         this.searchForm.controls.selectedStatusOption.value,
@@ -286,7 +286,6 @@ export class ProjectComponent implements OnInit {
             value.tagCollections.includes(p.id)
           );
         }
-        console.log(value);
       },
       error: err => console.error(err),
       complete: () => {
@@ -294,6 +293,7 @@ export class ProjectComponent implements OnInit {
         this.totalFilteredProjects = this.filteredProjects.length;
         this.pageProjects();
         this.paginator.firstPage();
+        this.setQueryParams();
       }
     });
   }
