@@ -13,7 +13,10 @@
         fxLayout="column"
         fxLayoutAlign="start "
       >
-        <a [routerLink]="['/projects/' + element.id]" class="project-name">
+        <a
+          [routerLink]="['/projects/' + element.project.id]"
+          class="project-name"
+        >
           {{ element.project.name }}
         </a>
       </mat-cell>
