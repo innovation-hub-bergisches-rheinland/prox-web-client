@@ -113,7 +113,8 @@ export class HomeComponent implements OnInit {
 
   private buildTagFilter(tag: Tag): QueryParams {
     return {
-      tags: tag.tagName
+      tags: tag.tagName,
+      state: ''
     };
   }
 }
