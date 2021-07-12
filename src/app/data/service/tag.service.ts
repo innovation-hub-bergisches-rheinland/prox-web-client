@@ -72,4 +72,20 @@ export class TagService {
         )
       );
   }
+
+  findAllProjectIdsUsingTagsByIds(ids: string[]): Observable<string[]> {
+    return this.tagCollectionEntityService
+      .findAllUsingTagsTagCollectionUsingGET(ids.join(','))
+      .pipe(
+        map(res => res._embedded.tagCollections.map(tc => tc.referencedEntity))
+      );
+  }
+
+  findAllProjectIdsUsingTagsByNames(names: string[]): Observable<string[]> {
+    return this.tagCollectionEntityService
+      .findAllUsingTagsUsingNameTagCollectionUsingGET(names.join(','))
+      .pipe(
+        map(res => res._embedded.tagCollections.map(tc => tc.referencedEntity))
+      );
+  }
 }

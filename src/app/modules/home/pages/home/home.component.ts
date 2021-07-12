@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     searchInput: ''
   });
 
-  placeholder: string = '';
+  placeholder = '';
   typewriter: Typewriter;
 
   constructor(
@@ -103,18 +103,18 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.router.navigate(['projects'], {
+  async onSubmit() {
+    await this.router.navigate(['projects'], {
       queryParams: {
-        filter: this.searchForm.value['searchInput']?.trim() ?? ''
+        filter: this.searchForm.value.searchInput?.trim() ?? ''
       } as QueryParams
     });
   }
 
-  // TODO Filter Tags instead of setting a text filter
   private buildTagFilter(tag: Tag): QueryParams {
     return {
-      filter: tag.tagName
+      tags: tag.tagName,
+      state: ''
     };
   }
 }

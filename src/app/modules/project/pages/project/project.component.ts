@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { KeycloakService } from 'keycloak-angular';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
 
 import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
@@ -19,11 +19,23 @@ import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram'
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Tag } from '@data/schema/tag.resource';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  catchError,
+  debounceTime,
+  filter,
+  skip,
+  switchMap,
+  takeUntil
+} from 'rxjs/operators';
+import { ToastService } from '@modules/toast/toast.service';
 
 export interface QueryParams extends Params {
   state?: string;
   moduleTypes?: string;
   filter?: string;
+  tags?: string;
 }
 
 @Component({
@@ -38,15 +50,21 @@ export class ProjectComponent implements OnInit {
   public pageSize = 10;
   public isLoggedIn = false;
 
-  public searchString = new FormControl('');
-  public selectedStatusOption = new FormControl(StatusOption.Available);
-  public selectedModuleTypes = new FormControl();
-  public selectedStudyPrograms = new FormControl();
+  public searchForm: FormGroup = this.formBuilder.group({
+    searchString: [''],
+    selectedStatusOption: [StatusOption.Available],
+    selectedModuleTypes: [],
+    selectedStudyPrograms: [],
+    searchTagInput: ['']
+  });
+
+  public searchTags: string[] = [];
 
   public statusOptions = StatusOption;
 
   private projects: Project[] = [];
   private filteredProjects: Project[] = [];
+  public filteredTags$: Observable<Tag[]>;
 
   private allStudyPrograms: StudyProgram[] = [];
   private allModuleTypes: ModuleType[] = [];
@@ -55,6 +73,7 @@ export class ProjectComponent implements OnInit {
   public isLoadingModuleTypes = true;
   public isLoadingStudyPrograms = true;
 
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
   get suitableModuleTypes(): ModuleType[] {
@@ -76,7 +95,9 @@ export class ProjectComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService,
+    private formBuilder: FormBuilder
   ) {}
 
   async ngOnInit() {
@@ -102,6 +123,28 @@ export class ProjectComponent implements OnInit {
       }
     });
 
+    this.filteredTags$ =
+      this.searchForm.controls.searchTagInput.valueChanges.pipe(
+        filter(value => (value ? value.length >= 2 : false)),
+        debounceTime(200),
+        switchMap(value =>
+          this.tagService.findByTagName(value, false).pipe(
+            catchError(error => {
+              this.toastService.showToasts([
+                {
+                  message:
+                    'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+                }
+              ]);
+              return throwError(() => error);
+            }),
+            takeUntil(
+              this.searchForm.controls.searchTagInput.valueChanges.pipe(skip(1))
+            )
+          )
+        )
+      );
+
     this.getAllProjects();
   }
 
@@ -111,17 +154,26 @@ export class ProjectComponent implements OnInit {
         if (params.state) {
           const statusOption = StatusOption[params.state];
           if (statusOption) {
-            this.selectedStatusOption.setValue(statusOption);
+            this.searchForm.controls.selectedStatusOption.setValue(
+              statusOption
+            );
           }
+        } else {
+          this.searchForm.controls.selectedStatusOption.setValue(null);
         }
         if (params.moduleTypes) {
           const split: string[] = params.moduleTypes.split(',');
-          this.selectedModuleTypes.setValue(
+          this.searchForm.controls.selectedModuleTypes.setValue(
             this.suitableModuleTypes.filter(m => split.includes(m.key))
           );
         }
         if (params.filter) {
-          this.searchString.setValue(params.filter);
+          this.searchForm.controls.searchString.setValue(params.filter);
+        }
+        if (params.tags) {
+          const split: string[] = params.tags.split(',');
+          // TODO Filter for existing tags
+          this.searchTags = split;
         }
       },
       err => {
@@ -133,23 +185,22 @@ export class ProjectComponent implements OnInit {
   setQueryParams() {
     const queryParams: QueryParams = {};
 
-    if (this.selectedStatusOption.value as string) {
-      queryParams.state = this.selectedStatusOption.value;
-    }
+    queryParams.state =
+      (this.searchForm.controls.selectedStatusOption.value as string) ?? '';
+    queryParams.filter =
+      (this.searchForm.controls.searchString.value as string) ?? '';
+    queryParams.tags = this.searchTags.join(',');
 
-    if (this.searchString.value as string) {
-      queryParams.filter = this.searchString.value;
-    }
-
-    if (this.selectedModuleTypes.value as ModuleType[]) {
-      queryParams.moduleTypes = this.selectedModuleTypes.value
-        .map(m => m.key)
-        .join(',');
+    if (this.searchForm.controls.selectedModuleTypes.value as ModuleType[]) {
+      queryParams.moduleTypes =
+        this.searchForm.controls.selectedModuleTypes.value
+          .map(m => m.key)
+          .join(',');
     }
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: queryParams,
+      queryParams,
       queryParamsHandling: 'merge'
     });
   }
@@ -180,8 +231,9 @@ export class ProjectComponent implements OnInit {
            * projects which contain modules of the studyProgram by selecting all
            * options
            */
-          this.selectedModuleTypes.setValue(this.suitableModuleTypes);
-          this.filterProjects();
+          this.searchForm.controls.selectedModuleTypes.setValue(
+            this.suitableModuleTypes
+          );
         },
         err => console.error(err),
         () => (this.isLoadingModuleTypes = false)
@@ -204,7 +256,7 @@ export class ProjectComponent implements OnInit {
 
   public hasProjectPermission(project: Project): boolean {
     if (this.isLoggedIn) {
-      let userId = this.keycloakService.getKeycloakInstance().subject;
+      const userId = this.keycloakService.getKeycloakInstance().subject;
       return (
         (this.keycloakService.isUserInRole('professor') ||
           this.keycloakService.isUserInRole('company-manager')) &&
@@ -212,30 +264,38 @@ export class ProjectComponent implements OnInit {
       );
     }
     return false;
-    //return promise(false)
   }
 
   public filterProjects() {
-    this.setQueryParams();
-
-    this.projectService
-      .filterProjects(
-        this.selectedStatusOption.value,
-        this.selectedModuleTypes?.value?.map(mt => mt.key) ?? null,
-        this.searchString.value
-      )
-      .subscribe({
-        next: res => {
-          this.filteredProjects = res;
-        },
-        error: err => console.error(err),
-        complete: () => {
-          //Set filtered projects and page the items
-          this.totalFilteredProjects = this.filteredProjects.length;
-          this.pageProjects();
-          this.paginator.firstPage();
+    forkJoin({
+      projects: this.projectService.filterProjects(
+        this.searchForm.controls.selectedStatusOption.value,
+        this.searchForm.controls.selectedModuleTypes?.value?.map(
+          mt => mt.key
+        ) ?? null,
+        this.searchForm.controls.searchString.value
+      ),
+      tagCollections: this.tagService
+        .findAllProjectIdsUsingTagsByNames(this.searchTags)
+        .pipe(catchError(err => of([])))
+    }).subscribe({
+      next: value => {
+        this.filteredProjects = value.projects;
+        if (value.tagCollections.length > 0) {
+          this.filteredProjects = this.filteredProjects.filter(p =>
+            value.tagCollections.includes(p.id)
+          );
         }
-      });
+      },
+      error: err => console.error(err),
+      complete: () => {
+        // Set filtered projects and page the items
+        this.totalFilteredProjects = this.filteredProjects.length;
+        this.pageProjects();
+        this.paginator.firstPage();
+        this.setQueryParams();
+      }
+    });
   }
 
   public deleteProject(project: Project) {
@@ -296,5 +356,31 @@ export class ProjectComponent implements OnInit {
       this.pageIndex * this.pageSize,
       (this.pageIndex + 1) * this.pageSize
     );
+  }
+
+  /**
+   * Remove tag from search
+   * @param tag Tag to remove
+   */
+  private removeTag(tag: string) {
+    const index = this.searchTags.indexOf(tag);
+    if (index >= 0) {
+      this.searchTags.splice(index, 1);
+    }
+  }
+
+  private addTag(tag: string) {
+    if (this.searchTags.filter(t => t === tag.trim()).length === 0) {
+      this.searchTags.push(tag);
+    }
+  }
+
+  selectedTag(event: MatAutocompleteSelectedEvent): void {
+    const selectedTag = event.option.value as Tag;
+    this.addTag(selectedTag.tagName);
+    this.tagInput.nativeElement.value = '';
+    this.searchForm.controls.searchTagInput.setValue('', {
+      emitEvent: true
+    });
   }
 }

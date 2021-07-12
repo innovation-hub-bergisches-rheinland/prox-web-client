@@ -751,4 +751,152 @@ export class TagCollectionEntityService {
       }
     );
   }
+
+  /**
+   * findAllUsingTagsTagCollection
+   * @param tagIds tagIds
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findAllUsingTagsTagCollectionUsingGET(
+    tagIds?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfTagCollection>;
+  public findAllUsingTagsTagCollectionUsingGET(
+    tagIds?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfTagCollection>>;
+  public findAllUsingTagsTagCollectionUsingGET(
+    tagIds?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfTagCollection>>;
+  public findAllUsingTagsTagCollectionUsingGET(
+    tagIds?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (tagIds !== undefined && tagIds !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>tagIds,
+        'tagIds'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfTagCollection>(
+      `${this.configuration.basePath}/tagCollections/search/findAllUsingTags`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * findAllUsingTagsUsingNameTagCollection
+   * @param tags tags
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public findAllUsingTagsUsingNameTagCollectionUsingGET(
+    tags?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<CollectionModelOfTagCollection>;
+  public findAllUsingTagsUsingNameTagCollectionUsingGET(
+    tags?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<CollectionModelOfTagCollection>>;
+  public findAllUsingTagsUsingNameTagCollectionUsingGET(
+    tags?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<CollectionModelOfTagCollection>>;
+  public findAllUsingTagsUsingNameTagCollectionUsingGET(
+    tags?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (tags !== undefined && tags !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>tags,
+        'tags'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.get<CollectionModelOfTagCollection>(
+      `${this.configuration.basePath}/tagCollections/search/findAllUsingTagsUsingName`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 }

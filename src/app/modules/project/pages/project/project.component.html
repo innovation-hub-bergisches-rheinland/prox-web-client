@@ -10,79 +10,141 @@
         matTooltip="Neues Projekt hinzufügen"
         class="no-hover"
       >
-        <mat-icon> add </mat-icon>
+        <mat-icon id="add"> add </mat-icon>
       </button>
     </h1>
 
-    <mat-form-field class="status-search">
-      <mat-select
-        [formControl]="selectedStatusOption"
-        (selectionChange)="filterProjects()"
-        placeholder="Status"
+    <mat-expansion-panel class="expansion-headers-align" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Suchfilter </mat-panel-title>
+        <mat-panel-description> Nach Projekten suchen </mat-panel-description>
+        <mat-icon>search</mat-icon>
+      </mat-expansion-panel-header>
+      <form
+        class="search-form"
+        fxLayout="column"
+        [formGroup]="searchForm"
+        (ngSubmit)="filterProjects()"
       >
-        <mat-option>Alle</mat-option>
-
-        <mat-option
-          *ngFor="let statusOption of statusOptions | keyvalue"
-          [value]="statusOption.value"
+        <div
+          class="search-row"
+          fxLayout="row"
+          fxLayout.lt-md="column"
+          fxLayoutAlign="start center"
+          fxLayoutGap="10px"
+          fxLayoutGap.lt-md="0"
+          fxLayoutAlign.lt-md=" stretch"
         >
-          {{ statusOption.value | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+          <mat-form-field
+            class="status-search"
+            fxFlex="30%"
+            fxFlex.lt-md="100%"
+          >
+            <mat-select
+              formControlName="selectedStatusOption"
+              placeholder="Status"
+            >
+              <mat-option>Alle</mat-option>
 
-    <mat-form-field>
-      <mat-label *ngIf="isLoadingStudyPrograms">
-        <div class="select-placeholder-container">
-          <span>Lädt Studiengänge...</span>
-          <mat-spinner class="spinner" diameter="20"></mat-spinner>
+              <mat-option
+                *ngFor="let statusOption of statusOptions | keyvalue"
+                [value]="statusOption.value"
+              >
+                {{ statusOption.value | titlecase }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="35%" fxFlex.lt-md="100%">
+            <mat-label *ngIf="isLoadingStudyPrograms">
+              <div class="select-placeholder-container">
+                <span>Lädt Studiengänge...</span>
+                <mat-spinner class="spinner" diameter="20"></mat-spinner>
+              </div>
+            </mat-label>
+            <mat-select
+              placeholder="Studiengänge"
+              formControlName="selectedStudyPrograms"
+              multiple
+              (selectionChange)="filterModuleTypesByStudyProgram($event)"
+            >
+              <mat-option
+                *ngFor="let studyProgram of suitableStudyPrograms"
+                [value]="studyProgram"
+                >{{ studyProgram.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="35%" fxFlex.lt-md="100%">
+            <mat-label *ngIf="isLoadingModuleTypes">
+              <div class="select-placeholder-container">
+                <span>Lädt Module...</span>
+                <mat-spinner class="spinner" diameter="20"></mat-spinner>
+              </div>
+            </mat-label>
+            <mat-select
+              placeholder="Module"
+              formControlName="selectedModuleTypes"
+              multiple
+            >
+              <mat-option
+                *ngFor="let moduleType of suitableModuleTypes"
+                [value]="moduleType"
+                >{{ moduleType.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
         </div>
-      </mat-label>
-      <mat-select
-        placeholder="Studiengänge"
-        [formControl]="selectedStudyPrograms"
-        multiple
-        (selectionChange)="filterModuleTypesByStudyProgram($event)"
-      >
-        <mat-option
-          *ngFor="let studyProgram of suitableStudyPrograms"
-          [value]="studyProgram"
-          >{{ studyProgram.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label *ngIf="isLoadingModuleTypes">
-        <div class="select-placeholder-container">
-          <span>Lädt Module...</span>
-          <mat-spinner class="spinner" diameter="20"></mat-spinner>
+        <div class="search-row" fxLayout="row" fxLayoutAlign="start center">
+          <mat-form-field class="search" fxFlex="100%">
+            <label>
+              <input
+                formControlName="searchString"
+                placeholder="Suchtext"
+                matInput
+              />
+            </label>
+          </mat-form-field>
         </div>
-      </mat-label>
-      <mat-select
-        placeholder="Module"
-        [formControl]="selectedModuleTypes"
-        multiple
-        (selectionChange)="filterProjects()"
-      >
-        <mat-option
-          *ngFor="let moduleType of suitableModuleTypes"
-          [value]="moduleType"
-          >{{ moduleType.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+        <div class="search-row" fxLayout="row" fxLayoutAlign="start center">
+          <mat-form-field class="tag-list" fxFlex="100%">
+            <mat-label>Tags</mat-label>
+            <mat-chip-list #tagList>
+              <mat-chip
+                *ngFor="let tag of searchTags"
+                [removable]="true"
+                (removed)="removeTag(tag)"
+              >
+                {{ tag }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
 
-    <mat-form-field class="search">
-      <label>
-        <input
-          [formControl]="searchString"
-          (change)="filterProjects()"
-          placeholder="Suche"
-          matInput
-        />
-      </label>
-    </mat-form-field>
+              <input
+                #tagInput
+                formControlName="searchTagInput"
+                placeholder="Tags"
+                [matAutocomplete]="tagAuto"
+                [matChipInputFor]="tagList"
+              />
+            </mat-chip-list>
+
+            <mat-autocomplete
+              #tagAuto="matAutocomplete"
+              (optionSelected)="selectedTag($event)"
+            >
+              <mat-option
+                *ngFor="let tag of filteredTags$ | async"
+                [value]="tag"
+              >
+                {{ tag.tagName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button color="primary" type="submit">Suchen</button>
+      </form>
+    </mat-expansion-panel>
 
     <mat-divider></mat-divider>
   </div>
