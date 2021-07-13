@@ -8,7 +8,9 @@
   <div class="content-item-wrapper">
     <mat-card *ngIf="_displayContent">
       <mat-card-header>
-        <mat-card-title [innerText]="_project.name"></mat-card-title>
+        <mat-card-title>
+          <a [routerLink]="['/projects', _project.id]">{{ _project.name }}</a>
+        </mat-card-title>
         <mat-card-subtitle
           [innerText]="_project.supervisorName"
         ></mat-card-subtitle>
