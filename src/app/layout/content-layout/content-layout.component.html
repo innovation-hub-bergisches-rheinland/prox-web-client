@@ -63,6 +63,18 @@
               Unternehmen
             </button>
           </mat-list-item>
+          <mat-list-item>
+            <button
+              (click)="sidenav.toggle()"
+              class="sidebar-button"
+              mat-button
+              routerLink="/jobs"
+              routerLinkActive="nav-activated"
+            >
+              <mat-icon class="sidebar-icon">work</mat-icon>
+              Stellenangebote
+            </button>
+          </mat-list-item>
         </mat-list>
       </mat-sidenav>
 

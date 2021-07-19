@@ -1,0 +1,67 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxFlex="50"
+  fxFlexOffset="25"
+>
+  <div>
+    <h1>Stellenangebote</h1>
+
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Suchfilter</mat-panel-title>
+        <mat-panel-description
+          >Nach Stellenangeboten suchen</mat-panel-description
+        >
+        <mat-icon>search</mat-icon>
+      </mat-expansion-panel-header>
+      <form class="search-form" fxLayout="column" [formGroup]="searchForm">
+        <div
+          class="search-row"
+          fxLayout="row"
+          fxLayout.lt-md="column"
+          fxLayoutAlign="start center"
+          fxLayoutGap="10px"
+          fxLayoutGap.lt-md="0"
+          fxLayoutAlign.lt-md=" stretch"
+        >
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-select
+              placeholder="Beschäftigungsart"
+              formControlName="selectedJobTypes"
+              multiple
+            >
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-select
+              placeholder="Einstiegslevel"
+              formControlName="selectedEntryLevel"
+              multiple
+            >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="search-row" fxLayout="row" fxLayoutAlign="start center">
+          <mat-form-field class="search" fxFlex="100%">
+            <label>
+              <input
+                formControlName="searchString"
+                placeholder="Suchtext"
+                matInput
+              />
+            </label>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button color="primary" type="submit">Suchen</button>
+      </form>
+    </mat-expansion-panel>
+  </div>
+  <div>
+    <app-job-item
+      *ngFor="let jobOffer of jobOffers"
+      [jobOffer]="jobOffer"
+    ></app-job-item>
+  </div>
+</div>

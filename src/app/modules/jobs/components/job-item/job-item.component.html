@@ -1,0 +1,44 @@
+<mat-card *ngIf="jobOffer">
+  <mat-card-header fxLayout="column">
+    <mat-card-title>
+      <b>{{ jobOffer.title }}</b>
+    </mat-card-title>
+    <mat-card-subtitle fxLayout="column" fxLayoutGap="10px">
+      <mat-card-subtitle>
+        <a [href]="creatorLink"
+          ><b>{{ creatorName }}</b></a
+        >
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Inseriert am: {{ getFormattedDate() }}
+      </mat-card-subtitle>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <div>
+      <mat-card-subtitle>Stellenbeschreibung</mat-card-subtitle>
+      <div markdown [data]="jobOffer.description"></div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between none">
+      <div fxFlex="65">
+        <mat-card-subtitle>Art der Beschäftigung</mat-card-subtitle>
+        <ul>
+          <li *ngFor="let type of jobOffer.availableTypes">
+            {{ getTypeRepresentation(type) }}
+          </li>
+        </ul>
+      </div>
+      <div fxFlex>
+        <mat-card-subtitle>Einstiegslevel</mat-card-subtitle>
+        <ul>
+          <li *ngFor="let entryLevel of jobOffer.entryLevels">
+            {{ getEntryLevelRepresentation(entryLevel) }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
