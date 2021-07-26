@@ -5,8 +5,8 @@
     </mat-card-title>
     <mat-card-subtitle fxLayout="column" fxLayoutGap="10px">
       <mat-card-subtitle>
-        <a [href]="creatorLink"
-          ><b>{{ creatorName }}</b></a
+        <a [href]="this.creatorLink$ | async"
+          ><b>{{ this.creatorName$ | async }}</b></a
         >
       </mat-card-subtitle>
       <mat-card-subtitle>
@@ -30,7 +30,7 @@
       <div fxFlex="65">
         <mat-card-subtitle>Art der Beschäftigung</mat-card-subtitle>
         <ul>
-          <li *ngFor="let type of this.availableTypesAsString | async">
+          <li *ngFor="let type of this.availableTypesAsString$ | async">
             {{ type }}
           </li>
         </ul>
@@ -39,7 +39,9 @@
         <mat-card-subtitle>Einstiegslevel</mat-card-subtitle>
         <ul>
           <li
-            *ngFor="let entryLevel of this.availableEntryLevelsAsString | async"
+            *ngFor="
+              let entryLevel of this.availableEntryLevelsAsString$ | async
+            "
           >
             {{ entryLevel }}
           </li>
@@ -47,4 +49,43 @@
       </div>
     </div>
   </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <button
+      mat-raised-button
+      color="primary"
+      class="project-button"
+      routerLink="/jobs/{{ jobOffer.id }}"
+      matTooltip="Details"
+    >
+      Details
+    </button>
+
+    <div
+      *ngIf="this.hasPermission$ | async"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      dir="rtl"
+      fxLayoutGap="10px"
+    >
+      <button
+        (click)="deleteJobOffer()"
+        class="no-hover"
+        id="delete-button"
+        mat-icon-button
+        color="warn"
+      >
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+
+      <button
+        routerLink="/jobs/{{ jobOffer.id }}/edit"
+        class="no-hover"
+        id="edit-button"
+        mat-icon-button
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
 </mat-card>

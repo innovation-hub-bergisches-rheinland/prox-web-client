@@ -85,6 +85,7 @@
     <app-job-item
       *ngFor="let jobOffer of jobOffers"
       [jobOffer]="jobOffer"
+      (jobOfferDeleted)="this.jobOfferDeleted($event)"
     ></app-job-item>
   </div>
 </div>

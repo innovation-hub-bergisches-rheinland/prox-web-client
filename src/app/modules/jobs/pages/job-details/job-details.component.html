@@ -1,0 +1,28 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxFlex="50"
+  fxFlexOffset="25"
+>
+  <div>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <h1>Stellenangebote</h1>
+
+      <button
+        *ngIf="this.hasPermission | async"
+        [routerLink]="['./create']"
+        mat-icon-button
+        matTooltip="Neues Stellenangebot hinzufügen"
+        class="no-hover"
+      >
+        <mat-icon id="add"> add </mat-icon>
+      </button>
+    </div>
+  </div>
+  <div>
+    <app-job-item
+      [jobOffer]="this.jobOffer | async"
+      (jobOfferDeleted)="this.jobOfferDeleted($event)"
+    ></app-job-item>
+  </div>
+</div>

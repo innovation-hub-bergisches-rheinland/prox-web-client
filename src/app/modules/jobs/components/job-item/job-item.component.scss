@@ -80,3 +80,10 @@ h1 {
   padding-right: 15px;
   padding-bottom: 8px !important;
 }
+
+.mat-icon {
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.5),
+    inset 0 2px 0 rgba(255, 255, 255, 0.25);
+}

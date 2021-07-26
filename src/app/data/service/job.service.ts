@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { JobOfferControllerService } from '@data/service/openapi/job-service/jobOfferController.service';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { JobOfferEntryLevelControllerService } from '@data/service/openapi/job-service/jobOfferEntryLevelController.service';
@@ -22,6 +22,10 @@ export class JobService {
     return this.jobControllerService.save(jobOffer);
   }
 
+  updateJobOffer(id: string, jobOffer: JobOffer): Observable<JobOffer> {
+    return this.jobControllerService.update(id, jobOffer);
+  }
+
   getAllJobOffers(): Observable<JobOffer[]> {
     return this.jobControllerService.getAll().pipe(map(j => Array.from(j)));
   }
@@ -34,6 +38,10 @@ export class JobService {
     return this.jobOfferTypeService.getAll1();
   }
 
+  getJobOffer(id: string): Observable<JobOffer> {
+    return this.jobControllerService.getById(id);
+  }
+
   getTypesFromJobOffer(id: string): Observable<JobOfferType[]> {
     return this.jobControllerService.getTypes(id);
   }
@@ -43,19 +51,29 @@ export class JobService {
   }
 
   setJobTypes(id: string, types: JobOfferType[]): Observable<JobOfferType[]> {
-    return this.jobControllerService.setTypes(
-      id,
-      types.map(type => type.id)
-    );
+    if (id && types && types.length > 0) {
+      return this.jobControllerService.setTypes(
+        id,
+        types.map(type => type.id)
+      );
+    }
+    return of([]);
   }
 
   setEntryLevels(
     id: string,
     levels: JobOfferEntryLevel[]
   ): Observable<JobOfferEntryLevel[]> {
-    return this.jobControllerService.setEntryLevels(
-      id,
-      levels.map(level => level.id)
-    );
+    if (id && levels && levels.length > 0) {
+      return this.jobControllerService.setEntryLevels(
+        id,
+        levels.map(level => level.id)
+      );
+    }
+    return of([]);
+  }
+
+  deleteJobOffer(id: string): Observable<any> {
+    return this.jobControllerService._delete(id);
   }
 }

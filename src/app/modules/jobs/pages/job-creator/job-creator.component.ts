@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import {
@@ -16,52 +16,29 @@ import {
 } from '@angular/material-moment-adapter';
 import { Moment } from 'moment';
 import * as moment from 'moment';
-import {
-  catchError,
-  map,
-  mergeMap,
-  mergeMapTo,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import { mergeMap, mergeMapTo } from 'rxjs/operators';
 import { JobOfferEvent } from '@modules/jobs/components/job-offer-form/job-offer-form.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastService } from '@modules/toast/toast.service';
 
 @Component({
-  selector: 'app-job-editor',
-  templateUrl: './job-editor.component.html',
-  styleUrls: ['./job-editor.component.scss']
+  selector: 'app-job-creator',
+  templateUrl: './job-creator.component.html',
+  styleUrls: ['./job-creator.component.scss']
 })
-export class JobEditorComponent implements OnInit {
-  jobOffer: Observable<JobOffer>;
-  jobId: string;
-
+export class JobCreatorComponent implements OnInit {
   constructor(
     private jobService: JobService,
-    private route: ActivatedRoute,
     private router: Router,
     private toastService: ToastService
   ) {}
 
-  ngOnInit(): void {
-    this.jobOffer = this.route.paramMap.pipe(
-      map(params => {
-        const id = (this.jobId = params.get('id'));
-        return id;
-      }),
-      switchMap(id => this.jobService.getJobOffer(id)),
-      catchError(err => {
-        console.error(err);
-        this.router.navigate(['/404']);
-        return throwError(() => new Error('Error loading job offer'));
-      })
-    );
-  }
+  ngOnInit(): void {}
 
-  updateJobOffer(event: JobOfferEvent) {
+  // TODO refactor
+  saveJobOffer(event: JobOfferEvent) {
     this.jobService
-      .updateJobOffer(this.jobId, event.jobOffer)
+      .createJobOffer(event.jobOffer)
       .pipe(
         mergeMap(jobOffer =>
           forkJoin({
@@ -79,7 +56,7 @@ export class JobEditorComponent implements OnInit {
           this.toastService.showToasts([
             {
               isError: false,
-              message: 'Stellenangebot erfolgreich bearbeitet'
+              message: 'Stellenangebot erfolgreich angelegt'
             }
           ]);
           this.router.navigate([`/jobs/${value.jobOffer.id}`]);
