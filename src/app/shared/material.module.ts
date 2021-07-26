@@ -30,6 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const modules: any[] = [
   MatCheckboxModule,
@@ -63,7 +64,8 @@ const modules: any[] = [
   MatSnackBarModule,
   MatTableModule,
   MatSortModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatMomentDateModule
 ];
 
 @NgModule({

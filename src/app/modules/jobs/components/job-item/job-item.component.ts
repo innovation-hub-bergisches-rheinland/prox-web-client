@@ -38,10 +38,8 @@ export class JobItemComponent implements OnInit {
       );
   }
 
-  getFormattedDate(): string {
-    return new Intl.DateTimeFormat('de-DE').format(
-      Date.parse(this.jobOffer.createdAt)
-    );
+  getFormattedDate(date: string): string {
+    return new Intl.DateTimeFormat('de-DE').format(Date.parse(date));
   }
 
   getCreatorNameAndLink() {

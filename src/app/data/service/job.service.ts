@@ -41,4 +41,21 @@ export class JobService {
   getEntryLevelsFromJobOffer(id: string): Observable<JobOfferEntryLevel[]> {
     return this.jobControllerService.getEntryLevels(id);
   }
+
+  setJobTypes(id: string, types: JobOfferType[]): Observable<JobOfferType[]> {
+    return this.jobControllerService.setTypes(
+      id,
+      types.map(type => type.id)
+    );
+  }
+
+  setEntryLevels(
+    id: string,
+    levels: JobOfferEntryLevel[]
+  ): Observable<JobOfferEntryLevel[]> {
+    return this.jobControllerService.setEntryLevels(
+      id,
+      levels.map(level => level.id)
+    );
+  }
 }

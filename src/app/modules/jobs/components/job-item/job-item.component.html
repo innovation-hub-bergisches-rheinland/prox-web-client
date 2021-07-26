@@ -10,7 +10,7 @@
         >
       </mat-card-subtitle>
       <mat-card-subtitle>
-        Inseriert am: {{ getFormattedDate() }}
+        Inseriert am: {{ this.getFormattedDate(jobOffer.createdAt) }}
       </mat-card-subtitle>
     </mat-card-subtitle>
   </mat-card-header>
@@ -18,6 +18,10 @@
   <mat-divider></mat-divider>
 
   <mat-card-content>
+    <div *ngIf="jobOffer.earliestStartOfEmployment">
+      <mat-card-subtitle>Frühester Einstellungstermin</mat-card-subtitle>
+      {{ this.getFormattedDate(jobOffer.earliestStartOfEmployment) }}
+    </div>
     <div>
       <mat-card-subtitle>Stellenbeschreibung</mat-card-subtitle>
       <div markdown [data]="jobOffer.description"></div>

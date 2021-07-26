@@ -5,8 +5,19 @@
   fxFlexOffset="25"
 >
   <div>
-    <h1>Stellenangebote</h1>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <h1>Stellenangebote</h1>
 
+      <button
+        *ngIf="this.hasPermission | async"
+        [routerLink]="['./create']"
+        mat-icon-button
+        matTooltip="Neues Stellenangebot hinzufügen"
+        class="no-hover"
+      >
+        <mat-icon id="add"> add </mat-icon>
+      </button>
+    </div>
     <mat-expansion-panel hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>Suchfilter</mat-panel-title>
