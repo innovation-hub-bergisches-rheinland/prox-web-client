@@ -26,16 +26,18 @@
       <div fxFlex="65">
         <mat-card-subtitle>Art der Beschäftigung</mat-card-subtitle>
         <ul>
-          <li *ngFor="let type of jobOffer.availableTypes">
-            {{ getTypeRepresentation(type) }}
+          <li *ngFor="let type of this.availableTypesAsString | async">
+            {{ type }}
           </li>
         </ul>
       </div>
       <div fxFlex>
         <mat-card-subtitle>Einstiegslevel</mat-card-subtitle>
         <ul>
-          <li *ngFor="let entryLevel of jobOffer.entryLevels">
-            {{ getEntryLevelRepresentation(entryLevel) }}
+          <li
+            *ngFor="let entryLevel of this.availableEntryLevelsAsString | async"
+          >
+            {{ entryLevel }}
           </li>
         </ul>
       </div>

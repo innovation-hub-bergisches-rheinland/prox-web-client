@@ -31,6 +31,12 @@
               formControlName="selectedJobTypes"
               multiple
             >
+              <mat-option
+                *ngFor="let type of this.allJobOfferTypes | async"
+                [value]="type.type"
+              >
+                {{ type.description }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -40,6 +46,12 @@
               formControlName="selectedEntryLevel"
               multiple
             >
+              <mat-option
+                *ngFor="let entryLevel of this.allJobOfferEntryLevels | async"
+                [value]="entryLevel.entryLevel"
+              >
+                {{ entryLevel.description }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

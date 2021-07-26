@@ -1,36 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 
 @Component({
-  selector: 'app-job-overview',
-  templateUrl: './job-overview.component.html',
-  styleUrls: ['./job-overview.component.scss']
+  selector: 'app-job-editor',
+  templateUrl: './job-editor.component.html',
+  styleUrls: ['./job-editor.component.scss']
 })
-export class JobOverviewComponent implements OnInit {
-  private _jobOffers: JobOffer[] = [];
+export class JobEditorComponent implements OnInit {
+  jobOfferForm: FormGroup = this.formBuilder.group({
+    title: [
+      '',
+      [Validators.required, Validators.minLength(10), Validators.maxLength(255)]
+    ],
+    description: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(50),
+        Validators.maxLength(50000)
+      ]
+    ],
+    jobType: [],
+    jobEntryLevel: []
+  });
   allJobOfferTypes: Observable<JobOfferType[]>;
   allJobOfferEntryLevels: Observable<JobOfferEntryLevel[]>;
-
-  public searchForm: FormGroup = this.formBuilder.group({
-    searchString: [''],
-    selectedJobTypes: [],
-    selectedEntryLevel: []
-  });
-
-  get jobOffers(): JobOffer[] {
-    return this._jobOffers.sort(
-      (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)
-    );
-  }
-
-  set jobOffers(jobOffers: JobOffer[]) {
-    this._jobOffers = jobOffers;
-  }
 
   constructor(
     private jobService: JobService,
@@ -38,8 +37,11 @@ export class JobOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.jobService.getAllJobOffers().subscribe(res => (this.jobOffers = res));
     this.allJobOfferEntryLevels = this.jobService.getAllEntryLevels();
     this.allJobOfferTypes = this.jobService.getAllJobTypes();
+  }
+
+  d(): void {
+    console.log(this.jobOfferForm.controls.title.errors);
   }
 }

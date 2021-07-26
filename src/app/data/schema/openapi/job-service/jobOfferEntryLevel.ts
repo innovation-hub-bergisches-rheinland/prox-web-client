@@ -9,13 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Creator } from './creator';
 
-export interface JobOffer {
+export interface JobOfferEntryLevel {
   id?: string;
-  title: string;
+  entryLevel: JobOfferEntryLevel.EntryLevelEnum;
   description: string;
-  earliestStartOfEmployment?: string;
-  createdAt?: string;
-  createdBy?: Creator;
+}
+export namespace JobOfferEntryLevel {
+  export type EntryLevelEnum = 'CAREER_STARTER' | 'EXPERIENCED';
+  export const EntryLevelEnum = {
+    CareerStarter: 'CAREER_STARTER' as EntryLevelEnum,
+    Experienced: 'EXPERIENCED' as EntryLevelEnum
+  };
 }

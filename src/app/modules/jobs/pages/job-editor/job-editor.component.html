@@ -1,0 +1,83 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxFlex="50"
+  fxFlexOffset="25"
+>
+  <h1>Stellenangebot anlegen</h1>
+  <mat-card>
+    <mat-card-content>
+      <form
+        fxLayout="column"
+        fxLayout="start stretch"
+        [formGroup]="jobOfferForm"
+      >
+        <mat-form-field appearance="fill">
+          <mat-label>Titel</mat-label>
+          <input matInput [formControlName]="'title'" required />
+          <mat-error *ngIf="jobOfferForm.controls.title.hasError('required')"
+            >Titel darf nicht leer sein</mat-error
+          >
+          <mat-error *ngIf="jobOfferForm.controls.title.hasError('minlength')"
+            >Titel muss mindestens 10 Zeichen beinhalten</mat-error
+          >
+          <mat-error *ngIf="jobOfferForm.controls.title.hasError('maxlength')"
+            >Titel darf nicht mehr als 255 Zeichen beinhalten</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Beschreibung</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="20"
+            [formControlName]="'description'"
+            required
+          ></textarea>
+          <mat-error
+            *ngIf="jobOfferForm.controls.description.hasError('required')"
+            >Beschreibung darf nicht leer sein</mat-error
+          >
+          <mat-error
+            *ngIf="jobOfferForm.controls.description.hasError('minlength')"
+            >Beschreibung muss mindestens 50 Zeichen beinhalten</mat-error
+          >
+          <mat-error
+            *ngIf="jobOfferForm.controls.description.hasError('maxlength')"
+            >Beschreibung darf nicht mehr als 50.000 Zeichen
+            beinhalten</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field apperance="fill">
+          <mat-label>Beschäftigungsart</mat-label>
+          <mat-select [formControlName]="'jobType'" multiple>
+            <mat-option
+              *ngFor="let type of this.allJobOfferTypes | async"
+              [value]="type.type"
+            >
+              {{ type.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field apperance="fill">
+          <mat-label>Einstiegslevel</mat-label>
+          <mat-select [formControlName]="'jobEntryLevel'" multiple>
+            <mat-option
+              *ngFor="let entryLevel of this.allJobOfferEntryLevels | async"
+              [value]="entryLevel.entryLevel"
+            >
+              {{ entryLevel.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-divider></mat-divider>
+        <br />
+        <div>
+          <button mat-raised-button color="primary" type="submit" (click)="d()">
+            <mat-icon>save</mat-icon> Speichern
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

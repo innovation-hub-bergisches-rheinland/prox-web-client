@@ -24,6 +24,8 @@ import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
 import { JobOffer } from '@data/schema/openapi/job-service/models';
+import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/models';
+import { JobOfferType } from '@data/schema/openapi/job-service/models';
 
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { Configuration } from '../configuration';
@@ -317,6 +319,148 @@ export class JobOfferControllerService {
   }
 
   /**
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getEntryLevels(
+    id: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<Array<JobOfferEntryLevel>>;
+  public getEntryLevels(
+    id: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<Array<JobOfferEntryLevel>>>;
+  public getEntryLevels(
+    id: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<Array<JobOfferEntryLevel>>>;
+  public getEntryLevels(
+    id: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling getEntryLevels.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.get<Array<JobOfferEntryLevel>>(
+      `${this.configuration.basePath}/jobOffers/${encodeURIComponent(
+        String(id)
+      )}/entryLevels`,
+      {
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getTypes(
+    id: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<Array<JobOfferType>>;
+  public getTypes(
+    id: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<Array<JobOfferType>>>;
+  public getTypes(
+    id: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<Array<JobOfferType>>>;
+  public getTypes(
+    id: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling getTypes.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.get<Array<JobOfferType>>(
+      `${this.configuration.basePath}/jobOffers/${encodeURIComponent(
+        String(id)
+      )}/types`,
+      {
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * create a new job offer
    * @param jobOffer
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -391,6 +535,186 @@ export class JobOfferControllerService {
     return this.httpClient.post<JobOffer>(
       `${this.configuration.basePath}/jobOffers`,
       jobOffer,
+      {
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param id
+   * @param requestBody
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public setEntryLevels(
+    id: string,
+    requestBody: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<Array<JobOfferEntryLevel>>;
+  public setEntryLevels(
+    id: string,
+    requestBody: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<Array<JobOfferEntryLevel>>>;
+  public setEntryLevels(
+    id: string,
+    requestBody: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<Array<JobOfferEntryLevel>>>;
+  public setEntryLevels(
+    id: string,
+    requestBody: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling setEntryLevels.'
+      );
+    }
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling setEntryLevels.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      headers = headers.set('Content-Type', httpContentTypeSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.put<Array<JobOfferEntryLevel>>(
+      `${this.configuration.basePath}/jobOffers/${encodeURIComponent(
+        String(id)
+      )}/entryLevels`,
+      requestBody,
+      {
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   * @param id
+   * @param requestBody
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public setTypes(
+    id: string,
+    requestBody: Array<string>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<Array<JobOfferType>>;
+  public setTypes(
+    id: string,
+    requestBody: Array<string>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<Array<JobOfferType>>>;
+  public setTypes(
+    id: string,
+    requestBody: Array<string>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<Array<JobOfferType>>>;
+  public setTypes(
+    id: string,
+    requestBody: Array<string>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling setTypes.'
+      );
+    }
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling setTypes.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      headers = headers.set('Content-Type', httpContentTypeSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.put<Array<JobOfferType>>(
+      `${this.configuration.basePath}/jobOffers/${encodeURIComponent(
+        String(id)
+      )}/types`,
+      requestBody,
       {
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
