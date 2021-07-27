@@ -7,6 +7,7 @@ import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { KeycloakService } from 'keycloak-angular';
 import { map } from 'rxjs/operators';
+import { ToastService } from '@modules/toast/toast.service';
 
 @Component({
   selector: 'app-job-overview',
@@ -15,6 +16,7 @@ import { map } from 'rxjs/operators';
 })
 export class JobOverviewComponent implements OnInit {
   private _jobOffers: JobOffer[] = [];
+  private allJobOffers: JobOffer[] = [];
   allJobOfferTypes: Observable<JobOfferType[]>;
   allJobOfferEntryLevels: Observable<JobOfferEntryLevel[]>;
   hasPermission: Observable<boolean>;
@@ -38,11 +40,14 @@ export class JobOverviewComponent implements OnInit {
   constructor(
     private jobService: JobService,
     private formBuilder: FormBuilder,
-    private keycloakService: KeycloakService
+    private keycloakService: KeycloakService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
-    this.jobService.getAllJobOffers().subscribe(res => (this.jobOffers = res));
+    this.jobService
+      .getAllJobOffers()
+      .subscribe(res => (this.jobOffers = this.allJobOffers = res));
     this.allJobOfferEntryLevels = this.jobService.getAllEntryLevels();
     this.allJobOfferTypes = this.jobService.getAllJobTypes();
     this.hasPermission = from(this.keycloakService.isLoggedIn()).pipe(
@@ -60,5 +65,25 @@ export class JobOverviewComponent implements OnInit {
 
   private jobOfferDeleted(jobOffer: JobOffer) {
     this._jobOffers = this._jobOffers.filter(j => jobOffer.id !== j.id);
+  }
+
+  searchJobOffers() {
+    const searchString = this.searchForm.value.searchString;
+    const entryLevels = this.searchForm.value.selectedEntryLevel;
+    const types = this.searchForm.value.selectedJobTypes;
+    this.jobService
+      .searchJobOffers(searchString, entryLevels, types)
+      .subscribe({
+        next: res => (this._jobOffers = res),
+        error: err => {
+          console.error(err);
+          this.toastService.showToasts([
+            {
+              isError: true,
+              message: 'Suche konnte nicht erfolgreich durchgeführt werden'
+            }
+          ]);
+        }
+      });
   }
 }

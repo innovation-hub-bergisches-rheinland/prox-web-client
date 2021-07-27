@@ -26,7 +26,12 @@
         >
         <mat-icon>search</mat-icon>
       </mat-expansion-panel-header>
-      <form class="search-form" fxLayout="column" [formGroup]="searchForm">
+      <form
+        class="search-form"
+        fxLayout="column"
+        [formGroup]="searchForm"
+        (ngSubmit)="searchJobOffers()"
+      >
         <div
           class="search-row"
           fxLayout="row"
@@ -44,7 +49,7 @@
             >
               <mat-option
                 *ngFor="let type of this.allJobOfferTypes | async"
-                [value]="type.type"
+                [value]="type"
               >
                 {{ type.description }}
               </mat-option>
@@ -59,7 +64,7 @@
             >
               <mat-option
                 *ngFor="let entryLevel of this.allJobOfferEntryLevels | async"
-                [value]="entryLevel.entryLevel"
+                [value]="entryLevel"
               >
                 {{ entryLevel.description }}
               </mat-option>

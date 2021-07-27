@@ -76,4 +76,16 @@ export class JobService {
   deleteJobOffer(id: string): Observable<any> {
     return this.jobControllerService._delete(id);
   }
+
+  searchJobOffers(
+    search: string = '',
+    entryLevels: JobOfferEntryLevel[] = [],
+    types: JobOfferType[] = []
+  ): Observable<JobOffer[]> {
+    return this.jobControllerService.searchJobOffers(
+      search,
+      entryLevels?.map(level => level.entryLevel),
+      types?.map(type => type.type)
+    );
+  }
 }

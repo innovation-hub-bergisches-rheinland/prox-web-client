@@ -1,5 +1,5 @@
 <mat-card>
-  <form [formGroup]="jobOfferForm">
+  <form [formGroup]="jobOfferForm" (ngSubmit)="saveOrUpdate()">
     <mat-card-header fxLayout="column" fxLayout="start stretch">
       <mat-form-field appearance="fill">
         <mat-label>Titel</mat-label>
@@ -73,7 +73,6 @@
           mat-raised-button
           color="primary"
           type="submit"
-          (click)="saveOrUpdate()"
           [disabled]="this.jobOfferForm.invalid"
         >
           <mat-icon>save</mat-icon> Speichern

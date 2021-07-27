@@ -546,6 +546,135 @@ export class JobOfferControllerService {
   }
 
   /**
+   * @param search
+   * @param entryLevels
+   * @param types
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public searchJobOffers(
+    search?: string,
+    entryLevels?: Array<'CAREER_STARTER' | 'EXPERIENCED'>,
+    types?: Array<
+      | 'FULL_TIME'
+      | 'PART_TIME'
+      | 'INTERNSHIP'
+      | 'MINIJOB'
+      | 'STUDENT_WORKER'
+      | 'RESEARCH_ASSISTANT'
+    >,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<Array<JobOffer>>;
+  public searchJobOffers(
+    search?: string,
+    entryLevels?: Array<'CAREER_STARTER' | 'EXPERIENCED'>,
+    types?: Array<
+      | 'FULL_TIME'
+      | 'PART_TIME'
+      | 'INTERNSHIP'
+      | 'MINIJOB'
+      | 'STUDENT_WORKER'
+      | 'RESEARCH_ASSISTANT'
+    >,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpResponse<Array<JobOffer>>>;
+  public searchJobOffers(
+    search?: string,
+    entryLevels?: Array<'CAREER_STARTER' | 'EXPERIENCED'>,
+    types?: Array<
+      | 'FULL_TIME'
+      | 'PART_TIME'
+      | 'INTERNSHIP'
+      | 'MINIJOB'
+      | 'STUDENT_WORKER'
+      | 'RESEARCH_ASSISTANT'
+    >,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<HttpEvent<Array<JobOffer>>>;
+  public searchJobOffers(
+    search?: string,
+    entryLevels?: Array<'CAREER_STARTER' | 'EXPERIENCED'>,
+    types?: Array<
+      | 'FULL_TIME'
+      | 'PART_TIME'
+      | 'INTERNSHIP'
+      | 'MINIJOB'
+      | 'STUDENT_WORKER'
+      | 'RESEARCH_ASSISTANT'
+    >,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*' }
+  ): Observable<any> {
+    let queryParameters = new HttpParams({ encoder: this.encoder });
+    if (search !== undefined && search !== null) {
+      queryParameters = this.addToHttpParams(
+        queryParameters,
+        <any>search,
+        'search'
+      );
+    }
+    if (entryLevels) {
+      entryLevels.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'entryLevels'
+        );
+      });
+    }
+    if (types) {
+      types.forEach(element => {
+        queryParameters = this.addToHttpParams(
+          queryParameters,
+          <any>element,
+          'types'
+        );
+      });
+    }
+
+    let headers = this.defaultHeaders;
+
+    let httpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (httpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      httpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (httpHeaderAcceptSelected !== undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    let responseType_: 'text' | 'json' = 'json';
+    if (
+      httpHeaderAcceptSelected &&
+      httpHeaderAcceptSelected.startsWith('text')
+    ) {
+      responseType_ = 'text';
+    }
+
+    return this.httpClient.get<Array<JobOffer>>(
+      `${this.configuration.basePath}/jobOffers/search/findJobOffers`,
+      {
+        params: queryParameters,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
    * @param id
    * @param requestBody
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
