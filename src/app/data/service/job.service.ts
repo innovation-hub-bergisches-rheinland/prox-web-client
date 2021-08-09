@@ -88,4 +88,8 @@ export class JobService {
       types?.map(type => type.type)
     );
   }
+
+  findAllJobsByCreator(id: string): Observable<JobOffer[]> {
+    return this.jobControllerService.findAllJobsByCreator(id);
+  }
 }

@@ -18,6 +18,8 @@ import { ProfileVita } from '@modules/profile-page/components/common/profile-pag
 import { KeycloakService } from 'keycloak-angular';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
+import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
+import { JobService } from '@data/service/job.service';
 
 @Component({
   selector: 'app-professor-profile',
@@ -31,6 +33,7 @@ export class ProfessorProfileComponent implements OnInit {
   professor: Professor;
   faculty: Faculty;
   availableProjects$: Observable<Project[]>;
+  jobOffers: JobOffer[];
   projectHistory$: Observable<Project[]>;
   projectHistory: Project[];
 
@@ -40,6 +43,7 @@ export class ProfessorProfileComponent implements OnInit {
     private professorService: ProfessorProfileService,
     private projectService: ProjectService,
     private tagService: TagService,
+    private jobOfferService: JobService,
     private keycloakService: KeycloakService
   ) {}
 
@@ -145,6 +149,11 @@ export class ProfessorProfileComponent implements OnInit {
     if (!this.noContent) {
       this.availableProjects$ =
         this.projectService.findAvailableProjectsOfCreator(this.professorId);
+
+      this.jobOfferService.findAllJobsByCreator(this.professorId).subscribe({
+        next: value => (this.jobOffers = value),
+        error: error => console.error(error)
+      });
 
       this.availableProjects$ = this.availableProjects$.pipe(
         mergeMap(projects => projects),

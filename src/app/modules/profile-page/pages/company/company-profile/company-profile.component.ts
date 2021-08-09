@@ -15,6 +15,8 @@ import { LanguageInformation } from '@modules/profile-page/components/company/co
 import { KeycloakService } from 'keycloak-angular';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
+import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
+import { JobService } from '@data/service/job.service';
 
 @Component({
   selector: 'app-company-profile',
@@ -29,6 +31,7 @@ export class CompanyProfileComponent implements OnInit {
   hasPermission: boolean;
   isMe: boolean = false;
   availableProjects$: Observable<Project[]>;
+  jobOffers: JobOffer[];
   projectHistory: Project[] = [];
 
   constructor(
@@ -36,7 +39,8 @@ export class CompanyProfileComponent implements OnInit {
     private router: Router,
     private companyProfileService: CompanyProfileService,
     private keycloakService: KeycloakService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private jobOfferService: JobService
   ) {}
 
   get companyInformation(): ProfilePageInformation {
@@ -111,6 +115,10 @@ export class CompanyProfileComponent implements OnInit {
 
           this.availableProjects$ =
             this.projectService.findAvailableProjectsOfCreator(res.creatorId);
+
+          this.jobOfferService.findAllJobsByCreator(res.creatorId).subscribe({
+            next: value => (this.jobOffers = value)
+          });
 
           this.projectService
             .findRunningAndFinishedProjectsOfCreator(res.creatorId)

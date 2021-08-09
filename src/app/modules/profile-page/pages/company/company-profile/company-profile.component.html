@@ -19,6 +19,10 @@
     <app-company-language-information
       [information]="companyLanguages"
     ></app-company-language-information>
+    <app-profile-page-job-offers
+      *ngIf="jobOffers"
+      [jobOffers]="this.jobOffers"
+    ></app-profile-page-job-offers>
     <app-profile-page-available-projects
       [projects]="availableProjects$"
     ></app-profile-page-available-projects>

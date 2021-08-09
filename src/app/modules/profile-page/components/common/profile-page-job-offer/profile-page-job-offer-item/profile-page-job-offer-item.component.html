@@ -1,0 +1,18 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div>
+    {{ this.jobOffer.title }}
+  </div>
+  <div>
+    {{ this.jobOffer.earliestStartOfEmployment }}
+  </div>
+  <div>
+    <ul>
+      <li *ngFor="let type of types">{{ type.description }}</li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li *ngFor="let level of levels">{{ level.description }}</li>
+    </ul>
+  </div>
+</div>

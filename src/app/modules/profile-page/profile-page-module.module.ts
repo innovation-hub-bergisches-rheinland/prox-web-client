@@ -21,6 +21,8 @@ import { CompanyProfileEditor } from './pages/company/company-profile-editor/com
 import { ProfilePageChipListComponent } from './components/common/profile-page-chip-list/profile-page-chip-list.component';
 import { CompanyLanguageInformationComponent } from './components/company/company-language-information/company-language-information';
 import { ProfileOverviewCardComponent } from './components/common/profile-overview-card/profile-overview-card.component';
+import { ProfilePageJobOfferItemComponent } from '@modules/profile-page/components/common/profile-page-job-offer/profile-page-job-offer-item/profile-page-job-offer-item.component';
+import { ProfilePageJobOffersComponent } from './components/common/profile-page-job-offer/profile-page-job-offers/profile-page-job-offers.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ProfileOverviewCardComponent } from './components/common/profile-overvi
     CompanyProfileComponent,
     CompanyProfileEditor,
     CompanyLanguageInformationComponent,
-    ProfileOverviewCardComponent
+    ProfileOverviewCardComponent,
+    ProfilePageJobOfferItemComponent,
+    ProfilePageJobOffersComponent
   ],
   imports: [
     CommonModule,

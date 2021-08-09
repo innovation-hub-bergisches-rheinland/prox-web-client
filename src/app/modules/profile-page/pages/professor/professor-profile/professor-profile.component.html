@@ -20,6 +20,10 @@
     <app-professor-publications
       [publications]="professor.publications"
     ></app-professor-publications>
+    <app-profile-page-job-offers
+      *ngIf="jobOffers"
+      [jobOffers]="this.jobOffers"
+    ></app-profile-page-job-offers>
     <app-profile-page-available-projects
       [projects]="availableProjects$"
     ></app-profile-page-available-projects>
