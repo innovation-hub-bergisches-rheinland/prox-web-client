@@ -12,7 +12,7 @@ node {
     def tagPrefix
 
     stage('Set dev Variables') {
-        if (env.JOB_BASE_NAME == 'prox-web-client-dev') {
+        if (env.BRANCH_NAME == 'dev') {
             echo "detected dev job, setting variables to match dev environemnt..."
             appenv = 'dev'
             server = 'tcp://10.10.10.42:2376'
@@ -21,8 +21,8 @@ node {
         }
     }
 
-    stage('Set master Variables') {
-        if (env.JOB_BASE_NAME == 'prox-web-client') {
+    stage('Set production Variables') {
+        if (env.BRANCH_NAME == 'main') {
             echo "detected master job, setting variables to match production environment..."
             appenv = 'production'
             server = 'tcp://10.10.10.41:2376'
@@ -30,6 +30,7 @@ node {
             tagPrefix = ''
         }
     }
+    
     stage('Checkout') {
         checkout scm
 
