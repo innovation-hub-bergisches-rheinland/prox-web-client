@@ -23,7 +23,7 @@ node {
 
     stage('Set production Variables') {
         if (env.BRANCH_NAME == 'main') {
-            echo "detected master job, setting variables to match production environment..."
+            echo "detected main job, setting variables to match production environment..."
             appenv = 'production'
             server = 'tcp://10.10.10.41:2376'
             certs = 'prox-prod-certs'
