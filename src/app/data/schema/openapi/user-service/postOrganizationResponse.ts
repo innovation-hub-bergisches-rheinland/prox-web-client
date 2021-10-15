@@ -11,6 +11,6 @@
  */
 
 export interface PostOrganizationResponse {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
 }

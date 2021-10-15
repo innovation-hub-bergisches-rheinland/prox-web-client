@@ -11,5 +11,5 @@
  */
 
 export interface PostOrganizationRequest {
-  name?: string;
+  name: string;
 }

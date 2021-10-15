@@ -12,8 +12,8 @@
 import { GetUserResponse } from './getUserResponse';
 
 export interface GetUserMembershipResponse {
-  user?: GetUserResponse;
-  type?: GetUserMembershipResponse.TypeEnum;
+  user: GetUserResponse;
+  type: GetUserMembershipResponse.TypeEnum;
 }
 export namespace GetUserMembershipResponse {
   export type TypeEnum = 'OWNER' | 'MEMBER';

@@ -11,5 +11,5 @@
  */
 
 export interface GetUserResponse {
-  id?: string;
+  id: string;
 }

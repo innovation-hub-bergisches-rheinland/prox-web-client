@@ -11,6 +11,6 @@
  */
 
 export interface GetOrganizationResponse {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
 }

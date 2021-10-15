@@ -12,8 +12,8 @@
 import { GetOrganizationResponse } from './getOrganizationResponse';
 
 export interface GetOrganizationMembershipResponse {
-  organization?: GetOrganizationResponse;
-  type?: GetOrganizationMembershipResponse.TypeEnum;
+  organization: GetOrganizationResponse;
+  type: GetOrganizationMembershipResponse.TypeEnum;
 }
 export namespace GetOrganizationMembershipResponse {
   export type TypeEnum = 'OWNER' | 'MEMBER';
