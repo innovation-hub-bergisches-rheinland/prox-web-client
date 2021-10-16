@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfilePageInformationComponent } from './components/common/profile-page-information/profile-page-information.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProfilePageBulletinListComponent } from './components/common/profile-page-bulletin-list/profile-page-bulletin-list.component';
 import { ProfilePageVitaComponent } from './components/common/profile-page-vita/profile-page-vita.component';
 import { ProfilePageRoutingModule } from './profile-page-routing.module';
@@ -47,11 +46,6 @@ import { ProfilePageJobOffersComponent } from './components/common/profile-page-
     ProfilePageJobOfferItemComponent,
     ProfilePageJobOffersComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    FlexLayoutModule,
-    ProfilePageRoutingModule
-  ]
+  imports: [CommonModule, SharedModule, ProfilePageRoutingModule]
 })
 export class ProfilePageModule {}

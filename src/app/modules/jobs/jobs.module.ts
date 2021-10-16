@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from '@shared/shared.module';
 import { JobOverviewComponent } from './pages/job-overview/job-overview.component';
 import { JobRoutingModule } from './jobs.routing.module';
@@ -23,7 +22,6 @@ import { JobEditorComponent } from '@modules/jobs/pages/job-editor/job-editor.co
   imports: [
     CommonModule,
     SharedModule,
-    FlexLayoutModule,
     JobRoutingModule,
     MarkdownModule.forChild()
   ]

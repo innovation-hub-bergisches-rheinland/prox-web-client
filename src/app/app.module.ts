@@ -15,6 +15,7 @@ import { BASE_PATH } from '@data/service/openapi/variables';
 import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';
 import { MarkdownModule } from 'ngx-markdown';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MarkdownModule } from 'ngx-markdown';
     SharedModule,
     AppRoutingModule,
     ToastModule,
+    FlexLayoutModule,
     MarkdownModule.forRoot({ loader: HttpClient })
   ],
   providers: [
