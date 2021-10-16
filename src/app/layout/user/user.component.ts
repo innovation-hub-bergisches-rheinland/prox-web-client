@@ -46,14 +46,6 @@ export class UserComponent implements OnInit {
     await this.keycloakService.logout();
   }
 
-  profProfile() {
-    const navigationDetails: string[] = ['/lecturers'];
-    navigationDetails.push(this.userId);
-    this.router.navigate(navigationDetails).then(
-      () => window.location.reload() //Reload to hide sidenav and take some complexity away when profile does not exist
-    );
-  }
-
   companyProfile() {
     const navigationDetails: string[] = ['/companies/me'];
     this.router.navigate(navigationDetails).then(
