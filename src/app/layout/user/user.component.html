@@ -1,19 +1,29 @@
 <div class="user">
-  <h1>{{ username }}</h1>
+  <div class="loginState">
+    <h1 *ngIf="isLoggedIn">{{ username }}</h1>
+    <button (click)="login()" *ngIf="!isLoggedIn" mat-flat-button class="login">
+      Einloggen
+    </button>
+  </div>
 
-  <button (click)="login()" *ngIf="!isLoggedIn" mat-flat-button>
-    Einloggen
-  </button>
-  <button (click)="logout()" *ngIf="isLoggedIn" mat-flat-button>
-    Ausloggen
-  </button>
-
-  <button (click)="profProfile()" *ngIf="isProfessor" mat-flat-button>
-    <mat-icon>account_box</mat-icon>
-    Benutzerprofil
-  </button>
-  <button (click)="companyProfile()" *ngIf="isCompanyManager" mat-flat-button>
-    <mat-icon>apartment</mat-icon>
-    Unternehmensprofil
-  </button>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    class="actionRow"
+    *ngIf="isLoggedIn"
+  >
+    <button (click)="logout()" mat-icon-button matTooltip="Ausloggen">
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      matTooltip="Mein Profil"
+      [routerLink]="['/lecturers', userId]"
+    >
+      <mat-icon>badge</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Meine Organisationen">
+      <mat-icon>groups</mat-icon>
+    </button>
+  </div>
 </div>
