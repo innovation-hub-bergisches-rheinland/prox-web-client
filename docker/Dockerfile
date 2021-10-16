@@ -22,7 +22,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
 RUN npm ci
-RUN npm install -g @angular/cli@11.2.9 --unsafe
+RUN npm install -g @angular/cli@12.2.10 --unsafe
 
 # add app
 COPY . /usr/src/app
