@@ -16,6 +16,8 @@ import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { OrganizationModule } from './modules/organization/organization.module';
+import { UserModule } from '@modules/user/user.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AppRoutingModule,
     ToastModule,
     FlexLayoutModule,
-    MarkdownModule.forRoot({ loader: HttpClient })
+    MarkdownModule.forRoot({ loader: HttpClient }),
+    OrganizationModule,
+    UserModule
   ],
   providers: [
     {

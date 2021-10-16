@@ -1,0 +1,20 @@
+<div fxFlex="50" fxFlexOffset="25">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>Meine Organisationen</h1>
+    <button
+      mat-fab
+      color="primary"
+      *ngIf="canCreateOrg"
+      [routerLink]="['/organizations/new']"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div>
+    <organization-list-item
+      *ngFor="let org of organizations"
+      [orgName]="org.name"
+      [isOwner]="org.isOwner"
+    ></organization-list-item>
+  </div>
+</div>

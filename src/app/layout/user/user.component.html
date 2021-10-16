@@ -22,7 +22,11 @@
     >
       <mat-icon>badge</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Meine Organisationen">
+    <button
+      mat-icon-button
+      matTooltip="Meine Organisationen"
+      [routerLink]="['/user', 'organizations']"
+    >
       <mat-icon>groups</mat-icon>
     </button>
   </div>
