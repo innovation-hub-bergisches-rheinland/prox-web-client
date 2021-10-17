@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContentPageComponent } from './content-page.component';
+import { ContentPageHeaderComponent } from './content-page-header.component';
 
-describe('ContentPageComponent', () => {
-  let component: ContentPageComponent;
-  let fixture: ComponentFixture<ContentPageComponent>;
+describe('ContentPageHeaderComponent', () => {
+  let component: ContentPageHeaderComponent;
+  let fixture: ComponentFixture<ContentPageHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ContentPageComponent]
+      declarations: [ContentPageHeaderComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContentPageComponent);
+    fixture = TestBed.createComponent(ContentPageHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

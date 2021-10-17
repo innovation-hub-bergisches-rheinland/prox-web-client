@@ -6,13 +6,13 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-content-page',
-  templateUrl: './content-page.component.html',
-  styleUrls: ['./content-page.component.scss'],
+  selector: 'app-content-page-actions',
+  templateUrl: './content-page-actions.component.html',
+  styleUrls: ['./content-page-actions.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContentPageComponent implements OnInit {
+export class ContentPageActionsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
