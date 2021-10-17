@@ -9,3 +9,31 @@ h1 {
   margin: 15px auto;
   background: #ccc;
 }
+
+.mat-list {
+  padding-top: 8px;
+}
+
+:host ::ng-deep .mat-list-item-content {
+  padding: 0 !important;
+}
+
+.sidebar-button {
+  text-align: left;
+  border-radius: 0;
+  padding-left: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+.sidebar-icon {
+  padding-right: 20px;
+}
+
+.mat-icon-button {
+  color: gray;
+}
+
+.mat-icon-button.no-hover ::ng-deep .mat-button-focus-overlay {
+  background: none;
+}

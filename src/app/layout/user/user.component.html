@@ -6,28 +6,33 @@
     </button>
   </div>
 
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    class="actionRow"
-    *ngIf="isLoggedIn"
-  >
-    <button (click)="logout()" mat-icon-button matTooltip="Ausloggen">
-      <mat-icon>logout</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      matTooltip="Mein Profil"
-      [routerLink]="['/lecturers', userId]"
-    >
-      <mat-icon>badge</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      matTooltip="Meine Organisationen"
-      [routerLink]="['/user', 'organizations']"
-    >
-      <mat-icon>groups</mat-icon>
-    </button>
-  </div>
+  <mat-list *ngIf="isLoggedIn">
+    <mat-list-item>
+      <button (click)="logout()" class="sidebar-button" mat-button>
+        <mat-icon class="sidebar-icon">logout</mat-icon>
+        Ausloggen
+      </button>
+    </mat-list-item>
+
+    <mat-list-item>
+      <button
+        class="sidebar-button"
+        mat-button
+        [routerLink]="['/lecturers', userId]"
+      >
+        <mat-icon class="sidebar-icon">badge</mat-icon>
+        Mein Profil
+      </button>
+    </mat-list-item>
+    <mat-list-item>
+      <button
+        class="sidebar-button"
+        mat-button
+        [routerLink]="['/user', 'organizations']"
+      >
+        <mat-icon class="sidebar-icon">groups</mat-icon>
+        Meine Organisationen
+      </button>
+    </mat-list-item>
+  </mat-list>
 </div>
