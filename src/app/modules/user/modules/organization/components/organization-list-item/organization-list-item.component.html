@@ -9,15 +9,14 @@
       </mat-card-subtitle>
     </mat-card-title-group>
     <mat-card-actions align="end">
-      <button mat-stroked-button color="warn" fxFlex="nogrow">Verlassen</button>
+      <button
+        mat-stroked-button
+        color="warn"
+        fxFlex="nogrow"
+        (click)="leaveOrg()"
+      >
+        Verlassen
+      </button>
     </mat-card-actions>
   </mat-card>
-  <!--<div fxFlex="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-    <img class="logo" [src]='orgLogo' fxFlex="nogrow" />
-    <div fxFlex>
-      <b></b>
-
-    </div>
-    <button mat-stroked-button color="warn" fxFlex="nogrow">Verlassen</button>
-  </div>-->
 </ng-container>

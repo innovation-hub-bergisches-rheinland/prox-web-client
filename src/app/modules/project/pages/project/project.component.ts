@@ -9,7 +9,6 @@ import { forkJoin, Observable, of, throwError } from 'rxjs';
 
 import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
-import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 
 import { StatusOption } from './status-option.enum';
@@ -30,6 +29,7 @@ import {
   takeUntil
 } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -299,7 +299,7 @@ export class ProjectComponent implements OnInit {
   }
 
   public deleteProject(project: Project) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
     });
 

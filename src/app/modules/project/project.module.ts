@@ -8,7 +8,6 @@ import { ProjectDetailsComponent } from './pages/project-details/project-details
 import { ProjectItemComponent } from './components/project-item/project-item.component';
 import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FlexModule } from '@angular/flex-layout';
 
@@ -18,10 +17,9 @@ import { FlexModule } from '@angular/flex-layout';
     ProjectDetailsComponent,
     ProjectEditorComponent,
     ProjectEditorDialogComponent,
-    ProjectItemComponent,
-    ConfirmDialogComponent
+    ProjectItemComponent
   ],
   imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
-  entryComponents: [ProjectEditorDialogComponent, ConfirmDialogComponent]
+  entryComponents: [ProjectEditorDialogComponent]
 })
 export class ProjectModule {}

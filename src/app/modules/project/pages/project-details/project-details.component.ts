@@ -11,13 +11,13 @@ import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
-import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { CompanyProfileService } from '@data/service/company-profile.service';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-project-details',
@@ -114,7 +114,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   deleteProject(project: Project) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
     });
 

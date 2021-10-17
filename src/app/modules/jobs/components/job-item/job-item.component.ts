@@ -15,8 +15,8 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { Project } from '@data/schema/openapi/project-service/project';
-import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ToastService } from '@modules/toast/toast.service';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-job-item',
@@ -112,7 +112,7 @@ export class JobItemComponent implements OnInit, AfterViewInit {
 
   // TODO emit event so that the overview can be refreshed
   private deleteJobOffer() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { title: 'Löschen', message: 'Stellenangebot wirklich löschen?' }
     });
 

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'organization-list-item',
@@ -10,7 +12,26 @@ export class OrganizationListItemComponent implements OnInit {
   @Input() orgName: string;
   @Input() isOwner: boolean = false;
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {}
+
+  leaveOrg() {
+    const dialog = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: '400px',
+      data: {
+        title: 'Organisation Verlassen',
+        message: 'Möchten Sie die Organisation wirklich verlassen'
+      }
+    });
+
+    dialog.afterClosed().subscribe({
+      next: res => {
+        if (res) {
+          console.log('Would leave org now');
+          // TODO: Leave org
+        }
+      }
+    });
+  }
 }
