@@ -22,11 +22,9 @@
       "@shared/*": ["app/shared/*"],
       "@env": ["environments/environment"]
     }
-  }
-  //TODO: Enable strict templates
-  /*,
+  },
   "angularCompilerOptions": {
     "strictTemplates": true,
     "strictInjectionParameters": true
-  }*/
+  }
 }

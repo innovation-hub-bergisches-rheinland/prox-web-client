@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  private buildTagFilter(tag: Tag): QueryParams {
+  buildTagFilter(tag: Tag): QueryParams {
     return {
       tags: tag.tagName,
       state: ''

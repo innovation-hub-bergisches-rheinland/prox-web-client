@@ -109,13 +109,12 @@
                 matTooltip="{{ tag.tagName }}"
                 >{{ tag.tagName }}
               </mat-chip>
-
-              <ng-template #noTags>
-                <mat-chip color="primary" selected>
-                  Keine Tags vorhanden
-                </mat-chip>
-              </ng-template>
             </mat-chip-list>
+            <ng-template #noTags>
+              <mat-chip color="primary" selected>
+                Keine Tags vorhanden
+              </mat-chip>
+            </ng-template>
           </mat-card-subtitle>
         </mat-card-content>
 

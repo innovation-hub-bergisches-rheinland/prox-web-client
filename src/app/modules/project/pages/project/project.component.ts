@@ -362,7 +362,7 @@ export class ProjectComponent implements OnInit {
    * Remove tag from search
    * @param tag Tag to remove
    */
-  private removeTag(tag: string) {
+  removeTag(tag: string) {
     const index = this.searchTags.indexOf(tag);
     if (index >= 0) {
       this.searchTags.splice(index, 1);

@@ -63,7 +63,7 @@ export class JobOverviewComponent implements OnInit {
     );
   }
 
-  private jobOfferDeleted(jobOffer: JobOffer) {
+  jobOfferDeleted(jobOffer: JobOffer) {
     this._jobOffers = this._jobOffers.filter(j => jobOffer.id !== j.id);
   }
 

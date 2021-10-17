@@ -248,6 +248,11 @@ export class ProfessorProfileEditor implements OnInit {
     }
   }
 
+  change(event: any) {
+    console.log(event);
+    this.uploadImage(event.target.files);
+  }
+
   /**
    * Handles image upload and sets the preview image
    * @param files

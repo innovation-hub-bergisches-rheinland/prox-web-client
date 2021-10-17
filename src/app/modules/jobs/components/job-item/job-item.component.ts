@@ -111,7 +111,7 @@ export class JobItemComponent implements OnInit, AfterViewInit {
   }
 
   // TODO emit event so that the overview can be refreshed
-  private deleteJobOffer() {
+  deleteJobOffer() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { title: 'Löschen', message: 'Stellenangebot wirklich löschen?' }
     });

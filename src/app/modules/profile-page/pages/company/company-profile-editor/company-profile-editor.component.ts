@@ -325,11 +325,16 @@ export class CompanyProfileEditor implements OnInit {
     this.removeFromArrayIfExists(this.languages, l => l.id === subject.id);
   }
 
+  change(event: any) {
+    console.log(event);
+    this.uploadImage(event.target.files);
+  }
+
   /**
    * Handles image upload and sets the preview image
    * @param files
    */
-  uploadImage(files: FileList) {
+  private uploadImage(files: FileList) {
     this.image = files[0];
     if (this.image) {
       const reader = new FileReader();
