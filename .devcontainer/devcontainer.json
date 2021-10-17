@@ -1,0 +1,11 @@
+{
+  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:0-16",
+  "extensions": [
+    "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-german",
+    "johnpapa.angular-essentials",
+    "cyrilletuzi.angular-schematics"
+  ],
+  "settings": {}
+}
