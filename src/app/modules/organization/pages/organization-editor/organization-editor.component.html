@@ -1,7 +1,12 @@
 <app-content-page>
-  <div fxLayout="column" fxLayoutAlign="space-around center">
+  <app-content-page-header>
+    <app-content-page-title>
+      Neue Organisation erstellen
+    </app-content-page-title>
+  </app-content-page-header>
+  <app-content-page-content>
     <mat-card class="card">
-      <mat-card-title>Neue Organisation erstellen</mat-card-title>
+      <mat-card-title></mat-card-title>
       <mat-card-content>
         <form [formGroup]="organizationForm">
           <h3>Informationen</h3>
@@ -24,6 +29,5 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    <br />
-  </div>
+  </app-content-page-content>
 </app-content-page>
