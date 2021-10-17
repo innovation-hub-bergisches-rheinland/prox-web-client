@@ -5,11 +5,11 @@ import { RouterModule } from '@angular/router';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import { ContentPageComponent } from './components/content-page/content-page.component';
 import { MaterialModule } from './modules/material/material.module';
+import { ContentPageModule } from './modules/content-page/components/content-page/content-page.module';
 
 @NgModule({
-  declarations: [ConfirmationDialogComponent, ContentPageComponent],
+  declarations: [ConfirmationDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,7 +18,8 @@ import { MaterialModule } from './modules/material/material.module';
 
     FlexLayoutModule,
 
-    MaterialModule
+    MaterialModule,
+    ContentPageModule
   ],
   exports: [
     CommonModule,
@@ -30,7 +31,7 @@ import { MaterialModule } from './modules/material/material.module';
 
     MaterialModule,
 
-    ContentPageComponent
+    ContentPageModule
   ]
 })
 export class SharedModule {}
