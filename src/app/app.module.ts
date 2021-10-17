@@ -18,13 +18,15 @@ import { MarkdownModule } from 'ngx-markdown';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { UserModule } from '@modules/user/user.module';
+import { MainContentComponent } from './layout/main-content/main-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContentLayoutComponent,
     FooterComponent,
-    UserComponent
+    UserComponent,
+    MainContentComponent
   ],
   imports: [
     BrowserModule,
