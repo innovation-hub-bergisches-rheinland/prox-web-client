@@ -1,5 +1,5 @@
-<app-content-page>
-  <div *ngIf="project" class="project-detail">
+<app-content-page *ngIf="project">
+  <app-content-page-header>
     <div class="page-title">
       <button
         (click)="goBack()"
@@ -46,103 +46,111 @@
         domain
       </mat-icon>
     </div>
-    <div>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <b>{{ project.name }}</b>
-          </mat-card-title>
+  </app-content-page-header>
+  <app-content-page-content>
+    <div *ngIf="project" class="project-detail">
+      <div>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              <b>{{ project.name }}</b>
+            </mat-card-title>
 
-          <mat-card-subtitle *ngIf="isCompanyProject">
-            <span class="companyName" matTooltip="Unternehmen">
-              <b [innerHTML]="projectCompany"></b>
-            </span>
-          </mat-card-subtitle>
+            <mat-card-subtitle *ngIf="isCompanyProject">
+              <span class="companyName" matTooltip="Unternehmen">
+                <b [innerHTML]="projectCompany"></b>
+              </span>
+            </mat-card-subtitle>
 
-          <mat-card-subtitle>
-            <span class="supervisorName" matTooltip="Projektbetreuer">
-              <b [innerHTML]="getProjectSupervisors()"></b>
-            </span>
-          </mat-card-subtitle>
-        </mat-card-header>
+            <mat-card-subtitle>
+              <span class="supervisorName" matTooltip="Projektbetreuer">
+                <b [innerHTML]="getProjectSupervisors()"></b>
+              </span>
+            </mat-card-subtitle>
+          </mat-card-header>
 
-        <mat-divider></mat-divider>
+          <mat-divider></mat-divider>
 
-        <mat-card-content>
-          <mat-card-subtitle> Kurze Projektbeschreibung: </mat-card-subtitle>
+          <mat-card-content>
+            <mat-card-subtitle> Kurze Projektbeschreibung: </mat-card-subtitle>
 
-          <div>
-            <p
-              [innerHTML]="textProcessor.process(project.shortDescription)"
-            ></p>
-          </div>
-
-          <mat-card-subtitle> Projektbeschreibung: </mat-card-subtitle>
-
-          <div>
-            <p [innerHTML]="textProcessor.process(project.description)"></p>
-          </div>
-
-          <div class="card-container-wrapper">
-            <div class="card-container">
-              <mat-card-subtitle> Teilnahmevoraussetzungen: </mat-card-subtitle>
-
-              <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
-
-              <p>{{ project.requirement }}</p>
+            <div>
+              <p
+                [innerHTML]="textProcessor.process(project.shortDescription)"
+              ></p>
             </div>
 
-            <div class="card-container">
-              <mat-card-subtitle> Projekttypen: </mat-card-subtitle>
+            <mat-card-subtitle> Projektbeschreibung: </mat-card-subtitle>
 
-              <p *ngFor="let module of projectModules">
-                <strong>({{ module.key }})</strong> {{ module.name }}
-              </p>
+            <div>
+              <p [innerHTML]="textProcessor.process(project.description)"></p>
             </div>
-          </div>
 
-          <mat-card-subtitle>
-            <mat-chip-list *ngIf="projectTags$ | async as tags; else noTags">
-              <mat-chip
-                selected
-                *ngFor="let tag of tags"
-                matTooltip="{{ tag.tagName }}"
-                >{{ tag.tagName }}
-              </mat-chip>
-            </mat-chip-list>
-            <ng-template #noTags>
-              <mat-chip color="primary" selected>
-                Keine Tags vorhanden
-              </mat-chip>
-            </ng-template>
-          </mat-card-subtitle>
-        </mat-card-content>
+            <div class="card-container-wrapper">
+              <div class="card-container">
+                <mat-card-subtitle>
+                  Teilnahmevoraussetzungen:
+                </mat-card-subtitle>
 
-        <mat-divider *ngIf="hasProjectPermission(project)"></mat-divider>
+                <p *ngIf="!project.requirement">
+                  Keine Teilnahmevoraussetzungen
+                </p>
 
-        <mat-card-actions>
-          <button
-            (click)="deleteProject(project)"
-            *ngIf="hasProjectPermission(project)"
-            class="no-hover"
-            id="project-remove-button"
-            mat-icon-button
-            color="warn"
-          >
-            <mat-icon>delete_forever</mat-icon>
-          </button>
+                <p>{{ project.requirement }}</p>
+              </div>
 
-          <button
-            (click)="openProjectDialog(project)"
-            *ngIf="hasProjectPermission(project)"
-            class="no-hover"
-            id="project-edit-button"
-            mat-icon-button
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+              <div class="card-container">
+                <mat-card-subtitle> Projekttypen: </mat-card-subtitle>
+
+                <p *ngFor="let module of projectModules">
+                  <strong>({{ module.key }})</strong> {{ module.name }}
+                </p>
+              </div>
+            </div>
+
+            <mat-card-subtitle>
+              <mat-chip-list *ngIf="projectTags$ | async as tags; else noTags">
+                <mat-chip
+                  selected
+                  *ngFor="let tag of tags"
+                  matTooltip="{{ tag.tagName }}"
+                  >{{ tag.tagName }}
+                </mat-chip>
+              </mat-chip-list>
+              <ng-template #noTags>
+                <mat-chip color="primary" selected>
+                  Keine Tags vorhanden
+                </mat-chip>
+              </ng-template>
+            </mat-card-subtitle>
+          </mat-card-content>
+
+          <mat-divider *ngIf="hasProjectPermission(project)"></mat-divider>
+
+          <mat-card-actions dir="rtl">
+            <button
+              (click)="deleteProject(project)"
+              *ngIf="hasProjectPermission(project)"
+              class="no-hover"
+              id="project-remove-button"
+              mat-icon-button
+              color="warn"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+
+            <button
+              (click)="openProjectDialog(project)"
+              *ngIf="hasProjectPermission(project)"
+              class="no-hover"
+              id="project-edit-button"
+              mat-icon-button
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
-  </div>
+  </app-content-page-content>
 </app-content-page>
