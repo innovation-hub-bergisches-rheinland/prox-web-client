@@ -1,9 +1,6 @@
-<div
-  fxLayout="column"
-  fxLayoutAlign="start stretch"
-  fxFlex="50"
-  fxFlexOffset="25"
->
-  <h1>Stellenangebot anlegen</h1>
-  <app-job-offer-form (saveEvent)="saveJobOffer($event)"></app-job-offer-form>
-</div>
+<app-content-page>
+  <div fxLayout="column" fxLayoutAlign="start stretch">
+    <h1>Stellenangebot anlegen</h1>
+    <app-job-offer-form (saveEvent)="saveJobOffer($event)"></app-job-offer-form>
+  </div>
+</app-content-page>

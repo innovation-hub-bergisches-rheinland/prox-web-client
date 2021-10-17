@@ -6,9 +6,10 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MaterialModule } from './modules/material.module';
+import { ContentPageComponent } from './components/content-page/content-page.component';
 
 @NgModule({
-  declarations: [ConfirmationDialogComponent],
+  declarations: [ConfirmationDialogComponent, ContentPageComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -27,7 +28,9 @@ import { MaterialModule } from './modules/material.module';
 
     FlexLayoutModule,
 
-    MaterialModule
+    MaterialModule,
+
+    ContentPageComponent
   ]
 })
 export class SharedModule {}
