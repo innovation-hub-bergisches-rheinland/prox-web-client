@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import { MaterialModule } from './modules/material.module';
 import { ContentPageComponent } from './components/content-page/content-page.component';
+import { MaterialModule } from './modules/material/material.module';
 
 @NgModule({
   declarations: [ConfirmationDialogComponent, ContentPageComponent],
