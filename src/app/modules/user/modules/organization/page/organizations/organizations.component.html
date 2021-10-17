@@ -1,16 +1,18 @@
 <app-content-page>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h1>Meine Organisationen</h1>
-    <button
-      mat-fab
-      color="primary"
-      *ngIf="canCreateOrg"
-      [routerLink]="['/organizations/new']"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <div
+  <app-content-page-header>
+    <app-content-page-title>Meine Organisationen</app-content-page-title>
+    <app-content-page-actions>
+      <button
+        mat-fab
+        color="primary"
+        *ngIf="canCreateOrg"
+        [routerLink]="['/organizations/new']"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </app-content-page-actions>
+  </app-content-page-header>
+  <app-content-page-content
     fxLayout="column"
     fxLayoutAlign="space-around stretch"
     fxLayoutGap="10px"
@@ -19,6 +21,7 @@
       *ngFor="let org of organizations"
       [orgName]="org.name"
       [isOwner]="org.isOwner"
-    ></organization-list-item>
-  </div>
+    >
+    </organization-list-item>
+  </app-content-page-content>
 </app-content-page>
