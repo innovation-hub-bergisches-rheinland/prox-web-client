@@ -5,7 +5,11 @@
     "streetsidesoftware.code-spell-checker",
     "streetsidesoftware.code-spell-checker-german",
     "johnpapa.angular-essentials",
-    "cyrilletuzi.angular-schematics"
+    "cyrilletuzi.angular-schematics",
+    "ms-azuretools.vscode-docker"
   ],
-  "settings": {}
+  "settings": {},
+  "appPort": [4200],
+  "postCreateCommand": "npm install",
+  "remoteUser": "node"
 }
