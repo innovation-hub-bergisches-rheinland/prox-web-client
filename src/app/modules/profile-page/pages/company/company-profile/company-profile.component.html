@@ -5,6 +5,7 @@
     </button>
   </div>
   <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="company">
+    <app-profile-page-carousel> </app-profile-page-carousel>
     <app-profile-page-information
       [information]="companyInformation"
       [socialMedia]="company.socialMedia"

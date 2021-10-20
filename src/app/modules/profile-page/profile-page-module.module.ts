@@ -22,6 +22,8 @@ import { CompanyLanguageInformationComponent } from './components/company/compan
 import { ProfileOverviewCardComponent } from './components/common/profile-overview-card/profile-overview-card.component';
 import { ProfilePageJobOfferItemComponent } from '@modules/profile-page/components/common/profile-page-job-offer/profile-page-job-offer-item/profile-page-job-offer-item.component';
 import { ProfilePageJobOffersComponent } from './components/common/profile-page-job-offer/profile-page-job-offers/profile-page-job-offers.component';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { ProfilePageCarouselComponent } from './components/common/profile-page-carousel/profile-page-carousel.component';
 
 @NgModule({
   declarations: [
@@ -44,8 +46,14 @@ import { ProfilePageJobOffersComponent } from './components/common/profile-page-
     CompanyLanguageInformationComponent,
     ProfileOverviewCardComponent,
     ProfilePageJobOfferItemComponent,
-    ProfilePageJobOffersComponent
+    ProfilePageJobOffersComponent,
+    ProfilePageCarouselComponent
   ],
-  imports: [CommonModule, SharedModule, ProfilePageRoutingModule]
+  imports: [
+    CommonModule,
+    SharedModule,
+    ProfilePageRoutingModule,
+    IvyCarouselModule
+  ]
 })
 export class ProfilePageModule {}
