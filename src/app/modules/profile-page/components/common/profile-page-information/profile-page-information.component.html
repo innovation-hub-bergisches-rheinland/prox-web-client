@@ -1,4 +1,15 @@
-<div gdAreas="picture info" gdGap="10px" gdColumns="200px auto">
+<div class="md:flex no-wrap md:-mx-2">
+  <div class="w-full md:w-3/12 md:mx-2">
+    <profile-card
+      [avatar]="this.information.imageUrl"
+      [title]="this.information.title"
+    ></profile-card>
+  </div>
+  <div class="w-full md:w-9/12 mx-2 h-64">
+    <profile-about-card> </profile-about-card>
+  </div>
+</div>
+<!--<div gdAreas="picture info" gdGap="10px" gdColumns="200px auto">
   <div gdArea="picture">
     <div gdAreas="picture | socialMedia">
       <div gdArea="picture" class="profile-image-div">
@@ -89,3 +100,4 @@
     </div>
   </div>
 </div>
+-->
