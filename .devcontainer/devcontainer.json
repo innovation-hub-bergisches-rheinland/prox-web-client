@@ -6,10 +6,18 @@
     "streetsidesoftware.code-spell-checker-german",
     "johnpapa.angular-essentials",
     "cyrilletuzi.angular-schematics",
-    "ms-azuretools.vscode-docker"
+    "ms-azuretools.vscode-docker",
+    "bradlc.vscode-tailwindcss"
   ],
-  "settings": {},
+  "settings": {
+    "css.validate": false,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    }
+  },
   "appPort": [4200],
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "npm install --ignore-scripts", //TODO: Husky install fails with node 16 under docker https://github.com/typicode/husky/issues/991
   "remoteUser": "node"
 }
