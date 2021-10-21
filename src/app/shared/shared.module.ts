@@ -7,7 +7,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MaterialModule } from './modules/material/material.module';
 import { ContentPageModule } from './modules/content-page/components/content-page/content-page.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [ConfirmationDialogComponent],
@@ -20,9 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FlexLayoutModule,
 
     MaterialModule,
-    ContentPageModule,
-
-    FontAwesomeModule
+    ContentPageModule
   ],
   exports: [
     CommonModule,
@@ -34,9 +31,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
     MaterialModule,
 
-    ContentPageModule,
-
-    FontAwesomeModule
+    ContentPageModule
   ]
 })
 export class SharedModule {}
