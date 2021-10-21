@@ -10,7 +10,6 @@ import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import Autolinker from 'autolinker';
-import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
@@ -46,7 +45,6 @@ export class ProjectItemComponent implements OnInit {
     private projectService: ProjectService,
     private companyService: CompanyProfileService,
     private tagService: TagService,
-    public textProcessor: TextProcessor,
     private professorService: ProfessorProfileService
   ) {}
 

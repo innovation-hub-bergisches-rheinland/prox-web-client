@@ -73,13 +73,13 @@
         <mat-card-subtitle> Kurze Projektbeschreibung: </mat-card-subtitle>
 
         <div>
-          <p [innerHTML]="textProcessor.process(project.shortDescription)"></p>
+          <p [innerHTML]="project.shortDescription | linky"></p>
         </div>
 
         <mat-card-subtitle> Projektbeschreibung: </mat-card-subtitle>
 
         <div>
-          <p [innerHTML]="textProcessor.process(project.description)"></p>
+          <p [innerHTML]="project.description | linky"></p>
         </div>
 
         <div class="card-container-wrapper">

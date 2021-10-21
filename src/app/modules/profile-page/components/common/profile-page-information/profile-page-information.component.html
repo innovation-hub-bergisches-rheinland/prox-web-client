@@ -83,7 +83,11 @@
           gdArea="value"
           [gdRow]="i"
           *ngFor="let attribute of informationProperties; index as i"
-          [innerHTML]="getValue(attribute.value, attribute.urlProcessing)"
+          [innerHTML]="
+            attribute.urlProcessing
+              ? (attribute.value | linky)
+              : attribute.value
+          "
         ></div>
       </div>
     </div>

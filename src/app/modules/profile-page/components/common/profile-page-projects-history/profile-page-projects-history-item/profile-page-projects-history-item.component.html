@@ -16,7 +16,7 @@
         ></mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p [innerHTML]="textProcessor.process(_project.shortDescription)"></p>
+        <p [innerHTML]="_project.shortDescription | linky"></p>
       </mat-card-content>
     </mat-card>
   </div>

@@ -9,7 +9,7 @@
     <div
       *ngFor="let publication of publications | slice: 0:limit; let i = index"
     >
-      <p [innerHTML]="textProcessor.process(publication.publication)"></p>
+      <p [innerHTML]="publication.publication | linky"></p>
       <button
         color="accent"
         mat-button

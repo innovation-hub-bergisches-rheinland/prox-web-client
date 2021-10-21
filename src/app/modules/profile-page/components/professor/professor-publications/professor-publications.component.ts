@@ -1,6 +1,5 @@
 import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { TextProcessor } from '@app/util/text-processor';
 import { Publication } from '@data/schema/openapi/professor-profile-service/models';
 
 @Component({
@@ -15,7 +14,7 @@ export class ProfessorPublicationsComponent implements OnInit {
 
   limit = 10;
 
-  constructor(public textProcessor: TextProcessor) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }
