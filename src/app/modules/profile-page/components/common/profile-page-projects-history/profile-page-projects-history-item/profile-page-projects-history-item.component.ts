@@ -21,7 +21,6 @@ import {
   AnimationEvent
 } from '@angular/animations';
 import { Project } from '@data/schema/openapi/project-service/project';
-import { TextProcessor } from '@app/util/text-processor';
 
 @Component({
   selector: 'app-profile-page-projects-history-item',
@@ -46,10 +45,7 @@ export class ProfilePageProjectsHistoryItemComponent implements OnInit {
   _displayContent = false;
   _project: Project;
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    public textProcessor: TextProcessor
-  ) {}
+  constructor(private cd: ChangeDetectorRef) {}
 
   @Input()
   set project(project: Project) {

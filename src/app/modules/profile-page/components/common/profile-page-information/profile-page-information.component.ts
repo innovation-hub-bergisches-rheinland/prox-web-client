@@ -1,6 +1,5 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { TextProcessor } from '@app/util/text-processor';
 import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
 export interface InformationProperty {
   description: string;
@@ -34,7 +33,7 @@ export class ProfilePageInformationComponent implements OnInit {
     );
   }
 
-  constructor(public textProcessor: TextProcessor) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -43,13 +42,6 @@ export class ProfilePageInformationComponent implements OnInit {
       return description.trim() + ':';
     }
     return description.trim();
-  }
-
-  getValue(value: string, process: boolean = false): string {
-    if (process) {
-      return this.textProcessor.process(value);
-    }
-    return value;
   }
 
   get facebookUrl(): string | undefined {
