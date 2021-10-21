@@ -8,24 +8,24 @@ import {
   SashContentDirective,
   SashTitleDirective
 } from './components/sash/sash.component';
-import { ExamplePageComponent } from './pages/example-page/example-page.component';
 import { ProfileAvatarCardComponent } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
 import {
   ProfileCardHeaderComponent,
   ProfileCardTitleDirective
 } from '@modules/profile/components/profile-card/profile-card-header/profile-card-header.component';
 import { ProfileCardComponent } from '@modules/profile/components/profile-card/profile-card.component';
+import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 
 @NgModule({
   declarations: [
     SashComponent,
     SashContentDirective,
     SashTitleDirective,
-    ExamplePageComponent,
     ProfileAvatarCardComponent,
     ProfileCardHeaderComponent,
     ProfileCardTitleDirective,
-    ProfileCardComponent
+    ProfileCardComponent,
+    OrganizationPageComponent
   ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })

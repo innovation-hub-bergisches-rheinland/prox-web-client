@@ -1,0 +1,21 @@
+<div class="flex flex-col gap-10 items-center justify-center">
+  <!-- Profile Information -->
+  <div class="grid grid-rows-3 grid-flow-col gap-4">
+    <div class="row-span-3">
+      <profile-avatar-card
+        [avatar]="logo"
+        [title]="company?.information.name"
+      ></profile-avatar-card>
+    </div>
+  </div>
+
+  <!-- Shash / Vita -->
+  <div>
+    <app-sash>
+      <app-sash-title>Beschreibung</app-sash-title>
+      <app-sash-content
+        [innerText]="company?.information.vita"
+      ></app-sash-content>
+    </app-sash>
+  </div>
+</div>
