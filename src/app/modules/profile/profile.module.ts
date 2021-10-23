@@ -13,7 +13,10 @@ import {
   ProfileCardHeaderComponent,
   ProfileCardTitleDirective
 } from '@modules/profile/components/profile-card/profile-card-header/profile-card-header.component';
-import { ProfileCardComponent } from '@modules/profile/components/profile-card/profile-card.component';
+import {
+  ProfileCardComponent,
+  ProfileCardContentDirective
+} from '@modules/profile/components/profile-card/profile-card.component';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 
 @NgModule({
@@ -24,6 +27,7 @@ import { OrganizationPageComponent } from './pages/organization-page/organizatio
     ProfileAvatarCardComponent,
     ProfileCardHeaderComponent,
     ProfileCardTitleDirective,
+    ProfileCardContentDirective,
     ProfileCardComponent,
     OrganizationPageComponent
   ],

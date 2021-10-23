@@ -1,14 +1,19 @@
-import { Component, Directive, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Directive,
+  HostBinding,
+  Input,
+  OnInit
+} from '@angular/core';
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
 
 @Directive({
   selector:
-    'app-profile-card-title, [app-profile-card-title], [appProfileCardTitle]',
-  host: {
-    class: 'app-profile-card-title'
-  }
+    'app-profile-card-title, [app-profile-card-title], [appProfileCardTitle]'
 })
 export class ProfileCardTitleDirective {
+  @HostBinding('class') classes = 'app-profile-card-title';
+
   constructor() {}
 }
 
