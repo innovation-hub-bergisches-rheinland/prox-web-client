@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'profile-avatar-card',
+  selector: 'app-profile-avatar-card',
   templateUrl: './profile-avatar-card.component.html',
   styleUrls: ['./profile-avatar-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
