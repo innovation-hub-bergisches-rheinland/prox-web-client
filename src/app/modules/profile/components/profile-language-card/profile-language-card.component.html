@@ -1,0 +1,23 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faGlobeEurope">
+    <app-profile-card-title>Sprachen</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <div
+      class="
+        grid
+        md:grid-cols-3
+        lg:grid-cols-4
+        gap-4
+        break-words
+        items-center
+        text-sm
+        px-4
+      "
+      #content
+    >
+      <ng-content select="app-profile-language-card-entry"></ng-content>
+    </div>
+    <i *ngIf="!content.innerHTML.trim()">Keine Sprachen angegeben</i>
+  </app-profile-card-content>
+</app-profile-card>

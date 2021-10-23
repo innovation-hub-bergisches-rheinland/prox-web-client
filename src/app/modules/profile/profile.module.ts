@@ -20,6 +20,8 @@ import {
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 import { ProfileInformationCardComponent } from './components/profile-information-card/profile-information-card.component';
 import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
+import { ProfileLanguageCardComponent } from '@modules/profile/components/profile-language-card/profile-language-card.component';
+import { ProfileLanguageCardEntryComponent } from '@modules/profile/components/profile-language-card/language-entry/profile-language-card-entry.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ProfileInformationCardEntryComponent } from './components/profile-infor
     ProfileCardComponent,
     OrganizationPageComponent,
     ProfileInformationCardComponent,
-    ProfileInformationCardEntryComponent
+    ProfileInformationCardEntryComponent,
+    ProfileLanguageCardComponent,
+    ProfileLanguageCardEntryComponent
   ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })
