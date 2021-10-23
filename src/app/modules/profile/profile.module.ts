@@ -18,6 +18,8 @@ import {
   ProfileCardContentDirective
 } from '@modules/profile/components/profile-card/profile-card.component';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
+import { ProfileInformationCardComponent } from './components/profile-information-card/profile-information-card.component';
+import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { OrganizationPageComponent } from './pages/organization-page/organizatio
     ProfileCardTitleDirective,
     ProfileCardContentDirective,
     ProfileCardComponent,
-    OrganizationPageComponent
+    OrganizationPageComponent,
+    ProfileInformationCardComponent,
+    ProfileInformationCardEntryComponent
   ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })

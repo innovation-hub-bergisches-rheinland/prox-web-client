@@ -1,0 +1,10 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faAddressCard">
+    <app-profile-card-title>Über</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <div class="grid md:grid-cols-2 text-sm">
+      <ng-content select="app-profile-information-card-entry"></ng-content>
+    </div>
+  </app-profile-card-content>
+</app-profile-card>
