@@ -1,10 +1,21 @@
 <div class="flex flex-col gap-10 items-center justify-center">
   <!-- Profile Information -->
-  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <div
+    class="
+      grid grid-cols-1
+      md:grid-cols-3
+      lg:grid-cols-4
+      gap-4
+      mx-4
+      lg:mx-20
+      xl:mx-40
+      2xl:mx-80
+    "
+  >
     <div class="col-span-1 md:col-span-3 lg:col-span-4">
       <app-profile-carousel></app-profile-carousel>
     </div>
-    <div class="col-span-1 row-span-2">
+    <div class="col-span-1">
       <app-profile-avatar-card
         [avatar]="logo"
         [title]="company?.information.name"
@@ -12,39 +23,35 @@
       ></app-profile-avatar-card>
     </div>
     <div class="col-span-1 md:col-span-2 lg:col-span-3">
-      <app-profile-information-card *ngIf="company?.information">
-        <app-profile-information-card-entry
-          title="Name"
-          [value]="company.information.name"
-        ></app-profile-information-card-entry>
-        <app-profile-information-card-entry
-          title="Gründung"
-          [value]="company.information.foundingDate"
-        ></app-profile-information-card-entry>
-        <app-profile-information-card-entry
-          title="Anzahl Mitarbeiter"
-          [value]="company.information.numberOfEmployees"
-        ></app-profile-information-card-entry>
-        <app-profile-information-card-entry
-          title="Homepage"
-          [value]="company.information.homepage"
-          [linkable]="true"
-        ></app-profile-information-card-entry>
-        <app-profile-information-card-entry
-          title="E-Mail"
-          [value]="company.information.contactEmail"
-          [linkable]="true"
-        ></app-profile-information-card-entry>
-      </app-profile-information-card>
-    </div>
-    <div class="col-span-1 md:col-span-2 lg:col-span-3">
-      <app-profile-language-card>
-        <app-profile-language-card-entry
-          *ngFor="let lang of languages"
-          [isoIdentifier]="lang.iso3166Mapping"
-          [name]="lang.germanName"
-        ></app-profile-language-card-entry>
-      </app-profile-language-card>
+      <div class="flex flex-col gap-4">
+        <app-profile-information-card *ngIf="company?.information">
+          <app-profile-information-card-entry
+            title="Gründung"
+            [value]="company.information.foundingDate"
+          ></app-profile-information-card-entry>
+          <app-profile-information-card-entry
+            title="Anzahl Mitarbeiter"
+            [value]="company.information.numberOfEmployees"
+          ></app-profile-information-card-entry>
+          <app-profile-information-card-entry
+            title="Homepage"
+            [value]="company.information.homepage"
+            [linkable]="true"
+          ></app-profile-information-card-entry>
+          <app-profile-information-card-entry
+            title="E-Mail"
+            [value]="company.information.contactEmail"
+            [linkable]="true"
+          ></app-profile-information-card-entry>
+        </app-profile-information-card>
+        <app-profile-language-card>
+          <app-profile-language-card-entry
+            *ngFor="let lang of languages"
+            [isoIdentifier]="lang.iso3166Mapping"
+            [name]="lang.germanName"
+          ></app-profile-language-card-entry>
+        </app-profile-language-card>
+      </div>
     </div>
     <div class="col-span-1 md:col-span-3 lg:col-span-4">
       <app-profile-focus-subjects
