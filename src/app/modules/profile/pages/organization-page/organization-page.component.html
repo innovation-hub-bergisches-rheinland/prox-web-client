@@ -10,40 +10,33 @@
     </div>
     <div class="col-span-3 row-span-2">
       <div class="flex flex-col gap-4">
-        <app-profile-information-card>
+        <app-profile-information-card *ngIf="company.information">
           <app-profile-information-card-entry
             title="Name"
-            value="Karl Theodor"
+            [value]="company.information.name"
           ></app-profile-information-card-entry>
           <app-profile-information-card-entry
-            title="Name"
-            value="Karl Theodor"
+            title="Gründung"
+            [value]="company.information.foundingDate"
           ></app-profile-information-card-entry>
           <app-profile-information-card-entry
-            title="Name"
-            value="Karl Theodor"
+            title="Anzahl Mitarbeiter"
+            [value]="company.information.numberOfEmployees"
           ></app-profile-information-card-entry>
           <app-profile-information-card-entry
-            title="Name"
-            value="Karl Theodor"
+            title="Homepage"
+            [value]="company.information.homepage"
           ></app-profile-information-card-entry>
           <app-profile-information-card-entry
-            title="Name"
-            value="Karl Theodor"
+            title="E-Mail"
+            [value]="company.information.contactEmail"
           ></app-profile-information-card-entry>
         </app-profile-information-card>
         <app-profile-language-card>
           <app-profile-language-card-entry
-            isoIdentifier="de"
-            name="Deutsch"
-          ></app-profile-language-card-entry>
-          <app-profile-language-card-entry
-            isoIdentifier="gb"
-            name="Englisch (UK)"
-          ></app-profile-language-card-entry>
-          <app-profile-language-card-entry
-            isoIdentifier="se"
-            name="Schwedisch"
+            *ngFor="let lang of languages"
+            [isoIdentifier]="lang.iso3166Mapping"
+            [name]="lang.germanName"
           ></app-profile-language-card-entry>
         </app-profile-language-card>
         <app-profile-focus-subjects
