@@ -22,6 +22,7 @@ import { ProfileInformationCardComponent } from './components/profile-informatio
 import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 import { ProfileLanguageCardComponent } from '@modules/profile/components/profile-language-card/profile-language-card.component';
 import { ProfileLanguageCardEntryComponent } from '@modules/profile/components/profile-language-card/language-entry/profile-language-card-entry.component';
+import { SocialMediaButtonComponent } from './components/social-media-button/social-media-button.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProfileLanguageCardEntryComponent } from '@modules/profile/components/p
     ProfileInformationCardComponent,
     ProfileInformationCardEntryComponent,
     ProfileLanguageCardComponent,
-    ProfileLanguageCardEntryComponent
+    ProfileLanguageCardEntryComponent,
+    SocialMediaButtonComponent
   ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })

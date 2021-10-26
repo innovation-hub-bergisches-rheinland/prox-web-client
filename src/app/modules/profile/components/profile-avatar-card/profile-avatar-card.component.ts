@@ -5,6 +5,14 @@ import {
   Input
 } from '@angular/core';
 
+export interface SocialMedia {
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  xing?: string;
+  linkedIn?: string;
+}
+
 @Component({
   selector: 'app-profile-avatar-card',
   templateUrl: './profile-avatar-card.component.html',
@@ -21,7 +29,12 @@ export class ProfileAvatarCardComponent implements OnInit {
   @Input()
   subtitle?: string;
 
+  @Input()
+  socialMedia?: SocialMedia;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.socialMedia);
+  }
 }

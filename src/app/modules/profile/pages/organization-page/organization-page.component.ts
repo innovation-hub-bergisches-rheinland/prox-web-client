@@ -6,6 +6,7 @@ import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
 import { Observable } from 'rxjs';
 import { environment } from '@env';
+import { SocialMedia } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
 
 @Component({
   selector: 'app-organization-page',
@@ -16,6 +17,7 @@ export class OrganizationPageComponent implements OnInit {
   private _company: Company;
   private _languages: Language[];
   logo: string;
+  socialMedia: SocialMedia;
 
   get company(): Company {
     return this._company;
@@ -43,6 +45,16 @@ export class OrganizationPageComponent implements OnInit {
             .subscribe(langs => {
               this._languages = langs;
             });
+          this.socialMedia = {
+            facebook: res.socialMedia.find(sm => sm.type === 'FACEBOOK')
+              ?.account,
+            instagram: res.socialMedia.find(sm => sm.type === 'INSTAGRAM')
+              ?.account,
+            xing: res.socialMedia.find(sm => sm.type === 'XING')?.account,
+            twitter: res.socialMedia.find(sm => sm.type === 'TWITTER')?.account,
+            linkedIn: res.socialMedia.find(sm => sm.type === 'LINKEDIN')
+              ?.account
+          };
         },
         error: err => {
           console.error(err);
