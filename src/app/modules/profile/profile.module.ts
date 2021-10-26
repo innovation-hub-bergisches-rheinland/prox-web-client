@@ -24,6 +24,8 @@ import { ProfileLanguageCardComponent } from '@modules/profile/components/profil
 import { ProfileLanguageCardEntryComponent } from '@modules/profile/components/profile-language-card/language-entry/profile-language-card-entry.component';
 import { SocialMediaButtonComponent } from './components/social-media-button/social-media-button.component';
 import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/profile-focus-subjects.component';
+import { ProfileCarouselComponent } from '@modules/profile/components/profile-carousel/profile-carousel.component';
+import { MatCarouselModule } from '@ngbmodule/material-carousel';
 
 @NgModule({
   declarations: [
@@ -41,8 +43,14 @@ import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/
     ProfileLanguageCardComponent,
     ProfileLanguageCardEntryComponent,
     SocialMediaButtonComponent,
-    ProfileFocusSubjectsComponent
+    ProfileFocusSubjectsComponent,
+    ProfileCarouselComponent
   ],
-  imports: [CommonModule, ProfileRoutingModule, SharedModule]
+  imports: [
+    CommonModule,
+    ProfileRoutingModule,
+    SharedModule,
+    MatCarouselModule.forRoot()
+  ]
 })
 export class ProfileModule {}

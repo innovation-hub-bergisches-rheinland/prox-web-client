@@ -1,6 +1,9 @@
 <div class="flex flex-col gap-10 items-center justify-center">
   <!-- Profile Information -->
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="col-span-1 md:col-span-3 lg:col-span-4">
+      <app-profile-carousel></app-profile-carousel>
+    </div>
     <div class="col-span-1 row-span-2">
       <app-profile-avatar-card
         [avatar]="logo"
