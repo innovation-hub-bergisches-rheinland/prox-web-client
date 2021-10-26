@@ -12,6 +12,9 @@ export class ProfileInformationCardEntryComponent implements OnInit {
   @Input()
   value: string;
 
+  @Input('linkable')
+  linkable = false;
+
   constructor() {}
 
   ngOnInit(): void {}

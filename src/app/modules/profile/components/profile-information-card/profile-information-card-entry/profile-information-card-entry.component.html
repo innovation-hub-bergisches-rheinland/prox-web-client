@@ -1,4 +1,9 @@
 <div class="grid grid-cols-2 md:grid-cols-3">
   <div class="px-4 py-2 font-semibold">{{ title }}</div>
-  <div class="px-4 py-2 md:col-span-2">{{ value ? value : '' }}</div>
+  <div class="px-4 py-2 md:col-span-2">
+    <div *ngIf="!linkable; else linked">{{ value ? value : '' }}</div>
+    <ng-template #linked>
+      <div [innerHTML]="value | linky"></div>
+    </ng-template>
+  </div>
 </div>
