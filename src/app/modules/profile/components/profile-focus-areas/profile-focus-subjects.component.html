@@ -1,0 +1,15 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faBullseye">
+    <app-profile-card-title>Fokusgebiete</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <ng-container *ngIf="subjects && subjects.length > 0; else noSubjects">
+      <mat-chip-list>
+        <mat-chip *ngFor="let sub of subjects" selected>{{
+          sub.subject
+        }}</mat-chip>
+      </mat-chip-list>
+    </ng-container>
+    <ng-template #noSubjects><i>Keine Fokusgebiete angegeben</i></ng-template>
+  </app-profile-card-content>
+</app-profile-card>

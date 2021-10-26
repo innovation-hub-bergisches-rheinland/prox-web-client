@@ -7,6 +7,7 @@ import { Language } from '@data/schema/openapi/company-profile-service/language'
 import { Observable } from 'rxjs';
 import { environment } from '@env';
 import { SocialMedia } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
+import { FocusSubject } from '@modules/profile/components/profile-focus-areas/profile-focus-subjects.component';
 
 @Component({
   selector: 'app-organization-page',
@@ -18,6 +19,7 @@ export class OrganizationPageComponent implements OnInit {
   private _languages: Language[];
   logo: string;
   socialMedia: SocialMedia;
+  focusSubjects: FocusSubject[];
 
   get company(): Company {
     return this._company;
@@ -55,6 +57,11 @@ export class OrganizationPageComponent implements OnInit {
             linkedIn: res.socialMedia.find(sm => sm.type === 'LINKEDIN')
               ?.account
           };
+          this.focusSubjects = res.branches.map(b => {
+            return {
+              subject: b.branchName
+            };
+          });
         },
         error: err => {
           console.error(err);
