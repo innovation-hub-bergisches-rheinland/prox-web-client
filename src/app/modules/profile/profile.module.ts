@@ -28,6 +28,8 @@ import { ProfileCarouselComponent } from '@modules/profile/components/profile-ca
 import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { ProfileProjectsCardComponent } from './components/profile-projects-card/profile-projects-card.component';
 import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
+import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
+import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile
     ProfileFocusSubjectsComponent,
     ProfileCarouselComponent,
     ProfileProjectsCardComponent,
-    ProfileJobsCardComponent
+    ProfileJobsCardComponent,
+    ProfileProjectHistoryComponent,
+    ProfileProjectHistoryItemComponent
   ],
   imports: [
     CommonModule,

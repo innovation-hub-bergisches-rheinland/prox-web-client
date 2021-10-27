@@ -9,11 +9,12 @@ import { environment } from '@env';
 import { SocialMedia } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
 import { FocusSubject } from '@modules/profile/components/profile-focus-areas/profile-focus-subjects.component';
 import { ProjectService } from '@data/service/project.service';
-import { Project } from '@data/schema/openapi/project-service/project';
 import { AvailableProject } from '@modules/profile/components/profile-projects-card/profile-projects-card.component';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { AvailableJob } from '@modules/profile/components/profile-jobs-card/profile-jobs-card.component';
 import { JobService } from '@data/service/job.service';
+import { Project } from '@data/schema/openapi/project-service/project';
+import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/types';
 
 @Component({
   selector: 'app-organization-page',
@@ -29,6 +30,7 @@ export class OrganizationPageComponent implements OnInit {
   languages: Language[];
   projects: Observable<AvailableProject[]>;
   jobs: Observable<AvailableJob[]>;
+  projectHistory: Observable<ProjectHistoryItem[]>;
 
   get company(): Company {
     return this._company;
@@ -120,6 +122,20 @@ export class OrganizationPageComponent implements OnInit {
                 )
               ),
               toArray()
+            );
+          this.projectHistory = this.projectService
+            .findRunningAndFinishedProjectsOfCreator(this._company.creatorId)
+            .pipe(
+              map(projects =>
+                projects.map(project => {
+                  return {
+                    id: project.id,
+                    title: project.name,
+                    supervisor: project.supervisorName,
+                    description: project.shortDescription
+                  };
+                })
+              )
             );
         },
         error: err => {

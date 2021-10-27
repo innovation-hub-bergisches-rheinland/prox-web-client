@@ -1,0 +1,23 @@
+<div
+  class="slider-content-item-wrapper"
+  [ngClass]="className"
+  [@translateSlide]="_position"
+  (@translateSlide.start)="onTranslateSlideStart($event)"
+  (@translateSlide.done)="onTranslateSlideEnd($event)"
+>
+  <div class="content-item-wrapper">
+    <mat-card *ngIf="_displayContent">
+      <mat-card-header>
+        <mat-card-title>
+          <a [routerLink]="['/projects', _project.id]">{{ _project.title }}</a>
+        </mat-card-title>
+        <mat-card-subtitle
+          [innerText]="_project.supervisor"
+        ></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerHTML]="_project.description | linky"></p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

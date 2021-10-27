@@ -1,0 +1,13 @@
+@use '~@angular/material' as mat;
+@mixin profile-page-projects-history-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  .profile-projects-history {
+    button {
+      background-color: mat.get-color-from-palette($primary);
+      color: mat.get-contrast-color-from-palette($primary, 400);
+    }
+  }
+}
