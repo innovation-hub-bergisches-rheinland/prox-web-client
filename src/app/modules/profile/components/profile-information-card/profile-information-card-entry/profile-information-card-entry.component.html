@@ -3,7 +3,7 @@
   <div class="px-4 py-2 md:col-span-2">
     <div *ngIf="!linkable; else linked">{{ value ? value : '' }}</div>
     <ng-template #linked>
-      <div [innerHTML]="value | linky"></div>
+      <span class="hover:underline" [innerHTML]="value | linky"></span>
     </ng-template>
   </div>
 </div>
