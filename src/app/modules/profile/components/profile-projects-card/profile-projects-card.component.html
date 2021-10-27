@@ -1,0 +1,35 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faTask">
+    <app-profile-card-title>Verfügbare Projekte</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <mat-table [dataSource]="projects">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Thema</mat-header-cell>
+        <mat-cell
+          mat-cell
+          *matCellDef="let element"
+          fxLayout="column"
+          fxLayoutAlign="start "
+        >
+          <a [routerLink]="['/projects/' + element.id]" class="project-name">
+            {{ element.name }}
+          </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Art</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <ul class="list-disc list-inside">
+            <li *ngFor="let type of element.modules">
+              {{ type }}
+            </li>
+          </ul>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </app-profile-card-content>
+</app-profile-card>

@@ -6,10 +6,10 @@
       md:grid-cols-3
       lg:grid-cols-4
       gap-4
-      mx-4
-      lg:mx-20
-      xl:mx-40
-      2xl:mx-80
+      px-4
+      lg:px-20
+      xl:px-40
+      2xl:px-80
     "
   >
     <div class="col-span-1 md:col-span-3 lg:col-span-4">
@@ -68,5 +68,10 @@
         [innerText]="company?.information.vita"
       ></app-sash-content>
     </app-sash>
+  </div>
+  <div class="px-4 lg:px-20 xl:px-40 2xl:px-80 w-full">
+    <app-profile-projects-card
+      [projects]="projects | async"
+    ></app-profile-projects-card>
   </div>
 </div>
