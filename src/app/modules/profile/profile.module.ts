@@ -27,6 +27,7 @@ import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/
 import { ProfileCarouselComponent } from '@modules/profile/components/profile-carousel/profile-carousel.component';
 import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { ProfileProjectsCardComponent } from './components/profile-projects-card/profile-projects-card.component';
+import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ProfileProjectsCardComponent } from './components/profile-projects-card
     SocialMediaButtonComponent,
     ProfileFocusSubjectsComponent,
     ProfileCarouselComponent,
-    ProfileProjectsCardComponent
+    ProfileProjectsCardComponent,
+    ProfileJobsCardComponent
   ],
   imports: [
     CommonModule,

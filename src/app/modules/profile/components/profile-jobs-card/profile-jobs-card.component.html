@@ -1,0 +1,34 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="icon">
+    <app-profile-card-title>Aktuelle Stellenangebote</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <mat-table [dataSource]="jobs">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Stellenbezeichnung</mat-header-cell>
+        <mat-cell
+          mat-cell
+          *matCellDef="let element"
+          fxLayout="column"
+          fxLayoutAlign="start "
+        >
+          <a [routerLink]="['/jobs/' + element.id]" class="hover:underline">
+            {{ element.name }}
+          </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="level">
+        <mat-header-cell *matHeaderCellDef>Art</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <ul class="list-disc list-inside">
+            <li *ngFor="let level of element.levels">
+              {{ level }}
+            </li>
+          </ul>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </app-profile-card-content>
+</app-profile-card>
