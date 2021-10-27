@@ -69,21 +69,33 @@
       ></app-sash-content>
     </app-sash>
   </div>
-  <!-- TODO: Try to get rid of code duplication -->
-  <div class="px-4 lg:px-20 xl:px-40 2xl:px-80 w-full">
-    <app-profile-projects-card
-      [projects]="projects | async"
-    ></app-profile-projects-card>
-  </div>
-  <div class="px-4 lg:px-20 xl:px-40 2xl:px-80 w-full">
-    <app-profile-jobs-card [jobs]="jobs | async"> </app-profile-jobs-card>
-  </div>
-  <div class="px-4 lg:px-20 xl:px-40 2xl:px-80 w-full">
-    <app-profile-project-history>
-      <app-profile-project-history-item
-        *ngFor="let project of projectHistory | async"
-        [project]="project"
-      ></app-profile-project-history-item>
-    </app-profile-project-history>
+  <div
+    class="
+      grid grid-cols-1
+      lg:grid-cols-2
+      gap-4
+      px-4
+      lg:px-20
+      xl:px-40
+      2xl:px-80
+      w-full
+    "
+  >
+    <div class="col-span-1">
+      <app-profile-projects-card
+        [projects]="projects | async"
+      ></app-profile-projects-card>
+    </div>
+    <div class="col-span-1">
+      <app-profile-jobs-card [jobs]="jobs | async"> </app-profile-jobs-card>
+    </div>
+    <div class="lg:col-span-2">
+      <app-profile-project-history>
+        <app-profile-project-history-item
+          *ngFor="let project of projectHistory | async"
+          [project]="project"
+        ></app-profile-project-history-item>
+      </app-profile-project-history>
+    </div>
   </div>
 </div>

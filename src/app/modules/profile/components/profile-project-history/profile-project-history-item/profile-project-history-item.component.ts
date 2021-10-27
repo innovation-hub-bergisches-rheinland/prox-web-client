@@ -13,7 +13,13 @@ import {
   animate,
   AnimationEvent
 } from '@angular/animations';
-import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/types';
+
+export interface ProjectHistoryItem {
+  id: string;
+  title: string;
+  supervisor: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-profile-project-history-item',

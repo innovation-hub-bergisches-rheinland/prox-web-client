@@ -13,8 +13,7 @@ import { AvailableProject } from '@modules/profile/components/profile-projects-c
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { AvailableJob } from '@modules/profile/components/profile-jobs-card/profile-jobs-card.component';
 import { JobService } from '@data/service/job.service';
-import { Project } from '@data/schema/openapi/project-service/project';
-import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/types';
+import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 
 @Component({
   selector: 'app-organization-page',
