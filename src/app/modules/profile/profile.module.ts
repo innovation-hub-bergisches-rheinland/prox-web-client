@@ -33,6 +33,7 @@ import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { LecturerPageComponent } from './pages/lecturer-page/lecturer-page.component';
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
+import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ProfilePublicationsCardComponent } from '@modules/profile/components/pr
     ProfileProjectHistoryItemComponent,
     ProfilePageComponent,
     LecturerPageComponent,
-    ProfilePublicationsCardComponent
+    ProfilePublicationsCardComponent,
+    ProfileOverviewCardComponent
   ],
   imports: [
     CommonModule,
