@@ -51,6 +51,9 @@ export class ProfilePageComponent implements OnInit {
   @Input()
   publications: Publication[];
 
+  @Input()
+  showEditRow: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {}

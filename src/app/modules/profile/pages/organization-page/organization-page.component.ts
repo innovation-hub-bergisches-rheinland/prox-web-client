@@ -19,6 +19,7 @@ import {
   Sash
 } from '@modules/profile/pages/profile-page/profile-page.component';
 import { SliderImage } from '@modules/profile/components/profile-carousel/profile-carousel.component';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-organization-page',
@@ -34,12 +35,14 @@ export class OrganizationPageComponent implements OnInit {
   projects: Observable<AvailableProject[]>;
   jobs: Observable<AvailableJob[]>;
   projectHistory: Observable<ProjectHistoryItem[]>;
+  hasPermission: boolean;
 
   get company(): Company {
     return this._company;
   }
 
   constructor(
+    private keycloakService: KeycloakService,
     private activatedRoute: ActivatedRoute,
     private companyProfileService: CompanyProfileService,
     private projectService: ProjectService,
@@ -60,6 +63,14 @@ export class OrganizationPageComponent implements OnInit {
       .subscribe({
         next: res => {
           this._company = res.company;
+          this.keycloakService.isLoggedIn().then(isLoggedIn => {
+            if (isLoggedIn) {
+              const userId = this.keycloakService.getKeycloakInstance().subject;
+              this.hasPermission =
+                this.keycloakService.isUserInRole('company-manager') &&
+                userId === this._company.creatorId;
+            }
+          });
           this.organizationProfile = {
             avatarUrl: `${environment.apiUrl}/companies/${this.company.id}/logo`,
             title: this._company.information.name,

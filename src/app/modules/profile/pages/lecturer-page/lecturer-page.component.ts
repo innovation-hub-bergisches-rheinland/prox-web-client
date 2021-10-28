@@ -13,12 +13,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 import { ProjectService } from '@data/service/project.service';
 import { JobService } from '@data/service/job.service';
-import { map, mergeMap, toArray } from 'rxjs/operators';
+import { map, mergeMap, tap, toArray } from 'rxjs/operators';
 import { environment } from '@env';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Publication } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-lecturer-page',
@@ -34,12 +35,14 @@ export class LecturerPageComponent implements OnInit {
   jobs: Observable<AvailableJob[]>;
   projectHistory: Observable<ProjectHistoryItem[]>;
   publications: Observable<Publication[]>;
+  hasPermission: boolean;
 
   get lecturer(): Professor {
     return this._lecturer;
   }
 
   constructor(
+    private keycloakService: KeycloakService,
     private activatedRoute: ActivatedRoute,
     private professorService: ProfessorProfileService,
     private projectService: ProjectService,
@@ -50,6 +53,15 @@ export class LecturerPageComponent implements OnInit {
     this.activatedRoute.params
       .pipe(
         map(route => route.id),
+        tap(id => {
+          this.keycloakService.isLoggedIn().then(isLoggedIn => {
+            if (isLoggedIn) {
+              const userId = this.keycloakService.getKeycloakInstance().subject;
+              this.hasPermission =
+                this.keycloakService.isUserInRole('professor') && userId === id;
+            }
+          });
+        }),
         mergeMap(id => {
           return forkJoin({
             lecturer: this.professorService.getProfessorProfile(id),
