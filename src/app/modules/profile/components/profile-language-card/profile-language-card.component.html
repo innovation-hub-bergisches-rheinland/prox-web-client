@@ -13,10 +13,13 @@
         items-center
         text-sm
       "
-      #content
     >
-      <ng-content select="app-profile-language-card-entry"></ng-content>
+      <app-profile-language-card-entry
+        *ngFor="let lang of languages"
+        [name]="lang.name"
+        [isoIdentifier]="lang.isoIdentifier"
+      ></app-profile-language-card-entry>
     </div>
-    <i *ngIf="!content.innerHTML.trim()">Keine Sprachen angegeben</i>
+    <i *ngIf="!languages || languages.length === 0">Keine Sprachen angegeben</i>
   </app-profile-card-content>
 </app-profile-card>

@@ -33,12 +33,7 @@
           [entries]="profile.about"
         >
         </app-profile-information-card>
-        <app-profile-language-card>
-          <app-profile-language-card-entry
-            *ngFor="let lang of profile.languages"
-            [isoIdentifier]="lang.isoIdentifier"
-            [name]="lang.name"
-          ></app-profile-language-card-entry>
+        <app-profile-language-card [languages]="profile.languages">
         </app-profile-language-card>
       </div>
     </div>
