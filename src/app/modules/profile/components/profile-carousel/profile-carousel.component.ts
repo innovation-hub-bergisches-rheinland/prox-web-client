@@ -2,8 +2,13 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Directive
+  Directive,
+  Input
 } from '@angular/core';
+
+export interface SliderImage {
+  path: string;
+}
 
 @Component({
   selector: 'app-profile-carousel',
@@ -12,11 +17,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileCarouselComponent implements OnInit {
-  imagesForSlider = [
-    { path: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab' },
-    { path: 'https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8' },
-    { path: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625' }
-  ];
+  @Input()
+  images: SliderImage[];
 
   constructor() {}
 

@@ -1,0 +1,88 @@
+<div class="flex flex-col gap-10 items-center justify-center">
+  <!-- Profile Information -->
+  <div
+    class="
+      grid grid-cols-1
+      md:grid-cols-3
+      lg:grid-cols-4
+      gap-4
+      px-4
+      lg:px-20
+      xl:px-40
+      2xl:px-80
+    "
+  >
+    <div
+      class="col-span-1 md:col-span-3 lg:col-span-4"
+      *ngIf="carouselImages && carouselImages.length > 0"
+    >
+      <app-profile-carousel [images]="carouselImages"></app-profile-carousel>
+    </div>
+    <div class="col-span-1">
+      <app-profile-avatar-card
+        [avatar]="profile.avatarUrl"
+        [title]="profile.title"
+        [subtitle]="profile.subtitle"
+        [socialMedia]="profile.socialMedia"
+      ></app-profile-avatar-card>
+    </div>
+    <div class="col-span-1 md:col-span-2 lg:col-span-3">
+      <div class="flex flex-col gap-4">
+        <app-profile-information-card
+          *ngIf="profile.about"
+          [entries]="profile.about"
+        >
+        </app-profile-information-card>
+        <app-profile-language-card>
+          <app-profile-language-card-entry
+            *ngFor="let lang of profile.languages"
+            [isoIdentifier]="lang.isoIdentifier"
+            [name]="lang.name"
+          ></app-profile-language-card-entry>
+        </app-profile-language-card>
+      </div>
+    </div>
+    <div class="col-span-1 md:col-span-3 lg:col-span-4">
+      <app-profile-focus-subjects
+        [subjects]="profile.focusSubjects"
+      ></app-profile-focus-subjects>
+    </div>
+  </div>
+
+  <!-- Shash / Vita -->
+  <div *ngIf="sash && sash.text.trim().length > 0">
+    <app-sash>
+      <app-sash-title>{{ sash.title }}</app-sash-title>
+      <app-sash-content [innerText]="sash.text"></app-sash-content>
+    </app-sash>
+  </div>
+  <div
+    class="
+      grid grid-cols-1
+      lg:grid-cols-2
+      gap-4
+      px-4
+      lg:px-20
+      xl:px-40
+      2xl:px-80
+      w-full
+    "
+  >
+    <div class="col-span-1">
+      <app-profile-projects-card
+        [projects]="availableProjects"
+      ></app-profile-projects-card>
+    </div>
+    <div class="col-span-1">
+      <app-profile-jobs-card [jobs]="availableJobs"> </app-profile-jobs-card>
+    </div>
+    <div class="lg:col-span-2">
+      <app-profile-project-history>
+        <app-profile-project-history-item
+          *ngFor="let project of projectHistory"
+          [project]="project"
+        ></app-profile-project-history-item>
+      </app-profile-project-history>
+    </div>
+  </div>
+</div>

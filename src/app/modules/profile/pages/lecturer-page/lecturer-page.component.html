@@ -1,8 +1,7 @@
 <app-profile-page
-  *ngIf="organizationProfile"
-  [profile]="organizationProfile"
-  [sash]="organizationSash"
-  [carouselImages]="sliderImages"
+  *ngIf="lecturer"
+  [profile]="lecturerProfile"
+  [sash]="lecturerSash"
   [projectHistory]="projectHistory | async"
   [availableProjects]="projects | async"
   [availableJobs]="jobs | async"

@@ -30,6 +30,8 @@ import { ProfileProjectsCardComponent } from './components/profile-projects-card
 import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
 import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { LecturerPageComponent } from './pages/lecturer-page/lecturer-page.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/
     ProfileProjectsCardComponent,
     ProfileJobsCardComponent,
     ProfileProjectHistoryComponent,
-    ProfileProjectHistoryItemComponent
+    ProfileProjectHistoryItemComponent,
+    ProfilePageComponent,
+    LecturerPageComponent
   ],
   imports: [
     CommonModule,
