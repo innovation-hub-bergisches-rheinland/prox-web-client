@@ -1,6 +1,6 @@
-<div class="grid grid-cols-2 md:grid-cols-3 break-words">
-  <div class="px-4 py-2 font-semibold">{{ title }}</div>
-  <div class="px-4 py-2 md:col-span-2">
+<div class="grid auto-cols-max break-words">
+  <div class="px-2 py-2 font-semibold">{{ title }}</div>
+  <div class="px-2 py-2 md:col-span-2">
     <div *ngIf="!linkable; else linked">{{ value ? value : '' }}</div>
     <ng-template #linked>
       <span class="hover:underline" [innerHTML]="value | linky"></span>
