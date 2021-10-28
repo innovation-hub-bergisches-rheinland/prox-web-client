@@ -25,7 +25,7 @@ export class OrganizationOverviewPageComponent implements OnInit {
           numAvailableProjects: 0,
           numFinishedProjects: 0,
           numRunningProjects: 0,
-          href: `/profile/orgs/${item.id}`
+          href: `/orgs/${item.id}`
         }))
       )
     );

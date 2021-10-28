@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Language } from '@modules/profile-page/components/common/profile-language-card/profile-language-card.component';
 
 @Component({
   selector: 'app-profile-language-card-entry',

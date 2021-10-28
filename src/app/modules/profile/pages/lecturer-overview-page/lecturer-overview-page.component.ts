@@ -25,7 +25,7 @@ export class LecturerOverviewPageComponent implements OnInit {
           numAvailableProjects: item.sumAvailableProjects,
           numFinishedProjects: item.sumFinishedProjects,
           numRunningProjects: item.sumRunningProjects,
-          href: `/profile/lecturers/${item.id}`
+          href: `/lecturers/${item.id}`
         }))
       )
     );
