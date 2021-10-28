@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 
 export interface AboutEntry {
-  key: string;
-  value: string;
-  linkable?: boolean;
+  readonly key: string;
+  readonly value: string;
+  readonly linkable?: boolean;
 }
 
 @Component({

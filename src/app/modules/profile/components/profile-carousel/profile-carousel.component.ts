@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 export interface SliderImage {
-  path: string;
+  readonly path: string;
 }
 
 @Component({

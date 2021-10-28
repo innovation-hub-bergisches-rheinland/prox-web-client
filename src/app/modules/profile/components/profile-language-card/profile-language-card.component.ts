@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faGlobeEurope } from '@fortawesome/free-solid-svg-icons';
 
 export interface Language {
-  isoIdentifier: string;
-  name: string;
+  readonly isoIdentifier: string;
+  readonly name: string;
 }
 
 @Component({

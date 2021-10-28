@@ -9,18 +9,18 @@ import { AvailableProject } from '@modules/profile/components/profile-projects-c
 import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 
 export interface Sash {
-  title: string;
-  text: string;
+  readonly title: string;
+  readonly text: string;
 }
 
 export interface Profile {
-  title: string;
-  avatarUrl?: string;
-  subtitle?: string;
-  socialMedia?: SocialMedia;
-  focusSubjects?: FocusSubject[];
-  languages?: Language[];
-  about?: AboutEntry[];
+  readonly title: string;
+  readonly avatarUrl?: string;
+  readonly subtitle?: string;
+  readonly socialMedia?: SocialMedia;
+  readonly focusSubjects?: FocusSubject[];
+  readonly languages?: Language[];
+  readonly about?: AboutEntry[];
 }
 
 @Component({

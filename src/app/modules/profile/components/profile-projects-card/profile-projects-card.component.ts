@@ -8,9 +8,9 @@ import {
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
 
 export interface AvailableProject {
-  id: string;
-  name: string;
-  modules: string[];
+  readonly id: string;
+  readonly name: string;
+  readonly modules: string[];
 }
 
 @Component({

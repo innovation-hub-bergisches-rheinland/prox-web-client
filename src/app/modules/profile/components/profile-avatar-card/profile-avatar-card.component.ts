@@ -6,11 +6,11 @@ import {
 } from '@angular/core';
 
 export interface SocialMedia {
-  facebook?: string;
-  instagram?: string;
-  twitter?: string;
-  xing?: string;
-  linkedIn?: string;
+  readonly facebook?: string;
+  readonly instagram?: string;
+  readonly twitter?: string;
+  readonly xing?: string;
+  readonly linkedIn?: string;
 }
 
 @Component({

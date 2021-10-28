@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 
 export interface AvailableJob {
-  id: string;
-  name: string;
-  levels: string[];
+  readonly id: string;
+  readonly name: string;
+  readonly levels: string[];
 }
 
 @Component({

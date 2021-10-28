@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 
 export interface FocusSubject {
-  subject: string;
+  readonly subject: string;
 }
 
 @Component({
