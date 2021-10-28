@@ -9,7 +9,11 @@
     <mat-card *ngIf="_displayContent">
       <mat-card-header>
         <mat-card-title>
-          <a [routerLink]="['/projects', _project.id]">{{ _project.title }}</a>
+          <a
+            class="hover:underline"
+            [routerLink]="['/projects', _project.id]"
+            >{{ _project.title }}</a
+          >
         </mat-card-title>
         <mat-card-subtitle
           [innerText]="_project.supervisor"
