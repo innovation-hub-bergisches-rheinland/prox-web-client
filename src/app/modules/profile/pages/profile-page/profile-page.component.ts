@@ -7,6 +7,7 @@ import { SliderImage } from '@modules/profile/components/profile-carousel/profil
 import { AvailableJob } from '@modules/profile/components/profile-jobs-card/profile-jobs-card.component';
 import { AvailableProject } from '@modules/profile/components/profile-projects-card/profile-projects-card.component';
 import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
+import { Publication } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 
 export interface Sash {
   readonly title: string;
@@ -46,6 +47,9 @@ export class ProfilePageComponent implements OnInit {
 
   @Input()
   projectHistory: ProjectHistoryItem[];
+
+  @Input()
+  publications: Publication[];
 
   constructor() {}
 

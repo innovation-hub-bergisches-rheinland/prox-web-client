@@ -18,6 +18,7 @@ import { environment } from '@env';
 import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
+import { Publication } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 
 @Component({
   selector: 'app-lecturer-page',
@@ -32,6 +33,7 @@ export class LecturerPageComponent implements OnInit {
   projects: Observable<AvailableProject[]>;
   jobs: Observable<AvailableJob[]>;
   projectHistory: Observable<ProjectHistoryItem[]>;
+  publications: Observable<Publication[]>;
 
   get lecturer(): Professor {
     return this._lecturer;
@@ -170,6 +172,9 @@ export class LecturerPageComponent implements OnInit {
                 })
               )
             );
+          this.publications = of(this._lecturer.publications).pipe(
+            map(pubs => pubs.map(pub => ({ publication: pub.publication })))
+          );
         },
         error: err => {
           console.error(err);

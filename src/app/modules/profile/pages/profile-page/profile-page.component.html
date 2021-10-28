@@ -63,6 +63,14 @@
       w-full
     "
   >
+    <div
+      class="col-span-1 lg:col-span-2"
+      *ngIf="publications && publications.length > 0"
+    >
+      <app-profile-publications-card
+        [publications]="publications"
+      ></app-profile-publications-card>
+    </div>
     <div class="col-span-1">
       <app-profile-projects-card
         [projects]="availableProjects"
