@@ -34,6 +34,8 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { LecturerPageComponent } from './pages/lecturer-page/lecturer-page.component';
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
+import { LecturerEditorPageComponent } from './pages/lecturer-editor-page/lecturer-editor-page.component';
+import { OrganizationEditorPageComponent } from './pages/organization-editor-page/organization-editor-page.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { ProfileOverviewCardComponent } from '@modules/profile/components/profil
     ProfilePageComponent,
     LecturerPageComponent,
     ProfilePublicationsCardComponent,
-    ProfileOverviewCardComponent
+    ProfileOverviewCardComponent,
+    LecturerEditorPageComponent,
+    OrganizationEditorPageComponent
   ],
   imports: [
     CommonModule,
