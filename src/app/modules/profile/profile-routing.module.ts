@@ -4,11 +4,17 @@ import { OrganizationPageComponent } from '@modules/profile/pages/organization-p
 import { LecturerPageComponent } from '@modules/profile/pages/lecturer-page/lecturer-page.component';
 import { OrganizationEditorPageComponent } from '@modules/profile/pages/organization-editor-page/organization-editor-page.component';
 import { LecturerEditorPageComponent } from '@modules/profile/pages/lecturer-editor-page/lecturer-editor-page.component';
+import { LecturerOverviewPageComponent } from '@modules/profile/pages/lecturer-overview-page/lecturer-overview-page.component';
+import { OrganizationOverviewPageComponent } from '@modules/profile/pages/organization-overview-page/organization-overview-page.component';
 
 const routes: Routes = [
   {
     path: 'orgs',
     children: [
+      {
+        path: '',
+        component: OrganizationOverviewPageComponent
+      },
       {
         path: ':id',
         component: OrganizationPageComponent
@@ -22,6 +28,10 @@ const routes: Routes = [
   {
     path: 'lecturers',
     children: [
+      {
+        path: '',
+        component: LecturerOverviewPageComponent
+      },
       {
         path: ':id',
         component: LecturerPageComponent

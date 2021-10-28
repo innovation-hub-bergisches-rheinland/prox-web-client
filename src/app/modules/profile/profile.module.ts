@@ -36,6 +36,9 @@ import { ProfilePublicationsCardComponent } from '@modules/profile/components/pr
 import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
 import { LecturerEditorPageComponent } from './pages/lecturer-editor-page/lecturer-editor-page.component';
 import { OrganizationEditorPageComponent } from './pages/organization-editor-page/organization-editor-page.component';
+import { OverviewPageComponent } from './pages/overview-page/overview-page.component';
+import { LecturerOverviewPageComponent } from './pages/lecturer-overview-page/lecturer-overview-page.component';
+import { OrganizationOverviewPageComponent } from '@modules/profile/pages/organization-overview-page/organization-overview-page.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,10 @@ import { OrganizationEditorPageComponent } from './pages/organization-editor-pag
     ProfilePublicationsCardComponent,
     ProfileOverviewCardComponent,
     LecturerEditorPageComponent,
-    OrganizationEditorPageComponent
+    OrganizationEditorPageComponent,
+    OverviewPageComponent,
+    LecturerOverviewPageComponent,
+    OrganizationOverviewPageComponent
   ],
   imports: [
     CommonModule,
