@@ -9,9 +9,7 @@
 
 .logo-container {
   width: 160px;
-  height: 120px;
-  left: 340px;
-  top: 951px;
+  height: 160px;
 
   background: linear-gradient(
       180deg,
@@ -24,9 +22,12 @@
 .logo {
   background-color: white;
   margin: 10px;
-  height: 100px;
-  min-height: 100px;
-  max-height: 100px;
+  height: 140px;
+  width: 140px;
+  max-height: 140px;
+  max-width: 140px;
+  display: flex;
+  justify-content: center;
 }
 
 :host {
