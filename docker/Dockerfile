@@ -22,8 +22,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm ci --ignore-scripts
-RUN npm install -g @angular/cli@12.2.10 --unsafe
+RUN npm ci --include=dev
+#RUN npm install -g @angular/cli --unsafe
 
 # add app
 COPY . /usr/src/app
@@ -32,7 +32,7 @@ COPY . /usr/src/app
 #RUN ng test --watch=false
 
 # generate build
-RUN ng build --configuration=${APP_ENV}
+RUN npm run build -- --configuration=${APP_ENV}
 
 ##################
 ### production ###
