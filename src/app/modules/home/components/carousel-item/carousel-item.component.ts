@@ -3,7 +3,7 @@ import {
   HostBinding,
   Input,
   OnInit,
-  Renderer2
+  ViewEncapsulation
 } from '@angular/core';
 
 @Component({
@@ -16,10 +16,13 @@ export class CarouselItem implements OnInit {
   @Input()
   logoUrl: string;
 
+  @Input()
+  href: string;
+
   @HostBinding('class.active')
   active = false;
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }

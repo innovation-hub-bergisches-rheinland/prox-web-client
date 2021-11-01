@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+<div class="flex flex-col justify-around items-center gap-10">
   <div class="header">
     <img alt="Banner" src="/assets/images/home-banner.jpg" />
     <div class="caption mat-display-1">Finde dein perfektes Projekt</div>
@@ -6,8 +6,7 @@
 
   <div class="search">
     <form
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
+      class="flex flex-row justify-around items-center"
       (ngSubmit)="onSubmit()"
       [formGroup]="searchForm"
     >
@@ -46,9 +45,7 @@
   </div>
 
   <div
-    class="popularTags"
-    fxLayout="column"
-    fxLayoutAlign="space-around center"
+    class="flex flex-col justify-around items-center popularTags"
     *ngIf="popularTags$ | async as tags"
   >
     <h1>Häufige Tags</h1>
@@ -64,7 +61,7 @@
     </mat-chip-list>
   </div>
 
-  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="false">
+  <div class="flex flex-col justify-around items-center" *ngIf="true">
     <h1>Projektpartner</h1>
     <app-carousel [numItems]="4">
       <app-carousel-item

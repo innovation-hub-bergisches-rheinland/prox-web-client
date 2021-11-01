@@ -3,13 +3,13 @@ import { FlexModule } from '@angular/flex-layout';
 
 import { SharedModule } from '@shared/shared.module';
 import { CarouselItem } from './components/carousel-item/carousel-item.component';
-import { Carousel } from './components/carousel/carousel.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
-  declarations: [HomeComponent, CarouselItem, Carousel],
+  declarations: [HomeComponent, CarouselItem, CarouselComponent],
   imports: [SharedModule, HomeRoutingModule, FlexModule]
 })
 export class HomeModule {}

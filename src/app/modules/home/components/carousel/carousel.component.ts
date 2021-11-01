@@ -16,7 +16,7 @@ import { CarouselItem } from '../carousel-item/carousel-item.component';
   styleUrls: ['./carousel.component.scss'],
   host: { class: 'carousel' }
 })
-export class Carousel implements OnInit, AfterContentInit {
+export class CarouselComponent implements OnInit, AfterContentInit {
   @ContentChildren(CarouselItem)
   items: QueryList<CarouselItem>;
 
