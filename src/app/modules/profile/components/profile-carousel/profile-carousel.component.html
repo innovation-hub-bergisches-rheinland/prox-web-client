@@ -1,0 +1,8 @@
+<div>
+  <mat-carousel [hideArrows]="false" color="primary">
+    <mat-carousel-slide
+      *ngFor="let image of images"
+      [image]="image.path"
+    ></mat-carousel-slide>
+  </mat-carousel>
+</div>

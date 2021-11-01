@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MaterialModule } from './modules/material/material.module';
 import { ContentPageModule } from './modules/content-page/components/content-page/content-page.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LinkyPipe } from './pipes/linky.pipe';
 
 @NgModule({
@@ -20,7 +21,8 @@ import { LinkyPipe } from './pipes/linky.pipe';
     FlexLayoutModule,
 
     MaterialModule,
-    ContentPageModule
+    ContentPageModule,
+    FontAwesomeModule
   ],
   exports: [
     CommonModule,
@@ -33,6 +35,7 @@ import { LinkyPipe } from './pipes/linky.pipe';
     MaterialModule,
 
     ContentPageModule,
+    FontAwesomeModule,
     LinkyPipe
   ]
 })

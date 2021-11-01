@@ -1,6 +1,9 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import './theme.scss';
 @import './theme_variables.scss';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 .mat-drawer-container {
   min-width: 350px;

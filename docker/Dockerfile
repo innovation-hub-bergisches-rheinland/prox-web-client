@@ -5,6 +5,7 @@
 # base image
 FROM node:16.2.0-stretch as builder
 ARG APP_ENV=production
+ENV NODE_ENV=production
 
 # install chrome for protractor tests
 #RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -

@@ -1,0 +1,41 @@
+<div class="bg-white p-3 border-t-4 border-berry-500 max-w-sm min-w-full">
+  <div class="image overflow-hidden">
+    <img
+      class="h-auto w-auto mx-auto"
+      [src]="avatar"
+      [alt]="'Avatar of ' + title"
+      onerror="this.src='/assets/images/blank-profile-picture.png'"
+    />
+  </div>
+  <h1 class="text-gray-900 font-bold text-2xl leading-8 my-2">{{ title }}</h1>
+  <h3 class="text-gray-600 font-lg text-semibold leading-6" *ngIf="subtitle">
+    {{ subtitle }}
+  </h3>
+  <div class="flex flex-row gap-1 flex-wrap" *ngIf="socialMedia">
+    <app-social-media-button
+      [socialMedia]="'FACEBOOK'"
+      [handle]="socialMedia.facebook"
+      *ngIf="socialMedia.facebook"
+    ></app-social-media-button>
+    <app-social-media-button
+      [socialMedia]="'TWITTER'"
+      [handle]="socialMedia.twitter"
+      *ngIf="socialMedia.twitter"
+    ></app-social-media-button>
+    <app-social-media-button
+      [socialMedia]="'INSTAGRAM'"
+      [handle]="socialMedia.instagram"
+      *ngIf="socialMedia.instagram"
+    ></app-social-media-button>
+    <app-social-media-button
+      [socialMedia]="'XING'"
+      [handle]="socialMedia.xing"
+      *ngIf="socialMedia.xing"
+    ></app-social-media-button>
+    <app-social-media-button
+      [socialMedia]="'LINKEDIN'"
+      [handle]="socialMedia.linkedIn"
+      *ngIf="socialMedia.linkedIn"
+    ></app-social-media-button>
+  </div>
+</div>

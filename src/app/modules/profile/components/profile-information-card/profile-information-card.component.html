@@ -1,0 +1,18 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faAddressCard">
+    <app-profile-card-title>Über</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <div class="grid md:grid-cols-2 text-sm">
+      <ng-container *ngFor="let entry of entries">
+        <app-profile-information-card-entry
+          *ngIf="entry.value && entry.value.trim().length > 0"
+          [linkable]="entry.linkable"
+          [value]="entry.value"
+          [title]="entry.key"
+        ></app-profile-information-card-entry>
+      </ng-container>
+      <ng-content select="app-profile-information-card-entry"></ng-content>
+    </div>
+  </app-profile-card-content>
+</app-profile-card>

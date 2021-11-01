@@ -1,0 +1,10 @@
+<app-profile-page
+  *ngIf="organizationProfile"
+  [profile]="organizationProfile"
+  [sash]="organizationSash"
+  [carouselImages]="sliderImages"
+  [projectHistory]="projectHistory | async"
+  [availableProjects]="projects | async"
+  [availableJobs]="jobs | async"
+  [showEditRow]="hasPermission"
+></app-profile-page>
