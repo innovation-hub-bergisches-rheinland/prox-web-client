@@ -10,7 +10,8 @@ module.exports = {
     enabled: process.env.NODE_ENV === 'production',
     content: ['./src/**/*.{html,ts}']
   },
-  darkMode: 'class', // or 'media' or 'class'
+  mode: 'aot',
+  darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
       ...colors,
@@ -41,7 +42,7 @@ module.exports = {
         900: '#8c1363'
       },
       // InnoHub Light Blue
-      lightBlue: {
+      sky: {
         50: '#e0f3fc',
         100: '#b3e2f7',
         200: '#80cff1',
@@ -58,7 +59,7 @@ module.exports = {
       colors: {
         primary: theme('colors.blue'),
         secondary: theme('colors.berry'),
-        neutral: theme('colors.neutral')
+        neutral: theme('colors.sky')
       }
     })
   },
