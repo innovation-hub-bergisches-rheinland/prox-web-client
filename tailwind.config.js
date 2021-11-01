@@ -68,5 +68,5 @@ module.exports = {
       backgroundColor: ['odd']
     }
   },
-  plugins: []
+  plugins: [require('@tailwindcss/aspect-ratio')]
 };

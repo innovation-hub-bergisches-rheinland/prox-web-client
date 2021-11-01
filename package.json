@@ -31,6 +31,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@ngbmodule/material-carousel": "^0.7.1",
+    "@tailwindcss/aspect-ratio": "^0.3.0",
     "angular-responsive-carousel": "^2.1.2",
     "autolinker": "^3.14.3",
     "core-js": "^3.19.0",

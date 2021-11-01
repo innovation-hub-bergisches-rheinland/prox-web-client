@@ -8,26 +8,35 @@
         <mat-card-content>
           <form [formGroup]="profileForm">
             <h3>Persönliche Daten</h3>
-            <div class="grid grid-cols-4">
-              <div class="col-span-1">
-                <div>
-                  <img alt="Profile Image" [src]="imageSrc" />
-                </div>
-
-                <button mat-raised-button (click)="deleteProfileImage()">
-                  <mat-icon>close</mat-icon> Profilbild entfernen
-                </button>
-                <button mat-raised-button (click)="fileInput.click()">
-                  <mat-icon>publish</mat-icon> Profilbild hochladen
-                  <input
-                    #fileInput
-                    style="display: none"
-                    type="file"
-                    id="file"
-                    accept="image/jpeg, image/png, image/gif"
-                    (change)="change($event)"
+            <div class="grid grid-cols-4 gap-4">
+              <div class="flex flex-col gap-4 col-span-1">
+                <div class="aspect-w-1 aspect-h-1">
+                  <img
+                    class="object-scale-down"
+                    alt="Profile Image"
+                    [src]="imageSrc"
                   />
-                </button>
+                </div>
+                <div class="flex flex-row gap-2">
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="deleteProfileImage()"
+                  >
+                    <mat-icon>close</mat-icon> Entfernen
+                  </button>
+                  <button mat-raised-button (click)="fileInput.click()">
+                    <mat-icon>publish</mat-icon> Hochladen
+                    <input
+                      #fileInput
+                      style="display: none"
+                      type="file"
+                      id="file"
+                      accept="image/jpeg, image/png, image/gif"
+                      (change)="change($event)"
+                    />
+                  </button>
+                </div>
               </div>
               <div class="col-span-3 flex flex-col gap-4">
                 <mat-form-field appearance="fill">
