@@ -23,7 +23,6 @@ export interface AvailableProject {
 export class ProfileProjectsCardComponent implements OnInit {
   @Input()
   projects: AvailableProject[];
-  displayedColumns: string[] = ['name', 'type'];
 
   faTask = faTasks;
 

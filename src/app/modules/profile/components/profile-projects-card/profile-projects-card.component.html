@@ -3,33 +3,15 @@
     <app-profile-card-title>Verfügbare Projekte</app-profile-card-title>
   </app-profile-card-header>
   <app-profile-card-content>
-    <mat-table [dataSource]="projects">
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Thema</mat-header-cell>
-        <mat-cell
-          mat-cell
-          *matCellDef="let element"
-          fxLayout="column"
-          fxLayoutAlign="start "
-        >
-          <a [routerLink]="['/projects/' + element.id]" class="hover:underline">
-            {{ element.name }}
-          </a>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef>Art</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <ul class="list-disc list-inside">
-            <li *ngFor="let type of element.modules">
-              {{ type }}
-            </li>
-          </ul>
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
+    <div class="flex flex-col gap-2">
+      <app-profile-project-card-item
+        class="odd:bg-gray-100"
+        *ngFor="let project of projects"
+        [title]="project.name"
+        [id]="project.id"
+        [modules]="project.modules"
+      >
+      </app-profile-project-card-item>
+    </div>
   </app-profile-card-content>
 </app-profile-card>

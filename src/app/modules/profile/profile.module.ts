@@ -39,6 +39,8 @@ import { OrganizationEditorPageComponent } from './pages/organization-editor-pag
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component';
 import { LecturerOverviewPageComponent } from './pages/lecturer-overview-page/lecturer-overview-page.component';
 import { OrganizationOverviewPageComponent } from '@modules/profile/pages/organization-overview-page/organization-overview-page.component';
+import { ProfileProjectCardItemComponent } from './components/profile-projects-card/profile-project-card-item/profile-project-card-item.component';
+import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/profile-jobs-card-item/profile-jobs-card-item.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { OrganizationOverviewPageComponent } from '@modules/profile/pages/organi
     OrganizationEditorPageComponent,
     OverviewPageComponent,
     LecturerOverviewPageComponent,
-    OrganizationOverviewPageComponent
+    OrganizationOverviewPageComponent,
+    ProfileProjectCardItemComponent,
+    ProfileJobsCardItemComponent
   ],
   imports: [
     CommonModule,

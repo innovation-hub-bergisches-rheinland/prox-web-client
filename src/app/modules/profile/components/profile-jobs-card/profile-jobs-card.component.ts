@@ -18,8 +18,6 @@ export class ProfileJobsCardComponent implements OnInit {
   @Input()
   jobs: AvailableJob[];
 
-  displayedColumns: string[] = ['name', 'level'];
-
   constructor() {}
 
   ngOnInit(): void {}

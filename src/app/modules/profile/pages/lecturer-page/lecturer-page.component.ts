@@ -143,7 +143,7 @@ export class LecturerPageComponent implements OnInit {
                     return {
                       id: project.id,
                       name: project.name,
-                      modules: value.modules.map(m => m.name)
+                      modules: value.modules.map(m => m.key)
                     };
                   })
                 )

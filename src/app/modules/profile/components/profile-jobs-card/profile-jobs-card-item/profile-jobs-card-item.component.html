@@ -1,0 +1,8 @@
+<div class="flex flex-col">
+  <a [routerLink]="['/jobs/' + id]" class="hover:underline">
+    {{ title }}
+  </a>
+  <b *ngIf="levels && levels.length > 0">
+    {{ this.levelsAsString }}
+  </b>
+</div>
