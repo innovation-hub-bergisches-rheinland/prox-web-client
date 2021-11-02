@@ -45,7 +45,7 @@ export class OrganizationEditorComponent implements OnInit {
         this.toastService.showToast({
           message: 'Organisation wurde erfolgreich angelegt'
         });
-        this.router.navigate(['..', '..']); // TODO: Navigate to org
+        this.router.navigate(['/user', 'organizations']);
       }
     });
   }
