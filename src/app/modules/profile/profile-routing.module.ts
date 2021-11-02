@@ -16,12 +16,12 @@ const routes: Routes = [
         component: OrganizationOverviewPageComponent
       },
       {
-        path: ':id',
-        component: OrganizationPageComponent
+        path: 'new',
+        component: OrganizationEditorPageComponent
       },
       {
-        path: ':id/edit',
-        component: OrganizationEditorPageComponent
+        path: ':id',
+        component: OrganizationPageComponent
       }
     ]
   },

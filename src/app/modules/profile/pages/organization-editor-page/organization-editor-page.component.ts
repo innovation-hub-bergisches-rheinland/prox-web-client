@@ -45,7 +45,7 @@ export class OrganizationEditorPageComponent implements OnInit {
   profileForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     numberOfEmployees: new FormControl(''),
-    headquarter: new FormControl(''),
+    headquarter: new FormControl('', Validators.required),
     homepage: new FormControl(''),
     foundation: new FormControl(''),
     vita: new FormControl(''),
@@ -112,7 +112,7 @@ export class OrganizationEditorPageComponent implements OnInit {
   get company(): Company {
     return {
       id: this.companyId,
-      creatorId: this._company.creatorId ?? null,
+      creatorId: this._company?.creatorId ?? null,
       branches: this.branches,
       quarters: this.quarters,
       information: {
@@ -126,7 +126,7 @@ export class OrganizationEditorPageComponent implements OnInit {
         ]
       },
       headquarter: {
-        location: this.profileForm.value['headquarter']
+        location: this.profileForm.value['headquarter'].trim()
       },
       socialMedia: this.buildSocialMediaArray()
     };
