@@ -5,6 +5,8 @@ import { PostOrganizationRequest } from '@data/schema/openapi/user-service/postO
 import { OrganizationService } from '@data/service/organization.service';
 import { UserService } from '@data/service/user.service';
 import { ToastService } from '@modules/toast/toast.service';
+import { CompanyProfileService } from '@data/service/company-profile.service';
+import { forkJoin } from 'rxjs';
 
 type Organization = PostOrganizationRequest;
 
@@ -26,6 +28,7 @@ export class OrganizationEditorComponent implements OnInit {
 
   constructor(
     private organizationService: OrganizationService,
+    private companyService: CompanyProfileService,
     private toastService: ToastService,
     private router: Router
   ) {}
@@ -33,7 +36,16 @@ export class OrganizationEditorComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    this.organizationService.createOrganization(this.organization).subscribe({
+    // TODO: Profile only for demonstration purposes -> remove after demo
+    forkJoin({
+      org: this.organizationService.createOrganization(this.organization),
+      profile: this.companyService.saveCompanyProfile({
+        id: undefined,
+        information: {
+          ...this.organization
+        }
+      })
+    }).subscribe({
       error: err => {
         console.error(err);
         this.toastService.showToast({
@@ -42,6 +54,7 @@ export class OrganizationEditorComponent implements OnInit {
         });
       },
       next: org => {
+        console.log(org);
         this.toastService.showToast({
           message: 'Organisation wurde erfolgreich angelegt'
         });
