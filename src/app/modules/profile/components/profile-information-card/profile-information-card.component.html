@@ -14,5 +14,6 @@
       </ng-container>
       <ng-content select="app-profile-information-card-entry"></ng-content>
     </div>
+    <i *ngIf="!_items || _items.length === 0">Keine Informationen angegeben</i>
   </app-profile-card-content>
 </app-profile-card>

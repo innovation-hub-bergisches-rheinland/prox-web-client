@@ -99,7 +99,9 @@
         <app-profile-jobs-card [jobs]="availableJobs"> </app-profile-jobs-card>
       </div>
       <div class="lg:col-span-2">
-        <app-profile-project-history>
+        <app-profile-project-history
+          *ngIf="projectHistory && projectHistory.length > 0"
+        >
           <app-profile-project-history-item
             *ngFor="let project of projectHistory"
             [project]="project"
