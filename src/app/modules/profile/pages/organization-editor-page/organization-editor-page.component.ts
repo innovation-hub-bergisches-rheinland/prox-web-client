@@ -45,11 +45,11 @@ export class OrganizationEditorPageComponent implements OnInit {
   profileForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     numberOfEmployees: new FormControl(''),
-    headquarter: new FormControl('', Validators.required),
+    headquarter: new FormControl(''),
     homepage: new FormControl(''),
     foundation: new FormControl(''),
     vita: new FormControl(''),
-    socialMedia: new FormGroup({}), //Populated in ngOnInit,
+    socialMedia: new FormGroup({}), // Populated in ngOnInit,
     contact: new FormGroup({
       contactEmail: new FormControl('', Validators.email)
     })
@@ -58,8 +58,8 @@ export class OrganizationEditorPageComponent implements OnInit {
   allLanguages: Language[] = [];
   languages: Language[] = [];
   filteredLanguages: Observable<Language[]>;
-  hasPermission: boolean = false;
-  private exists: boolean = false;
+  hasPermission = false;
+  private exists = false;
 
   @ViewChild('languageInput') languageInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -86,7 +86,7 @@ export class OrganizationEditorPageComponent implements OnInit {
       homepage: company.information.homepage ?? '',
       numberOfEmployees: company.information.numberOfEmployees ?? '',
       vita: company.information.vita ?? '',
-      headquarter: company.headquarter.location ?? '',
+      headquarter: company.headquarter?.location ?? '',
       socialMedia: this.buildSocialMediaObject(company),
       contact: {
         contactEmail: company.information.contactEmail ?? ''
@@ -116,25 +116,26 @@ export class OrganizationEditorPageComponent implements OnInit {
       branches: this.branches,
       quarters: this.quarters,
       information: {
-        name: this.profileForm.value['name'],
-        foundingDate: this.profileForm.value['foundation'],
-        homepage: this.profileForm.value['homepage'],
-        numberOfEmployees: this.profileForm.value['numberOfEmployees'],
-        vita: this.profileForm.value['vita'],
-        contactEmail: (this.profileForm.get('contact') as FormGroup).value[
-          'contactEmail'
-        ]
+        name: this.profileForm.value.name,
+        foundingDate: this.profileForm.value.foundation,
+        homepage: this.profileForm.value.homepage,
+        numberOfEmployees: this.profileForm.value.numberOfEmployees,
+        vita: this.profileForm.value.vita,
+        contactEmail: (this.profileForm.get('contact') as FormGroup).value
+          .contactEmail
       },
-      headquarter: {
-        location: this.profileForm.value['headquarter'].trim()
-      },
+      headquarter: this.profileForm.value.headquarter.trim()
+        ? {
+            location: this.profileForm.value.headquarter.trim()
+          }
+        : null,
       socialMedia: this.buildSocialMediaArray()
     };
   }
 
   private buildSocialMediaArray(): SocialMedia[] {
     const socialMedia: SocialMedia[] = [];
-    //string is the form control name
+    // string is the form control name
     const socialMediaPlatforms: [string, SocialMedia.TypeEnum][] = [
       ['facebook', SocialMedia.TypeEnum.Facebook],
       ['twitter', SocialMedia.TypeEnum.Twitter],
@@ -159,7 +160,7 @@ export class OrganizationEditorPageComponent implements OnInit {
       const value = (smForm.value[sm] as string).trim();
       if (value && value.length > 0) {
         arr.push({
-          type: type,
+          type,
           account: value
         });
       }
@@ -188,12 +189,12 @@ export class OrganizationEditorPageComponent implements OnInit {
     this.route.params
       .pipe(
         mergeMap(params =>
-          this.companyProfileService.getCompanyById(params['id'])
+          this.companyProfileService.getCompanyById(params.id)
         ),
         tap(c => {
           this.keycloakService.isLoggedIn().then(isLoggedIn => {
             if (isLoggedIn) {
-              let userId = this.keycloakService.getKeycloakInstance().subject;
+              const userId = this.keycloakService.getKeycloakInstance().subject;
               this.hasPermission =
                 this.keycloakService.isUserInRole('company-manager') &&
                 userId === c.creatorId;
@@ -344,7 +345,7 @@ export class OrganizationEditorPageComponent implements OnInit {
         this.imageSrc = e.target.result;
       };
 
-      reader.readAsDataURL(this.image); //Set preview
+      reader.readAsDataURL(this.image); // Set preview
     }
   }
 
@@ -360,7 +361,7 @@ export class OrganizationEditorPageComponent implements OnInit {
    * Saves the professor
    */
   onSubmit() {
-    //When exists update, else save new
+    // When exists update, else save new
     const saveObservable: Observable<Company> = this.exists
       ? this.companyProfileService.updateCompanyProfile(
           this.companyId,

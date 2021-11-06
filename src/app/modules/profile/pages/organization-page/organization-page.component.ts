@@ -85,7 +85,7 @@ export class OrganizationPageComponent implements OnInit {
               },
               {
                 key: 'Hauptsitz',
-                value: this._company.headquarter.location
+                value: this._company.headquarter?.location
               },
               {
                 key: 'Weitere Standorte',
