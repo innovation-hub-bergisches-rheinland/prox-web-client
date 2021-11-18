@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  DOCKER_REGISTRY: quay.io/innovation-hub-bergisches-rheinland
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: 'npm'
+      - name: Read package.json
+        id: package
+        run: |
+          content=`cat ./package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=json::$content"
+      - name: Extract properties
+        id: package-properties
+        run: |
+          echo "::set-output name=revision::${{ fromJson(steps.package.outputs.json).version }}"
+          echo "::set-output name=image::${{ fromJson(steps.package.outputs.json).name }}"
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ secrets.QUAY_IO_USERNAME }}
+          password: ${{ secrets.QUAY_IO_PASSWORD }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: docker/Dockerfile
+          context: .
+          tags: "${{ env.DOCKER_REGISTRY }}/${{ steps.package-properties.outputs.image }}:${{ steps.package-properties.outputs.version }}"
