@@ -75,7 +75,7 @@ jobs:
 
   # And now build and push the docker image
   release:
-    name: Build and push Docker image (Snapshot release)
+    name: Release
 
     # But not on pull requests, only on pushes to main
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
@@ -102,6 +102,8 @@ jobs:
         with:
           path: ./dist/
           name: dist.zip
+      - name: Install Semantic Release plugins
+        run: npm install @semantic-release/git -D
       - name: Release
         env:
           DOCKER_REGISTRY_USER: ${{ secrets.QUAY_IO_USERNAME }}
