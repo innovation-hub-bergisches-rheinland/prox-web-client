@@ -10,8 +10,51 @@ on:
 
 env:
   NODE_VERSION: 16.x
+  DOCKER_REGISTRY: quay.io/innovation-hub-bergisches-rheinland
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.package-properties.outputs.version }}
+      name: ${{ steps.package-properties.outputs.name }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: 'npm'
+      - name: Read package.json
+        id: package
+        run: |
+          content=`cat ./package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=json::$content"
+      - name: Extract properties
+        id: package-properties
+        run: |
+          echo "::set-output name=version::${{ fromJson(steps.package.outputs.json).version }}"
+          echo "::set-output name=name::${{ fromJson(steps.package.outputs.json).name }}"
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build Angular Application
+        run: npm run build -- --prod
+      # Upload the built artifacts
+      - name: Store Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist.zip
+          retention-days: 2
+          path: |
+            ./dist
+
   checkstyle:
     name: Checkstyle
 
@@ -29,3 +72,41 @@ jobs:
       - run: npm ci
 
       - run: npm run lint
+
+  # And now build and push the docker image
+  release:
+    name: Build and push Docker image (Snapshot release)
+
+    # But not on pull requests, only on pushes to main
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+
+    runs-on: ubuntu-latest
+
+    needs: [build]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ secrets.QUAY_IO_USERNAME }}
+          password: ${{ secrets.QUAY_IO_PASSWORD }}
+      - name: Download built artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: ./dist/
+          name: dist.zip
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: ./docker/Dockerfile
+          context: .
+          tags:
+            '${{ env.DOCKER_REGISTRY }}/${{ needs.build.outputs.name }}:${{
+            needs.build.outputs.version }}'
