@@ -22,6 +22,8 @@
     "@angular/platform-browser": "~12.0.2",
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "autolinker": "^3.14.3",
     "core-js": "^3.13.0",
     "flag-icon-css": "^3.5.0",
