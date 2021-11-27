@@ -8,8 +8,6 @@ import { DialogData } from './dialog-data.interface';
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.css']
 })
-export class ConfirmDialogComponent implements OnInit {
+export class ConfirmDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  ngOnInit() {}
 }

@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile-overview-card',
   templateUrl: './profile-overview-card.component.html',
-  styleUrls: ['./profile-overview-card.component.scss'],
-  host: { class: 'profile-overview' }
+  styleUrls: ['./profile-overview-card.component.scss']
 })
-export class ProfileOverviewCardComponent implements OnInit {
+export class ProfileOverviewCardComponent {
+  @HostBinding('class')
+  classes: string = 'profile-overview';
+
   @Input()
   title: string;
 
@@ -49,6 +51,4 @@ export class ProfileOverviewCardComponent implements OnInit {
   numFinishedProjects: number = 0;
 
   constructor() {}
-
-  ngOnInit() {}
 }

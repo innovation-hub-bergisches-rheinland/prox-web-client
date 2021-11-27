@@ -2,6 +2,7 @@ import {
   AfterContentChecked,
   Component,
   ContentChildren,
+  HostBinding,
   QueryList
 } from '@angular/core';
 import { ProfilePageProjectsHistoryItemComponent } from './profile-page-projects-history-item/profile-page-projects-history-item.component';
@@ -9,12 +10,14 @@ import { ProfilePageProjectsHistoryItemComponent } from './profile-page-projects
 @Component({
   selector: 'app-profile-page-projects-history',
   templateUrl: './profile-page-projects-history.component.html',
-  styleUrls: ['./profile-page-projects-history.component.scss'],
-  host: { class: 'profile-projects-history' }
+  styleUrls: ['./profile-page-projects-history.component.scss']
 })
 export class ProfilePageProjectsHistoryComponent
   implements AfterContentChecked
 {
+  @HostBinding('class')
+  classes: string = 'profile-projects-history';
+
   @ContentChildren(ProfilePageProjectsHistoryItemComponent)
   _items: QueryList<ProfilePageProjectsHistoryItemComponent>;
   selectedIndex = 0;

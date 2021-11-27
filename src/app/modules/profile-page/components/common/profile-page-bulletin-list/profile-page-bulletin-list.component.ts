@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { HostBinding, Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 
 export interface ProfileBulletin {
@@ -9,14 +9,14 @@ export interface ProfileBulletin {
 @Component({
   selector: 'app-profile-page-bulletin-list',
   templateUrl: './profile-page-bulletin-list.component.html',
-  styleUrls: ['./profile-page-bulletin-list.component.scss'],
-  host: { class: 'profile-bulletin' }
+  styleUrls: ['./profile-page-bulletin-list.component.scss']
 })
-export class ProfilePageBulletinListComponent implements OnInit {
+export class ProfilePageBulletinListComponent {
+  @HostBinding('class')
+  classes: string = 'profile-bulletin';
+
   @Input()
   bulletinList: ProfileBulletin;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

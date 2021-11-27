@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
 
 export interface LanguageInformation {
@@ -24,10 +24,12 @@ export interface LanguageInformation {
         {{ language.germanName }}
       </li>
     </ul>
-  `,
-  host: { class: 'language-information' }
+  `
 })
-export class CompanyLanguageInformationComponent implements OnInit {
+export class CompanyLanguageInformationComponent {
+  @HostBinding('class')
+  classes: string = 'language-information';
+
   @Input()
   information: LanguageInformation;
 
@@ -38,6 +40,4 @@ export class CompanyLanguageInformationComponent implements OnInit {
   }
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

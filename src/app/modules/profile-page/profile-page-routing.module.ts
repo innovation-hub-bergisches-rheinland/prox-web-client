@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CompanyOverviewComponent } from './pages/company/companies-overview/companies-overview.component';
-import { CompanyProfileEditor } from './pages/company/company-profile-editor/company-profile-editor.component';
+import { CompanyProfileEditorComponent } from './pages/company/company-profile-editor/company-profile-editor.component';
 import { CompanyProfileComponent } from './pages/company/company-profile/company-profile.component';
-import { ProfessorProfileEditor } from './pages/professor/professor-profile-editor/professor-profile-editor.component';
+import { ProfessorProfileEditorComponent } from './pages/professor/professor-profile-editor/professor-profile-editor.component';
 import { ProfessorProfileComponent } from './pages/professor/professor-profile/professor-profile.component';
 import { ProfessorsOverviewComponent } from './pages/professor/professors-overview/professors-overview.component';
 
@@ -25,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: ':id/edit',
-        component: CompanyProfileEditor
+        component: CompanyProfileEditorComponent
       }
     ]
   },
@@ -42,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: ':id/edit',
-        component: ProfessorProfileEditor
+        component: ProfessorProfileEditorComponent
       }
     ]
   }

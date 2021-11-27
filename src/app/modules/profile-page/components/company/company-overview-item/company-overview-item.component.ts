@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 
@@ -12,10 +12,12 @@ import { CompanyProfileService } from '@data/service/company-profile.service';
       [imgSrc]="logoUrl"
       [chips]="branches"
     ></app-profile-overview-card>
-  `,
-  host: { '[class.company-item-wrapper]': 'true' }
+  `
 })
-export class CompanyItemComponent implements OnInit {
+export class CompanyItemComponent {
+  @HostBinding('[class.company-item.wrapper]')
+  wrapper = true;
+
   @Input()
   company: Company;
 
@@ -36,6 +38,4 @@ export class CompanyItemComponent implements OnInit {
   }
 
   constructor(public companyService: CompanyProfileService) {}
-
-  ngOnInit() {}
 }

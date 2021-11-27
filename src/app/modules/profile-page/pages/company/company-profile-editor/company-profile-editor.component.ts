@@ -26,7 +26,7 @@ import { ThrowStmt } from '@angular/compiler';
   templateUrl: './company-profile-editor.component.html',
   styleUrls: ['./company-profile-editor.component.scss']
 })
-export class CompanyProfileEditor implements OnInit {
+export class CompanyProfileEditorComponent implements OnInit {
   socialMediaPlatforms: [string, SocialMedia.TypeEnum, string, string][] = [
     ['facebook', SocialMedia.TypeEnum.Facebook, 'fa-facebook', 'Facebook'],
     ['twitter', SocialMedia.TypeEnum.Twitter, 'fa-twitter', 'Twitter'],

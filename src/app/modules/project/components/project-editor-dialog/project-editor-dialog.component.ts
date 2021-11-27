@@ -8,15 +8,13 @@ import { Project } from '@data/schema/openapi/project-service/project';
   templateUrl: './project-editor-dialog.component.html',
   styleUrls: ['./project-editor-dialog.component.scss']
 })
-export class ProjectEditorDialogComponent implements OnInit {
+export class ProjectEditorDialogComponent {
   isDraft: boolean = false;
 
   constructor(
     public projectDialogRef: MatDialogRef<ProjectEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public project: Project
   ) {}
-
-  ngOnInit() {}
 
   projectSaved(event: Project) {
     this.projectDialogRef.close(event);

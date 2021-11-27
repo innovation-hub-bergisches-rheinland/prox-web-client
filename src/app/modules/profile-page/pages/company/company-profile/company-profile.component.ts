@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
@@ -19,10 +19,12 @@ import { map, mergeMap, toArray } from 'rxjs/operators';
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
-  styleUrls: ['./company-profile.component.scss'],
-  host: { class: 'company-profile' }
+  styleUrls: ['./company-profile.component.scss']
 })
 export class CompanyProfileComponent implements OnInit {
+  @HostBinding('class')
+  classes: string = 'company-profile';
+
   company: Company;
   languages: Language[] = [];
   socialMedia: SocialMedia[] = [];

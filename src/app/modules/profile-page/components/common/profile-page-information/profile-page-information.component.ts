@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { HostBinding, Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { TextProcessor } from '@app/util/text-processor';
 import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
@@ -18,10 +18,12 @@ export interface ProfilePageInformation {
 @Component({
   selector: 'app-profile-page-information',
   templateUrl: './profile-page-information.component.html',
-  styleUrls: ['./profile-page-information.component.scss'],
-  host: { class: 'profile-page-information' }
+  styleUrls: ['./profile-page-information.component.scss']
 })
-export class ProfilePageInformationComponent implements OnInit {
+export class ProfilePageInformationComponent {
+  @HostBinding('class')
+  classes: string = 'profile-page-information';
+
   @Input()
   information: ProfilePageInformation;
 
@@ -35,8 +37,6 @@ export class ProfilePageInformationComponent implements OnInit {
   }
 
   constructor(public textProcessor: TextProcessor) {}
-
-  ngOnInit(): void {}
 
   getDescription(description: string): string {
     if (!description.trim().endsWith(':')) {

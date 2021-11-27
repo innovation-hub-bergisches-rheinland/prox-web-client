@@ -10,7 +10,7 @@
     </button>
 
     <mat-icon
-      *ngIf="project.status == 'VERFÜGBAR'"
+      *ngIf="project.status === 'VERFÜGBAR'"
       matTooltip="Verfügbar"
       class="status-icon"
       color="primary"
@@ -19,7 +19,7 @@
     </mat-icon>
 
     <mat-icon
-      *ngIf="project.status == 'ABGESCHLOSSEN'"
+      *ngIf="project.status === 'ABGESCHLOSSEN'"
       matTooltip="Abgeschlossen"
       class="status-icon"
       color="primary"
@@ -28,7 +28,7 @@
     </mat-icon>
 
     <mat-icon
-      *ngIf="project.status == 'LAUFEND'"
+      *ngIf="project.status === 'LAUFEND'"
       matTooltip="Laufend"
       class="status-icon"
       color="primary"
@@ -37,7 +37,7 @@
     </mat-icon>
 
     <mat-icon
-      *ngIf="project.context == 'COMPANY'"
+      *ngIf="project.context === 'COMPANY'"
       matTooltip="Projekt in einem Unternehmen"
       class="context-icon"
       color="primary"

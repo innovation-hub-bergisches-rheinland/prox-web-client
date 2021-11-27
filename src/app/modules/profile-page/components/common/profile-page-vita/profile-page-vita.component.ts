@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { HostBinding, Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Professor } from '@data/schema/openapi/professor-profile-service/models';
 import { Observable, of } from 'rxjs';
@@ -11,14 +11,14 @@ export interface ProfileVita {
 @Component({
   selector: 'app-profile-page-vita',
   templateUrl: './profile-page-vita.component.html',
-  styleUrls: ['./profile-page-vita.component.scss'],
-  host: { class: 'profile-vita' }
+  styleUrls: ['./profile-page-vita.component.scss']
 })
-export class ProfilePageVitaComponent implements OnInit {
+export class ProfilePageVitaComponent {
+  @HostBinding('class')
+  classes: string = 'profile-vita';
+
   @Input()
   vita: ProfileVita;
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

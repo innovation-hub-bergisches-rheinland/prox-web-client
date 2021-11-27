@@ -1,4 +1,10 @@
-import { AfterViewInit, Input, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  HostBinding,
+  Input,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
@@ -16,10 +22,14 @@ export interface AvailableProject {
 @Component({
   selector: 'app-profile-page-available-projects',
   templateUrl: './profile-page-available-projects.component.html',
-  styleUrls: ['./profile-page-available-projects.component.scss'],
-  host: { class: 'profile-available-projects' }
+  styleUrls: ['./profile-page-available-projects.component.scss']
 })
-export class ProfilePageAvailableProjects implements OnInit, AfterViewInit {
+export class ProfilePageAvailableProjectsComponent
+  implements OnInit, AfterViewInit
+{
+  @HostBinding('class')
+  classes: string = 'profile-available-projects';
+
   displayedColumns = ['name', 'type'];
 
   //professor$: Observable<Professor>

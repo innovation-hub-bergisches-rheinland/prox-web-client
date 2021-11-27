@@ -4,21 +4,24 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
+  HostBinding,
   Input,
   OnInit,
   QueryList
 } from '@angular/core';
-import { CarouselItem } from '../carousel-item/carousel-item.component';
+import { CarouselItemComponent } from '../carousel-item/carousel-item.component';
 
 @Component({
   selector: 'app-carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.scss'],
-  host: { class: 'carousel' }
+  styleUrls: ['./carousel.component.scss']
 })
-export class Carousel implements OnInit, AfterContentInit {
-  @ContentChildren(CarouselItem)
-  items: QueryList<CarouselItem>;
+export class CarouselComponent implements AfterContentInit {
+  @HostBinding('class')
+  classes: string = 'carousel';
+
+  @ContentChildren(CarouselItemComponent)
+  items: QueryList<CarouselItemComponent>;
 
   @Input()
   numItems: number;
@@ -30,8 +33,6 @@ export class Carousel implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     this.pageItems();
   }
-
-  ngOnInit(): void {}
 
   goBackward(): void {
     if (this.items.length <= this.numItems) {

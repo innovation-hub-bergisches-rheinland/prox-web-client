@@ -9,10 +9,12 @@ import {
 @Component({
   selector: 'app-carousel-item',
   templateUrl: './carousel-item.component.html',
-  styleUrls: ['./carousel-item.component.scss'],
-  host: { class: 'carousel-item' }
+  styleUrls: ['./carousel-item.component.scss']
 })
-export class CarouselItem implements OnInit {
+export class CarouselItemComponent {
+  @HostBinding('class')
+  classes: string = 'carousel-item';
+
   @Input()
   logoUrl: string;
 
@@ -20,6 +22,4 @@ export class CarouselItem implements OnInit {
   active = false;
 
   constructor(private renderer: Renderer2) {}
-
-  ngOnInit(): void {}
 }

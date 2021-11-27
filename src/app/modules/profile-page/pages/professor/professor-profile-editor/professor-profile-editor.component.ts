@@ -34,7 +34,7 @@ import { mergeMap, map } from 'rxjs/operators';
   templateUrl: './professor-profile-editor.component.html',
   styleUrls: ['./professor-profile-editor.component.scss']
 })
-export class ProfessorProfileEditor implements OnInit {
+export class ProfessorProfileEditorComponent implements OnInit {
   _professor: Professor;
   professorId: string;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];

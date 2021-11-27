@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { EntityModelProfessorOverviewDto } from '@data/schema/openapi/professor-profile-service/models';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Observable } from 'rxjs';
@@ -17,10 +17,12 @@ import { map } from 'rxjs/operators';
     [numAvailableProjects]="this.numAvailableProjects"
     [numRunningProjects]="this.numRunningProjects"
     [numFinishedProjects]="this.numFinishedProjects"
-  ></app-profile-overview-card>`,
-  host: { '[class.professor-item-wrapper]': 'true' }
+  ></app-profile-overview-card>`
 })
 export class ProfessorOverviewItemComponent implements OnInit {
+  @HostBinding('[class.professor-item-wrapper]')
+  wrapper = true;
+
   _professor: EntityModelProfessorOverviewDto;
   faculty: Observable<string>;
   defaultImg: string = './assets/images/blank-profile-picture.png';
