@@ -26,7 +26,28 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key:
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: |
+          npm ci
+
       - name: Read package.json
         id: package
         run: |
@@ -37,16 +58,16 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=json::$content"
+
       - name: Extract properties
         id: package-properties
         run: |
           echo "::set-output name=version::${{ fromJson(steps.package.outputs.json).version }}"
           echo "::set-output name=name::${{ fromJson(steps.package.outputs.json).name }}"
-      - name: Install Dependencies
-        run: npm ci
+
       - name: Build Angular Application
         run: npm run build -- --prod
-      # Upload the built artifacts
+
       - name: Store Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -82,28 +103,35 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    needs: [build]
+    needs: [build, checkstyle]
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Download built artifacts
         uses: actions/download-artifact@v2
         with:
           path: ./dist/
           name: dist.zip
+
       - name: Install Semantic Release plugins
-        run: npm install @semantic-release/git -D
+        run:
+          npm install @semantic-release/git
+          @codedependant/semantic-release-docker -D
+
       - name: Release
         env:
           DOCKER_REGISTRY_USER: ${{ secrets.QUAY_IO_USERNAME }}
