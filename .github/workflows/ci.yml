@@ -136,4 +136,5 @@ jobs:
         env:
           DOCKER_REGISTRY_USER: ${{ secrets.QUAY_IO_USERNAME }}
           DOCKER_REGISTRY_PASSWORD: ${{ secrets.QUAY_IO_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
