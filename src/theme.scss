@@ -1,4 +1,5 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
+
 @import '~@angular/material/theming';
 @import './theme_variables.scss';
 @import './app/layout/content-layout/content-layout.component.theming.scss';
