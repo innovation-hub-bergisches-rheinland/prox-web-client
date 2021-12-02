@@ -2,8 +2,8 @@ import { Environment } from './IEnvironment';
 import { KeycloakConfig } from 'keycloak-js';
 
 const keycloakConfig: KeycloakConfig = {
-  url: 'https://login.archi-lab.io/auth',
-  realm: 'archilab',
+  url: 'https://login.aws.innovation-hub.de/auth',
+  realm: 'innovation-hub-bergisches-rheinland',
   clientId: 'prox-web-client'
 };
 
