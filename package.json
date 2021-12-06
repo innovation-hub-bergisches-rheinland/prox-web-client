@@ -36,6 +36,7 @@
     "lodash": "^4.17.21",
     "ngx-webstorage-service": "^4.1.0",
     "rxjs": "~6.5.3",
+    "semantic-release-helm": "^2.1.0",
     "tslib": "^2.2.0",
     "typewriter-effect": "^2.18.0",
     "zone.js": "~0.11.4"
