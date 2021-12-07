@@ -95,8 +95,8 @@ jobs:
       - run: npm run lint
 
   # And now build and push the docker image
-  release:
-    name: Release
+  bump-and-tag:
+    name: Bump and Tag
 
     # But not on pull requests, only on pushes to main
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
@@ -115,26 +115,16 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+      - name: Set Git Author to GitHub Actions bot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Run Standard-Version
+        run: |
+          npm i --save-dev @map-colonies/standard-version-update-helm-version standard-version
+          npx standard-version --no-verify --releaseCommitMessageFormat 'chore(release): {{currentTag}} [skip ci]'
 
-      - name: Download built artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: ./dist/
-          name: dist.zip
-
-      - name: Install Semantic Release plugins
-        run:
-          npm install @semantic-release/git
-          @codedependant/semantic-release-docker -D
-
-      - name: Release
-        env:
-          DOCKER_REGISTRY_USER: ${{ secrets.QUAY_IO_USERNAME }}
-          DOCKER_REGISTRY_PASSWORD: ${{ secrets.QUAY_IO_PASSWORD }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+      - name: Push Tag and version bumped assets
+        run: |
+          git push --follow-tags origin main
