@@ -48,23 +48,6 @@ jobs:
         run: |
           npm ci
 
-      - name: Read package.json
-        id: package
-        run: |
-          content=`cat ./package.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=json::$content"
-
-      - name: Extract properties
-        id: package-properties
-        run: |
-          echo "::set-output name=version::${{ fromJson(steps.package.outputs.json).version }}"
-          echo "::set-output name=name::${{ fromJson(steps.package.outputs.json).name }}"
-
       - name: Build Angular Application
         run: npm run build -- --prod
 
@@ -94,7 +77,6 @@ jobs:
 
       - run: npm run lint
 
-  # And now build and push the docker image
   bump-and-tag:
     name: Bump and Tag
 
