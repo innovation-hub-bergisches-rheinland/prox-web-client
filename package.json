@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "e2e": "ng e2e",
     "postinstall": "ngcc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "standard-version"
   },
   "private": true,
   "dependencies": {
