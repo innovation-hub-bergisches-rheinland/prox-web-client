@@ -31,17 +31,25 @@ jobs:
         run: |
           npm ci
 
-      - name: Build Angular Application
-        run: npm run build -- --prod
+      - name: Build
+        run: npm run build:ci
 
-      # Upload the built artifacts
-      - name: Store Artifacts
-        uses: actions/upload-artifact@v2
+      - name: Test
+        run: npm run test:ci
+
+      - name: Archive build
+        if: success()
+        uses: actions/upload-artifact@v1
         with:
           name: dist-release.zip
-          retention-days: 2
-          path: |
-            ./dist
+          path: dist
+
+      - name: Archive code coverage result
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage.zip
+          path: coverage
 
   # Build an Push a docker image
   build-and-push-image:

@@ -16,10 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    outputs:
-      version: ${{ steps.package-properties.outputs.version }}
-      name: ${{ steps.package-properties.outputs.name }}
-
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ env.NODE_VERSION }}
