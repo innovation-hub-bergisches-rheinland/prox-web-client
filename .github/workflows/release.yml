@@ -1,5 +1,8 @@
+# This workflow will release new version of the service
+
 name: Release
 
+# Whenever a Git Tag the SemVer Format, prefixed with 'v' is being pushed
 on:
   push:
     tags:
@@ -10,63 +13,9 @@ env:
   DOCKER_REGISTRY: quay.io/innovation-hub-bergisches-rheinland
 
 jobs:
-  verify:
-    name: Verify release
-
-    runs-on: ubuntu-latest
-
-    outputs:
-      version: ${{ steps.package-properties.outputs.version }}
-      name: ${{ steps.package-properties.outputs.name }}
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      - name: Get Tag version Value
-        id: tag
-        run: |
-          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-      - name: Read package.json
-        id: package
-        run: |
-          content=`cat ./package.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=json::$content"
-      - name: Extract properties
-        id: package-properties
-        run: |
-          echo "::set-output name=version::${{ fromJson(steps.package.outputs.json).version }}"
-          echo "::set-output name=name::${{ fromJson(steps.package.outputs.json).name }}"
-      - name: Read Chart.yaml
-        id: chart
-        uses: CumulusDS/get-yaml-paths-action@v0.1.0
-        with:
-          file: './deploy/charts/prox-web-client/Chart.yaml'
-          version: 'version'
-          appVersion: 'appVersion'
-      - name: Assert versions
-        run: |
-          if [ "${{ steps.package-properties.outputs.version }}" != "${{ steps.tag.outputs.version }}" ]; then
-            echo "The provided version in the package.json does not match the provided tag"
-            exit 1
-          fi
-          if [ "${{ steps.chart.outputs.version }}" != "${{ steps.tag.outputs.version }}" ]; then
-            echo "The provided version in the Chart.yaml does not match the provided tag"
-            exit 1
-          fi
-          if [ "${{ steps.chart.outputs.appVersion }}" != "${{ steps.tag.outputs.version }}" ]; then
-            echo "The provided appVersion in the Chart.yaml does not match the provided tag"
-            exit 1
-          fi
-
+  #########################
+  # Build the application
+  #########################
   build:
     runs-on: ubuntu-latest
 
@@ -76,46 +25,31 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          # caching node_modules
-          path: node_modules
-          key:
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{
-            hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          cache: 'npm'
 
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: |
           npm ci
 
       - name: Build Angular Application
         run: npm run build -- --prod
 
+      # Upload the built artifacts
       - name: Store Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: dist.zip
+          name: dist-release.zip
           retention-days: 2
           path: |
             ./dist
 
-  # And now build and push the docker image
+  # Build an Push a docker image
   build-and-push-image:
     name: Build and push Image
 
     runs-on: ubuntu-latest
 
-    needs: [build, verify]
+    needs: [build]
 
     steps:
       - uses: actions/checkout@v2
@@ -131,6 +65,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      # Generate docker tags and labels
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ${{ env.DOCKER_REGISTRY }}/prox-web-client
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
       - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@v1
         with:
@@ -142,7 +87,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: ./dist/
-          name: dist.zip
+          name: dist-release.zip
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -150,10 +95,10 @@ jobs:
           push: true
           file: ./docker/Dockerfile
           context: .
-          tags:
-            '${{ env.DOCKER_REGISTRY }}/${{ needs.verify.outputs.name }}:${{
-            needs.verify.outputs.version }}'
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
+  # New Helm release
   helm-chart-releaser:
     runs-on: ubuntu-latest
 
@@ -162,8 +107,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get Tag version Value
+        id: tag
+        run: |
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+
       - name: Publish Helm charts
         uses: stefanprodan/helm-gh-pages@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           charts_dir: ./deploy/charts
+          app_version: ${{ steps.tag.outputs.version }}
+          chart_version: ${{ steps.tag.outputs.version }}
