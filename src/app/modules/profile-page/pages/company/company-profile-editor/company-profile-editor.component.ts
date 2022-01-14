@@ -245,6 +245,8 @@ export class CompanyProfileEditorComponent implements OnInit {
     }
   }
 
+  // TODO: Remove Lodash Dependency as it is not required.
+  //       for additional info look at: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore
   addToArrayIfNotExists<T>(
     valueList: T[],
     value: T,

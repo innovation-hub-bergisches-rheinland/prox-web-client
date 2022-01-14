@@ -670,6 +670,8 @@ export class ProjectEditorComponent
           this.studyProgramSelection.selected.map(sp => sp.id)
         )
         .subscribe(res => {
+          // TODO: Remove Lodash Dependency as it is not required.
+          //       for additional info look at: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore
           // Elements to add
           const diffA = _.differenceWith(res, this.modules, _.isEqual);
 
