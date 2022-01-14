@@ -239,14 +239,6 @@
                   *ngFor="let language of filteredLanguages | async"
                   [value]="language"
                 >
-                  <span
-                    [ngClass]="
-                      language.iso3166Mapping
-                        ? 'flag-icon-' + language.iso3166Mapping
-                        : 'placeholder-flag'
-                    "
-                    class="flag-icon"
-                  ></span>
                   {{ language.germanName }}
                 </mat-option>
               </mat-autocomplete>

@@ -23,11 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/styles.scss",
-              "src/theme.scss",
-              "node_modules/flag-icon-css/css/flag-icon.min.css"
-            ],
+            "styles": ["src/styles.scss", "src/theme.scss"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,

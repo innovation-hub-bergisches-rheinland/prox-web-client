@@ -13,14 +13,6 @@ export interface LanguageInformation {
     <h1>{{ information.title }}</h1>
     <ul>
       <li *ngFor="let language of languages">
-        <span
-          [ngClass]="[
-            'flag-icon',
-            language.iso3166Mapping
-              ? 'flag-icon-' + language.iso3166Mapping
-              : 'placeholder-flag'
-          ]"
-        ></span>
         {{ language.germanName }}
       </li>
     </ul>
