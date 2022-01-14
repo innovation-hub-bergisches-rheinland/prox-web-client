@@ -8,11 +8,11 @@ import { Environment } from './IEnvironment';
 const keycloakConfig: KeycloakConfig = {
   url: 'https://login.aws.innovation-hub.de/auth',
   realm: 'innovation-hub-bergisches-rheinland',
-  clientId: 'prox-web-client'
+  clientId: 'prox-web-client-dev-local'
 };
 
 export const environment: Environment = {
   production: false,
   keycloakConfig,
-  apiUrl: 'https://api.dev.prox.aws.innovation-hub.de'
+  apiUrl: 'https://api.prox.aws.innovation-hub.de'
 };
