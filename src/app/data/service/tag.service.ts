@@ -50,7 +50,7 @@ export class TagService {
       .pipe(map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2))));
   }
 
-  getAllTagsOfProject(id: any): Observable<Tag[]> {
+  getAllTagsOfProject(id: string): Observable<Tag[]> {
     return this.tagCollectionEntityService
       .tagCollectionTagsUsingGET(id)
       .pipe(map(e => e._embedded.tags.map(e2 => Object.assign(new Tag(), e2))));

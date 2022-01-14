@@ -27,11 +27,30 @@ import {
   takeUntil
 } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
-import {
-  ModuleType,
-  Project,
-  StudyProgram
-} from '@data/schema/project-service.types';
+
+interface ModuleType {
+  key: string;
+  name: string;
+}
+
+interface StudyProgram {
+  id: string;
+  key: string;
+  name: string;
+}
+
+interface Project {
+  id: string;
+  status: 'VERFÜGBAR' | 'LAUFEND' | 'ABGESCHLOSSEN';
+  name: string;
+  shortDescription: string;
+  description: string;
+  requirement: string;
+  supervisorName: string;
+  creatorID: string;
+  context: 'PROFESSOR' | 'COMPANY';
+  modules: ModuleType[];
+}
 
 export interface QueryParams extends Params {
   state?: string;
@@ -271,6 +290,7 @@ export class ProjectComponent implements OnInit {
   public filterProjects() {
     forkJoin({
       projects: this.projectService.filterProjects(
+        'withModules',
         this.searchForm.controls.selectedStatusOption.value,
         this.searchForm.controls.selectedModuleTypes?.value?.map(
           mt => mt.key
@@ -339,7 +359,7 @@ export class ProjectComponent implements OnInit {
   }
 
   private getAllProjects() {
-    this.projectService.getAllProjects().subscribe({
+    this.projectService.getAllProjects('withModules').subscribe({
       next: projects => {
         this.projects = projects;
         this.filterProjects();

@@ -21,7 +21,8 @@
       [publications]="professor.publications"
     ></app-professor-publications>
     <app-profile-page-available-projects
-      [projects]="availableProjects$"
+      *ngIf="availableProjects$"
+      [availableProjects]="availableProjects$ | async"
     ></app-profile-page-available-projects>
     <app-profile-page-projects-history
       *ngIf="projectHistory && projectHistory.length > 0"

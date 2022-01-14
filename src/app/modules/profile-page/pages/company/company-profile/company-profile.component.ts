@@ -16,7 +16,8 @@ import { map, mergeMap, toArray } from 'rxjs/operators';
 import { ModuleType, Project } from '@data/schema/project-service.types';
 
 interface AvailableProject {
-  project: Project;
+  id: string;
+  name: string;
   modules?: ModuleType[];
 }
 
@@ -122,23 +123,10 @@ export class CompanyProfileComponent implements OnInit {
           this.company = res;
           this.socialMedia = this.company.socialMedia ?? [];
 
-          this.availableProjects$ = this.projectService
-            .findAvailableProjectsOfCreator(res.creatorId)
-            .pipe(
-              mergeMap(projects => projects),
-              mergeMap(project =>
-                forkJoin({
-                  modules: this.projectService.getModulesOfProject(project)
-                }).pipe(
-                  map((value: { modules: ModuleType[] }) => {
-                    return {
-                      project,
-                      modules: value.modules
-                    };
-                  })
-                )
-              ),
-              toArray()
+          this.availableProjects$ =
+            this.projectService.findAvailableProjectsOfCreator(
+              res.creatorId,
+              'withModules'
             );
 
           this.projectService

@@ -40,6 +40,10 @@ export type StudyProgramsWithModules = StudyProgram & {
   modules: ModuleType[];
 };
 
+export type ProjectWithModules = Project & {
+  modules: ModuleType[];
+};
+
 export type ProjectCollectionModel = CollectionModel<Project, 'projects'>;
 export type ModuleTypeCollectionModel = CollectionModel<
   ModuleType,

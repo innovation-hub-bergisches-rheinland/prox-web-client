@@ -8,6 +8,8 @@ import {
   ModuleTypeCollectionModel,
   Project,
   ProjectCollectionModel,
+  ProjectProjection,
+  ProjectWithModules,
   Status,
   StudyProgram,
   StudyProgramCollectionModel
@@ -68,18 +70,43 @@ export class ProjectService {
     );
   }
 
-  getProject(id: string): Observable<Project> {
-    return this.httpClient.get<Project>(`${this.basePath}/projects/${id}`, {
-      headers: {
-        Accept: 'application/json'
-      },
-      observe: 'body'
-    });
+  getProject(
+    id: string,
+    projection: 'withModules'
+  ): Observable<ProjectWithModules>;
+  getProject(id: string): Observable<Project>;
+  getProject(
+    id: string,
+    projection?: 'withModules'
+  ): Observable<Project | ProjectWithModules> {
+    let queryParams = new HttpParams();
+    if (projection) {
+      queryParams = queryParams.set('projection', projection);
+    }
+    return this.httpClient.get<Project | ProjectWithModules>(
+      `${this.basePath}/projects/${id}`,
+      {
+        params: queryParams,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      }
+    );
   }
 
-  getAllProjects(): Observable<Project[]> {
+  getAllProjects(projection: 'withModules'): Observable<ProjectWithModules[]>;
+  getAllProjects(): Observable<Project[]>;
+  getAllProjects(
+    projection?: 'withModules'
+  ): Observable<Project[] | ProjectWithModules[]> {
+    let queryParams = new HttpParams();
+    if (projection) {
+      queryParams = queryParams.set('projection', projection);
+    }
     return this.httpClient
       .get<ProjectCollectionModel>(`${this.basePath}/projects`, {
+        params: queryParams,
         headers: {
           Accept: 'application/json'
         },
@@ -88,7 +115,7 @@ export class ProjectService {
       .pipe(map(p => p._embedded.projects));
   }
 
-  deleteProject(project: Project): Observable<any> {
+  deleteProject(project: Pick<Project, 'id'>): Observable<any> {
     return this.httpClient.delete<any>(
       `${this.basePath}/projects/${project.id}`,
       {
@@ -100,7 +127,7 @@ export class ProjectService {
     );
   }
 
-  getModulesOfProject(project: Project): Observable<ModuleType[]> {
+  getModulesOfProject(project: Pick<Project, 'id'>): Observable<ModuleType[]> {
     return this.getModulesOfProjectById(project.id);
   }
 
@@ -118,8 +145,20 @@ export class ProjectService {
       .pipe(map(p => p._embedded.moduleTypes));
   }
 
-  findAvailableProjectsOfCreator(id: string): Observable<Project[]> {
-    const queryParameters = new HttpParams().set('creatorId', id);
+  findAvailableProjectsOfCreator(
+    id: string,
+    projection: 'withModules'
+  ): Observable<ProjectWithModules[]>;
+  findAvailableProjectsOfCreator(id: string): Observable<Project[]>;
+  findAvailableProjectsOfCreator(
+    id: string,
+    projection?: 'withModules'
+  ): Observable<Project[] | ProjectWithModules[]> {
+    let queryParameters = new HttpParams().set('creatorId', id);
+
+    if (projection) {
+      queryParameters = queryParameters.set('projection', projection);
+    }
 
     return this.httpClient
       .get<ProjectCollectionModel>(
@@ -225,10 +264,23 @@ export class ProjectService {
   }
 
   filterProjects(
+    projection: 'withModules',
     status?: Status,
     moduleTypeKeys?: string[],
     text?: string
-  ): Observable<Project[]> {
+  ): Observable<ProjectWithModules[]>;
+  filterProjects(
+    projection: null,
+    status?: Status,
+    moduleTypeKeys?: string[],
+    text?: string
+  ): Observable<Project[]>;
+  filterProjects(
+    projection?: 'withModules',
+    status?: Status,
+    moduleTypeKeys?: string[],
+    text?: string
+  ): Observable<Project[] | ProjectWithModules[]> {
     let queryParameters = new HttpParams();
     if (status) {
       queryParameters = queryParameters.set('status', status);
@@ -241,6 +293,9 @@ export class ProjectService {
     }
     if (text) {
       queryParameters = queryParameters.set('text', text);
+    }
+    if (projection) {
+      queryParameters = queryParameters.set('projection', projection);
     }
 
     return this.httpClient

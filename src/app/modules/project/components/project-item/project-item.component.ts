@@ -14,7 +14,24 @@ import { TagService } from '@data/service/tag.service';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-import { ModuleType, Project } from '@data/schema/project-service.types';
+
+interface ModuleType {
+  key: string;
+  name: string;
+}
+
+interface Project {
+  id: string;
+  status: 'VERFÜGBAR' | 'LAUFEND' | 'ABGESCHLOSSEN';
+  name: string;
+  shortDescription: string;
+  description: string;
+  requirement: string;
+  supervisorName: string;
+  creatorID: string;
+  context: 'PROFESSOR' | 'COMPANY';
+  modules: ModuleType[];
+}
 
 @Component({
   selector: 'app-project-item',
@@ -31,7 +48,6 @@ export class ProjectItemComponent implements OnInit {
   showShortDescription = false;
 
   projectTags$: Observable<Tag[]>;
-  projectModules: ModuleType[];
   projectSupervisors: string[] = [];
   projectCompany: string = '';
 
@@ -54,14 +70,6 @@ export class ProjectItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectService.getModulesOfProjectById(this.project.id).subscribe({
-      next: res => (this.projectModules = res),
-      error: err =>
-        this.openErrorSnackBar(
-          'Module konnten nicht geladen werden! Versuchen Sie es später nochmal.'
-        )
-    });
-
     this.projectTags$ = this.tagService
       .getAllTagsOfProject(this.project.id)
       .pipe(

@@ -92,7 +92,7 @@
           <div class="card-container">
             <mat-card-subtitle> Projekttypen: </mat-card-subtitle>
 
-            <p *ngFor="let module of projectModules">
+            <p *ngFor="let module of project.modules">
               <strong>({{ module.key }})</strong> {{ module.name }}
             </p>
           </div>

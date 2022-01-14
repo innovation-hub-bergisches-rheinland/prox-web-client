@@ -13,11 +13,15 @@ import { ProfilePageInformation } from '@modules/profile-page/components/common/
 import { ProfileVita } from '@modules/profile-page/components/common/profile-page-vita/profile-page-vita.component';
 import { KeycloakService } from 'keycloak-angular';
 import { forkJoin, Observable } from 'rxjs';
-import { map, mergeMap, toArray } from 'rxjs/operators';
-import { ModuleType, Project } from '@data/schema/project-service.types';
+
+interface ModuleType {
+  key: string;
+  name: string;
+}
 
 interface AvailableProject {
-  project: Project;
+  id: string;
+  name: string;
   modules: ModuleType[];
 }
 
@@ -152,23 +156,10 @@ export class ProfessorProfileComponent implements OnInit {
     );
 
     if (!this.noContent) {
-      this.availableProjects$ = this.projectService
-        .findAvailableProjectsOfCreator(this.professorId)
-        .pipe(
-          mergeMap(projects => projects),
-          mergeMap(project =>
-            forkJoin({
-              modules: this.projectService.getModulesOfProject(project)
-            }).pipe(
-              map((value: { modules: ModuleType[] }) => {
-                return {
-                  project,
-                  modules: value.modules
-                };
-              })
-            )
-          ),
-          toArray()
+      this.availableProjects$ =
+        this.projectService.findAvailableProjectsOfCreator(
+          this.professorId,
+          'withModules'
         );
 
       this.projectHistory$ =

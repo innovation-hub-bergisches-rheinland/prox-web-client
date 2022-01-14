@@ -16,11 +16,24 @@ import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-import {
-  ModuleType,
-  Project,
-  StudyProgram
-} from '@data/schema/project-service.types';
+
+interface ModuleType {
+  key: string;
+  name: string;
+}
+
+interface Project {
+  id: string;
+  status: 'VERFÜGBAR' | 'LAUFEND' | 'ABGESCHLOSSEN';
+  name: string;
+  shortDescription: string;
+  description: string;
+  requirement: string;
+  supervisorName: string;
+  creatorID: string;
+  context: 'PROFESSOR' | 'COMPANY';
+  modules: ModuleType[];
+}
 
 @Component({
   selector: 'app-project-details',
@@ -34,7 +47,6 @@ export class ProjectDetailsComponent implements OnInit {
   project: Project;
 
   projectTags$: Observable<Tag[]>;
-  projectModules: ModuleType[];
   projectSupervisors: string[] = [];
   projectCompany: string = '';
 
@@ -123,11 +135,11 @@ export class ProjectDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.deleteProject(project).subscribe(
-          () => {},
-          error => console.error('project service error', error),
-          () => this.router.navigateByUrl('/projects')
-        );
+        this.projectService.deleteProject(project).subscribe({
+          next: () => {},
+          error: err => console.error('project service error', err),
+          complete: () => this.router.navigateByUrl('/projects')
+        });
       }
     });
   }
@@ -147,19 +159,16 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   getProject() {
-    this.projectService.getProject(this.projectID).subscribe(project => {
-      this.project = project;
-
-      this.projectService.getModulesOfProject(project).subscribe(
-        res => (this.projectModules = res),
-        err => console.error(err)
-      );
-      this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
-      if (this.project.context === 'PROFESSOR') {
-        this.loadSupervisorLinks();
-      } else if (this.project.context === 'COMPANY') {
-        this.loadCompanyLink();
-      }
-    });
+    this.projectService
+      .getProject(this.projectID, 'withModules')
+      .subscribe(project => {
+        this.project = project;
+        this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
+        if (this.project.context === 'PROFESSOR') {
+          this.loadSupervisorLinks();
+        } else if (this.project.context === 'COMPANY') {
+          this.loadCompanyLink();
+        }
+      });
   }
 }
