@@ -5,17 +5,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { concat, Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import Autolinker from 'autolinker';
 import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
-import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { CompanyProfileService } from '@data/service/company-profile.service';
+import { ModuleType, Project } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-project-item',
@@ -51,11 +50,11 @@ export class ProjectItemComponent implements OnInit {
   ) {}
 
   get isCompanyProject(): boolean {
-    return this.project.context === Project.ContextEnum.Company;
+    return this.project.context === 'COMPANY';
   }
 
   ngOnInit() {
-    this.projectService.getModulesOfProject(this.project).subscribe({
+    this.projectService.getModulesOfProjectById(this.project.id).subscribe({
       next: res => (this.projectModules = res),
       error: err =>
         this.openErrorSnackBar(
@@ -74,9 +73,9 @@ export class ProjectItemComponent implements OnInit {
         })
       );
 
-    if (this.project.context === Project.ContextEnum.Professor) {
+    if (this.project.context === 'PROFESSOR') {
       this.loadSupervisorLinks();
-    } else if (this.project.context === Project.ContextEnum.Company) {
+    } else if (this.project.context === 'COMPANY') {
       this.loadCompanyLink();
     }
   }

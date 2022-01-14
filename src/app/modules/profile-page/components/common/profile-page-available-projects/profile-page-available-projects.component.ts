@@ -6,17 +6,16 @@ import {
   ViewChildren
 } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
 import { forkJoin, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { map, mergeMap, toArray } from 'rxjs/operators';
+import { ModuleType, Project } from '@data/schema/project-service.types';
 
-export interface AvailableProject {
+interface AvailableProject {
   project: Project;
-  modules: ModuleType[];
+  modules?: ModuleType[];
 }
 
 @Component({
@@ -33,7 +32,7 @@ export class ProfilePageAvailableProjectsComponent
   displayedColumns = ['name', 'type'];
 
   //professor$: Observable<Professor>
-  projects$: Observable<Project[]>;
+  projects$: Observable<AvailableProject[]>;
   availableProjects: AvailableProject[];
   dataSource = new MatTableDataSource<AvailableProject>();
 
@@ -49,30 +48,13 @@ export class ProfilePageAvailableProjectsComponent
   }
 
   ngOnInit() {
-    this.projects$
-      .pipe(
-        mergeMap(projects => projects),
-        mergeMap(project =>
-          forkJoin({
-            modules: this.projectService.getModulesOfProject(project)
-          }).pipe(
-            map((value: { modules: ModuleType[] }) => {
-              return {
-                project: project,
-                modules: value.modules
-              };
-            })
-          )
-        ),
-        toArray()
-      )
-      .subscribe({
-        next: res => {
-          this.availableProjects = res;
-          this.dataSource.data.push(...res);
-        },
-        error: err => console.error(err)
-      });
+    this.projects$.subscribe({
+      next: res => {
+        this.availableProjects = res;
+        this.dataSource.data.push(...res);
+      },
+      error: err => console.error(err)
+    });
   }
 
   /**
@@ -90,7 +72,7 @@ export class ProfilePageAvailableProjectsComponent
   }
 
   @Input()
-  set projects(projects: Observable<Project[]>) {
+  set projects(projects: Observable<AvailableProject[]>) {
     this.projects$ = projects;
   }
 }

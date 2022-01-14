@@ -5,8 +5,6 @@ import {
   Faculty,
   Professor
 } from '@data/schema/openapi/professor-profile-service/models';
-import { ModuleType } from '@data/schema/openapi/project-service/models';
-import { Project } from '@data/schema/openapi/project-service/project';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
@@ -16,6 +14,19 @@ import { ProfileVita } from '@modules/profile-page/components/common/profile-pag
 import { KeycloakService } from 'keycloak-angular';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
+import { ModuleType, Project } from '@data/schema/project-service.types';
+
+interface AvailableProject {
+  project: Project;
+  modules: ModuleType[];
+}
+
+interface HistoryProject {
+  id: string;
+  name: string;
+  supervisorName: string;
+  shortDescription: string;
+}
 
 @Component({
   selector: 'app-professor-profile',
@@ -28,9 +39,9 @@ export class ProfessorProfileComponent implements OnInit {
   noContent: boolean = false;
   professor: Professor;
   faculty: Faculty;
-  availableProjects$: Observable<Project[]>;
-  projectHistory$: Observable<Project[]>;
-  projectHistory: Project[];
+  availableProjects$: Observable<AvailableProject[]>;
+  projectHistory$: Observable<HistoryProject[]>;
+  projectHistory: HistoryProject[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -141,23 +152,24 @@ export class ProfessorProfileComponent implements OnInit {
     );
 
     if (!this.noContent) {
-      this.availableProjects$ =
-        this.projectService.findAvailableProjectsOfCreator(this.professorId);
-
-      this.availableProjects$ = this.availableProjects$.pipe(
-        mergeMap(projects => projects),
-        mergeMap(project =>
-          forkJoin({
-            modules: this.projectService.getModulesOfProject(project)
-          }).pipe(
-            map((value: { modules: ModuleType[] }) => {
-              project.modules = value.modules;
-              return project;
-            })
-          )
-        ),
-        toArray()
-      );
+      this.availableProjects$ = this.projectService
+        .findAvailableProjectsOfCreator(this.professorId)
+        .pipe(
+          mergeMap(projects => projects),
+          mergeMap(project =>
+            forkJoin({
+              modules: this.projectService.getModulesOfProject(project)
+            }).pipe(
+              map((value: { modules: ModuleType[] }) => {
+                return {
+                  project,
+                  modules: value.modules
+                };
+              })
+            )
+          ),
+          toArray()
+        );
 
       this.projectHistory$ =
         this.projectService.findRunningAndFinishedProjectsOfCreator(

@@ -7,7 +7,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { KeycloakService } from 'keycloak-angular';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 
-import { Project } from '@data/schema/openapi/project-service/project';
 import { ProjectService } from '@data/service/project.service';
 import { ConfirmDialogComponent } from '@modules/project/components/confirm-dialog/confirm-dialog.component';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
@@ -15,8 +14,6 @@ import { ProjectEditorDialogComponent } from '@modules/project/components/projec
 import { StatusOption } from './status-option.enum';
 
 import { TagService } from '@data/service/tag.service';
-import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
-import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Tag } from '@data/schema/tag.resource';
@@ -30,6 +27,11 @@ import {
   takeUntil
 } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
+import {
+  ModuleType,
+  Project,
+  StudyProgramWithoutModules
+} from '@data/schema/project-service.types';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -66,9 +68,9 @@ export class ProjectComponent implements OnInit {
   private filteredProjects: Project[] = [];
   public filteredTags$: Observable<Tag[]>;
 
-  private allStudyPrograms: StudyProgram[] = [];
+  private allStudyPrograms: StudyProgramWithoutModules[] = [];
   private allModuleTypes: ModuleType[] = [];
-  private _suitableStudyPrograms: StudyProgram[] = [];
+  private _suitableStudyPrograms: StudyProgramWithoutModules[] = [];
   private _suitableModuleTypes: ModuleType[] = [];
   public isLoadingModuleTypes = true;
   public isLoadingStudyPrograms = true;
@@ -82,7 +84,7 @@ export class ProjectComponent implements OnInit {
     );
   }
 
-  get suitableStudyPrograms(): StudyProgram[] {
+  get suitableStudyPrograms(): StudyProgramWithoutModules[] {
     return this._suitableStudyPrograms.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
@@ -209,7 +211,7 @@ export class ProjectComponent implements OnInit {
     this.isLoadingModuleTypes = true;
     if (event.value && Array.isArray(event.value) && event.value.length > 0) {
       forkJoin(
-        event.value.map((s: StudyProgram) => {
+        event.value.map((s: StudyProgramWithoutModules) => {
           return this.projectService.getAllModuleTypesOfStudyProgram(s.id);
         })
       ).subscribe(

@@ -20,8 +20,14 @@ import {
   animate,
   AnimationEvent
 } from '@angular/animations';
-import { Project } from '@data/schema/openapi/project-service/project';
 import { TextProcessor } from '@app/util/text-processor';
+
+interface HistoryProject {
+  id: string;
+  name: string;
+  supervisorName: string;
+  shortDescription: string;
+}
 
 @Component({
   selector: 'app-profile-page-projects-history-item',
@@ -44,7 +50,7 @@ export class ProfilePageProjectsHistoryItemComponent implements OnInit {
   _position;
   _positionIndex;
   _displayContent = false;
-  _project: Project;
+  _project: HistoryProject;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -52,7 +58,7 @@ export class ProfilePageProjectsHistoryItemComponent implements OnInit {
   ) {}
 
   @Input()
-  set project(project: Project) {
+  set project(project: HistoryProject) {
     this._project = project;
 
     this.cd.detectChanges(); //Change

@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 
-import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
@@ -15,9 +14,13 @@ import { ConfirmDialogComponent } from '@modules/project/components/confirm-dial
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
-import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { CompanyProfileService } from '@data/service/company-profile.service';
+import {
+  ModuleType,
+  Project,
+  StudyProgramWithoutModules
+} from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-project-details',
@@ -49,7 +52,7 @@ export class ProjectDetailsComponent implements OnInit {
   ) {}
 
   get isCompanyProject(): boolean {
-    return this.project.context === Project.ContextEnum.Company;
+    return this.project.context === 'COMPANY';
   }
 
   async ngOnInit() {
@@ -152,9 +155,9 @@ export class ProjectDetailsComponent implements OnInit {
         err => console.error(err)
       );
       this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
-      if (this.project.context === Project.ContextEnum.Professor) {
+      if (this.project.context === 'PROFESSOR') {
         this.loadSupervisorLinks();
-      } else if (this.project.context === Project.ContextEnum.Company) {
+      } else if (this.project.context === 'COMPANY') {
         this.loadCompanyLink();
       }
     });

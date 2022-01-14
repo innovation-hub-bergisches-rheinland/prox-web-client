@@ -47,13 +47,10 @@ import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
-import { Project } from '@data/schema/openapi/project-service/project';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 
-import { ModuleType } from '@data/schema/openapi/project-service/moduleType';
-import { StudyProgram } from '@data/schema/openapi/project-service/studyProgram';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -65,6 +62,12 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '@modules/toast/toast.service';
 import { Toast } from '@modules/toast/types';
+import {
+  CreateProjectSchema,
+  ModuleType,
+  Project,
+  StudyProgramWithoutModules
+} from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-project-editor',
@@ -89,7 +92,7 @@ export class ProjectEditorComponent
 
   private hasSubmitted = false;
   private projectId?: string = undefined;
-  @Output() projectSaved = new EventEmitter<Project>();
+  @Output() projectSaved = new EventEmitter<CreateProjectSchema>();
   @Output() cancel = new EventEmitter<any>();
   @Output() markDraft = new EventEmitter<boolean>();
 
@@ -118,11 +121,11 @@ export class ProjectEditorComponent
   fullName = '';
 
   private _modules: ModuleType[] = [];
-  private _studyPrograms: StudyProgram[] = [];
+  private _studyPrograms: StudyProgramWithoutModules[] = [];
   dataSource = new MatTableDataSource<ModuleType>(this.modules);
   displayedColumns: string[] = ['select', 'name'];
   moduleSelection = new SelectionModel<ModuleType>(true);
-  studyProgramSelection = new SelectionModel<StudyProgram>(true);
+  studyProgramSelection = new SelectionModel<StudyProgramWithoutModules>(true);
 
   get moduleSelectors(): FormArray {
     return this.projectFormControl.get('moduleSelectors') as FormArray;
@@ -136,11 +139,11 @@ export class ProjectEditorComponent
     return this._modules;
   }
 
-  set studyPrograms(studyPrograms: StudyProgram[]) {
+  set studyPrograms(studyPrograms: StudyProgramWithoutModules[]) {
     this._studyPrograms = studyPrograms;
   }
 
-  get studyPrograms(): StudyProgram[] {
+  get studyPrograms(): StudyProgramWithoutModules[] {
     return this._studyPrograms.sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -148,28 +151,19 @@ export class ProjectEditorComponent
     return this.keycloakService.isUserInRole('professor');
   }
 
-  get _project(): Project {
+  get _project(): CreateProjectSchema {
     return {
-      creatorID: this.userID,
-      creatorName: this.fullName.trim(),
+      creatorName: this.fullName,
       shortDescription: this.projectFormControl.value.shortDescription.trim(),
       requirement: this.projectFormControl.value.requirement.trim(),
       description: this.projectFormControl.value.description.trim(),
       name: this.projectFormControl.value.name.trim(),
       status: this.projectFormControl.value.status.trim(),
-      supervisorName: this.projectFormControl.value.supervisorName.trim(),
-      context: (() => {
-        if (this.keycloakService.isUserInRole('professor')) {
-          return Project.ContextEnum.Professor;
-        } else if (this.keycloakService.isUserInRole('company-manager')) {
-          return Project.ContextEnum.Company;
-        }
-      })(),
-      id: undefined
+      supervisorName: this.projectFormControl.value.supervisorName.trim()
     };
   }
 
-  set _project(project: Project) {
+  set _project(project: CreateProjectSchema) {
     this.projectFormControl.setValue(
       {
         name: project.name ?? '',
@@ -177,7 +171,7 @@ export class ProjectEditorComponent
         requirement: project.requirement ?? '',
         description: project.description ?? '',
         supervisorName: project.supervisorName ?? '',
-        status: project.status ?? Project.StatusEnum.Verfgbar,
+        status: project.status ?? 'VERFÜGBAR',
         tagInput: ''
       },
       {
@@ -186,7 +180,7 @@ export class ProjectEditorComponent
     );
 
     if (this.isEditProject()) {
-      this.projectService.getModulesOfProject(project).subscribe({
+      this.projectService.getModulesOfProjectById(this.projectId).subscribe({
         next: modules =>
           modules.forEach(m =>
             this.modules
@@ -195,7 +189,7 @@ export class ProjectEditorComponent
           )
       });
 
-      this.tagService.getAllTagsOfProject(project.id).subscribe(tags => {
+      this.tagService.getAllTagsOfProject(this.projectId).subscribe(tags => {
         this.tags = tags;
         this.updateTagRecommendations();
       });
@@ -255,7 +249,7 @@ export class ProjectEditorComponent
           this.keycloakService.isUserInRole('professor')
         ) {
           project.supervisorName = this.fullName;
-          this._project = project;
+          this._project = project as CreateProjectSchema;
         }
 
         this.enableAutosave();
@@ -373,7 +367,7 @@ export class ProjectEditorComponent
   tryLoadSelectedStudyPrograms() {
     const loadedData = this.storage.get(this.STORAGE_PRE_SELECTED_KEY);
     if (loadedData) {
-      const state: StudyProgram[] = JSON.parse(loadedData);
+      const state: StudyProgramWithoutModules[] = JSON.parse(loadedData);
       this.studyProgramSelection.select(
         ...this.studyPrograms.filter(sp => state.map(s => s.id).includes(sp.id))
       );
@@ -648,7 +642,10 @@ export class ProjectEditorComponent
    * @param event Event emitted
    * @param studyProgram studyProgram
    */
-  toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
+  toggleStudyProgram(
+    event: MatSlideToggleChange,
+    studyProgram: StudyProgramWithoutModules
+  ) {
     // TODO Possible refactor -> maybe a template binding?
     if (event.checked) {
       this.studyProgramSelection.select(studyProgram);
@@ -660,7 +657,7 @@ export class ProjectEditorComponent
   }
 
   /**
-   * Filters Module types based on the study program selectio
+   * Filters Module types based on the study program selection
    */
   filterModuleTypes() {
     // TODO Refactor: Make use of debounceTime to reduce network traffic
