@@ -27,7 +27,7 @@ interface AvailableProject {
   templateUrl: './profile-page-available-projects.component.html',
   styleUrls: ['./profile-page-available-projects.component.scss']
 })
-export class ProfilePageAvailableProjectsComponent implements AfterViewInit {
+export class ProfilePageAvailableProjectsComponent {
   @HostBinding('class')
   classes: string = 'profile-available-projects';
 
@@ -40,6 +40,4 @@ export class ProfilePageAvailableProjectsComponent implements AfterViewInit {
   @ViewChildren('paginator') paginator: QueryList<MatPaginator>;
 
   constructor(private projectService: ProjectService) {}
-
-  ngAfterViewInit() {}
 }
