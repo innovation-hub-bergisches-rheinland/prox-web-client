@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
 @import './theme_variables.scss';
 @import './app/layout/content-layout/content-layout.component.theming.scss';
 @import './app/modules/profile-page/components/common/profile-page-bulletin-list/profile-page-bulletin-list.component.theming.scss';
