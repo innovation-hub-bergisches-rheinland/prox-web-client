@@ -66,7 +66,7 @@ import {
   CreateProjectSchema,
   ModuleType,
   Project,
-  StudyProgramWithoutModules
+  StudyProgram
 } from '@data/schema/project-service.types';
 
 @Component({
@@ -121,11 +121,11 @@ export class ProjectEditorComponent
   fullName = '';
 
   private _modules: ModuleType[] = [];
-  private _studyPrograms: StudyProgramWithoutModules[] = [];
+  private _studyPrograms: StudyProgram[] = [];
   dataSource = new MatTableDataSource<ModuleType>(this.modules);
   displayedColumns: string[] = ['select', 'name'];
   moduleSelection = new SelectionModel<ModuleType>(true);
-  studyProgramSelection = new SelectionModel<StudyProgramWithoutModules>(true);
+  studyProgramSelection = new SelectionModel<StudyProgram>(true);
 
   get moduleSelectors(): FormArray {
     return this.projectFormControl.get('moduleSelectors') as FormArray;
@@ -139,11 +139,11 @@ export class ProjectEditorComponent
     return this._modules;
   }
 
-  set studyPrograms(studyPrograms: StudyProgramWithoutModules[]) {
+  set studyPrograms(studyPrograms: StudyProgram[]) {
     this._studyPrograms = studyPrograms;
   }
 
-  get studyPrograms(): StudyProgramWithoutModules[] {
+  get studyPrograms(): StudyProgram[] {
     return this._studyPrograms.sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -367,7 +367,7 @@ export class ProjectEditorComponent
   tryLoadSelectedStudyPrograms() {
     const loadedData = this.storage.get(this.STORAGE_PRE_SELECTED_KEY);
     if (loadedData) {
-      const state: StudyProgramWithoutModules[] = JSON.parse(loadedData);
+      const state: StudyProgram[] = JSON.parse(loadedData);
       this.studyProgramSelection.select(
         ...this.studyPrograms.filter(sp => state.map(s => s.id).includes(sp.id))
       );
@@ -642,10 +642,7 @@ export class ProjectEditorComponent
    * @param event Event emitted
    * @param studyProgram studyProgram
    */
-  toggleStudyProgram(
-    event: MatSlideToggleChange,
-    studyProgram: StudyProgramWithoutModules
-  ) {
+  toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
     // TODO Possible refactor -> maybe a template binding?
     if (event.checked) {
       this.studyProgramSelection.select(studyProgram);

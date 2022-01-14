@@ -12,7 +12,6 @@ export interface StudyProgram {
   id: string;
   key: string;
   name: string;
-  modules: ModuleType[];
 }
 
 export interface Project {
@@ -30,20 +29,24 @@ export interface Project {
   modified: string;
 }
 
+export type ProjectProjection = 'withModules';
+export type StudyProgramProjection = 'withModules';
+
 export interface CollectionModel<T, K extends string> {
   _embedded: Record<K, T[]>;
 }
 
-export type StudyProgramWithoutModules = Omit<StudyProgram, 'modules'>;
-export type StudyProgramsWithModules = StudyProgram;
+export type StudyProgramsWithModules = StudyProgram & {
+  modules: ModuleType[];
+};
 
 export type ProjectCollectionModel = CollectionModel<Project, 'projects'>;
 export type ModuleTypeCollectionModel = CollectionModel<
   ModuleType,
   'moduleTypes'
 >;
-export type StudyProgramWithoutModulesCollectionModel = CollectionModel<
-  StudyProgramWithoutModules,
+export type StudyProgramCollectionModel = CollectionModel<
+  StudyProgram,
   'studyPrograms'
 >;
 export type StudyProgramWithModulesCollectionModel = CollectionModel<

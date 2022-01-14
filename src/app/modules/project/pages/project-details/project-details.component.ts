@@ -19,7 +19,7 @@ import { CompanyProfileService } from '@data/service/company-profile.service';
 import {
   ModuleType,
   Project,
-  StudyProgramWithoutModules
+  StudyProgram
 } from '@data/schema/project-service.types';
 
 @Component({

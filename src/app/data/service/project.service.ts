@@ -9,8 +9,8 @@ import {
   Project,
   ProjectCollectionModel,
   Status,
-  StudyProgramWithoutModules,
-  StudyProgramWithoutModulesCollectionModel
+  StudyProgram,
+  StudyProgramCollectionModel
 } from '@data/schema/project-service.types';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -169,17 +169,14 @@ export class ProjectService {
       .pipe(map(p => p._embedded.projects));
   }
 
-  getAllStudyPrograms(): Observable<StudyProgramWithoutModules[]> {
+  getAllStudyPrograms(): Observable<StudyProgram[]> {
     return this.httpClient
-      .get<StudyProgramWithoutModulesCollectionModel>(
-        `${this.basePath}/studyPrograms`,
-        {
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<StudyProgramCollectionModel>(`${this.basePath}/studyPrograms`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(p => p._embedded.studyPrograms));
   }
 

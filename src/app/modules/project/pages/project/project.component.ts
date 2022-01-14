@@ -30,7 +30,7 @@ import { ToastService } from '@modules/toast/toast.service';
 import {
   ModuleType,
   Project,
-  StudyProgramWithoutModules
+  StudyProgram
 } from '@data/schema/project-service.types';
 
 export interface QueryParams extends Params {
@@ -68,9 +68,9 @@ export class ProjectComponent implements OnInit {
   private filteredProjects: Project[] = [];
   public filteredTags$: Observable<Tag[]>;
 
-  private allStudyPrograms: StudyProgramWithoutModules[] = [];
+  private allStudyPrograms: StudyProgram[] = [];
   private allModuleTypes: ModuleType[] = [];
-  private _suitableStudyPrograms: StudyProgramWithoutModules[] = [];
+  private _suitableStudyPrograms: StudyProgram[] = [];
   private _suitableModuleTypes: ModuleType[] = [];
   public isLoadingModuleTypes = true;
   public isLoadingStudyPrograms = true;
@@ -84,7 +84,7 @@ export class ProjectComponent implements OnInit {
     );
   }
 
-  get suitableStudyPrograms(): StudyProgramWithoutModules[] {
+  get suitableStudyPrograms(): StudyProgram[] {
     return this._suitableStudyPrograms.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
@@ -211,7 +211,7 @@ export class ProjectComponent implements OnInit {
     this.isLoadingModuleTypes = true;
     if (event.value && Array.isArray(event.value) && event.value.length > 0) {
       forkJoin(
-        event.value.map((s: StudyProgramWithoutModules) => {
+        event.value.map((s: StudyProgram) => {
           return this.projectService.getAllModuleTypesOfStudyProgram(s.id);
         })
       ).subscribe(
