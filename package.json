@@ -16,8 +16,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/architect": "^0.1300.3",
-    "@angular-devkit/schematics": "^13.0.3",
     "@angular/animations": "~12.0.2",
     "@angular/cdk": "~12.0.2",
     "@angular/common": "~12.0.2",
@@ -33,7 +31,6 @@
     "@commitlint/config-conventional": "^15.0.0",
     "autolinker": "^3.14.3",
     "core-js": "^3.13.0",
-    "flag-icon-css": "^3.5.0",
     "fuse.js": "^6.4.6",
     "keycloak-angular": "^8.4.0",
     "keycloak-js": "^15.0.2",
