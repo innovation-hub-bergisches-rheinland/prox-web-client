@@ -1,5 +1,4 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -8,7 +7,6 @@ import {
 } from '@data/schema/openapi/professor-profile-service/models';
 import { ModuleType } from '@data/schema/openapi/project-service/models';
 import { Project } from '@data/schema/openapi/project-service/project';
-import { Tag } from '@data/schema/tag.resource';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';

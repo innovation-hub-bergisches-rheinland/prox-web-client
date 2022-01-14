@@ -21,7 +21,6 @@ import { FlexModule } from '@angular/flex-layout';
     ProjectItemComponent,
     ConfirmDialogComponent
   ],
-  imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
-  entryComponents: [ProjectEditorDialogComponent, ConfirmDialogComponent]
+  imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule]
 })
 export class ProjectModule {}

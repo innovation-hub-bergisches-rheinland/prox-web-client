@@ -2,6 +2,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "alwaysStrict": true,
+    // TODO: Necessary for keycloak-angular v9 - disable when the
+    // issue https://github.com/keycloak/keycloak/issues/9045 is resolved
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "downlevelIteration": true,
     "outDir": "./dist/out-tsc",

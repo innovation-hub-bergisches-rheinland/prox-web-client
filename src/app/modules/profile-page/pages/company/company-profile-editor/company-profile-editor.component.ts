@@ -19,7 +19,6 @@ import { Observable } from 'rxjs';
 import { mergeMap, map, startWith, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { SocialMedia } from '@data/schema/openapi/company-profile-service/socialMedia';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-company-profile-editor',
