@@ -61,7 +61,10 @@
     </mat-chip-list>
   </div>
 
-  <div class="flex flex-col justify-around items-center" *ngIf="true">
+  <div
+    class="flex flex-col justify-around items-center"
+    *ngIf="this.featureService.isFeatureEnabled('partners')"
+  >
     <h1>Projektpartner</h1>
     <app-carousel [numItems]="4">
       <app-carousel-item

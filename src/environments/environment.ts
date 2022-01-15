@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 import { KeycloakConfig } from 'keycloak-js';
-import { Environment } from './IEnvironment';
+import { Environment } from './environment.types';
 
 const keycloakConfig: KeycloakConfig = {
   url: 'https://login.aws.innovation-hub.de/auth',
@@ -14,5 +14,12 @@ const keycloakConfig: KeycloakConfig = {
 export const environment: Environment = {
   production: false,
   keycloakConfig,
-  apiUrl: 'https://api.prox.aws.innovation-hub.de'
+  apiUrl: 'https://api.prox.aws.innovation-hub.de',
+  features: {
+    jobs: false,
+    organizations: false,
+    user: false,
+    projects: true,
+    partners: false
+  }
 };

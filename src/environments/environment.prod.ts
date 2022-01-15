@@ -1,4 +1,4 @@
-import { Environment } from './IEnvironment';
+import { Environment } from './environment.types';
 import { KeycloakConfig } from 'keycloak-js';
 
 const keycloakConfig: KeycloakConfig = {
@@ -10,5 +10,12 @@ const keycloakConfig: KeycloakConfig = {
 export const environment: Environment = {
   production: true,
   keycloakConfig,
-  apiUrl: 'https://api.prox.aws.innovation-hub.de'
+  apiUrl: 'https://api.prox.aws.innovation-hub.de',
+  features: {
+    jobs: false,
+    organizations: false,
+    user: false,
+    projects: true,
+    partners: false
+  }
 };

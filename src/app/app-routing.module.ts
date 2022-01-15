@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 // import { AuthGuard } from '@app/guard/auth.guard';
 
 import { ContentLayoutComponent } from '@layout/content-layout/content-layout.component';
+import { FeatureGuard } from './feature.guard';
 
 const routes: Routes = [
   {
@@ -32,26 +33,42 @@ const routes: Routes = [
       {
         path: 'user',
         loadChildren: () =>
-          import('@modules/user/user.module').then(m => m.UserModule)
+          import('@modules/user/user.module').then(m => m.UserModule),
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'user'
+        }
       },
       {
         path: 'organizations',
         loadChildren: () =>
           import('@modules/organization/organization.module').then(
             m => m.OrganizationModule
-          )
+          ),
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'organizations'
+        }
       },
       {
         path: 'jobs',
         loadChildren: () =>
-          import('@modules/jobs/jobs.module').then(j => j.JobModule)
+          import('@modules/jobs/jobs.module').then(j => j.JobModule),
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'jobs'
+        }
       },
       {
         path: 'projects',
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
         loadChildren: () =>
-          import('@modules/project/project.module').then(m => m.ProjectModule)
+          import('@modules/project/project.module').then(m => m.ProjectModule),
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'projects'
+        }
       },
       {
         path: 'contact',
@@ -109,6 +126,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
-  providers: []
+  providers: [FeatureGuard]
 })
 export class AppRoutingModule {}

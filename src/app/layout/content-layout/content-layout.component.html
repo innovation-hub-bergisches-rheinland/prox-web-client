@@ -67,7 +67,7 @@
                 Unternehmen und Organisationen
               </button>
             </mat-list-item>
-            <mat-list-item>
+            <mat-list-item *ngIf="isFeatureEnabled('jobs')">
               <button
                 (click)="sidenav.toggle()"
                 class="sidebar-button"
