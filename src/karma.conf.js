@@ -2,7 +2,7 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
-  config.set({
+  const configuration = {
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
@@ -33,5 +33,11 @@ module.exports = function (config) {
       }
     },
     singleRun: false
-  });
+  };
+
+  if (process.env.CI) {
+    configuration.browsers = ['ChromeHeadlessCI'];
+  }
+
+  config.set(configuration);
 };
