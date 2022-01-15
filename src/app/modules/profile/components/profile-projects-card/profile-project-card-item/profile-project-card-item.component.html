@@ -1,0 +1,8 @@
+<div class="flex flex-col">
+  <a [routerLink]="['/projects/' + id]" class="hover:underline">
+    {{ title }}
+  </a>
+  <b *ngIf="modules && modules.length > 0">
+    {{ this.modulesAsString }}
+  </b>
+</div>

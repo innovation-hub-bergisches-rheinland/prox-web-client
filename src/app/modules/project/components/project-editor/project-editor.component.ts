@@ -90,9 +90,9 @@ export class ProjectEditorComponent
   private STORAGE_KEY = 'project-editor-state';
   private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
-  private hasSubmitted = false;
+  hasSubmitted = false;
   private projectId?: string = undefined;
-  @Output() projectSaved = new EventEmitter<CreateProjectSchema>();
+  @Output() projectSaved = new EventEmitter<Project>();
   @Output() cancel = new EventEmitter<any>();
   @Output() markDraft = new EventEmitter<boolean>();
 
@@ -208,7 +208,7 @@ export class ProjectEditorComponent
     this.dataSource.sort = sort;
   }
 
-  private isEditProject(): boolean {
+  isEditProject(): boolean {
     return !!this.projectId;
   }
 
@@ -497,7 +497,7 @@ export class ProjectEditorComponent
    * Add the recommended tag to project data
    * @param tag Recommended tag to add
    */
-  private addRecommendedTag(tag: Tag) {
+  addRecommendedTag(tag: Tag) {
     this.addTag(tag);
 
     // Remove added tag from recommendations - necessary for the case when the tag service can not load recommendations
@@ -565,7 +565,7 @@ export class ProjectEditorComponent
    * Form Submit method
    * @param project project which is submitted
    */
-  onSubmit(project: Project) {
+  onSubmit(project: CreateProjectSchema) {
     this.hasSubmitted = true;
     // Decide whether a project should be updated or created
     const createOrUpdateProject = this.isEditProject()

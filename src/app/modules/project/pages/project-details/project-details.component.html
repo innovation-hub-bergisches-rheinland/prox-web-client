@@ -1,51 +1,53 @@
-<div *ngIf="project" class="project-detail">
-  <div class="page-title">
-    <button
-      (click)="goBack()"
-      matTooltip="Zurück zur Projektübersicht"
-      mat-icon-button
-      color="primary"
-    >
-      <mat-icon class="back-icon">arrow_back</mat-icon>
-    </button>
+<app-content-page *ngIf="project">
+  <app-content-page-header>
+    <div class="page-title">
+      <button
+        (click)="goBack()"
+        matTooltip="Zurück zur Projektübersicht"
+        mat-icon-button
+        color="primary"
+      >
+        <mat-icon class="back-icon">arrow_back</mat-icon>
+      </button>
 
-    <mat-icon
-      *ngIf="project.status === 'VERFÜGBAR'"
-      matTooltip="Verfügbar"
-      class="status-icon"
-      color="primary"
-    >
-      lock_open
-    </mat-icon>
+      <mat-icon
+        *ngIf="project.status == 'VERFÜGBAR'"
+        matTooltip="Verfügbar"
+        class="status-icon"
+        color="primary"
+      >
+        lock_open
+      </mat-icon>
 
-    <mat-icon
-      *ngIf="project.status === 'ABGESCHLOSSEN'"
-      matTooltip="Abgeschlossen"
-      class="status-icon"
-      color="primary"
-    >
-      lock
-    </mat-icon>
+      <mat-icon
+        *ngIf="project.status == 'ABGESCHLOSSEN'"
+        matTooltip="Abgeschlossen"
+        class="status-icon"
+        color="primary"
+      >
+        lock
+      </mat-icon>
 
-    <mat-icon
-      *ngIf="project.status === 'LAUFEND'"
-      matTooltip="Laufend"
-      class="status-icon"
-      color="primary"
-    >
-      directions_run
-    </mat-icon>
+      <mat-icon
+        *ngIf="project.status == 'LAUFEND'"
+        matTooltip="Laufend"
+        class="status-icon"
+        color="primary"
+      >
+        directions_run
+      </mat-icon>
 
-    <mat-icon
-      *ngIf="project.context === 'COMPANY'"
-      matTooltip="Projekt in einem Unternehmen"
-      class="context-icon"
-      color="primary"
-    >
-      domain
-    </mat-icon>
-  </div>
-  <div>
+      <mat-icon
+        *ngIf="project.context == 'COMPANY'"
+        matTooltip="Projekt in einem Unternehmen"
+        class="context-icon"
+        color="primary"
+      >
+        domain
+      </mat-icon>
+    </div>
+  </app-content-page-header>
+  <app-content-page-content>
     <mat-card>
       <mat-card-header>
         <mat-card-title>
@@ -71,13 +73,13 @@
         <mat-card-subtitle> Kurze Projektbeschreibung: </mat-card-subtitle>
 
         <div>
-          <p [innerHTML]="textProcessor.process(project.shortDescription)"></p>
+          <p [innerHTML]="project.shortDescription | linky"></p>
         </div>
 
         <mat-card-subtitle> Projektbeschreibung: </mat-card-subtitle>
 
         <div>
-          <p [innerHTML]="textProcessor.process(project.description)"></p>
+          <p [innerHTML]="project.description | linky"></p>
         </div>
 
         <div class="card-container-wrapper">
@@ -106,19 +108,16 @@
               matTooltip="{{ tag.tagName }}"
               >{{ tag.tagName }}
             </mat-chip>
-
-            <ng-template #noTags>
-              <mat-chip color="primary" selected>
-                Keine Tags vorhanden
-              </mat-chip>
-            </ng-template>
           </mat-chip-list>
+          <ng-template #noTags>
+            <mat-chip color="primary" selected> Keine Tags vorhanden </mat-chip>
+          </ng-template>
         </mat-card-subtitle>
       </mat-card-content>
 
       <mat-divider *ngIf="hasProjectPermission(project)"></mat-divider>
 
-      <mat-card-actions>
+      <mat-card-actions dir="rtl">
         <button
           (click)="deleteProject(project)"
           *ngIf="hasProjectPermission(project)"
@@ -141,5 +140,5 @@
         </button>
       </mat-card-actions>
     </mat-card>
-  </div>
-</div>
+  </app-content-page-content>
+</app-content-page>

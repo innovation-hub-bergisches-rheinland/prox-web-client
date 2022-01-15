@@ -1,0 +1,20 @@
+<app-content-page>
+  <app-content-page-header>
+    <app-content-page-title>{{ title }}</app-content-page-title>
+  </app-content-page-header>
+  <app-content-page-content>
+    <div class="flex flex-col gap-4">
+      <app-profile-overview-card
+        *ngFor="let item of items"
+        [imgSrc]="item.avatar"
+        [title]="item.title"
+        [subtitle]="item.subtitle"
+        [numAvailableProjects]="item.numAvailableProjects"
+        [numFinishedProjects]="item.numFinishedProjects"
+        [numRunningProjects]="item.numRunningProjects"
+        [href]="item.href"
+      >
+      </app-profile-overview-card>
+    </div>
+  </app-content-page-content>
+</app-content-page>

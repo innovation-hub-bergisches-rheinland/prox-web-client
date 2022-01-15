@@ -1,0 +1,276 @@
+<app-content-page>
+  <app-content-page-header>
+    <app-content-page-title
+      >Unternehmensprofil bearbeiten</app-content-page-title
+    >
+  </app-content-page-header>
+  <app-content-page-content>
+    <div class="flex flex-col justify-around items-center w-full">
+      <mat-card class="card">
+        <mat-card-content>
+          <form [formGroup]="profileForm">
+            <h3>Informationen</h3>
+            <div class="grid grid-cols-4 gap-4">
+              <div class="flex flex-col gap-4 col-span-1">
+                <div class="aspect-w-1 aspect-h-1">
+                  <img
+                    class="object-scale-down"
+                    alt="Profile Image"
+                    [src]="imageSrc"
+                    onerror="this.src='/assets/images/blank-profile-picture.png'"
+                  />
+                </div>
+                <div class="flex flex-row gap-2">
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="deleteProfileImage()"
+                  >
+                    <mat-icon>close</mat-icon> Entfernen
+                  </button>
+                  <button mat-raised-button (click)="fileInput.click()">
+                    <mat-icon>publish</mat-icon> Hochladen
+                    <input
+                      #fileInput
+                      style="display: none"
+                      type="file"
+                      id="file"
+                      accept="image/jpeg, image/png, image/gif"
+                      (change)="change($event)"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div class="col-span-3">
+                <div class="flex flex-col">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input
+                      matInput
+                      formControlName="name"
+                      maxlength="255"
+                      required
+                    />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Mitarbeiteranzahl</mat-label>
+                    <input
+                      matInput
+                      formControlName="numberOfEmployees"
+                      maxlength="255"
+                    />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Hauptsitz</mat-label>
+                    <input
+                      matInput
+                      formControlName="headquarter"
+                      maxlength="255"
+                    />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Homepage</mat-label>
+                    <input
+                      matInput
+                      formControlName="homepage"
+                      maxlength="255"
+                    />
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Gründungsdatum</mat-label>
+                    <input
+                      matInput
+                      formControlName="foundation"
+                      maxlength="255"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <br />
+            <mat-divider></mat-divider>
+            <div formGroupName="contact">
+              <div class="flex flex-col gap-4">
+                <h3>Kontaktinformationen</h3>
+                <b>
+                  Die angegebenen Kontaktinformationen sollen von Interessierten
+                  zu Projektangeboten für die Kontaktaufnahme genutzt werden
+                </b>
+                <mat-form-field appearance="fill">
+                  <mat-label>E-Mail Adresse</mat-label>
+                  <input
+                    matInput
+                    formControlName="contactEmail"
+                    maxlength="255"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <br />
+            <mat-divider></mat-divider>
+            <div formGroupName="socialMedia" class="socialMedia">
+              <h3>Social Media Links</h3>
+              <b>
+                Derzeit ist es zwingend nötig, dass Sie die Accountkennung
+                angeben.
+              </b>
+              <p class="valid-example">✔️ Richtig: <i>MusterfirmaGmbH</i></p>
+              <p class="invalid-example">
+                ❌ Falsch: <i>https://www.facebook.com/MusterfirmaGmbH/</i>
+              </p>
+              <div class="flex flex-col">
+                <mat-form-field
+                  appearance="fill"
+                  *ngFor="let platform of socialMediaPlatforms"
+                >
+                  <mat-label>{{ platform[3] }}</mat-label>
+                  <mat-icon
+                    fontSet="fab"
+                    [fontIcon]="platform[2]"
+                    matPrefix
+                  ></mat-icon>
+                  <input
+                    matInput
+                    [formControlName]="platform[0]"
+                    maxlength="255"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <br />
+            <div class="flex flex-col">
+              <h3>Weitere Standorte</h3>
+              <mat-form-field>
+                <mat-chip-list #quartersChipList>
+                  <mat-chip
+                    *ngFor="let quarter of quarters"
+                    [removable]="true"
+                    (removed)="removeQuarter(quarter)"
+                  >
+                    {{ quarter.location }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                  <input
+                    #branchesInput
+                    placeholder="Standorte"
+                    [matChipInputFor]="quartersChipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="addQuarter($event)"
+                    maxlength="255"
+                  />
+                </mat-chip-list>
+              </mat-form-field>
+            </div>
+            <br />
+            <mat-divider></mat-divider>
+            <br />
+            <div class="flex flex-col">
+              <h3>Branchen</h3>
+              <mat-form-field>
+                <mat-chip-list #branchesChipList>
+                  <mat-chip
+                    *ngFor="let branch of branches"
+                    [removable]="true"
+                    (removed)="removeBranch(branch)"
+                  >
+                    {{ branch.branchName }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                  <input
+                    #branchesInput
+                    placeholder="Branchen / Fokusgebiete"
+                    [matChipInputFor]="branchesChipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="addBranch($event)"
+                    maxlength="255"
+                  />
+                </mat-chip-list>
+              </mat-form-field>
+            </div>
+            <br />
+            <mat-divider></mat-divider>
+            <div class="flex flex-col">
+              <h3>Sprachen im Unternehmen</h3>
+              <mat-form-field>
+                <mat-chip-list #languagesChipList>
+                  <mat-chip
+                    *ngFor="let language of languages"
+                    [removable]="true"
+                    (removed)="removeLanguage(language)"
+                  >
+                    {{ language.germanName }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+
+                  <input
+                    #languageInput
+                    placeholder="Sprachen"
+                    [formControl]="languageCtrl"
+                    [matChipInputFor]="languagesChipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matAutocomplete]="auto"
+                    maxlength="255"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="selected($event)"
+                >
+                  <mat-option
+                    *ngFor="let language of filteredLanguages | async"
+                    [value]="language"
+                  >
+                    <span
+                      [ngClass]="
+                        language.iso3166Mapping
+                          ? 'flag-icon-' + language.iso3166Mapping
+                          : 'placeholder-flag'
+                      "
+                      class="flag-icon"
+                    ></span>
+                    {{ language.germanName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <br />
+            <mat-divider></mat-divider>
+            <br />
+            <div class="flex flex-col">
+              <h3>Unternehmensbeschreibung</h3>
+              <mat-form-field appearance="fill">
+                <textarea
+                  matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="20"
+                  formControlName="vita"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <br />
+            <mat-divider></mat-divider>
+            <br />
+            <div>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="onSubmit()"
+                type="submit"
+                [disabled]="this.profileForm.invalid"
+              >
+                <mat-icon>save</mat-icon> Speichern
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+      <br />
+    </div>
+  </app-content-page-content>
+</app-content-page>

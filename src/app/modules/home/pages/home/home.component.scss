@@ -8,24 +8,23 @@
     width: 100%;
     height: auto;
   }
-}
 
-/* Bottom right text */
-.caption {
-  position: absolute;
-  left: 5%;
-  top: 50%;
-  background-color: rgba(50, 50, 50, 0.85);
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-@media only screen and (max-width: 720px) {
   .caption {
-    display: none;
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    background-color: rgba(50, 50, 50, 0.85);
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  @media only screen and (max-width: 720px) {
+    .caption {
+      display: none;
+    }
   }
 }
 
@@ -51,132 +50,5 @@
 
   .mat-form-field {
     width: 50vw;
-  }
-}
-
-.home {
-  max-width: 1400px;
-  padding: 20px;
-  margin: 70px auto 0 auto;
-}
-
-.lead {
-  padding: 10px 0px 0px 5px;
-}
-
-.logo-responsive {
-  max-width: 400px;
-  max-height: 84px;
-}
-
-.mat-card-header {
-  padding-top: 20px;
-  padding-bottom: 30px;
-}
-
-.mat-card-content {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-}
-
-.logo-responsive-icon {
-  max-width: 500px;
-  max-height: 84px;
-  display: none;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.user-get-started-container {
-  width: 46%;
-  padding: 20px 20px;
-  margin-left: auto;
-  margin-right: auto;
-  float: inside;
-  box-sizing: border-box;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.1),
-    0 1px 5px 0 rgba(0, 0, 0, 0.09);
-}
-
-.student-get-started-container {
-  vertical-align: top;
-  display: inline-block;
-  min-width: 260px;
-  margin: 2%;
-}
-
-.professor-get-started-container {
-  vertical-align: top;
-  display: inline-block;
-  min-width: 260px;
-  margin: 2%;
-}
-
-.user-get-started-wrapper {
-  overflow: auto;
-  display: flex;
-}
-
-.user-role-heading {
-  padding: 0 0 0 0;
-  width: 100%;
-  text-align: center;
-}
-
-.user-role-image {
-  display: block;
-  margin: 10px auto 20px auto;
-  height: 250px;
-}
-
-ul {
-  list-style: none;
-}
-
-ul li::before {
-  content: '\25A0';
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
-}
-
-.mat-raised-button {
-  width: 100%;
-  font-size: large;
-}
-
-.button-wrapper {
-  text-align: center;
-}
-
-@media (max-width: 650px) {
-  .logo-responsive {
-    display: none;
-  }
-
-  .logo-responsive-icon {
-    display: block;
-  }
-
-  .user-get-started-wrapper {
-    display: inline;
-  }
-  .student-get-started-container {
-    display: block;
-    width: auto;
-  }
-
-  .professor-get-started-container {
-    display: block;
-    width: auto;
-  }
-}
-
-@media (max-width: 400px) {
-  .mat-card-content {
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 20px;
   }
 }

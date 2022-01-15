@@ -1,0 +1,10 @@
+<app-profile-page
+  *ngIf="lecturer"
+  [profile]="lecturerProfile"
+  [sash]="lecturerSash"
+  [projectHistory]="projectHistory | async"
+  [availableProjects]="projects | async"
+  [availableJobs]="jobs | async"
+  [publications]="publications | async"
+  [showEditRow]="hasPermission"
+></app-profile-page>

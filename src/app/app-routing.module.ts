@@ -15,9 +15,7 @@ const routes: Routes = [
     path: '',
     component: ContentLayoutComponent,
     loadChildren: () =>
-      import('@modules/profile-page/profile-page-module.module').then(
-        m => m.ProfilePageModule
-      )
+      import('@modules/profile/profile.module').then(m => m.ProfileModule)
   },
   {
     path: '',
@@ -30,6 +28,23 @@ const routes: Routes = [
         //   import('@modules/home/home.module').then(m => m.HomeModule)
         loadChildren: () =>
           import('@modules/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('@modules/user/user.module').then(m => m.UserModule)
+      },
+      {
+        path: 'organizations',
+        loadChildren: () =>
+          import('@modules/organization/organization.module').then(
+            m => m.OrganizationModule
+          )
+      },
+      {
+        path: 'jobs',
+        loadChildren: () =>
+          import('@modules/jobs/jobs.module').then(j => j.JobModule)
       },
       {
         path: 'projects',

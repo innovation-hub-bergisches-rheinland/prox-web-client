@@ -1,0 +1,11 @@
+<app-content-page>
+  <app-content-page-header>
+    <app-content-page-title>Stellenangebot bearbeiten</app-content-page-title>
+  </app-content-page-header>
+  <app-content-page-content>
+    <app-job-offer-form
+      [jobOffer]="this.jobOffer | async"
+      (saveEvent)="updateJobOffer($event)"
+    ></app-job-offer-form>
+  </app-content-page-content>
+</app-content-page>

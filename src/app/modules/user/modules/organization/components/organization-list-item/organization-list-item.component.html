@@ -1,0 +1,22 @@
+<ng-container>
+  <mat-card>
+    <mat-card-title-group>
+      <img mat-card-sm-image [src]="orgLogo" />
+      <mat-card-title>{{ orgName }}</mat-card-title>
+      <mat-card-subtitle>
+        <i *ngIf="isOwner">Owner</i>
+        <i *ngIf="!isOwner">Member</i>
+      </mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-actions align="end">
+      <button
+        mat-stroked-button
+        color="warn"
+        fxFlex="nogrow"
+        (click)="leaveOrg()"
+      >
+        Verlassen
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>

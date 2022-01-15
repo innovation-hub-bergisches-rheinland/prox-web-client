@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>
+    <ng-content
+      select="app-content-page-title, [app-content-page-title], [appContentPageTitle]"
+    ></ng-content>
+  </h1>
+  <ng-content
+    select="app-content-page-actions, [app-content-page-actions], [appContentPageActions]"
+  ></ng-content>
+</div>
+<ng-content></ng-content>

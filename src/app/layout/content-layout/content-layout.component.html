@@ -10,62 +10,77 @@
           <mat-icon>arrow_back</mat-icon>
         </button>
         <img class="logo-sidebar" src="assets/images/prox-icon_160x160.png" />
-        <mat-list>
+
+        <div fxLayout="column" fxLayoutGap="10px">
           <app-user></app-user>
 
           <mat-divider></mat-divider>
 
-          <mat-list-item>
-            <button
-              (click)="sidenav.toggle()"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="sidebar-button"
-              mat-button
-              routerLink=""
-              routerLinkActive="nav-activated"
-            >
-              <mat-icon class="sidebar-icon">home</mat-icon>
-              Startseite
-            </button>
-          </mat-list-item>
+          <mat-list>
+            <mat-list-item>
+              <button
+                (click)="sidenav.toggle()"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="sidebar-button"
+                mat-button
+                routerLink=""
+                routerLinkActive="nav-activated"
+              >
+                <mat-icon class="sidebar-icon">home</mat-icon>
+                Startseite
+              </button>
+            </mat-list-item>
 
-          <mat-list-item>
-            <button
-              (click)="sidenav.toggle()"
-              class="sidebar-button"
-              mat-button
-              routerLink="/projects"
-              routerLinkActive="nav-activated"
-            >
-              <mat-icon class="sidebar-icon">layers</mat-icon>
-              Projekte
-            </button>
-          </mat-list-item>
-          <mat-list-item>
-            <button
-              (click)="sidenav.toggle()"
-              class="sidebar-button"
-              mat-button
-              routerLink="/lecturers"
-              routerLinkActive="nav-activated"
-            >
-              <mat-icon class="sidebar-icon">people_alt</mat-icon>
-              Lehrende
-            </button>
-          </mat-list-item>
-          <mat-list-item>
-            <button
-              (click)="sidenav.toggle()"
-              class="sidebar-button"
-              mat-button
-              routerLink="/companies"
-              routerLinkActive="nav-activated"
-            >
-              <mat-icon class="sidebar-icon">business</mat-icon>
-              Unternehmen
-            </button>
-          </mat-list-item>
-        </mat-list>
+            <mat-list-item>
+              <button
+                (click)="sidenav.toggle()"
+                class="sidebar-button"
+                mat-button
+                routerLink="/projects"
+                routerLinkActive="nav-activated"
+              >
+                <mat-icon class="sidebar-icon">layers</mat-icon>
+                Projekte
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+              <button
+                (click)="sidenav.toggle()"
+                class="sidebar-button"
+                mat-button
+                routerLink="/lecturers"
+                routerLinkActive="nav-activated"
+              >
+                <mat-icon class="sidebar-icon">people_alt</mat-icon>
+                Lehrende
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+              <button
+                (click)="sidenav.toggle()"
+                class="sidebar-button"
+                mat-button
+                routerLink="/orgs"
+                routerLinkActive="nav-activated"
+              >
+                <mat-icon class="sidebar-icon">business</mat-icon>
+                Unternehmen und Organisationen
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+              <button
+                (click)="sidenav.toggle()"
+                class="sidebar-button"
+                mat-button
+                routerLink="/jobs"
+                routerLinkActive="nav-activated"
+              >
+                <mat-icon class="sidebar-icon">work</mat-icon>
+                Stellenangebote
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
       </mat-sidenav>
 
       <div class="toolbar">
@@ -103,9 +118,7 @@
           </a>
         </div>
       </div>
-      <div id="content">
-        <router-outlet></router-outlet>
-      </div>
+      <app-main-content></app-main-content>
       <app-footer></app-footer>
     </mat-sidenav-container>
   </div>

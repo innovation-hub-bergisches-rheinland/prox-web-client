@@ -11,7 +11,6 @@ import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
-import { TextProcessor } from '@app/util/text-processor';
 import { TagService } from '@data/service/tag.service';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { CompanyProfileService } from '@data/service/company-profile.service';
@@ -59,7 +58,6 @@ export class ProjectDetailsComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private location: Location,
-    public textProcessor: TextProcessor,
     private professorService: ProfessorProfileService
   ) {}
 

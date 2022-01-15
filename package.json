@@ -16,7 +16,8 @@
     "e2e": "ng e2e",
     "postinstall": "ngcc --first-only --create-ivy-entry-points --tsconfig \"./src/tsconfig.app.json\"",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "format": "lint-staged"
   },
   "private": true,
   "dependencies": {
@@ -28,17 +29,26 @@
     "@angular/flex-layout": "13.0.0-beta.36",
     "@angular/forms": "~13.1.2",
     "@angular/material": "^13.1.2",
+    "@angular/material-moment-adapter": "^12.2.12",
     "@angular/platform-browser": "~13.1.2",
     "@angular/platform-browser-dynamic": "~13.1.2",
     "@angular/router": "~13.1.2",
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
+    "@fortawesome/angular-fontawesome": "^0.9.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
     "autolinker": "^3.14.3",
     "core-js": "^3.20.2",
     "fuse.js": "^6.5.3",
     "keycloak-angular": "^9.0.0",
     "keycloak-js": "^15.0.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "ngx-markdown": "^13.0.0",
     "ngx-webstorage-service": "^5.0.0",
     "rxjs": "~7.5.2",
     "tslib": "^2.3.1",
@@ -79,7 +89,8 @@
     "protractor": "~7.0.0",
     "standard-version": "^9.3.2",
     "ts-node": "~10.4.0",
-    "typescript": "~4.5.4"
+    "typescript": "~4.5.4",
+    "tailwindcss": "^3.0.15"
   },
   "lint-staged": {
     "*.{js,ts,css,scss,json,md,html,yml,yaml}": "prettier --write"

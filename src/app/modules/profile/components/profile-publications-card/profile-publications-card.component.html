@@ -1,0 +1,28 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="icon">
+    <app-profile-card-title>Publikationen</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <div
+      *ngFor="let publication of publications | slice: 0:limit; let i = index"
+    >
+      <p [innerHTML]="publication.publication | linky"></p>
+      <button
+        color="accent"
+        mat-button
+        *ngIf="i === limit - 1 && limit < publications.length"
+        (click)="limit = publications.length"
+      >
+        Mehr anzeigen
+      </button>
+      <button
+        color="accent"
+        mat-button
+        *ngIf="i === limit - 1 && limit >= publications.length"
+        (click)="limit = 10"
+      >
+        Weniger anzeigen
+      </button>
+    </div>
+  </app-profile-card-content>
+</app-profile-card>

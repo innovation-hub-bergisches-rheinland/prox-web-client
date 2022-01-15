@@ -1,103 +1,14 @@
-.project-list {
-  margin-top: 70px;
-  margin-left: 20px;
-  padding-bottom: 20px;
-}
-
-@media (max-width: 1085px) {
-  .project-list {
-    margin-right: 20px;
-  }
-}
-
-.mat-card-subtitle {
-  margin-bottom: 0;
-  color: var(--th-red);
-}
-
-.mat-button {
-  margin-bottom: 5px !important;
-  color: var(--th-purple);
-}
-
-h1 {
-  padding-top: 15px;
-}
-
-h2 {
-  margin: 0;
-}
-
-.project-list-header {
-  display: block;
-  max-width: 1032px;
-  margin: 15px auto;
-}
-
 .search-form {
   margin-left: 30px;
   margin-right: 30px;
 }
 
-.mat-icon-button {
-  float: right;
-  margin-top: 0;
-}
-
 #add {
   background-color: white;
   border-radius: 50%;
+  box-sizing: content-box;
   padding: 8px;
   box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.5),
     inset 0 2px 0 rgba(255, 255, 255, 0.25);
   color: #696969;
-}
-
-:host ::ng-deep.mat-paginator .mat-paginator-container {
-  justify-content: center;
-}
-
-.mat-card-avatar {
-  width: auto;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.button-toggle-description {
-  text-align: center;
-}
-
-.hint {
-  margin-top: -10px;
-  padding-bottom: 10px;
-}
-
-.extended-search-title {
-  margin: 15px 0 5px 0;
-}
-
-.list {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-.description {
-  margin-bottom: 0;
-  margin-top: 7px;
-}
-
-.select-placeholder-container {
-  display: flex;
-  align-items: center;
-}
-
-.select-placeholder-container > span {
-  flex: 1;
-}
-
-.expansion-headers-align .mat-expansion-panel-header-title,
-.expansion-headers-align .mat-expansion-panel-header-description {
-  flex-basis: 0;
 }

@@ -1,0 +1,18 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faTask">
+    <app-profile-card-title>Verfügbare Projekte</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <div class="flex flex-col gap-2">
+      <app-profile-project-card-item
+        class="odd:bg-gray-100"
+        *ngFor="let project of projects"
+        [title]="project.name"
+        [id]="project.id"
+        [modules]="project.modules"
+      >
+      </app-profile-project-card-item>
+    </div>
+    <i *ngIf="!projects || projects.length === 0">Keine Verfügbaren Projekte</i>
+  </app-profile-card-content>
+</app-profile-card>

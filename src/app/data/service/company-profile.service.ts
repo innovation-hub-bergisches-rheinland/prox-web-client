@@ -38,7 +38,7 @@ export class CompanyProfileService {
   }
 
   getCompanyProfileUrl(id: string): string {
-    return `/companies/${id}`;
+    return `/orgs/${id}`;
   }
 
   getAllCompanies(): Observable<Company[]> {

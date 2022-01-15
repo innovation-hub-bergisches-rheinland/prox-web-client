@@ -29,7 +29,7 @@ export class ToastComponent implements OnInit, OnDestroy {
     this.data = this.snackbarData.content;
   }
 
-  private close($event: any, index: number) {
+  close($event: any, index: number) {
     this.data.splice(index, 1);
     if (this.data.length === 0) {
       this._snackRef.dismiss();
