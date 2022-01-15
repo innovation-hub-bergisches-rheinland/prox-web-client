@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from './material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [],
@@ -13,6 +14,8 @@ import { MaterialModule } from './material.module';
     ReactiveFormsModule,
     RouterModule,
 
+    FlexLayoutModule,
+
     MaterialModule
   ],
   exports: [
@@ -20,6 +23,8 @@ import { MaterialModule } from './material.module';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+
+    FlexLayoutModule,
 
     MaterialModule
   ]

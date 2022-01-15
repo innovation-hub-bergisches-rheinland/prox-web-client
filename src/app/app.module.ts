@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BASE_PATH } from '@data/service/openapi/variables';
 import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ToastModule } from '@modules/toast/toast.module';
     CoreModule,
     SharedModule,
     AppRoutingModule,
-    ToastModule
+    ToastModule,
+    FlexLayoutModule
   ],
   providers: [
     {
