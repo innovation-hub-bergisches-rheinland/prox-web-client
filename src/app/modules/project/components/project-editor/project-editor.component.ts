@@ -43,7 +43,6 @@ import {
   catchError,
   concatAll
 } from 'rxjs/operators';
-import * as _ from 'lodash';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 

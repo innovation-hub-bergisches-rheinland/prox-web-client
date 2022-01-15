@@ -18,7 +18,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, mergeMap, startWith, tap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatChipInputEvent } from '@angular/material/chips';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-organization-editor-page',
@@ -248,7 +247,7 @@ export class OrganizationEditorPageComponent implements OnInit {
   addToArrayIfNotExists<T>(
     valueList: T[],
     value: T,
-    predicate: (a: T, b: T) => boolean = (a, b) => _.isEqual(a, b)
+    predicate: (a: T, b: T) => boolean
   ) {
     if (valueList.filter(item => predicate(item, value)).length === 0) {
       valueList.push(value);
