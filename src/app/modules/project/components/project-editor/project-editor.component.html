@@ -148,59 +148,10 @@
         </mat-error>
       </mat-form-field>
 
-      <div>
-        <mat-expansion-panel class="mat-elevation-z0">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Studiengänge</mat-panel-title>
-            <mat-panel-description
-              >An- und Abwählen von Studiengängen zum Filtern der
-              Modularten</mat-panel-description
-            >
-          </mat-expansion-panel-header>
-          <ul class="studyProgramsList">
-            <li *ngFor="let studyProgram of studyPrograms">
-              <mat-slide-toggle
-                [checked]="studyProgramSelection.isSelected(studyProgram)"
-                (change)="toggleStudyProgram($event, studyProgram)"
-              >
-                {{ studyProgram.name }}</mat-slide-toggle
-              >
-            </li>
-          </ul>
-        </mat-expansion-panel>
-
-        <table
-          mat-table
-          matSort
-          matSortActive="name"
-          matSortDirection="asc"
-          [dataSource]="dataSource"
-          class="mat-elevation-z0 moduleTable"
-        >
-          <!-- Checkbox Column -->
-          <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>Auswahl</th>
-            <td mat-cell *matCellDef="let element">
-              <mat-checkbox [checked]="moduleSelection.isSelected(element)">
-              </mat-checkbox>
-            </td>
-          </ng-container>
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.name }}
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr
-            mat-row
-            *matRowDef="let element; columns: displayedColumns"
-            (click)="selectModule(element)"
-          ></tr>
-        </table>
-      </div>
+      <app-module-types-selector
+        [preselect]="preselectedModules"
+        (change)="onModuleSelectionChange($event)"
+      ></app-module-types-selector>
 
       <mat-form-field class="tag-list">
         <mat-label>Tags</mat-label>

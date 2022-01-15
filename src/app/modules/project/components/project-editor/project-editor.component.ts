@@ -52,7 +52,7 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 
 import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
+import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import {
@@ -64,10 +64,13 @@ import { ToastService } from '@modules/toast/toast.service';
 import { Toast } from '@modules/toast/types';
 import {
   CreateProjectSchema,
-  ModuleType,
   Project,
   StudyProgram
 } from '@data/schema/project-service.types';
+
+interface ModuleType {
+  id: string;
+}
 
 @Component({
   selector: 'app-project-editor',
@@ -88,7 +91,6 @@ export class ProjectEditorComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   private STORAGE_KEY = 'project-editor-state';
-  private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
 
   hasSubmitted = false;
   private projectId?: string = undefined;
@@ -124,7 +126,8 @@ export class ProjectEditorComponent
   private _studyPrograms: StudyProgram[] = [];
   dataSource = new MatTableDataSource<ModuleType>(this.modules);
   displayedColumns: string[] = ['select', 'name'];
-  moduleSelection = new SelectionModel<ModuleType>(true);
+  moduleSelection: ModuleType[] = [];
+  preselectedModules: ModuleType[] = [];
   studyProgramSelection = new SelectionModel<StudyProgram>(true);
 
   get moduleSelectors(): FormArray {
@@ -181,12 +184,7 @@ export class ProjectEditorComponent
 
     if (this.isEditProject()) {
       this.projectService.getModulesOfProjectById(this.projectId).subscribe({
-        next: modules =>
-          modules.forEach(m =>
-            this.modules
-              .filter(m1 => m1.id === m.id)
-              .forEach(m2 => this.moduleSelection.select(m2))
-          )
+        next: modules => (this.preselectedModules = modules)
       });
 
       this.tagService.getAllTagsOfProject(this.projectId).subscribe(tags => {
@@ -236,7 +234,6 @@ export class ProjectEditorComponent
       next: res => {
         this.studyPrograms.push(...res.studyPrograms);
         this.modules.push(...res.moduleTypes);
-        this.tryLoadSelectedStudyPrograms();
       },
       error: err => console.error(err),
       complete: () => {
@@ -337,7 +334,6 @@ export class ProjectEditorComponent
     }
 
     this.storage.set(this.STORAGE_KEY, JSON.stringify(storage));
-    this.saveSelectedStudyPrograms();
   }
 
   /**
@@ -355,26 +351,6 @@ export class ProjectEditorComponent
       this.projectFormControl.patchValue(state);
       this.markDraft.emit(true);
     }
-  }
-
-  saveSelectedStudyPrograms() {
-    this.storage.set(
-      this.STORAGE_PRE_SELECTED_KEY,
-      JSON.stringify(this.studyProgramSelection.selected.filter(sp => sp.id))
-    );
-  }
-
-  tryLoadSelectedStudyPrograms() {
-    const loadedData = this.storage.get(this.STORAGE_PRE_SELECTED_KEY);
-    if (loadedData) {
-      const state: StudyProgram[] = JSON.parse(loadedData);
-      this.studyProgramSelection.select(
-        ...this.studyPrograms.filter(sp => state.map(s => s.id).includes(sp.id))
-      );
-    } else {
-      this.studyProgramSelection.select(...this.studyPrograms);
-    }
-    this.filterModuleTypes();
   }
 
   /**
@@ -571,7 +547,7 @@ export class ProjectEditorComponent
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
       : this.projectService.createProject(project);
-    const selectedModules = this.moduleSelection.selected;
+    const selectedModules = this.moduleSelection;
 
     createOrUpdateProject
       .pipe(
@@ -626,68 +602,19 @@ export class ProjectEditorComponent
           ];
           this.toastService.showToasts(toasts);
         },
-        complete: () => {
-          this.saveSelectedStudyPrograms();
-        }
+        complete: () => {}
       });
+  }
+
+  onModuleSelectionChange(event: SelectionChange<ModuleType>) {
+    this.moduleSelection.push(...event.added);
+    this.moduleSelection = this.moduleSelection.filter(
+      ms => !event.removed.some(r => r.id === ms.id)
+    );
   }
 
   cancelButtonClicked() {
     this.cancel.emit();
     this.clearStorage();
-  }
-
-  /**
-   * Called when the studyPrograms value is changed
-   * @param event Event emitted
-   * @param studyProgram studyProgram
-   */
-  toggleStudyProgram(event: MatSlideToggleChange, studyProgram: StudyProgram) {
-    // TODO Possible refactor -> maybe a template binding?
-    if (event.checked) {
-      this.studyProgramSelection.select(studyProgram);
-    } else {
-      this.studyProgramSelection.deselect(studyProgram);
-    }
-
-    this.filterModuleTypes();
-  }
-
-  /**
-   * Filters Module types based on the study program selection
-   */
-  filterModuleTypes() {
-    // TODO Refactor: Make use of debounceTime to reduce network traffic
-    if (this.studyProgramSelection.selected.length > 0) {
-      this.projectService
-        .getAllModuleTypesOfStudyprograms(
-          this.studyProgramSelection.selected.map(sp => sp.id)
-        )
-        .subscribe(res => {
-          // TODO: Remove Lodash Dependency as it is not required.
-          //       for additional info look at: https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore
-          // Elements to add
-          const diffA = _.differenceWith(res, this.modules, _.isEqual);
-
-          // Elements to remove
-          const diffB = _.differenceWith(this.modules, res, _.isEqual);
-
-          // Add elements
-          this.modules.push(...diffA);
-
-          // Pull elements to remove out - this mutates this.modules
-          _.pullAllWith(this.modules, diffB, _.isEqual);
-
-          this.dataSource.data = this.modules;
-          this.dataSource._updateChangeSubscription();
-        });
-    } else {
-      this.dataSource.data = this.modules = [];
-      this.dataSource._updateChangeSubscription();
-    }
-  }
-
-  selectModule(element: ModuleType) {
-    this.moduleSelection.toggle(element);
   }
 }

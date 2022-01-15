@@ -12,7 +12,8 @@ import {
   ProjectWithModules,
   Status,
   StudyProgram,
-  StudyProgramCollectionModel
+  StudyProgramCollectionModel,
+  StudyProgramsWithModules
 } from '@data/schema/project-service.types';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -39,7 +40,7 @@ export class ProjectService {
 
   setProjectModules(
     id: string,
-    modules: ModuleType[]
+    modules: Pick<ModuleType, 'id'>[]
   ): Observable<ModuleType[] | any> {
     const requestBody = modules.map(m => m.id).join('\n');
 
@@ -208,9 +209,21 @@ export class ProjectService {
       .pipe(map(p => p._embedded.projects));
   }
 
-  getAllStudyPrograms(): Observable<StudyProgram[]> {
+  getAllStudyPrograms(
+    projection?: 'withModules'
+  ): Observable<StudyProgramsWithModules[]>;
+  getAllStudyPrograms(): Observable<StudyProgram[]>;
+  getAllStudyPrograms(
+    projection?: string
+  ): Observable<StudyProgram[] | StudyProgramsWithModules[]> {
+    let queryParams = new HttpParams();
+    if (projection) {
+      queryParams = queryParams.set('projection', projection);
+    }
+
     return this.httpClient
       .get<StudyProgramCollectionModel>(`${this.basePath}/studyPrograms`, {
+        params: queryParams,
         headers: {
           Accept: 'application/json'
         },

@@ -10,6 +10,7 @@ import { ProjectEditorComponent } from './components/project-editor/project-edit
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FlexModule } from '@angular/flex-layout';
+import { ModuleTypesSelectorComponent } from '@modules/project/components/module-types-selector/module-types-selector.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FlexModule } from '@angular/flex-layout';
     ProjectDetailsComponent,
     ProjectEditorComponent,
     ProjectEditorDialogComponent,
-    ProjectItemComponent
+    ProjectItemComponent,
+    ModuleTypesSelectorComponent
   ],
   imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
   entryComponents: [ProjectEditorDialogComponent]
