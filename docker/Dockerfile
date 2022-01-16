@@ -3,7 +3,7 @@
 #########################
 
 # base image
-FROM node:16.2.0-alpine as builder
+FROM node:16.13.2-alpine as builder
 ENV NODE_ENV=production
 
 # install chrome for protractor tests
@@ -12,7 +12,7 @@ ENV NODE_ENV=production
 #RUN apt-get update && apt-get install -yq google-chrome-stable
 
 # set working directory
-RUN mkdir /usr/src/app
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # add `/usr/src/app/node_modules/.bin` to $PATH
@@ -21,8 +21,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
-RUN npm ci
-#RUN npm install -g @angular/cli --unsafe
+RUN npm ci --include=dev
+
 
 # add app
 COPY . /usr/src/app
