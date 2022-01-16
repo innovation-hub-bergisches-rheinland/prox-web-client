@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LecturerOverviewPageComponent } from './lecturer-overview-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ProfessorProfileService } from '@data/service/professor-profile.service';
 
 describe('LecturerOverviewPageComponent', () => {
   let component: LecturerOverviewPageComponent;
@@ -8,7 +11,8 @@ describe('LecturerOverviewPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LecturerOverviewPageComponent]
+      declarations: [LecturerOverviewPageComponent],
+      imports: [HttpClientTestingModule]
     }).compileComponents();
   });
 

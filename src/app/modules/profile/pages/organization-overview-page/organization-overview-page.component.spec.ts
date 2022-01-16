@@ -1,14 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrganizationOverviewPageComponent } from './organization-overview-page.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('LecturerOverviewPageComponent', () => {
+describe('OrganizationOverviewPageComponent', () => {
   let component: OrganizationOverviewPageComponent;
   let fixture: ComponentFixture<OrganizationOverviewPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrganizationOverviewPageComponent]
+      declarations: [OrganizationOverviewPageComponent],
+      imports: [HttpClientTestingModule]
     }).compileComponents();
   });
 

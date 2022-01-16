@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileAvatarCardComponent } from './profile-avatar-card.component';
+import { SocialMediaButtonComponent } from '@modules/profile/components/social-media-button/social-media-button.component';
 
 describe('ProfileCardComponent', () => {
   let component: ProfileAvatarCardComponent;
@@ -8,7 +9,7 @@ describe('ProfileCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileAvatarCardComponent]
+      declarations: [ProfileAvatarCardComponent, SocialMediaButtonComponent]
     }).compileComponents();
   });
 

@@ -15,6 +15,7 @@ describe('StudyProgramPickerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StudyProgramPickerComponent);
     component = fixture.componentInstance;
+    component.studyPrograms = [];
     fixture.detectChanges();
   });
 
