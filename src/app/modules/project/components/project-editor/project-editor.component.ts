@@ -11,7 +11,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
@@ -40,8 +40,7 @@ import {
   switchMap,
   takeUntil,
   toArray,
-  catchError,
-  concatAll
+  catchError
 } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
@@ -49,11 +48,6 @@ import { KeycloakService } from 'keycloak-angular';
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSort } from '@angular/material/sort';
 import {
   MatCheckboxDefaultOptions,
   MAT_CHECKBOX_DEFAULT_OPTIONS
@@ -63,8 +57,7 @@ import { ToastService } from '@modules/toast/toast.service';
 import { Toast } from '@modules/toast/types';
 import {
   CreateProjectSchema,
-  Project,
-  StudyProgram
+  Project
 } from '@data/schema/project-service.types';
 
 interface ModuleType {
@@ -90,6 +83,7 @@ export class ProjectEditorComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   private STORAGE_KEY = 'project-editor-state';
+  private _project: Project;
 
   hasSubmitted = false;
   private projectId?: string = undefined;
@@ -104,6 +98,7 @@ export class ProjectEditorComponent
     description: [''],
     supervisorName: [''],
     status: ['', [Validators.required]],
+    modules: [],
     tagInput: []
   });
 
@@ -121,39 +116,7 @@ export class ProjectEditorComponent
   userID = '';
   fullName = '';
 
-  private _modules: ModuleType[] = [];
-  private _studyPrograms: StudyProgram[] = [];
-  dataSource = new MatTableDataSource<ModuleType>(this.modules);
-  displayedColumns: string[] = ['select', 'name'];
-  moduleSelection: ModuleType[] = [];
-  preselectedModules: ModuleType[] = [];
-  studyProgramSelection = new SelectionModel<StudyProgram>(true);
-
-  get moduleSelectors(): FormArray {
-    return this.projectFormControl.get('moduleSelectors') as FormArray;
-  }
-
-  set modules(modules: ModuleType[]) {
-    this._modules = modules;
-  }
-
-  get modules(): ModuleType[] {
-    return this._modules;
-  }
-
-  set studyPrograms(studyPrograms: StudyProgram[]) {
-    this._studyPrograms = studyPrograms;
-  }
-
-  get studyPrograms(): StudyProgram[] {
-    return this._studyPrograms.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  get isProfessor(): boolean {
-    return this.keycloakService.isUserInRole('professor');
-  }
-
-  get _project(): CreateProjectSchema {
+  buildProjectSchemaFromForm(): CreateProjectSchema {
     return {
       creatorName: this.fullName,
       shortDescription: this.projectFormControl.value.shortDescription.trim(),
@@ -165,25 +128,33 @@ export class ProjectEditorComponent
     };
   }
 
-  set _project(project: CreateProjectSchema) {
-    this.projectFormControl.setValue(
-      {
-        name: project.name ?? '',
-        shortDescription: project.shortDescription ?? '',
-        requirement: project.requirement ?? '',
-        description: project.description ?? '',
-        supervisorName: project.supervisorName ?? '',
-        status: project.status ?? 'VERFÜGBAR',
-        tagInput: ''
-      },
-      {
-        emitEvent: false
-      }
+  setProjectValuesInForm(project: Project) {
+    const op = { emitEvent: false };
+    this.projectFormControl.controls.name.setValue(project.name ?? '', op);
+    this.projectFormControl.controls.shortDescription.setValue(
+      project.shortDescription ?? '',
+      op
+    );
+    this.projectFormControl.controls.requirement.setValue(
+      project.requirement ?? '',
+      op
+    );
+    this.projectFormControl.controls.description.setValue(
+      project.description ?? '',
+      op
+    );
+    this.projectFormControl.controls.supervisorName.setValue(
+      project.supervisorName ?? '',
+      op
+    );
+    this.projectFormControl.controls.status.setValue(
+      project.status ?? 'VERFÜGBAR',
+      op
     );
 
     if (this.isEditProject()) {
       this.projectService.getModulesOfProjectById(this.projectId).subscribe({
-        next: modules => (this.preselectedModules = modules)
+        next: value => this.projectFormControl.controls.modules.setValue(value)
       });
 
       this.tagService.getAllTagsOfProject(this.projectId).subscribe(tags => {
@@ -198,11 +169,8 @@ export class ProjectEditorComponent
     if (project) {
       this.projectId = project.id;
       this._project = project;
+      this.setProjectValuesInForm(project);
     }
-  }
-
-  @ViewChild(MatSort) set matSort(sort: MatSort) {
-    this.dataSource.sort = sort;
   }
 
   isEditProject(): boolean {
@@ -226,37 +194,11 @@ export class ProjectEditorComponent
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {
-    forkJoin({
-      studyPrograms: this.projectService.getAllStudyPrograms(),
-      moduleTypes: this.projectService.getAllModuleTypes()
-    }).subscribe({
-      next: res => {
-        this.studyPrograms.push(...res.studyPrograms);
-        this.modules.push(...res.moduleTypes);
-      },
-      error: err => console.error(err),
-      complete: () => {
-        this.dataSource._updateChangeSubscription();
-
-        const project = this._project;
-        if (
-          (!project.supervisorName ||
-            project.supervisorName.trim().length === 0) &&
-          this.keycloakService.isUserInRole('professor')
-        ) {
-          project.supervisorName = this.fullName;
-          this._project = project as CreateProjectSchema;
-        }
-
-        this.enableAutosave();
-        this.tryLoadState();
-      }
-    });
+    this.enableAutosave();
+    this.tryLoadState();
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.data = this.modules;
-  }
+  ngAfterViewInit(): void {}
 
   /**
    * Initialize Angular Component
@@ -267,6 +209,15 @@ export class ProjectEditorComponent
       this.userID = this.keycloakService.getKeycloakInstance().subject;
       const userProfile = await this.keycloakService.loadUserProfile();
       this.fullName = `${userProfile.firstName} ${userProfile.lastName}`;
+
+      const projectSupervisorControl =
+        this.projectFormControl.controls.supervisorName;
+      if (
+        !projectSupervisorControl.value &&
+        this.keycloakService.isUserInRole('professor')
+      ) {
+        projectSupervisorControl.setValue(this.fullName);
+      }
     }
 
     this.filteredTags =
@@ -546,7 +497,8 @@ export class ProjectEditorComponent
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
       : this.projectService.createProject(project);
-    const selectedModules = this.moduleSelection;
+    const selectedModules: ModuleType[] =
+      this.projectFormControl.controls.modules.value;
 
     createOrUpdateProject
       .pipe(
@@ -603,13 +555,6 @@ export class ProjectEditorComponent
         },
         complete: () => {}
       });
-  }
-
-  onModuleSelectionChange(event: SelectionChange<ModuleType>) {
-    this.moduleSelection.push(...event.added);
-    this.moduleSelection = this.moduleSelection.filter(
-      ms => !event.removed.some(r => r.id === ms.id)
-    );
   }
 
   cancelButtonClicked() {

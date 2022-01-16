@@ -1,106 +1,118 @@
 import {
   Component,
-  EventEmitter,
+  forwardRef,
   Inject,
   Input,
   OnDestroy,
-  OnInit,
-  Output
+  OnInit
 } from '@angular/core';
 import { ProjectService } from '@data/service/project.service';
-import { flatten } from 'lodash';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
-import { Observable, of, withLatestFrom } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import {
+  ModuleType,
+  StudyProgramsWithModules
+} from '@data/schema/project-service.types';
+import { EMPTY, Observable } from 'rxjs';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
-
-interface ModuleType {
-  id: string;
-  name: string;
-}
-
-interface StudyProgram {
-  id: string;
-  name: string;
-  modules: ModuleType[];
-}
 
 @Component({
   selector: 'app-module-types-selector',
   templateUrl: './module-types-selector.component.html',
-  styleUrls: ['./module-types-selector.component.scss']
+  styleUrls: ['./module-types-selector.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ModuleTypesSelectorComponent),
+      multi: true
+    }
+  ]
 })
-export class ModuleTypesSelectorComponent implements OnInit, OnDestroy {
-  private STORAGE_PRE_SELECTED_KEY = 'project-editor-preselected';
-
-  studyPrograms$: Observable<StudyProgram[]>;
+export class ModuleTypesSelectorComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
+  studyPrograms$: Observable<StudyProgramsWithModules[]>;
   moduleTypes$: Observable<ModuleType[]>;
-  filteredModuleTypes$: Observable<ModuleType[]>;
+  selectedModules: ModuleType[] = [];
+
+  @Input()
+  disabled = false;
+
+  onTouched: Function = () => {};
+  onChange = (moduleTypes: ModuleType[]) => {};
+
+  constructor(
+    private projectService: ProjectService,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.studyPrograms$ =
+      this.projectService.getAllStudyPrograms('withModules');
+  }
+
+  ngOnDestroy() {}
+
+  registerOnChange(onChange: (moduleTypes: ModuleType[]) => void) {
+    this.onChange = onChange;
+  }
+
+  registerOnTouched(onTouched: () => void) {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
+
+  writeValue(value: ModuleType[]): void {
+    if (value) {
+      this.selectedModules = value;
+      this.onChange(this.selectedModules);
+    }
+  }
+}
+
+/*@Input()
+  studyPrograms: StudyProgramsWithModules[];
+
+  @Input()
+  preselectedModules: Pick<ModuleType, 'id'>[];
+
+  filteredModuleTypes: ModuleType[] = [];
 
   moduleTableDataSource = new MatTableDataSource<ModuleType>();
   moduleSelection = new SelectionModel<ModuleType>(true);
-  studyProgramSelection = new SelectionModel<StudyProgram>(true);
   displayedColumns: string[] = ['select', 'name'];
 
   @Output()
   change = new EventEmitter<SelectionChange<ModuleType>>();
 
-  @Input()
-  set preselect(preselect: Pick<ModuleType, 'id'>[]) {
-    if (preselect.length > 0) {
-      of(preselect)
-        .pipe(withLatestFrom(this.moduleTypes$))
-        .subscribe({
-          next: ([val, moduleTypes]) => {
-            this.moduleSelection.select(
-              ...moduleTypes.filter(mt => val.some(id => id.id === mt.id))
-            );
-          }
-        });
-    }
+  constructor(
+    @Inject(LOCAL_STORAGE) private storage: StorageService
+  ) {
   }
 
-  constructor(
-    private projectService: ProjectService,
-    @Inject(LOCAL_STORAGE) private storage: StorageService
-  ) {}
-
   ngOnInit(): void {
-    this.studyPrograms$ =
-      this.projectService.getAllStudyPrograms('withModules');
-
-    // All modules offered by our study programs
-    this.moduleTypes$ = this.studyPrograms$.pipe(
-      map(studyPrograms =>
-        this.getDistinctModuleTypes(
-          flatten(studyPrograms.map(sp => sp.modules))
-        )
-      )
-    );
-
-    // Select the last selected StudyPrograms
-    this.loadStudyProgramsFromStorage().subscribe(value => {
-      this.studyProgramSelection.select(...value);
-    });
-
     // Everytime the StudyProgram selection changed, we need to update the displayed modules that
     // The selected modules contain
-    this.filteredModuleTypes$ = this.studyProgramSelection.changed.pipe(
-      withLatestFrom(this.moduleTypes$),
-      map(([_val, moduleTypes]) =>
-        this.filterModuleTypes(moduleTypes, this.studyProgramSelection.selected)
-      )
-    );
 
-    // Delete all selected Modules from selection that aren't in the filter
-    this.filteredModuleTypes$.subscribe({
-      next: value =>
-        this.moduleSelection.deselect(
-          ...this.moduleSelection.selected.filter(
-            mt => !value.some(v => this.moduleTypesCanEqual(v, mt))
-          )
-        )
+    this.moduleTableDataSource.filterPredicate = ((data, filter) => {
+      console.log(filter);
+      const selectedIds = this.studyProgramSelection.selected.map(sp => sp.id);
+      const matchingStudyPrograms = this.studyPrograms.filter(sp => selectedIds.some(si => si === sp.id));
+      return matchingStudyPrograms.some(sp => sp.modules.some(mt => mt.id === data.id));
+    });
+
+    this.studyProgramSelection.changed.subscribe({
+      next: value => {
+        this.moduleTableDataSource.filter = JSON.stringify(this.studyProgramSelection.selected);
+        console.log(this.moduleTableDataSource.filter);
+      }
     });
 
     this.moduleSelection.changed.subscribe({
@@ -112,55 +124,10 @@ export class ModuleTypesSelectorComponent implements OnInit, OnDestroy {
     this.saveSelectedStudyPrograms();
   }
 
-  private filterModuleTypes(
-    input: ModuleType[],
-    selected: StudyProgram[]
-  ): ModuleType[] {
-    const filtered = input.filter(mt =>
-      selected.some(sp =>
-        sp.modules.some(item => this.moduleTypesCanEqual(item, mt))
-      )
-    );
-
-    return filtered;
-  }
-
   private getDistinctModuleTypes(input: ModuleType[]): ModuleType[] {
     return [...new Map(input.map(item => [item.id, item])).values()];
   }
 
-  private moduleTypesCanEqual(m1: ModuleType, m2: ModuleType): boolean {
+  private moduleTypesCanEqual(m1: Pick<ModuleType, "id">, m2: Pick<ModuleType, "id">): boolean {
     return m1.id === m2.id;
-  }
-
-  private studyProgramsCanEqual(s1: StudyProgram, s2: StudyProgram): boolean {
-    return s1.id === s2.id;
-  }
-
-  selectModule(element: ModuleType) {
-    this.moduleSelection.toggle(element);
-  }
-
-  saveSelectedStudyPrograms() {
-    this.storage.set(
-      this.STORAGE_PRE_SELECTED_KEY,
-      JSON.stringify(this.studyProgramSelection.selected.map(sp => sp.id))
-    );
-  }
-
-  loadStudyProgramsFromStorage(): Observable<StudyProgram[]> {
-    const loadedData: string[] = JSON.parse(
-      this.storage.get(this.STORAGE_PRE_SELECTED_KEY)
-    );
-
-    return of(loadedData).pipe(
-      withLatestFrom(this.studyPrograms$),
-      map(([val, studyPrograms]) => {
-        if (!val || !Array.isArray(val) || val.length === 0) {
-          return studyPrograms;
-        }
-        return studyPrograms.filter(sp => val.some(id => sp.id === id));
-      })
-    );
-  }
-}
+  }*/

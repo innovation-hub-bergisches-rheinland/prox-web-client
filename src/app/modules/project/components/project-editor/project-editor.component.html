@@ -1,5 +1,5 @@
 <form
-  (ngSubmit)="onSubmit(this._project)"
+  (ngSubmit)="onSubmit(this.buildProjectSchemaFromForm())"
   *ngIf="projectFormControl"
   [formGroup]="projectFormControl"
   class="row"
@@ -149,8 +149,7 @@
       </mat-form-field>
 
       <app-module-types-selector
-        [preselect]="preselectedModules"
-        (change)="onModuleSelectionChange($event)"
+        formControlName="modules"
       ></app-module-types-selector>
 
       <mat-form-field class="tag-list">
