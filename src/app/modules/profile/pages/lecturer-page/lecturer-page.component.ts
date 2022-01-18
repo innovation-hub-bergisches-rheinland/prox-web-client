@@ -8,14 +8,16 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { AvailableProject } from '@modules/profile/components/profile-projects-card/profile-projects-card.component';
 import { AvailableJob } from '@modules/profile/components/profile-jobs-card/profile-jobs-card.component';
 import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '@data/service/project.service';
 import { JobService } from '@data/service/job.service';
-import { map, mergeMap, tap, toArray } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, toArray } from 'rxjs/operators';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Publication } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 import { KeycloakService } from 'keycloak-angular';
+import { ToastService } from '@modules/toast/toast.service';
+import { EntityModelFaculty } from '@data/schema/openapi/professor-profile-service/entityModelFaculty';
 
 interface ModuleType {
   key: string;
@@ -45,9 +47,11 @@ export class LecturerPageComponent implements OnInit {
   constructor(
     private keycloakService: KeycloakService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private professorService: ProfessorProfileService,
     private projectService: ProjectService,
-    private jobService: JobService
+    private jobService: JobService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +70,13 @@ export class LecturerPageComponent implements OnInit {
         mergeMap(id => {
           return forkJoin({
             lecturer: this.professorService.getProfessorProfile(id),
-            faculty: this.professorService.getProfessorFaculty(id)
+            faculty: this.professorService.getProfessorFaculty(id).pipe(
+              catchError(() => {
+                return of({
+                  name: ''
+                });
+              })
+            )
           });
         })
       )
@@ -189,7 +199,20 @@ export class LecturerPageComponent implements OnInit {
             map(pubs => pubs.map(pub => ({ publication: pub.publication })))
           );
         },
-        error: err => {
+        error: async err => {
+          // TODO: this really needs to be refactored... As the whole component
+          if (err.status === 404) {
+            this.toastService.showToast(
+              {
+                message:
+                  'Ihr Profil existiert noch nicht - Sie können jetzt eins erstellen'
+              },
+              5000
+            );
+            await this.router.navigate(['edit'], {
+              relativeTo: this.activatedRoute
+            });
+          }
           console.error(err);
         }
       });
