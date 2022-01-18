@@ -46,7 +46,7 @@ export class CompanyProfileService {
       .getAllCompanies('body', false, {
         httpHeaderAccept: 'application/hal+json'
       })
-      .pipe(map(c => c._embedded.companyList));
+      .pipe(map(c => c._embedded?.companyList ?? []));
   }
 
   getAllLanguages(): Observable<Language[]> {
