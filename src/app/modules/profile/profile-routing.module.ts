@@ -6,6 +6,10 @@ import { OrganizationEditorPageComponent } from '@modules/profile/pages/organiza
 import { LecturerEditorPageComponent } from '@modules/profile/pages/lecturer-editor-page/lecturer-editor-page.component';
 import { LecturerOverviewPageComponent } from '@modules/profile/pages/lecturer-overview-page/lecturer-overview-page.component';
 import { OrganizationOverviewPageComponent } from '@modules/profile/pages/organization-overview-page/organization-overview-page.component';
+import { IdParamEqualsSubjectGuard } from '@modules/profile/guards/id-param-equals-subject-guard.service';
+import { IsLoggedInGuard } from '@modules/profile/guards/is-logged-in.guard';
+import { HasLecturerRoleGuard } from '@modules/profile/guards/has-lecturer-role.guard';
+import { HasOrganizationRoleGuard } from '@modules/profile/guards/has-organization-role.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +21,8 @@ const routes: Routes = [
       },
       {
         path: 'new',
-        component: OrganizationEditorPageComponent
+        component: OrganizationEditorPageComponent,
+        canActivate: [IsLoggedInGuard, HasOrganizationRoleGuard]
       },
       {
         path: ':id',
@@ -25,7 +30,8 @@ const routes: Routes = [
       },
       {
         path: ':id/edit',
-        component: OrganizationEditorPageComponent
+        component: OrganizationEditorPageComponent,
+        canActivate: [IsLoggedInGuard, HasOrganizationRoleGuard]
       }
     ]
   },
@@ -42,7 +48,12 @@ const routes: Routes = [
       },
       {
         path: ':id/edit',
-        component: LecturerEditorPageComponent
+        component: LecturerEditorPageComponent,
+        canActivate: [
+          IsLoggedInGuard,
+          HasLecturerRoleGuard,
+          IdParamEqualsSubjectGuard
+        ]
       }
     ]
   }
