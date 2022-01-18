@@ -7,8 +7,6 @@
         Modularten</mat-panel-description
       >
     </mat-expansion-panel-header>
-    <!-- Notice, that we use the async pipe within the ngif directive to ensure  it is present in the OnInit Lifecycle
-          phase of the component -->
     <app-study-program-picker
       [studyPrograms]="studyPrograms"
       (valueChange)="applyFilter($event)"
