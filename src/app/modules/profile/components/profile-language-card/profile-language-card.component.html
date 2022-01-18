@@ -4,14 +4,20 @@
   </app-profile-card-header>
   <app-profile-card-content>
     <div
+      *ngIf="
+        languages && getLanguageNames(languages).length > 0;
+        then languagesPresent;
+        else noLanguages
+      "
       class="grid md:grid-cols-3 lg:grid-cols-4 gap-4 break-words items-center text-sm"
+    ></div>
+    <ng-template #languagesPresent
+      ><p>{{ getLanguageNames(languages).join(',') }}</p></ng-template
     >
-      <app-profile-language-card-entry
-        *ngFor="let lang of languages"
-        [name]="lang.name"
-        [isoIdentifier]="lang.isoIdentifier"
-      ></app-profile-language-card-entry>
-    </div>
-    <i *ngIf="!languages || languages.length === 0">Keine Sprachen angegeben</i>
+    <ng-template #noLanguages
+      ><i *ngIf="!languages || languages.length === 0"
+        >Keine Sprachen angegeben</i
+      ></ng-template
+    >
   </app-profile-card-content>
 </app-profile-card>

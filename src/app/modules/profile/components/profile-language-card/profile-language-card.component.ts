@@ -20,4 +20,8 @@ export class ProfileLanguageCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  getLanguageNames(languages: Language[]): string[] {
+    return this.languages.map(l => l.name) ?? [];
+  }
 }
