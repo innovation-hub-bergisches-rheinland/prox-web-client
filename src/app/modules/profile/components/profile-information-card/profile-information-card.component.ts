@@ -31,4 +31,12 @@ export class ProfileInformationCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  isEmpty(): boolean {
+    return this.entries.reduce(
+      (previousValue, currentValue) =>
+        previousValue && (!currentValue || !currentValue.value),
+      true
+    );
+  }
 }
