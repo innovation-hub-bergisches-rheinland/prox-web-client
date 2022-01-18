@@ -9,6 +9,7 @@ import { JobService } from '@data/service/job.service';
 import { ProjectService } from '@data/service/project.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from '@shared/shared.module';
 
 describe('LecturerPageComponent', () => {
   let component: LecturerPageComponent;
@@ -20,7 +21,8 @@ describe('LecturerPageComponent', () => {
       imports: [
         KeycloakAngularModule,
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        SharedModule
       ]
     }).compileComponents();
   });

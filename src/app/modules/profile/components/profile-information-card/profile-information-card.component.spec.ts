@@ -15,6 +15,7 @@ describe('ProfileInformationCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileInformationCardComponent);
     component = fixture.componentInstance;
+    component.entries = [];
     fixture.detectChanges();
   });
 

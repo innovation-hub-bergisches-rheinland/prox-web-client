@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrganizationOverviewPageComponent } from './organization-overview-page.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { KeycloakAngularModule } from 'keycloak-angular';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('OrganizationOverviewPageComponent', () => {
   let component: OrganizationOverviewPageComponent;
@@ -10,7 +12,11 @@ describe('OrganizationOverviewPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganizationOverviewPageComponent],
-      imports: [HttpClientTestingModule]
+      imports: [
+        HttpClientTestingModule,
+        KeycloakAngularModule,
+        RouterTestingModule
+      ]
     }).compileComponents();
   });
 
