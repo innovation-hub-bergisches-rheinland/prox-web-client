@@ -64,6 +64,7 @@ export type CreateProjectSchema = Pick<
   | 'shortDescription'
   | 'requirement'
   | 'status'
+  | 'context'
   | 'supervisorName'
   | 'creatorName'
 >;

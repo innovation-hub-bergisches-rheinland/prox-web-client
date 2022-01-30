@@ -124,6 +124,7 @@ export class ProjectEditorComponent
       description: this.projectFormControl.value.description.trim(),
       name: this.projectFormControl.value.name.trim(),
       status: this.projectFormControl.value.status.trim(),
+      context: 'PROFESSOR',
       supervisorName: this.projectFormControl.value.supervisorName.trim()
     };
   }
