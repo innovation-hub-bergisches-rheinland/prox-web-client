@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [standard-version](https://github.com/conventional-changelog/standard-version)
 for commit guidelines.
 
+### [1.2.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.0...v1.2.1) (2022-01-30)
+
+### Bug Fixes
+
+- set professor context as default
+  ([eec018b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/eec018b8704a8eed26040eb4e9f88fb446e83a16))
+
 ## [1.2.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.1.0...v1.2.0) (2022-01-18)
 
 ### Features
