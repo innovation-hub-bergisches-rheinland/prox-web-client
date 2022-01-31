@@ -13,26 +13,7 @@ import { TagService } from '@data/service/tag.service';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-
-interface ModuleType {
-  key: string;
-  name: string;
-}
-
-interface Project {
-  id: string;
-  status: 'AVAILABLE' | 'RUNNING' | 'FINISHED';
-  name: string;
-  shortDescription: string;
-  description: string;
-  requirement: string;
-  supervisorName: string;
-  creatorID: string;
-  context: 'PROFESSOR' | 'COMPANY';
-  modules: ModuleType[];
-  createdAt: string;
-  modifiedAt: string;
-}
+import { ModuleType, Project, ProjectWithModules } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-project-item',
@@ -40,7 +21,7 @@ interface Project {
   styleUrls: ['./project-item.component.scss']
 })
 export class ProjectItemComponent implements OnInit {
-  @Input() project: Project;
+  @Input() project: ProjectWithModules;
   @Input() showEditButton: boolean;
   @Input() showDeleteButton: boolean;
   @Output() editButtonClicked = new EventEmitter<any>();

@@ -13,7 +13,8 @@ import { FlexModule } from '@angular/flex-layout';
 import { ModuleTypesSelectorComponent } from '@modules/project/components/module-types-selector/module-types-selector.component';
 import { StudyProgramPickerComponent } from './components/module-types-selector/study-program-picker/study-program-picker.component';
 import { ModuleTypesSelectionTableComponent } from './components/module-types-selector/module-types-selection-table/module-types-selection-table.component';
-import { ProjectIconsComponent } from './components/project-icons/project-icons.component';
+import { ProjectIconsComponent } from './components/project-card/project-icons/project-icons.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ProjectIconsComponent } from './components/project-icons/project-icons.
     ModuleTypesSelectorComponent,
     StudyProgramPickerComponent,
     ModuleTypesSelectionTableComponent,
-    ProjectIconsComponent
+    ProjectIconsComponent,
+    ProjectCardComponent
   ],
   imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
   entryComponents: [ProjectEditorDialogComponent]

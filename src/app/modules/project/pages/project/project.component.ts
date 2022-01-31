@@ -20,32 +20,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-
-interface ModuleType {
-  key: string;
-  name: string;
-}
-
-interface StudyProgram {
-  id: string;
-  key: string;
-  name: string;
-}
-
-interface Project {
-  id: string;
-  status: 'AVAILABLE' | 'RUNNING' | 'FINISHED';
-  name: string;
-  shortDescription: string;
-  description: string;
-  requirement: string;
-  supervisorName: string;
-  creatorID: string;
-  context: 'PROFESSOR' | 'COMPANY';
-  createdAt: string;
-  modifiedAt: string;
-  modules: ModuleType[];
-}
+import { ModuleType, ProjectWithModules, StudyProgram } from '@data/schema/project-service.types';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -60,7 +35,7 @@ export interface QueryParams extends Params {
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  public projectsPage: Project[] = [];
+  public projectsPage: ProjectWithModules[] = [];
   public totalFilteredProjects = 0;
   public pageIndex = 0;
   public pageSize = 10;
@@ -78,8 +53,8 @@ export class ProjectComponent implements OnInit {
 
   public statusOptions = StatusOption;
 
-  private projects: Project[] = [];
-  private filteredProjects: Project[] = [];
+  private projects: ProjectWithModules[] = [];
+  private filteredProjects: ProjectWithModules[] = [];
   public filteredTags$: Observable<Tag[]>;
 
   private allStudyPrograms: StudyProgram[] = [];
@@ -246,7 +221,7 @@ export class ProjectComponent implements OnInit {
     return false;
   }
 
-  public hasProjectPermission(project: Project): boolean {
+  public hasProjectPermission(project: ProjectWithModules): boolean {
     if (this.isLoggedIn) {
       const userId = this.keycloakService.getKeycloakInstance().subject;
       return (
@@ -284,7 +259,7 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  public deleteProject(project: Project) {
+  public deleteProject(project: ProjectWithModules) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
     });
@@ -302,7 +277,7 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  public openProjectEditorDialog(project: Project) {
+  public openProjectEditorDialog(project: ProjectWithModules) {
     const dialog = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
