@@ -1,6 +1,8 @@
-export type StatusOption = 'ABGESCHLOSSEN' | 'LAUFEND' | 'VERFÜGBAR';
-export const StatusOption = {
-  Finished: 'ABGESCHLOSSEN' as StatusOption,
-  Running: 'LAUFEND' as StatusOption,
-  Available: 'VERFÜGBAR' as StatusOption
+import { Status } from '@data/schema/project-service.types';
+
+export type StatusOption = Record<Status, string>;
+export const StatusOption: StatusOption = {
+  FINISHED: 'Abgeschlossen',
+  RUNNING: 'Laufend',
+  AVAILABLE: 'Verfügbar'
 };

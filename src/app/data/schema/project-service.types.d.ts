@@ -1,15 +1,15 @@
-export type Status = 'VERFÜGBAR' | 'LAUFEND' | 'ABGESCHLOSSEN';
+export type Status = 'AVAILABLE' | 'RUNNING' | 'FINISHED';
 export type Context = 'COMPANY' | 'PROFESSOR';
 export type ID = string;
 
 export interface ModuleType {
-  id: string;
+  id: ID;
   key: string;
   name: string;
 }
 
 export interface StudyProgram {
-  id: string;
+  id: ID;
   key: string;
   name: string;
 }
@@ -23,10 +23,10 @@ export interface Project {
   status: Status;
   context: Context;
   creatorID: ID;
-  creatorName: string;
+  creatorName?: string;
   supervisorName: string;
-  created: string;
-  modified: string;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export type ProjectProjection = 'withModules';
@@ -57,14 +57,7 @@ export type StudyProgramWithModulesCollectionModel = CollectionModel<
   StudyProgramsWithModules,
   'studyPrograms'
 >;
-export type CreateProjectSchema = Pick<
+export type CreateProjectSchema = Omit<
   Project,
-  | 'name'
-  | 'description'
-  | 'shortDescription'
-  | 'requirement'
-  | 'status'
-  | 'context'
-  | 'supervisorName'
-  | 'creatorName'
+  'id' | 'creatorID' | 'creatorName' | 'createdAt' | 'modifiedAt'
 >;

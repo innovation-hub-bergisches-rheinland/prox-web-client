@@ -49,7 +49,7 @@
 
                 <mat-option
                   *ngFor="let statusOption of statusOptions | keyvalue"
-                  [value]="statusOption.value"
+                  [value]="statusOption.key"
                 >
                   {{ statusOption.value | titlecase }}
                 </mat-option>

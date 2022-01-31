@@ -118,7 +118,6 @@ export class ProjectEditorComponent
 
   buildProjectSchemaFromForm(): CreateProjectSchema {
     return {
-      creatorName: this.fullName,
       shortDescription: this.projectFormControl.value.shortDescription.trim(),
       requirement: this.projectFormControl.value.requirement.trim(),
       description: this.projectFormControl.value.description.trim(),
@@ -149,7 +148,7 @@ export class ProjectEditorComponent
       op
     );
     this.projectFormControl.controls.status.setValue(
-      project.status ?? 'VERFÜGBAR',
+      project.status ?? 'AVAILABLE',
       op
     );
 

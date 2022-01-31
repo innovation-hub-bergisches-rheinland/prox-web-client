@@ -21,7 +21,7 @@ interface ModuleType {
 
 interface Project {
   id: string;
-  status: 'VERFÜGBAR' | 'LAUFEND' | 'ABGESCHLOSSEN';
+  status: 'AVAILABLE' | 'RUNNING' | 'FINISHED';
   name: string;
   shortDescription: string;
   description: string;

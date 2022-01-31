@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>
       <mat-icon
-        *ngIf="project.status === 'VERFÜGBAR'"
+        *ngIf="project.status === 'AVAILABLE'"
         matTooltip="Verfügbar"
         class="status-icon"
         color="primary"
@@ -11,7 +11,7 @@
       </mat-icon>
 
       <mat-icon
-        *ngIf="project.status === 'ABGESCHLOSSEN'"
+        *ngIf="project.status === 'FINISHED'"
         matTooltip="Abgeschlossen"
         class="status-icon"
         color="primary"
@@ -20,7 +20,7 @@
       </mat-icon>
 
       <mat-icon
-        *ngIf="project.status === 'LAUFEND'"
+        *ngIf="project.status === 'RUNNING'"
         matTooltip="Laufend"
         class="status-icon"
         color="primary"

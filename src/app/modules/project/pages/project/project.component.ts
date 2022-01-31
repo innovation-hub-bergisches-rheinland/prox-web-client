@@ -41,7 +41,7 @@ interface StudyProgram {
 
 interface Project {
   id: string;
-  status: 'VERFÜGBAR' | 'LAUFEND' | 'ABGESCHLOSSEN';
+  status: 'AVAILABLE' | 'RUNNING' | 'FINISHED';
   name: string;
   shortDescription: string;
   description: string;
@@ -73,7 +73,7 @@ export class ProjectComponent implements OnInit {
 
   public searchForm: FormGroup = this.formBuilder.group({
     searchString: [''],
-    selectedStatusOption: [StatusOption.Available],
+    selectedStatusOption: [StatusOption.AVAILABLE],
     selectedModuleTypes: [],
     selectedStudyPrograms: [],
     searchTagInput: ['']
@@ -173,7 +173,7 @@ export class ProjectComponent implements OnInit {
     this.route.queryParams.subscribe(
       (params: QueryParams) => {
         if (params.state) {
-          const statusOption = StatusOption[params.state];
+          const statusOption = params.state;
           if (statusOption) {
             this.searchForm.controls.selectedStatusOption.setValue(
               statusOption
