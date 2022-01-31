@@ -1,0 +1,10 @@
+<ng-container>
+  <ng-container [ngSwitch]="status">
+    <mat-icon *ngSwitchCase="'AVAILABLE'" matTooltip="Verfügbar" class="status-icon" color="primary"> lock_open </mat-icon>
+    <mat-icon *ngSwitchCase="'FINISHED'" matTooltip="Abgeschlossen" class="status-icon" color="primary"> lock </mat-icon>
+    <mat-icon *ngSwitchCase="'RUNNING'" matTooltip="Laufend" class="status-icon" color="primary"> directions_run </mat-icon>
+  </ng-container>
+  <ng-container [ngSwitch]="context">
+    <mat-icon *ngSwitchCase="'COMPANY'" matTooltip="Projekt in einem Unternehmen" class="context-icon" color="primary"> domain </mat-icon>
+  </ng-container>
+</ng-container>
