@@ -1,21 +1,11 @@
 <app-content-page>
   <app-content-page-header>
     <app-content-page-title>Projekte</app-content-page-title>
-    <app-content-page-actions>
-      <button
-        *ngIf="hasProjectCreationPermission()"
-        (click)="openProjectEditorDialog(null)"
-        mat-icon-button
-        matTooltip="Neues Projekt hinzufügen"
-        class="no-hover"
-      >
-        <mat-icon id="add"> add </mat-icon>
-      </button>
-    </app-content-page-actions>
+    <app-content-page-actions> </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
-    <div class="project-list-header">
-      <mat-expansion-panel class="expansion-headers-align" hideToggle>
+    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10px">
+      <mat-expansion-panel fxFlex class="expansion-headers-align" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title> Suchfilter </mat-panel-title>
           <mat-panel-description> Nach Projekten suchen </mat-panel-description>
@@ -105,7 +95,15 @@
           <button mat-flat-button color="primary" type="submit">Suchen</button>
         </form>
       </mat-expansion-panel>
-
+      <button
+        *ngIf="hasProjectCreationPermission()"
+        (click)="openProjectEditorDialog(null)"
+        mat-fab
+        matTooltip="Neues Projekt hinzufügen"
+        color="primary"
+      >
+        <mat-icon> add </mat-icon>
+      </button>
       <mat-divider></mat-divider>
     </div>
 
