@@ -77,11 +77,11 @@
         <mat-label>Status</mat-label>
         <mat-select formControlName="status" placeholder="Status" required>
           <!-- The following options should be implemented either as enums or imported from backend -->
-          <mat-option value="VERFÜGBAR">Verfügbar</mat-option>
+          <mat-option value="AVAILABLE">Verfügbar</mat-option>
 
-          <mat-option value="LAUFEND">Laufend</mat-option>
+          <mat-option value="RUNNING">Laufend</mat-option>
 
-          <mat-option value="ABGESCHLOSSEN">Abgeschlossen</mat-option>
+          <mat-option value="FINISHED">Abgeschlossen</mat-option>
         </mat-select>
 
         <mat-error *ngIf="projectFormControl.controls['status'].hasError('required')"> Status <strong>fehlt</strong>! </mat-error>
