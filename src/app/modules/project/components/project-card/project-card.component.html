@@ -33,6 +33,12 @@
         <mat-card-subtitle>Kurze Projektbeschreibung:</mat-card-subtitle>
         <p [innerHTML]="project.shortDescription | linky"></p>
       </div>
+      <div *ngIf="showDetails">
+        <mat-card-subtitle> Projektbeschreibung:</mat-card-subtitle>
+        <div>
+          <p [innerHTML]="project.description | linky"></p>
+        </div>
+      </div>
       <div fxLayout.gt-md="row" fxLayoutGap.gt-md="5" fxLayoutAlign.gt-md="space-between center">
         <div fxFlex.gt-md="75">
           <mat-card-subtitle>Teilnahmevoraussetzungen:</mat-card-subtitle>

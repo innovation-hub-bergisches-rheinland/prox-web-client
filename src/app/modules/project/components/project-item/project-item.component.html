@@ -1,8 +1,8 @@
 <app-project-card
   [project]="project"
   [tags]="this.projectTags$ | async"
-  [modules]="project.modules"
-  [hasPermission]="showEditButton && showDeleteButton"
+  [modules]="this.projectModules$ | async"
+  [hasPermission]="hasPermission"
   (delete)="deleteProject()"
   (edit)="editProject()"
 ></app-project-card>

@@ -109,11 +109,10 @@
 
     <app-project-item
       *ngFor="let project of projectsPage"
-      (editButtonClicked)="openProjectEditorDialog(project)"
-      (deleteButtonClicked)="deleteProject(project)"
-      [showEditButton]="hasProjectPermission(project)"
-      [showDeleteButton]="hasProjectPermission(project)"
+      [showDetails]="false"
       [project]="project"
+      (updated)="onUpdateProject($event)"
+      (deleted)="onDeleteProject(project)"
     ></app-project-item>
 
     <mat-paginator

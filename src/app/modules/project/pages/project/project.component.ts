@@ -20,7 +20,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ModuleType, ProjectWithModules, StudyProgram } from '@data/schema/project-service.types';
+import { ModuleType, Project, ProjectWithModules, StudyProgram } from '@data/schema/project-service.types';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -35,7 +35,7 @@ export interface QueryParams extends Params {
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-  public projectsPage: ProjectWithModules[] = [];
+  public projectsPage: Project[] = [];
   public totalFilteredProjects = 0;
   public pageIndex = 0;
   public pageSize = 10;
@@ -53,8 +53,8 @@ export class ProjectComponent implements OnInit {
 
   public statusOptions = StatusOption;
 
-  private projects: ProjectWithModules[] = [];
-  private filteredProjects: ProjectWithModules[] = [];
+  private projects: Project[] = [];
+  private filteredProjects: Project[] = [];
   public filteredTags$: Observable<Tag[]>;
 
   private allStudyPrograms: StudyProgram[] = [];
@@ -259,34 +259,6 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  public deleteProject(project: ProjectWithModules) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { title: 'Löschen', message: 'Projekt wirklich löschen?' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.projectService.deleteProject(project).subscribe(
-          () => {
-            this.projects = this.projects.filter(p => p !== project);
-            this.filterProjects();
-          },
-          error => console.error('project service error', error)
-        );
-      }
-    });
-  }
-
-  public openProjectEditorDialog(project: ProjectWithModules) {
-    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
-      autoFocus: false,
-      maxHeight: '85vh',
-      data: project
-    });
-
-    dialog.afterClosed().subscribe(() => this.getAllProjects());
-  }
-
   public changePageIndexOrSize(pageEvent: PageEvent) {
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
@@ -337,6 +309,56 @@ export class ProjectComponent implements OnInit {
     this.tagInput.nativeElement.value = '';
     this.searchForm.controls.searchTagInput.setValue('', {
       emitEvent: true
+    });
+  }
+
+  public openProjectEditorDialog(project: Project) {
+    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
+      autoFocus: false,
+      maxHeight: '85vh',
+      data: project
+    });
+
+    dialog.afterClosed().subscribe(res => {
+      if (res) {
+        this.onAddProject();
+      }
+    });
+  }
+
+  // TODO: Refactor
+  onAddProject() {
+    // We just load all projects again... totally needs to get refactored, as well as the other
+    // event handlers for adding/removing projects.
+    this.getAllProjects();
+  }
+
+  // TODO: Refactor
+  onDeleteProject(project: Project) {
+    this.projects = this.projects.filter(p => p.id !== project.id);
+    this.filteredProjects = this.filteredProjects.filter(p => p.id !== project.id);
+    this.projectsPage = this.projectsPage.filter(p => p.id !== project.id);
+  }
+
+  // TODO: Refactor
+  onUpdateProject(project: Project) {
+    this.projects = this.projects.map(p => {
+      if (p.id === project.id) {
+        return project;
+      }
+      return p;
+    });
+    this.filteredProjects = this.filteredProjects.map(p => {
+      if (p.id === project.id) {
+        return project;
+      }
+      return p;
+    });
+    this.projectsPage = this.projectsPage.map(p => {
+      if (p.id === project.id) {
+        return project;
+      }
+      return p;
     });
   }
 }
