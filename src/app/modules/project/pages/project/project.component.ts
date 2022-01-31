@@ -42,6 +42,8 @@ interface Project {
   supervisorName: string;
   creatorID: string;
   context: 'PROFESSOR' | 'COMPANY';
+  createdAt: string;
+  modifiedAt: string;
   modules: ModuleType[];
 }
 

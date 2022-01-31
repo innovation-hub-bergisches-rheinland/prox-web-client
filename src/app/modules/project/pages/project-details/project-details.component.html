@@ -67,6 +67,10 @@
               <strong>({{ module.key }})</strong> {{ module.name }}
             </p>
           </div>
+          <div class="card-container">
+            <mat-card-subtitle>Erstellt am:</mat-card-subtitle>
+            <p>{{ project.createdAt | date: 'YYYY-MM-dd' }}</p>
+          </div>
         </div>
 
         <mat-card-subtitle>

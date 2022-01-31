@@ -67,6 +67,13 @@
       </div>
     </div>
 
+    <div class="card-container-wrapper">
+      <div class="card-container">
+        <mat-card-subtitle>Erstellt am:</mat-card-subtitle>
+        <p>{{ project.createdAt | date: 'YYYY-MM-dd' }}</p>
+      </div>
+    </div>
+
     <mat-card-subtitle>
       <mat-chip-list *ngIf="projectTags$ | async as tags">
         <mat-chip selected *ngFor="let tag of tags" matTooltip="{{ tag.tagName }}">

@@ -30,6 +30,8 @@ interface Project {
   creatorID: string;
   context: 'PROFESSOR' | 'COMPANY';
   modules: ModuleType[];
+  createdAt: string;
+  modifiedAt: string;
 }
 
 @Component({
