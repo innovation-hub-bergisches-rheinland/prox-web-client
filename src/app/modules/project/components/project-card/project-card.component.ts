@@ -21,6 +21,9 @@ export class ProjectCardComponent implements OnInit {
   @Input()
   hasPermission: boolean = false;
 
+  @Input()
+  showDetails: boolean = false;
+
   @Output()
   edit: Subject<Project> = new Subject<Project>();
 
