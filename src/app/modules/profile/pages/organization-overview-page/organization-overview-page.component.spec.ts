@@ -12,11 +12,7 @@ describe('OrganizationOverviewPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganizationOverviewPageComponent],
-      imports: [
-        HttpClientTestingModule,
-        KeycloakAngularModule,
-        RouterTestingModule
-      ]
+      imports: [HttpClientTestingModule, KeycloakAngularModule, RouterTestingModule]
     }).compileComponents();
   });
 

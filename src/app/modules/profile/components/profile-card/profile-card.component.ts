@@ -1,16 +1,9 @@
-import {
-  Component,
-  Directive,
-  HostBinding,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Directive, HostBinding, Input, OnInit } from '@angular/core';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
 
 @Directive({
-  selector:
-    'app-profile-card-content, [app-profile-card-content], [appProfileCardContent]'
+  selector: 'app-profile-card-content, [app-profile-card-content], [appProfileCardContent]'
 })
 export class ProfileCardContentDirective {
   @HostBinding('class') classes = 'app-profile-card-content';

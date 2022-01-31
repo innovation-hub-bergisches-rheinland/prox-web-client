@@ -7,10 +7,7 @@ import { Quarter } from '@data/schema/openapi/company-profile-service/quarter';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
 import { Observable } from 'rxjs';
-import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent
-} from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { KeycloakService } from 'keycloak-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyProfileService } from '@data/service/company-profile.service';
@@ -95,9 +92,7 @@ export class OrganizationEditorPageComponent implements OnInit {
 
   private buildSocialMediaObject(company: Company): any {
     const obj = {};
-    this.socialMediaPlatforms.forEach(
-      p => (obj[p[0]] = this.getSocialMediaLink(p[1], company))
-    );
+    this.socialMediaPlatforms.forEach(p => (obj[p[0]] = this.getSocialMediaLink(p[1], company)));
     return obj;
   }
 
@@ -120,8 +115,7 @@ export class OrganizationEditorPageComponent implements OnInit {
         homepage: this.profileForm.value.homepage,
         numberOfEmployees: this.profileForm.value.numberOfEmployees,
         vita: this.profileForm.value.vita,
-        contactEmail: (this.profileForm.get('contact') as FormGroup).value
-          .contactEmail
+        contactEmail: (this.profileForm.get('contact') as FormGroup).value.contactEmail
       },
       headquarter: this.profileForm.value.headquarter.trim()
         ? {
@@ -142,17 +136,11 @@ export class OrganizationEditorPageComponent implements OnInit {
       ['xing', SocialMedia.TypeEnum.Xing],
       ['linkedin', SocialMedia.TypeEnum.Linkedin]
     ];
-    socialMediaPlatforms.forEach(p =>
-      this.getSocialMediaAndAddToArray(p[0], p[1], socialMedia)
-    );
+    socialMediaPlatforms.forEach(p => this.getSocialMediaAndAddToArray(p[0], p[1], socialMedia));
     return socialMedia;
   }
 
-  private getSocialMediaAndAddToArray(
-    sm: string,
-    type: SocialMedia.TypeEnum,
-    arr: SocialMedia[]
-  ) {
+  private getSocialMediaAndAddToArray(sm: string, type: SocialMedia.TypeEnum, arr: SocialMedia[]) {
     const smForm: FormGroup = this.profileForm.get('socialMedia') as FormGroup;
     const fc = smForm.get(sm) as FormControl;
     if (fc && !fc.invalid) {
@@ -174,29 +162,21 @@ export class OrganizationEditorPageComponent implements OnInit {
       )
     );
 
-    this.companyProfileService
-      .getAllLanguages()
-      .subscribe(res => (this.allLanguages = res));
+    this.companyProfileService.getAllLanguages().subscribe(res => (this.allLanguages = res));
 
     this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
       startWith(null as string),
-      map((language: string | Language | null) =>
-        language ? this._filterLanguages(language) : this.allLanguages.slice()
-      )
+      map((language: string | Language | null) => (language ? this._filterLanguages(language) : this.allLanguages.slice()))
     );
 
     this.route.params
       .pipe(
-        mergeMap(params =>
-          this.companyProfileService.getCompanyById(params.id)
-        ),
+        mergeMap(params => this.companyProfileService.getCompanyById(params.id)),
         tap(c => {
           this.keycloakService.isLoggedIn().then(isLoggedIn => {
             if (isLoggedIn) {
               const userId = this.keycloakService.getKeycloakInstance().subject;
-              this.hasPermission =
-                this.keycloakService.isUserInRole('company-manager') &&
-                userId === c.creatorId;
+              this.hasPermission = this.keycloakService.isUserInRole('company-manager') && userId === c.creatorId;
             }
           });
         })
@@ -205,30 +185,20 @@ export class OrganizationEditorPageComponent implements OnInit {
         next: company => {
           this.company = company;
           this.exists = true;
-          this.imageSrc = this.companyProfileService.getCompanyLogoUrl(
-            this.company.id
-          );
-          this.companyProfileService
-            .getCompanyLanguages(this.company.id)
-            .subscribe(res => this.languages.push(...res));
+          this.imageSrc = this.companyProfileService.getCompanyLogoUrl(this.company.id);
+          this.companyProfileService.getCompanyLanguages(this.company.id).subscribe(res => this.languages.push(...res));
         },
         error: err => {
           if (err instanceof HttpErrorResponse && err.status == 404) {
             this.exists = false;
           } else {
-            this.snackbar.open(
-              'Konnte Profil nicht laden, versuchen Sie es später erneut.'
-            );
+            this.snackbar.open('Konnte Profil nicht laden, versuchen Sie es später erneut.');
           }
         }
       });
   }
 
-  handleChipInput<T>(
-    event: MatChipInputEvent,
-    proj: (s: string) => T,
-    action: (v: T) => void
-  ) {
+  handleChipInput<T>(event: MatChipInputEvent, proj: (s: string) => T, action: (v: T) => void) {
     const input = event.chipInput.inputElement;
     const value = event.value;
 
@@ -244,20 +214,13 @@ export class OrganizationEditorPageComponent implements OnInit {
     }
   }
 
-  addToArrayIfNotExists<T>(
-    valueList: T[],
-    value: T,
-    predicate: (a: T, b: T) => boolean
-  ) {
+  addToArrayIfNotExists<T>(valueList: T[], value: T, predicate: (a: T, b: T) => boolean) {
     if (valueList.filter(item => predicate(item, value)).length === 0) {
       valueList.push(value);
     }
   }
 
-  removeFromArrayIfExists<T>(
-    valueList: T[],
-    predicate: (value: T, index: number, obj: T[]) => unknown
-  ) {
+  removeFromArrayIfExists<T>(valueList: T[], predicate: (value: T, index: number, obj: T[]) => unknown) {
     const index = valueList.findIndex(predicate);
     if (index >= 0) {
       valueList.splice(index, 1);
@@ -271,20 +234,13 @@ export class OrganizationEditorPageComponent implements OnInit {
       };
     };
     const action: (v: Quarter) => void = (v: Quarter) =>
-      this.addToArrayIfNotExists(
-        this.quarters,
-        v,
-        (a, b) => a.location.toLowerCase() === b.location.toLowerCase()
-      );
+      this.addToArrayIfNotExists(this.quarters, v, (a, b) => a.location.toLowerCase() === b.location.toLowerCase());
 
     this.handleChipInput(event, mapping, action);
   }
 
   removeQuarter(subject: Quarter) {
-    this.removeFromArrayIfExists(
-      this.quarters,
-      q => q.location.toLowerCase() === subject.location.toLowerCase()
-    );
+    this.removeFromArrayIfExists(this.quarters, q => q.location.toLowerCase() === subject.location.toLowerCase());
   }
 
   addBranch(event: MatChipInputEvent) {
@@ -294,28 +250,17 @@ export class OrganizationEditorPageComponent implements OnInit {
       };
     };
     const action: (v: Branch) => void = (v: Branch) =>
-      this.addToArrayIfNotExists(
-        this.branches,
-        v,
-        (a, b) => a.branchName.toLowerCase() === b.branchName.toLowerCase()
-      );
+      this.addToArrayIfNotExists(this.branches, v, (a, b) => a.branchName.toLowerCase() === b.branchName.toLowerCase());
 
     this.handleChipInput(event, mapping, action);
   }
 
   removeBranch(subject: Branch) {
-    this.removeFromArrayIfExists(
-      this.branches,
-      b => b.branchName.toLowerCase() === subject.branchName.toLowerCase()
-    );
+    this.removeFromArrayIfExists(this.branches, b => b.branchName.toLowerCase() === subject.branchName.toLowerCase());
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.addToArrayIfNotExists(
-      this.languages,
-      event.option.value as Language,
-      (a, b) => a.id === b.id
-    );
+    this.addToArrayIfNotExists(this.languages, event.option.value as Language, (a, b) => a.id === b.id);
     this.languageInput.nativeElement.value = '';
     this.languageCtrl.setValue(null);
   }
@@ -362,46 +307,33 @@ export class OrganizationEditorPageComponent implements OnInit {
   onSubmit() {
     // When exists update, else save new
     const saveObservable: Observable<Company> = this.exists
-      ? this.companyProfileService.updateCompanyProfile(
-          this.companyId,
-          this.company
-        )
+      ? this.companyProfileService.updateCompanyProfile(this.companyId, this.company)
       : this.companyProfileService.saveCompanyProfile(this.company);
 
     let error = false;
 
     saveObservable.subscribe({
       next: p => {
-        this.companyProfileService
-          .saveCompanyLanguages(p.id, this.languages)
-          .subscribe({
+        this.companyProfileService.saveCompanyLanguages(p.id, this.languages).subscribe({
+          error: err => {
+            console.error(err);
+            this.snackbar.open('Konnte Sprachen nicht speichern. Bitte versuchen Sie es später erneut.');
+            error = true;
+          }
+        });
+        if (this.image && !this.deleteImage) {
+          this.companyProfileService.saveCompanyLogo(p.id, this.image).subscribe({
             error: err => {
               console.error(err);
-              this.snackbar.open(
-                'Konnte Sprachen nicht speichern. Bitte versuchen Sie es später erneut.'
-              );
+              this.snackbar.open('Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.');
               error = true;
             }
           });
-        if (this.image && !this.deleteImage) {
-          this.companyProfileService
-            .saveCompanyLogo(p.id, this.image)
-            .subscribe({
-              error: err => {
-                console.error(err);
-                this.snackbar.open(
-                  'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
-                );
-                error = true;
-              }
-            });
         } else if (this.deleteImage) {
           this.companyProfileService.deleteCompanyLogo(p.id).subscribe({
             error: err => {
               console.error(err);
-              this.snackbar.open(
-                'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
-              );
+              this.snackbar.open('Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.');
               error = true;
             }
           });
@@ -409,9 +341,7 @@ export class OrganizationEditorPageComponent implements OnInit {
       },
       error: err => {
         console.error(err);
-        this.snackbar.open(
-          'Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.'
-        );
+        this.snackbar.open('Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.');
       },
       complete: () => {
         if (!error) {

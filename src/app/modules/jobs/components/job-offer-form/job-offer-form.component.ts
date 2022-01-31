@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -34,18 +34,8 @@ export interface JobOfferEvent {
 })
 export class JobOfferFormComponent implements OnInit {
   jobOfferForm: FormGroup = this.formBuilder.group({
-    title: [
-      '',
-      [Validators.required, Validators.minLength(10), Validators.maxLength(255)]
-    ],
-    description: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(50),
-        Validators.maxLength(50000)
-      ]
-    ],
+    title: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(255)]],
+    description: ['', [Validators.required, Validators.minLength(50), Validators.maxLength(50000)]],
     date: [],
     jobType: [],
     jobEntryLevel: []
@@ -59,9 +49,7 @@ export class JobOfferFormComponent implements OnInit {
       id: undefined, // TODO
       description: this.jobOfferForm.value.description,
       title: this.jobOfferForm.value.title,
-      earliestStartOfEmployment: this.jobOfferForm.value.date
-        ? (this.jobOfferForm.value.date as Moment).format('YYYY-MM-DD')
-        : null
+      earliestStartOfEmployment: this.jobOfferForm.value.date ? (this.jobOfferForm.value.date as Moment).format('YYYY-MM-DD') : null
     };
   }
 
@@ -84,10 +72,7 @@ export class JobOfferFormComponent implements OnInit {
     return this.jobOfferForm.value.jobEntryLevel;
   }
 
-  constructor(
-    private jobService: JobService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private jobService: JobService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.allJobOfferEntryLevels = this.jobService.getAllEntryLevels();

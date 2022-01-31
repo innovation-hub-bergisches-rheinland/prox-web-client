@@ -19,27 +19,18 @@ export class TagService {
   ) {}
 
   createTag(tag: Tag): Observable<Tag | any> {
-    return this.tagEntityService
-      .saveTagUsingPOST(tag)
-      .pipe(map(t => Object.assign(new Tag(), t)));
+    return this.tagEntityService.saveTagUsingPOST(tag).pipe(map(t => Object.assign(new Tag(), t)));
   }
 
-  findByTagName(
-    tagName: string,
-    exactMatch: boolean = true
-  ): Observable<Tag[]> {
+  findByTagName(tagName: string, exactMatch: boolean = true): Observable<Tag[]> {
     if (exactMatch) {
       return this.tagEntityService
         .findByTagNameTagNameIgnoreCaseTagUsingGET(tagName)
-        .pipe(
-          map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2)))
-        );
+        .pipe(map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2))));
     } else {
       return this.tagEntityService
         .findByTagNameTagNameContainingIgnoreCaseTagUsingGET(tagName)
-        .pipe(
-          map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2)))
-        );
+        .pipe(map(t => t._embedded.tags.map(t2 => Object.assign(new Tag(), t2))));
     }
   }
 
@@ -57,35 +48,24 @@ export class TagService {
   }
 
   setProjectTags(id: string, tags: Tag[]): Observable<Tag[] | any> {
-    return this.tagCollectionEntityService.tagCollectionTagsUsingPUT(
-      id,
-      tags.map(t => t.id).join('\n')
-    );
+    return this.tagCollectionEntityService.tagCollectionTagsUsingPUT(id, tags.map(t => t.id).join('\n'));
   }
 
   getPopularTags(limit: number = 10): Observable<Tag[]> {
     return this.tagControllerService
       .popularTagsUsingGET(limit)
-      .pipe(
-        map(tagCount =>
-          tagCount.sort((a, b) => b.count - a.count).map(tc => tc.tag)
-        )
-      );
+      .pipe(map(tagCount => tagCount.sort((a, b) => b.count - a.count).map(tc => tc.tag)));
   }
 
   findAllProjectIdsUsingTagsByIds(ids: string[]): Observable<string[]> {
     return this.tagCollectionEntityService
       .findAllUsingTagsTagCollectionUsingGET(ids.join(','))
-      .pipe(
-        map(res => res._embedded.tagCollections.map(tc => tc.referencedEntity))
-      );
+      .pipe(map(res => res._embedded.tagCollections.map(tc => tc.referencedEntity)));
   }
 
   findAllProjectIdsUsingTagsByNames(names: string[]): Observable<string[]> {
     return this.tagCollectionEntityService
       .findAllUsingTagsUsingNameTagCollectionUsingGET(names.join(','))
-      .pipe(
-        map(res => res._embedded.tagCollections.map(tc => tc.referencedEntity))
-      );
+      .pipe(map(res => res._embedded.tagCollections.map(tc => tc.referencedEntity)));
   }
 }

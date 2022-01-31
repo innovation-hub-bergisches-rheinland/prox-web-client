@@ -1,15 +1,5 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
-import {
-  MatSnackBar,
-  MatSnackBarRef,
-  MAT_SNACK_BAR_DATA
-} from '@angular/material/snack-bar';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { Toast } from './types';
 
 @Component({

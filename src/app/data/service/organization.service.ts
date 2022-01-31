@@ -8,14 +8,9 @@ import { OrganizationControllerService } from './openapi/user-service/organizati
   providedIn: 'root'
 })
 export class OrganizationService {
-  constructor(
-    injector: Injector,
-    private organizationService: OrganizationControllerService
-  ) {}
+  constructor(injector: Injector, private organizationService: OrganizationControllerService) {}
 
-  createOrganization(
-    organization: PostOrganizationRequest
-  ): Observable<PostOrganizationResponse> {
+  createOrganization(organization: PostOrganizationRequest): Observable<PostOrganizationResponse> {
     return this.organizationService.postOrganization(organization);
   }
 }

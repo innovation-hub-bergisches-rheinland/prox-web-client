@@ -7,7 +7,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { combineLatest, from, Observable, of } from 'rxjs';
+import { Observable, combineLatest, from, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -62,32 +62,16 @@ export class LecturerEditorPageComponent implements OnInit {
       name: professor.name ? professor.name : '',
       affiliation: professor.affiliation ? professor.affiliation : '',
       subject: professor.mainSubject ? professor.mainSubject : '',
-      room: professor.contactInformation.room
-        ? professor.contactInformation.room
-        : '',
-      consultationHour: professor.contactInformation.consultationHour
-        ? professor.contactInformation.consultationHour
-        : '',
-      telephone: professor.contactInformation.telephone
-        ? professor.contactInformation.telephone
-        : '',
-      email: professor.contactInformation.email
-        ? professor.contactInformation.email
-        : '',
-      homepage: professor.contactInformation.homepage
-        ? professor.contactInformation.homepage
-        : '',
-      collegePage: professor.contactInformation.collegePage
-        ? professor.contactInformation.collegePage
-        : '',
+      room: professor.contactInformation.room ? professor.contactInformation.room : '',
+      consultationHour: professor.contactInformation.consultationHour ? professor.contactInformation.consultationHour : '',
+      telephone: professor.contactInformation.telephone ? professor.contactInformation.telephone : '',
+      email: professor.contactInformation.email ? professor.contactInformation.email : '',
+      homepage: professor.contactInformation.homepage ? professor.contactInformation.homepage : '',
+      collegePage: professor.contactInformation.collegePage ? professor.contactInformation.collegePage : '',
       vita: professor.vita ? professor.vita : '',
-      publications: professor.publications
-        ? professor.publications.map(p => p.publication).join('\n\n')
-        : []
+      publications: professor.publications ? professor.publications.map(p => p.publication).join('\n\n') : []
     });
-    this.researchSubjects = professor.researchSubjects
-      ? professor.researchSubjects.map(s => s.subject)
-      : [];
+    this.researchSubjects = professor.researchSubjects ? professor.researchSubjects.map(s => s.subject) : [];
   }
 
   /**
@@ -122,14 +106,9 @@ export class LecturerEditorPageComponent implements OnInit {
 
   ngOnInit() {
     //Permission depends on if the user is logged in AND the requested path equals to the userId AND user is in professor role
-    combineLatest([
-      from(this.keycloakService.isLoggedIn()),
-      this.route.params
-    ]).subscribe(([isLoggedIn, params]) => {
+    combineLatest([from(this.keycloakService.isLoggedIn()), this.route.params]).subscribe(([isLoggedIn, params]) => {
       this.hasPermission =
-        isLoggedIn &&
-        params['id'] == this.keycloakService.getKeycloakInstance().subject &&
-        this.keycloakService.isUserInRole('professor');
+        isLoggedIn && params['id'] == this.keycloakService.getKeycloakInstance().subject && this.keycloakService.isUserInRole('professor');
       this.professorId = params['id'];
     });
 
@@ -145,28 +124,18 @@ export class LecturerEditorPageComponent implements OnInit {
           this.exists = true;
           //TODO get rid of inner subscriptions
           //Build image url and set it
-          of(
-            this.professorService.getProfessorImageUrl(this.professor.id)
-          ).subscribe(
+          of(this.professorService.getProfessorImageUrl(this.professor.id)).subscribe(
             url => (this.imageSrc = url),
-            err =>
-              this.snackbar.open(
-                'Konnte Profilbild nicht laden, versuchen Sie es später erneut'
-              )
+            err => this.snackbar.open('Konnte Profilbild nicht laden, versuchen Sie es später erneut')
           );
           //Load faculty and set it
-          this.professorService
-            .getProfessorFaculty(this.professor.id)
-            .subscribe(
-              faculty => {
-                this.selectedFaculty = faculty;
-                this.facultySelection.setValue(this.selectedFaculty);
-              },
-              err =>
-                this.snackbar.open(
-                  'Konnte Fakultät nicht laden, versuchen Sie es später erneut'
-                )
-            );
+          this.professorService.getProfessorFaculty(this.professor.id).subscribe(
+            faculty => {
+              this.selectedFaculty = faculty;
+              this.facultySelection.setValue(this.selectedFaculty);
+            },
+            err => this.snackbar.open('Konnte Fakultät nicht laden, versuchen Sie es später erneut')
+          );
         },
         err => {
           //If the professor is NOT existent pre-fill the name and email based on keycloak service
@@ -174,15 +143,11 @@ export class LecturerEditorPageComponent implements OnInit {
             this.keycloakService.loadUserProfile().then(u => {
               this.professor.name = `${u.firstName} ${u.lastName}`;
               this.professor.contactInformation.email = u.email ?? '';
-              this.profileForm.controls['name'].setValue(
-                `${u.firstName} ${u.lastName}` ?? ''
-              );
+              this.profileForm.controls['name'].setValue(`${u.firstName} ${u.lastName}` ?? '');
               this.profileForm.controls['email'].setValue(u.email ?? '');
             });
           } else {
-            this.snackbar.open(
-              'Konnte Profil nicht laden, versuchen Sie es später erneut.'
-            );
+            this.snackbar.open('Konnte Profil nicht laden, versuchen Sie es später erneut.');
           }
         }
       );
@@ -287,25 +252,19 @@ export class LecturerEditorPageComponent implements OnInit {
     saveObservable.subscribe(
       p => {
         if (this.selectedFaculty) {
-          this.professorService
-            .saveProfessorFaculty(p.id, this.selectedFaculty.id)
-            .subscribe(
-              _ => {},
-              err => {
-                this.snackbar.open(
-                  'Konnte Fakultät nicht speichern. Bitte versuchen Sie es später erneut.'
-                );
-                error = true;
-              }
-            );
+          this.professorService.saveProfessorFaculty(p.id, this.selectedFaculty.id).subscribe(
+            _ => {},
+            err => {
+              this.snackbar.open('Konnte Fakultät nicht speichern. Bitte versuchen Sie es später erneut.');
+              error = true;
+            }
+          );
         }
         if (this.image && !this.deleteImage) {
           this.professorService.saveProfessorImage(p.id, this.image).subscribe(
             _ => {},
             err => {
-              this.snackbar.open(
-                'Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.'
-              );
+              this.snackbar.open('Konnte Profilbild nicht speichern. Bitte versuchen Sie es später erneut.');
               error = true;
             }
           );
@@ -313,18 +272,13 @@ export class LecturerEditorPageComponent implements OnInit {
           this.professorService.deleteImage(p.id).subscribe(
             _ => {},
             err => {
-              this.snackbar.open(
-                'Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.'
-              );
+              this.snackbar.open('Konnte Profilbild nicht löschen. Bitte versuchen Sie es später erneut.');
               error = true;
             }
           );
         }
       },
-      _ =>
-        this.snackbar.open(
-          'Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.'
-        ),
+      _ => this.snackbar.open('Konnte Profil nicht speichert. Bitte versuchen Sie es später erneut.'),
       () => {
         if (!error) {
           this.router.navigate(['..'], { relativeTo: this.route });

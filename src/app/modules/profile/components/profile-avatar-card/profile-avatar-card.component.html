@@ -1,6 +1,4 @@
-<div
-  class="bg-white p-3 border-t-4 border-berry-500 max-w-sm min-w-full min-h-full shadow"
->
+<div class="bg-white p-3 border-t-4 border-berry-500 max-w-sm min-w-full min-h-full shadow">
   <div class="image overflow-hidden">
     <img
       class="h-auto w-auto mx-auto"
@@ -19,21 +17,13 @@
       [handle]="socialMedia.facebook"
       *ngIf="socialMedia.facebook"
     ></app-social-media-button>
-    <app-social-media-button
-      [socialMedia]="'TWITTER'"
-      [handle]="socialMedia.twitter"
-      *ngIf="socialMedia.twitter"
-    ></app-social-media-button>
+    <app-social-media-button [socialMedia]="'TWITTER'" [handle]="socialMedia.twitter" *ngIf="socialMedia.twitter"></app-social-media-button>
     <app-social-media-button
       [socialMedia]="'INSTAGRAM'"
       [handle]="socialMedia.instagram"
       *ngIf="socialMedia.instagram"
     ></app-social-media-button>
-    <app-social-media-button
-      [socialMedia]="'XING'"
-      [handle]="socialMedia.xing"
-      *ngIf="socialMedia.xing"
-    ></app-social-media-button>
+    <app-social-media-button [socialMedia]="'XING'" [handle]="socialMedia.xing" *ngIf="socialMedia.xing"></app-social-media-button>
     <app-social-media-button
       [socialMedia]="'LINKEDIN'"
       [handle]="socialMedia.linkedIn"

@@ -15,8 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: ContentLayoutComponent,
-    loadChildren: () =>
-      import('@modules/profile/profile.module').then(m => m.ProfileModule)
+    loadChildren: () => import('@modules/profile/profile.module').then(m => m.ProfileModule)
   },
   {
     path: '',
@@ -27,13 +26,11 @@ const routes: Routes = [
         path: 'home',
         // loadChildren: () =>
         //   import('@modules/home/home.module').then(m => m.HomeModule)
-        loadChildren: () =>
-          import('@modules/home/home.module').then(m => m.HomeModule)
+        loadChildren: () => import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
         path: 'user',
-        loadChildren: () =>
-          import('@modules/user/user.module').then(m => m.UserModule),
+        loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
         canLoad: [FeatureGuard],
         data: {
           feature: 'user'
@@ -41,10 +38,7 @@ const routes: Routes = [
       },
       {
         path: 'organizations',
-        loadChildren: () =>
-          import('@modules/organization/organization.module').then(
-            m => m.OrganizationModule
-          ),
+        loadChildren: () => import('@modules/organization/organization.module').then(m => m.OrganizationModule),
         canLoad: [FeatureGuard],
         data: {
           feature: 'organizations'
@@ -52,8 +46,7 @@ const routes: Routes = [
       },
       {
         path: 'jobs',
-        loadChildren: () =>
-          import('@modules/jobs/jobs.module').then(j => j.JobModule),
+        loadChildren: () => import('@modules/jobs/jobs.module').then(j => j.JobModule),
         canLoad: [FeatureGuard],
         data: {
           feature: 'jobs'
@@ -63,8 +56,7 @@ const routes: Routes = [
         path: 'projects',
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
-        loadChildren: () =>
-          import('@modules/project/project.module').then(m => m.ProjectModule),
+        loadChildren: () => import('@modules/project/project.module').then(m => m.ProjectModule),
         canLoad: [FeatureGuard],
         data: {
           feature: 'projects'
@@ -74,8 +66,7 @@ const routes: Routes = [
         path: 'contact',
         // loadChildren: () =>
         //   import('@modules/contact/contact.module').then(m => m.ContactModule)
-        loadChildren: () =>
-          import('@modules/contact/contact.module').then(m => m.ContactModule)
+        loadChildren: () => import('@modules/contact/contact.module').then(m => m.ContactModule)
       },
       {
         path: 'imprint',
@@ -83,15 +74,13 @@ const routes: Routes = [
         //   import('@modules/imprint/imprint.module').then(
         //     m => m.ImprintModule
         //   )
-        loadChildren: () =>
-          import('@modules/imprint/imprint.module').then(m => m.ImprintModule)
+        loadChildren: () => import('@modules/imprint/imprint.module').then(m => m.ImprintModule)
       },
       {
         path: 'privacy',
         // loadChildren: () =>
         //   import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
-        loadChildren: () =>
-          import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
+        loadChildren: () => import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
       },
       {
         path: 'disclaimer',
@@ -99,10 +88,7 @@ const routes: Routes = [
         //   import('@modules/disclaimer/disclaimer.module').then(
         //     m => m.DisclaimerModule
         //   )
-        loadChildren: () =>
-          import('@modules/disclaimer/disclaimer.module').then(
-            m => m.DisclaimerModule
-          )
+        loadChildren: () => import('@modules/disclaimer/disclaimer.module').then(m => m.DisclaimerModule)
       },
       {
         path: '404',
@@ -110,10 +96,7 @@ const routes: Routes = [
         //   import('@modules/page-not-found/page-not-found.module').then(
         //     m => m.PageNotFoundModule
         //   )
-        loadChildren: () =>
-          import('@modules/page-not-found/page-not-found.module').then(
-            m => m.PageNotFoundModule
-          )
+        loadChildren: () => import('@modules/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)
       },
       {
         path: '**',

@@ -1,10 +1,4 @@
-import {
-  Component,
-  ContentChildren,
-  Input,
-  OnInit,
-  QueryList
-} from '@angular/core';
+import { Component, ContentChildren, Input, OnInit, QueryList } from '@angular/core';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { ProfileInformationCardEntryComponent } from '@modules/profile/components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 
@@ -33,10 +27,6 @@ export class ProfileInformationCardComponent implements OnInit {
   ngOnInit(): void {}
 
   isEmpty(): boolean {
-    return this.entries.reduce(
-      (previousValue, currentValue) =>
-        previousValue && (!currentValue || !currentValue.value),
-      true
-    );
+    return this.entries.reduce((previousValue, currentValue) => previousValue && (!currentValue || !currentValue.value), true);
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { EMPTY, from, Observable, throwError } from 'rxjs';
+import { EMPTY, Observable, from, throwError } from 'rxjs';
 import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { KeycloakService } from 'keycloak-angular';
@@ -38,10 +38,7 @@ export class JobDetailsComponent implements OnInit {
     this.hasPermission = from(this.keycloakService.isLoggedIn()).pipe(
       map(loggedIn => {
         if (loggedIn) {
-          return (
-            this.keycloakService.isUserInRole('professor') ||
-            this.keycloakService.isUserInRole('company-manager')
-          );
+          return this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager');
         }
         return false;
       })

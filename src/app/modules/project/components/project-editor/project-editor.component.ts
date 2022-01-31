@@ -1,64 +1,23 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger
-} from '@angular/material/autocomplete';
-import {
-  MatChipInputEvent,
-  MatChipSelectionChange
-} from '@angular/material/chips';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipSelectionChange } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import {
-  forkJoin,
-  interval,
-  Observable,
-  of,
-  Subscription,
-  throwError
-} from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  map,
-  mergeMap,
-  skip,
-  switchMap,
-  takeUntil,
-  toArray,
-  catchError
-} from 'rxjs/operators';
+import { Observable, Subscription, forkJoin, interval, of, throwError } from 'rxjs';
+import { catchError, debounceTime, filter, map, mergeMap, skip, switchMap, takeUntil, toArray } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
 import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import {
-  MatCheckboxDefaultOptions,
-  MAT_CHECKBOX_DEFAULT_OPTIONS
-} from '@angular/material/checkbox';
+import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '@modules/toast/toast.service';
 import { Toast } from '@modules/toast/types';
-import {
-  CreateProjectSchema,
-  Project
-} from '@data/schema/project-service.types';
+import { CreateProjectSchema, Project } from '@data/schema/project-service.types';
 
 interface ModuleType {
   id: string;
@@ -79,9 +38,7 @@ interface ModuleType {
     }
   ]
 })
-export class ProjectEditorComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   private STORAGE_KEY = 'project-editor-state';
   private _project: Project;
 
@@ -131,26 +88,11 @@ export class ProjectEditorComponent
   setProjectValuesInForm(project: Project) {
     const op = { emitEvent: false };
     this.projectFormControl.controls.name.setValue(project.name ?? '', op);
-    this.projectFormControl.controls.shortDescription.setValue(
-      project.shortDescription ?? '',
-      op
-    );
-    this.projectFormControl.controls.requirement.setValue(
-      project.requirement ?? '',
-      op
-    );
-    this.projectFormControl.controls.description.setValue(
-      project.description ?? '',
-      op
-    );
-    this.projectFormControl.controls.supervisorName.setValue(
-      project.supervisorName ?? '',
-      op
-    );
-    this.projectFormControl.controls.status.setValue(
-      project.status ?? 'AVAILABLE',
-      op
-    );
+    this.projectFormControl.controls.shortDescription.setValue(project.shortDescription ?? '', op);
+    this.projectFormControl.controls.requirement.setValue(project.requirement ?? '', op);
+    this.projectFormControl.controls.description.setValue(project.description ?? '', op);
+    this.projectFormControl.controls.supervisorName.setValue(project.supervisorName ?? '', op);
+    this.projectFormControl.controls.status.setValue(project.status ?? 'AVAILABLE', op);
 
     if (this.isEditProject()) {
       this.projectService.getModulesOfProjectById(this.projectId).subscribe({
@@ -210,39 +152,29 @@ export class ProjectEditorComponent
       const userProfile = await this.keycloakService.loadUserProfile();
       this.fullName = `${userProfile.firstName} ${userProfile.lastName}`;
 
-      const projectSupervisorControl =
-        this.projectFormControl.controls.supervisorName;
-      if (
-        !projectSupervisorControl.value &&
-        this.keycloakService.isUserInRole('professor')
-      ) {
+      const projectSupervisorControl = this.projectFormControl.controls.supervisorName;
+      if (!projectSupervisorControl.value && this.keycloakService.isUserInRole('professor')) {
         projectSupervisorControl.setValue(this.fullName);
       }
     }
 
-    this.filteredTags =
-      this.projectFormControl.controls.tagInput.valueChanges.pipe(
-        filter(value => (value ? value.length >= 2 : false)),
-        debounceTime(200),
-        switchMap(value =>
-          this.tagService.findByTagName(value, false).pipe(
-            catchError(error => {
-              this.toastService.showToasts([
-                {
-                  message:
-                    'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-                }
-              ]);
-              return throwError(() => error);
-            }),
-            takeUntil(
-              this.projectFormControl.controls.tagInput.valueChanges.pipe(
-                skip(1)
-              )
-            )
-          )
+    this.filteredTags = this.projectFormControl.controls.tagInput.valueChanges.pipe(
+      filter(value => (value ? value.length >= 2 : false)),
+      debounceTime(200),
+      switchMap(value =>
+        this.tagService.findByTagName(value, false).pipe(
+          catchError(error => {
+            this.toastService.showToasts([
+              {
+                message: 'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+              }
+            ]);
+            return throwError(() => error);
+          }),
+          takeUntil(this.projectFormControl.controls.tagInput.valueChanges.pipe(skip(1)))
         )
-      );
+      )
+    );
   }
 
   /**
@@ -290,8 +222,7 @@ export class ProjectEditorComponent
    * load the state from local storage and set form control values
    */
   tryLoadState() {
-    const loadedData: Array<Project & { tags?: Tag[] }> =
-      this.loadDataFromStorage();
+    const loadedData: Array<Project & { tags?: Tag[] }> = this.loadDataFromStorage();
     const state = loadedData.find(p => p.id === this.projectId);
 
     if (state) {
@@ -447,15 +378,12 @@ export class ProjectEditorComponent
          * Filter out tags which are already in the input field
          * This occures when the user manually inputs a tag which already exists in the backend.
          */
-        this.recommendedTags = tags.filter(
-          t => this.tags.filter(t1 => t1.tagName === t.tagName).length === 0
-        );
+        this.recommendedTags = tags.filter(t => this.tags.filter(t1 => t1.tagName === t.tagName).length === 0);
       },
       () => {
         this.toastService.showToasts([
           {
-            message:
-              'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+            message: 'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
           }
         ]);
       }
@@ -497,22 +425,15 @@ export class ProjectEditorComponent
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
       : this.projectService.createProject(project);
-    const selectedModules: ModuleType[] =
-      this.projectFormControl.controls.modules.value;
+    const selectedModules: ModuleType[] = this.projectFormControl.controls.modules.value;
 
     createOrUpdateProject
       .pipe(
         mergeMap((p: Project) =>
           forkJoin({
-            modules: this.projectService
-              .setProjectModules(p.id, selectedModules)
-              .pipe(catchError(err => of(err))),
+            modules: this.projectService.setProjectModules(p.id, selectedModules).pipe(catchError(err => of(err))),
             tags: this.createTags(this.tags).pipe(
-              mergeMap(tags =>
-                this.tagService
-                  .setProjectTags(p.id, tags)
-                  .pipe(catchError(err => of(err)))
-              )
+              mergeMap(tags => this.tagService.setProjectTags(p.id, tags).pipe(catchError(err => of(err))))
             ),
             project: of(p)
           })
@@ -527,15 +448,13 @@ export class ProjectEditorComponent
           ];
           if (res.modules instanceof HttpErrorResponse) {
             toasts.push({
-              message:
-                'Module konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              message: 'Module konnten nicht gespeichert werden, versuchen Sie es später erneut.',
               isError: true
             });
           }
           if (res.tags instanceof HttpErrorResponse) {
             toasts.push({
-              message:
-                'Tags konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              message: 'Tags konnten nicht gespeichert werden, versuchen Sie es später erneut.',
               isError: true
             });
           }
@@ -547,8 +466,7 @@ export class ProjectEditorComponent
           console.error(err);
           const toasts: Toast[] = [
             {
-              message:
-                'Projekt konnte nicht gespeichert werden, versuchen Sie es später nochmal'
+              message: 'Projekt konnte nicht gespeichert werden, versuchen Sie es später nochmal'
             }
           ];
           this.toastService.showToasts(toasts);

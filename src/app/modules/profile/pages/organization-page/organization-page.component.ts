@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CompanyProfileService } from '@data/service/company-profile.service';
 import { Company } from '@data/schema/openapi/company-profile-service/company';
 import { Language } from '@data/schema/openapi/company-profile-service/language';
-import { forkJoin, Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { environment } from '@env';
 import { SocialMedia } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
 import { FocusSubject } from '@modules/profile/components/profile-focus-areas/profile-focus-subjects.component';
@@ -13,10 +13,7 @@ import { AvailableProject } from '@modules/profile/components/profile-projects-c
 import { AvailableJob } from '@modules/profile/components/profile-jobs-card/profile-jobs-card.component';
 import { JobService } from '@data/service/job.service';
 import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
-import {
-  Profile,
-  Sash
-} from '@modules/profile/pages/profile-page/profile-page.component';
+import { Profile, Sash } from '@modules/profile/pages/profile-page/profile-page.component';
 import { KeycloakService } from 'keycloak-angular';
 
 interface ModuleType {
@@ -68,9 +65,7 @@ export class OrganizationPageComponent implements OnInit {
           this.keycloakService.isLoggedIn().then(isLoggedIn => {
             if (isLoggedIn) {
               const userId = this.keycloakService.getKeycloakInstance().subject;
-              this.hasPermission =
-                this.keycloakService.isUserInRole('company-manager') &&
-                userId === this._company.creatorId;
+              this.hasPermission = this.keycloakService.isUserInRole('company-manager') && userId === this._company.creatorId;
             }
           });
           this.organizationProfile = {
@@ -91,9 +86,7 @@ export class OrganizationPageComponent implements OnInit {
               },
               {
                 key: 'Weitere Standorte',
-                value: this._company.quarters
-                  .map(quarter => quarter.location)
-                  .join(', ')
+                value: this._company.quarters.map(quarter => quarter.location).join(', ')
               },
               {
                 key: 'Homepage',
@@ -111,20 +104,11 @@ export class OrganizationPageComponent implements OnInit {
               isoIdentifier: lang.iso3166Mapping
             })),
             socialMedia: {
-              facebook: this._company.socialMedia.find(
-                sm => sm.type === 'FACEBOOK'
-              )?.account,
-              instagram: this._company.socialMedia.find(
-                sm => sm.type === 'INSTAGRAM'
-              )?.account,
-              xing: this._company.socialMedia.find(sm => sm.type === 'XING')
-                ?.account,
-              twitter: this._company.socialMedia.find(
-                sm => sm.type === 'TWITTER'
-              )?.account,
-              linkedIn: this._company.socialMedia.find(
-                sm => sm.type === 'LINKEDIN'
-              )?.account
+              facebook: this._company.socialMedia.find(sm => sm.type === 'FACEBOOK')?.account,
+              instagram: this._company.socialMedia.find(sm => sm.type === 'INSTAGRAM')?.account,
+              xing: this._company.socialMedia.find(sm => sm.type === 'XING')?.account,
+              twitter: this._company.socialMedia.find(sm => sm.type === 'TWITTER')?.account,
+              linkedIn: this._company.socialMedia.find(sm => sm.type === 'LINKEDIN')?.account
             },
             focusSubjects: this._company.branches.map(b => {
               return {
@@ -138,59 +122,53 @@ export class OrganizationPageComponent implements OnInit {
               text: this._company.information.vita
             };
           }
-          this.projects = this.projectService
-            .findAvailableProjectsOfCreator(this._company.creatorId)
-            .pipe(
-              mergeMap(projects => projects),
-              mergeMap(project =>
-                forkJoin({
-                  modules: this.projectService.getModulesOfProject(project)
-                }).pipe(
-                  map((value: { modules: ModuleType[] }) => {
-                    return {
-                      id: project.id,
-                      name: project.name,
-                      modules: value.modules.map(m => m.key)
-                    };
-                  })
-                )
-              ),
-              toArray()
-            );
-          this.jobs = this.jobService
-            .findAllJobsByCreator(this._company.creatorId)
-            .pipe(
-              mergeMap(jobs => jobs),
-              mergeMap(job =>
-                forkJoin({
-                  job: of(job),
-                  levels: this.jobService.getEntryLevelsFromJobOffer(job.id)
-                }).pipe(
-                  map(jobs => {
-                    return {
-                      id: jobs.job.id,
-                      name: jobs.job.title,
-                      levels: jobs.levels.map(lvl => lvl.description)
-                    };
-                  })
-                )
-              ),
-              toArray()
-            );
-          this.projectHistory = this.projectService
-            .findRunningAndFinishedProjectsOfCreator(this._company.creatorId)
-            .pipe(
-              map(projects =>
-                projects.map(project => {
+          this.projects = this.projectService.findAvailableProjectsOfCreator(this._company.creatorId).pipe(
+            mergeMap(projects => projects),
+            mergeMap(project =>
+              forkJoin({
+                modules: this.projectService.getModulesOfProject(project)
+              }).pipe(
+                map((value: { modules: ModuleType[] }) => {
                   return {
                     id: project.id,
-                    title: project.name,
-                    supervisor: project.supervisorName,
-                    description: project.shortDescription
+                    name: project.name,
+                    modules: value.modules.map(m => m.key)
                   };
                 })
               )
-            );
+            ),
+            toArray()
+          );
+          this.jobs = this.jobService.findAllJobsByCreator(this._company.creatorId).pipe(
+            mergeMap(jobs => jobs),
+            mergeMap(job =>
+              forkJoin({
+                job: of(job),
+                levels: this.jobService.getEntryLevelsFromJobOffer(job.id)
+              }).pipe(
+                map(jobs => {
+                  return {
+                    id: jobs.job.id,
+                    name: jobs.job.title,
+                    levels: jobs.levels.map(lvl => lvl.description)
+                  };
+                })
+              )
+            ),
+            toArray()
+          );
+          this.projectHistory = this.projectService.findRunningAndFinishedProjectsOfCreator(this._company.creatorId).pipe(
+            map(projects =>
+              projects.map(project => {
+                return {
+                  id: project.id,
+                  title: project.name,
+                  supervisor: project.supervisorName,
+                  description: project.shortDescription
+                };
+              })
+            )
+          );
         },
         error: err => {
           console.error(err);

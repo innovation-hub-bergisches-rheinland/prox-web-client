@@ -12,15 +12,7 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Inject, Injectable, Optional } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-  HttpEvent,
-  HttpParameterCodec,
-  HttpContext
-} from '@angular/common/http';
+import { HttpClient, HttpContext, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, HttpResponse } from '@angular/common/http';
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
@@ -43,11 +35,7 @@ export class OrganizationControllerService {
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
 
-  constructor(
-    protected httpClient: HttpClient,
-    @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration
-  ) {
+  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
     if (configuration) {
       this.configuration = configuration;
     }
@@ -60,11 +48,7 @@ export class OrganizationControllerService {
     this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
   }
 
-  private addToHttpParams(
-    httpParams: HttpParams,
-    value: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
     } else {
@@ -73,38 +57,23 @@ export class OrganizationControllerService {
     return httpParams;
   }
 
-  private addToHttpParamsRecursive(
-    httpParams: HttpParams,
-    value?: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
     if (value == null) {
       return httpParams;
     }
 
     if (typeof value === 'object') {
       if (Array.isArray(value)) {
-        (value as any[]).forEach(
-          elem =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
-        );
+        (value as any[]).forEach(elem => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
       } else if (value instanceof Date) {
         if (key != null) {
-          httpParams = httpParams.append(
-            key,
-            (value as Date).toISOString().substr(0, 10)
-          );
+          httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
         } else {
           throw Error('key may not be null if value is Date');
         }
       } else {
         Object.keys(value).forEach(
-          k =>
-            (httpParams = this.addToHttpParamsRecursive(
-              httpParams,
-              value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+          k => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k))
         );
       }
     } else if (key != null) {
@@ -145,53 +114,39 @@ export class OrganizationControllerService {
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling getOrganizationById.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling getOrganizationById.');
     }
 
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<GetOrganizationResponse>(
-      `${this.configuration.basePath}/orgs/${encodeURIComponent(String(id))}`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<GetOrganizationResponse>(`${this.configuration.basePath}/orgs/${encodeURIComponent(String(id))}`, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -224,46 +179,33 @@ export class OrganizationControllerService {
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling getOrganizationMemberships1.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling getOrganizationMemberships1.');
     }
 
     let localVarHeaders = this.defaultHeaders;
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
     return this.httpClient.get<Set<GetUserMembershipResponse>>(
-      `${this.configuration.basePath}/orgs/${encodeURIComponent(
-        String(id)
-      )}/memberships`,
+      `${this.configuration.basePath}/orgs/${encodeURIComponent(String(id))}/memberships`,
       {
         context: localVarHttpContext,
         responseType: <any>responseType_,
@@ -304,13 +246,8 @@ export class OrganizationControllerService {
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: 'application/json'; context?: HttpContext }
   ): Observable<any> {
-    if (
-      postOrganizationRequest === null ||
-      postOrganizationRequest === undefined
-    ) {
-      throw new Error(
-        'Required parameter postOrganizationRequest was null or undefined when calling postOrganization.'
-      );
+    if (postOrganizationRequest === null || postOrganizationRequest === undefined) {
+      throw new Error('Required parameter postOrganizationRequest was null or undefined when calling postOrganization.');
     }
 
     let localVarHeaders = this.defaultHeaders;
@@ -321,57 +258,40 @@ export class OrganizationControllerService {
     if (localVarCredential) {
     }
 
-    let localVarHttpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (localVarHttpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      localVarHttpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Accept',
-        localVarHttpHeaderAcceptSelected
-      );
+      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
     }
 
-    let localVarHttpContext: HttpContext | undefined =
-      options && options.context;
+    let localVarHttpContext: HttpContext | undefined = options && options.context;
     if (localVarHttpContext === undefined) {
       localVarHttpContext = new HttpContext();
     }
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set(
-        'Content-Type',
-        httpContentTypeSelected
-      );
+      localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      localVarHttpHeaderAcceptSelected &&
-      localVarHttpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.post<PostOrganizationResponse>(
-      `${this.configuration.basePath}/orgs`,
-      postOrganizationRequest,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: localVarHeaders,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.post<PostOrganizationResponse>(`${this.configuration.basePath}/orgs`, postOrganizationRequest, {
+      context: localVarHttpContext,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: localVarHeaders,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 }

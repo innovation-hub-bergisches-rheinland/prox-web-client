@@ -1,15 +1,8 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { Observable, forkJoin, from, of } from 'rxjs';
 import { JobService } from '@data/service/job.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
@@ -68,17 +61,13 @@ export class JobItemComponent implements OnInit, AfterViewInit {
       .pipe(map(jobOfferTypes => jobOfferTypes.map(type => type.description)));
     this.availableEntryLevelsAsString$ = this.jobService
       .getEntryLevelsFromJobOffer(this.jobOffer.id)
-      .pipe(
-        map(jobOfferEntryLevels => jobOfferEntryLevels.map(o => o.description))
-      );
+      .pipe(map(jobOfferEntryLevels => jobOfferEntryLevels.map(o => o.description)));
     this.hasPermission$ = from(this.keycloakService.isLoggedIn()).pipe(
       map(isLoggedIn => {
         if (isLoggedIn) {
           return (
-            (this.keycloakService.isUserInRole('professor') ||
-              this.keycloakService.isUserInRole('company-manager')) &&
-            this.jobOffer.createdBy.userId ===
-              this.keycloakService.getKeycloakInstance().subject
+            (this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager')) &&
+            this.jobOffer.createdBy.userId === this.keycloakService.getKeycloakInstance().subject
           );
         }
         return false;
@@ -91,20 +80,16 @@ export class JobItemComponent implements OnInit, AfterViewInit {
   private setCreatorNameAndLink() {
     switch (this.jobOffer.createdBy.variant) {
       case 'PROFESSOR':
-        this.professorService
-          .getProfessorProfile(this.jobOffer.createdBy.userId)
-          .subscribe(res => {
-            this.creatorName$ = of(res.name);
-            this.creatorLink$ = of(`/lecturers/${res.id}`);
-          });
+        this.professorService.getProfessorProfile(this.jobOffer.createdBy.userId).subscribe(res => {
+          this.creatorName$ = of(res.name);
+          this.creatorLink$ = of(`/lecturers/${res.id}`);
+        });
         break;
       case 'COMPANY':
-        this.companyService
-          .findCompanyByCreatorId(this.jobOffer.createdBy.userId)
-          .subscribe(res => {
-            this.creatorName$ = of(res.information.name);
-            this.creatorLink$ = of(`/companies/${res.id}`);
-          });
+        this.companyService.findCompanyByCreatorId(this.jobOffer.createdBy.userId).subscribe(res => {
+          this.creatorName$ = of(res.information.name);
+          this.creatorLink$ = of(`/companies/${res.id}`);
+        });
         break;
     }
   }
@@ -134,8 +119,7 @@ export class JobItemComponent implements OnInit, AfterViewInit {
         error: err => {
           this.toastService.showToasts([
             {
-              message:
-                'Das Stellenangebot konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut',
+              message: 'Das Stellenangebot konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut',
               isError: true
             }
           ]);

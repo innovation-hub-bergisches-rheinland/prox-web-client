@@ -16,13 +16,7 @@ describe('LecturerEditorPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LecturerEditorPageComponent],
-      imports: [
-        KeycloakAngularModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        SharedModule,
-        BrowserAnimationsModule
-      ]
+      imports: [KeycloakAngularModule, RouterTestingModule, HttpClientTestingModule, SharedModule, BrowserAnimationsModule]
     }).compileComponents();
   });
 

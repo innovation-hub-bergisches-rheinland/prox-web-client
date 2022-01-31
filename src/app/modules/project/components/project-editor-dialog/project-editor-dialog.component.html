@@ -1,12 +1,8 @@
 <div class="project-dialog">
   <h1 mat-dialog-title>
     <mat-toolbar role="toolbar" class="task-header">
-      <h1 *ngIf="project; else noProject" mat-dialog-title>
-        Projekt bearbeiten
-      </h1>
-      <ng-template #noProject
-        ><h1 mat-dialog-title>Projekt hinzufügen</h1></ng-template
-      >
+      <h1 *ngIf="project; else noProject" mat-dialog-title>Projekt bearbeiten</h1>
+      <ng-template #noProject><h1 mat-dialog-title>Projekt hinzufügen</h1></ng-template>
       <span class="fx-spacer"></span>
       <div *ngIf="isDraft" class="draft">Entwurf</div>
       <button mat-icon-button (click)="closeDialog()">

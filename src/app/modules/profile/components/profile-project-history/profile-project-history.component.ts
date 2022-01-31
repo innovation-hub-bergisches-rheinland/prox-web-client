@@ -1,9 +1,4 @@
-import {
-  AfterContentChecked,
-  Component,
-  ContentChildren,
-  QueryList
-} from '@angular/core';
+import { AfterContentChecked, Component, ContentChildren, QueryList } from '@angular/core';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,18 +14,14 @@ export class ProfileProjectHistoryComponent implements AfterContentChecked {
   icon = faHistory;
 
   ngAfterContentChecked() {
-    this._items.forEach(
-      (item: ProfileProjectHistoryItemComponent, index: number) => {
-        item.position = index - this.selectedIndex;
-      }
-    );
+    this._items.forEach((item: ProfileProjectHistoryItemComponent, index: number) => {
+      item.position = index - this.selectedIndex;
+    });
   }
 
   goBackward() {
     // Flat Modulo https://stackoverflow.com/a/4467559/4567795
-    this.selectedIndex =
-      (((this.selectedIndex - 1) % this._items.length) + this._items.length) %
-      this._items.length;
+    this.selectedIndex = (((this.selectedIndex - 1) % this._items.length) + this._items.length) % this._items.length;
   }
 
   goForward() {

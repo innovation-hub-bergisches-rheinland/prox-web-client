@@ -15,22 +15,15 @@ export class UserComponent implements OnInit {
   isCompanyManager: boolean = false;
   userId: string;
 
-  constructor(
-    private keycloakService: KeycloakService,
-    private router: Router
-  ) {}
+  constructor(private keycloakService: KeycloakService, private router: Router) {}
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       const userProfile = await this.keycloakService.loadUserProfile();
       this.username = `${userProfile.firstName} ${userProfile.lastName}`;
       this.isLoggedIn = true;
-      this.isProfessor = this.keycloakService
-        .getUserRoles()
-        .includes('professor');
-      this.isCompanyManager = this.keycloakService
-        .getUserRoles()
-        .includes('company-manager');
+      this.isProfessor = this.keycloakService.getUserRoles().includes('professor');
+      this.isCompanyManager = this.keycloakService.getUserRoles().includes('company-manager');
       this.userId = this.keycloakService.getKeycloakInstance().subject;
     } else {
       this.isLoggedIn = false;

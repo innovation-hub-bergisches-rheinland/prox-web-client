@@ -12,7 +12,7 @@ export class ProfileInformationCardEntryComponent implements OnInit {
   @Input()
   value: string;
 
-  @Input('linkable')
+  @Input()
   linkable = false;
 
   constructor() {}

@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  ProfileCardComponent,
-  ProfileCardContentDirective
-} from './profile-card.component';
+import { ProfileCardComponent, ProfileCardContentDirective } from './profile-card.component';
 import {
   ProfileCardHeaderComponent,
   ProfileCardTitleDirective
@@ -15,12 +12,7 @@ describe('ProfileCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        ProfileCardComponent,
-        ProfileCardHeaderComponent,
-        ProfileCardTitleDirective,
-        ProfileCardContentDirective
-      ]
+      declarations: [ProfileCardComponent, ProfileCardHeaderComponent, ProfileCardTitleDirective, ProfileCardContentDirective]
     }).compileComponents();
   });
 

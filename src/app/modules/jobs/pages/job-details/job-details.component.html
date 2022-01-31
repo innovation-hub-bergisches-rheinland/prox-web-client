@@ -14,9 +14,6 @@
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
-    <app-job-item
-      [jobOffer]="this.jobOffer | async"
-      (jobOfferDeleted)="this.jobOfferDeleted($event)"
-    ></app-job-item>
+    <app-job-item [jobOffer]="this.jobOffer | async" (jobOfferDeleted)="this.jobOfferDeleted($event)"></app-job-item>
   </app-content-page-content>
 </app-content-page>

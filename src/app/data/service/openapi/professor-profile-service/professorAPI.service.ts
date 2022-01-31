@@ -12,14 +12,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import { Inject, Injectable, Optional } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-  HttpEvent,
-  HttpParameterCodec
-} from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, HttpResponse } from '@angular/common/http';
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
@@ -42,11 +35,7 @@ export class ProfessorAPIService {
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
 
-  constructor(
-    protected httpClient: HttpClient,
-    @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration
-  ) {
+  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
     if (configuration) {
       this.configuration = configuration;
     }
@@ -73,11 +62,7 @@ export class ProfessorAPIService {
     return false;
   }
 
-  private addToHttpParams(
-    httpParams: HttpParams,
-    value: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
     } else {
@@ -86,38 +71,23 @@ export class ProfessorAPIService {
     return httpParams;
   }
 
-  private addToHttpParamsRecursive(
-    httpParams: HttpParams,
-    value?: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
     if (value == null) {
       return httpParams;
     }
 
     if (typeof value === 'object') {
       if (Array.isArray(value)) {
-        (value as any[]).forEach(
-          elem =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
-        );
+        (value as any[]).forEach(elem => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
       } else if (value instanceof Date) {
         if (key != null) {
-          httpParams = httpParams.append(
-            key,
-            (value as Date).toISOString().substr(0, 10)
-          );
+          httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
         } else {
           throw Error('key may not be null if value is Date');
         }
       } else {
         Object.keys(value).forEach(
-          k =>
-            (httpParams = this.addToHttpParamsRecursive(
-              httpParams,
-              value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+          k => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k))
         );
       }
     } else if (key != null) {
@@ -159,9 +129,7 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling deleteProfessorImage.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling deleteProfessorImage.');
     }
 
     let headers = this.defaultHeaders;
@@ -172,38 +140,28 @@ export class ProfessorAPIService {
     if (credential) {
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.delete<any>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}/image`,
-      {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.delete<any>(`${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}/image`, {
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -249,61 +207,41 @@ export class ProfessorAPIService {
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (sort) {
       sort.forEach(element => {
-        queryParameters = this.addToHttpParams(
-          queryParameters,
-          <any>element,
-          'sort'
-        );
+        queryParameters = this.addToHttpParams(queryParameters, <any>element, 'sort');
       });
     }
     if (page !== undefined && page !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>page,
-        'page'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>page, 'page');
     }
     if (size !== undefined && size !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>size,
-        'size'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>size, 'size');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/hal+json'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.get<PagedModelEntityModelProfessor>(
-      `${this.configuration.basePath}/professors`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<PagedModelEntityModelProfessor>(`${this.configuration.basePath}/professors`, {
+      params: queryParameters,
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -337,48 +275,33 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling getFaculty.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling getFaculty.');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = [
-        'application/json',
-        'application/hal+json'
-      ];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      const httpHeaderAccepts: string[] = ['application/json', 'application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.get<EntityModelFaculty>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}/faculty`,
-      {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<EntityModelFaculty>(`${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}/faculty`, {
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -412,48 +335,33 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling getProfessor.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling getProfessor.');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = [
-        'application/json',
-        'application/hal+json'
-      ];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      const httpHeaderAccepts: string[] = ['application/json', 'application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.get<EntityModelProfessor>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}`,
-      {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<EntityModelProfessor>(`${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}`, {
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -487,55 +395,41 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' }
   ): Observable<any> {
     if (names === null || names === undefined) {
-      throw new Error(
-        'Required parameter names was null or undefined when calling findProfessorWithNameLike.'
-      );
+      throw new Error('Required parameter names was null or undefined when calling findProfessorWithNameLike.');
     }
 
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (names) {
       names.forEach(element => {
-        queryParameters = this.addToHttpParams(
-          queryParameters,
-          <any>element,
-          'names'
-        );
+        queryParameters = this.addToHttpParams(queryParameters, <any>element, 'names');
       });
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<{ [key: string]: string }>(
-      `${this.configuration.basePath}/professors/search/findProfessorIdsByNames`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<{ [key: string]: string }>(`${this.configuration.basePath}/professors/search/findProfessorIdsByNames`, {
+      params: queryParameters,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -569,45 +463,33 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'image/png' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling getProfessorImage.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling getProfessorImage.');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['image/png'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.get<Array<string>>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}/image`,
-      {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<Array<string>>(`${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}/image`, {
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -638,36 +520,28 @@ export class ProfessorAPIService {
   ): Observable<any> {
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/hal+json'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.get<CollectionModelEntityModelProfessorOverviewDto>(
-      `${this.configuration.basePath}/professors/overview`,
-      {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<CollectionModelEntityModelProfessorOverviewDto>(`${this.configuration.basePath}/professors/overview`, {
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -706,9 +580,7 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling postProfessorImage.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling postProfessorImage.');
     }
 
     let headers = this.defaultHeaders;
@@ -719,13 +591,11 @@ export class ProfessorAPIService {
     if (credential) {
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['application/json'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -749,22 +619,16 @@ export class ProfessorAPIService {
     }
 
     if (image !== undefined) {
-      formParams =
-        (formParams.append('image', <any>image) as any) || formParams;
+      formParams = (formParams.append('image', <any>image) as any) || formParams;
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
     return this.httpClient.post<any>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}/image`,
+      `${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}/image`,
       convertFormParamsToString ? formParams.toString() : formParams,
       {
         responseType: <any>responseType,
@@ -812,14 +676,10 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling saveFaculty.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling saveFaculty.');
     }
     if (body === null || body === undefined) {
-      throw new Error(
-        'Required parameter body was null or undefined when calling saveFaculty.'
-      );
+      throw new Error('Required parameter body was null or undefined when calling saveFaculty.');
     }
 
     let headers = this.defaultHeaders;
@@ -830,16 +690,11 @@ export class ProfessorAPIService {
     if (credential) {
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = [
-        'application/json',
-        'application/hal+json'
-      ];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      const httpHeaderAccepts: string[] = ['application/json', 'application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -847,24 +702,18 @@ export class ProfessorAPIService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['text/plain'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
     return this.httpClient.put<EntityModelFaculty>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}/faculty`,
+      `${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}/faculty`,
       body,
       {
         responseType: <any>responseType,
@@ -907,9 +756,7 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
   ): Observable<any> {
     if (professor === null || professor === undefined) {
-      throw new Error(
-        'Required parameter professor was null or undefined when calling saveProfessor.'
-      );
+      throw new Error('Required parameter professor was null or undefined when calling saveProfessor.');
     }
 
     let headers = this.defaultHeaders;
@@ -920,16 +767,11 @@ export class ProfessorAPIService {
     if (credential) {
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = [
-        'application/json',
-        'application/hal+json'
-      ];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      const httpHeaderAccepts: string[] = ['application/json', 'application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -937,31 +779,23 @@ export class ProfessorAPIService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
-    return this.httpClient.post<EntityModelProfessor>(
-      `${this.configuration.basePath}/professors`,
-      professor,
-      {
-        responseType: <any>responseType,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.post<EntityModelProfessor>(`${this.configuration.basePath}/professors`, professor, {
+      responseType: <any>responseType,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -1000,14 +834,10 @@ export class ProfessorAPIService {
     options?: { httpHeaderAccept?: 'application/json' | 'application/hal+json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling updateProfessor.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling updateProfessor.');
     }
     if (professor === null || professor === undefined) {
-      throw new Error(
-        'Required parameter professor was null or undefined when calling updateProfessor.'
-      );
+      throw new Error('Required parameter professor was null or undefined when calling updateProfessor.');
     }
 
     let headers = this.defaultHeaders;
@@ -1018,16 +848,11 @@ export class ProfessorAPIService {
     if (credential) {
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
-      const httpHeaderAccepts: string[] = [
-        'application/json',
-        'application/hal+json'
-      ];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      const httpHeaderAccepts: string[] = ['application/json', 'application/hal+json'];
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -1035,24 +860,18 @@ export class ProfessorAPIService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType = 'text';
     }
 
     return this.httpClient.put<EntityModelProfessor>(
-      `${this.configuration.basePath}/professors/${encodeURIComponent(
-        String(id)
-      )}`,
+      `${this.configuration.basePath}/professors/${encodeURIComponent(String(id))}`,
       professor,
       {
         responseType: <any>responseType,

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { JobOverviewComponent } from './pages/job-overview/job-overview.component';
 import { JobDetailsComponent } from '@modules/jobs/pages/job-details/job-details.component';
 import { JobCreatorComponent } from '@modules/jobs/pages/job-creator/job-creator.component';

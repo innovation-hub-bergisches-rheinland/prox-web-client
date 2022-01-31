@@ -9,16 +9,9 @@ import { GetOrganizationMembershipResponse } from '@data/schema/openapi/user-ser
   providedIn: 'root'
 })
 export class UserService {
-  constructor(
-    injector: Injector,
-    private authenticatedUserService: AuthenticatedUserControllerService
-  ) {}
+  constructor(injector: Injector, private authenticatedUserService: AuthenticatedUserControllerService) {}
 
-  getOrganizationMembershipsOfAuthenticateduser(): Observable<
-    GetOrganizationMembershipResponse[]
-  > {
-    return this.authenticatedUserService
-      .getOrganizationMemberships()
-      .pipe(map(memberships => Array.from(memberships)));
+  getOrganizationMembershipsOfAuthenticateduser(): Observable<GetOrganizationMembershipResponse[]> {
+    return this.authenticatedUserService.getOrganizationMemberships().pipe(map(memberships => Array.from(memberships)));
   }
 }

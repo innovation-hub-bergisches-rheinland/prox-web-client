@@ -19,13 +19,7 @@ export interface Language {
   type: Language.TypeEnum;
 }
 export namespace Language {
-  export type TypeEnum =
-    | 'ANCIENT'
-    | 'LIVING'
-    | 'CONSTRUCTED'
-    | 'HISTORICAL'
-    | 'EXTINCT'
-    | 'NONE';
+  export type TypeEnum = 'ANCIENT' | 'LIVING' | 'CONSTRUCTED' | 'HISTORICAL' | 'EXTINCT' | 'NONE';
   export const TypeEnum = {
     Ancient: 'ANCIENT' as TypeEnum,
     Living: 'LIVING' as TypeEnum,

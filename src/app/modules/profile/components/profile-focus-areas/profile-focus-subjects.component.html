@@ -5,9 +5,7 @@
   <app-profile-card-content>
     <ng-container *ngIf="subjects && subjects.length > 0; else noSubjects">
       <mat-chip-list>
-        <mat-chip *ngFor="let sub of subjects" selected>{{
-          sub.subject
-        }}</mat-chip>
+        <mat-chip *ngFor="let sub of subjects" selected>{{ sub.subject }}</mat-chip>
       </mat-chip-list>
     </ng-container>
     <ng-template #noSubjects><i>Keine Fokusgebiete angegeben</i></ng-template>

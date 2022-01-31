@@ -45,19 +45,7 @@ export type ProjectWithModules = Project & {
 };
 
 export type ProjectCollectionModel = CollectionModel<Project, 'projects'>;
-export type ModuleTypeCollectionModel = CollectionModel<
-  ModuleType,
-  'moduleTypes'
->;
-export type StudyProgramCollectionModel = CollectionModel<
-  StudyProgram,
-  'studyPrograms'
->;
-export type StudyProgramWithModulesCollectionModel = CollectionModel<
-  StudyProgramsWithModules,
-  'studyPrograms'
->;
-export type CreateProjectSchema = Omit<
-  Project,
-  'id' | 'creatorID' | 'creatorName' | 'createdAt' | 'modifiedAt'
->;
+export type ModuleTypeCollectionModel = CollectionModel<ModuleType, 'moduleTypes'>;
+export type StudyProgramCollectionModel = CollectionModel<StudyProgram, 'studyPrograms'>;
+export type StudyProgramWithModulesCollectionModel = CollectionModel<StudyProgramsWithModules, 'studyPrograms'>;
+export type CreateProjectSchema = Omit<Project, 'id' | 'creatorID' | 'creatorName' | 'createdAt' | 'modifiedAt'>;

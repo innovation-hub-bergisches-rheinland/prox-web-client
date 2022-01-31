@@ -17,10 +17,7 @@ export class ContentLayoutComponent implements OnInit {
 
   hasPermission: boolean;
 
-  constructor(
-    private keycloakService: KeycloakService,
-    private featureService: FeatureService
-  ) {}
+  constructor(private keycloakService: KeycloakService, private featureService: FeatureService) {}
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {

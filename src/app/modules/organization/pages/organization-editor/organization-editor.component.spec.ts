@@ -16,13 +16,7 @@ describe('OrganizationEditorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganizationEditorComponent],
-      imports: [
-        KeycloakAngularModule,
-        HttpClientTestingModule,
-        SharedModule,
-        RouterTestingModule,
-        BrowserAnimationsModule
-      ]
+      imports: [KeycloakAngularModule, HttpClientTestingModule, SharedModule, RouterTestingModule, BrowserAnimationsModule]
     }).compileComponents();
   });
 

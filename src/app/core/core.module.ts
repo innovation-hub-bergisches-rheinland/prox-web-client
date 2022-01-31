@@ -1,7 +1,7 @@
-import { NgModule, Optional, SkipSelf, APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 import { throwIfAlreadyLoaded } from './guard/module-import.guard';
 import { AuthGuard } from './guard/auth.guard';

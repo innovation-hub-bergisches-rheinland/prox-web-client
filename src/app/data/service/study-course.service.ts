@@ -11,10 +11,7 @@ import { Module } from '@data/schema/module.resource';
   providedIn: 'root'
 })
 export class StudyCourseService {
-  constructor(
-    injector: Injector,
-    private studyCourseEntityService: StudyCourseEntityService
-  ) {}
+  constructor(injector: Injector, private studyCourseEntityService: StudyCourseEntityService) {}
 
   findModulesOfStudyCourse(id: any): Observable<Module[]> {
     return this.studyCourseEntityService.studyCourseModulesUsingGET(id).pipe(
@@ -28,21 +25,17 @@ export class StudyCourseService {
   }
 
   getAllStudyCourses(pageable: PageableOptions): Observable<StudyCourse[]> {
-    return this.studyCourseEntityService
-      .findAllStudyCourseUsingGET(pageable.page, pageable.size, pageable.sort)
-      .pipe(
-        map(s =>
-          s._embedded.studyCourses.map(s2 => {
-            const sc = new StudyCourse();
-            return Object.assign(sc, s2);
-          })
-        )
-      );
+    return this.studyCourseEntityService.findAllStudyCourseUsingGET(pageable.page, pageable.size, pageable.sort).pipe(
+      map(s =>
+        s._embedded.studyCourses.map(s2 => {
+          const sc = new StudyCourse();
+          return Object.assign(sc, s2);
+        })
+      )
+    );
   }
 
   getStudyCourse(id: any): Observable<StudyCourse> {
-    return this.studyCourseEntityService
-      .findByIdStudyCourseUsingGET(id)
-      .pipe(map(s => Object.assign(new StudyCourse(), s)));
+    return this.studyCourseEntityService.findByIdStudyCourseUsingGET(id).pipe(map(s => Object.assign(new StudyCourse(), s)));
   }
 }

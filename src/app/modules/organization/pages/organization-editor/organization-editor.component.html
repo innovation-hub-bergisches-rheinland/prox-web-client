@@ -1,8 +1,6 @@
 <app-content-page>
   <app-content-page-header>
-    <app-content-page-title>
-      Neue Organisation erstellen
-    </app-content-page-title>
+    <app-content-page-title> Neue Organisation erstellen </app-content-page-title>
   </app-content-page-header>
   <app-content-page-content>
     <mat-card class="card">
@@ -18,13 +16,7 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions align="end">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="onSubmit()"
-          type="submit"
-          [disabled]="this.organizationForm.invalid"
-        >
+        <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" [disabled]="this.organizationForm.invalid">
           <mat-icon>save</mat-icon> Speichern
         </button>
       </mat-card-actions>

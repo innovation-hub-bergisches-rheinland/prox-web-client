@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { KeycloakService } from 'keycloak-angular';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
 
 import { ProjectService } from '@data/service/project.service';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
@@ -17,14 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Tag } from '@data/schema/tag.resource';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import {
-  catchError,
-  debounceTime,
-  filter,
-  skip,
-  switchMap,
-  takeUntil
-} from 'rxjs/operators';
+import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
@@ -98,15 +91,11 @@ export class ProjectComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
   get suitableModuleTypes(): ModuleType[] {
-    return this._suitableModuleTypes.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    return this._suitableModuleTypes.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   get suitableStudyPrograms(): StudyProgram[] {
-    return this._suitableStudyPrograms.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    return this._suitableStudyPrograms.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   constructor(
@@ -144,27 +133,23 @@ export class ProjectComponent implements OnInit {
       }
     });
 
-    this.filteredTags$ =
-      this.searchForm.controls.searchTagInput.valueChanges.pipe(
-        filter(value => (value ? value.length >= 2 : false)),
-        debounceTime(200),
-        switchMap(value =>
-          this.tagService.findByTagName(value, false).pipe(
-            catchError(error => {
-              this.toastService.showToasts([
-                {
-                  message:
-                    'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-                }
-              ]);
-              return throwError(() => error);
-            }),
-            takeUntil(
-              this.searchForm.controls.searchTagInput.valueChanges.pipe(skip(1))
-            )
-          )
+    this.filteredTags$ = this.searchForm.controls.searchTagInput.valueChanges.pipe(
+      filter(value => (value ? value.length >= 2 : false)),
+      debounceTime(200),
+      switchMap(value =>
+        this.tagService.findByTagName(value, false).pipe(
+          catchError(error => {
+            this.toastService.showToasts([
+              {
+                message: 'Tags konnten nicht geladen werden! Versuchen Sie es später noch mal.'
+              }
+            ]);
+            return throwError(() => error);
+          }),
+          takeUntil(this.searchForm.controls.searchTagInput.valueChanges.pipe(skip(1)))
         )
-      );
+      )
+    );
 
     this.getAllProjects();
   }
@@ -175,18 +160,14 @@ export class ProjectComponent implements OnInit {
         if (params.state) {
           const statusOption = params.state;
           if (statusOption) {
-            this.searchForm.controls.selectedStatusOption.setValue(
-              statusOption
-            );
+            this.searchForm.controls.selectedStatusOption.setValue(statusOption);
           }
         } else {
           this.searchForm.controls.selectedStatusOption.setValue(null);
         }
         if (params.moduleTypes) {
           const split: string[] = params.moduleTypes.split(',');
-          this.searchForm.controls.selectedModuleTypes.setValue(
-            this.suitableModuleTypes.filter(m => split.includes(m.key))
-          );
+          this.searchForm.controls.selectedModuleTypes.setValue(this.suitableModuleTypes.filter(m => split.includes(m.key)));
         }
         if (params.filter) {
           this.searchForm.controls.searchString.setValue(params.filter);
@@ -206,17 +187,12 @@ export class ProjectComponent implements OnInit {
   setQueryParams() {
     const queryParams: QueryParams = {};
 
-    queryParams.state =
-      (this.searchForm.controls.selectedStatusOption.value as string) ?? '';
-    queryParams.filter =
-      (this.searchForm.controls.searchString.value as string) ?? '';
+    queryParams.state = (this.searchForm.controls.selectedStatusOption.value as string) ?? '';
+    queryParams.filter = (this.searchForm.controls.searchString.value as string) ?? '';
     queryParams.tags = this.searchTags.join(',');
 
     if (this.searchForm.controls.selectedModuleTypes.value as ModuleType[]) {
-      queryParams.moduleTypes =
-        this.searchForm.controls.selectedModuleTypes.value
-          .map(m => m.key)
-          .join(',');
+      queryParams.moduleTypes = this.searchForm.controls.selectedModuleTypes.value.map(m => m.key).join(',');
     }
 
     this.router.navigate([], {
@@ -244,17 +220,13 @@ export class ProjectComponent implements OnInit {
            *  .filter((c, i, a) => a.findIndex(e => e.id === c.id) === i)
            * ```
            */
-          this._suitableModuleTypes = [
-            ...new Map(val.flat(1).map(i => [i.id, i])).values()
-          ];
+          this._suitableModuleTypes = [...new Map(val.flat(1).map(i => [i.id, i])).values()];
 
           /* One step further pre-filter current projects by only displaying
            * projects which contain modules of the studyProgram by selecting all
            * options
            */
-          this.searchForm.controls.selectedModuleTypes.setValue(
-            this.suitableModuleTypes
-          );
+          this.searchForm.controls.selectedModuleTypes.setValue(this.suitableModuleTypes);
         },
         err => console.error(err),
         () => (this.isLoadingModuleTypes = false)
@@ -267,10 +239,7 @@ export class ProjectComponent implements OnInit {
 
   public hasProjectCreationPermission(): boolean {
     if (this.isLoggedIn) {
-      return (
-        this.keycloakService.isUserInRole('professor') ||
-        this.keycloakService.isUserInRole('company-manager')
-      );
+      return this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager');
     }
     return false;
   }
@@ -279,8 +248,7 @@ export class ProjectComponent implements OnInit {
     if (this.isLoggedIn) {
       const userId = this.keycloakService.getKeycloakInstance().subject;
       return (
-        (this.keycloakService.isUserInRole('professor') ||
-          this.keycloakService.isUserInRole('company-manager')) &&
+        (this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager')) &&
         userId === project.creatorID
       );
     }
@@ -292,21 +260,15 @@ export class ProjectComponent implements OnInit {
       projects: this.projectService.filterProjects(
         'withModules',
         this.searchForm.controls.selectedStatusOption.value,
-        this.searchForm.controls.selectedModuleTypes?.value?.map(
-          mt => mt.key
-        ) ?? null,
+        this.searchForm.controls.selectedModuleTypes?.value?.map(mt => mt.key) ?? null,
         this.searchForm.controls.searchString.value
       ),
-      tagCollections: this.tagService
-        .findAllProjectIdsUsingTagsByNames(this.searchTags)
-        .pipe(catchError(err => of([])))
+      tagCollections: this.tagService.findAllProjectIdsUsingTagsByNames(this.searchTags).pipe(catchError(err => of([])))
     }).subscribe({
       next: value => {
         this.filteredProjects = value.projects;
         if (value.tagCollections.length > 0) {
-          this.filteredProjects = this.filteredProjects.filter(p =>
-            value.tagCollections.includes(p.id)
-          );
+          this.filteredProjects = this.filteredProjects.filter(p => value.tagCollections.includes(p.id));
         }
       },
       error: err => console.error(err),
@@ -366,18 +328,13 @@ export class ProjectComponent implements OnInit {
       },
       error: error => {
         console.error('project service error', error);
-        this.openErrorSnackBar(
-          'Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.'
-        );
+        this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
       }
     });
   }
 
   private pageProjects() {
-    this.projectsPage = this.filteredProjects.slice(
-      this.pageIndex * this.pageSize,
-      (this.pageIndex + 1) * this.pageSize
-    );
+    this.projectsPage = this.filteredProjects.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
   }
 
   /**

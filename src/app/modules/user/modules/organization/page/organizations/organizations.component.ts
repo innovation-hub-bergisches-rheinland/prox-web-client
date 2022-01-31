@@ -17,17 +17,11 @@ export class UserOrganizationsComponent implements OnInit {
   organizations: OrganizationMemberships[] = [];
   canCreateOrg: boolean = false;
 
-  constructor(
-    private userService: UserService,
-    private keycloakService: KeycloakService
-  ) {}
+  constructor(private userService: UserService, private keycloakService: KeycloakService) {}
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
-      this.canCreateOrg = this.keycloakService.isUserInRole(
-        'organization_administrator',
-        'prox-user-service'
-      );
+      this.canCreateOrg = this.keycloakService.isUserInRole('organization_administrator', 'prox-user-service');
 
       this.userService
         .getOrganizationMembershipsOfAuthenticateduser()

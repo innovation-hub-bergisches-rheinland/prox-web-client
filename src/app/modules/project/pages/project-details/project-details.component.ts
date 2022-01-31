@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
@@ -68,9 +68,7 @@ export class ProjectDetailsComponent implements OnInit {
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
       const userRoles = this.keycloakService.getUserRoles();
-      this.hasPermission =
-        userRoles.includes('professor') ||
-        userRoles.includes('company-manager');
+      this.hasPermission = userRoles.includes('professor') || userRoles.includes('company-manager');
     } else {
       this.hasPermission = false;
     }
@@ -81,16 +79,12 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   private loadCompanyLink() {
-    this.companyService
-      .findCompanyByCreatorId(this.project.creatorID)
-      .subscribe({
-        next: res => {
-          this.projectCompany = `<a href=${this.companyService.getCompanyProfileUrl(
-            res.id
-          )}>${res.information.name}</a>`;
-        },
-        error: err => console.error(err)
-      });
+    this.companyService.findCompanyByCreatorId(this.project.creatorID).subscribe({
+      next: res => {
+        this.projectCompany = `<a href=${this.companyService.getCompanyProfileUrl(res.id)}>${res.information.name}</a>`;
+      },
+      error: err => console.error(err)
+    });
   }
 
   private loadSupervisorLinks() {
@@ -101,20 +95,16 @@ export class ProjectDetailsComponent implements OnInit {
       .map(s => s.trim())
       .filter(s => s.length >= 0);
 
-    this.professorService
-      .findProfessorWithNameLike(this.projectSupervisors)
-      .subscribe(res => {
-        this.projectSupervisors = [];
-        for (const [key, value] of Object.entries(res)) {
-          if (value == null) {
-            this.projectSupervisors.push(key);
-          } else {
-            this.projectSupervisors.push(
-              `<a href="/lecturers/${value}">${key}</a>`
-            );
-          }
+    this.professorService.findProfessorWithNameLike(this.projectSupervisors).subscribe(res => {
+      this.projectSupervisors = [];
+      for (const [key, value] of Object.entries(res)) {
+        if (value == null) {
+          this.projectSupervisors.push(key);
+        } else {
+          this.projectSupervisors.push(`<a href="/lecturers/${value}">${key}</a>`);
         }
-      });
+      }
+    });
   }
 
   getProjectSupervisors() {
@@ -157,16 +147,14 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   getProject() {
-    this.projectService
-      .getProject(this.projectID, 'withModules')
-      .subscribe(project => {
-        this.project = project;
-        this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
-        if (this.project.context === 'PROFESSOR') {
-          this.loadSupervisorLinks();
-        } else if (this.project.context === 'COMPANY') {
-          this.loadCompanyLink();
-        }
-      });
+    this.projectService.getProject(this.projectID, 'withModules').subscribe(project => {
+      this.project = project;
+      this.projectTags$ = this.tagService.getAllTagsOfProject(project.id);
+      if (this.project.context === 'PROFESSOR') {
+        this.loadSupervisorLinks();
+      } else if (this.project.context === 'COMPANY') {
+        this.loadCompanyLink();
+      }
+    });
   }
 }

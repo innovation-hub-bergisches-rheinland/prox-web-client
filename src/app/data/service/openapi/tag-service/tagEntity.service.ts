@@ -12,14 +12,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import { Inject, Injectable, Optional } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-  HttpEvent,
-  HttpParameterCodec
-} from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, HttpResponse } from '@angular/common/http';
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
@@ -39,11 +32,7 @@ export class TagEntityService {
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;
 
-  constructor(
-    protected httpClient: HttpClient,
-    @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration
-  ) {
+  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
     if (configuration) {
       this.configuration = configuration;
     }
@@ -56,11 +45,7 @@ export class TagEntityService {
     this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
   }
 
-  private addToHttpParams(
-    httpParams: HttpParams,
-    value: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
     if (typeof value === 'object' && value instanceof Date === false) {
       httpParams = this.addToHttpParamsRecursive(httpParams, value);
     } else {
@@ -69,38 +54,23 @@ export class TagEntityService {
     return httpParams;
   }
 
-  private addToHttpParamsRecursive(
-    httpParams: HttpParams,
-    value?: any,
-    key?: string
-  ): HttpParams {
+  private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
     if (value == null) {
       return httpParams;
     }
 
     if (typeof value === 'object') {
       if (Array.isArray(value)) {
-        (value as any[]).forEach(
-          elem =>
-            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
-        );
+        (value as any[]).forEach(elem => (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key)));
       } else if (value instanceof Date) {
         if (key != null) {
-          httpParams = httpParams.append(
-            key,
-            (value as Date).toISOString().substr(0, 10)
-          );
+          httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
         } else {
           throw Error('key may not be null if value is Date');
         }
       } else {
         Object.keys(value).forEach(
-          k =>
-            (httpParams = this.addToHttpParamsRecursive(
-              httpParams,
-              value[k],
-              key != null ? `${key}.${k}` : k
-            ))
+          k => (httpParams = this.addToHttpParamsRecursive(httpParams, value[k], key != null ? `${key}.${k}` : k))
         );
       }
     } else if (key != null) {
@@ -142,9 +112,7 @@ export class TagEntityService {
     options?: { httpHeaderAccept?: undefined }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling deleteTagUsingDELETE.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling deleteTagUsingDELETE.');
     }
 
     let headers = this.defaultHeaders;
@@ -156,36 +124,28 @@ export class TagEntityService {
       headers = headers.set('Authorization', 'Bearer ' + credential);
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = [];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.delete<any>(
-      `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
-      {
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.delete<any>(`${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`, {
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -203,11 +163,7 @@ export class TagEntityService {
     observe?: 'body',
     reportProgress?: boolean,
     options?: {
-      httpHeaderAccept?:
-        | 'application/json'
-        | 'application/hal+json'
-        | 'text/uri-list'
-        | 'application/x-spring-data-compact+json';
+      httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
   ): Observable<CollectionModelOfTag>;
   public findAllTagUsingGET(
@@ -217,11 +173,7 @@ export class TagEntityService {
     observe?: 'response',
     reportProgress?: boolean,
     options?: {
-      httpHeaderAccept?:
-        | 'application/json'
-        | 'application/hal+json'
-        | 'text/uri-list'
-        | 'application/x-spring-data-compact+json';
+      httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
   ): Observable<HttpResponse<CollectionModelOfTag>>;
   public findAllTagUsingGET(
@@ -231,11 +183,7 @@ export class TagEntityService {
     observe?: 'events',
     reportProgress?: boolean,
     options?: {
-      httpHeaderAccept?:
-        | 'application/json'
-        | 'application/hal+json'
-        | 'text/uri-list'
-        | 'application/x-spring-data-compact+json';
+      httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
   ): Observable<HttpEvent<CollectionModelOfTag>>;
   public findAllTagUsingGET(
@@ -245,40 +193,23 @@ export class TagEntityService {
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: {
-      httpHeaderAccept?:
-        | 'application/json'
-        | 'application/hal+json'
-        | 'text/uri-list'
-        | 'application/x-spring-data-compact+json';
+      httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (page !== undefined && page !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>page,
-        'page'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>page, 'page');
     }
     if (size !== undefined && size !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>size,
-        'size'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>size, 'size');
     }
     if (sort !== undefined && sort !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>sort,
-        'sort'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>sort, 'sort');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = [
@@ -287,32 +218,25 @@ export class TagEntityService {
         'text/uri-list',
         'application/x-spring-data-compact+json'
       ];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfTag>(
-      `${this.configuration.basePath}/tags`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<CollectionModelOfTag>(`${this.configuration.basePath}/tags`, {
+      params: queryParameters,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -346,43 +270,33 @@ export class TagEntityService {
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling findByIdTagUsingGET.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling findByIdTagUsingGET.');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<EntityModelOfTag>(
-      `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
-      {
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<EntityModelOfTag>(`${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`, {
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -417,46 +331,34 @@ export class TagEntityService {
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (tagName !== undefined && tagName !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>tagName,
-        'tagName'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>tagName, 'tagName');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfTag>(
-      `${this.configuration.basePath}/tags/search/findByTagNameContaining`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<CollectionModelOfTag>(`${this.configuration.basePath}/tags/search/findByTagNameContaining`, {
+      params: queryParameters,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -491,46 +393,34 @@ export class TagEntityService {
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (tagName !== undefined && tagName !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>tagName,
-        'tagName'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>tagName, 'tagName');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfTag>(
-      `${this.configuration.basePath}/tags/search/findByTagName`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<CollectionModelOfTag>(`${this.configuration.basePath}/tags/search/findByTagName`, {
+      params: queryParameters,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -569,9 +459,7 @@ export class TagEntityService {
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling saveTagUsingPATCH.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling saveTagUsingPATCH.');
     }
 
     let headers = this.defaultHeaders;
@@ -583,13 +471,11 @@ export class TagEntityService {
       headers = headers.set('Authorization', 'Bearer ' + credential);
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -597,31 +483,23 @@ export class TagEntityService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.patch<EntityModelOfTag>(
-      `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
-      tag,
-      {
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.patch<EntityModelOfTag>(`${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`, tag, {
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -663,13 +541,11 @@ export class TagEntityService {
       headers = headers.set('Authorization', 'Bearer ' + credential);
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -677,31 +553,23 @@ export class TagEntityService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.post<EntityModelOfTag>(
-      `${this.configuration.basePath}/tags`,
-      tag,
-      {
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.post<EntityModelOfTag>(`${this.configuration.basePath}/tags`, tag, {
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -740,9 +608,7 @@ export class TagEntityService {
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
-      throw new Error(
-        'Required parameter id was null or undefined when calling saveTagUsingPUT.'
-      );
+      throw new Error('Required parameter id was null or undefined when calling saveTagUsingPUT.');
     }
 
     let headers = this.defaultHeaders;
@@ -754,13 +620,11 @@ export class TagEntityService {
       headers = headers.set('Authorization', 'Bearer ' + credential);
     }
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
@@ -768,31 +632,23 @@ export class TagEntityService {
 
     // to determine the Content-Type header
     const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
+    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected !== undefined) {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.put<EntityModelOfTag>(
-      `${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`,
-      tag,
-      {
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.put<EntityModelOfTag>(`${this.configuration.basePath}/tags/${encodeURIComponent(String(id))}`, tag, {
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 
   /**
@@ -826,52 +682,38 @@ export class TagEntityService {
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (tagIds === null || tagIds === undefined) {
-      throw new Error(
-        'Required parameter tagIds was null or undefined when calling tagRecommendationsTagUsingGET.'
-      );
+      throw new Error('Required parameter tagIds was null or undefined when calling tagRecommendationsTagUsingGET.');
     }
 
     let queryParameters = new HttpParams({ encoder: this.encoder });
     if (tagIds !== undefined && tagIds !== null) {
-      queryParameters = this.addToHttpParams(
-        queryParameters,
-        <any>tagIds,
-        'tagIds'
-      );
+      queryParameters = this.addToHttpParams(queryParameters, <any>tagIds, 'tagIds');
     }
 
     let headers = this.defaultHeaders;
 
-    let httpHeaderAcceptSelected: string | undefined =
-      options && options.httpHeaderAccept;
+    let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
     if (httpHeaderAcceptSelected === undefined) {
       // to determine the Accept header
       const httpHeaderAccepts: string[] = ['*/*'];
-      httpHeaderAcceptSelected =
-        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+      httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     }
     if (httpHeaderAcceptSelected !== undefined) {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     let responseType_: 'text' | 'json' = 'json';
-    if (
-      httpHeaderAcceptSelected &&
-      httpHeaderAcceptSelected.startsWith('text')
-    ) {
+    if (httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
       responseType_ = 'text';
     }
 
-    return this.httpClient.get<CollectionModelOfTag>(
-      `${this.configuration.basePath}/tags/search/tagRecommendations`,
-      {
-        params: queryParameters,
-        responseType: <any>responseType_,
-        withCredentials: this.configuration.withCredentials,
-        headers: headers,
-        observe: observe,
-        reportProgress: reportProgress
-      }
-    );
+    return this.httpClient.get<CollectionModelOfTag>(`${this.configuration.basePath}/tags/search/tagRecommendations`, {
+      params: queryParameters,
+      responseType: <any>responseType_,
+      withCredentials: this.configuration.withCredentials,
+      headers: headers,
+      observe: observe,
+      reportProgress: reportProgress
+    });
   }
 }

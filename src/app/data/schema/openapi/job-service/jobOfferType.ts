@@ -16,13 +16,7 @@ export interface JobOfferType {
   description: string;
 }
 export namespace JobOfferType {
-  export type TypeEnum =
-    | 'FULL_TIME'
-    | 'PART_TIME'
-    | 'INTERNSHIP'
-    | 'MINIJOB'
-    | 'STUDENT_WORKER'
-    | 'RESEARCH_ASSISTANT';
+  export type TypeEnum = 'FULL_TIME' | 'PART_TIME' | 'INTERNSHIP' | 'MINIJOB' | 'STUDENT_WORKER' | 'RESEARCH_ASSISTANT';
   export const TypeEnum = {
     FullTime: 'FULL_TIME' as TypeEnum,
     PartTime: 'PART_TIME' as TypeEnum,

@@ -1,48 +1,17 @@
 <app-content-page *ngIf="project">
   <app-content-page-header>
     <div class="page-title">
-      <button
-        (click)="goBack()"
-        matTooltip="Zurück zur Projektübersicht"
-        mat-icon-button
-        color="primary"
-      >
+      <button (click)="goBack()" matTooltip="Zurück zur Projektübersicht" mat-icon-button color="primary">
         <mat-icon class="back-icon">arrow_back</mat-icon>
       </button>
 
-      <mat-icon
-        *ngIf="project.status == 'AVAILABLE'"
-        matTooltip="Verfügbar"
-        class="status-icon"
-        color="primary"
-      >
-        lock_open
-      </mat-icon>
+      <mat-icon *ngIf="project.status === 'AVAILABLE'" matTooltip="Verfügbar" class="status-icon" color="primary"> lock_open </mat-icon>
 
-      <mat-icon
-        *ngIf="project.status == 'FINISHED'"
-        matTooltip="Abgeschlossen"
-        class="status-icon"
-        color="primary"
-      >
-        lock
-      </mat-icon>
+      <mat-icon *ngIf="project.status === 'FINISHED'" matTooltip="Abgeschlossen" class="status-icon" color="primary"> lock </mat-icon>
 
-      <mat-icon
-        *ngIf="project.status == 'RUNNING'"
-        matTooltip="Laufend"
-        class="status-icon"
-        color="primary"
-      >
-        directions_run
-      </mat-icon>
+      <mat-icon *ngIf="project.status === 'RUNNING'" matTooltip="Laufend" class="status-icon" color="primary"> directions_run </mat-icon>
 
-      <mat-icon
-        *ngIf="project.context == 'COMPANY'"
-        matTooltip="Projekt in einem Unternehmen"
-        class="context-icon"
-        color="primary"
-      >
+      <mat-icon *ngIf="project.context === 'COMPANY'" matTooltip="Projekt in einem Unternehmen" class="context-icon" color="primary">
         domain
       </mat-icon>
     </div>
@@ -102,12 +71,7 @@
 
         <mat-card-subtitle>
           <mat-chip-list *ngIf="projectTags$ | async as tags; else noTags">
-            <mat-chip
-              selected
-              *ngFor="let tag of tags"
-              matTooltip="{{ tag.tagName }}"
-              >{{ tag.tagName }}
-            </mat-chip>
+            <mat-chip selected *ngFor="let tag of tags" matTooltip="{{ tag.tagName }}">{{ tag.tagName }} </mat-chip>
           </mat-chip-list>
           <ng-template #noTags>
             <mat-chip color="primary" selected> Keine Tags vorhanden </mat-chip>

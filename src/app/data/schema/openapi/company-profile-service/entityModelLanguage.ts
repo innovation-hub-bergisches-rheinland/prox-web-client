@@ -21,13 +21,7 @@ export interface EntityModelLanguage {
   _links?: { [key: string]: Link };
 }
 export namespace EntityModelLanguage {
-  export type TypeEnum =
-    | 'ANCIENT'
-    | 'LIVING'
-    | 'CONSTRUCTED'
-    | 'HISTORICAL'
-    | 'EXTINCT'
-    | 'NONE';
+  export type TypeEnum = 'ANCIENT' | 'LIVING' | 'CONSTRUCTED' | 'HISTORICAL' | 'EXTINCT' | 'NONE';
   export const TypeEnum = {
     Ancient: 'ANCIENT' as TypeEnum,
     Living: 'LIVING' as TypeEnum,

@@ -1,9 +1,7 @@
 <div class="user">
   <div class="loginState">
     <h1 *ngIf="isLoggedIn">{{ username }}</h1>
-    <button (click)="login()" *ngIf="!isLoggedIn" mat-flat-button class="login">
-      Einloggen
-    </button>
+    <button (click)="login()" *ngIf="!isLoggedIn" mat-flat-button class="login">Einloggen</button>
   </div>
 
   <mat-list *ngIf="isLoggedIn">
@@ -15,11 +13,7 @@
     </mat-list-item>
 
     <mat-list-item>
-      <button
-        class="sidebar-button"
-        mat-button
-        [routerLink]="['/lecturers', userId]"
-      >
+      <button class="sidebar-button" mat-button [routerLink]="['/lecturers', userId]">
         <mat-icon class="sidebar-icon">badge</mat-icon>
         Mein Profil
       </button>

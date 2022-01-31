@@ -19,11 +19,6 @@ import { JobEditorComponent } from '@modules/jobs/pages/job-editor/job-editor.co
     JobCreatorComponent,
     JobEditorComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    JobRoutingModule,
-    MarkdownModule.forChild()
-  ]
+  imports: [CommonModule, SharedModule, JobRoutingModule, MarkdownModule.forChild()]
 })
 export class JobModule {}

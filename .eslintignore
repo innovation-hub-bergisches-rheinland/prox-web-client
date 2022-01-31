@@ -1,3 +1,5 @@
+.angular
+deploy
 node_modules
 dist
 jest.config.js
@@ -5,3 +7,4 @@ fixtures
 coverage
 __snapshots__
 CHANGELOG.md
+package-lock.json

@@ -82,10 +82,7 @@ export class HomeComponent implements OnInit {
     }
 
     for (const keyword of keywords) {
-      this.typewriter = this.typewriter
-        .typeString(keyword)
-        .pauseFor(300)
-        .deleteAll();
+      this.typewriter = this.typewriter.typeString(keyword).pauseFor(300).deleteAll();
     }
     this.typewriter.start();
   }

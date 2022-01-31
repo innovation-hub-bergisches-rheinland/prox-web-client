@@ -1,28 +1,16 @@
 <app-profile-card>
   <app-profile-card-header [icon]="icon">
-    <app-profile-card-title
-      >Abgeschlossene und Laufende Projekte</app-profile-card-title
-    >
+    <app-profile-card-title>Abgeschlossene und Laufende Projekte</app-profile-card-title>
   </app-profile-card-header>
   <app-profile-card-content>
     <div class="flex flex-row justify-center items-center gap-4">
-      <button
-        class="flex-none"
-        mat-raised-button
-        color="primary"
-        (click)="goBackward()"
-      >
+      <button class="flex-none" mat-raised-button color="primary" (click)="goBackward()">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
       <div class="flex-grow slider-body-wrapper">
         <ng-content></ng-content>
       </div>
-      <button
-        class="flex-none"
-        mat-raised-button
-        color="primary"
-        (click)="goForward()"
-      >
+      <button class="flex-none" mat-raised-button color="primary" (click)="goForward()">
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>

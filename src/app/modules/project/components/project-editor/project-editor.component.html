@@ -9,28 +9,12 @@
     <div class="project-editor-form">
       <mat-form-field>
         <mat-label>Bezeichnung</mat-label>
-        <input
-          formControlName="name"
-          matInput
-          maxlength="255"
-          placeholder="Bezeichnung"
-          required
-        />
+        <input formControlName="name" matInput maxlength="255" placeholder="Bezeichnung" required />
 
-        <mat-hint align="end">
-          {{ projectFormControl.controls['name'].value?.length || 0 }}/255
-        </mat-hint>
+        <mat-hint align="end"> {{ projectFormControl.controls['name'].value?.length || 0 }}/255 </mat-hint>
 
-        <mat-error
-          *ngIf="projectFormControl.controls['name'].hasError('required')"
-        >
-          Bezeichnung <strong>fehlt</strong>!
-        </mat-error>
-        <mat-error
-          *ngIf="projectFormControl.controls['name'].hasError('pattern')"
-        >
-          Bezeichnung enthält ungültige Zeichen.
-        </mat-error>
+        <mat-error *ngIf="projectFormControl.controls['name'].hasError('required')"> Bezeichnung <strong>fehlt</strong>! </mat-error>
+        <mat-error *ngIf="projectFormControl.controls['name'].hasError('pattern')"> Bezeichnung enthält ungültige Zeichen. </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -44,24 +28,12 @@
           required
         ></textarea>
 
-        <mat-hint align="end">
-          {{
-            projectFormControl.controls['shortDescription'].value?.length || 0
-          }}/10000
-        </mat-hint>
+        <mat-hint align="end"> {{ projectFormControl.controls['shortDescription'].value?.length || 0 }}/10000 </mat-hint>
 
-        <mat-error
-          *ngIf="
-            projectFormControl.controls['shortDescription'].hasError('required')
-          "
-        >
+        <mat-error *ngIf="projectFormControl.controls['shortDescription'].hasError('required')">
           Kurzbeschreibung <strong>fehlt</strong>!
         </mat-error>
-        <mat-error
-          *ngIf="
-            projectFormControl.controls['shortDescription'].hasError('pattern')
-          "
-        >
+        <mat-error *ngIf="projectFormControl.controls['shortDescription'].hasError('pattern')">
           Kurzbeschreibung enthält ungültige Zeichen.
         </mat-error>
       </mat-form-field>
@@ -76,56 +48,27 @@
           placeholder="Teilnahmevoraussetzungen"
         ></textarea>
 
-        <mat-hint align="end">
-          {{
-            projectFormControl.controls['requirement'].value?.length || 0
-          }}/10000
-        </mat-hint>
-        <mat-error
-          *ngIf="projectFormControl.controls['requirement'].hasError('pattern')"
-        >
+        <mat-hint align="end"> {{ projectFormControl.controls['requirement'].value?.length || 0 }}/10000 </mat-hint>
+        <mat-error *ngIf="projectFormControl.controls['requirement'].hasError('pattern')">
           Teilnahmevoraussetzungen enthält ungültige Zeichen.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Beschreibung</mat-label>
-        <textarea
-          formControlName="description"
-          class="form-textarea"
-          matInput
-          placeholder="Beschreibung"
-          maxlength="10000"
-        ></textarea>
+        <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
 
-        <mat-hint align="end">
-          {{
-            projectFormControl.controls['description'].value?.length || 0
-          }}/10000
-        </mat-hint>
-        <mat-error
-          *ngIf="projectFormControl.controls['description'].hasError('pattern')"
-        >
+        <mat-hint align="end"> {{ projectFormControl.controls['description'].value?.length || 0 }}/10000 </mat-hint>
+        <mat-error *ngIf="projectFormControl.controls['description'].hasError('pattern')">
           Beschreibung enthält ungültige Zeichen.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Betreuer</mat-label>
-        <input
-          formControlName="supervisorName"
-          matInput
-          required
-          maxlength="255"
-        />
-        <mat-hint align="end">
-          {{ projectFormControl.controls['supervisorName'].value?.length }}/255
-        </mat-hint>
-        <mat-error
-          *ngIf="
-            projectFormControl.controls['supervisorName'].hasError('pattern')
-          "
-        >
+        <input formControlName="supervisorName" matInput required maxlength="255" />
+        <mat-hint align="end"> {{ projectFormControl.controls['supervisorName'].value?.length }}/255 </mat-hint>
+        <mat-error *ngIf="projectFormControl.controls['supervisorName'].hasError('pattern')">
           Betreuungsperson enthält ungültige Zeichen.
         </mat-error>
       </mat-form-field>
@@ -141,25 +84,15 @@
           <mat-option value="ABGESCHLOSSEN">Abgeschlossen</mat-option>
         </mat-select>
 
-        <mat-error
-          *ngIf="projectFormControl.controls['status'].hasError('required')"
-        >
-          Status <strong>fehlt</strong>!
-        </mat-error>
+        <mat-error *ngIf="projectFormControl.controls['status'].hasError('required')"> Status <strong>fehlt</strong>! </mat-error>
       </mat-form-field>
 
-      <app-module-types-selector
-        formControlName="modules"
-      ></app-module-types-selector>
+      <app-module-types-selector formControlName="modules"></app-module-types-selector>
 
       <mat-form-field class="tag-list">
         <mat-label>Tags</mat-label>
         <mat-chip-list #tagList>
-          <mat-chip
-            *ngFor="let tag of tags"
-            [removable]="true"
-            (removed)="removeTag(tag)"
-          >
+          <mat-chip *ngFor="let tag of tags" [removable]="true" (removed)="removeTag(tag)">
             {{ tag.tagName }}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
@@ -184,10 +117,7 @@
           />
         </mat-chip-list>
 
-        <mat-autocomplete
-          #tagAuto="matAutocomplete"
-          (optionSelected)="selectedTag($event)"
-        >
+        <mat-autocomplete #tagAuto="matAutocomplete" (optionSelected)="selectedTag($event)">
           <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
             {{ tag.tagName }}
           </mat-option>
@@ -198,21 +128,9 @@
 
   <div mat-dialog-actions>
     <div class="action-buttons">
-      <button
-        (click)="cancelButtonClicked()"
-        mat-button
-        type="reset"
-        color="warn"
-      >
-        Entwurf Abbrechen
-      </button>
+      <button (click)="cancelButtonClicked()" mat-button type="reset" color="warn">Entwurf Abbrechen</button>
 
-      <button
-        [disabled]="projectFormControl.invalid || hasSubmitted"
-        mat-button
-        color="primary"
-        type="submit"
-      >
+      <button [disabled]="projectFormControl.invalid || hasSubmitted" mat-button color="primary" type="submit">
         {{ isEditProject() ? 'Änderungen speichern' : 'Hinzufügen' }}
       </button>
     </div>

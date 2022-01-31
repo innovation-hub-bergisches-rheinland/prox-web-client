@@ -1,11 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <img
-      mat-card-avatar
-      [src]="imgSrc"
-      onerror="this.src='/assets/images/blank-profile-picture.png'"
-      alt="Profile picture"
-    />
+    <img mat-card-avatar [src]="imgSrc" onerror="this.src='/assets/images/blank-profile-picture.png'" alt="Profile picture" />
     <mat-card-title>
       <span *ngIf="this.href; then link; else noLink"></span>
       <ng-template #link
@@ -16,9 +11,7 @@
     <mat-card-subtitle *ngIf="this.subtitle"
       ><b>{{ this.subtitle }}</b></mat-card-subtitle
     >
-    <mat-card-subtitle *ngIf="this.secondarySubtitle">{{
-      this.secondarySubtitle
-    }}</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="this.secondarySubtitle">{{ this.secondarySubtitle }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div *ngIf="chips && chips.length > 0">
@@ -36,21 +29,13 @@
     <br />
     <div>
       <div class="flex flex-row justify-around items-center">
-        <mat-icon
-          [matBadge]="this.numAvailableProjects"
-          [matTooltip]="this.numAvailableProjects + ' verfügbare Projekte'"
+        <mat-icon [matBadge]="this.numAvailableProjects" [matTooltip]="this.numAvailableProjects + ' verfügbare Projekte'"
           >lock_open</mat-icon
         >
-        <mat-icon
-          [matBadge]="this.numRunningProjects"
-          [matTooltip]="this.numRunningProjects + ' laufende Projekte'"
+        <mat-icon [matBadge]="this.numRunningProjects" [matTooltip]="this.numRunningProjects + ' laufende Projekte'"
           >directions_run</mat-icon
         >
-        <mat-icon
-          [matBadge]="this.numFinishedProjects"
-          [matTooltip]="this.numFinishedProjects + ' abgeschlossene Projekte'"
-          >lock</mat-icon
-        >
+        <mat-icon [matBadge]="this.numFinishedProjects" [matTooltip]="this.numFinishedProjects + ' abgeschlossene Projekte'">lock</mat-icon>
       </div>
     </div>
   </mat-card-content>

@@ -4,18 +4,15 @@ import { Observable, of } from 'rxjs';
 
 import { map, tap } from 'rxjs/operators';
 import {
-  EntityModelProfessorOverviewDto,
   EntityModelFaculty,
+  EntityModelProfessor,
+  EntityModelProfessorOverviewDto,
   PagedModelEntityModelProfessor,
-  Professor,
-  EntityModelProfessor
+  Professor
 } from '@data/schema/openapi/professor-profile-service/models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env';
-import {
-  FacultyAPIService,
-  ProfessorAPIService
-} from './openapi/professor-profile-service/api';
+import { FacultyAPIService, ProfessorAPIService } from './openapi/professor-profile-service/api';
 
 @Injectable({
   providedIn: 'root'
@@ -41,36 +38,19 @@ export class ProfessorProfileService {
   }
 
   updateProfessorProfile(professor: Professor): Observable<Professor | any> {
-    return this.professorApiService.updateProfessor(
-      professor.id,
-      professor,
-      'body',
-      false,
-      {
-        httpHeaderAccept: 'application/hal+json'
-      }
-    );
+    return this.professorApiService.updateProfessor(professor.id, professor, 'body', false, {
+      httpHeaderAccept: 'application/hal+json'
+    });
   }
 
   getProfessorImageUrl(id: string): string {
     return `${environment.apiUrl}/professors/${id}/image`; //TODO Hardcoded - this might be refactored
   }
 
-  getAllProfessors(
-    page?: number,
-    size?: number,
-    sort: string[] = ['name']
-  ): Observable<PagedModelEntityModelProfessor> {
-    return this.professorApiService.getAllProfessors(
-      sort,
-      page,
-      size,
-      'body',
-      false,
-      {
-        httpHeaderAccept: 'application/hal+json'
-      }
-    );
+  getAllProfessors(page?: number, size?: number, sort: string[] = ['name']): Observable<PagedModelEntityModelProfessor> {
+    return this.professorApiService.getAllProfessors(sort, page, size, 'body', false, {
+      httpHeaderAccept: 'application/hal+json'
+    });
   }
 
   getProfessorFaculty(id: string): Observable<EntityModelFaculty> {
@@ -79,9 +59,7 @@ export class ProfessorProfileService {
     });
   }
 
-  getAllFaculties(
-    sort: Set<string> = new Set()
-  ): Observable<EntityModelFaculty[]> {
+  getAllFaculties(sort: Set<string> = new Set()): Observable<EntityModelFaculty[]> {
     return this.facultyApiService
       .getAllFaculties(sort, 'body', false, {
         httpHeaderAccept: 'application/hal+json'
@@ -89,10 +67,7 @@ export class ProfessorProfileService {
       .pipe(map(f => f._embedded.facultyList));
   }
 
-  saveProfessorFaculty(
-    id: string,
-    facultyId: string
-  ): Observable<EntityModelFaculty> {
+  saveProfessorFaculty(id: string, facultyId: string): Observable<EntityModelFaculty> {
     return this.professorApiService.saveFaculty(id, facultyId, 'body', false, {
       httpHeaderAccept: 'application/hal+json'
     });
@@ -114,16 +89,9 @@ export class ProfessorProfileService {
       .pipe(map(p => p._embedded.professorOverviewDtoList));
   }
 
-  findProfessorWithNameLike(
-    names: string[]
-  ): Observable<{ [key: string]: string }> {
-    return this.professorApiService.findProfessorWithNameLike(
-      names,
-      'body',
-      false,
-      {
-        httpHeaderAccept: 'application/json'
-      }
-    );
+  findProfessorWithNameLike(names: string[]): Observable<{ [key: string]: string }> {
+    return this.professorApiService.findProfessorWithNameLike(names, 'body', false, {
+      httpHeaderAccept: 'application/json'
+    });
   }
 }

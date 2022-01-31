@@ -1,14 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  Provider
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, Provider, forwardRef } from '@angular/core';
 import { ModuleType, StudyProgram } from '@data/schema/project-service.types';
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -30,16 +20,12 @@ export class StudyProgramPickerComponent implements OnInit, OnDestroy {
   restoreKey = 'restore-study-program-picker';
 
   @Output()
-  valueChange = this.selectedStudyPrograms.changed.pipe(
-    map(s => s.source.selected)
-  );
+  valueChange = this.selectedStudyPrograms.changed.pipe(map(s => s.source.selected));
 
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {}
 
   ngOnInit(): void {
-    const previouslySelected = this.studyPrograms.filter(sp =>
-      this.loadPreviouslySelectedKeysFromStorage().some(s => s === sp.key)
-    );
+    const previouslySelected = this.studyPrograms.filter(sp => this.loadPreviouslySelectedKeysFromStorage().some(s => s === sp.key));
     if (previouslySelected.length > 0) {
       this.writeValue(previouslySelected);
     } else {
@@ -53,22 +39,16 @@ export class StudyProgramPickerComponent implements OnInit, OnDestroy {
 
   writeValue(obj: Pick<StudyProgram, 'key'>[]): void {
     if (obj) {
-      this.selectedStudyPrograms.select(
-        ...this.studyPrograms.filter(sp => obj.some(s => s.key === sp.key))
-      );
+      this.selectedStudyPrograms.select(...this.studyPrograms.filter(sp => obj.some(s => s.key === sp.key)));
     }
   }
 
   saveSelectedStudyPrograms() {
-    this.storage.set(
-      this.restoreKey,
-      JSON.stringify(this.selectedStudyPrograms.selected.map(sp => sp.key))
-    );
+    this.storage.set(this.restoreKey, JSON.stringify(this.selectedStudyPrograms.selected.map(sp => sp.key)));
   }
 
   loadPreviouslySelectedKeysFromStorage(): string[] {
-    const loadedData: string[] =
-      JSON.parse(this.storage.get(this.restoreKey)) ?? [];
+    const loadedData: string[] = JSON.parse(this.storage.get(this.restoreKey)) ?? [];
 
     if (!loadedData || !Array.isArray(loadedData)) {
       return [];

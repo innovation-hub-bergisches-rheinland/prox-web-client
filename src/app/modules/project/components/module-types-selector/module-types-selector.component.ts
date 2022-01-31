@@ -1,23 +1,8 @@
-import {
-  Component,
-  forwardRef,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, forwardRef } from '@angular/core';
 import { ProjectService } from '@data/service/project.service';
-import {
-  ModuleType,
-  StudyProgramsWithModules
-} from '@data/schema/project-service.types';
+import { ModuleType, StudyProgramsWithModules } from '@data/schema/project-service.types';
 import { EMPTY, Observable } from 'rxjs';
-import {
-  ControlValueAccessor,
-  FormBuilder,
-  FormControl,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 @Component({
@@ -32,9 +17,7 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
     }
   ]
 })
-export class ModuleTypesSelectorComponent
-  implements OnInit, OnDestroy, ControlValueAccessor
-{
+export class ModuleTypesSelectorComponent implements OnInit, OnDestroy, ControlValueAccessor {
   studyPrograms$: Observable<StudyProgramsWithModules[]>;
   moduleTypes$: Observable<ModuleType[]>;
   selectedModules: ModuleType[] = [];
@@ -45,14 +28,10 @@ export class ModuleTypesSelectorComponent
   onTouched: Function = () => {};
   onChange = (moduleTypes: ModuleType[]) => {};
 
-  constructor(
-    private projectService: ProjectService,
-    private fb: FormBuilder
-  ) {}
+  constructor(private projectService: ProjectService, private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.studyPrograms$ =
-      this.projectService.getAllStudyPrograms('withModules');
+    this.studyPrograms$ = this.projectService.getAllStudyPrograms('withModules');
   }
 
   ngOnDestroy() {}

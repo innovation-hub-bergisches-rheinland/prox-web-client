@@ -12,12 +12,7 @@ import {
   faXingSquare
 } from '@fortawesome/free-brands-svg-icons';
 
-export type SocialMedia =
-  | 'FACEBOOK'
-  | 'TWITTER'
-  | 'LINKEDIN'
-  | 'XING'
-  | 'INSTAGRAM';
+export type SocialMedia = 'FACEBOOK' | 'TWITTER' | 'LINKEDIN' | 'XING' | 'INSTAGRAM';
 
 @Component({
   selector: 'app-social-media-button',

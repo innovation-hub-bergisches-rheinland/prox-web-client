@@ -37,19 +37,17 @@ export class OrganizationOverviewPageComponent implements OnInit {
         }))
       )
     );
-    this.hasOrganizationCreatePermission$ = this.organizationService
-      .getMyCompany()
-      .pipe(
-        map(res => {
-          // If there's an organisation - the user should not be able to create a new one
-          return false;
-        }),
-        catchError(err => {
-          // The user should only be able to create a new org IF and only IF there's no org present
-          // associated with him which will result in a 404 error
-          return of(err.status === 404 || false);
-        })
-      );
+    this.hasOrganizationCreatePermission$ = this.organizationService.getMyCompany().pipe(
+      map(res => {
+        // If there's an organisation - the user should not be able to create a new one
+        return false;
+      }),
+      catchError(err => {
+        // The user should only be able to create a new org IF and only IF there's no org present
+        // associated with him which will result in a 404 error
+        return of(err.status === 404 || false);
+      })
+    );
   }
 
   async redirectToOrgEditor() {

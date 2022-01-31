@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { concat, Observable, of, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, concat, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { Tag } from '@data/schema/tag.resource';
 import { Module } from '@data/schema/module.resource';
@@ -68,16 +68,12 @@ export class ProjectItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectTags$ = this.tagService
-      .getAllTagsOfProject(this.project.id)
-      .pipe(
-        catchError(error => {
-          this.openErrorSnackBar(
-            'Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.'
-          );
-          return throwError(() => error);
-        })
-      );
+    this.projectTags$ = this.tagService.getAllTagsOfProject(this.project.id).pipe(
+      catchError(error => {
+        this.openErrorSnackBar('Tags konnten nicht geladen werden! Versuchen Sie es später nochmal.');
+        return throwError(() => error);
+      })
+    );
 
     if (this.project.context === 'PROFESSOR') {
       this.loadSupervisorLinks();
@@ -87,16 +83,12 @@ export class ProjectItemComponent implements OnInit {
   }
 
   private loadCompanyLink() {
-    this.companyService
-      .findCompanyByCreatorId(this.project.creatorID)
-      .subscribe({
-        next: res => {
-          this.projectCompany = `<a href=${this.companyService.getCompanyProfileUrl(
-            res.id
-          )}>${res.information.name}</a>`;
-        },
-        error: err => console.error(err)
-      });
+    this.companyService.findCompanyByCreatorId(this.project.creatorID).subscribe({
+      next: res => {
+        this.projectCompany = `<a href=${this.companyService.getCompanyProfileUrl(res.id)}>${res.information.name}</a>`;
+      },
+      error: err => console.error(err)
+    });
   }
 
   private loadSupervisorLinks() {
@@ -109,20 +101,16 @@ export class ProjectItemComponent implements OnInit {
         ?.filter(s => s.length >= 0) ?? [];
 
     if (this.projectSupervisors.length > 0) {
-      this.professorService
-        .findProfessorWithNameLike(this.projectSupervisors)
-        .subscribe(res => {
-          this.projectSupervisors = [];
-          for (const [key, value] of Object.entries(res)) {
-            if (value == null) {
-              this.projectSupervisors.push(key);
-            } else {
-              this.projectSupervisors.push(
-                `<a href="/lecturers/${value}">${key}</a>`
-              );
-            }
+      this.professorService.findProfessorWithNameLike(this.projectSupervisors).subscribe(res => {
+        this.projectSupervisors = [];
+        for (const [key, value] of Object.entries(res)) {
+          if (value == null) {
+            this.projectSupervisors.push(key);
+          } else {
+            this.projectSupervisors.push(`<a href="/lecturers/${value}">${key}</a>`);
           }
-        });
+        }
+      });
     }
   }
 

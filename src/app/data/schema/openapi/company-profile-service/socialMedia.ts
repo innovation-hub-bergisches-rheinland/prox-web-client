@@ -15,12 +15,7 @@ export interface SocialMedia {
   account?: string;
 }
 export namespace SocialMedia {
-  export type TypeEnum =
-    | 'FACEBOOK'
-    | 'TWITTER'
-    | 'INSTAGRAM'
-    | 'XING'
-    | 'LINKEDIN';
+  export type TypeEnum = 'FACEBOOK' | 'TWITTER' | 'INSTAGRAM' | 'XING' | 'LINKEDIN';
   export const TypeEnum = {
     Facebook: 'FACEBOOK' as TypeEnum,
     Twitter: 'TWITTER' as TypeEnum,

@@ -1,16 +1,7 @@
 <ng-container *ngFor="let item of this.data; let i = index">
-  <div
-    class="toast-component"
-    [ngClass]="{ error: item.isError === true }"
-    fxLayout="row"
-    fxLayoutAlign="start center"
-    fxLayoutGap="20px"
-  >
+  <div class="toast-component" [ngClass]="{ error: item.isError === true }" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
     <div class="icon">
-      <mat-icon
-        inline="true"
-        >{{ item.icon ?? item.isError ? 'error' : 'info' }}</mat-icon
-      >
+      <mat-icon inline="true">{{ item.icon ?? item.isError ? 'error' : 'info' }}</mat-icon>
     </div>
     <div class="text">{{ item.message }}</div>
 

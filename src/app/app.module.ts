@@ -18,13 +18,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainContentComponent } from '@layout/main-content/main-content.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ContentLayoutComponent,
-    FooterComponent,
-    UserComponent,
-    MainContentComponent
-  ],
+  declarations: [AppComponent, ContentLayoutComponent, FooterComponent, UserComponent, MainContentComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

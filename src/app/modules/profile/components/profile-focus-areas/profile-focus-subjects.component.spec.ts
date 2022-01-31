@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileFocusSubjectsComponent } from './profile-focus-subjects.component';
-import {
-  ProfileCardComponent,
-  ProfileCardContentDirective
-} from '@modules/profile/components/profile-card/profile-card.component';
+import { ProfileCardComponent, ProfileCardContentDirective } from '@modules/profile/components/profile-card/profile-card.component';
 import {
   ProfileCardHeaderComponent,
   ProfileCardTitleDirective

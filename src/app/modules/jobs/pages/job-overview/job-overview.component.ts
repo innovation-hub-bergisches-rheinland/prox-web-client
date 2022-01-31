@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { from, Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { KeycloakService } from 'keycloak-angular';
@@ -28,9 +28,7 @@ export class JobOverviewComponent implements OnInit {
   });
 
   get jobOffers(): JobOffer[] {
-    return this._jobOffers.sort(
-      (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)
-    );
+    return this._jobOffers.sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
   }
 
   set jobOffers(jobOffers: JobOffer[]) {
@@ -45,18 +43,13 @@ export class JobOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.jobService
-      .getAllJobOffers()
-      .subscribe(res => (this.jobOffers = this.allJobOffers = res));
+    this.jobService.getAllJobOffers().subscribe(res => (this.jobOffers = this.allJobOffers = res));
     this.allJobOfferEntryLevels = this.jobService.getAllEntryLevels();
     this.allJobOfferTypes = this.jobService.getAllJobTypes();
     this.hasPermission = from(this.keycloakService.isLoggedIn()).pipe(
       map(loggedIn => {
         if (loggedIn) {
-          return (
-            this.keycloakService.isUserInRole('professor') ||
-            this.keycloakService.isUserInRole('company-manager')
-          );
+          return this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager');
         }
         return false;
       })
@@ -71,19 +64,17 @@ export class JobOverviewComponent implements OnInit {
     const searchString = this.searchForm.value.searchString;
     const entryLevels = this.searchForm.value.selectedEntryLevel;
     const types = this.searchForm.value.selectedJobTypes;
-    this.jobService
-      .searchJobOffers(searchString, entryLevels, types)
-      .subscribe({
-        next: res => (this._jobOffers = res),
-        error: err => {
-          console.error(err);
-          this.toastService.showToasts([
-            {
-              isError: true,
-              message: 'Suche konnte nicht erfolgreich durchgeführt werden'
-            }
-          ]);
-        }
-      });
+    this.jobService.searchJobOffers(searchString, entryLevels, types).subscribe({
+      next: res => (this._jobOffers = res),
+      error: err => {
+        console.error(err);
+        this.toastService.showToasts([
+          {
+            isError: true,
+            message: 'Suche konnte nicht erfolgreich durchgeführt werden'
+          }
+        ]);
+      }
+    });
   }
 }

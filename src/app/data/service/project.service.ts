@@ -1,6 +1,6 @@
 import { Inject, Injectable, Injector, Optional } from '@angular/core';
 
-import { forkJoin, Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 import {
   CreateProjectSchema,
@@ -38,69 +38,47 @@ export class ProjectService {
     });
   }
 
-  setProjectModules(
-    id: string,
-    modules: Pick<ModuleType, 'id'>[]
-  ): Observable<ModuleType[] | any> {
+  setProjectModules(id: string, modules: Pick<ModuleType, 'id'>[]): Observable<ModuleType[] | any> {
     const requestBody = modules.map(m => m.id).join('\n');
 
-    return this.httpClient.put<ModuleTypeCollectionModel>(
-      `${this.basePath}/projects/${id}/modules`,
-      requestBody,
-      {
-        headers: {
-          'Content-Type': 'text/uri-list',
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      }
-    );
+    return this.httpClient.put<ModuleTypeCollectionModel>(`${this.basePath}/projects/${id}/modules`, requestBody, {
+      headers: {
+        'Content-Type': 'text/uri-list',
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
   }
 
   updateProject(id: string, project: CreateProjectSchema): Observable<Project> {
-    return this.httpClient.put<Project>(
-      `${this.basePath}/projects/${id}`,
-      project,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      }
-    );
+    return this.httpClient.put<Project>(`${this.basePath}/projects/${id}`, project, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
   }
 
-  getProject(
-    id: string,
-    projection: 'withModules'
-  ): Observable<ProjectWithModules>;
+  getProject(id: string, projection: 'withModules'): Observable<ProjectWithModules>;
   getProject(id: string): Observable<Project>;
-  getProject(
-    id: string,
-    projection?: 'withModules'
-  ): Observable<Project | ProjectWithModules> {
+  getProject(id: string, projection?: 'withModules'): Observable<Project | ProjectWithModules> {
     let queryParams = new HttpParams();
     if (projection) {
       queryParams = queryParams.set('projection', projection);
     }
-    return this.httpClient.get<Project | ProjectWithModules>(
-      `${this.basePath}/projects/${id}`,
-      {
-        params: queryParams,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      }
-    );
+    return this.httpClient.get<Project | ProjectWithModules>(`${this.basePath}/projects/${id}`, {
+      params: queryParams,
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
   }
 
   getAllProjects(projection: 'withModules'): Observable<ProjectWithModules[]>;
   getAllProjects(): Observable<Project[]>;
-  getAllProjects(
-    projection?: 'withModules'
-  ): Observable<Project[] | ProjectWithModules[]> {
+  getAllProjects(projection?: 'withModules'): Observable<Project[] | ProjectWithModules[]> {
     let queryParams = new HttpParams();
     if (projection) {
       queryParams = queryParams.set('projection', projection);
@@ -117,15 +95,12 @@ export class ProjectService {
   }
 
   deleteProject(project: Pick<Project, 'id'>): Observable<any> {
-    return this.httpClient.delete<any>(
-      `${this.basePath}/projects/${project.id}`,
-      {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      }
-    );
+    return this.httpClient.delete<any>(`${this.basePath}/projects/${project.id}`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
   }
 
   getModulesOfProject(project: Pick<Project, 'id'>): Observable<ModuleType[]> {
@@ -134,27 +109,18 @@ export class ProjectService {
 
   getModulesOfProjectById(id: string): Observable<ModuleType[]> {
     return this.httpClient
-      .get<ModuleTypeCollectionModel>(
-        `${this.basePath}/projects/${id}/modules`,
-        {
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ModuleTypeCollectionModel>(`${this.basePath}/projects/${id}/modules`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(p => p._embedded.moduleTypes));
   }
 
-  findAvailableProjectsOfCreator(
-    id: string,
-    projection: 'withModules'
-  ): Observable<ProjectWithModules[]>;
+  findAvailableProjectsOfCreator(id: string, projection: 'withModules'): Observable<ProjectWithModules[]>;
   findAvailableProjectsOfCreator(id: string): Observable<Project[]>;
-  findAvailableProjectsOfCreator(
-    id: string,
-    projection?: 'withModules'
-  ): Observable<Project[] | ProjectWithModules[]> {
+  findAvailableProjectsOfCreator(id: string, projection?: 'withModules'): Observable<Project[] | ProjectWithModules[]> {
     let queryParameters = new HttpParams().set('creatorId', id);
 
     if (projection) {
@@ -162,16 +128,13 @@ export class ProjectService {
     }
 
     return this.httpClient
-      .get<ProjectCollectionModel>(
-        `${this.basePath}/projects/search/findAvailableProjectsOfCreator`,
-        {
-          params: queryParameters,
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findAvailableProjectsOfCreator`, {
+        params: queryParameters,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(p => p._embedded.projects));
   }
 
@@ -179,16 +142,13 @@ export class ProjectService {
     const queryParameters = new HttpParams().set('creatorId', id);
 
     return this.httpClient
-      .get<ProjectCollectionModel>(
-        `${this.basePath}/projects/search/findRunningProjectsOfCreator`,
-        {
-          params: queryParameters,
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findRunningProjectsOfCreator`, {
+        params: queryParameters,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(p => p._embedded.projects));
   }
 
@@ -196,26 +156,19 @@ export class ProjectService {
     const queryParameters = new HttpParams().set('creatorId', id);
 
     return this.httpClient
-      .get<ProjectCollectionModel>(
-        `${this.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`,
-        {
-          params: queryParameters,
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`, {
+        params: queryParameters,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(p => p._embedded.projects));
   }
 
-  getAllStudyPrograms(
-    projection?: 'withModules'
-  ): Observable<StudyProgramsWithModules[]>;
+  getAllStudyPrograms(projection?: 'withModules'): Observable<StudyProgramsWithModules[]>;
   getAllStudyPrograms(): Observable<StudyProgram[]>;
-  getAllStudyPrograms(
-    projection?: string
-  ): Observable<StudyProgram[] | StudyProgramsWithModules[]> {
+  getAllStudyPrograms(projection?: string): Observable<StudyProgram[] | StudyProgramsWithModules[]> {
     let queryParams = new HttpParams();
     if (projection) {
       queryParams = queryParams.set('projection', projection);
@@ -234,15 +187,12 @@ export class ProjectService {
 
   getAllModuleTypesOfStudyProgram(id: any): Observable<ModuleType[]> {
     return this.httpClient
-      .get<ModuleTypeCollectionModel>(
-        `${this.basePath}/studyPrograms/${id}/modules`,
-        {
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ModuleTypeCollectionModel>(`${this.basePath}/studyPrograms/${id}/modules`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(cm => cm._embedded.moduleTypes));
   }
 
@@ -258,36 +208,20 @@ export class ProjectService {
   }
 
   getAllModuleTypesOfStudyprograms(ids: string[]): Observable<ModuleType[]> {
-    const queryParameters = new HttpParams().set(
-      'studyProgramIds',
-      ids.join(',')
-    );
+    const queryParameters = new HttpParams().set('studyProgramIds', ids.join(','));
     return this.httpClient
-      .get<ModuleTypeCollectionModel>(
-        `${this.basePath}/studyPrograms/search/findAllModulesOfStudyPrograms`,
-        {
-          params: queryParameters,
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ModuleTypeCollectionModel>(`${this.basePath}/studyPrograms/search/findAllModulesOfStudyPrograms`, {
+        params: queryParameters,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(p => p._embedded.moduleTypes));
   }
 
-  filterProjects(
-    projection: 'withModules',
-    status?: Status,
-    moduleTypeKeys?: string[],
-    text?: string
-  ): Observable<ProjectWithModules[]>;
-  filterProjects(
-    projection: null,
-    status?: Status,
-    moduleTypeKeys?: string[],
-    text?: string
-  ): Observable<Project[]>;
+  filterProjects(projection: 'withModules', status?: Status, moduleTypeKeys?: string[], text?: string): Observable<ProjectWithModules[]>;
+  filterProjects(projection: null, status?: Status, moduleTypeKeys?: string[], text?: string): Observable<Project[]>;
   filterProjects(
     projection?: 'withModules',
     status?: Status,
@@ -299,10 +233,7 @@ export class ProjectService {
       queryParameters = queryParameters.set('status', status);
     }
     if (moduleTypeKeys) {
-      queryParameters = queryParameters.set(
-        'moduleTypeKeys',
-        moduleTypeKeys.join(',')
-      );
+      queryParameters = queryParameters.set('moduleTypeKeys', moduleTypeKeys.join(','));
     }
     if (text) {
       queryParameters = queryParameters.set('text', text);
@@ -312,16 +243,13 @@ export class ProjectService {
     }
 
     return this.httpClient
-      .get<ProjectCollectionModel>(
-        `${this.basePath}/projects/search/filterProjects`,
-        {
-          params: queryParameters,
-          headers: {
-            Accept: 'application/json'
-          },
-          observe: 'body'
-        }
-      )
+      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/filterProjects`, {
+        params: queryParameters,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
       .pipe(map(r => r._embedded.projects));
   }
 }

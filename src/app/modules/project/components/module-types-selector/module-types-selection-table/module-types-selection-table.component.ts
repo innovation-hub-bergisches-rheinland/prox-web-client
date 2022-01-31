@@ -1,10 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import {
-  ModuleType,
-  StudyProgram,
-  StudyProgramsWithModules
-} from '@data/schema/project-service.types';
+import { ModuleType, StudyProgram, StudyProgramsWithModules } from '@data/schema/project-service.types';
 import { map } from 'rxjs/operators';
 import { flatten } from 'lodash';
 
@@ -25,16 +21,12 @@ export class ModuleTypesSelectionTableComponent implements OnInit {
   moduleSelection = new SelectionModel<ModuleType>(true);
 
   @Output()
-  selectedModulesChange = this.moduleSelection.changed.pipe(
-    map(item => item.source.selected)
-  );
+  selectedModulesChange = this.moduleSelection.changed.pipe(map(item => item.source.selected));
 
   @Input()
   set studyPrograms(sp: StudyProgramsWithModules[]) {
     this._studyPrograms = sp;
-    this.filteredModules = this._allModules = this.distinctModules(
-      flatten(sp.map(s => s.modules))
-    );
+    this.filteredModules = this._allModules = this.distinctModules(flatten(sp.map(s => s.modules)));
   }
 
   get studyPrograms(): StudyProgramsWithModules[] {
@@ -47,14 +39,9 @@ export class ModuleTypesSelectionTableComponent implements OnInit {
 
   @Input()
   set selectedModules(selectedModules: ModuleType[]) {
-    const modules = this._allModules.filter(m =>
-      selectedModules.some(m1 => m.key === m1.key)
-    );
+    const modules = this._allModules.filter(m => selectedModules.some(m1 => m.key === m1.key));
     this.moduleSelection.select(...modules);
-    this.filteredModules = this.distinctModules([
-      ...this.filteredModules,
-      ...modules
-    ]);
+    this.filteredModules = this.distinctModules([...this.filteredModules, ...modules]);
   }
 
   constructor() {}
@@ -62,14 +49,8 @@ export class ModuleTypesSelectionTableComponent implements OnInit {
   ngOnInit(): void {}
 
   applyFilter(selectedStudyPrograms: StudyProgram[]) {
-    const nestedMatchingModules = this._studyPrograms
-      .filter(s => selectedStudyPrograms.some(s1 => s1.key === s.key))
-      .map(s => s.modules);
+    const nestedMatchingModules = this._studyPrograms.filter(s => selectedStudyPrograms.some(s1 => s1.key === s.key)).map(s => s.modules);
     this.filteredModules = this.distinctModules(flatten(nestedMatchingModules));
-    this.moduleSelection.deselect(
-      ...this.moduleSelection.selected.filter(
-        ms => !this.filteredModules.some(m => m.key === ms.key)
-      )
-    );
+    this.moduleSelection.deselect(...this.moduleSelection.selected.filter(ms => !this.filteredModules.some(m => m.key === ms.key)));
   }
 }

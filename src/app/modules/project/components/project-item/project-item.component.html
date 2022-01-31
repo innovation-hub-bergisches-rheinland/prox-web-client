@@ -1,39 +1,13 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <mat-icon
-        *ngIf="project.status === 'AVAILABLE'"
-        matTooltip="Verfügbar"
-        class="status-icon"
-        color="primary"
-      >
-        lock_open
-      </mat-icon>
+      <mat-icon *ngIf="project.status === 'AVAILABLE'" matTooltip="Verfügbar" class="status-icon" color="primary"> lock_open </mat-icon>
 
-      <mat-icon
-        *ngIf="project.status === 'FINISHED'"
-        matTooltip="Abgeschlossen"
-        class="status-icon"
-        color="primary"
-      >
-        lock
-      </mat-icon>
+      <mat-icon *ngIf="project.status === 'FINISHED'" matTooltip="Abgeschlossen" class="status-icon" color="primary"> lock </mat-icon>
 
-      <mat-icon
-        *ngIf="project.status === 'RUNNING'"
-        matTooltip="Laufend"
-        class="status-icon"
-        color="primary"
-      >
-        directions_run
-      </mat-icon>
+      <mat-icon *ngIf="project.status === 'RUNNING'" matTooltip="Laufend" class="status-icon" color="primary"> directions_run </mat-icon>
 
-      <mat-icon
-        *ngIf="project.context === 'COMPANY'"
-        matTooltip="Projekt in einem Unternehmen"
-        class="context-icon"
-        color="primary"
-      >
+      <mat-icon *ngIf="project.context === 'COMPANY'" matTooltip="Projekt in einem Unternehmen" class="context-icon" color="primary">
         domain
       </mat-icon>
 
@@ -65,10 +39,7 @@
     <div class="button-toggle-description">
       <button
         matTooltip="Ganze Projektkurzbeschreibung anzeigen"
-        *ngIf="
-          project.shortDescription !== null &&
-          project.shortDescription.length > 800
-        "
+        *ngIf="project.shortDescription !== null && project.shortDescription.length > 800"
         mat-button
         color="primary"
         class="show-more-button"
@@ -98,11 +69,7 @@
 
     <mat-card-subtitle>
       <mat-chip-list *ngIf="projectTags$ | async as tags">
-        <mat-chip
-          selected
-          *ngFor="let tag of tags"
-          matTooltip="{{ tag.tagName }}"
-        >
+        <mat-chip selected *ngFor="let tag of tags" matTooltip="{{ tag.tagName }}">
           {{ tag.tagName }}
         </mat-chip>
       </mat-chip-list>
@@ -122,24 +89,11 @@
       Projektdetails
     </button>
 
-    <button
-      (click)="deleteProject()"
-      *ngIf="showDeleteButton"
-      class="no-hover"
-      id="project-remove-button"
-      mat-icon-button
-      color="warn"
-    >
+    <button (click)="deleteProject()" *ngIf="showDeleteButton" class="no-hover" id="project-remove-button" mat-icon-button color="warn">
       <mat-icon>delete_forever</mat-icon>
     </button>
 
-    <button
-      (click)="editProject()"
-      *ngIf="showEditButton"
-      class="no-hover"
-      id="project-edit-button"
-      mat-icon-button
-    >
+    <button (click)="editProject()" *ngIf="showEditButton" class="no-hover" id="project-edit-button" mat-icon-button>
       <mat-icon>edit</mat-icon>
     </button>
   </mat-card-actions>

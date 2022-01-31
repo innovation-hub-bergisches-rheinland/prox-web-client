@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  HostBinding,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, HostBinding, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Directive({
   selector: 'app-sash-content'

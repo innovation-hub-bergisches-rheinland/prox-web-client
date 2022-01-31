@@ -19,13 +19,7 @@
                   />
                 </div>
                 <div class="flex flex-row gap-2">
-                  <button
-                    mat-raised-button
-                    color="warn"
-                    (click)="deleteProfileImage()"
-                  >
-                    <mat-icon>close</mat-icon> Entfernen
-                  </button>
+                  <button mat-raised-button color="warn" (click)="deleteProfileImage()"><mat-icon>close</mat-icon> Entfernen</button>
                   <button mat-raised-button (click)="fileInput.click()">
                     <mat-icon>publish</mat-icon> Hochladen
                     <input
@@ -42,43 +36,23 @@
               <div class="col-span-3 flex flex-col gap-4">
                 <mat-form-field appearance="fill">
                   <mat-label>Name</mat-label>
-                  <input
-                    matInput
-                    formControlName="name"
-                    maxlength="255"
-                    required
-                  />
+                  <input matInput formControlName="name" maxlength="255" required />
                 </mat-form-field>
                 <mat-form-field apperance="fill" *ngIf="faculties">
                   <mat-label>Fakultät</mat-label>
-                  <mat-select
-                    [(value)]="selectedFaculty"
-                    [compareWith]="compareFaculties"
-                    [formControl]="facultySelection"
-                  >
-                    <mat-option
-                      *ngFor="let faculty of faculties"
-                      [value]="faculty"
-                      >[{{ faculty.abbreviation }}]
-                      {{ faculty.name }}</mat-option
+                  <mat-select [(value)]="selectedFaculty" [compareWith]="compareFaculties" [formControl]="facultySelection">
+                    <mat-option *ngFor="let faculty of faculties" [value]="faculty"
+                      >[{{ faculty.abbreviation }}] {{ faculty.name }}</mat-option
                     >
                   </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                   <mat-label>Hochschulzugehörigkeit seit:</mat-label>
-                  <input
-                    matInput
-                    formControlName="affiliation"
-                    maxlength="255"
-                  />
+                  <input matInput formControlName="affiliation" maxlength="255" />
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                   <mat-label>Personalseite</mat-label>
-                  <input
-                    matInput
-                    formControlName="collegePage"
-                    maxlength="255"
-                  />
+                  <input matInput formControlName="collegePage" maxlength="255" />
                 </mat-form-field>
               </div>
               <div class="col-span-4">
@@ -93,19 +67,11 @@
                   </mat-form-field>
                   <mat-form-field appearance="fill">
                     <mat-label>Sprechstunde</mat-label>
-                    <input
-                      matInput
-                      formControlName="consultationHour"
-                      maxlength="255"
-                    />
+                    <input matInput formControlName="consultationHour" maxlength="255" />
                   </mat-form-field>
                   <mat-form-field appearance="fill">
                     <mat-label>Telefonnummer</mat-label>
-                    <input
-                      matInput
-                      formControlName="telephone"
-                      maxlength="255"
-                    />
+                    <input matInput formControlName="telephone" maxlength="255" />
                   </mat-form-field>
                   <mat-form-field appearance="fill">
                     <mat-label>E-Mail</mat-label>
@@ -113,11 +79,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="fill">
                     <mat-label>Homepage</mat-label>
-                    <input
-                      matInput
-                      formControlName="homepage"
-                      maxlength="255"
-                    />
+                    <input matInput formControlName="homepage" maxlength="255" />
                   </mat-form-field>
                 </div>
               </div>
@@ -129,11 +91,7 @@
               <h3>Forschungsgebiete</h3>
               <mat-form-field class="researchSubjects-chip-list">
                 <mat-chip-list #subjectChipList>
-                  <mat-chip
-                    *ngFor="let subject of researchSubjects"
-                    [removable]="true"
-                    (removed)="removeSubject(subject)"
-                  >
+                  <mat-chip *ngFor="let subject of researchSubjects" [removable]="true" (removed)="removeSubject(subject)">
                     {{ subject }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
@@ -156,13 +114,7 @@
             <div class="flex flex-col">
               <h3>Werdegang</h3>
               <mat-form-field appearance="fill">
-                <textarea
-                  matInput
-                  cdkTextareaAutosize
-                  cdkAutosizeMinRows="5"
-                  cdkAutosizeMaxRows="20"
-                  formControlName="vita"
-                ></textarea>
+                <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="20" formControlName="vita"></textarea>
               </mat-form-field>
             </div>
             <br />
@@ -171,8 +123,7 @@
             <div class="flex flex-col">
               <h3>Publikationen</h3>
               <p>
-                Sie können hier ihre Publikationen in Textform einpflegen.
-                Idealerweise sollten die Publikationen für eine vernünftige
+                Sie können hier ihre Publikationen in Textform einpflegen. Idealerweise sollten die Publikationen für eine vernünftige
                 Formatierung mit mindestens einer Leerzeile getrennt sein.
               </p>
               <mat-form-field appearance="fill">
@@ -189,13 +140,7 @@
             <mat-divider></mat-divider>
             <br />
             <div>
-              <button
-                mat-raised-button
-                color="primary"
-                (click)="onSubmit()"
-                type="submit"
-                [disabled]="this.profileForm.invalid"
-              >
+              <button mat-raised-button color="primary" (click)="onSubmit()" type="submit" [disabled]="this.profileForm.invalid">
                 <mat-icon>save</mat-icon> Speichern
               </button>
             </div>

@@ -9,9 +9,7 @@
           ><b>{{ this.creatorName$ | async }}</b></a
         >
       </mat-card-subtitle>
-      <mat-card-subtitle>
-        Inseriert am: {{ this.getFormattedDate(jobOffer.createdAt) }}
-      </mat-card-subtitle>
+      <mat-card-subtitle> Inseriert am: {{ this.getFormattedDate(jobOffer.createdAt) }} </mat-card-subtitle>
     </mat-card-subtitle>
   </mat-card-header>
 
@@ -38,11 +36,7 @@
       <div fxFlex>
         <mat-card-subtitle>Einstiegslevel</mat-card-subtitle>
         <ul>
-          <li
-            *ngFor="
-              let entryLevel of this.availableEntryLevelsAsString$ | async
-            "
-          >
+          <li *ngFor="let entryLevel of this.availableEntryLevelsAsString$ | async">
             {{ entryLevel }}
           </li>
         </ul>
@@ -51,39 +45,16 @@
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-    <button
-      mat-raised-button
-      color="primary"
-      class="project-button"
-      routerLink="/jobs/{{ jobOffer.id }}"
-      matTooltip="Details"
-    >
+    <button mat-raised-button color="primary" class="project-button" routerLink="/jobs/{{ jobOffer.id }}" matTooltip="Details">
       Details
     </button>
 
-    <div
-      *ngIf="this.hasPermission$ | async"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      dir="rtl"
-      fxLayoutGap="10px"
-    >
-      <button
-        (click)="deleteJobOffer()"
-        class="no-hover"
-        id="delete-button"
-        mat-icon-button
-        color="warn"
-      >
+    <div *ngIf="this.hasPermission$ | async" fxLayout="row" fxLayoutAlign="start center" dir="rtl" fxLayoutGap="10px">
+      <button (click)="deleteJobOffer()" class="no-hover" id="delete-button" mat-icon-button color="warn">
         <mat-icon>delete_forever</mat-icon>
       </button>
 
-      <button
-        routerLink="/jobs/{{ jobOffer.id }}/edit"
-        class="no-hover"
-        id="edit-button"
-        mat-icon-button
-      >
+      <button routerLink="/jobs/{{ jobOffer.id }}/edit" class="no-hover" id="edit-button" mat-icon-button>
         <mat-icon>edit</mat-icon>
       </button>
     </div>

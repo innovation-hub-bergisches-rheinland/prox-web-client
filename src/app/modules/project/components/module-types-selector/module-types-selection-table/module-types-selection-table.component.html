@@ -2,29 +2,15 @@
   <mat-expansion-panel class="mat-elevation-z0">
     <mat-expansion-panel-header>
       <mat-panel-title>Studiengänge</mat-panel-title>
-      <mat-panel-description
-        >An- und Abwählen von Studiengängen zum Filtern der
-        Modularten</mat-panel-description
-      >
+      <mat-panel-description>An- und Abwählen von Studiengängen zum Filtern der Modularten</mat-panel-description>
     </mat-expansion-panel-header>
-    <app-study-program-picker
-      [studyPrograms]="studyPrograms"
-      (valueChange)="applyFilter($event)"
-    ></app-study-program-picker>
+    <app-study-program-picker [studyPrograms]="studyPrograms" (valueChange)="applyFilter($event)"></app-study-program-picker>
   </mat-expansion-panel>
-  <table
-    mat-table
-    matSort
-    matSortActive="name"
-    matSortDirection="asc"
-    [dataSource]="filteredModules"
-    class="mat-elevation-z0 moduleTable"
-  >
+  <table mat-table matSort matSortActive="name" matSortDirection="asc" [dataSource]="filteredModules" class="mat-elevation-z0 moduleTable">
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>Auswahl</th>
       <td mat-cell *matCellDef="let module">
-        <mat-checkbox [checked]="moduleSelection.isSelected(module)">
-        </mat-checkbox>
+        <mat-checkbox [checked]="moduleSelection.isSelected(module)"> </mat-checkbox>
       </td>
     </ng-container>
     <ng-container matColumnDef="name">
@@ -35,10 +21,6 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      *matRowDef="let module; columns: displayedColumns"
-      (click)="moduleSelection.toggle(module)"
-    ></tr>
+    <tr mat-row *matRowDef="let module; columns: displayedColumns" (click)="moduleSelection.toggle(module)"></tr>
   </table>
 </div>

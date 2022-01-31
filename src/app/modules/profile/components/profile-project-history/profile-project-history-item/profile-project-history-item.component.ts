@@ -1,18 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-  AnimationEvent
-} from '@angular/animations';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AnimationEvent, animate, state, style, transition, trigger } from '@angular/animations';
 
 export interface ProjectHistoryItem {
   id: string;
@@ -30,10 +17,7 @@ export interface ProjectHistoryItem {
       state('center, void', style({ transform: 'none' })),
       state('left', style({ transform: 'translate3D(-100%, 0, 0)' })),
       state('right', style({ transform: 'translate3D(100%, 0, 0)' })),
-      transition(
-        '* => left, * => right, left => center, right => center',
-        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
-      )
+      transition('* => left, * => right, left => center, right => center', animate('500ms cubic-bezier(0.35, 0, 0.25, 1)'))
     ])
   ],
   changeDetection: ChangeDetectionStrategy.OnPush // Prevent ExpressionChangedAfterItHasBeenCheckedError by manual pushing changes
@@ -66,9 +50,7 @@ export class ProfileProjectHistoryItemComponent implements OnInit {
   }
 
   get className(): string {
-    return this.activeClass
-      ? 'slider-content-item-active'
-      : 'slider-content-item';
+    return this.activeClass ? 'slider-content-item-active' : 'slider-content-item';
   }
 
   ngOnInit() {

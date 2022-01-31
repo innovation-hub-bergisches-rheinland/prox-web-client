@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
 
 export interface AvailableProject {

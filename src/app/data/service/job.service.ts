@@ -60,10 +60,7 @@ export class JobService {
     return of([]);
   }
 
-  setEntryLevels(
-    id: string,
-    levels: JobOfferEntryLevel[]
-  ): Observable<JobOfferEntryLevel[]> {
+  setEntryLevels(id: string, levels: JobOfferEntryLevel[]): Observable<JobOfferEntryLevel[]> {
     if (id && levels && levels.length > 0) {
       return this.jobControllerService.setEntryLevels(
         id,
@@ -77,11 +74,7 @@ export class JobService {
     return this.jobControllerService._delete(id);
   }
 
-  searchJobOffers(
-    search: string = '',
-    entryLevels: JobOfferEntryLevel[] = [],
-    types: JobOfferType[] = []
-  ): Observable<JobOffer[]> {
+  searchJobOffers(search: string = '', entryLevels: JobOfferEntryLevel[] = [], types: JobOfferType[] = []): Observable<JobOffer[]> {
     return this.jobControllerService.searchJobOffers(
       search,
       entryLevels?.map(level => level.entryLevel),
