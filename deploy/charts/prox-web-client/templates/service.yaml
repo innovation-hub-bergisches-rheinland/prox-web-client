@@ -2,7 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "prox-web-client.fullname" . }}
-  labels: {{- include "prox-web-client.labels" . | nindent 4 }}
+  labels:
+    {{- include "prox-web-client.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -10,4 +11,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{- include "prox-web-client.selectorLabels" . | nindent 4 }}
+  selector:
+    {{- include "prox-web-client.selectorLabels" . | nindent 4 }}
