@@ -79,7 +79,7 @@ export class ProjectService {
   getAllProjects(projection: 'withModules'): Observable<ProjectWithModules[]>;
   getAllProjects(): Observable<Project[]>;
   getAllProjects(projection?: 'withModules'): Observable<Project[] | ProjectWithModules[]> {
-    let queryParams = new HttpParams();
+    let queryParams = new HttpParams().set('sort', `createdAt,desc`);
     if (projection) {
       queryParams = queryParams.set('projection', projection);
     }
@@ -121,7 +121,7 @@ export class ProjectService {
   findAvailableProjectsOfCreator(id: string, projection: 'withModules'): Observable<ProjectWithModules[]>;
   findAvailableProjectsOfCreator(id: string): Observable<Project[]>;
   findAvailableProjectsOfCreator(id: string, projection?: 'withModules'): Observable<Project[] | ProjectWithModules[]> {
-    let queryParameters = new HttpParams().set('creatorId', id);
+    let queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
 
     if (projection) {
       queryParameters = queryParameters.set('projection', projection);
@@ -139,7 +139,7 @@ export class ProjectService {
   }
 
   findRunningProjectsOfCreator(id: string): Observable<Project[]> {
-    const queryParameters = new HttpParams().set('creatorId', id);
+    const queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
 
     return this.httpClient
       .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findRunningProjectsOfCreator`, {
@@ -153,7 +153,7 @@ export class ProjectService {
   }
 
   findRunningAndFinishedProjectsOfCreator(id: string): Observable<Project[]> {
-    const queryParameters = new HttpParams().set('creatorId', id);
+    const queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
 
     return this.httpClient
       .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`, {
@@ -228,7 +228,7 @@ export class ProjectService {
     moduleTypeKeys?: string[],
     text?: string
   ): Observable<Project[] | ProjectWithModules[]> {
-    let queryParameters = new HttpParams();
+    let queryParameters = new HttpParams().set('sort', `createdAt,desc`);
     if (status) {
       queryParameters = queryParameters.set('status', status);
     }
