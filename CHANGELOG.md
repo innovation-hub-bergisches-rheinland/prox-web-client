@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.4...v1.3.0) (2022-01-31)
+
+
+### Features
+
+* display creation date ([dd3cd22](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/dd3cd227c137c92973ec3acfb9743b73637e8970))
+* make add project button more noticable and adjust its position ([0184ab7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0184ab728e74e187552ad42eb805bf92c4450404))
+* sort by creation date by default ([58768f1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/58768f1aec26c1323d0f91e65bf91f78317b0125))
+
 ### [1.2.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.2...v1.2.4) (2022-01-31)
 
 
