@@ -1,8 +1,20 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See
-[standard-version](https://github.com/conventional-changelog/standard-version)
-for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.2.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.2...v1.2.4) (2022-01-31)
+
+
+### Bug Fixes
+
+* fix status constant names ([26da973](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26da973eecc0bcf68f0ad69ecc3886bfb7e50ef0))
+
+### [1.2.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.2...v1.2.3) (2022-01-31)
+
+
+### Bug Fixes
+
+* fix status constant names ([26da973](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26da973eecc0bcf68f0ad69ecc3886bfb7e50ef0))
 
 ### [1.2.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.1...v1.2.2) (2022-01-31)
 
