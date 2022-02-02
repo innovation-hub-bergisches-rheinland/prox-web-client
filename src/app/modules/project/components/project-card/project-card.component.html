@@ -71,26 +71,28 @@
     </div>
   </mat-card-content>
 
-  <mat-divider></mat-divider>
+  <div *ngIf="!showDetails || hasPermission">
+    <mat-divider></mat-divider>
 
-  <mat-card-actions>
-    <button
-      *ngIf="!showDetails"
-      mat-raised-button
-      color="primary"
-      class="project-button"
-      routerLink="/projects/{{ project.id }}"
-      matTooltip="Weiterführende Projektdetails"
-    >
-      Projektdetails
-    </button>
+    <mat-card-actions>
+      <button
+        *ngIf="!showDetails"
+        mat-raised-button
+        color="primary"
+        class="project-button"
+        routerLink="/projects/{{ project.id }}"
+        matTooltip="Weiterführende Projektdetails"
+      >
+        Projektdetails
+      </button>
 
-    <button (click)="onDeleteClick()" *ngIf="hasPermission" class="no-hover" id="project-remove-button" mat-icon-button color="warn">
-      <mat-icon>delete_forever</mat-icon>
-    </button>
+      <button (click)="onDeleteClick()" *ngIf="hasPermission" class="no-hover" id="project-remove-button" mat-icon-button color="warn">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
 
-    <button (click)="onEditClick()" *ngIf="hasPermission" class="no-hover" id="project-edit-button" mat-icon-button>
-      <mat-icon>edit</mat-icon>
-    </button>
-  </mat-card-actions>
+      <button (click)="onEditClick()" *ngIf="hasPermission" class="no-hover" id="project-edit-button" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </div>
 </mat-card>
