@@ -1,0 +1,11 @@
+<form>
+  <mat-form-field>
+    <mat-label>Benutzer suchen</mat-label>
+    <input matInput [matAutocomplete]="auto" [disabled]="disabled" [formControl]="userSearchInput" />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="this.onSelectResult($event)">
+      <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
+        <span>{{ user.name }}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

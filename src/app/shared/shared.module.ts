@@ -9,9 +9,10 @@ import { MaterialModule } from './modules/material/material.module';
 import { ContentPageModule } from './modules/content-page/components/content-page/content-page.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LinkyPipe } from './pipes/linky.pipe';
+import { UserSearchComponent } from './components/user-search/user-search.component';
 
 @NgModule({
-  declarations: [ConfirmationDialogComponent, LinkyPipe],
+  declarations: [ConfirmationDialogComponent, LinkyPipe, UserSearchComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,7 +37,8 @@ import { LinkyPipe } from './pipes/linky.pipe';
 
     ContentPageModule,
     FontAwesomeModule,
-    LinkyPipe
+    LinkyPipe,
+    UserSearchComponent
   ]
 })
 export class SharedModule {}

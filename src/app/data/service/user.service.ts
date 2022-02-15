@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Project } from '@data/schema/project-service.types';
-import { CreateOrganizationSchema, Organization } from '@data/schema/user-service.types';
+import { CreateOrganizationSchema, Organization, UserSearchResult } from '@data/schema/user-service.types';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,17 @@ export class UserService {
 
   getAllOrganizations(): Observable<Organization[]> {
     return this.httpClient.get<Organization[]>(`${this.basePath}/organizations`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  searchUser(query: string): Observable<UserSearchResult[]> {
+    return this.httpClient.get<UserSearchResult[]>(`${this.basePath}/users/search`, {
+      params: new HttpParams().set('q', query),
       headers: {
         Accept: 'application/json'
       },
