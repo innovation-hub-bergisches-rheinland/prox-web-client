@@ -17,7 +17,7 @@ export const environment: Environment = {
   apiUrl: 'https://api.prox.aws.innovation-hub.de',
   features: {
     jobs: false,
-    organizations: false,
+    organizations: true,
     user: false,
     projects: true,
     partners: false

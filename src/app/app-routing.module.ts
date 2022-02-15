@@ -29,14 +29,6 @@ const routes: Routes = [
         loadChildren: () => import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
-        path: 'user',
-        loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
-        canLoad: [FeatureGuard],
-        data: {
-          feature: 'user'
-        }
-      },
-      {
         path: 'organizations',
         loadChildren: () => import('@modules/organization/organization.module').then(m => m.OrganizationModule),
         canLoad: [FeatureGuard],

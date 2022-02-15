@@ -1,17 +1,36 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { map } from 'rxjs/operators';
-import { AuthenticatedUserControllerService } from './openapi/user-service/authenticatedUserController.service';
-import { GetOrganizationMembershipResponse } from '@data/schema/openapi/user-service/models';
+import { environment } from '@env';
+import { HttpClient } from '@angular/common/http';
+import { Project } from '@data/schema/project-service.types';
+import { CreateOrganizationSchema, Organization } from '@data/schema/user-service.types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(injector: Injector, private authenticatedUserService: AuthenticatedUserControllerService) {}
+  private basePath = environment.apiUrl;
 
-  getOrganizationMembershipsOfAuthenticateduser(): Observable<GetOrganizationMembershipResponse[]> {
-    return this.authenticatedUserService.getOrganizationMemberships().pipe(map(memberships => Array.from(memberships)));
+  constructor(protected httpClient: HttpClient) {}
+
+  createOrganization(org: CreateOrganizationSchema): Observable<Organization> {
+    return this.httpClient.post<Organization>(`${this.basePath}/organizations`, org, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  getAllOrganizations(): Observable<Organization[]> {
+    return this.httpClient.get<Organization[]>(`${this.basePath}/organizations`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
   }
 }
