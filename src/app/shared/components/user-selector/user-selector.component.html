@@ -1,0 +1,13 @@
+<div>
+  <mat-list>
+    <div mat-subheader>Benutzer</div>
+    <mat-list-item *ngFor="let user of users">
+      <mat-icon mat-list-icon>account_circle</mat-icon>
+      {{ user.name }}
+      <button mat-icon-button (click)="removeUser(user)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+  <app-user-search [formControl]="userSearch"></app-user-search>
+</div>
