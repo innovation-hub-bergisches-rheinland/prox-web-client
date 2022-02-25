@@ -1,3 +1,19 @@
 <mat-card>
-  <mat-card-title>{{ organization.name }}</mat-card-title>
+  <mat-card-title-group>
+    <img mat-card-md-image src="/assets/images/blank-profile-picture.png" alt="Organization avatar" />
+    <mat-card-title>
+      {{ organization.name }}
+    </mat-card-title>
+  </mat-card-title-group>
+  <mat-divider inset></mat-divider>
+  <mat-card-actions align="end">
+    <button mat-flat-button>
+      <mat-icon>groups</mat-icon>
+      Mitglieder
+    </button>
+    <button mat-flat-button>
+      <mat-icon>account_circle</mat-icon>
+      Profil
+    </button>
+  </mat-card-actions>
 </mat-card>
