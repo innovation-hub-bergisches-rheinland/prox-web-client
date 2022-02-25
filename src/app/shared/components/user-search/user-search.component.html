@@ -1,6 +1,7 @@
 <form>
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Benutzer suchen</mat-label>
+    <mat-icon matPrefix>person</mat-icon>
     <input matInput [matAutocomplete]="auto" [disabled]="disabled" [formControl]="userSearchInput" />
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="this.onSelectResult($event)">
       <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user">
