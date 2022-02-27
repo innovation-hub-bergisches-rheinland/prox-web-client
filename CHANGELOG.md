@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.3.1...v1.4.0) (2022-02-27)
+
+
+### Features
+
+* add a user search component ([e5be01b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e5be01b93dce1b2d531546c401d46059f7a3066a))
+* add basic user selector component ([bdcf5bc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bdcf5bc620249a4443cd219efb93e0f68423433e))
+* add buttons to the organization item ([bf65c41](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bf65c41b500d78b1cfdcf82951fdcbeba5ab65c9))
+* add organization components from new user-service ([a84149e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a84149ee080325b9352859fd2739e7789aa7e3aa))
+* implement basic organization membership management ([316b4a1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/316b4a147d51bcfa862a63c25e6b555366419dcc))
+* implement specializations ([360ee42](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/360ee42d16b6e5d348a81cafb44b9b3498d365e0))
+
+
+### Bug Fixes
+
+* redirect organizations menu entry to `/organizaions` ([5619e0d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5619e0dc9eae59a8bba2a4ab5bbfdc9998f34771))
+
 ### [1.3.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.3.0...v1.3.1) (2022-02-02)
 
 
