@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LinkyPipe } from './pipes/linky.pipe';
 import { UserSearchComponent } from './components/user-search/user-search.component';
 import { UserSelectorComponent } from './components/user-selector/user-selector.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [ConfirmationDialogComponent, LinkyPipe, UserSearchComponent, UserSelectorComponent],
@@ -24,7 +25,8 @@ import { UserSelectorComponent } from './components/user-selector/user-selector.
 
     MaterialModule,
     ContentPageModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxMatSelectSearchModule
   ],
   exports: [
     CommonModule,

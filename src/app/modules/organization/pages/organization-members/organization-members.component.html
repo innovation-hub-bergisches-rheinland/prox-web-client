@@ -1,0 +1,29 @@
+<app-content-page *ngIf="organization$ | async; let organization">
+  <app-content-page-header>
+    <div class="page-title">
+      <ng-container *ngIf="hasPermission">
+        <button (click)="location.back()" matTooltip="Zurück" mat-icon-button color="primary">
+          <mat-icon class="back-icon">arrow_back</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+    <app-content-page-title> Mitglieder von {{ organization.name }} </app-content-page-title>
+    <app-content-page-actions>
+      <button mat-fab matTooltip="Mitglied hinzufügen" color="primary" (click)="openMemberAddDialog()">
+        <mat-icon> add </mat-icon>
+      </button>
+    </app-content-page-actions>
+  </app-content-page-header>
+  <app-content-page-content>
+    <mat-card>
+      <mat-card-content>
+        <app-organization-memberships-list
+          [memberships]="organizationMemberships$ | async"
+          (onRemoveMembership)="removeMembership($event)"
+          (onUpdateMembership)="updateMembership($event)"
+          [showControls]="hasPermission"
+        ></app-organization-memberships-list>
+      </mat-card-content>
+    </mat-card>
+  </app-content-page-content>
+</app-content-page>

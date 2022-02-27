@@ -16,6 +16,7 @@ import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainContentComponent } from '@layout/main-content/main-content.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [AppComponent, ContentLayoutComponent, FooterComponent, UserComponent, MainContentComponent],
@@ -27,7 +28,8 @@ import { MainContentComponent } from '@layout/main-content/main-content.componen
     SharedModule,
     AppRoutingModule,
     ToastModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxMatSelectSearchModule
   ],
   providers: [
     {

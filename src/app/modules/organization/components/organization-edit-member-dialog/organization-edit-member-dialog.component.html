@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Mitglied hinzufügen</h1>
+<div mat-dialog-content>
+  <p>Mitgliedschaft von {{ membership.name }} bearbeiten</p>
+  <form [formGroup]="editMemberForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Rolle</mat-label>
+      <mat-select formControlName="roleSelectCtrl">
+        <mat-option value="MEMBER">Mitglied</mat-option>
+        <mat-option value="ADMIN">Administrator</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()" color="warn">Abbrechen</button>
+  <button mat-button [disabled]="editMemberForm.invalid" (click)="updateMember()" color="primary">Mitgliedschaft aktualisieren</button>
+</div>

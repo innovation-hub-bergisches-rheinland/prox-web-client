@@ -7,7 +7,7 @@
   </mat-card-title-group>
   <mat-divider inset></mat-divider>
   <mat-card-actions align="end">
-    <button mat-flat-button>
+    <button mat-flat-button [routerLink]="[organization.id, 'members']">
       <mat-icon>groups</mat-icon>
       Mitglieder
     </button>
