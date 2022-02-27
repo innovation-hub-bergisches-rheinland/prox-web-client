@@ -6,7 +6,7 @@ import { MatChipInputEvent, MatChipSelectionChange } from '@angular/material/chi
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, Subscription, forkJoin, interval, of, throwError } from 'rxjs';
-import { catchError, debounceTime, filter, map, mergeMap, skip, switchMap, takeUntil, toArray } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, mergeMap, skip, startWith, switchMap, takeUntil, tap, toArray } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -17,11 +17,7 @@ import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angula
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '@modules/toast/toast.service';
 import { Toast } from '@modules/toast/types';
-import { CreateProjectSchema, Project } from '@data/schema/project-service.types';
-
-interface ModuleType {
-  id: string;
-}
+import { CreateProjectSchema, ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-project-editor',
@@ -55,10 +51,13 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
     description: [''],
     supervisorName: [''],
     status: ['', [Validators.required]],
-    modules: [],
+    specializations: [[]],
+    modules: [[]],
     tagInput: []
   });
 
+  specializations$: Observable<Specialization[]>;
+  modules$: Observable<ModuleType[]>;
   tags: Tag[] = [];
   filteredTags: Observable<Tag[]>;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -95,8 +94,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
     this.projectFormControl.controls.status.setValue(project.status ?? 'AVAILABLE', op);
 
     if (this.isEditProject()) {
+      this.projectService.getSpecializationsOfProjectById(this.projectId).subscribe({
+        next: value => this.projectFormControl.controls.specializations.setValue(value.map(v => v.id))
+      });
+
       this.projectService.getModulesOfProjectById(this.projectId).subscribe({
-        next: value => this.projectFormControl.controls.modules.setValue(value)
+        next: value => this.projectFormControl.controls.modules.setValue(value.map(v => v.id))
       });
 
       this.tagService.getAllTagsOfProject(this.projectId).subscribe(tags => {
@@ -174,6 +177,18 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
           takeUntil(this.projectFormControl.controls.tagInput.valueChanges.pipe(skip(1)))
         )
       )
+    );
+
+    this.specializations$ = this.projectService.getAllSpecializations();
+    this.modules$ = this.projectFormControl.controls.specializations.valueChanges.pipe(
+      startWith([]),
+      tap(v => console.log(v)),
+      mergeMap((s: string[]) => {
+        if (!s || s.length === 0) {
+          return this.projectService.getAllModuleTypes();
+        }
+        return this.projectService.getModulesOfSpecializations(s);
+      })
     );
   }
 
@@ -425,13 +440,19 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
     const createOrUpdateProject = this.isEditProject()
       ? this.projectService.updateProject(this.projectId, project)
       : this.projectService.createProject(project);
-    const selectedModules: ModuleType[] = this.projectFormControl.controls.modules.value;
+    const selectedModules: string[] = this.projectFormControl.controls.modules.value;
+    const selectedSpecializations: string[] = this.projectFormControl.controls.specializations.value;
+
+    console.log(selectedSpecializations);
 
     createOrUpdateProject
       .pipe(
         mergeMap((p: Project) =>
           forkJoin({
-            modules: this.projectService.setProjectModules(p.id, selectedModules).pipe(catchError(err => of(err))),
+            modules: this.projectService.setProjectModules(p.id, selectedModules ?? []).pipe(catchError(err => of(err))),
+            specializations: this.projectService
+              .setProjectSpecializations(p.id, selectedSpecializations ?? [])
+              .pipe(catchError(err => of(err))),
             tags: this.createTags(this.tags).pipe(
               mergeMap(tags => this.tagService.setProjectTags(p.id, tags).pipe(catchError(err => of(err))))
             ),
@@ -449,6 +470,12 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
           if (res.modules instanceof HttpErrorResponse) {
             toasts.push({
               message: 'Module konnten nicht gespeichert werden, versuchen Sie es später erneut.',
+              isError: true
+            });
+          }
+          if (res.specializations instanceof HttpErrorResponse) {
+            toasts.push({
+              message: 'Fachbereiche konnten nicht gespeichert werden, versuchen Sie es später erneut.',
               isError: true
             });
           }

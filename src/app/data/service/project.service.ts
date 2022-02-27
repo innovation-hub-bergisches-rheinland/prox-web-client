@@ -9,7 +9,9 @@ import {
   Project,
   ProjectCollectionModel,
   ProjectProjection,
-  ProjectWithModules,
+  ProjectWithAssociations,
+  Specialization,
+  SpecializationCollectionModel,
   Status,
   StudyProgram,
   StudyProgramCollectionModel,
@@ -38,10 +40,22 @@ export class ProjectService {
     });
   }
 
-  setProjectModules(id: string, modules: Pick<ModuleType, 'id'>[]): Observable<ModuleType[] | any> {
-    const requestBody = modules.map(m => m.id).join('\n');
+  setProjectModules(id: string, modules: string[]): Observable<ModuleType[] | any> {
+    const requestBody = modules.join('\n');
 
     return this.httpClient.put<ModuleTypeCollectionModel>(`${this.basePath}/projects/${id}/modules`, requestBody, {
+      headers: {
+        'Content-Type': 'text/uri-list',
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  setProjectSpecializations(id: string, specializations: string[]): Observable<Specialization[] | any> {
+    const requestBody = specializations.join('\n');
+
+    return this.httpClient.put<SpecializationCollectionModel>(`${this.basePath}/projects/${id}/specializations`, requestBody, {
       headers: {
         'Content-Type': 'text/uri-list',
         Accept: 'application/json'
@@ -60,14 +74,14 @@ export class ProjectService {
     });
   }
 
-  getProject(id: string, projection: 'withModules'): Observable<ProjectWithModules>;
+  getProject(id: string, projection: 'withAssociations'): Observable<ProjectWithAssociations>;
   getProject(id: string): Observable<Project>;
-  getProject(id: string, projection?: 'withModules'): Observable<Project | ProjectWithModules> {
+  getProject(id: string, projection?: 'withAssociations'): Observable<Project | ProjectWithAssociations> {
     let queryParams = new HttpParams();
     if (projection) {
       queryParams = queryParams.set('projection', projection);
     }
-    return this.httpClient.get<Project | ProjectWithModules>(`${this.basePath}/projects/${id}`, {
+    return this.httpClient.get<Project | ProjectWithAssociations>(`${this.basePath}/projects/${id}`, {
       params: queryParams,
       headers: {
         Accept: 'application/json'
@@ -76,9 +90,9 @@ export class ProjectService {
     });
   }
 
-  getAllProjects(projection: 'withModules'): Observable<ProjectWithModules[]>;
+  getAllProjects(projection: 'withAssociations'): Observable<ProjectWithAssociations[]>;
   getAllProjects(): Observable<Project[]>;
-  getAllProjects(projection?: 'withModules'): Observable<Project[] | ProjectWithModules[]> {
+  getAllProjects(projection?: 'withAssociations'): Observable<Project[] | ProjectWithAssociations[]> {
     let queryParams = new HttpParams().set('sort', `createdAt,desc`);
     if (projection) {
       queryParams = queryParams.set('projection', projection);
@@ -103,6 +117,30 @@ export class ProjectService {
     });
   }
 
+  getAllSpecializations(): Observable<Specialization[]> {
+    return this.httpClient
+      .get<SpecializationCollectionModel>(`${this.basePath}/specializations`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
+      .pipe(map(sp => sp._embedded.specializations));
+  }
+
+  getModulesOfSpecializations(specializations: string[]): Observable<ModuleType[]> {
+    let queryParameters = new HttpParams().set('ids', specializations.join(','));
+    return this.httpClient
+      .get<ModuleTypeCollectionModel>(`${this.basePath}/moduleTypes/search/findAllModuleTypesOfSpecializationId`, {
+        params: queryParameters,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
+      .pipe(map(sp => sp._embedded.moduleTypes));
+  }
+
   getModulesOfProject(project: Pick<Project, 'id'>): Observable<ModuleType[]> {
     return this.getModulesOfProjectById(project.id);
   }
@@ -118,9 +156,20 @@ export class ProjectService {
       .pipe(map(p => p._embedded.moduleTypes));
   }
 
-  findAvailableProjectsOfCreator(id: string, projection: 'withModules'): Observable<ProjectWithModules[]>;
+  getSpecializationsOfProjectById(id: string): Observable<Specialization[]> {
+    return this.httpClient
+      .get<SpecializationCollectionModel>(`${this.basePath}/projects/${id}/specializations`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
+      .pipe(map(p => p._embedded.specializations));
+  }
+
+  findAvailableProjectsOfCreator(id: string, projection: 'withAssociations'): Observable<ProjectWithAssociations[]>;
   findAvailableProjectsOfCreator(id: string): Observable<Project[]>;
-  findAvailableProjectsOfCreator(id: string, projection?: 'withModules'): Observable<Project[] | ProjectWithModules[]> {
+  findAvailableProjectsOfCreator(id: string, projection?: 'withAssociations'): Observable<Project[] | ProjectWithAssociations[]> {
     let queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
 
     if (projection) {
@@ -220,17 +269,33 @@ export class ProjectService {
       .pipe(map(p => p._embedded.moduleTypes));
   }
 
-  filterProjects(projection: 'withModules', status?: Status, moduleTypeKeys?: string[], text?: string): Observable<ProjectWithModules[]>;
-  filterProjects(projection: null, status?: Status, moduleTypeKeys?: string[], text?: string): Observable<Project[]>;
   filterProjects(
-    projection?: 'withModules',
+    projection: 'withAssociations',
     status?: Status,
+    specializationKeys?: string[],
     moduleTypeKeys?: string[],
     text?: string
-  ): Observable<Project[] | ProjectWithModules[]> {
+  ): Observable<ProjectWithAssociations[]>;
+  filterProjects(
+    projection: null,
+    status?: Status,
+    specializationKeys?: string[],
+    moduleTypeKeys?: string[],
+    text?: string
+  ): Observable<Project[]>;
+  filterProjects(
+    projection?: 'withAssociations',
+    status?: Status,
+    specializationKeys?: string[],
+    moduleTypeKeys?: string[],
+    text?: string
+  ): Observable<Project[] | ProjectWithAssociations[]> {
     let queryParameters = new HttpParams().set('sort', `createdAt,desc`);
     if (status) {
       queryParameters = queryParameters.set('status', status);
+    }
+    if (specializationKeys) {
+      queryParameters = queryParameters.set('specializationKeys', specializationKeys.join(','));
     }
     if (moduleTypeKeys) {
       queryParameters = queryParameters.set('moduleTypeKeys', moduleTypeKeys.join(','));

@@ -32,19 +32,21 @@
             </mat-form-field>
 
             <mat-form-field fxFlex="35%" fxFlex.lt-md="100%">
-              <mat-label *ngIf="isLoadingStudyPrograms">
+              <mat-label *ngIf="isLoadingSpecializations">
                 <div class="select-placeholder-container">
-                  <span>Lädt Studiengänge...</span>
+                  <span>Lädt Fachbereiche...</span>
                   <mat-spinner class="spinner" diameter="20"></mat-spinner>
                 </div>
               </mat-label>
               <mat-select
-                placeholder="Studiengänge"
-                formControlName="selectedStudyPrograms"
+                placeholder="Fachbereiche"
+                formControlName="selectedSpecializations"
                 multiple
-                (selectionChange)="filterModuleTypesByStudyProgram($event)"
+                (selectionChange)="filterModuleTypesBySpecializations($event)"
               >
-                <mat-option *ngFor="let studyProgram of suitableStudyPrograms" [value]="studyProgram">{{ studyProgram.name }}</mat-option>
+                <mat-option *ngFor="let specialization of suitableSpecializations" [value]="specialization">{{
+                  specialization.name
+                }}</mat-option>
               </mat-select>
             </mat-form-field>
 

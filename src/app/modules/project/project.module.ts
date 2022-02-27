@@ -10,9 +10,6 @@ import { ProjectEditorComponent } from './components/project-editor/project-edit
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FlexModule } from '@angular/flex-layout';
-import { ModuleTypesSelectorComponent } from '@modules/project/components/module-types-selector/module-types-selector.component';
-import { StudyProgramPickerComponent } from './components/module-types-selector/study-program-picker/study-program-picker.component';
-import { ModuleTypesSelectionTableComponent } from './components/module-types-selector/module-types-selection-table/module-types-selection-table.component';
 import { ProjectIconsComponent } from './components/project-card/project-icons/project-icons.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 
@@ -23,9 +20,6 @@ import { ProjectCardComponent } from './components/project-card/project-card.com
     ProjectEditorComponent,
     ProjectEditorDialogComponent,
     ProjectItemComponent,
-    ModuleTypesSelectorComponent,
-    StudyProgramPickerComponent,
-    ModuleTypesSelectionTableComponent,
     ProjectIconsComponent,
     ProjectCardComponent
   ],

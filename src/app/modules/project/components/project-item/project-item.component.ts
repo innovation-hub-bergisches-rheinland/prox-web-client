@@ -13,7 +13,7 @@ import { TagService } from '@data/service/tag.service';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { CompanyProfileService } from '@data/service/company-profile.service';
-import { ModuleType, Project, ProjectWithModules } from '@data/schema/project-service.types';
+import { ModuleType, Project, ProjectWithAssociations } from '@data/schema/project-service.types';
 import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';

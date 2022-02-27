@@ -1,8 +1,0 @@
-<fieldset>
-  <app-module-types-selection-table
-    *ngIf="studyPrograms$ | async as studyPrograms"
-    [studyPrograms]="studyPrograms"
-    [selectedModules]="selectedModules"
-    (selectedModulesChange)="this.writeValue($event)"
-  ></app-module-types-selection-table>
-</fieldset>

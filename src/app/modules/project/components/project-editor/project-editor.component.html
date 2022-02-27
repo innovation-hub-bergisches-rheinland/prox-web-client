@@ -87,7 +87,21 @@
         <mat-error *ngIf="projectFormControl.controls['status'].hasError('required')"> Status <strong>fehlt</strong>! </mat-error>
       </mat-form-field>
 
-      <app-module-types-selector formControlName="modules"></app-module-types-selector>
+      <div>
+        <mat-label>Fachbereich</mat-label>
+        <mat-selection-list formControlName="specializations">
+          <mat-list-option *ngFor="let specialization of specializations$ | async" [value]="specialization.id">{{
+            specialization.name
+          }}</mat-list-option>
+        </mat-selection-list>
+      </div>
+
+      <div>
+        <mat-label>Modulart</mat-label>
+        <mat-selection-list formControlName="modules">
+          <mat-list-option *ngFor="let module of modules$ | async" [value]="module.id">{{ module.name }}</mat-list-option>
+        </mat-selection-list>
+      </div>
 
       <mat-form-field class="tag-list">
         <mat-label>Tags</mat-label>

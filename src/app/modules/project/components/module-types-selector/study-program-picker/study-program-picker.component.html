@@ -1,7 +1,0 @@
-<ul class="studyProgramsList">
-  <li *ngFor="let studyProgram of studyPrograms">
-    <mat-slide-toggle [checked]="selectedStudyPrograms.isSelected(studyProgram)" (change)="selectedStudyPrograms.toggle(studyProgram)">
-      {{ studyProgram.name }}</mat-slide-toggle
-    >
-  </li>
-</ul>

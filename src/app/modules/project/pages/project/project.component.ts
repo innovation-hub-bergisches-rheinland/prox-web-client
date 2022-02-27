@@ -20,10 +20,11 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ModuleType, Project, ProjectWithModules, StudyProgram } from '@data/schema/project-service.types';
+import { ModuleType, Project, ProjectWithAssociations, Specialization, StudyProgram } from '@data/schema/project-service.types';
 
 export interface QueryParams extends Params {
   state?: string;
+  specializations?: string;
   moduleTypes?: string;
   filter?: string;
   tags?: string;
@@ -45,7 +46,7 @@ export class ProjectComponent implements OnInit {
     searchString: [''],
     selectedStatusOption: [StatusOption.AVAILABLE],
     selectedModuleTypes: [],
-    selectedStudyPrograms: [],
+    selectedSpecializations: [],
     searchTagInput: ['']
   });
 
@@ -57,12 +58,12 @@ export class ProjectComponent implements OnInit {
   private filteredProjects: Project[] = [];
   public filteredTags$: Observable<Tag[]>;
 
-  private allStudyPrograms: StudyProgram[] = [];
+  private allSpecializations: Specialization[] = [];
   private allModuleTypes: ModuleType[] = [];
-  private _suitableStudyPrograms: StudyProgram[] = [];
+  private _suitableSpecializations: Specialization[] = [];
   private _suitableModuleTypes: ModuleType[] = [];
   public isLoadingModuleTypes = true;
-  public isLoadingStudyPrograms = true;
+  public isLoadingSpecializations = true;
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
@@ -71,8 +72,8 @@ export class ProjectComponent implements OnInit {
     return this._suitableModuleTypes.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  get suitableStudyPrograms(): StudyProgram[] {
-    return this._suitableStudyPrograms.sort((a, b) => a.name.localeCompare(b.name));
+  get suitableSpecializations(): Specialization[] {
+    return this._suitableSpecializations.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   constructor(
@@ -95,16 +96,16 @@ export class ProjectComponent implements OnInit {
     }
 
     forkJoin({
-      studyPrograms: this.projectService.getAllStudyPrograms(),
+      specializations: this.projectService.getAllSpecializations(),
       moduleTypes: this.projectService.getAllModuleTypes()
     }).subscribe({
       next: res => {
-        this.allStudyPrograms = this._suitableStudyPrograms = res.studyPrograms;
+        this.allSpecializations = this._suitableSpecializations = res.specializations;
         this.allModuleTypes = this._suitableModuleTypes = res.moduleTypes;
       },
       error: err => console.error(err),
       complete: () => {
-        this.isLoadingStudyPrograms = false;
+        this.isLoadingSpecializations = false;
         this.isLoadingModuleTypes = false;
         this.loadQueryParams();
       }
@@ -142,6 +143,10 @@ export class ProjectComponent implements OnInit {
         } else {
           this.searchForm.controls.selectedStatusOption.setValue(null);
         }
+        if (params.specializations) {
+          const split: string[] = params.specializations.split(',');
+          this.searchForm.controls.selectedSpecializations.setValue(this.suitableSpecializations.filter(s => split.includes(s.key)));
+        }
         if (params.moduleTypes) {
           const split: string[] = params.moduleTypes.split(',');
           this.searchForm.controls.selectedModuleTypes.setValue(this.suitableModuleTypes.filter(m => split.includes(m.key)));
@@ -171,6 +176,9 @@ export class ProjectComponent implements OnInit {
     if (this.searchForm.controls.selectedModuleTypes.value as ModuleType[]) {
       queryParams.moduleTypes = this.searchForm.controls.selectedModuleTypes.value.map(m => m.key).join(',');
     }
+    if (this.searchForm.controls.selectedSpecializations.value as Specialization[]) {
+      queryParams.specializations = this.searchForm.controls.selectedSpecializations.value.map(s => s.key).join(',');
+    }
 
     this.router.navigate([], {
       relativeTo: this.route,
@@ -179,12 +187,12 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  public filterModuleTypesByStudyProgram(event: MatSelectChange) {
+  public filterModuleTypesBySpecializations(event: MatSelectChange) {
     this.isLoadingModuleTypes = true;
     if (event.value && Array.isArray(event.value) && event.value.length > 0) {
       forkJoin(
-        event.value.map((s: StudyProgram) => {
-          return this.projectService.getAllModuleTypesOfStudyProgram(s.id);
+        event.value.map((s: Specialization) => {
+          return this.projectService.getModulesOfSpecializations([s.id]);
         })
       ).subscribe(
         val => {
@@ -198,12 +206,6 @@ export class ProjectComponent implements OnInit {
            * ```
            */
           this._suitableModuleTypes = [...new Map(val.flat(1).map(i => [i.id, i])).values()];
-
-          /* One step further pre-filter current projects by only displaying
-           * projects which contain modules of the studyProgram by selecting all
-           * options
-           */
-          this.searchForm.controls.selectedModuleTypes.setValue(this.suitableModuleTypes);
         },
         err => console.error(err),
         () => (this.isLoadingModuleTypes = false)
@@ -221,7 +223,7 @@ export class ProjectComponent implements OnInit {
     return false;
   }
 
-  public hasProjectPermission(project: ProjectWithModules): boolean {
+  public hasProjectPermission(project: ProjectWithAssociations): boolean {
     if (this.isLoggedIn) {
       const userId = this.keycloakService.getKeycloakInstance().subject;
       return (
@@ -235,8 +237,9 @@ export class ProjectComponent implements OnInit {
   public filterProjects() {
     forkJoin({
       projects: this.projectService.filterProjects(
-        'withModules',
+        'withAssociations',
         this.searchForm.controls.selectedStatusOption.value,
+        this.searchForm.controls.selectedSpecializations?.value?.map(sp => sp.key) ?? null,
         this.searchForm.controls.selectedModuleTypes?.value?.map(mt => mt.key) ?? null,
         this.searchForm.controls.searchString.value
       ),
@@ -270,7 +273,7 @@ export class ProjectComponent implements OnInit {
   }
 
   private getAllProjects() {
-    this.projectService.getAllProjects('withModules').subscribe({
+    this.projectService.getAllProjects('withAssociations').subscribe({
       next: projects => {
         this.projects = projects;
         this.filterProjects();
