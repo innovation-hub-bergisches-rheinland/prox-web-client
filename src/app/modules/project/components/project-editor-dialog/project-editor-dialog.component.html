@@ -11,10 +11,7 @@
     </mat-toolbar>
   </h1>
 
-  <app-project-editor
-    [project]="project"
-    (projectSaved)="projectSaved($event)"
-    (cancel)="closeDialog()"
-    (markDraft)="markDraft($event)"
-  ></app-project-editor>
+  <mat-dialog-content>
+    <app-project-editor [project]="project" (onSaved)="projectSaved($event)" (cancel)="closeDialog()"></app-project-editor>
+  </mat-dialog-content>
 </div>

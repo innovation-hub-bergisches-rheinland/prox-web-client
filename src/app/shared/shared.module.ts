@@ -12,9 +12,10 @@ import { LinkyPipe } from './pipes/linky.pipe';
 import { UserSearchComponent } from './components/user-search/user-search.component';
 import { UserSelectorComponent } from './components/user-selector/user-selector.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { TagInputComponent } from './components/tag-input/tag-input.component';
 
 @NgModule({
-  declarations: [ConfirmationDialogComponent, LinkyPipe, UserSearchComponent, UserSelectorComponent],
+  declarations: [ConfirmationDialogComponent, LinkyPipe, UserSearchComponent, UserSelectorComponent, TagInputComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,7 +43,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     FontAwesomeModule,
     LinkyPipe,
     UserSearchComponent,
-    UserSelectorComponent
+    UserSelectorComponent,
+    TagInputComponent
   ]
 })
 export class SharedModule {}
