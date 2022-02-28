@@ -1,5 +1,5 @@
 <form [formGroup]="informationFormGroup" class="flex flex-col">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Bezeichnung</mat-label>
     <input formControlName="name" matInput maxlength="255" placeholder="Bezeichnung" required />
 
@@ -9,7 +9,7 @@
     <mat-error *ngIf="informationFormGroup.controls['name'].hasError('pattern')"> Bezeichnung enthält ungültige Zeichen. </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Kurzbeschreibung</mat-label>
     <textarea
       formControlName="shortDescription"
@@ -30,7 +30,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Voraussetzungen</mat-label>
     <textarea
       formControlName="requirement"
@@ -46,7 +46,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Beschreibung</mat-label>
     <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
 
@@ -56,7 +56,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Betreuer</mat-label>
     <input formControlName="supervisorName" matInput required maxlength="255" />
     <mat-hint align="end"> {{ informationFormGroup.controls['supervisorName'].value?.length }}/255 </mat-hint>
@@ -65,7 +65,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Status</mat-label>
     <mat-select formControlName="status" placeholder="Status" required>
       <mat-option value="AVAILABLE">Verfügbar</mat-option>
