@@ -1,16 +1,20 @@
-<form [formGroup]="moduleFormGroup">
+<form [formGroup]="moduleFormGroup" class="flex flex-col gap-2">
   <div>
-    <mat-label>Fachbereich</mat-label>
-    <mat-selection-list formControlName="specializations">
+    <div>
+      <b>Fachbereich</b>
+    </div>
+    <mat-selection-list formControlName="specializations" color="primary">
       <mat-list-option *ngFor="let specialization of specializations" [value]="specialization.id">{{
         specialization.name
       }}</mat-list-option>
     </mat-selection-list>
   </div>
-
+  <mat-divider></mat-divider>
   <div>
-    <mat-label>Modulart</mat-label>
-    <mat-selection-list formControlName="modules">
+    <div>
+      <b>Modulart</b>
+    </div>
+    <mat-selection-list formControlName="modules" color="primary">
       <mat-list-option *ngFor="let module of modules" [value]="module.id">{{ module.name }}</mat-list-option>
     </mat-selection-list>
   </div>
