@@ -1,152 +1,40 @@
-<form
-  (ngSubmit)="onSubmit(this.buildProjectSchemaFromForm())"
-  *ngIf="projectFormControl"
-  [formGroup]="projectFormControl"
-  class="row"
-  novalidate
->
-  <mat-dialog-content cdkScrollable>
-    <div class="project-editor-form">
-      <mat-form-field>
-        <mat-label>Bezeichnung</mat-label>
-        <input formControlName="name" matInput maxlength="255" placeholder="Bezeichnung" required />
-
-        <mat-hint align="end"> {{ projectFormControl.controls['name'].value?.length || 0 }}/255 </mat-hint>
-
-        <mat-error *ngIf="projectFormControl.controls['name'].hasError('required')"> Bezeichnung <strong>fehlt</strong>! </mat-error>
-        <mat-error *ngIf="projectFormControl.controls['name'].hasError('pattern')"> Bezeichnung enthält ungültige Zeichen. </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Kurzbeschreibung</mat-label>
-        <textarea
-          formControlName="shortDescription"
-          class="form-textarea"
-          matInput
-          maxlength="10000"
-          placeholder="Kurzbeschreibung"
-          required
-        ></textarea>
-
-        <mat-hint align="end"> {{ projectFormControl.controls['shortDescription'].value?.length || 0 }}/10000 </mat-hint>
-
-        <mat-error *ngIf="projectFormControl.controls['shortDescription'].hasError('required')">
-          Kurzbeschreibung <strong>fehlt</strong>!
-        </mat-error>
-        <mat-error *ngIf="projectFormControl.controls['shortDescription'].hasError('pattern')">
-          Kurzbeschreibung enthält ungültige Zeichen.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Voraussetzungen</mat-label>
-        <textarea
-          formControlName="requirement"
-          class="form-textarea"
-          matInput
-          maxlength="10000"
-          placeholder="Teilnahmevoraussetzungen"
-        ></textarea>
-
-        <mat-hint align="end"> {{ projectFormControl.controls['requirement'].value?.length || 0 }}/10000 </mat-hint>
-        <mat-error *ngIf="projectFormControl.controls['requirement'].hasError('pattern')">
-          Teilnahmevoraussetzungen enthält ungültige Zeichen.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Beschreibung</mat-label>
-        <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
-
-        <mat-hint align="end"> {{ projectFormControl.controls['description'].value?.length || 0 }}/10000 </mat-hint>
-        <mat-error *ngIf="projectFormControl.controls['description'].hasError('pattern')">
-          Beschreibung enthält ungültige Zeichen.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Betreuer</mat-label>
-        <input formControlName="supervisorName" matInput required maxlength="255" />
-        <mat-hint align="end"> {{ projectFormControl.controls['supervisorName'].value?.length }}/255 </mat-hint>
-        <mat-error *ngIf="projectFormControl.controls['supervisorName'].hasError('pattern')">
-          Betreuungsperson enthält ungültige Zeichen.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status" placeholder="Status" required>
-          <!-- The following options should be implemented either as enums or imported from backend -->
-          <mat-option value="AVAILABLE">Verfügbar</mat-option>
-
-          <mat-option value="RUNNING">Laufend</mat-option>
-
-          <mat-option value="FINISHED">Abgeschlossen</mat-option>
-        </mat-select>
-
-        <mat-error *ngIf="projectFormControl.controls['status'].hasError('required')"> Status <strong>fehlt</strong>! </mat-error>
-      </mat-form-field>
-
-      <div>
-        <mat-label>Fachbereich</mat-label>
-        <mat-selection-list formControlName="specializations">
-          <mat-list-option *ngFor="let specialization of specializations$ | async" [value]="specialization.id">{{
-            specialization.name
-          }}</mat-list-option>
-        </mat-selection-list>
-      </div>
-
-      <div>
-        <mat-label>Modulart</mat-label>
-        <mat-selection-list formControlName="modules">
-          <mat-list-option *ngFor="let module of modules$ | async" [value]="module.id">{{ module.name }}</mat-list-option>
-        </mat-selection-list>
-      </div>
-
-      <mat-form-field class="tag-list">
-        <mat-label>Tags</mat-label>
-        <mat-chip-list #tagList>
-          <mat-chip *ngFor="let tag of tags" [removable]="true" (removed)="removeTag(tag)">
-            {{ tag.tagName }}
-            <mat-icon matChipRemove>cancel</mat-icon>
-          </mat-chip>
-
-          <mat-chip
-            *ngFor="let tag of recommendedTags"
-            (selectionChange)="recommendedTagSelected(tag, $event)"
-            (click)="addRecommendedTag(tag)"
-            class="recommended-tag"
-          >
-            {{ tag.tagName }}
-          </mat-chip>
-
-          <input
-            #tagInput
-            formControlName="tagInput"
-            placeholder="Tags"
-            [matAutocomplete]="tagAuto"
-            [matChipInputFor]="tagList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="addTagEvent($event)"
-          />
-        </mat-chip-list>
-
-        <mat-autocomplete #tagAuto="matAutocomplete" (optionSelected)="selectedTag($event)">
-          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-            {{ tag.tagName }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+<mat-stepper linear>
+  <mat-step>
+    <ng-template matStepLabel>Informationen</ng-template>
+    <app-project-editor-information [informationFormGroup]="projectInformationFormGroup"></app-project-editor-information>
+    <div class="flex flex-row justify-end">
+      <button mat-button matStepperNext color="primary" [disabled]="projectInformationFormGroup.invalid">Weiter</button>
     </div>
-  </mat-dialog-content>
-
-  <div mat-dialog-actions>
-    <div class="action-buttons">
-      <button (click)="cancelButtonClicked()" mat-button type="reset" color="warn">Entwurf Abbrechen</button>
-
-      <button [disabled]="projectFormControl.invalid || hasSubmitted" mat-button color="primary" type="submit">
-        {{ isEditProject() ? 'Änderungen speichern' : 'Hinzufügen' }}
-      </button>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Modulzuordnung</ng-template>
+    <app-project-editor-module
+      [moduleFormGroup]="projectModuleFormGroup"
+      [modules]="modules$ | async"
+      [specializations]="specializations$ | async"
+    >
+    </app-project-editor-module>
+    <div class="flex flex-row justify-end">
+      <button mat-button matStepperPrevious color="accent">Zurück</button>
+      <button mat-button matStepperNext color="primary" [disabled]="projectModuleFormGroup.invalid">Weiter</button>
     </div>
-  </div>
-</form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Tags</ng-template>
+    <app-project-editor-tag [tagFormGroup]="projectTagFormGroup"></app-project-editor-tag>
+    <div class="flex flex-row justify-end">
+      <button mat-button matStepperPrevious color="accent">Zurück</button>
+      <button mat-button color="primary" (click)="onSave()" [disabled]="projectForm.invalid">Speichern</button>
+    </div>
+  </mat-step>
+  <!--<mat-step>
+    <ng-template matStepLabel>Validierung</ng-template>
+    <ng-template matStepContent>
+      <app-project-item [project]='buildProject()'></app-project-item>
+      <div class='flex flex-row justify-end'>
+        <button mat-button matStepperPrevious color='accent'>Zurück</button>
+        <button mat-button color='primary'>Speichern</button>
+      </div>
+    </ng-template>
+  </mat-step>-->
+</mat-stepper>

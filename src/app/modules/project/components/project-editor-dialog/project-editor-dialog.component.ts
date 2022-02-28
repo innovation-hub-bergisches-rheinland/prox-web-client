@@ -10,7 +10,9 @@ import { Project } from '@data/schema/project-service.types';
 export class ProjectEditorDialogComponent {
   isDraft: boolean = false;
 
-  constructor(public projectDialogRef: MatDialogRef<ProjectEditorDialogComponent>, @Inject(MAT_DIALOG_DATA) public project: Project) {}
+  constructor(public projectDialogRef: MatDialogRef<ProjectEditorDialogComponent>, @Inject(MAT_DIALOG_DATA) public project: Project) {
+    this.projectDialogRef.disableClose = true;
+  }
 
   projectSaved(event: Project) {
     this.projectDialogRef.close(event);

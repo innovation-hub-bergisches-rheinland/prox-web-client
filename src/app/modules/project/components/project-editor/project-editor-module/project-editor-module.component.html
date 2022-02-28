@@ -1,0 +1,17 @@
+<form [formGroup]="moduleFormGroup">
+  <div>
+    <mat-label>Fachbereich</mat-label>
+    <mat-selection-list formControlName="specializations">
+      <mat-list-option *ngFor="let specialization of specializations" [value]="specialization.id">{{
+        specialization.name
+      }}</mat-list-option>
+    </mat-selection-list>
+  </div>
+
+  <div>
+    <mat-label>Modulart</mat-label>
+    <mat-selection-list formControlName="modules">
+      <mat-list-option *ngFor="let module of modules" [value]="module.id">{{ module.name }}</mat-list-option>
+    </mat-selection-list>
+  </div>
+</form>

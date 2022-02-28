@@ -12,6 +12,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FlexModule } from '@angular/flex-layout';
 import { ProjectIconsComponent } from './components/project-card/project-icons/project-icons.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { ProjectEditorInformationComponent } from './components/project-editor/project-editor-information/project-editor-information.component';
+import { ProjectEditorModuleComponent } from './components/project-editor/project-editor-module/project-editor-module.component';
+import { ProjectEditorTagComponent } from './components/project-editor/project-editor-tag/project-editor-tag.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { ProjectCardComponent } from './components/project-card/project-card.com
     ProjectEditorDialogComponent,
     ProjectItemComponent,
     ProjectIconsComponent,
-    ProjectCardComponent
+    ProjectCardComponent,
+    ProjectEditorInformationComponent,
+    ProjectEditorModuleComponent,
+    ProjectEditorTagComponent
   ],
   imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
   entryComponents: [ProjectEditorDialogComponent]
