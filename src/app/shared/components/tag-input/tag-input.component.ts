@@ -5,7 +5,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TagService } from '@data/service/tag.service';
-import { delay, mergeMap, Observable } from 'rxjs';
+import { BehaviorSubject, delay, mergeMap, Observable, of, Subject } from 'rxjs';
 import { debounceTime, filter, startWith } from 'rxjs/operators';
 
 @Component({
@@ -33,6 +33,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   onTouched = () => {};
   _tags: Tag[] = [];
 
+  tags$: Subject<Tag[]> = new BehaviorSubject(this._tags);
   tagRecommendations$: Observable<Tag[]>;
   tagAutocomplete$: Observable<Tag[]>;
 
@@ -41,7 +42,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   constructor(private tagService: TagService) {}
 
   ngOnInit(): void {
-    this.tagRecommendations$ = this.tagService.getRecommendations(this._tags);
+    this.tagRecommendations$ = this.tags$.pipe(mergeMap(tags => this.tagService.getRecommendations(tags)));
     this.tagAutocomplete$ = this.tagInputCtrl.valueChanges.pipe(
       debounceTime(300),
       startWith(''),
@@ -61,17 +62,20 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
 
   writeValue(obj: Tag[]): void {
     this._tags = obj;
+    this.tags$.next(this._tags);
   }
 
   removeTag(tag: Tag) {
     this._tags = this._tags.filter(t => t.tagName !== tag.tagName);
     this.onChange(this._tags);
+    this.tags$.next(this._tags);
   }
 
   addTag(tag: Tag) {
     if (!!tag && !this._tags.some(t => t.tagName === tag.tagName)) {
       this._tags = [...this._tags, tag];
       this.onChange(this._tags);
+      this.tags$.next(this._tags);
     }
   }
 
