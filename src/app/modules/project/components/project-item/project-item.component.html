@@ -2,6 +2,7 @@
   [project]="project"
   [tags]="this.projectTags$ | async"
   [modules]="this.projectModules$ | async"
+  [specialization]="this.projectSpecialization$ | async"
   [showDetails]="showDetails"
   [hasPermission]="hasPermission"
   (delete)="deleteProject()"

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { ModuleType, Project } from '@data/schema/project-service.types';
+import { ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 import { Tag } from '@data/schema/tag.resource';
 import { Subject } from 'rxjs';
 
@@ -17,6 +17,9 @@ export class ProjectCardComponent implements OnInit {
 
   @Input()
   tags: Tag[];
+
+  @Input()
+  specialization: Specialization[];
 
   @Input()
   hasPermission: boolean = false;
