@@ -43,6 +43,16 @@ export class UserService {
     });
   }
 
+  getOrganizationsOfAuthenticatedUser(): Observable<Organization[]> {
+    return this.httpClient.get<Organization[]>(`${this.basePath}/user/organizations`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
   getOrganization(id: string): Observable<Organization> {
     return this.httpClient.get<Organization>(`${this.basePath}/organizations/${id}`, {
       headers: {
