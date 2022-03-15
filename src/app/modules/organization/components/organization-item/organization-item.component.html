@@ -1,8 +1,8 @@
 <mat-card>
-  <mat-card-title-group>
+  <mat-card-title-group class="cursor-pointer" [routerLink]="[organization.id]">
     <img mat-card-md-image [src]="imgSrc" (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'" alt="Organization avatar" />
     <mat-card-title>
-      {{ organization.name }}
+      <a>{{ organization.name }}</a>
     </mat-card-title>
   </mat-card-title-group>
   <ng-container *ngIf="organization.permissions.canEdit || organization.permissions.canViewMembers">
