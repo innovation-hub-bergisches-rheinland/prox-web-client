@@ -1,12 +1,16 @@
 <mat-card>
   <mat-card-title-group>
-    <img mat-card-md-image src="/assets/images/blank-profile-picture.png" alt="Organization avatar" />
+    <img mat-card-md-image [src]="imgSrc" (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'" alt="Organization avatar" />
     <mat-card-title>
       {{ organization.name }}
     </mat-card-title>
   </mat-card-title-group>
   <mat-divider inset></mat-divider>
   <mat-card-actions align="end">
+    <button mat-flat-button (click)="editOrganization(organization)">
+      <mat-icon>edit</mat-icon>
+      Bearbeiten
+    </button>
     <button mat-flat-button [routerLink]="[organization.id, 'members']">
       <mat-icon>groups</mat-icon>
       Mitglieder

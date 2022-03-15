@@ -1,7 +1,8 @@
 <div>
   <h1 mat-dialog-title>
     <mat-toolbar role="toolbar" class="task-header">
-      <h1 mat-dialog-title>Organisation erstellen</h1>
+      <h1 *ngIf="organization; else noProject" mat-dialog-title>Organisation bearbeiten</h1>
+      <ng-template #noProject><h1 mat-dialog-title>Organisation erstellen</h1></ng-template>
       <span class="flex flex-1"></span>
       <button mat-icon-button (click)="closeDialog()">
         <mat-icon mat-list-icon>close</mat-icon>
@@ -10,6 +11,10 @@
   </h1>
 
   <mat-dialog-content>
-    <app-organization-editor></app-organization-editor>
+    <app-organization-editor
+      [organization]="organization"
+      (onSaved)="organizationSaved($event)"
+      (cancel)="closeDialog()"
+    ></app-organization-editor>
   </mat-dialog-content>
 </div>

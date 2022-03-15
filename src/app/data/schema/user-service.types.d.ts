@@ -11,6 +11,27 @@ export interface UserSearchResult {
 export interface Organization {
   id: OrganizationId;
   name: string;
+  profile: OrganizationProfile;
+}
+
+export interface OrganizationProfile {
+  foundingDate: string;
+  numberOfEmployees: string;
+  homepage: string;
+  contactEmail: string;
+  vita: string;
+  headquarter: string;
+  quarters: string[];
+  branches: string[];
+  socialMedia: SocialMedia;
+}
+
+export interface SocialMedia {
+  facebookHandle: string;
+  twitterHandle: string;
+  instagramHandle: string;
+  xingHandle: string;
+  linkedInHandle: string;
 }
 
 export interface OrganizationMembershipWrapper {

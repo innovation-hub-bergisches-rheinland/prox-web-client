@@ -1,4 +1,4 @@
-<mat-stepper linear>
+<mat-stepper [linear]="!organization">
   <mat-step [stepControl]="organizationInformationForm">
     <ng-template matStepLabel>Informationen</ng-template>
     <app-organization-editor-information [organizationInformationForm]="organizationInformationForm"></app-organization-editor-information>

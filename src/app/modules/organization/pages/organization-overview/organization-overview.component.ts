@@ -19,7 +19,7 @@ export class OrganizationOverviewComponent implements OnInit {
   constructor(private userService: UserService, private keycloakService: KeycloakService, private dialog: MatDialog) {}
 
   async ngOnInit(): Promise<void> {
-    this.organizations$ = this.userService.getAllOrganizations();
+    this.refreshOrgs();
     this.canCreateNewOrg = await this.keycloakService.isLoggedIn();
   }
 
@@ -29,5 +29,16 @@ export class OrganizationOverviewComponent implements OnInit {
       maxHeight: '80%',
       maxWidth: '80%'
     });
+    dialog.afterClosed().subscribe({
+      next: value => {
+        if (value) {
+          this.refreshOrgs();
+        }
+      }
+    });
+  }
+
+  refreshOrgs() {
+    this.organizations$ = this.userService.getAllOrganizations();
   }
 }

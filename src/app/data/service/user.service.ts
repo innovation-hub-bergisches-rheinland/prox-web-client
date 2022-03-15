@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Project } from '@data/schema/project-service.types';
@@ -31,6 +31,33 @@ export class UserService {
       observe: 'body',
       reportProgress: false
     });
+  }
+
+  updateOrganization(id: string, org: CreateOrganizationSchema): Observable<Organization> {
+    return this.httpClient.put<Organization>(`${this.basePath}/organizations/${id}`, org, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setOrganizationAvatar(id: string, avatar: File): Observable<any> {
+    const formParams = new FormData();
+    formParams.set('file', avatar);
+    return this.httpClient.post<any>(`${this.basePath}/organizations/${id}/avatar`, formParams, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  getOrganizationAvatar(id: string): Observable<string> {
+    return of(`${this.basePath}/organizations/${id}/avatar`);
   }
 
   getAllOrganizations(): Observable<Organization[]> {

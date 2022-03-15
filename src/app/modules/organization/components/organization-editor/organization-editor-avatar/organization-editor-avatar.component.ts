@@ -14,7 +14,17 @@ export class OrganizationEditorAvatarComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const avatarFormControl = this.organizationAvatarFormGroup.controls['avatar'];
+    if (avatarFormControl.value) {
+      this.imgSrc = avatarFormControl.value;
+    }
+    this.organizationAvatarFormGroup.controls['avatar'].valueChanges.subscribe({
+      next: value => {
+        this.imgSrc = value;
+      }
+    });
+  }
 
   onFileChange(event: any) {
     if (event.target.files.length > 0) {

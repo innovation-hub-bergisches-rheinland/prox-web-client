@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Organization } from '@data/schema/user-service.types';
+import { ToastService } from '@modules/toast/toast.service';
 
 @Component({
   selector: 'app-organization-editor-dialog',
@@ -7,7 +9,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./organization-editor-dialog.component.scss']
 })
 export class OrganizationEditorDialogComponent implements OnInit {
-  constructor(public organizationDialogRef: MatDialogRef<OrganizationEditorDialogComponent>) {}
+  constructor(
+    public organizationDialogRef: MatDialogRef<OrganizationEditorDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public organization: Organization,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.organizationDialogRef.disableClose = true;
@@ -15,5 +21,12 @@ export class OrganizationEditorDialogComponent implements OnInit {
 
   closeDialog() {
     this.organizationDialogRef.close();
+  }
+
+  organizationSaved(org: Organization) {
+    this.toastService.showToast({
+      message: 'Organisation wurde erfolgreich gespeichert'
+    });
+    this.organizationDialogRef.close(org);
   }
 }

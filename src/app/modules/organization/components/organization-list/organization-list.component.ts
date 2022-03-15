@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Organization } from '@data/schema/user-service.types';
+import { UserService } from '@data/service/user.service';
 
 @Component({
   selector: 'app-organization-list',
