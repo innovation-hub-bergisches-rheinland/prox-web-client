@@ -10,7 +10,6 @@ import {
   ProfileCardTitleDirective
 } from '@modules/profile/components/profile-card/profile-card-header/profile-card-header.component';
 import { ProfileCardComponent, ProfileCardContentDirective } from '@modules/profile/components/profile-card/profile-card.component';
-import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 import { ProfileInformationCardComponent } from './components/profile-information-card/profile-information-card.component';
 import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 import { ProfileLanguageCardComponent } from '@modules/profile/components/profile-language-card/profile-language-card.component';
@@ -25,10 +24,8 @@ import { LecturerPageComponent } from './pages/lecturer-page/lecturer-page.compo
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
 import { LecturerEditorPageComponent } from './pages/lecturer-editor-page/lecturer-editor-page.component';
-import { OrganizationEditorPageComponent } from './pages/organization-editor-page/organization-editor-page.component';
 import { OverviewPageComponent } from './pages/overview-page/overview-page.component';
 import { LecturerOverviewPageComponent } from './pages/lecturer-overview-page/lecturer-overview-page.component';
-import { OrganizationOverviewPageComponent } from '@modules/profile/pages/organization-overview-page/organization-overview-page.component';
 import { ProfileProjectCardItemComponent } from './components/profile-projects-card/profile-project-card-item/profile-project-card-item.component';
 import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/profile-jobs-card-item/profile-jobs-card-item.component';
 
@@ -42,7 +39,6 @@ import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/pro
     ProfileCardTitleDirective,
     ProfileCardContentDirective,
     ProfileCardComponent,
-    OrganizationPageComponent,
     ProfileInformationCardComponent,
     ProfileInformationCardEntryComponent,
     ProfileLanguageCardComponent,
@@ -57,13 +53,12 @@ import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/pro
     ProfilePublicationsCardComponent,
     ProfileOverviewCardComponent,
     LecturerEditorPageComponent,
-    OrganizationEditorPageComponent,
     OverviewPageComponent,
     LecturerOverviewPageComponent,
-    OrganizationOverviewPageComponent,
     ProfileProjectCardItemComponent,
     ProfileJobsCardItemComponent
   ],
+  exports: [ProfilePageComponent],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })
 export class ProfileModule {}
