@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { OrganizationRoutingModule } from './organization-routing.module';
 import { SharedModule } from '@shared/shared.module';
-import { OrganizationEditorComponent } from './pages/organization-editor/organization-editor.component';
 import { OrganizationItemComponent } from './components/organization-item/organization-item.component';
 import { OrganizationListComponent } from './components/organization-list/organization-list.component';
 import { OrganizationOverviewComponent } from './pages/organization-overview/organization-overview.component';
@@ -11,6 +10,12 @@ import { OrganizationMembersComponent } from './pages/organization-members/organ
 import { OrganizationMembershipsListComponent } from './components/organization-memberships-list/organization-memberships-list.component';
 import { OrganizationAddMemberDialogComponent } from './components/organization-add-member-dialog/organization-add-member-dialog.component';
 import { OrganizationEditMemberDialogComponent } from '@modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
+import { OrganizationEditorInformationComponent } from './components/organization-editor/organization-editor-information/organization-editor-information.component';
+import { OrganizationEditorProfileComponent } from './components/organization-editor/organization-editor-profile/organization-editor-profile.component';
+import { OrganizationEditorAvatarComponent } from './components/organization-editor/organization-editor-avatar/organization-editor-avatar.component';
+import { OrganizationEditorMembersComponent } from './components/organization-editor/organization-editor-members/organization-editor-members.component';
+import { OrganizationEditorDialogComponent } from './components/organization-editor-dialog/organization-editor-dialog.component';
+import { OrganizationEditorComponent } from './components/organization-editor/organization-editor.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,12 @@ import { OrganizationEditMemberDialogComponent } from '@modules/organization/com
     OrganizationMembersComponent,
     OrganizationMembershipsListComponent,
     OrganizationAddMemberDialogComponent,
-    OrganizationEditMemberDialogComponent
+    OrganizationEditMemberDialogComponent,
+    OrganizationEditorInformationComponent,
+    OrganizationEditorProfileComponent,
+    OrganizationEditorAvatarComponent,
+    OrganizationEditorMembersComponent,
+    OrganizationEditorDialogComponent
   ],
   imports: [CommonModule, SharedModule, OrganizationRoutingModule]
 })
