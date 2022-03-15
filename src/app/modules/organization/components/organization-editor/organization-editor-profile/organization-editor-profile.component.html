@@ -1,1 +1,23 @@
-<p>organization-editor-profile works!</p>
+<form [formGroup]="organizationProfileFormGroup" class="flex flex-col">
+  <mat-form-field appearance="outline">
+    <mat-label>Gründungsdatum</mat-label>
+    <input formControlName="foundingDate" matInput maxlength="255" placeholder="Gründungsdatum" />
+    <mat-hint align="end"> {{ organizationProfileFormGroup.controls['foundingDate'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Anzahl Mitarbeiter</mat-label>
+    <input formControlName="numberOfEmployees" matInput maxlength="255" placeholder="Anzahl Mitarbeiter" />
+    <mat-hint align="end"> {{ organizationProfileFormGroup.controls['numberOfEmployees'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Hauptsitz</mat-label>
+    <input formControlName="headquarter" matInput maxlength="255" placeholder="Hauptsitz" />
+    <mat-hint align="end"> {{ organizationProfileFormGroup.controls['headquarter'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <app-simple-chip-input placeholder="Weitere Standorte" title="Weitere Standorte" formControlName="quarters"></app-simple-chip-input>
+  <app-simple-chip-input
+    placeholder="Branchen und Tätigkeitsbereiche"
+    title="Branchen und Tätigkeitsbereiche"
+    formControlName="branches"
+  ></app-simple-chip-input>
+</form>

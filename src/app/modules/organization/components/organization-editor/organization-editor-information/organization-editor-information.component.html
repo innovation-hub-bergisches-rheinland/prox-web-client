@@ -1,1 +1,23 @@
-<p>organization-editor-information works!</p>
+<form [formGroup]="organizationInformationForm" class="flex flex-col">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input formControlName="name" matInput maxlength="255" placeholder="Name" required />
+    <mat-hint align="end"> {{ organizationInformationForm.controls['name'].value?.length || 0 }}/255 </mat-hint>
+    <mat-error *ngIf="organizationInformationForm.controls['name'].hasError('required')"> Name <strong>fehlt</strong>! </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Homepage</mat-label>
+    <input formControlName="homepage" matInput maxlength="255" placeholder="Homepage" />
+    <mat-hint align="end"> {{ organizationInformationForm.controls['homepage'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>E-Mail Kontakt</mat-label>
+    <input formControlName="contactEmail" matInput maxlength="255" placeholder="E-Mail Kontakt" />
+    <mat-hint align="end"> {{ organizationInformationForm.controls['contactEmail'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Beschreibung</mat-label>
+    <textarea matInput formControlName="vita" matInput maxlength="255" placeholder="Beschreibung"></textarea>
+    <mat-hint align="end"> {{ organizationInformationForm.controls['vita'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+</form>

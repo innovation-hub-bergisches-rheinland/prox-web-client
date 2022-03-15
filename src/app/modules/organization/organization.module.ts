@@ -13,9 +13,9 @@ import { OrganizationEditMemberDialogComponent } from '@modules/organization/com
 import { OrganizationEditorInformationComponent } from './components/organization-editor/organization-editor-information/organization-editor-information.component';
 import { OrganizationEditorProfileComponent } from './components/organization-editor/organization-editor-profile/organization-editor-profile.component';
 import { OrganizationEditorAvatarComponent } from './components/organization-editor/organization-editor-avatar/organization-editor-avatar.component';
-import { OrganizationEditorMembersComponent } from './components/organization-editor/organization-editor-members/organization-editor-members.component';
 import { OrganizationEditorDialogComponent } from './components/organization-editor-dialog/organization-editor-dialog.component';
 import { OrganizationEditorComponent } from './components/organization-editor/organization-editor.component';
+import { OrganizationEditorSocialMediaComponent } from './components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +30,8 @@ import { OrganizationEditorComponent } from './components/organization-editor/or
     OrganizationEditorInformationComponent,
     OrganizationEditorProfileComponent,
     OrganizationEditorAvatarComponent,
-    OrganizationEditorMembersComponent,
-    OrganizationEditorDialogComponent
+    OrganizationEditorDialogComponent,
+    OrganizationEditorSocialMediaComponent
   ],
   imports: [CommonModule, SharedModule, OrganizationRoutingModule]
 })

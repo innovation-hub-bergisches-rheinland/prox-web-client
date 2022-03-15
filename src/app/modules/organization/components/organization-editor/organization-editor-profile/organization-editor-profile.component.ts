@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-organization-editor-profile',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./organization-editor-profile.component.scss']
 })
 export class OrganizationEditorProfileComponent implements OnInit {
+  @Input()
+  organizationProfileFormGroup: FormGroup;
+
   constructor() {}
 
   ngOnInit(): void {}

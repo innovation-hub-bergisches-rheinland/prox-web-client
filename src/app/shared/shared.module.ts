@@ -14,6 +14,7 @@ import { UserSelectorComponent } from './components/user-selector/user-selector.
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { TagInputComponent } from './components/tag-input/tag-input.component';
 import { ContextSelectorComponent } from './components/context-selector/context-selector.component';
+import { SimpleChipInputComponent } from './components/simple-chip-input/simple-chip-input.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ContextSelectorComponent } from './components/context-selector/context-
     UserSearchComponent,
     UserSelectorComponent,
     TagInputComponent,
-    ContextSelectorComponent
+    ContextSelectorComponent,
+    SimpleChipInputComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,8 @@ import { ContextSelectorComponent } from './components/context-selector/context-
     UserSearchComponent,
     UserSelectorComponent,
     TagInputComponent,
-    ContextSelectorComponent
+    ContextSelectorComponent,
+    SimpleChipInputComponent
   ]
 })
 export class SharedModule {}

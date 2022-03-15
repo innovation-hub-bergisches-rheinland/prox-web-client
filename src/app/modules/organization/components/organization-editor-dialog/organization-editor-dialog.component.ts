@@ -7,11 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./organization-editor-dialog.component.scss']
 })
 export class OrganizationEditorDialogComponent implements OnInit {
-  constructor(public organizationDialogRef: MatDialogRef<OrganizationEditorDialogComponent>) {
+  constructor(public organizationDialogRef: MatDialogRef<OrganizationEditorDialogComponent>) {}
+
+  ngOnInit(): void {
     this.organizationDialogRef.disableClose = true;
   }
-
-  ngOnInit(): void {}
 
   closeDialog() {
     this.organizationDialogRef.close();

@@ -26,7 +26,8 @@ export class OrganizationOverviewComponent implements OnInit {
   openOrganizationEditor() {
     const dialog = this.dialog.open(OrganizationEditorDialogComponent, {
       autoFocus: false,
-      maxHeight: '85vh'
+      maxHeight: '80%',
+      maxWidth: '80%'
     });
   }
 }
