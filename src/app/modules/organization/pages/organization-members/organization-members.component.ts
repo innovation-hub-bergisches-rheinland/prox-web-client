@@ -37,19 +37,13 @@ export class OrganizationMembersComponent implements OnInit {
         }
       }
     });
+    this.organization$.subscribe({
+      next: value => (this.hasPermission = value.permissions.canEdit)
+    });
   }
 
   getMembers(id: string) {
-    this.organizationMemberships$ = this.userService.getMemberships(id).pipe(
-      map(membership => membership.members),
-      tap(async members => {
-        this.hasPermission =
-          (await this.keycloakService.isLoggedIn()) &&
-          members.some(
-            m => this.keycloakService.getKeycloakInstance().subject === m.memberId && (m.role === 'ADMIN' || m.role === 'OWNER')
-          );
-      })
-    );
+    this.organizationMemberships$ = this.userService.getMemberships(id).pipe(map(membership => membership.members));
   }
 
   async removeMembership(member: OrganizationMembership) {

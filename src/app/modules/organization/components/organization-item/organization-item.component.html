@@ -5,19 +5,17 @@
       {{ organization.name }}
     </mat-card-title>
   </mat-card-title-group>
-  <mat-divider inset></mat-divider>
-  <mat-card-actions align="end">
-    <button mat-flat-button (click)="editOrganization(organization)">
-      <mat-icon>edit</mat-icon>
-      Bearbeiten
-    </button>
-    <button mat-flat-button [routerLink]="[organization.id, 'members']">
-      <mat-icon>groups</mat-icon>
-      Mitglieder
-    </button>
-    <button mat-flat-button>
-      <mat-icon>account_circle</mat-icon>
-      Profil
-    </button>
-  </mat-card-actions>
+  <ng-container *ngIf="organization.permissions.canEdit || organization.permissions.canViewMembers">
+    <mat-divider inset></mat-divider>
+    <mat-card-actions align="end">
+      <button mat-flat-button (click)="editOrganization(organization)" *ngIf="organization.permissions.canEdit">
+        <mat-icon>edit</mat-icon>
+        Bearbeiten
+      </button>
+      <button mat-flat-button [routerLink]="[organization.id, 'members']" *ngIf="organization.permissions.canViewMembers">
+        <mat-icon>groups</mat-icon>
+        Mitglieder
+      </button>
+    </mat-card-actions>
+  </ng-container>
 </mat-card>

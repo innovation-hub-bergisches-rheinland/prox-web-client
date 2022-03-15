@@ -12,6 +12,7 @@ export interface Organization {
   id: OrganizationId;
   name: string;
   profile: OrganizationProfile;
+  permissions: OrganizationPermissions;
 }
 
 export interface OrganizationProfile {
@@ -24,6 +25,11 @@ export interface OrganizationProfile {
   quarters: string[];
   branches: string[];
   socialMedia: SocialMedia;
+}
+
+export interface OrganizationPermissions {
+  canEdit: boolean;
+  canViewMembers: boolean;
 }
 
 export interface SocialMedia {
@@ -57,4 +63,4 @@ export interface GetOrganizationsWrapper {
   organizations: Organization[];
 }
 
-export type CreateOrganizationSchema = Omit<Organization, 'id'>;
+export type CreateOrganizationSchema = Omit<Organization, 'id' | 'permissions'>;
