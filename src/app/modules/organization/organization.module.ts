@@ -16,6 +16,8 @@ import { OrganizationEditorAvatarComponent } from './components/organization-edi
 import { OrganizationEditorDialogComponent } from './components/organization-editor-dialog/organization-editor-dialog.component';
 import { OrganizationEditorComponent } from './components/organization-editor/organization-editor.component';
 import { OrganizationEditorSocialMediaComponent } from './components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
+import { OrganizationProfileComponent } from './pages/organization-profile/organization-profile.component';
+import { ProfileModule } from '@modules/profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -31,8 +33,9 @@ import { OrganizationEditorSocialMediaComponent } from './components/organizatio
     OrganizationEditorProfileComponent,
     OrganizationEditorAvatarComponent,
     OrganizationEditorDialogComponent,
-    OrganizationEditorSocialMediaComponent
+    OrganizationEditorSocialMediaComponent,
+    OrganizationProfileComponent
   ],
-  imports: [CommonModule, SharedModule, OrganizationRoutingModule]
+  imports: [CommonModule, SharedModule, OrganizationRoutingModule, ProfileModule]
 })
 export class OrganizationModule {}
