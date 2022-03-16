@@ -2,12 +2,6 @@ import { Component, ContentChildren, Input, OnInit, QueryList } from '@angular/c
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { ProfileInformationCardEntryComponent } from '@modules/profile/components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 
-export interface AboutEntry {
-  readonly key: string;
-  readonly value: string;
-  readonly linkable?: boolean;
-}
-
 @Component({
   selector: 'app-profile-information-card',
   templateUrl: './profile-information-card.component.html',
@@ -19,14 +13,7 @@ export class ProfileInformationCardComponent implements OnInit {
   @ContentChildren(ProfileInformationCardEntryComponent)
   _items: QueryList<ProfileInformationCardEntryComponent>;
 
-  @Input()
-  entries: AboutEntry[];
-
   constructor() {}
 
   ngOnInit(): void {}
-
-  isEmpty(): boolean {
-    return this.entries.reduce((previousValue, currentValue) => previousValue && (!currentValue || !currentValue.value), true);
-  }
 }

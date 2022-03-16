@@ -41,8 +41,14 @@
       </div>
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
         <div class="flex flex-col gap-4">
-          <app-profile-information-card *ngIf="profile.about" [entries]="profile.about"> </app-profile-information-card>
-          <app-profile-language-card [languages]="profile.languages"> </app-profile-language-card>
+          <app-profile-information-card *ngIf="profile.about">
+            <app-profile-information-card-entry
+              *ngFor="let about of profile.about"
+              [linkable]="about.linkable"
+              [value]="about.value"
+              [title]="about.key"
+            ></app-profile-information-card-entry>
+          </app-profile-information-card>
         </div>
       </div>
       <div class="col-span-1 md:col-span-3 lg:col-span-4">
