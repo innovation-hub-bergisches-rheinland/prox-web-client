@@ -28,7 +28,7 @@ export class OrganizationEditorComponent implements OnInit {
     foundingDate: [''],
     numberOfEmployees: [''],
     headquarter: [''],
-    quarters: [[]],
+    quarters: [''],
     branches: [[]]
   });
   organizationSocialMediaForm = this.fb.group({

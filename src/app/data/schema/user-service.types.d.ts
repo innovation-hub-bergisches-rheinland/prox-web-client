@@ -22,7 +22,7 @@ export interface OrganizationProfile {
   contactEmail: string;
   vita: string;
   headquarter: string;
-  quarters: string[];
+  quarters: string;
   branches: string[];
   socialMedia: SocialMedia;
 }

@@ -39,8 +39,8 @@
               ></app-profile-information-card-entry>
               <app-profile-information-card-entry
                 title="Weitere Standorte"
-                *ngIf="org.profile.quarters && org.profile.quarters.length > 0"
-                [value]="org.profile.quarters.join(', ')"
+                *ngIf="org.profile.quarters"
+                [value]="org.profile.quarters"
               ></app-profile-information-card-entry>
               <app-profile-information-card-entry
                 title="Homepage"
