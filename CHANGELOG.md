@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.1...v1.5.2) (2022-03-16)
+
+
+### Bug Fixes
+
+* change quarters from array type to simple string ([c24f618](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c24f618b5efd64d8e546bb755b04550fdadae7b4))
+
 ### [1.5.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.0...v1.5.1) (2022-03-16)
 
 
