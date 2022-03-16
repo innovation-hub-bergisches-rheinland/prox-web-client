@@ -14,7 +14,14 @@ export class OrganizationEditorComponent implements OnInit {
   organizationInformationForm = this.fb.group({
     name: ['', Validators.required],
     homepage: [''],
-    contactEmail: ['', Validators.email],
+    /*
+     * EMail validation is disabled because it is a valid use case to specify multiple EMail addresses
+     * which we currently do not offer. Since the Email itself does not have any clear
+     * semantics at the moment we simply allow any kind of string. For the future it is thinkable to
+     * deprecate the organization-wide email address and simple list members with their EMail address
+     * as representatives
+     */
+    contactEmail: ['' /*, Validators.email*/],
     vita: ['']
   });
   organizationProfileForm = this.fb.group({
