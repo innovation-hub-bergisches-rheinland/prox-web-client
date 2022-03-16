@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.3...v1.5.4) (2022-03-16)
+
+
+### Bug Fixes
+
+* social media padding ([d6e0117](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d6e01178542fda17b84682af49e698e986274bd4))
+
 ### [1.5.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.2...v1.5.3) (2022-03-16)
 
 
