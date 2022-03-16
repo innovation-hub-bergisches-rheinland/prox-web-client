@@ -64,7 +64,31 @@ import { SashTitleDirective } from '@modules/profile/components/sash/sash-title.
     ProfileAvatarCardSubtitleDirective,
     SocialMediaButtonRowComponent
   ],
-  exports: [ProfilePageComponent],
+  exports: [
+    SashComponent,
+    SashContentDirective,
+    SashTitleDirective,
+    ProfileAvatarCardComponent,
+    ProfileCardHeaderComponent,
+    ProfileCardTitleDirective,
+    ProfileCardContentDirective,
+    ProfileCardComponent,
+    ProfileInformationCardComponent,
+    ProfileInformationCardEntryComponent,
+    SocialMediaButtonComponent,
+    ProfileFocusSubjectsComponent,
+    ProfileProjectsCardComponent,
+    ProfileJobsCardComponent,
+    ProfileProjectHistoryComponent,
+    ProfileProjectHistoryItemComponent,
+    ProfilePublicationsCardComponent,
+    ProfileOverviewCardComponent,
+    ProfileProjectCardItemComponent,
+    ProfileJobsCardItemComponent,
+    ProfileAvatarCardTitleDirective,
+    ProfileAvatarCardSubtitleDirective,
+    SocialMediaButtonRowComponent
+  ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })
 export class ProfileModule {}

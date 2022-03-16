@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Organization } from '@data/schema/user-service.types';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Profile, Sash } from '@modules/profile/pages/profile-page/profile-page.component';
+import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-organization-profile',
@@ -14,6 +15,8 @@ import { Profile, Sash } from '@modules/profile/pages/profile-page/profile-page.
 })
 export class OrganizationProfileComponent implements OnInit {
   organization$: Observable<Organization>;
+  avatar$: Observable<string>;
+  faBullseye = faBullseye;
 
   constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.organization$ = this.activatedRoute.params.pipe(
@@ -23,7 +26,8 @@ export class OrganizationProfileComponent implements OnInit {
           await router.navigate(['404']);
         }
         throw err;
-      })
+      }),
+      tap(o => (this.avatar$ = this.userService.getOrganizationAvatar(o.id)))
     );
   }
 
