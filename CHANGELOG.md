@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.0...v1.5.1) (2022-03-16)
+
+
+### Bug Fixes
+
+* disable email validation ([43ef3de](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/43ef3de4b25d618f7c5dfc9da412f3961abd9254))
+* remove max length from vita ([339efd6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/339efd6114cece988ac5a72a7012737cc29e48af))
+
 ## [1.5.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.2...v1.5.0) (2022-03-16)
 
 
