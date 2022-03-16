@@ -1,3 +1,33 @@
 <div class="flex flex-row gap-1 flex-wrap">
+  <app-social-media-button
+    color="#4267b2"
+    *ngIf="facebookHandle"
+    [icon]="facebookIcon"
+    [url]="'https://facebook.com/' + facebookHandle"
+  ></app-social-media-button>
+  <app-social-media-button
+    color="#1da1f2"
+    *ngIf="twitterHandle"
+    [icon]="twitterIcon"
+    [url]="'https://twitter.com/' + twitterHandle"
+  ></app-social-media-button>
+  <app-social-media-button
+    color="#f77737"
+    *ngIf="instagramHandle"
+    [icon]="instagramIcon"
+    [url]="'https://www.instagram.com/' + instagramHandle"
+  ></app-social-media-button>
+  <app-social-media-button
+    color="#026466"
+    *ngIf="xingHandle"
+    [icon]="xingIcon"
+    [url]="'https://www.xing.com/pages/' + xingHandle"
+  ></app-social-media-button>
+  <app-social-media-button
+    color="#0077b5"
+    *ngIf="linkedInHandle"
+    [icon]="likedInIcon"
+    [url]="'https://www.linkedin.com/company/' + linkedInHandle"
+  ></app-social-media-button>
   <ng-content select="app-social-media-button"></ng-content>
 </div>

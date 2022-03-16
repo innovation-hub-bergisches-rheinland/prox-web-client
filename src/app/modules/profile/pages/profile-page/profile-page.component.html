@@ -11,32 +11,14 @@
           <app-avatar-card-subtitle>{{ profile.subtitle }}</app-avatar-card-subtitle>
           <img [src]="profile.avatarUrl" avatar alt="Avatar" onerror="this.src='/assets/images/blank-profile-picture.png'" />
         </app-profile-avatar-card>
-        <app-social-media-button-row *ngIf="profile.socialMedia">
-          <app-social-media-button
-            [socialMedia]="'FACEBOOK'"
-            [handle]="profile.socialMedia.facebook"
-            *ngIf="profile.socialMedia.facebook"
-          ></app-social-media-button>
-          <app-social-media-button
-            [socialMedia]="'TWITTER'"
-            [handle]="profile.socialMedia.twitter"
-            *ngIf="profile.socialMedia.twitter"
-          ></app-social-media-button>
-          <app-social-media-button
-            [socialMedia]="'INSTAGRAM'"
-            [handle]="profile.socialMedia.instagram"
-            *ngIf="profile.socialMedia.instagram"
-          ></app-social-media-button>
-          <app-social-media-button
-            [socialMedia]="'XING'"
-            [handle]="profile.socialMedia.xing"
-            *ngIf="profile.socialMedia.xing"
-          ></app-social-media-button>
-          <app-social-media-button
-            [socialMedia]="'LINKEDIN'"
-            [handle]="profile.socialMedia.linkedIn"
-            *ngIf="profile.socialMedia.linkedIn"
-          ></app-social-media-button>
+        <app-social-media-button-row
+          *ngIf="profile.socialMedia"
+          [facebookHandle]="profile.socialMedia.facebook"
+          [twitterHandle]="profile.socialMedia.twitter"
+          [instagramHandle]="profile.socialMedia.instagram"
+          [xingHandle]="profile.socialMedia.xing"
+          [linkedInHandle]="profile.socialMedia.linkedIn"
+        >
         </app-social-media-button-row>
       </div>
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
