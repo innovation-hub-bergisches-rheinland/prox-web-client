@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProfileRoutingModule } from './profile-routing.module';
 import { SharedModule } from '@shared/shared.module';
-import { SashComponent, SashContentDirective, SashTitleDirective } from './components/sash/sash.component';
+import { SashComponent } from './components/sash/sash.component';
 import { ProfileAvatarCardComponent } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
 import {
   ProfileCardHeaderComponent,
@@ -30,6 +30,8 @@ import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/pro
 import { ProfileAvatarCardTitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-title.directive';
 import { ProfileAvatarCardSubtitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-subtitle.directive';
 import { SocialMediaButtonRowComponent } from './components/profile-avatar-card/social-media-button-row/social-media-button-row.component';
+import { SashContentDirective } from '@modules/profile/components/sash/sash-content.directive';
+import { SashTitleDirective } from '@modules/profile/components/sash/sash-title.directive';
 
 @NgModule({
   declarations: [
