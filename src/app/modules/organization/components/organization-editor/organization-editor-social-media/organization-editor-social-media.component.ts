@@ -17,7 +17,7 @@ export class OrganizationEditorSocialMediaComponent implements OnInit {
 
 export function socialMediaHandleValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const allowed = !control.value || /^[^/.]*$/g.test(control.value);
+    const allowed = !control.value || /^[^\/]*$/g.test(control.value);
     return allowed ? null : { forbiddenHandle: { value: control.value } };
   };
 }
