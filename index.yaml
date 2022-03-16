@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   prox-web-client:
   - apiVersion: v2
+    appVersion: 1.5.3
+    created: "2022-03-16T15:42:08.139763515Z"
+    description: A Helm chart for Kubernetes
+    digest: f44fb2f691d478f7b14ed6c21196d50d982b75b203b72ee686160bc1cbfcb328
+    name: prox-web-client
+    type: application
+    urls:
+    - https://innovation-hub-bergisches-rheinland.github.io/prox-web-client/prox-web-client-1.5.3.tgz
+    version: 1.5.3
+  - apiVersion: v2
     appVersion: 1.5.2
     created: "2022-03-16T13:56:10.19362838Z"
     description: A Helm chart for Kubernetes
@@ -151,4 +161,4 @@ entries:
     urls:
     - https://innovation-hub-bergisches-rheinland.github.io/prox-web-client/prox-web-client-1.0.0.tgz
     version: 1.0.0
-generated: "2022-03-16T13:56:10.192435801Z"
+generated: "2022-03-16T15:42:08.138514917Z"
