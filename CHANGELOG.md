@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.2...v1.5.3) (2022-03-16)
+
+
+### Bug Fixes
+
+* fix regex ([d18cc8e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d18cc8e9db18abace8514db2d338f08db2a92c4f))
+* regex for social media handles ([0c63399](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0c63399605d8354c9c26d5ad5468b3d99ef1eeb8))
+
 ### [1.5.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.1...v1.5.2) (2022-03-16)
 
 
