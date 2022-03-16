@@ -57,7 +57,7 @@
     </div>
 
     <!-- Shash / Vita -->
-    <div *ngIf="sash && sash.text.trim().length > 0">
+    <div class="w-full" *ngIf="sash && sash.text.trim().length > 0">
       <app-sash>
         <app-sash-title>{{ sash.title }}</app-sash-title>
         <app-sash-content [innerText]="sash.text"></app-sash-content>
