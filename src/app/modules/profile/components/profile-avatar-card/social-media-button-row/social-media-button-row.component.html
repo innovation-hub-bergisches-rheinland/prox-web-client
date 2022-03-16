@@ -12,6 +12,12 @@
     [url]="'https://twitter.com/' + twitterHandle"
   ></app-social-media-button>
   <app-social-media-button
+    color="#ff0000"
+    *ngIf="youtubeHandle"
+    [icon]="youtubeIcon"
+    [url]="'https://www.youtube.com/user/' + youtubeHandle"
+  ></app-social-media-button>
+  <app-social-media-button
     color="#f77737"
     *ngIf="instagramHandle"
     [icon]="instagramIcon"

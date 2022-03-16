@@ -29,7 +29,8 @@ export class OrganizationEditorComponent implements OnInit {
     twitterHandle: ['', socialMediaHandleValidator()],
     instagramHandle: ['', socialMediaHandleValidator()],
     xingHandle: ['', socialMediaHandleValidator()],
-    linkedInHandle: ['', socialMediaHandleValidator()]
+    linkedInHandle: ['', socialMediaHandleValidator()],
+    youtubeHandle: ['', socialMediaHandleValidator()]
   });
   organizationAvatarFormGroup = this.fb.group({
     avatar: ['']

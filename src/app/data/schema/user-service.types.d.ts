@@ -38,6 +38,7 @@ export interface SocialMedia {
   instagramHandle: string;
   xingHandle: string;
   linkedInHandle: string;
+  youtubeHandle: string;
 }
 
 export interface OrganizationMembershipWrapper {
