@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FocusSubject } from '@modules/profile/components/profile-focus-areas/profile-focus-subjects.component';
-import { Language } from '@modules/profile/components/profile-language-card/profile-language-card.component';
 import { AvailableJob } from '@modules/profile/components/profile-jobs-card/profile-jobs-card.component';
 import { AvailableProject } from '@modules/profile/components/profile-projects-card/profile-projects-card.component';
 import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
@@ -17,7 +16,6 @@ export interface Profile {
   readonly subtitle?: string;
   readonly socialMedia?: Record<string, string>;
   readonly focusSubjects?: FocusSubject[];
-  readonly languages?: Language[];
   readonly about?: { linkable?: boolean; key: string; value: string }[];
 }
 

@@ -122,7 +122,6 @@ export class LecturerPageComponent implements OnInit {
                 linkable: true
               }
             ],
-            languages: undefined,
             socialMedia: undefined,
             focusSubjects: this._lecturer.researchSubjects.map(s => {
               return {

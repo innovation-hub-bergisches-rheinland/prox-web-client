@@ -12,7 +12,6 @@ import {
 import { ProfileCardComponent, ProfileCardContentDirective } from '@modules/profile/components/profile-card/profile-card.component';
 import { ProfileInformationCardComponent } from './components/profile-information-card/profile-information-card.component';
 import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
-import { ProfileLanguageCardComponent } from '@modules/profile/components/profile-language-card/profile-language-card.component';
 import { SocialMediaButtonComponent } from './components/profile-avatar-card/social-media-button/social-media-button.component';
 import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/profile-focus-subjects.component';
 import { ProfileProjectsCardComponent } from './components/profile-projects-card/profile-projects-card.component';
@@ -44,7 +43,6 @@ import { SocialMediaButtonRowComponent } from './components/profile-avatar-card/
     ProfileCardComponent,
     ProfileInformationCardComponent,
     ProfileInformationCardEntryComponent,
-    ProfileLanguageCardComponent,
     SocialMediaButtonComponent,
     ProfileFocusSubjectsComponent,
     ProfileProjectsCardComponent,
