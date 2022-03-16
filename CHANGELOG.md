@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.2...v1.5.0) (2022-03-16)
+
+
+### Features
+
+* add context selector component ([dcb584d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/dcb584dd62220b46a4ff90f45e757d193a38f6f1))
+* enable buttons permission-based ([fb438a7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fb438a78fa00f5ba88c72c055d9ca4b842d357b1))
+* implement organization editor ([6666476](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/6666476ddeb460af4f9f036fb1ed73a0c3c9fc2e))
+* implement organization profiles ([f48883b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f48883bc9d34a85c2bc88243a50e69cd5f150160))
+* navigate to profile page on click ([a382d1a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a382d1a786f0dcc64f20828c269c7abdb691790c))
+
+
+### Bug Fixes
+
+* social media button row content projection ([d7e8d0f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d7e8d0fbddb21dc956e6e74aab75013eb5f629c0))
+
 ### [1.4.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.1...v1.4.2) (2022-03-01)
 
 ### [1.4.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.0...v1.4.1) (2022-02-28)
