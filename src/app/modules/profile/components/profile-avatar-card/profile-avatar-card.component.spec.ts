@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileAvatarCardComponent } from './profile-avatar-card.component';
-import { SocialMediaButtonComponent } from '@modules/profile/components/social-media-button/social-media-button.component';
+import { SocialMediaButtonComponent } from '@modules/profile/components/profile-avatar-card/social-media-button/social-media-button.component';
 
 describe('ProfileCardComponent', () => {
   let component: ProfileAvatarCardComponent;

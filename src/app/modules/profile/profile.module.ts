@@ -13,7 +13,7 @@ import { ProfileCardComponent, ProfileCardContentDirective } from '@modules/prof
 import { ProfileInformationCardComponent } from './components/profile-information-card/profile-information-card.component';
 import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 import { ProfileLanguageCardComponent } from '@modules/profile/components/profile-language-card/profile-language-card.component';
-import { SocialMediaButtonComponent } from './components/social-media-button/social-media-button.component';
+import { SocialMediaButtonComponent } from './components/profile-avatar-card/social-media-button/social-media-button.component';
 import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/profile-focus-subjects.component';
 import { ProfileProjectsCardComponent } from './components/profile-projects-card/profile-projects-card.component';
 import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
@@ -28,6 +28,9 @@ import { OverviewPageComponent } from './pages/overview-page/overview-page.compo
 import { LecturerOverviewPageComponent } from './pages/lecturer-overview-page/lecturer-overview-page.component';
 import { ProfileProjectCardItemComponent } from './components/profile-projects-card/profile-project-card-item/profile-project-card-item.component';
 import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/profile-jobs-card-item/profile-jobs-card-item.component';
+import { ProfileAvatarCardTitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-title.directive';
+import { ProfileAvatarCardSubtitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-subtitle.directive';
+import { SocialMediaButtonRowComponent } from './components/profile-avatar-card/social-media-button-row/social-media-button-row.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,10 @@ import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/pro
     OverviewPageComponent,
     LecturerOverviewPageComponent,
     ProfileProjectCardItemComponent,
-    ProfileJobsCardItemComponent
+    ProfileJobsCardItemComponent,
+    ProfileAvatarCardTitleDirective,
+    ProfileAvatarCardSubtitleDirective,
+    SocialMediaButtonRowComponent
   ],
   exports: [ProfilePageComponent],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
