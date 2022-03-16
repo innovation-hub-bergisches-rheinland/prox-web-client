@@ -36,3 +36,7 @@ h3 {
 .mat-card-header-text {
   width: 100%;
 }
+
+a {
+  @apply hover:underline;
+}

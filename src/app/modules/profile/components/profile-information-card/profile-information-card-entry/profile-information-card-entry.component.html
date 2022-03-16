@@ -1,9 +1,9 @@
-<div class="grid auto-cols-max break-words">
+<div class="flex flex-row md:flex-col">
   <div class="px-2 py-2 font-semibold">{{ title }}</div>
   <div class="px-2 py-2 md:col-span-2">
-    <div *ngIf="!linkable; else linked">{{ value ? value : '' }}</div>
+    <p *ngIf="!linkable; else linked">{{ value ? value : '' }}</p>
     <ng-template #linked>
-      <span class="hover:underline" [innerHTML]="value | linky"></span>
+      <p [innerHTML]="value | linky"></p>
     </ng-template>
   </div>
 </div>

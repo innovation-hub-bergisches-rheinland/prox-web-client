@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col gap-10 items-center justify-center">
       <!-- Profile Information -->
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 lg:px-16 xl:px-32 2xl:px-64">
+      <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 px-4 lg:px-16 xl:px-32 2xl:px-96">
         <div class="col-span-1">
           <app-profile-avatar-card>
             <app-avatar-card-title>{{ org.name }}</app-avatar-card-title>
@@ -19,7 +19,7 @@
             </app-social-media-button-row>
           </app-profile-avatar-card>
         </div>
-        <div class="col-span-1 md:col-span-2 lg:col-span-3">
+        <div class="col-span-1 md:col-span-2 xl:col-span-3">
           <div class="flex flex-col gap-4">
             <app-profile-information-card>
               <app-profile-information-card-entry
@@ -55,22 +55,20 @@
                 [value]="org.profile.contactEmail"
               ></app-profile-information-card-entry>
             </app-profile-information-card>
+            <app-profile-card>
+              <app-profile-card-header [icon]="faBullseye">
+                <app-profile-card-title>Branchen</app-profile-card-title>
+              </app-profile-card-header>
+              <app-profile-card-content *ngIf="org.profile.branches; let branches">
+                <ng-container *ngIf="branches.length > 0; else noBranches">
+                  <mat-chip-list>
+                    <mat-chip *ngFor="let branch of branches" selected>{{ branch }}</mat-chip>
+                  </mat-chip-list>
+                </ng-container>
+                <ng-template #noBranches><i>Keine Branchen angegeben</i></ng-template>
+              </app-profile-card-content>
+            </app-profile-card>
           </div>
-        </div>
-        <div class="col-span-1 md:col-span-3 lg:col-span-4" *ngIf="org.profile.branches; let branches">
-          <app-profile-card>
-            <app-profile-card-header [icon]="faBullseye">
-              <app-profile-card-title>Branchen</app-profile-card-title>
-            </app-profile-card-header>
-            <app-profile-card-content>
-              <ng-container *ngIf="branches.length > 0; else noBranches">
-                <mat-chip-list>
-                  <mat-chip *ngFor="let branch of branches" selected>{{ branch }}</mat-chip>
-                </mat-chip-list>
-              </ng-container>
-              <ng-template #noBranches><i>Keine Branchen angegeben</i></ng-template>
-            </app-profile-card-content>
-          </app-profile-card>
         </div>
       </div>
 
