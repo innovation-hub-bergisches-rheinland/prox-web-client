@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.5](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.4...v1.5.5) (2022-03-17)
+
+
+### Bug Fixes
+
+* fix chip removal ([3ea4d97](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3ea4d970f19b21181c058e9c9c58f08d108acb2f))
+
 ### [1.5.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.3...v1.5.4) (2022-03-16)
 
 
