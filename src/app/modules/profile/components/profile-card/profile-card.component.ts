@@ -18,9 +18,6 @@ export class ProfileCardContentDirective {
 })
 export class ProfileCardComponent implements OnInit {
   @Input()
-  icon: IconDefinition;
-
-  @Input()
   title: string;
 
   constructor() {}

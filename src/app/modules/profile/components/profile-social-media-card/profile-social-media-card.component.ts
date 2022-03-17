@@ -7,13 +7,14 @@ import {
   faXingSquare,
   faYoutubeSquare
 } from '@fortawesome/free-brands-svg-icons';
+import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-social-media-button-row',
-  templateUrl: './social-media-button-row.component.html',
-  styleUrls: ['./social-media-button-row.component.scss']
+  selector: 'app-profile-social-media-card',
+  templateUrl: './profile-social-media-card.component.html',
+  styleUrls: ['./profile-social-media-card.component.scss']
 })
-export class SocialMediaButtonRowComponent implements OnInit {
+export class ProfileSocialMediaCardComponent implements OnInit {
   @Input()
   facebookHandle;
 
@@ -38,6 +39,7 @@ export class SocialMediaButtonRowComponent implements OnInit {
   likedInIcon = faLinkedin;
   xingIcon = faXingSquare;
   youtubeIcon = faYoutubeSquare;
+  hashtagIcon = faHashtag;
 
   constructor() {}
 

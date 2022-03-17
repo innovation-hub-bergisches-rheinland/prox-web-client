@@ -10,15 +10,6 @@
           <app-avatar-card-title>{{ profile.title }}</app-avatar-card-title>
           <app-avatar-card-subtitle>{{ profile.subtitle }}</app-avatar-card-subtitle>
           <img [src]="profile.avatarUrl" avatar alt="Avatar" onerror="this.src='/assets/images/blank-profile-picture.png'" />
-          <app-social-media-button-row
-            *ngIf="profile.socialMedia"
-            [facebookHandle]="profile.socialMedia.facebook"
-            [twitterHandle]="profile.socialMedia.twitter"
-            [instagramHandle]="profile.socialMedia.instagram"
-            [xingHandle]="profile.socialMedia.xing"
-            [linkedInHandle]="profile.socialMedia.linkedIn"
-          >
-          </app-social-media-button-row>
         </app-profile-avatar-card>
       </div>
       <div class="col-span-1 md:col-span-2 lg:col-span-3">

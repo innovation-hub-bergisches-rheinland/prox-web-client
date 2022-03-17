@@ -18,9 +18,12 @@ export class SocialMediaButtonComponent implements OnInit {
   @Input()
   color: string;
 
+  @Input()
+  text: string;
+
   get style(): { [klass: string]: any } {
     return {
-      color: this.color
+      'background-color': this.color
     };
   }
 

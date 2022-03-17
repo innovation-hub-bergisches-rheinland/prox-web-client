@@ -1,0 +1,52 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="hashtagIcon">
+    <app-profile-card-title>Social Media</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <div class="flex flex-row gap-1 flex-wrap">
+      <app-social-media-button
+        color="#4267b2"
+        *ngIf="facebookHandle"
+        [icon]="facebookIcon"
+        [url]="'https://facebook.com/' + facebookHandle"
+        text="Facebook"
+      ></app-social-media-button>
+      <app-social-media-button
+        color="#1da1f2"
+        *ngIf="twitterHandle"
+        [icon]="twitterIcon"
+        [url]="'https://twitter.com/' + twitterHandle"
+        text="Twitter"
+      ></app-social-media-button>
+      <app-social-media-button
+        color="#ff0000"
+        *ngIf="youtubeHandle"
+        [icon]="youtubeIcon"
+        [url]="buildYoutubeLink(youtubeHandle)"
+        text="YouTube"
+      ></app-social-media-button>
+      <app-social-media-button
+        color="#f77737"
+        *ngIf="instagramHandle"
+        [icon]="instagramIcon"
+        [url]="'https://www.instagram.com/' + instagramHandle"
+        text="Instagram"
+      ></app-social-media-button>
+      <app-social-media-button
+        color="#026466"
+        *ngIf="xingHandle"
+        [icon]="xingIcon"
+        [url]="'https://www.xing.com/pages/' + xingHandle"
+        text="Xing"
+      ></app-social-media-button>
+      <app-social-media-button
+        color="#0077b5"
+        *ngIf="linkedInHandle"
+        [icon]="likedInIcon"
+        [url]="'https://www.linkedin.com/company/' + linkedInHandle"
+        text="LinkedIn"
+      ></app-social-media-button>
+      <ng-content select="app-social-media-button"></ng-content>
+    </div>
+  </app-profile-card-content>
+</app-profile-card>

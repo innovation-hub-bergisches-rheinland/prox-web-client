@@ -1,0 +1,9 @@
+<a
+  class="px-4 py-2 font-semibold text-white inline-flex items-center space-x-2 rounded-md hover:opacity-70"
+  [ngStyle]="style"
+  [href]="url"
+  target="_blank"
+>
+  <fa-icon class="text-3xl" [icon]="icon"></fa-icon>
+  <span *ngIf="text">{{ text }}</span>
+</a>
