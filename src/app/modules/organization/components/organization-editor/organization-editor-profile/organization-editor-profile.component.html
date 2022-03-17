@@ -19,9 +19,6 @@
     <input formControlName="quarters" matInput maxlength="255" placeholder="Weitere Standorte" />
     <mat-hint align="end"> {{ organizationProfileFormGroup.controls['quarters'].value?.length || 0 }}/255 </mat-hint>
   </mat-form-field>
-  <app-simple-chip-input
-    placeholder="Branchen und Tätigkeitsbereiche"
-    title="Branchen und Tätigkeitsbereiche"
-    formControlName="branches"
-  ></app-simple-chip-input>
+  <app-simple-chip-input placeholder="Branchen und Tätigkeitsbereiche" title="Branchen und Tätigkeitsbereiche" formControlName="branches">
+  </app-simple-chip-input>
 </form>
