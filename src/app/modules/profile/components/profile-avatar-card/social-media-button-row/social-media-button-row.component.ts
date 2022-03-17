@@ -42,4 +42,17 @@ export class SocialMediaButtonRowComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  /**
+   * YouTube offers two separate types of handles. A username and a channel ID. Both are valid options to use as a handle.
+   * However, they need different types of base links. As a workaround we simply test the handle based on the excellent research
+   * done by Glenn Slayden: {@link https://webapps.stackexchange.com/a/101153}
+   * @param youtubeHandle
+   */
+  buildYoutubeLink(youtubeHandle: string) {
+    if (youtubeHandle.startsWith('UC') && /[0-9A-Za-z_-]{21}[AQgw]/.test(youtubeHandle.substring(2))) {
+      return `https://www.youtube.com/channel/${youtubeHandle}`;
+    }
+    return `https://www.youtube.com/user/${youtubeHandle}`;
+  }
 }

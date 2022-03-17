@@ -15,7 +15,7 @@
     color="#ff0000"
     *ngIf="youtubeHandle"
     [icon]="youtubeIcon"
-    [url]="'https://www.youtube.com/user/' + youtubeHandle"
+    [url]="buildYoutubeLink(youtubeHandle)"
   ></app-social-media-button>
   <app-social-media-button
     color="#f77737"
