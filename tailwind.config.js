@@ -52,6 +52,9 @@ module.exports = {
         primary: this.blue,
         secondary: this.berry,
         neutral: this.sky
+      },
+      screens: {
+        '3xl': '1921px'
       }
     },
     variants: {
