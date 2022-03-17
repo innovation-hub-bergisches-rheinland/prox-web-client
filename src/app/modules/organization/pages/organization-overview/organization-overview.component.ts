@@ -6,6 +6,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-organization-overview',
@@ -39,6 +40,6 @@ export class OrganizationOverviewComponent implements OnInit {
   }
 
   refreshOrgs() {
-    this.organizations$ = this.userService.getAllOrganizations();
+    this.organizations$ = this.userService.getAllOrganizations().pipe(map(orgs => orgs.sort((o1, o2) => o1.name.localeCompare(o2.name))));
   }
 }
