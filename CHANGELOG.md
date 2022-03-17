@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.6...v1.6.0) (2022-03-17)
+
+
+### Features
+
+* add a dedicated social media card ([b00d88a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b00d88a2f6576b512292fc3b10dedb29895bc854))
+
+
+### Bug Fixes
+
+* allow both youtube channel id and user handle ([d79145e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d79145e2ec9d8bcf930f999b892aba7f67147ff9))
+
 ### [1.5.6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.5...v1.5.6) (2022-03-17)
 
 ### [1.5.5](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.4...v1.5.5) (2022-03-17)
