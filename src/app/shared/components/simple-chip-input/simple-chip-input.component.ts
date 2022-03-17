@@ -56,7 +56,7 @@ export class SimpleChipInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removeChip(chip: string) {
-    this._chips = this._chips.filter(c => c === chip);
+    this._chips = this._chips.filter(c => c !== chip);
     this.onChange(this._chips);
     this.chips$.next(this._chips);
   }
