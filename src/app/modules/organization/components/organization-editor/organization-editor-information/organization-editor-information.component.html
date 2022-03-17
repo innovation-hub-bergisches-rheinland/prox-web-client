@@ -17,6 +17,14 @@
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Beschreibung</mat-label>
-    <textarea matInput formControlName="vita" matInput placeholder="Beschreibung"></textarea>
+    <textarea
+      matInput
+      formControlName="vita"
+      matInput
+      placeholder="Beschreibung"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="5"
+      cdkAutosizeMaxRows="30"
+    ></textarea>
   </mat-form-field>
 </form>
