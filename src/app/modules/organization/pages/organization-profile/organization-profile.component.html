@@ -62,7 +62,7 @@
           </app-profile-information-card>
           <app-profile-card>
             <app-profile-card-header [icon]="faBullseye">
-              <app-profile-card-title>Branchen</app-profile-card-title>
+              <app-profile-card-title>Branchen und Tätigkeitsbereiche</app-profile-card-title>
             </app-profile-card-header>
             <app-profile-card-content *ngIf="org.profile.branches; let branches">
               <ng-container *ngIf="branches.length > 0; else noBranches">
@@ -70,7 +70,7 @@
                   <mat-chip *ngFor="let branch of branches" selected>{{ branch }}</mat-chip>
                 </mat-chip-list>
               </ng-container>
-              <ng-template #noBranches><i>Keine Branchen angegeben</i></ng-template>
+              <ng-template #noBranches><i>Keine angegeben</i></ng-template>
             </app-profile-card-content>
           </app-profile-card>
         </div>
