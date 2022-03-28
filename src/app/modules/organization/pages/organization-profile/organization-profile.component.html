@@ -87,27 +87,5 @@
         <app-sash-content>{{ org.profile.vita }}</app-sash-content>
       </app-sash>
     </div>
-    <!-- TODO: Remove after demo  -->
-    <div class="px-4 lg:px-16 xl:px-28 2xl:px-32 3xl:px-64">
-      <ng-container *ngIf="org.id === '641f9cc8-2e10-4ad5-a5af-9370219e914a'">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          <div class="col-span-1">
-            <app-profile-projects-card [projects]="dummyAvailableProjects"></app-profile-projects-card>
-          </div>
-          <div class="col-span-1">
-            <app-profile-jobs-card [jobs]="dummyJobs"></app-profile-jobs-card>
-          </div>
-          <div class="lg:col-span-2">
-            <app-profile-project-history>
-              <app-profile-project-history-item
-                *ngFor="let item of dummyHistoryItems; let i = index"
-                [project]="item"
-                [position]="i"
-              ></app-profile-project-history-item>
-            </app-profile-project-history>
-          </div>
-        </div>
-      </ng-container>
-    </div>
   </div>
 </ng-container>
