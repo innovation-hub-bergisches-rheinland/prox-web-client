@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CompanyProfileService } from '@data/service/company-profile.service';
 import { OverviewItem } from '@modules/profile/pages/overview-page/overview-page.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

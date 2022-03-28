@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import { CompanyProfileService } from '@data/service/company-profile.service';
 import { Observable, forkJoin, from, of } from 'rxjs';
 import { JobService } from '@data/service/job.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
@@ -40,7 +39,6 @@ export class JobItemComponent implements OnInit, AfterViewInit {
 
   constructor(
     private professorService: ProfessorProfileService,
-    private companyService: CompanyProfileService,
     private jobService: JobService,
     private keycloakService: KeycloakService,
     private dialog: MatDialog,
@@ -86,10 +84,7 @@ export class JobItemComponent implements OnInit, AfterViewInit {
         });
         break;
       case 'COMPANY':
-        this.companyService.findCompanyByCreatorId(this.jobOffer.createdBy.userId).subscribe(res => {
-          this.creatorName$ = of(res.information.name);
-          this.creatorLink$ = of(`/companies/${res.id}`);
-        });
+        throw new Error('Not implemented yet');
         break;
     }
   }

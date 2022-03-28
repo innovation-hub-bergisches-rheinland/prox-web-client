@@ -12,7 +12,6 @@ import Autolinker from 'autolinker';
 import { TagService } from '@data/service/tag.service';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
-import { CompanyProfileService } from '@data/service/company-profile.service';
 import { ModuleType, Project, ProjectWithAssociations, Specialization } from '@data/schema/project-service.types';
 import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';

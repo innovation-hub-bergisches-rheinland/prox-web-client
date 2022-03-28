@@ -12,7 +12,6 @@ import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { TagService } from '@data/service/tag.service';
-import { CompanyProfileService } from '@data/service/company-profile.service';
 import { Project } from '@data/schema/project-service.types';
 import { ToastService } from '@modules/toast/toast.service';
 
