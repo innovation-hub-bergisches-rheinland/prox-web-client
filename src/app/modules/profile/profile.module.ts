@@ -18,7 +18,6 @@ import { ProfileProjectsCardComponent } from './components/profile-projects-card
 import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
 import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { LecturerPageComponent } from './pages/lecturer-page/lecturer-page.component';
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
@@ -51,7 +50,6 @@ import { ProfileSocialMediaCardComponent } from './components/profile-social-med
     ProfileJobsCardComponent,
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
-    ProfilePageComponent,
     LecturerPageComponent,
     ProfilePublicationsCardComponent,
     ProfileOverviewCardComponent,

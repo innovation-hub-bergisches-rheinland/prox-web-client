@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
-
-export interface AvailableProject {
-  readonly id: string;
-  readonly name: string;
-  readonly modules: string[];
-}
+import { Project, ProjectWithAssociations } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-profile-projects-card',
@@ -16,7 +11,7 @@ export interface AvailableProject {
 })
 export class ProfileProjectsCardComponent implements OnInit {
   @Input()
-  projects: AvailableProject[];
+  projects: ProjectWithAssociations[];
 
   faTask = faTasks;
 

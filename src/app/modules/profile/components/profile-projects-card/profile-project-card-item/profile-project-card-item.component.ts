@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ModuleType } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-profile-project-card-item',
@@ -12,10 +13,10 @@ export class ProfileProjectCardItemComponent implements OnInit {
   title: string;
 
   @Input()
-  modules: string[] = [];
+  modules: ModuleType[] = [];
 
   get modulesAsString(): string {
-    return `(${this.modules.join(' / ')})`;
+    return `(${this.modules.map(m => m.key).join(' / ')})`;
   }
 
   @Input()

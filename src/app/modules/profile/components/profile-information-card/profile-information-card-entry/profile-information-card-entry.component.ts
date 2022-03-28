@@ -13,7 +13,7 @@ export class ProfileInformationCardEntryComponent implements OnInit {
   value: string;
 
   @Input()
-  linkable = false;
+  linkable: boolean = false;
 
   constructor() {}
 

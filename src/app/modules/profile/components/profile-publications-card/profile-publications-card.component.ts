@@ -1,10 +1,7 @@
 import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Publication } from '@data/schema/openapi/professor-profile-service/models';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-
-export interface Publication {
-  readonly publication: string;
-}
 
 @Component({
   selector: 'app-profile-publications-card',

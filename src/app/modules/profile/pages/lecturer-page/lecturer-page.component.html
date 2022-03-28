@@ -1,10 +1,122 @@
-<app-profile-page
-  *ngIf="lecturer"
-  [profile]="lecturerProfile"
-  [sash]="lecturerSash"
-  [projectHistory]="projectHistory | async"
-  [availableProjects]="projects | async"
-  [availableJobs]="jobs | async"
-  [publications]="publications | async"
-  [showEditRow]="hasPermission"
-></app-profile-page>
+<ng-container *ngIf="lecturer$ | async; let lecturer">
+  <div *ngIf="hasPermission" class="sticky top-0 z-50 flex flex-row-reverse pb-4 px-4 lg:px-16 xl:px-32 2xl:px-64">
+    <button mat-raised-button color="primary" [routerLink]="'edit'"><mat-icon>edit</mat-icon> Bearbeiten</button>
+  </div>
+  <div class="flex flex-col gap-10 items-center justify-center">
+    <!-- Profile Information -->
+    <div class="px-4 lg:px-16 xl:px-28 2xl:px-32 3xl:px-64">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-flow-row-dense">
+        <div class="p-1 sm:p-2 md:p-4 xl:row-span-3">
+          <app-profile-avatar-card>
+            <app-avatar-card-title>{{ lecturer.name }}</app-avatar-card-title>
+            <app-avatar-card-subtitle *ngIf="faculty$ | async; let faculty">{{ faculty.name }}</app-avatar-card-subtitle>
+            <img
+              class="object-contain object-center mx-auto my-auto"
+              [src]="avatar$ | async"
+              avatar
+              alt="Avatar"
+              onerror="this.src='/assets/images/blank-profile-picture.png'"
+            />
+          </app-profile-avatar-card>
+        </div>
+        <div class="p-1 sm:p-2 md:p-4 md:col-span-2 lg:col-span-3">
+          <app-profile-information-card>
+            <app-profile-information-card-entry
+              title="Hochschulzugehörigkeit seit"
+              *ngIf="lecturer.affiliation"
+              [value]="lecturer.affiliation"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="Lehrgebiet"
+              *ngIf="lecturer.mainSubject"
+              [value]="lecturer.mainSubject"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="Standort, Raum"
+              *ngIf="lecturer.contactInformation.room"
+              [value]="lecturer.contactInformation.room"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="Telefonnummer"
+              *ngIf="lecturer.contactInformation.telephone"
+              [value]="lecturer.contactInformation.telephone"
+              [linkable]="true"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="E-Mail"
+              *ngIf="lecturer.contactInformation.email"
+              [value]="lecturer.contactInformation.email"
+              [linkable]="true"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="Homepage"
+              *ngIf="lecturer.contactInformation.homepage"
+              [value]="lecturer.contactInformation.homepage"
+              [linkable]="true"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="Sprechstunde"
+              *ngIf="lecturer.contactInformation.consultationHour"
+              [value]="lecturer.contactInformation.consultationHour"
+              [linkable]="true"
+            ></app-profile-information-card-entry>
+            <app-profile-information-card-entry
+              title="Personalseite"
+              *ngIf="lecturer.contactInformation.collegePage"
+              [value]="lecturer.contactInformation.collegePage"
+              [linkable]="true"
+            ></app-profile-information-card-entry>
+          </app-profile-information-card>
+        </div>
+        <div class="p-1 sm:p-2 md:p-4 sm:col-span-full xl:col-span-3">
+          <app-profile-card>
+            <app-profile-card-header [icon]="faBullseye">
+              <app-profile-card-title>Branchen und Tätigkeitsbereiche</app-profile-card-title>
+            </app-profile-card-header>
+            <app-profile-card-content *ngIf="lecturer.researchSubjects; let sub">
+              <ng-container *ngIf="sub.length > 0; else noBranches">
+                <mat-chip-list>
+                  <mat-chip *ngFor="let s of sub" selected>{{ s.subject }}</mat-chip>
+                </mat-chip-list>
+              </ng-container>
+              <ng-template #noBranches><i>Keine angegeben</i></ng-template>
+            </app-profile-card-content>
+          </app-profile-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shash / Vita -->
+    <div class="w-full" *ngIf="lecturer.vita && lecturer.vita.trim().length > 0">
+      <app-sash>
+        <app-sash-title>Werdegang</app-sash-title>
+        <app-sash-content>{{ lecturer.vita }}</app-sash-content>
+      </app-sash>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-16 xl:px-32 2xl:px-64 w-full">
+      <ng-container *ngIf="publications$ | async; let publications">
+        <div class="col-span-1 lg:col-span-2" *ngIf="publications.length > 0">
+          <app-profile-publications-card [publications]="publications"></app-profile-publications-card>
+        </div>
+      </ng-container>
+      <div class="col-span-full">
+        <div class="flex flex-row gap-4">
+          <ng-container *ngIf="projects$ | async; let projects">
+            <app-profile-projects-card class="w-full" [projects]="projects"></app-profile-projects-card>
+          </ng-container>
+          <ng-container *ngIf="jobs$ | async; let jobs">
+            <app-profile-jobs-card class="w-full" [jobs]="jobs"> </app-profile-jobs-card>
+          </ng-container>
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <ng-container *ngIf="projectHistory$ | async; let projectHistory">
+          <app-profile-project-history *ngIf="projectHistory && projectHistory.length > 0">
+            <app-profile-project-history-item *ngFor="let project of projectHistory" [project]="project"></app-profile-project-history-item>
+          </app-profile-project-history>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
