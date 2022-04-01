@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.6.3...v1.7.0) (2022-04-01)
+
+
+### Features
+
+* refactor organization roles and remove owner ([15e1512](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/15e151241f422cbf136c2d56bed7239fa5b5500f))
+
 ### [1.6.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.6.2...v1.6.3) (2022-03-28)
 
 ### [1.6.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.6.1...v1.6.2) (2022-03-28)
