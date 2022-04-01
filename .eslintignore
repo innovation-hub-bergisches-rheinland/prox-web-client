@@ -8,3 +8,4 @@ coverage
 __snapshots__
 CHANGELOG.md
 package-lock.json
+version.txt
