@@ -16,6 +16,8 @@ export class OrganizationMembershipsListComponent implements OnInit {
   memberships: OrganizationMembership[] = [];
   @Input()
   showControls: boolean = false;
+  @Input()
+  showAdminControls: boolean = false;
 
   @Output()
   onRemoveMembership = new EventEmitter<OrganizationMembership>();
@@ -30,8 +32,8 @@ export class OrganizationMembershipsListComponent implements OnInit {
     return this.memberships?.filter(m => m.role === 'MEMBER') ?? [];
   }
 
-  get owners(): OrganizationMembership[] {
-    return this.memberships?.filter(m => m.role === 'OWNER') ?? [];
+  get atLeastTwoAdmins(): boolean {
+    return this.administrators.length > 1;
   }
 
   constructor(private dialog: MatDialog) {}

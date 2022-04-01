@@ -22,6 +22,7 @@
           (onRemoveMembership)="removeMembership($event)"
           (onUpdateMembership)="updateMembership($event)"
           [showControls]="hasPermission"
+          [showAdminControls]="hasPermission"
         ></app-organization-memberships-list>
       </mat-card-content>
     </mat-card>

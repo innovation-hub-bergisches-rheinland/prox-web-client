@@ -1,7 +1,7 @@
 export type OrganizationId = string;
 export type UserId = string;
 
-export type OrganizationRole = 'MEMBER' | 'ADMIN' | 'OWNER';
+export type OrganizationRole = 'MEMBER' | 'ADMIN';
 
 export interface UserSearchResult {
   id: UserId;

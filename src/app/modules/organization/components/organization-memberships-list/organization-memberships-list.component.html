@@ -1,15 +1,10 @@
 <mat-list>
-  <div mat-subheader>Eigentümer</div>
-  <mat-list-item *ngFor="let owner of owners">
-    <mat-icon mat-list-icon>person</mat-icon>
-    <div>{{ owner.name }}</div>
-  </mat-list-item>
   <mat-divider></mat-divider>
   <div mat-subheader>Administratoren ({{ administrators.length }})</div>
   <mat-list-item *ngFor="let administrator of administrators">
     <mat-icon mat-list-icon>person</mat-icon>
     <div class="flex-grow">{{ administrator.name }}</div>
-    <ng-container *ngIf="showControls">
+    <ng-container *ngIf="showAdminControls && atLeastTwoAdmins">
       <button mat-icon-button (click)="editMembership(administrator)" matTooltip="Mitgliedschaft bearbeiten">
         <mat-icon>edit</mat-icon>
       </button>
