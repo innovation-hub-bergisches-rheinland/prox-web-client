@@ -2,8 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "alwaysStrict": true,
-    // TODO: Necessary for keycloak-angular v9 - disable when the
-    // issue https://github.com/keycloak/keycloak/issues/9045 is resolved
+    // TODO: Disable when update to keycloak-js 17 is possible:
+    // https://github.com/mauriciovigolo/keycloak-angular/issues/385
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "downlevelIteration": true,
