@@ -15,6 +15,9 @@ export class ProfileHeaderCardComponent implements OnInit {
   @Input()
   showEdit: boolean;
 
+  @Input()
+  roundedAvatar: boolean = true;
+
   constructor() {}
 
   ngOnInit(): void {}
