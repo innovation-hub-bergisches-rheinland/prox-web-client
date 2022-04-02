@@ -31,6 +31,7 @@ import { ProfileAvatarCardSubtitleDirective } from '@modules/profile/components/
 import { SashContentDirective } from '@modules/profile/components/sash/sash-content.directive';
 import { SashTitleDirective } from '@modules/profile/components/sash/sash-title.directive';
 import { ProfileSocialMediaCardComponent } from './components/profile-social-media-card/profile-social-media-card.component';
+import { ProfileHeaderCardComponent } from './components/profile-header-card/profile-header-card.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ProfileSocialMediaCardComponent } from './components/profile-social-med
     ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
     ProfileAvatarCardSubtitleDirective,
-    ProfileSocialMediaCardComponent
+    ProfileSocialMediaCardComponent,
+    ProfileHeaderCardComponent
   ],
   exports: [
     SashComponent,
@@ -85,7 +87,8 @@ import { ProfileSocialMediaCardComponent } from './components/profile-social-med
     ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
     ProfileAvatarCardSubtitleDirective,
-    ProfileSocialMediaCardComponent
+    ProfileSocialMediaCardComponent,
+    ProfileHeaderCardComponent
   ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule]
 })

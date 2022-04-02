@@ -1,0 +1,12 @@
+<div class="mx-auto max-w-screen-lg">
+  <div>
+    <app-profile-header-card
+      *ngIf="user$ | async; let user; else: loading"
+      [title]="user.name"
+      [imageSrc]="avatar"
+      [showEdit]="isOwnProfile"
+    >
+    </app-profile-header-card>
+  </div>
+  <ng-template #loading> Loading... </ng-template>
+</div>

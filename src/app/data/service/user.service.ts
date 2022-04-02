@@ -182,7 +182,7 @@ export class UserService {
     });
   }
 
-  getUserAvatar(id: string): Observable<string> {
-    return of(`${this.basePath}/users/${id}/avatar`);
+  getUserAvatar(id: string): string {
+    return `${this.basePath}/users/${id}/avatar`;
   }
 }
