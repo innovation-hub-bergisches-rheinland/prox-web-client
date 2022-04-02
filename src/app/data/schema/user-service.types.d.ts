@@ -48,6 +48,7 @@ export interface UserProfile {
   contactInformation: ContactInformation;
   subjects: string[];
   publications: string[];
+  vita: string;
 }
 
 export interface ContactInformation {

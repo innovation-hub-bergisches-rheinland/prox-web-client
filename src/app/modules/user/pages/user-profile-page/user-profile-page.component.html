@@ -1,12 +1,10 @@
 <div class="mx-auto max-w-screen-lg">
-  <div>
-    <app-profile-header-card
-      *ngIf="user$ | async; let user; else: loading"
-      [title]="user.name"
-      [imageSrc]="avatar"
-      [showEdit]="isOwnProfile"
-    >
-    </app-profile-header-card>
+  <div class="flex flex-col gap-4" *ngIf="user$ | async; let user; else: loading">
+    <app-profile-header-card [title]="user.name" [imageSrc]="avatar" [showEdit]="isOwnProfile"> </app-profile-header-card>
+    <app-sash class="mx-0" *ngIf="user.vita">
+      <app-sash-title>Werdegang</app-sash-title>
+      <app-sash-content>{{ user.vita }}</app-sash-content>
+    </app-sash>
   </div>
   <ng-template #loading> Loading... </ng-template>
 </div>
