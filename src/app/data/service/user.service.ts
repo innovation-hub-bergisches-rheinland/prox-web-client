@@ -6,11 +6,13 @@ import { Project } from '@data/schema/project-service.types';
 import {
   CreateOrganizationMembership,
   CreateOrganizationSchema,
+  CreateUserProfileSchema,
   Organization,
   OrganizationMembership,
   OrganizationMembershipWrapper,
   OrganizationRole,
   UpdateOrganizationMembership,
+  UserProfile,
   UserSearchResult
 } from '@data/schema/user-service.types';
 
@@ -145,5 +147,42 @@ export class UserService {
       observe: 'body',
       reportProgress: false
     });
+  }
+
+  getUserProfile(id: string): Observable<UserProfile> {
+    return this.httpClient.get<UserProfile>(`${this.basePath}/users/${id}/profile`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  createUserProfile(id: string, profile: CreateUserProfileSchema): Observable<UserProfile> {
+    return this.httpClient.post<UserProfile>(`${this.basePath}/users/${id}/profile`, profile, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setUserAvatar(id: string, avatar: File): Observable<any> {
+    const formParams = new FormData();
+    formParams.set('file', avatar);
+    return this.httpClient.post<any>(`${this.basePath}/users/${id}/avatar`, formParams, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  getUserAvatar(id: string): Observable<string> {
+    return of(`${this.basePath}/users/${id}/avatar`);
   }
 }

@@ -41,6 +41,24 @@ export interface SocialMedia {
   youtubeHandle: string;
 }
 
+export interface UserProfile {
+  name: string;
+  affiliation: string;
+  mainSubject: string;
+  contactInformation: ContactInformation;
+  subjects: string[];
+  publications: string[];
+}
+
+export interface ContactInformation {
+  room: string;
+  consultationHour: string;
+  email: string;
+  telephone: string;
+  homepage: string;
+  collegePage: string;
+}
+
 export interface OrganizationMembershipWrapper {
   members: OrganizationMembership[];
 }
@@ -65,3 +83,4 @@ export interface GetOrganizationsWrapper {
 }
 
 export type CreateOrganizationSchema = Omit<Organization, 'id' | 'permissions'>;
+export type CreateUserProfileSchema = UserProfile;
