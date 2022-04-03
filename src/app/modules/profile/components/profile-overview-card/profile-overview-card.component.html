@@ -1,29 +1,18 @@
 <div
-  class="max-w-sm min-w-full h-full overflow-hidden flex flex-col items-center bg-white p-4 rounded shadow-lg cursor-pointer"
   [routerLink]="href"
+  class="max-w-sm min-w-full h-full overflow-hidden flex flex-col items-center bg-white p-4 rounded shadow-lg cursor-pointer"
 >
   <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-32 w-32">
     <img
-      class="h-full w-full object-cover"
-      [src]="imgSrc"
       (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
+      [src]="imgSrc"
       alt="Profile avatar"
+      class="h-full w-full object-cover"
     />
   </div>
 
-  <h2 class="mt-4 font-bold text-xl">{{ title }}</h2>
-  <h6 class="mt-2 text-sm font-medium">{{ subtitle || '' }}</h6>
-
-  <div class="flex flex-row space-x-2 mb-2 mt-auto">
-    <span class="flex items-center justify-center h-8 w-8 text-gray-800 border-gray-800" matTooltip="Verfügbare Projekte">
-      <mat-icon>lock_open</mat-icon>
-      {{ numAvailableProjects }}
-    </span>
-    <span class="flex items-center justify-center h-8 w-8 text-gray-800 border-gray-800" matTooltip="Laufende Projekte">
-      <mat-icon>directions_run</mat-icon>{{ numRunningProjects }}
-    </span>
-    <span class="flex items-center justify-center h-8 w-8 text-gray-800 border-gray-800" matTooltip="Abgeschlossene Projekte">
-      <mat-icon>lock</mat-icon>{{ numFinishedProjects }}
-    </span>
+  <h1 class="mt-4 font-bold text-xl">{{ title }}</h1>
+  <div class="mt-2 mx-6 border-t w-full text-center">
+    <h2 class="mt-2">{{ subtitle || '' }}</h2>
   </div>
 </div>
