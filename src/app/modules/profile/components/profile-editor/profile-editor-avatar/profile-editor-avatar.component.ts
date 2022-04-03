@@ -2,24 +2,24 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-organization-editor-avatar',
-  templateUrl: './organization-editor-avatar.component.html',
-  styleUrls: ['./organization-editor-avatar.component.scss']
+  selector: 'app-profile-editor-avatar',
+  templateUrl: './profile-editor-avatar.component.html',
+  styleUrls: ['./profile-editor-avatar.component.scss']
 })
-export class OrganizationEditorAvatarComponent implements OnInit {
+export class ProfileEditorAvatarComponent implements OnInit {
   @Input()
-  organizationAvatarFormGroup: FormGroup;
+  avatarFormGroup: FormGroup;
 
   imgSrc: string | ArrayBuffer;
 
   constructor() {}
 
   ngOnInit(): void {
-    const avatarFormControl = this.organizationAvatarFormGroup.controls['avatar'];
+    const avatarFormControl = this.avatarFormGroup.controls['avatar'];
     if (avatarFormControl.value) {
       this.imgSrc = avatarFormControl.value;
     }
-    this.organizationAvatarFormGroup.controls['avatar'].valueChanges.subscribe({
+    this.avatarFormGroup.controls['avatar'].valueChanges.subscribe({
       next: value => {
         this.imgSrc = value;
       }
@@ -29,7 +29,7 @@ export class OrganizationEditorAvatarComponent implements OnInit {
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.organizationAvatarFormGroup.patchValue({
+      this.avatarFormGroup.patchValue({
         avatar: file
       });
       const reader = new FileReader();
