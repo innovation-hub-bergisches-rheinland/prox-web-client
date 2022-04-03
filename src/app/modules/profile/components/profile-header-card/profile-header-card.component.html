@@ -8,7 +8,7 @@
         [ngClass]="{ 'rounded-full': roundedAvatar }"
         class="-mt-20 h-40 w-40 flex-shrink-0 border-4 border-white overflow-hidden bg-white"
       >
-        <img [src]="imageSrc" class="h-full w-full object-contain" onerror="this.src='/assets/images/blank-profile-picture.png'" />
+        <img [src]="imageSrc" class="h-full w-full object-cover" onerror="this.src='/assets/images/blank-profile-picture.png'" />
       </div>
       <div>
         <h1>{{ title }}</h1>
