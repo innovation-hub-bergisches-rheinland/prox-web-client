@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.7.1...v1.8.0) (2022-04-03)
+
+
+### Features
+
+* add a profile header card ([768759b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/768759b302cf03e78f60e2e2856b2fbf63b86e7d))
+* add chips for research subjects ([33bb10d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/33bb10d2e36fdfd77fe945f32807017b407d9f31))
+* add overview page for user profiles ([3467820](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3467820831b3bf06b26a1c9eb7706b11dea239f0))
+* add project overview to user profile ([fd77190](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fd7719078b80d0ccd165ca5b0d5882f280814519))
+* add publications to user profile ([a823d21](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a823d21a917b5142cbfaf91129f4ece7bd0bdef1))
+* add sash to user profile page ([aedb86d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/aedb86d2fa8fc10bd312341434f8dfdf05f63ef5))
+* add user profile editor ([861af7c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/861af7ca74defc53674acc6130de415655b80f87))
+* add user profile information ([92f4a38](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/92f4a38b31419f8df4bd206ec47c33c541f05620))
+* migrate org profiles to new design ([78c6570](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/78c6570292ae0d5c179ef6d2d250e6acc44caeef))
+
+
+### Bug Fixes
+
+* banner resize ([d147a60](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d147a60d7a33ba4a2955cbb34748076f346d31dd))
+* fix typing ([5df563e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5df563e18a82982b4530a8e7ddeffa8ea73513a4))
+
 ### [1.7.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.7.0...v1.7.1) (2022-04-01)
 
 ## [1.7.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.6.3...v1.7.0) (2022-04-01)
