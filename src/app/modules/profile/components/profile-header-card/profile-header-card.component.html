@@ -16,7 +16,7 @@
         </mat-chip-list>
       </div>-->
       <a class="ml-auto" *ngIf="showEdit">
-        <button>
+        <button (click)="onEditClicked.emit($event)">
           <mat-icon class="mx-4">edit</mat-icon>
         </button>
       </a>

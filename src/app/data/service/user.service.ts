@@ -1,8 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Project } from '@data/schema/project-service.types';
 import {
   CreateOrganizationMembership,
   CreateOrganizationSchema,
@@ -173,16 +172,14 @@ export class UserService {
   setUserAvatar(id: string, avatar: File): Observable<any> {
     const formParams = new FormData();
     formParams.set('file', avatar);
-    return this.httpClient.post<any>(`${this.basePath}/users/${id}/avatar`, formParams, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
+    return this.httpClient.post<any>(`${this.basePath}/users/${id}/profile/avatar`, formParams, {
+      headers: {},
       observe: 'body',
       reportProgress: false
     });
   }
 
   getUserAvatar(id: string): string {
-    return `${this.basePath}/users/${id}/avatar`;
+    return `${this.basePath}/users/${id}/profile/avatar`;
   }
 }

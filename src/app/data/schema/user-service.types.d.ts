@@ -41,6 +41,7 @@ export interface SocialMedia {
   youtubeHandle: string;
 }
 
+// TODO: Add id?
 export interface UserProfile {
   name: string;
   affiliation?: string;

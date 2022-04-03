@@ -6,6 +6,7 @@
       [showEdit]="isOwnProfile"
       [tags]="user.subjects"
       [roundedAvatar]="true"
+      (onEditClicked)="editProfile(user)"
     ></app-profile-header-card>
     <app-profile-information-card>
       <app-profile-information-card-entry

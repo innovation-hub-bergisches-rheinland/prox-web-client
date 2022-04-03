@@ -1,0 +1,111 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.types';
+import { UserService } from '@data/service/user.service';
+import { forkJoin, mergeMap, of } from 'rxjs';
+import { KeycloakService } from 'keycloak-angular';
+
+@Component({
+  selector: 'app-user-profile-editor',
+  templateUrl: './user-profile-editor.component.html',
+  styleUrls: ['./user-profile-editor.component.scss']
+})
+export class UserProfileEditorComponent implements OnInit {
+  userProfileInformationForm = this.fb.group({
+    name: ['', Validators.required],
+    homepage: [''],
+    email: ['', Validators.email],
+    telephone: [''],
+    collegePage: [''],
+    vita: ['']
+  });
+  userProfileAdditionalInformationForm = this.fb.group({
+    affiliation: [''],
+    mainSubject: [''],
+    room: [''],
+    consultationHour: [''],
+    subjects: [[]]
+  });
+  userProfileAvatarFormGroup = this.fb.group({
+    avatar: ['']
+  });
+
+  @Output()
+  onSaved = new EventEmitter<UserProfile>();
+
+  @Input()
+  userProfile: UserProfile;
+
+  @Input()
+  id: string;
+
+  constructor(private fb: FormBuilder, private userService: UserService, private keycloakService: KeycloakService) {}
+
+  async ngOnInit(): Promise<void> {
+    this.setFormValues(this.userProfile);
+  }
+
+  saveUserProfile() {
+    const userProfile = this.buildUserProfile();
+    const avatar = this.userProfileAvatarFormGroup.controls['avatar'].value as File;
+
+    this.userService
+      .createUserProfile(this.id, userProfile)
+      .pipe(
+        mergeMap(profile =>
+          forkJoin({
+            profile: of(profile),
+            avatar: avatar && typeof avatar !== 'string' ? this.userService.setUserAvatar(this.id, avatar) : of(null)
+          })
+        )
+      )
+      .subscribe({
+        next: value => {
+          this.onSaved.emit(value.profile);
+        },
+        error: err => console.log(err)
+      });
+  }
+
+  buildUserProfile(): CreateUserProfileSchema {
+    return {
+      name: this.userProfileInformationForm.controls['name'].value,
+      vita: this.userProfileInformationForm.controls['vita'].value ?? null,
+      affiliation: this.userProfileAdditionalInformationForm.controls['affiliation'].value ?? null,
+      mainSubject: this.userProfileAdditionalInformationForm.controls['mainSubject'].value ?? null,
+      subjects: this.userProfileAdditionalInformationForm.controls['subjects'].value ?? null,
+      contactInformation: {
+        email: this.userProfileInformationForm.controls['email'].value ?? null,
+        collegePage: this.userProfileInformationForm.controls['collegePage'].value ?? null,
+        homepage: this.userProfileInformationForm.controls['homepage'].value ?? null,
+        room: this.userProfileAdditionalInformationForm.controls['room'].value ?? null,
+        telephone: this.userProfileInformationForm.controls['telephone'].value ?? null,
+        consultationHour: this.userProfileAdditionalInformationForm.controls['consultationHour'].value ?? null
+      }
+    };
+  }
+
+  setFormValues(userProfile: UserProfile) {
+    this.userProfileInformationForm.patchValue({
+      name: userProfile.name,
+      homepage: userProfile.contactInformation?.homepage,
+      contactEmail: userProfile.contactInformation?.email,
+      collegePage: userProfile.contactInformation?.collegePage,
+      vita: userProfile.vita,
+      telephone: userProfile.contactInformation?.telephone
+    });
+    this.userProfileAdditionalInformationForm.patchValue({
+      affiliation: userProfile.affiliation,
+      mainSubject: userProfile.mainSubject,
+      room: userProfile.contactInformation?.room,
+      consultationHour: userProfile.contactInformation?.consultationHour,
+      subjects: userProfile.subjects
+    });
+    /*this.userService.getUserAvatar(userProfile).subscribe({
+      next: value =>
+        this.userProfileAvatarFormGroup.patchValue({
+          avatar: value
+        })
+    });*/
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-profile-header-card',
@@ -20,6 +20,9 @@ export class ProfileHeaderCardComponent implements OnInit {
 
   @Input()
   tags: string[] = [];
+
+  @Output()
+  onEditClicked = new EventEmitter<MouseEvent>();
 
   constructor() {}
 

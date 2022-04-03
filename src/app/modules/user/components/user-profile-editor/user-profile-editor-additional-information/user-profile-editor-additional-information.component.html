@@ -1,0 +1,27 @@
+<form [formGroup]="userProfileAdditionalInformationForm" class="flex flex-col">
+  <mat-form-field appearance="outline">
+    <mat-label>Hochschulzugehörigkeit seit</mat-label>
+    <input formControlName="affiliation" matInput maxlength="255" placeholder="Hochschulzugehörigkeit seit" />
+    <mat-hint align="end"> {{ userProfileAdditionalInformationForm.controls['affiliation'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Lehrgebiet</mat-label>
+    <input formControlName="mainSubject" matInput maxlength="255" placeholder="Lehrgebiet" />
+    <mat-hint align="end"> {{ userProfileAdditionalInformationForm.controls['mainSubject'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Standort, Raum</mat-label>
+    <input formControlName="room" matInput maxlength="255" placeholder="Standort, Raum" />
+    <mat-hint align="end"> {{ userProfileAdditionalInformationForm.controls['room'].value?.length || 0 }}/255 </mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Sprechstunde</mat-label>
+    <input formControlName="consultationHour" matInput maxlength="255" placeholder="consultationHour" />
+    <mat-hint align="end">
+      {{ userProfileAdditionalInformationForm.controls['consultationHour'].value?.length || 0 }}
+      /255
+    </mat-hint>
+  </mat-form-field>
+  <app-simple-chip-input formControlName="subjects" placeholder="Forschungsgebiete" title="Forschungsgebiete"></app-simple-chip-input>
+  <!-- TODO: Publications -->
+</form>
