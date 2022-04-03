@@ -1,18 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Observable, concat, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { Tag } from '@data/schema/tag.resource';
-import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
-import Autolinker from 'autolinker';
 import { TagService } from '@data/service/tag.service';
-import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
-import { ModuleType, Project, ProjectWithAssociations, Specialization } from '@data/schema/project-service.types';
+import { ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
