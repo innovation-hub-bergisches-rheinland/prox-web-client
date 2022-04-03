@@ -14,7 +14,7 @@ export const environment: Environment = {
   features: {
     jobs: false,
     organizations: true,
-    user: false,
+    user: true,
     projects: true,
     partners: false
   }
