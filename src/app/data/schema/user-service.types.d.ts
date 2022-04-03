@@ -52,6 +52,12 @@ export interface UserProfile {
   vita?: string;
 }
 
+export interface UserProfileBriefCollection {
+  profiles: BriefUserProfile[];
+}
+
+export type BriefUserProfile = { id: string } & Pick<UserProfile, 'name' | 'mainSubject'>;
+
 export interface ContactInformation {
   room?: string;
   consultationHour?: string;

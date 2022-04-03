@@ -12,6 +12,7 @@ import {
   OrganizationRole,
   UpdateOrganizationMembership,
   UserProfile,
+  UserProfileBriefCollection,
   UserSearchResult
 } from '@data/schema/user-service.types';
 
@@ -181,5 +182,15 @@ export class UserService {
 
   getUserAvatar(id: string): string {
     return `${this.basePath}/users/${id}/profile/avatar`;
+  }
+
+  getUserProfiles(): Observable<UserProfileBriefCollection> {
+    return this.httpClient.get<UserProfileBriefCollection>(`${this.basePath}/users/profiles`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
   }
 }

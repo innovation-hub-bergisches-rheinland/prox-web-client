@@ -1,0 +1,18 @@
+<app-content-page>
+  <app-content-page-header>
+    <app-content-page-title>Lehrende</app-content-page-title>
+  </app-content-page-header>
+  <app-content-page-content>
+    <div *ngIf="profiles$ | async; let profiles" class="flex flex-row items-stretch flex-wrap gap-5 mt-2">
+      <app-profile-overview-card
+        *ngFor="let profile of profiles"
+        [href]="'/users/' + profile.id"
+        [imgSrc]="getAvatarUrl(profile.id)"
+        [subtitle]="profile.mainSubject"
+        [title]="profile.name"
+        class="flex-grow flex-shrink-0 basis-0"
+      >
+      </app-profile-overview-card>
+    </div>
+  </app-content-page-content>
+</app-content-page>
