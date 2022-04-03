@@ -29,6 +29,9 @@ export class UserProfileEditorComponent implements OnInit {
   userProfileAvatarFormGroup = this.fb.group({
     avatar: ['']
   });
+  userProfilePublicationFormGroup = this.fb.group({
+    publications: [[]]
+  });
 
   @Output()
   onSaved = new EventEmitter<UserProfile>();
@@ -74,6 +77,7 @@ export class UserProfileEditorComponent implements OnInit {
       affiliation: this.userProfileAdditionalInformationForm.controls['affiliation'].value ?? null,
       mainSubject: this.userProfileAdditionalInformationForm.controls['mainSubject'].value ?? null,
       subjects: this.userProfileAdditionalInformationForm.controls['subjects'].value ?? null,
+      publications: this.userProfilePublicationFormGroup.controls['publications'].value ?? null,
       contactInformation: {
         email: this.userProfileInformationForm.controls['email'].value ?? null,
         collegePage: this.userProfileInformationForm.controls['collegePage'].value ?? null,
@@ -100,6 +104,9 @@ export class UserProfileEditorComponent implements OnInit {
       room: userProfile.contactInformation?.room,
       consultationHour: userProfile.contactInformation?.consultationHour,
       subjects: userProfile.subjects
+    });
+    this.userProfilePublicationFormGroup.patchValue({
+      publications: userProfile.publications
     });
     /*this.userService.getUserAvatar(userProfile).subscribe({
       next: value =>

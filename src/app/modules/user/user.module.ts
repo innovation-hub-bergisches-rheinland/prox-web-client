@@ -9,6 +9,7 @@ import { UserProfileEditorDialogComponent } from '@modules/user/components/user-
 import { UserProfileEditorComponent } from '@modules/user/components/user-profile-editor/user-profile-editor.component';
 import { UserProfileEditorInformationComponent } from './components/user-profile-editor/user-profile-editor-information/user-profile-editor-information.component';
 import { UserProfileEditorAdditionalInformationComponent } from '@modules/user/components/user-profile-editor/user-profile-editor-additional-information/user-profile-editor-additional-information.component';
+import { UserProfileEditorPublicationsComponent } from '@modules/user/components/user-profile-editor/user-profile-editor-publications/user-profile-editor-publications.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { UserProfileEditorAdditionalInformationComponent } from '@modules/user/c
     UserProfileEditorDialogComponent,
     UserProfileEditorComponent,
     UserProfileEditorInformationComponent,
-    UserProfileEditorAdditionalInformationComponent
+    UserProfileEditorAdditionalInformationComponent,
+    UserProfileEditorPublicationsComponent
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule, ProfileModule]
 })

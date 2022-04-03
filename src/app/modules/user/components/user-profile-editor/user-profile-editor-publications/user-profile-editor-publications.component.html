@@ -1,0 +1,74 @@
+<form [formGroup]="userProfilePublicationsForm" class="flex flex-col">
+  <mat-list role="list">
+    <mat-list-item *ngFor="let publication of userProfilePublicationsForm.controls['publications'].value; let i = index">
+      <mat-icon mat-list-icon>book</mat-icon>
+      <div class="flex-grow">{{ publication }}</div>
+      <ng-container>
+        <button (click)="removePublication(i)" mat-icon-button matTooltip="Publikation entfernen">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-container>
+    </mat-list-item>
+  </mat-list>
+  <mat-form-field appearance="outline">
+    <mat-label>Publikation hinzufügen</mat-label>
+    <textarea
+      [formControl]="publicationInput"
+      cdkAutosizeMaxRows="30"
+      cdkAutosizeMinRows="3"
+      cdkTextareaAutosize
+      matInput
+      maxlength="1023"
+      minlength="1"
+      placeholder="Publikation"
+    >
+    </textarea>
+    <button
+      (click)="addPublication(publicationInput.value)"
+      [disabled]="publicationInput.value.length === 0 || publicationInput.invalid"
+      mat-icon-button
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-hint align="end"> {{ publicationInput.value?.length || 0 }}/1023</mat-hint>
+  </mat-form-field>
+  <!--<mat-form-field appearance='outline'>
+    <mat-label>Name</mat-label>
+    <input formControlName='name' matInput maxlength='255' placeholder='Name' required />
+    <mat-hint align='end'> {{ userProfileInformationForm.controls['name'].value?.length || 0 }}/255</mat-hint>
+    <mat-error *ngIf="userProfileInformationForm.controls['name'].hasError('required')"> Name <strong>fehlt</strong>!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance='outline'>
+    <mat-label>Homepage</mat-label>
+    <input formControlName='homepage' matInput maxlength='255' placeholder='Homepage' />
+    <mat-hint align='end'> {{ userProfileInformationForm.controls['homepage'].value?.length || 0 }}/255</mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance='outline'>
+    <mat-label>E-Mail</mat-label>
+    <input formControlName='email' matInput maxlength='255' placeholder='E-Mail' />
+    <mat-hint align='end'> {{ userProfileInformationForm.controls['email'].value?.length || 0 }}/255</mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance='outline'>
+    <mat-label>Telefon</mat-label>
+    <input formControlName='email' matInput maxlength='255' placeholder='Telefon' />
+    <mat-hint align='end'> {{ userProfileInformationForm.controls['telephone'].value?.length || 0 }}/255</mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance='outline'>
+    <mat-label>Personalseite der Hochschule</mat-label>
+    <input formControlName='collegePage' matInput maxlength='255' placeholder='Personalseite der Hochschule' />
+    <mat-hint align='end'> {{ userProfileInformationForm.controls['collegePage'].value?.length || 0 }}/255</mat-hint>
+  </mat-form-field>
+  <mat-form-field appearance='outline'>
+    <mat-label>Werdegang</mat-label>
+    <textarea
+      cdkAutosizeMaxRows='30'
+      cdkAutosizeMinRows='5'
+      cdkTextareaAutosize
+      formControlName='vita'
+      matInput
+      matInput
+      placeholder='Werdegang'
+    ></textarea>
+  </mat-form-field>-->
+</form>

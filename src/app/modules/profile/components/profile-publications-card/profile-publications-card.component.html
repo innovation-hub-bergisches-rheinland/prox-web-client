@@ -4,11 +4,11 @@
   </app-profile-card-header>
   <app-profile-card-content>
     <div *ngFor="let publication of publications | slice: 0:limit; let i = index">
-      <p [innerHTML]="publication.publication | linky"></p>
-      <button color="accent" mat-button *ngIf="i === limit - 1 && limit < publications.length" (click)="limit = publications.length">
+      <p [innerHTML]="publication | linky"></p>
+      <button (click)="limit = publications.length" *ngIf="i === limit - 1 && limit < publications.length" color="accent" mat-button>
         Mehr anzeigen
       </button>
-      <button color="accent" mat-button *ngIf="i === limit - 1 && limit >= publications.length" (click)="limit = 10">
+      <button (click)="limit = 10" *ngIf="i === limit - 1 && limit >= publications.length" color="accent" mat-button>
         Weniger anzeigen
       </button>
     </div>

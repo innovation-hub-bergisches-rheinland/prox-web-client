@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '@data/service/project.service';
 import { JobService } from '@data/service/job.service';
-import { catchError, map, mergeMap, tap, toArray } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Professor } from '@data/schema/openapi/professor-profile-service/professor';
 import { ProfessorProfileService } from '@data/service/professor-profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import { ToastService } from '@modules/toast/toast.service';
 import { Faculty } from '@data/schema/openapi/professor-profile-service/faculty';
 import { ProjectWithAssociations } from '@data/schema/project-service.types';
-import { Publication } from '@data/schema/openapi/professor-profile-service/publication';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 
@@ -26,7 +25,7 @@ export class LecturerPageComponent implements OnInit {
   projects$: Observable<ProjectWithAssociations[]>;
   jobs$: Observable<JobOffer[]>;
   projectHistory$: Observable<ProjectHistoryItem[]>;
-  publications$: Observable<Publication[]>;
+  publications$: Observable<string[]>;
   avatar$: Observable<string>;
   hasPermission = false;
   faBullseye = faBullseye;
@@ -73,7 +72,7 @@ export class LecturerPageComponent implements OnInit {
               throw err;
             })
           );
-          this.publications$ = this.lecturer$.pipe(map(l => l.publications));
+          this.publications$ = this.lecturer$.pipe(map(l => l.publications.map(p => p.publication)));
           this.avatar$ = of(this.professorService.getProfessorImageUrl(id));
           this.faculty$ = this.professorService.getProfessorFaculty(id).pipe(catchError(() => of({ name: '' })));
 

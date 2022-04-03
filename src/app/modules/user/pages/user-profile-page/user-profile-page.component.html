@@ -59,6 +59,10 @@
       <app-sash-title>Werdegang</app-sash-title>
       <app-sash-content>{{ user.vita }}</app-sash-content>
     </app-sash>
+    <app-profile-publications-card
+      *ngIf="user.publications && user.publications.length > 0"
+      [publications]="user.publications"
+    ></app-profile-publications-card>
     <ng-container *ngIf="offeredProjects$ | async; let projects">
       <app-profile-projects-card [projects]="projects" class="w-full"></app-profile-projects-card>
     </ng-container>
