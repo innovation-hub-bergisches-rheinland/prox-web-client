@@ -56,11 +56,11 @@
       ></app-profile-information-card-entry>
     </app-profile-information-card>
   </div>
-  <app-sash *ngIf="user.vita" class="mx-0">
+  <app-sash *ngIf="user.vita" class="mt-4">
     <app-sash-title>Werdegang</app-sash-title>
     <app-sash-content>{{ user.vita }}</app-sash-content>
   </app-sash>
-  <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
+  <div class="mx-auto max-w-screen-lg flex flex-col gap-4 mt-4">
     <app-profile-publications-card
       *ngIf="user.publications && user.publications.length > 0"
       [publications]="user.publications"

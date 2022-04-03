@@ -1,57 +1,59 @@
 <ng-container *ngIf="organization$ | async; let org">
-  <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
-    <app-profile-header-card
-      [imageSrc]="avatar$ | async"
-      [roundedAvatar]="false"
-      [tags]="org.profile.branches"
-      [title]="org.name"
-    ></app-profile-header-card>
-    <app-profile-social-media-card
-      *ngIf="org.profile.socialMedia; let socialMedia"
-      [facebookHandle]="socialMedia.facebookHandle"
-      [instagramHandle]="socialMedia.instagramHandle"
-      [linkedInHandle]="socialMedia.linkedInHandle"
-      [twitterHandle]="socialMedia.twitterHandle"
-      [xingHandle]="socialMedia.xingHandle"
-      [youtubeHandle]="socialMedia.youtubeHandle"
-    ></app-profile-social-media-card>
-    <app-profile-information-card>
-      <app-profile-information-card-entry
-        *ngIf="org.profile.numberOfEmployees"
-        [value]="org.profile.numberOfEmployees"
-        title="Anzahl Mitarbeiter"
-      ></app-profile-information-card-entry>
-      <app-profile-information-card-entry
-        *ngIf="org.profile.foundingDate"
-        [value]="org.profile.foundingDate"
-        title="Gründungsdatum"
-      ></app-profile-information-card-entry>
-      <app-profile-information-card-entry
-        *ngIf="org.profile.headquarter"
-        [value]="org.profile.headquarter"
-        title="Hauptsitz"
-      ></app-profile-information-card-entry>
-      <app-profile-information-card-entry
-        *ngIf="org.profile.quarters"
-        [value]="org.profile.quarters"
-        title="Weitere Standorte"
-      ></app-profile-information-card-entry>
-      <app-profile-information-card-entry
-        *ngIf="org.profile.homepage"
-        [linkable]="true"
-        [value]="org.profile.homepage"
-        title="Homepage"
-      ></app-profile-information-card-entry>
-      <app-profile-information-card-entry
-        *ngIf="org.profile.contactEmail"
-        [linkable]="true"
-        [value]="org.profile.contactEmail"
-        title="Kontakt"
-      ></app-profile-information-card-entry>
-    </app-profile-information-card>
+  <div>
+    <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
+      <app-profile-header-card
+        [imageSrc]="avatar$ | async"
+        [roundedAvatar]="false"
+        [tags]="org.profile.branches"
+        [title]="org.name"
+      ></app-profile-header-card>
+      <app-profile-social-media-card
+        *ngIf="org.profile.socialMedia; let socialMedia"
+        [facebookHandle]="socialMedia.facebookHandle"
+        [instagramHandle]="socialMedia.instagramHandle"
+        [linkedInHandle]="socialMedia.linkedInHandle"
+        [twitterHandle]="socialMedia.twitterHandle"
+        [xingHandle]="socialMedia.xingHandle"
+        [youtubeHandle]="socialMedia.youtubeHandle"
+      ></app-profile-social-media-card>
+      <app-profile-information-card>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.numberOfEmployees"
+          [value]="org.profile.numberOfEmployees"
+          title="Anzahl Mitarbeiter"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.foundingDate"
+          [value]="org.profile.foundingDate"
+          title="Gründungsdatum"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.headquarter"
+          [value]="org.profile.headquarter"
+          title="Hauptsitz"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.quarters"
+          [value]="org.profile.quarters"
+          title="Weitere Standorte"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.homepage"
+          [linkable]="true"
+          [value]="org.profile.homepage"
+          title="Homepage"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.contactEmail"
+          [linkable]="true"
+          [value]="org.profile.contactEmail"
+          title="Kontakt"
+        ></app-profile-information-card-entry>
+      </app-profile-information-card>
+    </div>
+    <app-sash *ngIf="org.profile.vita" class="mx-0 mt-4">
+      <app-sash-title>Beschreibung</app-sash-title>
+      <app-sash-content>{{ org.profile.vita }}</app-sash-content>
+    </app-sash>
   </div>
-  <app-sash *ngIf="org.profile.vita" class="mx-0">
-    <app-sash-title>Beschreibung</app-sash-title>
-    <app-sash-content>{{ org.profile.vita }}</app-sash-content>
-  </app-sash>
 </ng-container>
