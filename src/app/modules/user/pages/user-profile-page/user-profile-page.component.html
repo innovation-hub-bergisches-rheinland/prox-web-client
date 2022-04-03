@@ -1,5 +1,5 @@
-<div class="mx-auto max-w-screen-lg">
-  <div *ngIf="user$ | async; let user; else: loading" class="flex flex-col gap-4">
+<ng-container *ngIf="user$ | async; let user; else: loading">
+  <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
     <app-profile-header-card
       (onEditClicked)="editProfile(user)"
       [imageSrc]="avatar"
@@ -55,10 +55,12 @@
         title="Personalseite"
       ></app-profile-information-card-entry>
     </app-profile-information-card>
-    <app-sash *ngIf="user.vita" class="mx-0">
-      <app-sash-title>Werdegang</app-sash-title>
-      <app-sash-content>{{ user.vita }}</app-sash-content>
-    </app-sash>
+  </div>
+  <app-sash *ngIf="user.vita" class="mx-0">
+    <app-sash-title>Werdegang</app-sash-title>
+    <app-sash-content>{{ user.vita }}</app-sash-content>
+  </app-sash>
+  <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
     <app-profile-publications-card
       *ngIf="user.publications && user.publications.length > 0"
       [publications]="user.publications"
@@ -72,5 +74,5 @@
       </app-profile-project-history>
     </ng-container>
   </div>
-  <ng-template #loading> Loading...</ng-template>
-</div>
+</ng-container>
+<ng-template #loading> Loading...</ng-template>

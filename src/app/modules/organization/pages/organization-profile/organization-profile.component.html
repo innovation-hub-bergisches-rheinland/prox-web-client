@@ -1,5 +1,5 @@
-<div class="mx-auto max-w-screen-lg">
-  <div *ngIf="organization$ | async; let org" class="flex flex-col gap-4">
+<ng-container *ngIf="organization$ | async; let org">
+  <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
     <app-profile-header-card
       [imageSrc]="avatar$ | async"
       [roundedAvatar]="false"
@@ -49,9 +49,9 @@
         title="Kontakt"
       ></app-profile-information-card-entry>
     </app-profile-information-card>
-    <app-sash *ngIf="org.profile.vita" class="mx-0">
-      <app-sash-title>Beschreibung</app-sash-title>
-      <app-sash-content>{{ org.profile.vita }}</app-sash-content>
-    </app-sash>
   </div>
-</div>
+  <app-sash *ngIf="org.profile.vita" class="mx-0">
+    <app-sash-title>Beschreibung</app-sash-title>
+    <app-sash-content>{{ org.profile.vita }}</app-sash-content>
+  </app-sash>
+</ng-container>
