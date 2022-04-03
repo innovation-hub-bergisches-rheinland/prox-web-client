@@ -5,6 +5,7 @@
       [imageSrc]="avatar"
       [showEdit]="isOwnProfile"
       [tags]="user.subjects"
+      [roundedAvatar]="true"
     ></app-profile-header-card>
     <app-profile-information-card>
       <app-profile-information-card-entry
@@ -19,36 +20,36 @@
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
         title="Standort, Raum"
-        *ngIf="user.contactInformation.room"
+        *ngIf="user.contactInformation?.room"
         [value]="user.contactInformation.room"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
         title="Telefonnummer"
-        *ngIf="user.contactInformation.telephone"
+        *ngIf="user.contactInformation?.telephone"
         [value]="user.contactInformation.telephone"
         [linkable]="true"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
         title="E-Mail"
-        *ngIf="user.contactInformation.email"
+        *ngIf="user.contactInformation?.email"
         [value]="user.contactInformation.email"
         [linkable]="true"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
         title="Homepage"
-        *ngIf="user.contactInformation.homepage"
+        *ngIf="user.contactInformation?.homepage"
         [value]="user.contactInformation.homepage"
         [linkable]="true"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
         title="Sprechstunde"
-        *ngIf="user.contactInformation.consultationHour"
+        *ngIf="user.contactInformation?.consultationHour"
         [value]="user.contactInformation.consultationHour"
         [linkable]="true"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
         title="Personalseite"
-        *ngIf="user.contactInformation.collegePage"
+        *ngIf="user.contactInformation?.collegePage"
         [value]="user.contactInformation.collegePage"
         [linkable]="true"
       ></app-profile-information-card-entry>

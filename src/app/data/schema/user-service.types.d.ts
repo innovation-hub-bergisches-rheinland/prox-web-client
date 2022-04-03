@@ -43,21 +43,21 @@ export interface SocialMedia {
 
 export interface UserProfile {
   name: string;
-  affiliation: string;
-  mainSubject: string;
-  contactInformation: ContactInformation;
-  subjects: string[];
-  publications: string[];
-  vita: string;
+  affiliation?: string;
+  mainSubject?: string;
+  contactInformation?: ContactInformation;
+  subjects?: string[];
+  publications?: string[];
+  vita?: string;
 }
 
 export interface ContactInformation {
-  room: string;
-  consultationHour: string;
-  email: string;
-  telephone: string;
-  homepage: string;
-  collegePage: string;
+  room?: string;
+  consultationHour?: string;
+  email?: string;
+  telephone?: string;
+  homepage?: string;
+  collegePage?: string;
 }
 
 export interface OrganizationMembershipWrapper {
