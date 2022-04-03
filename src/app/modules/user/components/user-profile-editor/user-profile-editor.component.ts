@@ -93,10 +93,10 @@ export class UserProfileEditorComponent implements OnInit {
     this.userProfileInformationForm.patchValue({
       name: userProfile.name,
       homepage: userProfile.contactInformation?.homepage,
-      contactEmail: userProfile.contactInformation?.email,
+      email: userProfile.contactInformation?.email,
+      telephone: userProfile.contactInformation?.telephone,
       collegePage: userProfile.contactInformation?.collegePage,
-      vita: userProfile.vita,
-      telephone: userProfile.contactInformation?.telephone
+      vita: userProfile.vita
     });
     this.userProfileAdditionalInformationForm.patchValue({
       affiliation: userProfile.affiliation,
@@ -108,11 +108,8 @@ export class UserProfileEditorComponent implements OnInit {
     this.userProfilePublicationFormGroup.patchValue({
       publications: userProfile.publications
     });
-    /*this.userService.getUserAvatar(userProfile).subscribe({
-      next: value =>
-        this.userProfileAvatarFormGroup.patchValue({
-          avatar: value
-        })
-    });*/
+    this.userProfileAvatarFormGroup.patchValue({
+      avatar: this.userService.getUserAvatar(this.id)
+    });
   }
 }
