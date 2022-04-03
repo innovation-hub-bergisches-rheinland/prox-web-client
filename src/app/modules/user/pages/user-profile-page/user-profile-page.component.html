@@ -6,6 +6,53 @@
       [showEdit]="isOwnProfile"
       [tags]="user.subjects"
     ></app-profile-header-card>
+    <app-profile-information-card>
+      <app-profile-information-card-entry
+        title="Hochschulzugehörigkeit seit"
+        *ngIf="user.affiliation"
+        [value]="user.affiliation"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="Lehrgebiet"
+        *ngIf="user.mainSubject"
+        [value]="user.mainSubject"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="Standort, Raum"
+        *ngIf="user.contactInformation.room"
+        [value]="user.contactInformation.room"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="Telefonnummer"
+        *ngIf="user.contactInformation.telephone"
+        [value]="user.contactInformation.telephone"
+        [linkable]="true"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="E-Mail"
+        *ngIf="user.contactInformation.email"
+        [value]="user.contactInformation.email"
+        [linkable]="true"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="Homepage"
+        *ngIf="user.contactInformation.homepage"
+        [value]="user.contactInformation.homepage"
+        [linkable]="true"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="Sprechstunde"
+        *ngIf="user.contactInformation.consultationHour"
+        [value]="user.contactInformation.consultationHour"
+        [linkable]="true"
+      ></app-profile-information-card-entry>
+      <app-profile-information-card-entry
+        title="Personalseite"
+        *ngIf="user.contactInformation.collegePage"
+        [value]="user.contactInformation.collegePage"
+        [linkable]="true"
+      ></app-profile-information-card-entry>
+    </app-profile-information-card>
     <app-sash class="mx-0" *ngIf="user.vita">
       <app-sash-title>Werdegang</app-sash-title>
       <app-sash-content>{{ user.vita }}</app-sash-content>
