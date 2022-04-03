@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.8.0...v1.8.1) (2022-04-03)
+
+
+### Bug Fixes
+
+* enable feature toggle for users ([f76b690](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f76b690e210f09ad89f1bb065bcd8e5845714f7a))
+
 ## [1.8.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.7.1...v1.8.0) (2022-04-03)
 
 
