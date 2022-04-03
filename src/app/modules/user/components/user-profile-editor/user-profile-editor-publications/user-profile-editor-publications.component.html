@@ -1,0 +1,38 @@
+<form [formGroup]="userProfilePublicationsForm" class="flex flex-col">
+  <mat-list role="list">
+    <mat-list-item
+      *ngFor="let publication of userProfilePublicationsForm.controls['publications'].value; let i = index"
+      class="h-auto border-t"
+    >
+      <mat-icon mat-list-icon>book</mat-icon>
+      <div class="flex-grow">{{ publication }}</div>
+      <ng-container>
+        <button (click)="removePublication(i)" mat-icon-button matTooltip="Publikation entfernen">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-container>
+    </mat-list-item>
+  </mat-list>
+  <mat-form-field appearance="outline">
+    <mat-label>Publikation hinzufügen</mat-label>
+    <textarea
+      [formControl]="publicationInput"
+      cdkAutosizeMaxRows="30"
+      cdkAutosizeMinRows="3"
+      cdkTextareaAutosize
+      matInput
+      maxlength="1023"
+      minlength="1"
+      placeholder="Publikation"
+    >
+    </textarea>
+    <button
+      (click)="addPublication(publicationInput.value)"
+      [disabled]="publicationInput.value.length === 0 || publicationInput.invalid"
+      mat-icon-button
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <mat-hint align="end"> {{ publicationInput.value?.length || 0 }}/1023</mat-hint>
+  </mat-form-field>
+</form>

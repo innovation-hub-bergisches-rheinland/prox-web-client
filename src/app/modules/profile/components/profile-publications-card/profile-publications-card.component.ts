@@ -1,6 +1,4 @@
-import { Input, OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { Publication } from '@data/schema/openapi/professor-profile-service/models';
+import { Component, Input, OnInit } from '@angular/core';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -12,7 +10,7 @@ export class ProfilePublicationsCardComponent implements OnInit {
   icon = faBook;
 
   @Input()
-  publications: Publication[];
+  publications: string[];
 
   limit = 10;
 

@@ -1,0 +1,37 @@
+<mat-stepper [linear]="false">
+  <mat-step [stepControl]="userProfileInformationForm">
+    <ng-template matStepLabel>Informationen</ng-template>
+    <app-user-profile-editor-information [userProfileInformationForm]="userProfileInformationForm"></app-user-profile-editor-information>
+    <div class="flex flex-row justify-end">
+      <button [disabled]="userProfileInformationForm.invalid" color="primary" mat-button matStepperNext>Weiter</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="userProfileAdditionalInformationForm">
+    <ng-template matStepLabel>Profildaten</ng-template>
+    <app-user-profile-editor-additional-information
+      [userProfileAdditionalInformationForm]="userProfileAdditionalInformationForm"
+    ></app-user-profile-editor-additional-information>
+    <div class="flex flex-row justify-end">
+      <button color="accent" mat-button matStepperPrevious>Zurück</button>
+      <button [disabled]="userProfileAdditionalInformationForm.invalid" color="primary" mat-button matStepperNext>Weiter</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="userProfilePublicationFormGroup">
+    <ng-template matStepLabel>Publikationen</ng-template>
+    <app-user-profile-editor-publications
+      [userProfilePublicationsForm]="userProfilePublicationFormGroup"
+    ></app-user-profile-editor-publications>
+    <div class="flex flex-row justify-end">
+      <button color="accent" mat-button matStepperPrevious>Zurück</button>
+      <button [disabled]="userProfilePublicationFormGroup.invalid" color="primary" mat-button matStepperNext>Weiter</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="userProfileAvatarFormGroup">
+    <ng-template matStepLabel>Avatar</ng-template>
+    <app-profile-editor-avatar [avatarFormGroup]="userProfileAvatarFormGroup"></app-profile-editor-avatar>
+    <div class="flex flex-row justify-end">
+      <button color="accent" mat-button matStepperPrevious>Zurück</button>
+      <button (click)="saveUserProfile()" color="primary" mat-button>Speichern</button>
+    </div>
+  </mat-step>
+</mat-stepper>

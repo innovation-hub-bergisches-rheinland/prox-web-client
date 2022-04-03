@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
-import { ProfessorProfileService } from '@data/service/professor-profile.service';
-import { Observable, forkJoin, from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { JobService } from '@data/service/job.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from '@modules/toast/toast.service';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { UserService } from '@data/service/user.service';
 
 @Component({
   selector: 'app-job-item',
@@ -15,14 +15,22 @@ import { ConfirmationDialogComponent } from '@shared/components/confirmation-dia
   styleUrls: ['./job-item.component.scss']
 })
 export class JobItemComponent implements OnInit, AfterViewInit {
-  private _jobOffer: JobOffer;
   @Output() jobOfferDeleted = new EventEmitter<JobOffer>();
   creatorName$: Observable<string>;
   creatorLink$: Observable<string>;
-
   availableTypesAsString$: Observable<string[]>;
   availableEntryLevelsAsString$: Observable<string[]>;
   hasPermission$: Observable<boolean>;
+
+  constructor(
+    private userService: UserService,
+    private jobService: JobService,
+    private keycloakService: KeycloakService,
+    private dialog: MatDialog,
+    private toastService: ToastService
+  ) {}
+
+  private _jobOffer: JobOffer;
 
   get jobOffer(): JobOffer {
     return this._jobOffer;
@@ -37,56 +45,12 @@ export class JobItemComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(
-    private professorService: ProfessorProfileService,
-    private jobService: JobService,
-    private keycloakService: KeycloakService,
-    private dialog: MatDialog,
-    private toastService: ToastService
-  ) {}
-
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {}
 
   getFormattedDate(date: string): string {
     return new Intl.DateTimeFormat('de-DE').format(Date.parse(date));
-  }
-
-  private setObservables() {
-    this.availableTypesAsString$ = this.jobService
-      .getTypesFromJobOffer(this.jobOffer.id)
-      .pipe(map(jobOfferTypes => jobOfferTypes.map(type => type.description)));
-    this.availableEntryLevelsAsString$ = this.jobService
-      .getEntryLevelsFromJobOffer(this.jobOffer.id)
-      .pipe(map(jobOfferEntryLevels => jobOfferEntryLevels.map(o => o.description)));
-    this.hasPermission$ = from(this.keycloakService.isLoggedIn()).pipe(
-      map(isLoggedIn => {
-        if (isLoggedIn) {
-          return (
-            (this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager')) &&
-            this.jobOffer.createdBy.userId === this.keycloakService.getKeycloakInstance().subject
-          );
-        }
-        return false;
-      })
-    );
-    this.setCreatorNameAndLink();
-  }
-
-  // TODO: refactor
-  private setCreatorNameAndLink() {
-    switch (this.jobOffer.createdBy.variant) {
-      case 'PROFESSOR':
-        this.professorService.getProfessorProfile(this.jobOffer.createdBy.userId).subscribe(res => {
-          this.creatorName$ = of(res.name);
-          this.creatorLink$ = of(`/lecturers/${res.id}`);
-        });
-        break;
-      case 'COMPANY':
-        throw new Error('Not implemented yet');
-        break;
-    }
   }
 
   // TODO emit event so that the overview can be refreshed
@@ -121,5 +85,41 @@ export class JobItemComponent implements OnInit, AfterViewInit {
           console.error(err);
         }
       });
+  }
+
+  private setObservables() {
+    this.availableTypesAsString$ = this.jobService
+      .getTypesFromJobOffer(this.jobOffer.id)
+      .pipe(map(jobOfferTypes => jobOfferTypes.map(type => type.description)));
+    this.availableEntryLevelsAsString$ = this.jobService
+      .getEntryLevelsFromJobOffer(this.jobOffer.id)
+      .pipe(map(jobOfferEntryLevels => jobOfferEntryLevels.map(o => o.description)));
+    this.hasPermission$ = from(this.keycloakService.isLoggedIn()).pipe(
+      map(isLoggedIn => {
+        if (isLoggedIn) {
+          return (
+            (this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager')) &&
+            this.jobOffer.createdBy.userId === this.keycloakService.getKeycloakInstance().subject
+          );
+        }
+        return false;
+      })
+    );
+    this.setCreatorNameAndLink();
+  }
+
+  // TODO: refactor
+  private setCreatorNameAndLink() {
+    switch (this.jobOffer.createdBy.variant) {
+      case 'PROFESSOR':
+        this.userService.getUserProfile(this.jobOffer.createdBy.userId).subscribe(res => {
+          this.creatorName$ = of(res.name);
+          this.creatorLink$ = of(`/users/${this.jobOffer.createdBy.userId}`);
+        });
+        break;
+      case 'COMPANY':
+        throw new Error('Not implemented yet');
+        break;
+    }
   }
 }

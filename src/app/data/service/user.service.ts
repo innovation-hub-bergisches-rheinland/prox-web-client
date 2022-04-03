@@ -1,16 +1,18 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Project } from '@data/schema/project-service.types';
 import {
   CreateOrganizationMembership,
   CreateOrganizationSchema,
+  CreateUserProfileSchema,
   Organization,
   OrganizationMembership,
   OrganizationMembershipWrapper,
   OrganizationRole,
   UpdateOrganizationMembership,
+  UserProfile,
+  UserProfileBriefCollection,
   UserSearchResult
 } from '@data/schema/user-service.types';
 
@@ -139,6 +141,51 @@ export class UserService {
   searchUser(query: string): Observable<UserSearchResult[]> {
     return this.httpClient.get<UserSearchResult[]>(`${this.basePath}/users/search`, {
       params: new HttpParams().set('q', query),
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  getUserProfile(id: string): Observable<UserProfile> {
+    return this.httpClient.get<UserProfile>(`${this.basePath}/users/${id}/profile`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  createUserProfile(id: string, profile: CreateUserProfileSchema): Observable<UserProfile> {
+    return this.httpClient.post<UserProfile>(`${this.basePath}/users/${id}/profile`, profile, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setUserAvatar(id: string, avatar: File): Observable<any> {
+    const formParams = new FormData();
+    formParams.set('file', avatar);
+    return this.httpClient.post<any>(`${this.basePath}/users/${id}/profile/avatar`, formParams, {
+      headers: {},
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  getUserAvatar(id: string): string {
+    return `${this.basePath}/users/${id}/profile/avatar`;
+  }
+
+  getUserProfiles(): Observable<UserProfileBriefCollection> {
+    return this.httpClient.get<UserProfileBriefCollection>(`${this.basePath}/users/profiles`, {
       headers: {
         Accept: 'application/json'
       },

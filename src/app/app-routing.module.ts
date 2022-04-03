@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // import { AuthGuard } from '@app/guard/auth.guard';
-
 import { ContentLayoutComponent } from '@layout/content-layout/content-layout.component';
 import { FeatureGuard } from './feature.guard';
 
@@ -11,11 +10,6 @@ const routes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
-  },
-  {
-    path: '',
-    component: ContentLayoutComponent,
-    loadChildren: () => import('@modules/profile/profile.module').then(m => m.ProfileModule)
   },
   {
     path: '',
@@ -35,6 +29,35 @@ const routes: Routes = [
         data: {
           feature: 'organizations'
         }
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'user'
+        }
+      },
+      // Redirect for old URLs
+      {
+        path: 'lecturers',
+        children: [
+          {
+            path: '',
+            redirectTo: '/users',
+            pathMatch: 'full'
+          },
+          {
+            path: ':id',
+            redirectTo: '/users/:id',
+            pathMatch: 'full'
+          },
+          {
+            path: ':id/edit',
+            redirectTo: '/users/:id',
+            pathMatch: 'full'
+          }
+        ]
       },
       {
         path: 'jobs',

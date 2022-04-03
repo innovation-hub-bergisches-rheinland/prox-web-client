@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-profile-overview-card',
@@ -20,35 +20,23 @@ export class ProfileOverviewCardComponent {
 
   @Input()
   href: string;
+  @Input()
+  imgSrc: string;
+  @Input()
+  chipTitle: string;
+  @Input()
+  defaultImage: string = '/assets/images/blank-profile-picture.png';
+
+  constructor() {}
 
   private _chips: string[] = [];
-
-  @Input()
-  set chips(chips: string[]) {
-    this._chips = chips;
-  }
 
   get chips(): string[] {
     return this._chips.filter(s => s && s.trim().length > 0);
   }
 
   @Input()
-  imgSrc: string;
-
-  @Input()
-  chipTitle: string;
-
-  @Input()
-  defaultImage: string = '/assets/images/blank-profile-picture.png';
-
-  @Input()
-  numAvailableProjects: number = 0;
-
-  @Input()
-  numRunningProjects: number = 0;
-
-  @Input()
-  numFinishedProjects: number = 0;
-
-  constructor() {}
+  set chips(chips: string[]) {
+    this._chips = chips;
+  }
 }

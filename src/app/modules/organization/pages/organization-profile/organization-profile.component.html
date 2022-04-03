@@ -1,91 +1,59 @@
 <ng-container *ngIf="organization$ | async; let org">
-  <div class="flex flex-col gap-10 items-center justify-center">
-    <!-- Profile Information -->
-    <div class="px-4 lg:px-16 xl:px-28 2xl:px-32 3xl:px-64">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-flow-row-dense">
-        <div class="p-1 sm:p-2 md:p-4 xl:row-span-3">
-          <app-profile-avatar-card>
-            <app-avatar-card-title>{{ org.name }}</app-avatar-card-title>
-            <img
-              class="w-full h-full object-contain object-center"
-              [src]="avatar$ | async"
-              avatar
-              alt="Avatar"
-              onerror="this.src='/assets/images/blank-profile-picture.png'"
-            />
-          </app-profile-avatar-card>
-        </div>
-        <div class="p-1 sm:p-2 md:p-4 md:col-span-2 lg:col-span-3">
-          <app-profile-information-card>
-            <app-profile-information-card-entry
-              title="Anzahl Mitarbeiter"
-              *ngIf="org.profile.numberOfEmployees"
-              [value]="org.profile.numberOfEmployees"
-            ></app-profile-information-card-entry>
-            <app-profile-information-card-entry
-              title="Gründungsdatum"
-              *ngIf="org.profile.foundingDate"
-              [value]="org.profile.foundingDate"
-            ></app-profile-information-card-entry>
-            <app-profile-information-card-entry
-              title="Hauptsitz"
-              *ngIf="org.profile.headquarter"
-              [value]="org.profile.headquarter"
-            ></app-profile-information-card-entry>
-            <app-profile-information-card-entry
-              title="Weitere Standorte"
-              *ngIf="org.profile.quarters"
-              [value]="org.profile.quarters"
-            ></app-profile-information-card-entry>
-            <app-profile-information-card-entry
-              title="Homepage"
-              [linkable]="true"
-              *ngIf="org.profile.homepage"
-              [value]="org.profile.homepage"
-            ></app-profile-information-card-entry>
-            <app-profile-information-card-entry
-              title="Kontakt"
-              [linkable]="true"
-              *ngIf="org.profile.contactEmail"
-              [value]="org.profile.contactEmail"
-            ></app-profile-information-card-entry>
-          </app-profile-information-card>
-        </div>
-        <div class="p-1 sm:p-2 md:p-4 sm:col-span-full xl:col-span-3">
-          <app-profile-card>
-            <app-profile-card-header [icon]="faBullseye">
-              <app-profile-card-title>Branchen und Tätigkeitsbereiche</app-profile-card-title>
-            </app-profile-card-header>
-            <app-profile-card-content *ngIf="org.profile.branches; let branches">
-              <ng-container *ngIf="branches.length > 0; else noBranches">
-                <mat-chip-list>
-                  <mat-chip *ngFor="let branch of branches" selected>{{ branch }}</mat-chip>
-                </mat-chip-list>
-              </ng-container>
-              <ng-template #noBranches><i>Keine angegeben</i></ng-template>
-            </app-profile-card-content>
-          </app-profile-card>
-        </div>
-        <div class="p-1 sm:p-2 md:p-4 sm:col-span-full xl:col-span-3">
-          <app-profile-social-media-card
-            *ngIf="org.profile.socialMedia; let socialMedia"
-            [facebookHandle]="socialMedia.facebookHandle"
-            [twitterHandle]="socialMedia.twitterHandle"
-            [instagramHandle]="socialMedia.instagramHandle"
-            [xingHandle]="socialMedia.xingHandle"
-            [linkedInHandle]="socialMedia.linkedInHandle"
-            [youtubeHandle]="socialMedia.youtubeHandle"
-          ></app-profile-social-media-card>
-        </div>
-      </div>
+  <div>
+    <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
+      <app-profile-header-card
+        [imageSrc]="avatar$ | async"
+        [roundedAvatar]="false"
+        [tags]="org.profile.branches"
+        [title]="org.name"
+      ></app-profile-header-card>
+      <app-profile-social-media-card
+        *ngIf="org.profile.socialMedia; let socialMedia"
+        [facebookHandle]="socialMedia.facebookHandle"
+        [instagramHandle]="socialMedia.instagramHandle"
+        [linkedInHandle]="socialMedia.linkedInHandle"
+        [twitterHandle]="socialMedia.twitterHandle"
+        [xingHandle]="socialMedia.xingHandle"
+        [youtubeHandle]="socialMedia.youtubeHandle"
+      ></app-profile-social-media-card>
+      <app-profile-information-card>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.numberOfEmployees"
+          [value]="org.profile.numberOfEmployees"
+          title="Anzahl Mitarbeiter"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.foundingDate"
+          [value]="org.profile.foundingDate"
+          title="Gründungsdatum"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.headquarter"
+          [value]="org.profile.headquarter"
+          title="Hauptsitz"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.quarters"
+          [value]="org.profile.quarters"
+          title="Weitere Standorte"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.homepage"
+          [linkable]="true"
+          [value]="org.profile.homepage"
+          title="Homepage"
+        ></app-profile-information-card-entry>
+        <app-profile-information-card-entry
+          *ngIf="org.profile.contactEmail"
+          [linkable]="true"
+          [value]="org.profile.contactEmail"
+          title="Kontakt"
+        ></app-profile-information-card-entry>
+      </app-profile-information-card>
     </div>
-
-    <!-- Shash / Vita -->
-    <div class="w-full" *ngIf="org.profile.vita && org.profile.vita.trim().length > 0">
-      <app-sash>
-        <app-sash-title>Beschreibung</app-sash-title>
-        <app-sash-content>{{ org.profile.vita }}</app-sash-content>
-      </app-sash>
-    </div>
+    <app-sash *ngIf="org.profile.vita" class="mx-0 mt-4">
+      <app-sash-title>Beschreibung</app-sash-title>
+      <app-sash-content>{{ org.profile.vita }}</app-sash-content>
+    </app-sash>
   </div>
 </ng-container>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProfileRoutingModule } from './profile-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { SashComponent } from './components/sash/sash.component';
 import { ProfileAvatarCardComponent } from '@modules/profile/components/profile-avatar-card/profile-avatar-card.component';
@@ -18,12 +17,8 @@ import { ProfileProjectsCardComponent } from './components/profile-projects-card
 import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
 import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
-import { LecturerPageComponent } from './pages/lecturer-page/lecturer-page.component';
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
-import { LecturerEditorPageComponent } from './pages/lecturer-editor-page/lecturer-editor-page.component';
-import { OverviewPageComponent } from './pages/overview-page/overview-page.component';
-import { LecturerOverviewPageComponent } from './pages/lecturer-overview-page/lecturer-overview-page.component';
 import { ProfileProjectCardItemComponent } from './components/profile-projects-card/profile-project-card-item/profile-project-card-item.component';
 import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/profile-jobs-card-item/profile-jobs-card-item.component';
 import { ProfileAvatarCardTitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-title.directive';
@@ -31,6 +26,8 @@ import { ProfileAvatarCardSubtitleDirective } from '@modules/profile/components/
 import { SashContentDirective } from '@modules/profile/components/sash/sash-content.directive';
 import { SashTitleDirective } from '@modules/profile/components/sash/sash-title.directive';
 import { ProfileSocialMediaCardComponent } from './components/profile-social-media-card/profile-social-media-card.component';
+import { ProfileHeaderCardComponent } from './components/profile-header-card/profile-header-card.component';
+import { ProfileEditorAvatarComponent } from '@modules/profile/components/profile-editor/profile-editor-avatar/profile-editor-avatar.component';
 
 @NgModule({
   declarations: [
@@ -50,17 +47,15 @@ import { ProfileSocialMediaCardComponent } from './components/profile-social-med
     ProfileJobsCardComponent,
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
-    LecturerPageComponent,
     ProfilePublicationsCardComponent,
     ProfileOverviewCardComponent,
-    LecturerEditorPageComponent,
-    OverviewPageComponent,
-    LecturerOverviewPageComponent,
     ProfileProjectCardItemComponent,
     ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
     ProfileAvatarCardSubtitleDirective,
-    ProfileSocialMediaCardComponent
+    ProfileSocialMediaCardComponent,
+    ProfileHeaderCardComponent,
+    ProfileEditorAvatarComponent
   ],
   exports: [
     SashComponent,
@@ -85,8 +80,10 @@ import { ProfileSocialMediaCardComponent } from './components/profile-social-med
     ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
     ProfileAvatarCardSubtitleDirective,
-    ProfileSocialMediaCardComponent
+    ProfileSocialMediaCardComponent,
+    ProfileHeaderCardComponent,
+    ProfileEditorAvatarComponent
   ],
-  imports: [CommonModule, ProfileRoutingModule, SharedModule]
+  imports: [CommonModule, SharedModule]
 })
 export class ProfileModule {}
