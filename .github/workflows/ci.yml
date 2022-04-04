@@ -41,43 +41,27 @@ jobs:
           name: dist.zip
           path: dist
 
+      - name: Upload Build
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: build-artifact
+          retention-days: 14
+          path: dist.zip
+          if-no-files-found: ignore
+
       - name: Archive code coverage result
-        if: success()
+        if: failure()
         uses: actions/upload-artifact@v1
         with:
           name: coverage.zip
           path: coverage
 
-  checkstyle:
-    name: Checkstyle
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v2
+        if: always()
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - run: npm ci
-
-      - run: npm run lint:ci
-
-  sonarcloud:
-    name: SonarCloud
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          name: reports-unit-tests
+          retention-days: 14
+          path: coverage.zip
+          if-no-files-found: ignore
