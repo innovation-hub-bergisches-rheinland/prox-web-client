@@ -1,12 +1,12 @@
 <ng-container>
   <ng-container [ngSwitch]="status">
     <mat-icon *ngSwitchCase="'AVAILABLE'" matTooltip="Verfügbar" class="status-icon" color="primary"> lock_open </mat-icon>
-    <mat-icon *ngSwitchCase="'FINISHED'" matTooltip="Abgeschlossen" class="status-icon" color="primary"> lock </mat-icon>
+    <mat-icon *ngSwitchCase="'FINISHED'" matTooltip="Abgeschlossen" class="status-icon" color="primary"> lock</mat-icon>
     <mat-icon *ngSwitchCase="'RUNNING'" matTooltip="Laufend" class="status-icon" color="primary"> directions_run </mat-icon>
   </ng-container>
   <ng-container [ngSwitch]="specializationKeys">
-    <mat-icon *ngSwitchCase="'INF'" matTooltip="Informatik" class="specialization-icon" color="primary">computer</mat-icon>
-    <mat-icon *ngSwitchCase="'ING'" matTooltip="Ingenieurwesen" class="specialization-icon" color="primary">build</mat-icon>
+    <mat-icon *ngSwitchCase="'INF'" matTooltip="Informatik" class="specialization-icon" color="primary">computer </mat-icon>
+    <mat-icon *ngSwitchCase="'ING'" matTooltip="Ingenieurwesen" class="specialization-icon" color="primary">build </mat-icon>
   </ng-container>
   <ng-container [ngSwitch]="context">
     <mat-icon *ngSwitchCase="'COMPANY'" matTooltip="Projekt in einem Unternehmen" class="context-icon" color="primary"> domain </mat-icon>

@@ -7,13 +7,9 @@ import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
   templateUrl: './profile-jobs-card.component.html',
   styleUrls: ['./profile-jobs-card.component.scss']
 })
-export class ProfileJobsCardComponent implements OnInit {
+export class ProfileJobsCardComponent {
   icon = faBriefcase;
 
   @Input()
   jobs: JobOffer[];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

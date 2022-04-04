@@ -14,6 +14,7 @@ export interface Creator {
   userId?: string;
   variant?: Creator.VariantEnum;
 }
+
 export namespace Creator {
   export type VariantEnum = 'COMPANY' | 'PROFESSOR' | 'UNKNOWN';
   export const VariantEnum = {

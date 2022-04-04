@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -12,16 +12,14 @@ export interface DialogData {
   styleUrls: ['./confirmation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmationDialogComponent implements OnInit {
+export class ConfirmationDialogComponent {
   title: string;
   message: string;
 
-  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  constructor(private dialogRef: MatDialogRef<ConfirmationDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.title = data.title;
     this.message = data.message;
   }
-
-  ngOnInit(): void {}
 
   onConfirm(): void {
     this.dialogRef.close(true);

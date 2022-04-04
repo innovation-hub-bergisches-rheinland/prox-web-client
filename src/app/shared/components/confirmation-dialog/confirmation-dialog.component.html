@@ -5,6 +5,6 @@
   <p>{{ message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close (click)="onDismiss()">Nein</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onConfirm()">Ja</button>
+  <button (click)="onDismiss()" mat-button mat-dialog-close>Nein</button>
+  <button (click)="onConfirm()" [mat-dialog-close]="true" cdkFocusInitial mat-button>Ja</button>
 </mat-dialog-actions>

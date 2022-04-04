@@ -17,8 +17,6 @@ export class UserSelectorComponent implements OnInit {
 
   userSearch = new FormControl();
 
-  constructor() {}
-
   ngOnInit(): void {
     this.userSearch.valueChanges.subscribe({
       next: (value: User) => this.addUser(value)

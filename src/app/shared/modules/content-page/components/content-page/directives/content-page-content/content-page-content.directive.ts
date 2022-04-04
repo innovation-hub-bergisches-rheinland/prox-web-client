@@ -1,11 +1,8 @@
-import { Directive } from '@angular/core';
+import { Directive, HostBinding } from '@angular/core';
 
 @Directive({
-  selector: 'app-content-page-content, [app-content-page-content], [appContentPageContent]',
-  host: {
-    class: 'app-content-page-content'
-  }
+  selector: 'app-content-page-content, [app-content-page-content], [appContentPageContent]'
 })
 export class ContentPageContentDirective {
-  constructor() {}
+  @HostBinding('class') classes = 'app-content-page-content';
 }

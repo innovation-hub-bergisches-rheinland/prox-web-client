@@ -8,21 +8,16 @@ import { ModuleType } from '@data/schema/project-service.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileProjectCardItemComponent implements OnInit {
+export class ProfileProjectCardItemComponent {
   @Input()
   title: string;
 
   @Input()
   modules: ModuleType[] = [];
+  @Input()
+  id: string;
 
   get modulesAsString(): string {
     return `(${this.modules.map(m => m.key).join(' / ')})`;
   }
-
-  @Input()
-  id: string;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

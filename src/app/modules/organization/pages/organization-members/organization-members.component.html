@@ -2,15 +2,15 @@
   <app-content-page-header>
     <div class="page-title">
       <ng-container *ngIf="hasPermission">
-        <button (click)="location.back()" matTooltip="Zurück" mat-icon-button color="primary">
+        <button (click)="location.back()" color="primary" mat-icon-button matTooltip="Zurück">
           <mat-icon class="back-icon">arrow_back</mat-icon>
         </button>
       </ng-container>
     </div>
     <app-content-page-title> Mitglieder von {{ organization.name }} </app-content-page-title>
     <app-content-page-actions>
-      <button mat-fab matTooltip="Mitglied hinzufügen" color="primary" (click)="openMemberAddDialog()">
-        <mat-icon> add </mat-icon>
+      <button (click)="openMemberAddDialog()" color="primary" mat-fab matTooltip="Mitglied hinzufügen">
+        <mat-icon> add</mat-icon>
       </button>
     </app-content-page-actions>
   </app-content-page-header>
@@ -18,11 +18,11 @@
     <mat-card>
       <mat-card-content>
         <app-organization-memberships-list
+          (membershipRemoved)="removeMembership($event)"
+          (membershipUpdated)="updateMembership($event)"
           [memberships]="organizationMemberships$ | async"
-          (onRemoveMembership)="removeMembership($event)"
-          (onUpdateMembership)="updateMembership($event)"
-          [showControls]="hasPermission"
           [showAdminControls]="hasPermission"
+          [showControls]="hasPermission"
         ></app-organization-memberships-list>
       </mat-card-content>
     </mat-card>

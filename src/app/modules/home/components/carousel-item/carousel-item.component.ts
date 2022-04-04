@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-carousel-item',
@@ -7,7 +7,7 @@ import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angul
 })
 export class CarouselItemComponent {
   @HostBinding('class')
-  classes: string = 'carousel-item';
+  classes = 'carousel-item';
 
   @Input()
   logoUrl: string;
@@ -17,6 +17,4 @@ export class CarouselItemComponent {
 
   @HostBinding('class.active')
   active = false;
-
-  constructor() {}
 }

@@ -17,6 +17,7 @@ export interface StudyCourse {
   modules?: Set<Module>;
   name?: string;
 }
+
 export namespace StudyCourse {
   export type AcademicDegreeEnum = 'BACHELOR' | 'MASTER' | 'UNKNOWN';
   export const AcademicDegreeEnum = {

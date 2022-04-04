@@ -5,6 +5,4 @@ import { Directive, HostBinding } from '@angular/core';
 })
 export class ProfileAvatarCardTitleDirective {
   @HostBinding('class') classes = 'app-profile-card-title';
-
-  constructor() {}
 }

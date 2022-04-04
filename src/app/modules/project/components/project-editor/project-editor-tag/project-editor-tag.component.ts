@@ -6,11 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './project-editor-tag.component.html',
   styleUrls: ['./project-editor-tag.component.scss']
 })
-export class ProjectEditorTagComponent implements OnInit {
+export class ProjectEditorTagComponent {
   @Input()
   tagFormGroup: FormGroup;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -12,8 +12,6 @@ export class ProfileEditorAvatarComponent implements OnInit {
 
   imgSrc: string | ArrayBuffer;
 
-  constructor() {}
-
   ngOnInit(): void {
     const avatarFormControl = this.avatarFormGroup.controls['avatar'];
     if (avatarFormControl.value) {

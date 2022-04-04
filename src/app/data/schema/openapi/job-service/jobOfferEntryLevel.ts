@@ -15,6 +15,7 @@ export interface JobOfferEntryLevel {
   entryLevel: JobOfferEntryLevel.EntryLevelEnum;
   description: string;
 }
+
 export namespace JobOfferEntryLevel {
   export type EntryLevelEnum = 'CAREER_STARTER' | 'EXPERIENCED';
   export const EntryLevelEnum = {

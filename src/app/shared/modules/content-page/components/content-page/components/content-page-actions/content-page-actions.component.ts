@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-content-page-actions',
@@ -7,8 +7,4 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContentPageActionsComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class ContentPageActionsComponent {}

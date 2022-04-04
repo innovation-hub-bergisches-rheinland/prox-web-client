@@ -3,7 +3,7 @@
     <mat-label>Bezeichnung</mat-label>
     <input formControlName="name" matInput maxlength="255" placeholder="Bezeichnung" required />
 
-    <mat-hint align="end"> {{ informationFormGroup.controls['name'].value?.length || 0 }}/255 </mat-hint>
+    <mat-hint align="end"> {{ informationFormGroup.controls['name'].value?.length || 0 }}/255</mat-hint>
 
     <mat-error *ngIf="informationFormGroup.controls['name'].hasError('required')"> Bezeichnung <strong>fehlt</strong>! </mat-error>
     <mat-error *ngIf="informationFormGroup.controls['name'].hasError('pattern')"> Bezeichnung enthält ungültige Zeichen. </mat-error>
@@ -20,7 +20,7 @@
       required
     ></textarea>
 
-    <mat-hint align="end"> {{ informationFormGroup.controls['shortDescription'].value?.length || 0 }}/10000 </mat-hint>
+    <mat-hint align="end"> {{ informationFormGroup.controls['shortDescription'].value?.length || 0 }}/10000</mat-hint>
 
     <mat-error *ngIf="informationFormGroup.controls['shortDescription'].hasError('required')">
       Kurzbeschreibung <strong>fehlt</strong>!
@@ -40,7 +40,7 @@
       placeholder="Teilnahmevoraussetzungen"
     ></textarea>
 
-    <mat-hint align="end"> {{ informationFormGroup.controls['requirement'].value?.length || 0 }}/10000 </mat-hint>
+    <mat-hint align="end"> {{ informationFormGroup.controls['requirement'].value?.length || 0 }}/10000</mat-hint>
     <mat-error *ngIf="informationFormGroup.controls['requirement'].hasError('pattern')">
       Teilnahmevoraussetzungen enthält ungültige Zeichen.
     </mat-error>
@@ -50,7 +50,7 @@
     <mat-label>Beschreibung</mat-label>
     <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
 
-    <mat-hint align="end"> {{ informationFormGroup.controls['description'].value?.length || 0 }}/10000 </mat-hint>
+    <mat-hint align="end"> {{ informationFormGroup.controls['description'].value?.length || 0 }}/10000</mat-hint>
     <mat-error *ngIf="informationFormGroup.controls['description'].hasError('pattern')">
       Beschreibung enthält ungültige Zeichen.
     </mat-error>
@@ -59,7 +59,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Betreuer</mat-label>
     <input formControlName="supervisorName" matInput required maxlength="255" />
-    <mat-hint align="end"> {{ informationFormGroup.controls['supervisorName'].value?.length }}/255 </mat-hint>
+    <mat-hint align="end"> {{ informationFormGroup.controls['supervisorName'].value?.length }}/255</mat-hint>
     <mat-error *ngIf="informationFormGroup.controls['supervisorName'].hasError('pattern')">
       Betreuungsperson enthält ungültige Zeichen.
     </mat-error>

@@ -16,12 +16,14 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, Htt
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfTag } from '@data/schema/openapi/tag-service/models';
-import { CollectionModelOfTagCollection } from '@data/schema/openapi/tag-service/models';
-import { EntityModelOfTag } from '@data/schema/openapi/tag-service/models';
-import { EntityModelOfTagCollection } from '@data/schema/openapi/tag-service/models';
+import {
+  CollectionModelOfTag,
+  CollectionModelOfTagCollection,
+  EntityModelOfTag,
+  EntityModelOfTagCollection
+} from '@data/schema/openapi/tag-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -125,7 +127,7 @@ export class TagCollectionEntityService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: {
       httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
@@ -200,7 +202,7 @@ export class TagCollectionEntityService {
   public findByIdTagCollectionUsingGET(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -263,7 +265,7 @@ export class TagCollectionEntityService {
   public tagCollectionTagsUsingGET(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: 'application/hal+json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -331,7 +333,7 @@ export class TagCollectionEntityService {
     id: string,
     tagId: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -402,7 +404,7 @@ export class TagCollectionEntityService {
     id: string,
     requestBody?: Array<string>,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -485,7 +487,7 @@ export class TagCollectionEntityService {
     id: string,
     requestBody?: Array<string>,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -568,7 +570,7 @@ export class TagCollectionEntityService {
     id: string,
     requestBody?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -646,7 +648,7 @@ export class TagCollectionEntityService {
   public findAllUsingTagsTagCollectionUsingGET(
     tagIds?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
@@ -708,7 +710,7 @@ export class TagCollectionEntityService {
   public findAllUsingTagsUsingNameTagCollectionUsingGET(
     tags?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });

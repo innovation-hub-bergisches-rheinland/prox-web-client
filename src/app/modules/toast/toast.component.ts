@@ -8,6 +8,7 @@ import { Toast } from './types';
 })
 export class ToastComponent implements OnInit, OnDestroy {
   data: Toast[] = [];
+
   constructor(
     public snackbar: MatSnackBar,
     private changeDetection: ChangeDetectorRef,
@@ -27,12 +28,12 @@ export class ToastComponent implements OnInit, OnDestroy {
     this.changeDetection.detectChanges();
   }
 
+  ngOnDestroy(): void {
+    this.closeAll();
+  }
+
   private closeAll() {
     this.data = [];
     this._snackRef.dismiss();
-  }
-
-  ngOnDestroy(): void {
-    this.closeAll();
   }
 }

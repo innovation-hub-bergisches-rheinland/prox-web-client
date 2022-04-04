@@ -5,7 +5,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TagService } from '@data/service/tag.service';
-import { BehaviorSubject, delay, mergeMap, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, delay, mergeMap } from 'rxjs';
 import { debounceTime, filter, startWith } from 'rxjs/operators';
 
 @Component({
@@ -28,18 +28,21 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   @ViewChild(MatAutocompleteTrigger)
   tagAutocompleteTrigger: MatAutocompleteTrigger;
   tagInputCtrl = new FormControl('');
-
-  onChange = (tags: Tag[]) => {};
-  onTouched = () => {};
   _tags: Tag[] = [];
-
   tags$: Subject<Tag[]> = new BehaviorSubject(this._tags);
   tagRecommendations$: Observable<Tag[]>;
   tagAutocomplete$: Observable<Tag[]>;
 
-  // TODO: For better maintainability and extensibility we should not use the tagservice here..
   //  leverage angular directives, components, inputs and outputs or so...
   constructor(private tagService: TagService) {}
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange = (tags: Tag[]) => {};
+
+  // TODO: For better maintainability and extensibility we should not use the tagservice here..
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched = () => {};
 
   ngOnInit(): void {
     this.tagRecommendations$ = this.tags$.pipe(mergeMap(tags => this.tagService.getRecommendations(tags)));

@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './profile-information-card-entry.component.html',
   styleUrls: ['./profile-information-card-entry.component.scss']
 })
-export class ProfileInformationCardEntryComponent implements OnInit {
+export class ProfileInformationCardEntryComponent {
   @Input()
   title: string;
 
@@ -13,9 +13,5 @@ export class ProfileInformationCardEntryComponent implements OnInit {
   value: string;
 
   @Input()
-  linkable: boolean = false;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  linkable = false;
 }

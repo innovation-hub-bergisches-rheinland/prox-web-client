@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -94,7 +94,7 @@ export class JobOfferEntryLevelControllerService {
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<Array<JobOfferEntryLevel>>>;
-  public getAll2(observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
+  public getAll2(observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
     let headers = this.defaultHeaders;
 
     let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -144,12 +144,7 @@ export class JobOfferEntryLevelControllerService {
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<JobOfferEntryLevel>>;
-  public getById2(
-    id: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
+  public getById2(id: string, observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getById2.');
     }

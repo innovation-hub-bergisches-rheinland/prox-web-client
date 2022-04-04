@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,11 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './user-profile-editor-information.component.html',
   styleUrls: ['./user-profile-editor-information.component.scss']
 })
-export class UserProfileEditorInformationComponent implements OnInit {
+export class UserProfileEditorInformationComponent {
   @Input()
   userProfileInformationForm: FormGroup;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

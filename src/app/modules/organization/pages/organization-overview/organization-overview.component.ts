@@ -3,7 +3,6 @@ import { UserService } from '@data/service/user.service';
 import { Organization } from '@data/schema/user-service.types';
 import { Observable } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
-import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { map } from 'rxjs/operators';
@@ -15,7 +14,7 @@ import { map } from 'rxjs/operators';
 })
 export class OrganizationOverviewComponent implements OnInit {
   organizations$: Observable<Organization[]>;
-  canCreateNewOrg: boolean = false;
+  canCreateNewOrg = false;
 
   constructor(private userService: UserService, private keycloakService: KeycloakService, private dialog: MatDialog) {}
 

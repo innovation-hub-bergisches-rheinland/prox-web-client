@@ -1,4 +1,4 @@
-import { Component, ContentChildren, Input, OnInit, QueryList } from '@angular/core';
+import { Component, ContentChildren, OnInit, QueryList } from '@angular/core';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { ProfileInformationCardEntryComponent } from '@modules/profile/components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 
@@ -7,13 +7,9 @@ import { ProfileInformationCardEntryComponent } from '@modules/profile/component
   templateUrl: './profile-information-card.component.html',
   styleUrls: ['./profile-information-card.component.scss']
 })
-export class ProfileInformationCardComponent implements OnInit {
+export class ProfileInformationCardComponent {
   faAddressCard = faAddressCard;
 
   @ContentChildren(ProfileInformationCardEntryComponent)
   _items: QueryList<ProfileInformationCardEntryComponent>;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

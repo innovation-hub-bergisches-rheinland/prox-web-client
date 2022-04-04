@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { QueryParamsHandling, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Tag } from '@data/schema/tag.resource';
 import { TagService } from '@data/service/tag.service';
 import { QueryParams } from '@modules/project/pages/project/project.component';

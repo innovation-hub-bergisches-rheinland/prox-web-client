@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Organization, UserProfile } from '@data/schema/user-service.types';
+import { UserProfile } from '@data/schema/user-service.types';
 import { ToastService } from '@modules/toast/toast.service';
 
 export interface UserProfileEditorInput {

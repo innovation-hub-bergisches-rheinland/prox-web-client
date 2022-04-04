@@ -1,43 +1,53 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ### [1.8.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.8.0...v1.8.1) (2022-04-03)
 
-
 ### Bug Fixes
 
-* enable feature toggle for users ([f76b690](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f76b690e210f09ad89f1bb065bcd8e5845714f7a))
+* enable feature toggle for
+  users ([f76b690](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f76b690e210f09ad89f1bb065bcd8e5845714f7a))
 
 ## [1.8.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.7.1...v1.8.0) (2022-04-03)
 
-
 ### Features
 
-* add a profile header card ([768759b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/768759b302cf03e78f60e2e2856b2fbf63b86e7d))
-* add chips for research subjects ([33bb10d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/33bb10d2e36fdfd77fe945f32807017b407d9f31))
-* add overview page for user profiles ([3467820](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3467820831b3bf06b26a1c9eb7706b11dea239f0))
-* add project overview to user profile ([fd77190](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fd7719078b80d0ccd165ca5b0d5882f280814519))
-* add publications to user profile ([a823d21](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a823d21a917b5142cbfaf91129f4ece7bd0bdef1))
-* add sash to user profile page ([aedb86d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/aedb86d2fa8fc10bd312341434f8dfdf05f63ef5))
-* add user profile editor ([861af7c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/861af7ca74defc53674acc6130de415655b80f87))
-* add user profile information ([92f4a38](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/92f4a38b31419f8df4bd206ec47c33c541f05620))
-* migrate org profiles to new design ([78c6570](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/78c6570292ae0d5c179ef6d2d250e6acc44caeef))
-
+* add a profile header
+  card ([768759b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/768759b302cf03e78f60e2e2856b2fbf63b86e7d))
+* add chips for research
+  subjects ([33bb10d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/33bb10d2e36fdfd77fe945f32807017b407d9f31))
+* add overview page for user
+  profiles ([3467820](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3467820831b3bf06b26a1c9eb7706b11dea239f0))
+* add project overview to user
+  profile ([fd77190](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fd7719078b80d0ccd165ca5b0d5882f280814519))
+* add publications to user
+  profile ([a823d21](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a823d21a917b5142cbfaf91129f4ece7bd0bdef1))
+* add sash to user profile
+  page ([aedb86d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/aedb86d2fa8fc10bd312341434f8dfdf05f63ef5))
+* add user profile
+  editor ([861af7c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/861af7ca74defc53674acc6130de415655b80f87))
+* add user profile
+  information ([92f4a38](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/92f4a38b31419f8df4bd206ec47c33c541f05620))
+* migrate org profiles to new
+  design ([78c6570](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/78c6570292ae0d5c179ef6d2d250e6acc44caeef))
 
 ### Bug Fixes
 
-* banner resize ([d147a60](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d147a60d7a33ba4a2955cbb34748076f346d31dd))
-* fix typing ([5df563e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5df563e18a82982b4530a8e7ddeffa8ea73513a4))
+* banner
+  resize ([d147a60](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d147a60d7a33ba4a2955cbb34748076f346d31dd))
+* fix
+  typing ([5df563e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5df563e18a82982b4530a8e7ddeffa8ea73513a4))
 
 ### [1.7.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.7.0...v1.7.1) (2022-04-01)
 
 ## [1.7.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.6.3...v1.7.0) (2022-04-01)
 
-
 ### Features
 
-* refactor organization roles and remove owner ([15e1512](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/15e151241f422cbf136c2d56bed7239fa5b5500f))
+* refactor organization roles and remove
+  owner ([15e1512](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/15e151241f422cbf136c2d56bed7239fa5b5500f))
 
 ### [1.6.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.6.2...v1.6.3) (2022-03-28)
 
@@ -47,127 +57,141 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.6.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.6...v1.6.0) (2022-03-17)
 
-
 ### Features
 
-* add a dedicated social media card ([b00d88a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b00d88a2f6576b512292fc3b10dedb29895bc854))
-
+* add a dedicated social media
+  card ([b00d88a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b00d88a2f6576b512292fc3b10dedb29895bc854))
 
 ### Bug Fixes
 
-* allow both youtube channel id and user handle ([d79145e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d79145e2ec9d8bcf930f999b892aba7f67147ff9))
+* allow both youtube channel id and user
+  handle ([d79145e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d79145e2ec9d8bcf930f999b892aba7f67147ff9))
 
 ### [1.5.6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.5...v1.5.6) (2022-03-17)
 
 ### [1.5.5](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.4...v1.5.5) (2022-03-17)
 
-
 ### Bug Fixes
 
-* fix chip removal ([3ea4d97](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3ea4d970f19b21181c058e9c9c58f08d108acb2f))
+* fix chip
+  removal ([3ea4d97](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3ea4d970f19b21181c058e9c9c58f08d108acb2f))
 
 ### [1.5.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.3...v1.5.4) (2022-03-16)
 
-
 ### Bug Fixes
 
-* social media padding ([d6e0117](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d6e01178542fda17b84682af49e698e986274bd4))
+* social media
+  padding ([d6e0117](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d6e01178542fda17b84682af49e698e986274bd4))
 
 ### [1.5.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.2...v1.5.3) (2022-03-16)
 
-
 ### Bug Fixes
 
-* fix regex ([d18cc8e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d18cc8e9db18abace8514db2d338f08db2a92c4f))
-* regex for social media handles ([0c63399](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0c63399605d8354c9c26d5ad5468b3d99ef1eeb8))
+* fix
+  regex ([d18cc8e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d18cc8e9db18abace8514db2d338f08db2a92c4f))
+* regex for social media
+  handles ([0c63399](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0c63399605d8354c9c26d5ad5468b3d99ef1eeb8))
 
 ### [1.5.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.1...v1.5.2) (2022-03-16)
 
-
 ### Bug Fixes
 
-* change quarters from array type to simple string ([c24f618](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c24f618b5efd64d8e546bb755b04550fdadae7b4))
+* change quarters from array type to simple
+  string ([c24f618](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c24f618b5efd64d8e546bb755b04550fdadae7b4))
 
 ### [1.5.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.5.0...v1.5.1) (2022-03-16)
 
-
 ### Bug Fixes
 
-* disable email validation ([43ef3de](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/43ef3de4b25d618f7c5dfc9da412f3961abd9254))
-* remove max length from vita ([339efd6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/339efd6114cece988ac5a72a7012737cc29e48af))
+* disable email
+  validation ([43ef3de](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/43ef3de4b25d618f7c5dfc9da412f3961abd9254))
+* remove max length from
+  vita ([339efd6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/339efd6114cece988ac5a72a7012737cc29e48af))
 
 ## [1.5.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.2...v1.5.0) (2022-03-16)
 
-
 ### Features
 
-* add context selector component ([dcb584d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/dcb584dd62220b46a4ff90f45e757d193a38f6f1))
-* enable buttons permission-based ([fb438a7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fb438a78fa00f5ba88c72c055d9ca4b842d357b1))
-* implement organization editor ([6666476](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/6666476ddeb460af4f9f036fb1ed73a0c3c9fc2e))
-* implement organization profiles ([f48883b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f48883bc9d34a85c2bc88243a50e69cd5f150160))
-* navigate to profile page on click ([a382d1a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a382d1a786f0dcc64f20828c269c7abdb691790c))
-
+* add context selector
+  component ([dcb584d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/dcb584dd62220b46a4ff90f45e757d193a38f6f1))
+* enable buttons
+  permission-based ([fb438a7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fb438a78fa00f5ba88c72c055d9ca4b842d357b1))
+* implement organization
+  editor ([6666476](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/6666476ddeb460af4f9f036fb1ed73a0c3c9fc2e))
+* implement organization
+  profiles ([f48883b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f48883bc9d34a85c2bc88243a50e69cd5f150160))
+* navigate to profile page on
+  click ([a382d1a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a382d1a786f0dcc64f20828c269c7abdb691790c))
 
 ### Bug Fixes
 
-* social media button row content projection ([d7e8d0f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d7e8d0fbddb21dc956e6e74aab75013eb5f629c0))
+* social media button row content
+  projection ([d7e8d0f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d7e8d0fbddb21dc956e6e74aab75013eb5f629c0))
 
 ### [1.4.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.1...v1.4.2) (2022-03-01)
 
 ### [1.4.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.4.0...v1.4.1) (2022-02-28)
 
-
 ### Bug Fixes
 
-* tag recommendations didn't update ([942b622](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/942b622dad24857df32c1091edc75ab4a26389fb))
+* tag recommendations didn't
+  update ([942b622](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/942b622dad24857df32c1091edc75ab4a26389fb))
 
 ## [1.4.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.3.1...v1.4.0) (2022-02-27)
 
-
 ### Features
 
-* add a user search component ([e5be01b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e5be01b93dce1b2d531546c401d46059f7a3066a))
-* add basic user selector component ([bdcf5bc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bdcf5bc620249a4443cd219efb93e0f68423433e))
-* add buttons to the organization item ([bf65c41](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bf65c41b500d78b1cfdcf82951fdcbeba5ab65c9))
-* add organization components from new user-service ([a84149e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a84149ee080325b9352859fd2739e7789aa7e3aa))
-* implement basic organization membership management ([316b4a1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/316b4a147d51bcfa862a63c25e6b555366419dcc))
-* implement specializations ([360ee42](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/360ee42d16b6e5d348a81cafb44b9b3498d365e0))
-
+* add a user search
+  component ([e5be01b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e5be01b93dce1b2d531546c401d46059f7a3066a))
+* add basic user selector
+  component ([bdcf5bc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bdcf5bc620249a4443cd219efb93e0f68423433e))
+* add buttons to the organization
+  item ([bf65c41](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bf65c41b500d78b1cfdcf82951fdcbeba5ab65c9))
+* add organization components from new
+  user-service ([a84149e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a84149ee080325b9352859fd2739e7789aa7e3aa))
+* implement basic organization membership
+  management ([316b4a1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/316b4a147d51bcfa862a63c25e6b555366419dcc))
+* implement
+  specializations ([360ee42](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/360ee42d16b6e5d348a81cafb44b9b3498d365e0))
 
 ### Bug Fixes
 
-* redirect organizations menu entry to `/organizaions` ([5619e0d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5619e0dc9eae59a8bba2a4ab5bbfdc9998f34771))
+* redirect organizations menu entry
+  to `/organizaions` ([5619e0d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5619e0dc9eae59a8bba2a4ab5bbfdc9998f34771))
 
 ### [1.3.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.3.0...v1.3.1) (2022-02-02)
 
-
 ### Bug Fixes
 
-* hide divider when it is not necessary ([8d369dc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8d369dcdb066a5e60481582bb31eb169d0c0cab6))
-* show project details ([bb52fa7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bb52fa72be413362afc7bb9528e52ff661f99259))
+* hide divider when it is not
+  necessary ([8d369dc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8d369dcdb066a5e60481582bb31eb169d0c0cab6))
+* show project
+  details ([bb52fa7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/bb52fa72be413362afc7bb9528e52ff661f99259))
 
 ## [1.3.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.4...v1.3.0) (2022-01-31)
 
-
 ### Features
 
-* display creation date ([dd3cd22](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/dd3cd227c137c92973ec3acfb9743b73637e8970))
-* make add project button more noticable and adjust its position ([0184ab7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0184ab728e74e187552ad42eb805bf92c4450404))
-* sort by creation date by default ([58768f1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/58768f1aec26c1323d0f91e65bf91f78317b0125))
+* display creation
+  date ([dd3cd22](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/dd3cd227c137c92973ec3acfb9743b73637e8970))
+* make add project button more noticable and adjust its
+  position ([0184ab7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0184ab728e74e187552ad42eb805bf92c4450404))
+* sort by creation date by
+  default ([58768f1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/58768f1aec26c1323d0f91e65bf91f78317b0125))
 
 ### [1.2.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.2...v1.2.4) (2022-01-31)
 
-
 ### Bug Fixes
 
-* fix status constant names ([26da973](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26da973eecc0bcf68f0ad69ecc3886bfb7e50ef0))
+* fix status constant
+  names ([26da973](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26da973eecc0bcf68f0ad69ecc3886bfb7e50ef0))
 
 ### [1.2.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.2...v1.2.3) (2022-01-31)
 
-
 ### Bug Fixes
 
-* fix status constant names ([26da973](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26da973eecc0bcf68f0ad69ecc3886bfb7e50ef0))
+* fix status constant
+  names ([26da973](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26da973eecc0bcf68f0ad69ecc3886bfb7e50ef0))
 
 ### [1.2.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.2.1...v1.2.2) (2022-01-31)
 

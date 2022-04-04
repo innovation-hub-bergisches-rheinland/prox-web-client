@@ -1,14 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChildren,
-  HostBinding,
-  Input,
-  OnInit,
-  QueryList
-} from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
 import { CarouselItemComponent } from '../carousel-item/carousel-item.component';
 
 @Component({
@@ -23,9 +13,7 @@ export class CarouselComponent implements AfterContentInit {
   @Input()
   numItems: number;
 
-  page: number = 0;
-
-  constructor() {}
+  page = 0;
 
   ngAfterContentInit(): void {
     this.pageItems();

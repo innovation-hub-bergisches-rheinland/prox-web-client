@@ -15,6 +15,7 @@ export interface TemplateVariable {
   name?: string;
   type?: TemplateVariable.TypeEnum;
 }
+
 export namespace TemplateVariable {
   export type TypeEnum = 'COMPOSITE_PARAM' | 'FRAGMENT' | 'PATH_VARIABLE' | 'REQUEST_PARAM' | 'REQUEST_PARAM_CONTINUED' | 'SEGMENT';
   export const TypeEnum = {

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { Organization } from '@data/schema/user-service.types';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,7 +12,7 @@ import { faBullseye } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './organization-profile.component.html',
   styleUrls: ['./organization-profile.component.scss']
 })
-export class OrganizationProfileComponent implements OnInit {
+export class OrganizationProfileComponent {
   organization$: Observable<Organization>;
   avatar$: Observable<string>;
   faBullseye = faBullseye;
@@ -29,6 +29,4 @@ export class OrganizationProfileComponent implements OnInit {
       tap(o => (this.avatar$ = this.userService.getOrganizationAvatar(o.id)))
     );
   }
-
-  ngOnInit(): void {}
 }

@@ -1,7 +1,7 @@
 <ng-container *ngIf="user$ | async; let user; else: loading">
   <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
     <app-profile-header-card
-      (onEditClicked)="editProfile(user)"
+      (editClicked)="editProfile(user)"
       [imageSrc]="avatar"
       [roundedAvatar]="true"
       [showEdit]="isOwnProfile"

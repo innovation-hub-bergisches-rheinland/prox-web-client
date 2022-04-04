@@ -7,7 +7,7 @@ import { Component, HostBinding, Input } from '@angular/core';
 })
 export class ProfileOverviewCardComponent {
   @HostBinding('class')
-  classes: string = 'profile-overview';
+  classes = 'profile-overview';
 
   @Input()
   title: string;
@@ -25,9 +25,7 @@ export class ProfileOverviewCardComponent {
   @Input()
   chipTitle: string;
   @Input()
-  defaultImage: string = '/assets/images/blank-profile-picture.png';
-
-  constructor() {}
+  defaultImage = '/assets/images/blank-profile-picture.png';
 
   private _chips: string[] = [];
 

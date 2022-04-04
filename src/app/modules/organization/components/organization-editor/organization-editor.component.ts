@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { socialMediaHandleValidator } from '@modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
 import { CreateOrganizationSchema, Organization, OrganizationProfile } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
-import { EMPTY, forkJoin, mergeMap, of } from 'rxjs';
+import { forkJoin, mergeMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-organization-editor',
@@ -44,7 +44,7 @@ export class OrganizationEditorComponent implements OnInit {
   });
 
   @Output()
-  onSaved = new EventEmitter<Organization>();
+  save = new EventEmitter<Organization>();
 
   @Input()
   organization: Organization | null = null;
@@ -76,7 +76,7 @@ export class OrganizationEditorComponent implements OnInit {
       )
       .subscribe({
         next: value => {
-          this.onSaved.emit(value.org);
+          this.save.emit(value.org);
         },
         error: err => console.log(err)
       });

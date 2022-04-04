@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, forwardRef } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserSearchResult } from '@data/schema/user-service.types';
-import { delay, mergeMap, Observable, of } from 'rxjs';
+import { Observable, delay, mergeMap, of } from 'rxjs';
 import { debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
 
 @Component({
@@ -11,10 +11,6 @@ import { debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
   styleUrls: ['./user-search.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    role: 'combobox',
-    class: 'app-user-search'
-  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -23,7 +19,12 @@ import { debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
     }
   ]
 })
-export class UserSearchComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class UserSearchComponent implements OnInit, ControlValueAccessor {
+  @HostBinding('class')
+  classes = 'app-user-search';
+  @HostBinding('role')
+  role = 'combobox';
+
   userSearchCtrl = new FormControl();
   userSearchFilteringCtrl = new FormControl();
   filteredUsers$: Observable<UserSearchResult[]>;
@@ -32,13 +33,16 @@ export class UserSearchComponent implements OnInit, OnDestroy, ControlValueAcces
   @Input()
   disabled = false;
 
+  constructor(private userService: UserService) {}
+
   @Input()
   filter: (UserSearchResult) => boolean = () => true;
 
-  onTouched: Function = () => {};
-  onChange = (user: UserSearchResult) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched: () => void = () => {};
 
-  constructor(private userService: UserService) {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange = (user: UserSearchResult) => {};
 
   ngOnInit(): void {
     this.filteredUsers$ = this.userSearchFilteringCtrl.valueChanges.pipe(
@@ -59,8 +63,6 @@ export class UserSearchComponent implements OnInit, OnDestroy, ControlValueAcces
       next: value => this.writeValue(value)
     });
   }
-
-  ngOnDestroy() {}
 
   registerOnChange(onChange: (user: UserSearchResult) => void) {
     this.onChange = onChange;

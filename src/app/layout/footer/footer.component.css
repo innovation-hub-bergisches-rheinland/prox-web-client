@@ -9,6 +9,7 @@
   margin-right: auto;
   font-size: 0.8em;
 }
+
 #ul_top_hypers {
   padding: 0px;
 }
@@ -17,6 +18,7 @@
   display: inline;
   margin: 0 10px;
 }
+
 #ul_top_hypers li a {
   color: #bbb;
 }

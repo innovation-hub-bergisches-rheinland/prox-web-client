@@ -1,14 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {
-  CreateOrganizationMembership,
-  Organization,
-  OrganizationMembership,
-  OrganizationRole,
-  UserSearchResult
-} from '@data/schema/user-service.types';
-import { UserService } from '@data/service/user.service';
+import { CreateOrganizationMembership, OrganizationMembership, OrganizationRole, UserSearchResult } from '@data/schema/user-service.types';
 
 interface AddMemberDialogData {
   activeMembers: OrganizationMembership[];
@@ -19,8 +12,7 @@ interface AddMemberDialogData {
   templateUrl: './organization-add-member-dialog.component.html',
   styleUrls: ['./organization-add-member-dialog.component.scss']
 })
-export class OrganizationAddMemberDialogComponent implements OnInit {
-  activeMemberFilter: (element: UserSearchResult) => boolean = element => !this.data.activeMembers.some(m => m.memberId === element.id);
+export class OrganizationAddMemberDialogComponent {
   addMemberForm = this.fb.group({
     userSearchCtrl: new FormControl('', Validators.required),
     roleSelectCtrl: new FormControl('MEMBER', Validators.required)
@@ -32,7 +24,7 @@ export class OrganizationAddMemberDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: AddMemberDialogData
   ) {}
 
-  ngOnInit(): void {}
+  activeMemberFilter: (element: UserSearchResult) => boolean = element => !this.data.activeMembers.some(m => m.memberId === element.id);
 
   closeDialog() {
     this.dialogRef.close();

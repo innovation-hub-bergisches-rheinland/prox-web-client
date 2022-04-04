@@ -6,15 +6,11 @@ import { faBook } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './profile-publications-card.component.html',
   styleUrls: ['./profile-publications-card.component.scss']
 })
-export class ProfilePublicationsCardComponent implements OnInit {
+export class ProfilePublicationsCardComponent {
   icon = faBook;
 
   @Input()
   publications: string[];
 
   limit = 10;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

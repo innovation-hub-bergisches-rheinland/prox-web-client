@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CreateOrganizationMembership, Organization, OrganizationMembership, UserSearchResult } from '@data/schema/user-service.types';
+import { CreateOrganizationMembership, Organization, OrganizationMembership } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
-import { combineLatestWith, EMPTY, empty, lastValueFrom, mergeMap, Observable, of } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { Observable, lastValueFrom, mergeMap } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationAddMemberDialogComponent } from '@modules/organization/components/organization-add-member-dialog/organization-add-member-dialog.component';

@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OrganizationMembership, OrganizationRole, UpdateOrganizationMembership } from '@data/schema/user-service.types';
-import { Subject } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { OrganizationMembership } from '@data/schema/user-service.types';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
@@ -11,18 +10,20 @@ import { OrganizationEditMemberDialogComponent } from '@modules/organization/com
   templateUrl: './organization-memberships-list.component.html',
   styleUrls: ['./organization-memberships-list.component.scss']
 })
-export class OrganizationMembershipsListComponent implements OnInit {
+export class OrganizationMembershipsListComponent {
   @Input()
   memberships: OrganizationMembership[] = [];
   @Input()
-  showControls: boolean = false;
+  showControls = false;
   @Input()
-  showAdminControls: boolean = false;
+  showAdminControls = false;
 
   @Output()
-  onRemoveMembership = new EventEmitter<OrganizationMembership>();
+  membershipRemoved = new EventEmitter<OrganizationMembership>();
   @Output()
-  onUpdateMembership = new EventEmitter<OrganizationMembership>();
+  membershipUpdated = new EventEmitter<OrganizationMembership>();
+
+  constructor(private dialog: MatDialog) {}
 
   get administrators(): OrganizationMembership[] {
     return this.memberships?.filter(m => m.role === 'ADMIN') ?? [];
@@ -36,10 +37,6 @@ export class OrganizationMembershipsListComponent implements OnInit {
     return this.administrators.length > 1;
   }
 
-  constructor(private dialog: MatDialog) {}
-
-  ngOnInit(): void {}
-
   editMembership(member: OrganizationMembership) {
     const dialogRef = this.dialog.open(OrganizationEditMemberDialogComponent, {
       data: {
@@ -51,7 +48,7 @@ export class OrganizationMembershipsListComponent implements OnInit {
       .afterClosed()
       .pipe(filter(value => !!value))
       .subscribe({
-        next: (value: OrganizationMembership) => this.onUpdateMembership.emit(value)
+        next: (value: OrganizationMembership) => this.membershipUpdated.emit(value)
       });
   }
 
@@ -64,7 +61,7 @@ export class OrganizationMembershipsListComponent implements OnInit {
       .afterClosed()
       .pipe(filter(value => value === true))
       .subscribe({
-        next: () => this.onRemoveMembership.emit(member)
+        next: () => this.membershipRemoved.emit(member)
       });
   }
 }

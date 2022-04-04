@@ -1,7 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { JobOfferControllerService } from '@data/service/openapi/job-service/jobOfferController.service';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { JobOfferEntryLevelControllerService } from '@data/service/openapi/job-service/jobOfferEntryLevelController.service';
@@ -74,7 +74,7 @@ export class JobService {
     return this.jobControllerService._delete(id);
   }
 
-  searchJobOffers(search: string = '', entryLevels: JobOfferEntryLevel[] = [], types: JobOfferType[] = []): Observable<JobOffer[]> {
+  searchJobOffers(search = '', entryLevels: JobOfferEntryLevel[] = [], types: JobOfferType[] = []): Observable<JobOffer[]> {
     return this.jobControllerService.searchJobOffers(
       search,
       entryLevels?.map(level => level.entryLevel),

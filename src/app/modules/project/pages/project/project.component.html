@@ -1,14 +1,14 @@
 <app-content-page>
   <app-content-page-header>
     <app-content-page-title>Projekte</app-content-page-title>
-    <app-content-page-actions> </app-content-page-actions>
+    <app-content-page-actions></app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
     <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10px">
       <mat-expansion-panel fxFlex class="expansion-headers-align" hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title> Suchfilter </mat-panel-title>
-          <mat-panel-description> Nach Projekten suchen </mat-panel-description>
+          <mat-panel-title> Suchfilter</mat-panel-title>
+          <mat-panel-description> Nach Projekten suchen</mat-panel-description>
           <mat-icon>search</mat-icon>
         </mat-expansion-panel-header>
         <form class="search-form" fxLayout="column" [formGroup]="searchForm" (ngSubmit)="filterProjects()">
@@ -104,7 +104,7 @@
         matTooltip="Neues Projekt hinzufügen"
         color="primary"
       >
-        <mat-icon> add </mat-icon>
+        <mat-icon> add</mat-icon>
       </button>
       <mat-divider></mat-divider>
     </div>

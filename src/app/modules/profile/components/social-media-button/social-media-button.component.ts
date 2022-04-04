@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
 
 export type SocialMedia = 'FACEBOOK' | 'TWITTER' | 'LINKEDIN' | 'XING' | 'INSTAGRAM';
@@ -8,7 +8,7 @@ export type SocialMedia = 'FACEBOOK' | 'TWITTER' | 'LINKEDIN' | 'XING' | 'INSTAG
   templateUrl: './social-media-button.component.html',
   styleUrls: ['./social-media-button.component.scss']
 })
-export class SocialMediaButtonComponent implements OnInit {
+export class SocialMediaButtonComponent {
   @Input()
   icon: IconDefinition;
 
@@ -26,8 +26,4 @@ export class SocialMediaButtonComponent implements OnInit {
       'background-color': this.color
     };
   }
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

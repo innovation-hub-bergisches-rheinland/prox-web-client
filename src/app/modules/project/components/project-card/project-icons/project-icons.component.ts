@@ -6,7 +6,7 @@ import { Context, Specialization, Status } from '@data/schema/project-service.ty
   templateUrl: './project-icons.component.html',
   styleUrls: ['./project-icons.component.scss']
 })
-export class ProjectIconsComponent implements OnInit {
+export class ProjectIconsComponent {
   @Input()
   status: Status;
 
@@ -19,8 +19,4 @@ export class ProjectIconsComponent implements OnInit {
   get specializationKeys(): string[] {
     return this.specialization?.map(s => s.key) ?? [];
   }
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

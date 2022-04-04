@@ -1,11 +1,7 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Tag } from '@data/schema/tag.resource';
-import { BehaviorSubject, delay, mergeMap, Observable, Subject } from 'rxjs';
-import { TagService } from '@data/service/tag.service';
-import { debounceTime, filter, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
@@ -20,7 +16,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
     }
   ]
 })
-export class SimpleChipInputComponent implements OnInit, ControlValueAccessor {
+export class SimpleChipInputComponent implements ControlValueAccessor {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   @Input()
@@ -31,16 +27,14 @@ export class SimpleChipInputComponent implements OnInit, ControlValueAccessor {
 
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
   chipInputCtrl = new FormControl('');
-
-  onChange = (chip: string[]) => {};
-  onTouched = () => {};
   _chips: string[] = [];
-
   chips$: Subject<string[]> = new BehaviorSubject(this._chips);
 
-  constructor() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange = (chip: string[]) => {};
 
-  ngOnInit(): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched = () => {};
 
   registerOnChange(fn: (chips: string[]) => void): void {
     this.onChange = fn;

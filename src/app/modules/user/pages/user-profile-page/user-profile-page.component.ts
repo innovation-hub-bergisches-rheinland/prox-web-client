@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { mergeMap, Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable, mergeMap } from 'rxjs';
 import { UserProfile } from '@data/schema/user-service.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@data/service/user.service';
@@ -19,7 +19,7 @@ import { ProjectHistoryItem } from '@modules/profile/components/profile-project-
   templateUrl: './user-profile-page.component.html',
   styleUrls: ['./user-profile-page.component.scss']
 })
-export class UserProfilePageComponent implements OnInit {
+export class UserProfilePageComponent {
   user$: Observable<UserProfile>;
   offeredProjects$: Observable<ProjectWithAssociations[]>;
   projectHistory$: Observable<ProjectHistoryItem[]>;
@@ -65,8 +65,6 @@ export class UserProfilePageComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
-
   editProfile(profile: UserProfile) {
     const dialog = this.dialog.open(UserProfileEditorDialogComponent, {
       autoFocus: false,
@@ -79,7 +77,7 @@ export class UserProfilePageComponent implements OnInit {
     });
     dialog.afterClosed().subscribe({
       next: (value: UserProfile) => {
-        if (!!value) {
+        if (value) {
           // TODO: Better use a publisher rather than a subscriber to directly emit it
           this.loadProfile();
         }

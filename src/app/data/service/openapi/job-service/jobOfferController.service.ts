@@ -16,11 +16,9 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, Htt
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { JobOffer } from '@data/schema/openapi/job-service/models';
-import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/models';
-import { JobOfferType } from '@data/schema/openapi/job-service/models';
+import { JobOffer, JobOfferEntryLevel, JobOfferType } from '@data/schema/openapi/job-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -100,12 +98,7 @@ export class JobOfferControllerService {
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: undefined }
   ): Observable<HttpEvent<any>>;
-  public _delete(
-    id: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: undefined }
-  ): Observable<any> {
+  public _delete(id: string, observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: undefined }): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling _delete.');
     }
@@ -153,7 +146,7 @@ export class JobOfferControllerService {
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpResponse<Set<JobOffer>>>;
   public getAll(observe?: 'events', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*' }): Observable<HttpEvent<Set<JobOffer>>>;
-  public getAll(observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
+  public getAll(observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
     let headers = this.defaultHeaders;
 
     let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -198,12 +191,7 @@ export class JobOfferControllerService {
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<JobOffer>>;
-  public getById(
-    id: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
+  public getById(id: string, observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getById.');
     }
@@ -260,7 +248,7 @@ export class JobOfferControllerService {
   public getEntryLevels(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -319,12 +307,7 @@ export class JobOfferControllerService {
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<Array<JobOfferType>>>;
-  public getTypes(
-    id: string,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
+  public getTypes(id: string, observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getTypes.');
     }
@@ -374,12 +357,7 @@ export class JobOfferControllerService {
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<HttpEvent<JobOffer>>;
-  public save(
-    jobOffer: JobOffer,
-    observe: any = 'body',
-    reportProgress: boolean = false,
-    options?: { httpHeaderAccept?: '*/*' }
-  ): Observable<any> {
+  public save(jobOffer: JobOffer, observe: any = 'body', reportProgress = false, options?: { httpHeaderAccept?: '*/*' }): Observable<any> {
     if (jobOffer === null || jobOffer === undefined) {
       throw new Error('Required parameter jobOffer was null or undefined when calling save.');
     }
@@ -449,7 +427,7 @@ export class JobOfferControllerService {
   public findAllJobsByCreator(
     creator: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (creator === null || creator === undefined) {
@@ -524,7 +502,7 @@ export class JobOfferControllerService {
     entryLevels?: Array<'CAREER_STARTER' | 'EXPERIENCED'>,
     types?: Array<'FULL_TIME' | 'PART_TIME' | 'INTERNSHIP' | 'MINIJOB' | 'STUDENT_WORKER' | 'RESEARCH_ASSISTANT'>,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
@@ -600,7 +578,7 @@ export class JobOfferControllerService {
     id: string,
     requestBody: Array<string>,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -678,7 +656,7 @@ export class JobOfferControllerService {
     id: string,
     requestBody: Array<string>,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -757,7 +735,7 @@ export class JobOfferControllerService {
     id: string,
     jobOffer: JobOffer,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {

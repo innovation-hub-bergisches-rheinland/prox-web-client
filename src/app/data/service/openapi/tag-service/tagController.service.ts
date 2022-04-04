@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 
 import { TagCount } from '@data/schema/openapi/tag-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -106,7 +106,7 @@ export class TagControllerService {
   public popularTagsUsingGET(
     limit?: number,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });

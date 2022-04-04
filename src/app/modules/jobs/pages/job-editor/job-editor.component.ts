@@ -1,15 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, forkJoin, of, throwError } from 'rxjs';
-import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
-import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { Moment } from 'moment';
-import * as moment from 'moment';
-import { catchError, map, mergeMap, mergeMapTo, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { JobOfferEvent } from '@modules/jobs/components/job-offer-form/job-offer-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@modules/toast/toast.service';

@@ -11,7 +11,7 @@
 
   <mat-dialog-content>
     <app-user-profile-editor
-      (onSaved)="userProfileSaved($event)"
+      (saved)="userProfileSaved($event)"
       [id]="userProfile.id"
       [userProfile]="userProfile.profile"
     ></app-user-profile-editor>

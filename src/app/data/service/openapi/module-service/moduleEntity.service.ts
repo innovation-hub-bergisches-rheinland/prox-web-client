@@ -16,10 +16,9 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, Htt
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfModule } from '@data/schema/openapi/module-service/models';
-import { EntityModelOfModule } from '@data/schema/openapi/module-service/models';
+import { CollectionModelOfModule, EntityModelOfModule } from '@data/schema/openapi/module-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -123,7 +122,7 @@ export class ModuleEntityService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: {
       httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
@@ -198,7 +197,7 @@ export class ModuleEntityService {
   public findByIdModuleUsingGET(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -273,7 +272,7 @@ export class ModuleEntityService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
@@ -362,7 +361,7 @@ export class ModuleEntityService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });

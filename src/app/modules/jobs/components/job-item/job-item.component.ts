@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { JobService } from '@data/service/job.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
@@ -14,7 +14,7 @@ import { UserService } from '@data/service/user.service';
   templateUrl: './job-item.component.html',
   styleUrls: ['./job-item.component.scss']
 })
-export class JobItemComponent implements OnInit, AfterViewInit {
+export class JobItemComponent {
   @Output() jobOfferDeleted = new EventEmitter<JobOffer>();
   creatorName$: Observable<string>;
   creatorLink$: Observable<string>;
@@ -44,10 +44,6 @@ export class JobItemComponent implements OnInit, AfterViewInit {
       this.setObservables();
     }
   }
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {}
 
   getFormattedDate(date: string): string {
     return new Intl.DateTimeFormat('de-DE').format(Date.parse(date));

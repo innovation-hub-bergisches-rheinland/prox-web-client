@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
 import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 
 export interface JobOfferEvent {
   jobOffer: JobOffer;

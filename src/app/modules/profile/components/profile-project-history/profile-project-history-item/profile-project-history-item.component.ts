@@ -23,24 +23,26 @@ export interface ProjectHistoryItem {
   changeDetection: ChangeDetectionStrategy.OnPush // Prevent ExpressionChangedAfterItHasBeenCheckedError by manual pushing changes
 })
 export class ProfileProjectHistoryItemComponent implements OnInit {
-  _position;
   _positionIndex;
   _displayContent = false;
-  _project: ProjectHistoryItem;
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  @Input()
-  set project(project: ProjectHistoryItem) {
-    this._project = project;
-
-    this.cd.detectChanges(); // Change
-  }
+  _position;
 
   @Input()
   set position(positionValue: number) {
     this._positionIndex = positionValue;
     this.computePosition();
+
+    this.cd.detectChanges(); // Change
+  }
+
+  _project: ProjectHistoryItem;
+
+  @Input()
+  set project(project: ProjectHistoryItem) {
+    this._project = project;
 
     this.cd.detectChanges(); // Change
   }

@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { JobOffer } from '@data/schema/openapi/job-service/jobOffer';
 import { JobService } from '@data/service/job.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { EMPTY, Observable, from, throwError } from 'rxjs';
-import { JobOfferType } from '@data/schema/openapi/job-service/jobOfferType';
-import { JobOfferEntryLevel } from '@data/schema/openapi/job-service/jobOfferEntryLevel';
+import { FormBuilder } from '@angular/forms';
+import { Observable, from, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

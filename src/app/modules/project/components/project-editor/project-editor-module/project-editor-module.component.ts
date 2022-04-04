@@ -7,7 +7,7 @@ import { ModuleType, Specialization } from '@data/schema/project-service.types';
   templateUrl: './project-editor-module.component.html',
   styleUrls: ['./project-editor-module.component.scss']
 })
-export class ProjectEditorModuleComponent implements OnInit {
+export class ProjectEditorModuleComponent {
   @Input()
   moduleFormGroup: FormGroup;
 
@@ -18,9 +18,5 @@ export class ProjectEditorModuleComponent implements OnInit {
   modules: ModuleType[];
 
   @Output()
-  onSpecializationSelected = new EventEmitter<any>();
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  specializationSelected = new EventEmitter<any>();
 }

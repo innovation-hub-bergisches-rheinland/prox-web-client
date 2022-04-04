@@ -7,21 +7,16 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } 
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileJobsCardItemComponent implements OnInit {
+export class ProfileJobsCardItemComponent {
   @Input()
   title: string;
 
   @Input()
   levels: string[] = [];
+  @Input()
+  id: string;
 
   get levelsAsString(): string {
     return `(${this.levels.join(' / ')})`;
   }
-
-  @Input()
-  id: string;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -10,7 +10,7 @@ import { UserComponent } from '@layout/user/user.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BASE_PATH } from '@data/service/openapi/variables';
 import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';

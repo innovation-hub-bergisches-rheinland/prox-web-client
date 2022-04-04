@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
-import { Project, ProjectWithAssociations } from '@data/schema/project-service.types';
+import { ProjectWithAssociations } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-profile-projects-card',
@@ -9,13 +9,9 @@ import { Project, ProjectWithAssociations } from '@data/schema/project-service.t
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileProjectsCardComponent implements OnInit {
+export class ProfileProjectsCardComponent {
   @Input()
   projects: ProjectWithAssociations[];
 
   faTask = faTasks;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

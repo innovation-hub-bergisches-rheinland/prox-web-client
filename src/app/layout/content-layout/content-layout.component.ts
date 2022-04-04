@@ -10,7 +10,7 @@ import { FeatureService } from '@data/service/feature.service';
 })
 export class ContentLayoutComponent implements OnInit {
   @HostBinding()
-  classes: string = 'content-layout';
+  classes = 'content-layout';
 
   @Input()
   title: string;

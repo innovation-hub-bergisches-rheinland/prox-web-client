@@ -1,14 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Observable, Subscription, forkJoin, interval, of, throwError, lastValueFrom } from 'rxjs';
-import { catchError, debounceTime, filter, map, mergeMap, skip, startWith, switchMap, takeUntil, tap, toArray } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
+import { catchError, map, mergeMap, startWith, tap, toArray } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { ToastService } from '@modules/toast/toast.service';
 import { CreateProjectSchema, ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 import { Tag } from '@data/schema/tag.resource';
@@ -18,7 +17,7 @@ import { Tag } from '@data/schema/tag.resource';
   templateUrl: './project-editor.component.html',
   styleUrls: ['./project-editor.component.scss']
 })
-export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProjectEditorComponent implements OnInit {
   projectInformationFormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     description: [''],
@@ -44,7 +43,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
   project: Project;
 
   @Output()
-  onSaved = new EventEmitter<Project>();
+  saved = new EventEmitter<Project>();
 
   specializations$: Observable<Specialization[]>;
   modules$: Observable<ModuleType[]>;
@@ -57,8 +56,6 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
-
-  ngAfterViewInit(): void {}
 
   async ngOnInit() {
     // If user is logged in set its ID and Full Name
@@ -84,12 +81,10 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
       })
     );
 
-    if (!!this.project) {
+    if (this.project) {
       await this.setProjectValues(this.project);
     }
   }
-
-  ngOnDestroy(): void {}
 
   async setProjectValues(project: Project) {
     this.projectForm.controls.information.get('name').setValue(project.name);
@@ -131,28 +126,9 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
     };
   }
 
-  private createTags(tags: Tag[]): Observable<Tag[]> {
-    return of(...tags).pipe(
-      mergeMap(tag =>
-        this.tagService.findByTagName(tag.tagName).pipe(
-          map(foundTags => {
-            return { tag, foundTags };
-          })
-        )
-      ),
-      mergeMap(x => {
-        if (x.foundTags.length >= 1) {
-          return of(x.foundTags[0]);
-        }
-        return this.tagService.createTag(x.tag);
-      }),
-      toArray()
-    );
-  }
-
   onSave() {
     const project = this.buildProject();
-    const createOrUpdateProject$: Observable<Project> = !!this.project
+    const createOrUpdateProject$: Observable<Project> = this.project
       ? this.projectService.updateProject(this.project.id, project)
       : this.projectService.createProject(project);
 
@@ -178,7 +154,7 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
           this.toastService.showToast({
             message: 'Projekt wurde erfolgreich erstellt'
           });
-          this.onSaved.emit(value.project);
+          this.saved.emit(value.project);
         },
         error: err => {
           console.log(err);
@@ -188,5 +164,24 @@ export class ProjectEditorComponent implements OnInit, OnDestroy, AfterViewInit 
           });
         }
       });
+  }
+
+  private createTags(tags: Tag[]): Observable<Tag[]> {
+    return of(...tags).pipe(
+      mergeMap(tag =>
+        this.tagService.findByTagName(tag.tagName).pipe(
+          map(foundTags => {
+            return { tag, foundTags };
+          })
+        )
+      ),
+      mergeMap(x => {
+        if (x.foundTags.length >= 1) {
+          return of(x.foundTags[0]);
+        }
+        return this.tagService.createTag(x.tag);
+      }),
+      toArray()
+    );
   }
 }

@@ -16,12 +16,14 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, Htt
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfModule } from '@data/schema/openapi/module-service/models';
-import { CollectionModelOfStudyCourse } from '@data/schema/openapi/module-service/models';
-import { EntityModelOfModule } from '@data/schema/openapi/module-service/models';
-import { EntityModelOfStudyCourse } from '@data/schema/openapi/module-service/models';
+import {
+  CollectionModelOfModule,
+  CollectionModelOfStudyCourse,
+  EntityModelOfModule,
+  EntityModelOfStudyCourse
+} from '@data/schema/openapi/module-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -125,7 +127,7 @@ export class StudyCourseEntityService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: {
       httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
@@ -200,7 +202,7 @@ export class StudyCourseEntityService {
   public findByAcademicDegreeStudyCourseUsingGET(
     academicDegree?: 'BACHELOR' | 'MASTER' | 'UNKNOWN',
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
@@ -262,7 +264,7 @@ export class StudyCourseEntityService {
   public findByIdStudyCourseUsingGET(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -322,7 +324,7 @@ export class StudyCourseEntityService {
   public studyCourseModulesUsingGET(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: 'application/hal+json' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -390,7 +392,7 @@ export class StudyCourseEntityService {
     id: string,
     moduleId: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {

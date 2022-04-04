@@ -19,6 +19,7 @@ export interface EntityModelOfStudyCourse {
   modules?: Set<Module>;
   name?: string;
 }
+
 export namespace EntityModelOfStudyCourse {
   export type AcademicDegreeEnum = 'BACHELOR' | 'MASTER' | 'UNKNOWN';
   export const AcademicDegreeEnum = {

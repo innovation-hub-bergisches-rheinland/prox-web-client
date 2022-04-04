@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.scss']
 })
-export class ProjectCardComponent implements OnInit {
+export class ProjectCardComponent {
   @Input()
   project: Project;
 
@@ -22,20 +22,16 @@ export class ProjectCardComponent implements OnInit {
   specialization: Specialization[];
 
   @Input()
-  hasPermission: boolean = false;
+  hasPermission = false;
 
   @Input()
-  showDetails: boolean = false;
+  showDetails = false;
 
   @Output()
   edit: Subject<Project> = new Subject<Project>();
 
   @Output()
   delete: Subject<Project> = new Subject<Project>();
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   onDeleteClick() {
     this.delete.next(this.project);

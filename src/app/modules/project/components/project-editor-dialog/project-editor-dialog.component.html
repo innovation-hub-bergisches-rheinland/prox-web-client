@@ -1,17 +1,17 @@
 <div class="project-dialog">
   <h1 mat-dialog-title>
-    <mat-toolbar role="toolbar" class="task-header">
+    <mat-toolbar class="task-header" role="toolbar">
       <h1 *ngIf="project; else noProject" mat-dialog-title>Projekt bearbeiten</h1>
       <ng-template #noProject><h1 mat-dialog-title>Projekt hinzufügen</h1></ng-template>
       <span class="fx-spacer"></span>
       <div *ngIf="isDraft" class="draft">Entwurf</div>
-      <button mat-icon-button (click)="closeDialog()">
+      <button (click)="closeDialog()" mat-icon-button>
         <mat-icon mat-list-icon>close</mat-icon>
       </button>
     </mat-toolbar>
   </h1>
 
   <mat-dialog-content>
-    <app-project-editor [project]="project" (onSaved)="projectSaved($event)" (cancel)="closeDialog()"></app-project-editor>
+    <app-project-editor (cancel)="closeDialog()" (saved)="projectSaved($event)" [project]="project"></app-project-editor>
   </mat-dialog-content>
 </div>

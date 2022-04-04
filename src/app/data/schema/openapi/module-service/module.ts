@@ -16,6 +16,7 @@ export interface Module {
   name?: string;
   projectType?: Module.ProjectTypeEnum;
 }
+
 export namespace Module {
   export type ProjectTypeEnum = 'BA' | 'MA' | 'PP' | 'UNDEFINED';
   export const ProjectTypeEnum = {

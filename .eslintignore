@@ -9,3 +9,5 @@ __snapshots__
 CHANGELOG.md
 package-lock.json
 version.txt
+src/app/data/schema/openapi
+src/app/data/service/openapi

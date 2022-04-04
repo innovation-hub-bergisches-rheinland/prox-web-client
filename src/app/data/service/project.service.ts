@@ -1,6 +1,6 @@
-import { Inject, Injectable, Injector, Optional } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 
-import { Observable, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
   CreateProjectSchema,
@@ -8,7 +8,6 @@ import {
   ModuleTypeCollectionModel,
   Project,
   ProjectCollectionModel,
-  ProjectProjection,
   ProjectWithAssociations,
   Specialization,
   SpecializationCollectionModel,
@@ -129,7 +128,7 @@ export class ProjectService {
   }
 
   getModulesOfSpecializations(specializations: string[]): Observable<ModuleType[]> {
-    let queryParameters = new HttpParams().set('ids', specializations.join(','));
+    const queryParameters = new HttpParams().set('ids', specializations.join(','));
     return this.httpClient
       .get<ModuleTypeCollectionModel>(`${this.basePath}/moduleTypes/search/findAllModuleTypesOfSpecializationId`, {
         params: queryParameters,

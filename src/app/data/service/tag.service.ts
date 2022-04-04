@@ -22,7 +22,7 @@ export class TagService {
     return this.tagEntityService.saveTagUsingPOST(tag).pipe(map(t => Object.assign(new Tag(), t)));
   }
 
-  findByTagName(tagName: string, exactMatch: boolean = true): Observable<Tag[]> {
+  findByTagName(tagName: string, exactMatch = true): Observable<Tag[]> {
     if (exactMatch) {
       return this.tagEntityService
         .findByTagNameTagNameIgnoreCaseTagUsingGET(tagName)
@@ -51,7 +51,7 @@ export class TagService {
     return this.tagCollectionEntityService.tagCollectionTagsUsingPUT(id, tags.map(t => t.id).join('\n'));
   }
 
-  getPopularTags(limit: number = 10): Observable<Tag[]> {
+  getPopularTags(limit = 10): Observable<Tag[]> {
     return this.tagControllerService
       .popularTagsUsingGET(limit)
       .pipe(map(tagCount => tagCount.sort((a, b) => b.count - a.count).map(tc => tc.tag)));

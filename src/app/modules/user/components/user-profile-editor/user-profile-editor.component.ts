@@ -34,7 +34,7 @@ export class UserProfileEditorComponent implements OnInit {
   });
 
   @Output()
-  onSaved = new EventEmitter<UserProfile>();
+  saved = new EventEmitter<UserProfile>();
 
   @Input()
   userProfile: UserProfile;
@@ -64,7 +64,7 @@ export class UserProfileEditorComponent implements OnInit {
       )
       .subscribe({
         next: value => {
-          this.onSaved.emit(value.profile);
+          this.saved.emit(value.profile);
         },
         error: err => console.log(err)
       });

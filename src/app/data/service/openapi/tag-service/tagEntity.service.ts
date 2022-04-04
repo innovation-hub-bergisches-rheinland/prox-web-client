@@ -16,11 +16,9 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpParameterCodec, HttpParams, Htt
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
 
-import { CollectionModelOfTag } from '@data/schema/openapi/tag-service/models';
-import { EntityModelOfTag } from '@data/schema/openapi/tag-service/models';
-import { Tag } from '@data/schema/openapi/tag-service/models';
+import { CollectionModelOfTag, EntityModelOfTag, Tag } from '@data/schema/openapi/tag-service/models';
 
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { BASE_PATH } from '../variables';
 import { Configuration } from '../configuration';
 
 @Injectable({
@@ -108,7 +106,7 @@ export class TagEntityService {
   public deleteTagUsingDELETE(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: undefined }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -191,7 +189,7 @@ export class TagEntityService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: {
       httpHeaderAccept?: 'application/json' | 'application/hal+json' | 'text/uri-list' | 'application/x-spring-data-compact+json';
     }
@@ -266,7 +264,7 @@ export class TagEntityService {
   public findByIdTagUsingGET(
     id: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -326,7 +324,7 @@ export class TagEntityService {
   public findByTagNameTagNameContainingIgnoreCaseTagUsingGET(
     tagName?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
@@ -388,7 +386,7 @@ export class TagEntityService {
   public findByTagNameTagNameIgnoreCaseTagUsingGET(
     tagName?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: this.encoder });
@@ -455,7 +453,7 @@ export class TagEntityService {
     id: string,
     tag?: Tag,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -529,7 +527,7 @@ export class TagEntityService {
   public saveTagUsingPOST(
     tag?: Tag,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     let headers = this.defaultHeaders;
@@ -604,7 +602,7 @@ export class TagEntityService {
     id: string,
     tag?: Tag,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (id === null || id === undefined) {
@@ -678,7 +676,7 @@ export class TagEntityService {
   public tagRecommendationsTagUsingGET(
     tagIds: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
     options?: { httpHeaderAccept?: '*/*' }
   ): Observable<any> {
     if (tagIds === null || tagIds === undefined) {

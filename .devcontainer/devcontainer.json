@@ -18,6 +18,7 @@
     }
   },
   "appPort": [4200],
-  "postCreateCommand": "npm install --ignore-scripts", //TODO: Husky install fails with node 16 under docker https://github.com/typicode/husky/issues/991
+  "postCreateCommand": "npm install --ignore-scripts",
+  //TODO: Husky install fails with node 16 under docker https://github.com/typicode/husky/issues/991
   "remoteUser": "node"
 }

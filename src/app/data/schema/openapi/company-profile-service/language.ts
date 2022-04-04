@@ -18,6 +18,7 @@ export interface Language {
   iso3166Mapping?: string;
   type: Language.TypeEnum;
 }
+
 export namespace Language {
   export type TypeEnum = 'ANCIENT' | 'LIVING' | 'CONSTRUCTED' | 'HISTORICAL' | 'EXTINCT' | 'NONE';
   export const TypeEnum = {

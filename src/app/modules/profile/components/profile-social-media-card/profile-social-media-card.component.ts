@@ -14,7 +14,7 @@ import { faHashtag } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './profile-social-media-card.component.html',
   styleUrls: ['./profile-social-media-card.component.scss']
 })
-export class ProfileSocialMediaCardComponent implements OnInit {
+export class ProfileSocialMediaCardComponent {
   @Input()
   facebookHandle;
 
@@ -40,10 +40,6 @@ export class ProfileSocialMediaCardComponent implements OnInit {
   xingIcon = faXingSquare;
   youtubeIcon = faYoutubeSquare;
   hashtagIcon = faHashtag;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   /**
    * YouTube offers two separate types of handles. A username and a channel ID. Both are valid options to use as a handle.

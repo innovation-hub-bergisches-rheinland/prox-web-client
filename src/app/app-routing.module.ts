@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-// import { AuthGuard } from '@app/guard/auth.guard';
+import { NgModule } from '@angular/core';
 import { ContentLayoutComponent } from '@layout/content-layout/content-layout.component';
 import { FeatureGuard } from './feature.guard';
 

@@ -18,6 +18,7 @@ export interface EntityModelOfModule {
   name?: string;
   projectType?: EntityModelOfModule.ProjectTypeEnum;
 }
+
 export namespace EntityModelOfModule {
   export type ProjectTypeEnum = 'BA' | 'MA' | 'PP' | 'UNDEFINED';
   export const ProjectTypeEnum = {

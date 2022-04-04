@@ -11,11 +11,11 @@ export class ToastService {
     window['toastService'] = this;
   }
 
-  showToast(content: Toast, duration: number = 2000) {
+  showToast(content: Toast, duration = 2000) {
     this.showToasts([content], duration);
   }
 
-  showToasts(content: Toast[], duration: number = 2000) {
+  showToasts(content: Toast[], duration = 2000) {
     this.snackBar.openFromComponent(ToastComponent, {
       duration: duration,
       verticalPosition: 'bottom',

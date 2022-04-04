@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,8 +19,7 @@ import { Tag } from '@data/schema/tag.resource';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
-import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ModuleType, Project, ProjectWithAssociations, Specialization, StudyProgram } from '@data/schema/project-service.types';
+import { ModuleType, Project, ProjectWithAssociations, Specialization } from '@data/schema/project-service.types';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -53,28 +52,15 @@ export class ProjectComponent implements OnInit {
   public searchTags: string[] = [];
 
   public statusOptions = StatusOption;
-
-  private projects: Project[] = [];
-  private filteredProjects: Project[] = [];
   public filteredTags$: Observable<Tag[]>;
-
-  private allSpecializations: Specialization[] = [];
-  private allModuleTypes: ModuleType[] = [];
-  private _suitableSpecializations: Specialization[] = [];
-  private _suitableModuleTypes: ModuleType[] = [];
   public isLoadingModuleTypes = true;
   public isLoadingSpecializations = true;
-
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
+  private projects: Project[] = [];
+  private filteredProjects: Project[] = [];
+  private allSpecializations: Specialization[] = [];
+  private allModuleTypes: ModuleType[] = [];
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
-
-  get suitableModuleTypes(): ModuleType[] {
-    return this._suitableModuleTypes.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  get suitableSpecializations(): Specialization[] {
-    return this._suitableSpecializations.sort((a, b) => a.name.localeCompare(b.name));
-  }
 
   constructor(
     private projectService: ProjectService,
@@ -87,6 +73,18 @@ export class ProjectComponent implements OnInit {
     private toastService: ToastService,
     private formBuilder: FormBuilder
   ) {}
+
+  private _suitableSpecializations: Specialization[] = [];
+
+  get suitableSpecializations(): Specialization[] {
+    return this._suitableSpecializations.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  private _suitableModuleTypes: ModuleType[] = [];
+
+  get suitableModuleTypes(): ModuleType[] {
+    return this._suitableModuleTypes.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {
@@ -268,27 +266,6 @@ export class ProjectComponent implements OnInit {
     this.pageProjects();
   }
 
-  private openErrorSnackBar(message: string) {
-    this.snackBar.open(message, 'Verstanden');
-  }
-
-  private getAllProjects() {
-    this.projectService.getAllProjects('withAssociations').subscribe({
-      next: projects => {
-        this.projects = projects;
-        this.filterProjects();
-      },
-      error: error => {
-        console.error('project service error', error);
-        this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
-      }
-    });
-  }
-
-  private pageProjects() {
-    this.projectsPage = this.filteredProjects.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
-  }
-
   /**
    * Remove tag from search
    * @param tag Tag to remove
@@ -297,12 +274,6 @@ export class ProjectComponent implements OnInit {
     const index = this.searchTags.indexOf(tag);
     if (index >= 0) {
       this.searchTags.splice(index, 1);
-    }
-  }
-
-  private addTag(tag: string) {
-    if (this.searchTags.filter(t => t === tag.trim()).length === 0) {
-      this.searchTags.push(tag);
     }
   }
 
@@ -363,5 +334,32 @@ export class ProjectComponent implements OnInit {
       }
       return p;
     });
+  }
+
+  private openErrorSnackBar(message: string) {
+    this.snackBar.open(message, 'Verstanden');
+  }
+
+  private getAllProjects() {
+    this.projectService.getAllProjects('withAssociations').subscribe({
+      next: projects => {
+        this.projects = projects;
+        this.filterProjects();
+      },
+      error: error => {
+        console.error('project service error', error);
+        this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
+      }
+    });
+  }
+
+  private pageProjects() {
+    this.projectsPage = this.filteredProjects.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
+  }
+
+  private addTag(tag: string) {
+    if (this.searchTags.filter(t => t === tag.trim()).length === 0) {
+      this.searchTags.push(tag);
+    }
   }
 }

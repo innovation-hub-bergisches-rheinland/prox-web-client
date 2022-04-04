@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './profile-header-card.component.html',
   styleUrls: ['./profile-header-card.component.scss']
 })
-export class ProfileHeaderCardComponent implements OnInit {
+export class ProfileHeaderCardComponent {
   @Input()
   title: string;
 
@@ -16,15 +16,11 @@ export class ProfileHeaderCardComponent implements OnInit {
   showEdit: boolean;
 
   @Input()
-  roundedAvatar: boolean = true;
+  roundedAvatar = true;
 
   @Input()
   tags: string[] = [];
 
   @Output()
-  onEditClicked = new EventEmitter<MouseEvent>();
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  editClicked = new EventEmitter<MouseEvent>();
 }

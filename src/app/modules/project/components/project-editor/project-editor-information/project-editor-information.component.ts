@@ -6,11 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './project-editor-information.component.html',
   styleUrls: ['./project-editor-information.component.scss']
 })
-export class ProjectEditorInformationComponent implements OnInit {
+export class ProjectEditorInformationComponent {
   @Input()
   informationFormGroup: FormGroup;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

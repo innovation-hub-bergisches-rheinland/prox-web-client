@@ -1,17 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
-
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
-
-import { Tag } from '@data/schema/tag.resource';
-import { Module } from '@data/schema/module.resource';
 import { ProjectService } from '@data/service/project.service';
-import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
-import { TagService } from '@data/service/tag.service';
 import { Project } from '@data/schema/project-service.types';
 import { ToastService } from '@modules/toast/toast.service';
 

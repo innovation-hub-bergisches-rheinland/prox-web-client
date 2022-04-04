@@ -32,7 +32,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
-const modules: any[] = [
+const modules = [
   MatCheckboxModule,
   MatCheckboxModule,
   MatButtonModule,

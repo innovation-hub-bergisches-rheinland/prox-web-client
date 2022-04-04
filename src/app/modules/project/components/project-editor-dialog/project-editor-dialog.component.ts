@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Project } from '@data/schema/project-service.types';
 
@@ -8,7 +8,7 @@ import { Project } from '@data/schema/project-service.types';
   styleUrls: ['./project-editor-dialog.component.scss']
 })
 export class ProjectEditorDialogComponent {
-  isDraft: boolean = false;
+  isDraft = false;
 
   constructor(public projectDialogRef: MatDialogRef<ProjectEditorDialogComponent>, @Inject(MAT_DIALOG_DATA) public project: Project) {
     this.projectDialogRef.disableClose = true;
