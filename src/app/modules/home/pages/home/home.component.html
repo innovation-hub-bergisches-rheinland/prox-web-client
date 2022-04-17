@@ -1,55 +1,55 @@
-<div class="flex flex-col justify-around items-center gap-10">
-  <div class="header">
-    <img alt="Banner" src="/assets/images/home-banner.jpg" />
-    <div class="caption mat-display-1">Finde dein perfektes Projekt</div>
+<div class="flex flex-col justify-around items-center">
+  <div class="relative overflow-hidden -mt-10">
+    <img class="w-full h-auto" alt="Banner" src="/assets/images/home-banner.jpg" />
+    <div class="invisible md:visible absolute z-10 top-1/2 left-10 text-white text-xl bg-gray-600 bg-opacity-40 p-5">
+      Finde dein perfektes Projekt
+    </div>
   </div>
-
-  <div class="search">
-    <form class="flex flex-row justify-around items-center" (ngSubmit)="onSubmit()" [formGroup]="searchForm">
-      <mat-form-field appearance="outline">
-        <mat-label [innerText]="placeholder"></mat-label>
+  <div class="max-w-screen-lg mx-5 mt-10 flex flex-col justify-around items-center gap-10">
+    <form class="w-full flex flex-row justify-around items-center gap-5" (ngSubmit)="onSubmit()" [formGroup]="searchForm">
+      <div class="form-control w-full">
         <input
+          class="input input-bordered w-full"
           type="search"
           matInput
-          placeholder="Suchbegriff"
+          [placeholder]="placeholder"
           formControlName="searchInput"
           (focus)="stopTypewriter()"
           (blur)="startTypewriter()"
         />
-        <mat-icon matPrefix>search</mat-icon>
-        <mat-hint>Ein Suchbegriff um nach Projekten zu suchen. Leer um alle Projekte anzuzeigen.</mat-hint>
-      </mat-form-field>
-      <button mat-flat-button color="primary" type="submit">Suchen</button>
+      </div>
+      <button class="btn btn-primary" type="submit">Suchen</button>
     </form>
-  </div>
 
-  <div class="description">
-    <b>PROX</b> (Project Exchange TH Köln) ist ein Webportal, auf dem Studierende der TH Köln, lokale Unternehmen und Lehrende der TH Köln
-    zusammengebracht werden. In <b>PROX</b> finden Sie Bachelor- und Masterarbeiten, aber auch Projekte aus den Studiengängen der TH-Köln,
-    wie z.B. Praxis- und Informatikprojekte. <br /><br />
-    <b>PROX</b> ist ein Service, der für die TH Köln und regionale Unternehmen durch den
-    <a href="https://www.innovation-hub.de">Innovation Hub Bergisches RheinLand</a>
-    bereitgestellt wird.
-  </div>
+    <div class="description">
+      <b>PROX</b> (Project Exchange TH Köln) ist ein Webportal, auf dem Studierende der TH Köln, lokale Unternehmen und Lehrende der TH Köln
+      zusammengebracht werden. In <b>PROX</b> finden Sie Bachelor- und Masterarbeiten, aber auch Projekte aus den Studiengängen der TH-Köln,
+      wie z.B. Praxis- und Informatikprojekte. <br /><br />
+      <b>PROX</b> ist ein Service, der für die TH Köln und regionale Unternehmen durch den
+      <a href="https://www.innovation-hub.de">Innovation Hub Bergisches RheinLand</a>
+      bereitgestellt wird.
+    </div>
 
-  <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as tags">
-    <h1>Häufige Tags</h1>
-    <mat-chip-list>
-      <mat-chip selected *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="buildTagFilter(tag)">
-        {{ tag.tagName }}
-      </mat-chip>
-    </mat-chip-list>
-  </div>
+    <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as tags">
+      <h1>Häufige Tags</h1>
+      <div class="flex flex-row flex-wrap gap-5">
+        <app-chip *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="buildTagFilter(tag)">
+          {{ tag.tagName }}
+        </app-chip>
+      </div>
+      <mat-chip-list></mat-chip-list>
+    </div>
 
-  <div class="flex flex-col justify-around items-center" *ngIf="this.featureService.isFeatureEnabled('partners')">
-    <h1>Projektpartner</h1>
-    <app-carousel [numItems]="4">
-      <app-carousel-item [logoUrl]="'/assets/images/ihbr-logo.svg'"></app-carousel-item>
-      <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/0000FF?text=Unternehmen'"></app-carousel-item>
-      <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FFFF00?text=Unternehmen'"></app-carousel-item>
-      <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/000000?text=Unternehmen'"></app-carousel-item>
-      <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FF0000?text=Unternehmen'"></app-carousel-item>
-      <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/008000?text=Unternehmen'"></app-carousel-item>
-    </app-carousel>
+    <div class="flex flex-col justify-around items-center" *ngIf="this.featureService.isFeatureEnabled('partners')">
+      <h1>Projektpartner</h1>
+      <app-carousel [numItems]="4">
+        <app-carousel-item [logoUrl]="'/assets/images/ihbr-logo.svg'"></app-carousel-item>
+        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/0000FF?text=Unternehmen'"></app-carousel-item>
+        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FFFF00?text=Unternehmen'"></app-carousel-item>
+        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/000000?text=Unternehmen'"></app-carousel-item>
+        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FF0000?text=Unternehmen'"></app-carousel-item>
+        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/008000?text=Unternehmen'"></app-carousel-item>
+      </app-carousel>
+    </div>
   </div>
 </div>

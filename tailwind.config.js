@@ -7,6 +7,23 @@ module.exports = {
   important: true,
   prefix: '',
   content: ['./src/**/*.{html,ts}'],
+  daisyui: {
+    themes: [
+      {
+        innohub: {
+          primary: '#9b1868',
+          secondary: '#2d52a0',
+          accent: '#009fe3',
+          neutral: '#191B1F',
+          'base-100': '#FFFFFF',
+          info: '#6599CD',
+          success: '#0D6D32',
+          warning: '#FBA83C',
+          error: '#ED2630'
+        }
+      }
+    ]
+  },
   theme: {
     extend: {
       colors: {
@@ -61,7 +78,7 @@ module.exports = {
       extend: {
         backgroundColor: ['odd']
       }
-    },
-    plugins: [require('@tailwindcss/aspect-ratio')]
-  }
+    }
+  },
+  plugins: [require('@tailwindcss/aspect-ratio'), require('daisyui')]
 };
