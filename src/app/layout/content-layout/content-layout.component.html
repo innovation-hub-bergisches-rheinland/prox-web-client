@@ -60,27 +60,12 @@
           </mat-list>
         </div>
       </mat-sidenav>
-
-      <div class="toolbar">
-        <div class="bg-berry-500 h-1"></div>
-        <div class="header-main">
-          <button (click)="sidenav.toggle()" class="no-hover" mat-icon-button>
-            <mat-icon>menu</mat-icon>
-          </button>
-
-          <img class="logo-responsive" routerLink="" src="assets/images/prox-logo_250x150.png" />
-          <img class="logo-responsive-icon" routerLink="" src="assets/images/prox-icon_160x160.png" />
-
-          <a href="https://www.innovation-hub.de/">
-            <img src="assets/images/ihbr-logo.svg" alt="IHBR Logo" class="ihbr-logo" />
-          </a>
-
-          <a href="https://www.th-koeln.de/">
-            <img src="assets/images/th-koeln-logo.svg" alt="TH Köln" class="th-logo" />
-          </a>
-        </div>
+      <header class="sticky top-0 z-50 shadow border-b-2">
+        <app-navbar (burgerClicked)="sidenav.toggle()"></app-navbar>
+      </header>
+      <div>
+        <app-main-content></app-main-content>
       </div>
-      <app-main-content></app-main-content>
       <div class="mt-10 max-w-screen-lg w-full mx-auto">
         <app-footer></app-footer>
       </div>

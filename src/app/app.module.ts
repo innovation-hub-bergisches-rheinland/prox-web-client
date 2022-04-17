@@ -17,9 +17,10 @@ import { ToastModule } from '@modules/toast/toast.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainContentComponent } from '@layout/main-content/main-content.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NavbarComponent } from './layout/navbar/navbar.component';
 
 @NgModule({
-  declarations: [AppComponent, ContentLayoutComponent, FooterComponent, UserComponent, MainContentComponent],
+  declarations: [AppComponent, ContentLayoutComponent, FooterComponent, UserComponent, MainContentComponent, NavbarComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

@@ -1,0 +1,40 @@
+<div class="navbar justify-between bg-base-100 max-h-10 z-50">
+  <div class="flex-none">
+    <button class="btn btn-square btn-ghost" (click)="burgerClicked.emit($event)">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="flex-1">
+    <img class="mx-auto max-h-10" routerLink="" src="/assets/images/prox-icon_160x160.png" />
+  </div>
+  <div class="flex-none">
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+        <div class="w-10 rounded-full">
+          <ng-container *ngIf="isLoggedIn; else defaultAvatar">
+            <img (error)="this.userAvatar = '/assets/images/blank-profile-picture.png'" [src]="userAvatar" />
+          </ng-container>
+          <ng-template #defaultAvatar>
+            <img src="/assets/images/blank-profile-picture.png" />
+          </ng-template>
+        </div>
+      </label>
+      <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+        <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+          <li>
+            <a class="justify-between">
+              Profile
+              <span class="badge">New</span>
+            </a>
+          </li>
+          <li (click)="logout()"><a>Logout</a></li>
+        </ng-container>
+        <ng-template #notLoggedIn>
+          <li (click)="login()"><a>Login</a></li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</div>
