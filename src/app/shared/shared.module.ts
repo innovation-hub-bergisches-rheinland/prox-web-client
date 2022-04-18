@@ -17,6 +17,7 @@ import { ContextSelectorComponent } from './components/context-selector/context-
 import { SimpleChipInputComponent } from './components/simple-chip-input/simple-chip-input.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { ChipComponent } from './components/chip/chip.component';
+import { ChipListComponent } from './components/chip-list/chip-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ChipComponent } from './components/chip/chip.component';
     ContextSelectorComponent,
     SimpleChipInputComponent,
     TruncatePipe,
-    ChipComponent
+    ChipComponent,
+    ChipListComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { ChipComponent } from './components/chip/chip.component';
     ContextSelectorComponent,
     SimpleChipInputComponent,
     TruncatePipe,
-    ChipComponent
+    ChipComponent,
+    ChipListComponent
   ]
 })
 export class SharedModule {}
