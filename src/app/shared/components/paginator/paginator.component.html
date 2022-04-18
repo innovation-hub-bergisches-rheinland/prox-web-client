@@ -1,5 +1,10 @@
 <div class="btn-group">
-  <button class="btn" (click)="pagePrevious()" [disabled]="pageIndex <= 0">«</button>
+  <button class="btn" (click)="pageFirst()" [disabled]="pageIndex <= 0">
+    <fa-icon [icon]="iconFirstPage"></fa-icon>
+  </button>
+  <button class="btn" (click)="pagePrevious()" [disabled]="pageIndex <= 0">
+    <fa-icon [icon]="iconPrevious"></fa-icon>
+  </button>
   <button
     class="btn"
     (click)="pageIndexed(pageIndex, page)"
@@ -8,5 +13,10 @@
   >
     {{ page + 1 }}
   </button>
-  <button class="btn" (click)="pageNext()" [disabled]="pageIndex >= pageNumbers.length - 1">»</button>
+  <button class="btn" (click)="pageNext()" [disabled]="pageIndex >= pageNumbers.length - 1">
+    <fa-icon [icon]="iconNextPage"></fa-icon>
+  </button>
+  <button class="btn" (click)="pageLast()" [disabled]="pageIndex >= pageNumbers.length - 1">
+    <fa-icon [icon]="iconLastPage"></fa-icon>
+  </button>
 </div>
