@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { faAngleDoubleLeft, faAngleDoubleRight, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 export type PageEvent = {
   pageIndex: number;
@@ -13,6 +14,11 @@ export type PageEvent = {
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit {
+  iconFirstPage = faAngleDoubleLeft;
+  iconPrevious = faAngleLeft;
+  iconNextPage = faAngleRight;
+  iconLastPage = faAngleDoubleRight;
+
   @Input()
   pageSize = 0;
 
@@ -41,6 +47,14 @@ export class PaginatorComponent implements OnInit {
 
   pagePrevious() {
     this.pageIndexed(this.pageIndex, this.pageIndex - 1);
+  }
+
+  pageLast() {
+    this.pageIndexed(this.pageIndex, Math.floor(this.length / this.pageSize) - 1);
+  }
+
+  pageFirst() {
+    this.pageIndexed(this.pageIndex, 0);
   }
 
   pageIndexed(oldIndex: number, newIndex: number) {
