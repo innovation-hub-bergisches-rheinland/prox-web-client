@@ -1,22 +1,19 @@
-<div class="user">
+<div class="flex flex-col items-center">
   <div class="loginState">
     <h1 *ngIf="isLoggedIn">{{ username }}</h1>
-    <button (click)="login()" *ngIf="!isLoggedIn" mat-flat-button class="login">Einloggen</button>
+    <button (click)="login()" *ngIf="!isLoggedIn" class="btn btn-primary btn-square btn-wide">Anmelden</button>
   </div>
 
-  <mat-list *ngIf="isLoggedIn">
-    <mat-list-item>
-      <button (click)="logout()" class="sidebar-button" mat-button>
-        <mat-icon class="sidebar-icon">logout</mat-icon>
-        Ausloggen
-      </button>
-    </mat-list-item>
-
-    <mat-list-item>
-      <button class="sidebar-button" mat-button [routerLink]="['/lecturers', userId]">
-        <mat-icon class="sidebar-icon">badge</mat-icon>
-        Mein Profil
-      </button>
-    </mat-list-item>
-  </mat-list>
+  <ul *ngIf="isLoggedIn">
+    <li>
+      <a [routerLink]="['/lecturers', userId]">
+        <button class="btn btn-secondary btn-square btn-wide">Mein Profil</button>
+      </a>
+    </li>
+    <li>
+      <a>
+        <button (click)="logout()" class="btn btn-error btn-outline btn-square btn-wide">Abmelden</button>
+      </a>
+    </li>
+  </ul>
 </div>

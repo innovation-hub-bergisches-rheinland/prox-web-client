@@ -26,8 +26,4 @@ export class ContentLayoutComponent implements OnInit {
       this.hasPermission = false;
     }
   }
-
-  isFeatureEnabled(featureName: string): boolean {
-    return this.featureService.isFeatureEnabled(featureName);
-  }
 }

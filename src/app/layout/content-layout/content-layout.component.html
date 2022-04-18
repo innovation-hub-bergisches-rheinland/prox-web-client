@@ -1,74 +1,20 @@
-<div id="main-container">
-  <div>
-    <mat-sidenav-container fullscreen>
-      <mat-sidenav #sidenav>
-        <button (click)="sidenav.toggle()" class="no-hover in-sidebar" mat-icon-button>
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-        <img class="logo-sidebar" src="assets/images/prox-icon_160x160.png" />
-
-        <div fxLayout="column" fxLayoutGap="10px">
-          <app-user></app-user>
-
-          <mat-divider></mat-divider>
-
-          <mat-list>
-            <mat-list-item>
-              <button
-                (click)="sidenav.toggle()"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="sidebar-button"
-                mat-button
-                routerLink=""
-                routerLinkActive="nav-activated"
-              >
-                <mat-icon class="sidebar-icon">home</mat-icon>
-                Startseite
-              </button>
-            </mat-list-item>
-
-            <mat-list-item>
-              <button (click)="sidenav.toggle()" class="sidebar-button" mat-button routerLink="/projects" routerLinkActive="nav-activated">
-                <mat-icon class="sidebar-icon">layers</mat-icon>
-                Projekte
-              </button>
-            </mat-list-item>
-            <mat-list-item>
-              <button (click)="sidenav.toggle()" class="sidebar-button" mat-button routerLink="/lecturers" routerLinkActive="nav-activated">
-                <mat-icon class="sidebar-icon">people_alt</mat-icon>
-                Lehrende
-              </button>
-            </mat-list-item>
-            <mat-list-item>
-              <button
-                (click)="sidenav.toggle()"
-                class="sidebar-button"
-                mat-button
-                routerLink="/organizations"
-                routerLinkActive="nav-activated"
-              >
-                <mat-icon class="sidebar-icon">business</mat-icon>
-                Unternehmen und Organisationen
-              </button>
-            </mat-list-item>
-            <mat-list-item *ngIf="isFeatureEnabled('jobs')">
-              <button (click)="sidenav.toggle()" class="sidebar-button" mat-button routerLink="/jobs" routerLinkActive="nav-activated">
-                <mat-icon class="sidebar-icon">work</mat-icon>
-                Stellenangebote
-              </button>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </mat-sidenav>
-      <header class="sticky top-0 z-50 shadow border-b-2">
-        <app-navbar (burgerClicked)="sidenav.toggle()"></app-navbar>
-      </header>
-      <div>
-        <app-main-content></app-main-content>
-      </div>
-      <div class="mt-10 max-w-screen-lg w-full mx-auto">
-        <app-footer></app-footer>
-      </div>
-    </mat-sidenav-container>
+<div class="drawer">
+  <input #sidenav id="sidenav" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content">
+    <header class="sticky top-0 z-50 shadow border-b-2">
+      <app-navbar (burgerClicked)="sidenav.checked = true"></app-navbar>
+    </header>
+    <div>
+      <app-main-content></app-main-content>
+    </div>
+    <div class="mt-10 max-w-screen-lg w-full mx-auto">
+      <app-footer></app-footer>
+    </div>
+  </div>
+  <div class="drawer-side">
+    <label for="sidenav" class="drawer-overlay"></label>
+    <div class="menu overflow-y-auto w-80 bg-base-100 text-base-content">
+      <app-sidebar (backClicked)="sidenav.checked = false"></app-sidebar>
+    </div>
   </div>
 </div>
