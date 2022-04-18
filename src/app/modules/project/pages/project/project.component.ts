@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -20,7 +20,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
 import { ModuleType, Project, ProjectWithAssociations, Specialization } from '@data/schema/project-service.types';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -35,9 +34,7 @@ export interface QueryParams extends Params {
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
-  addIcon = faPlus;
-
+export class ProjectComponent implements OnInit, AfterViewChecked {
   public projectsPage: Project[] = [];
   public totalFilteredProjects = 0;
   public pageIndex = 0;
@@ -76,6 +73,10 @@ export class ProjectComponent implements OnInit {
     private toastService: ToastService,
     private formBuilder: FormBuilder
   ) {}
+
+  ngAfterViewChecked(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   private _suitableSpecializations: Specialization[] = [];
 
@@ -257,7 +258,7 @@ export class ProjectComponent implements OnInit {
         // Set filtered projects and page the items
         this.totalFilteredProjects = this.filteredProjects.length;
         this.pageProjects();
-        this.paginator.firstPage();
+        //this.paginator.firstPage();
         this.setQueryParams();
       }
     });
