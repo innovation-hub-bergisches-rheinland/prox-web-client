@@ -97,15 +97,13 @@
           <button mat-flat-button color="primary" type="submit">Suchen</button>
         </form>
       </mat-expansion-panel>
-      <button
+      <app-add-button
         *ngIf="hasProjectCreationPermission()"
         (click)="openProjectEditorDialog(null)"
-        mat-fab
-        matTooltip="Neues Projekt hinzufügen"
-        color="primary"
+        data-tip="Neues Projekt hinzufügen"
+        class="tooltip"
       >
-        <mat-icon> add</mat-icon>
-      </button>
+      </app-add-button>
       <mat-divider></mat-divider>
     </div>
 

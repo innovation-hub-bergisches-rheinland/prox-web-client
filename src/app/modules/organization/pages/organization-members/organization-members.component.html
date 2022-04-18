@@ -1,17 +1,13 @@
 <app-content-page *ngIf="organization$ | async; let organization">
   <app-content-page-header>
     <div class="page-title">
-      <ng-container *ngIf="hasPermission">
-        <button (click)="location.back()" color="primary" mat-icon-button matTooltip="Zurück">
-          <mat-icon class="back-icon">arrow_back</mat-icon>
-        </button>
+      <ng-container>
+        <app-back-button (click)="location.back()" data-tip="Zurück" class="tooltip"></app-back-button>
       </ng-container>
     </div>
     <app-content-page-title> Mitglieder von {{ organization.name }} </app-content-page-title>
     <app-content-page-actions>
-      <button (click)="openMemberAddDialog()" color="primary" mat-fab matTooltip="Mitglied hinzufügen">
-        <mat-icon> add</mat-icon>
-      </button>
+      <app-add-button (click)="openMemberAddDialog()" data-tip="Mitglied hinzufügen" class="tooltip"></app-add-button>
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>

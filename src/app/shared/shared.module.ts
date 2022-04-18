@@ -18,6 +18,8 @@ import { SimpleChipInputComponent } from './components/simple-chip-input/simple-
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { ChipComponent } from './components/chip/chip.component';
 import { ChipListComponent } from './components/chip-list/chip-list.component';
+import { AddButtonComponent } from './components/add-button/add-button.component';
+import { BackButtonComponent } from './components/back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { ChipListComponent } from './components/chip-list/chip-list.component';
     SimpleChipInputComponent,
     TruncatePipe,
     ChipComponent,
-    ChipListComponent
+    ChipListComponent,
+    AddButtonComponent,
+    BackButtonComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +69,9 @@ import { ChipListComponent } from './components/chip-list/chip-list.component';
     SimpleChipInputComponent,
     TruncatePipe,
     ChipComponent,
-    ChipListComponent
+    ChipListComponent,
+    AddButtonComponent,
+    BackButtonComponent
   ]
 })
 export class SharedModule {}

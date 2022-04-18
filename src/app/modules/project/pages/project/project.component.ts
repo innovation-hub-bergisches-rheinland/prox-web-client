@@ -20,6 +20,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { catchError, debounceTime, filter, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { ToastService } from '@modules/toast/toast.service';
 import { ModuleType, Project, ProjectWithAssociations, Specialization } from '@data/schema/project-service.types';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -35,6 +36,8 @@ export interface QueryParams extends Params {
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
+  addIcon = faPlus;
+
   public projectsPage: Project[] = [];
   public totalFilteredProjects = 0;
   public pageIndex = 0;
