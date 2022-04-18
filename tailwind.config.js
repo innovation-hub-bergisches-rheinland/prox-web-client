@@ -14,7 +14,7 @@ module.exports = {
           primary: '#9b1868',
           secondary: '#2d52a0',
           accent: '#009fe3',
-          neutral: '#191B1F',
+          neutral: '#2c2c2c',
           'base-100': '#FFFFFF',
           info: '#6599CD',
           success: '#0D6D32',
@@ -72,6 +72,9 @@ module.exports = {
       },
       screens: {
         '3xl': '1921px'
+      },
+      fontFamily: {
+        sans: ['Roboto', 'Helvetica', 'Arial', 'sans-serif']
       }
     },
     variants: {

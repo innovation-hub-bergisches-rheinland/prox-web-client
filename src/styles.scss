@@ -4,39 +4,3 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
-.mat-drawer-container {
-  min-width: 350px;
-  background-color: #fcfcfc;
-}
-
-/** {
-  font-family: 'Roboto';
-}*/
-
-/*h1 {
-  font-family: 'Roboto' !important;
-  font-size: 24px !important;
-  line-height: 38px !important;
-  font-weight: bold !important;
-}
-
-h2 {
-  font-family: 'Roboto' !important;
-  font-size: 18px !important;
-  line-height: 38px !important;
-  font-weight: bold !important;
-}
-
-h3 {
-  font-family: 'Roboto' !important;
-  font-size: 18px !important;
-}*/
-
-.mat-card-header-text {
-  width: 100%;
-}
-
-/*a {
-  @apply hover:underline;
-}*/
