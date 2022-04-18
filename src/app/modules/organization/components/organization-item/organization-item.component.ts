@@ -3,6 +3,7 @@ import { Organization } from '@data/schema/user-service.types';
 import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '@data/service/user.service';
+import { faEdit, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-organization-item',
@@ -10,6 +11,9 @@ import { UserService } from '@data/service/user.service';
   styleUrls: ['./organization-item.component.scss']
 })
 export class OrganizationItemComponent implements OnInit {
+  membersIcon = faPeopleGroup;
+  editIcon = faEdit;
+
   @Input()
   organization: Organization;
 
