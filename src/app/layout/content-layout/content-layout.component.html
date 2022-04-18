@@ -14,7 +14,7 @@
   <div class="drawer-side">
     <label for="sidenav" class="drawer-overlay"></label>
     <div class="menu overflow-y-auto w-80 bg-base-100 text-base-content">
-      <app-sidebar (backClicked)="sidenav.checked = false"></app-sidebar>
+      <app-sidebar (backClicked)="sidenav.checked = false" (navigationItemClicked)="sidenav.checked = false"></app-sidebar>
     </div>
   </div>
 </div>
