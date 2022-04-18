@@ -17,6 +17,9 @@ export class SidebarComponent implements OnInit {
   @Output()
   backClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
+  @Output()
+  navigationItemClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
   constructor(private featureService: FeatureService) {}
 
   ngOnInit(): void {}

@@ -9,31 +9,31 @@
     <app-user></app-user>
     <ul class="text-base border-t">
       <li>
-        <a routerLink="/home" routerLinkActive="bg-base-200">
+        <a routerLink="/home" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="homeIcon" [fixedWidth]="true"></fa-icon>
           Startseite
         </a>
       </li>
       <li>
-        <a routerLink="/projects" routerLinkActive="bg-base-200">
+        <a routerLink="/projects" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="projectsIcon" [fixedWidth]="true"></fa-icon>
           Projekte</a
         >
       </li>
       <li>
-        <a routerLink="/users" routerLinkActive="bg-base-200">
+        <a routerLink="/users" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="lecturersIcon" [fixedWidth]="true"></fa-icon>
           Lehrende</a
         >
       </li>
       <li>
-        <a routerLink="/organizations" routerLinkActive="bg-base-200">
+        <a routerLink="/organizations" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="orgsIcon" [fixedWidth]="true"></fa-icon>
           Unternehmen und Organisationen</a
         >
       </li>
       <li *ngIf="isFeatureEnabled('jobs')">
-        <a routerLink="/jobs" routerLinkActive="bg-base-200">
+        <a routerLink="/jobs" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="jobsIcon" [fixedWidth]="true"></fa-icon>
           Stellenangebote</a
         >
