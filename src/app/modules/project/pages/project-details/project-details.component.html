@@ -1,8 +1,8 @@
 <app-content-page *ngIf="project">
   <app-content-page-header>
-    <div class="page-title">
-      <button (click)="goBack()" matTooltip="Zurück zur Projektübersicht" mat-icon-button color="primary">
-        <mat-icon class="back-icon">arrow_back</mat-icon>
+    <div>
+      <button (click)="goBack()" data-tip="Zurück zur Projektübersicht" class="tooltip text-xl text-primary">
+        <fa-icon [icon]="backIcon"></fa-icon>
       </button>
     </div>
   </app-content-page-header>
