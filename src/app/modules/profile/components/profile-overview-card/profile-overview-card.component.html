@@ -1,18 +1,18 @@
-<div
-  [routerLink]="href"
-  class="max-w-sm min-w-full h-full overflow-hidden flex flex-col items-center bg-white p-4 rounded shadow-lg cursor-pointer"
->
-  <div class="inline-flex shadow-lg border border-gray-200 rounded-full overflow-hidden h-32 w-32">
-    <img
-      (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
-      [src]="imgSrc"
-      alt="Profile avatar"
-      class="h-full w-full object-cover"
-    />
+<a [routerLink]="href">
+  <div class="card max-w-sm min-w-full overflow-hidden bg-base-100 shadow-xl max-h-full min-h-full">
+    <figure class="mx-auto mt-10 rounded-full overflow-hidden h-32 w-32">
+      <img
+        (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
+        [src]="imgSrc"
+        alt="Profile avatar"
+        class="h-full w-full object-cover"
+      />
+    </figure>
+    <div class="card-body items-center text-center">
+      <h1 class="mt-4 font-bold text-xl">{{ title }}</h1>
+      <div class="mt-2 mx-6 border-t w-full text-center">
+        <h2 class="mt-2">{{ subtitle || '' }}</h2>
+      </div>
+    </div>
   </div>
-
-  <h1 class="mt-4 font-bold text-xl">{{ title }}</h1>
-  <div class="mt-2 mx-6 border-t w-full text-center">
-    <h2 class="mt-2">{{ subtitle || '' }}</h2>
-  </div>
-</div>
+</a>
