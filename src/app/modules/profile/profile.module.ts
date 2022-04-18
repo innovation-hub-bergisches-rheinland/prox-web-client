@@ -18,7 +18,6 @@ import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile
 import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
-import { ProfileOverviewCardComponent } from '@modules/profile/components/profile-overview-card/profile-overview-card.component';
 import { ProfileProjectCardItemComponent } from './components/profile-projects-card/profile-project-card-item/profile-project-card-item.component';
 import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/profile-jobs-card-item/profile-jobs-card-item.component';
 import { ProfileAvatarCardTitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-title.directive';
@@ -48,7 +47,6 @@ import { ProfileEditorAvatarComponent } from '@modules/profile/components/profil
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
     ProfilePublicationsCardComponent,
-    ProfileOverviewCardComponent,
     ProfileProjectCardItemComponent,
     ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
@@ -75,7 +73,6 @@ import { ProfileEditorAvatarComponent } from '@modules/profile/components/profil
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
     ProfilePublicationsCardComponent,
-    ProfileOverviewCardComponent,
     ProfileProjectCardItemComponent,
     ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
