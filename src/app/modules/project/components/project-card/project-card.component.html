@@ -1,9 +1,15 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <app-project-icons [context]="project.context" [status]="project.status" [specialization]="specialization"></app-project-icons>
-
-      <b>{{ project.name }}</b>
+      <div class="flex flex-row justify-between">
+        <b class="basis-3/4">{{ project.name }}</b>
+        <app-project-icons
+          class="basis-1/4 flex-initial"
+          [context]="project.context"
+          [status]="project.status"
+          [specialization]="specialization"
+        ></app-project-icons>
+      </div>
     </mat-card-title>
 
     <!-- TODO: Resolve somehow the supervisors -->
