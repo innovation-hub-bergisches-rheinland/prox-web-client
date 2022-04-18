@@ -26,9 +26,9 @@
       <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <ng-container *ngIf="isLoggedIn; else notLoggedIn">
           <li>
-            <a class="justify-between">
-              Profile
-              <span class="badge">New</span>
+            <a class="justify-between" [routerLink]="['users', userId]">
+              Profil
+              <span class="badge badge-primary">Neu</span>
             </a>
           </li>
           <li (click)="logout()"><a>Logout</a></li>
