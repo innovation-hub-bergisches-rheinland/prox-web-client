@@ -5,7 +5,6 @@ import { KeycloakService } from 'keycloak-angular';
 import { ProjectService } from '@data/service/project.service';
 import { Project } from '@data/schema/project-service.types';
 import { ToastService } from '@modules/toast/toast.service';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-project-details',
@@ -14,7 +13,6 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 })
 export class ProjectDetailsComponent implements OnInit {
   project: Project;
-  backIcon = faArrowLeft;
 
   constructor(
     private keycloakService: KeycloakService,

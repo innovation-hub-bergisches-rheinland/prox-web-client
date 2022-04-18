@@ -1,9 +1,7 @@
 <app-content-page *ngIf="project">
   <app-content-page-header>
     <div>
-      <button (click)="goBack()" data-tip="Zurück zur Projektübersicht" class="tooltip text-xl text-primary">
-        <fa-icon [icon]="backIcon"></fa-icon>
-      </button>
+      <app-back-button (click)="goBack()" data-tip="Zurück zur Projektübersicht" class="tooltip"></app-back-button>
     </div>
   </app-content-page-header>
   <app-content-page-content>
