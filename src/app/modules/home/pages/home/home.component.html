@@ -31,11 +31,11 @@
 
     <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as tags">
       <h1>Häufige Tags</h1>
-      <div class="flex flex-row flex-wrap gap-5">
+      <app-chip-list>
         <app-chip *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="buildTagFilter(tag)">
           {{ tag.tagName }}
         </app-chip>
-      </div>
+      </app-chip-list>
     </div>
 
     <div class="flex flex-col justify-around items-center" *ngIf="this.featureService.isFeatureEnabled('partners')">

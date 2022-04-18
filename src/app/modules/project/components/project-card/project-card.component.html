@@ -43,11 +43,11 @@
     </div>
     <div class="flex flex-row gap-5 justify-between content-center">
       <div class="basis-3/4">
-        <div class="flex flex-row flex-wrap gap-2">
+        <app-chip-list>
           <app-chip *ngFor="let tag of tags" [attr.data-tip]="tag.tagName" class="tooltip">
             {{ tag.tagName }}
           </app-chip>
-        </div>
+        </app-chip-list>
       </div>
       <div class="basis-1/4">
         <strong>Erstellt am:</strong>
