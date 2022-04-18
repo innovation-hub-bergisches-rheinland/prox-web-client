@@ -23,6 +23,8 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "@angular-eslint/no-empty-lifecycle-method": ["warn"],
+        "@typescript-eslint/no-empty-function": ["warn"],
         "@angular-eslint/directive-selector": [
           "error",
           {
