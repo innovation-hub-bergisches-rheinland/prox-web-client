@@ -1,6 +1,6 @@
 import { AfterContentChecked, Component, ContentChildren, QueryList } from '@angular/core';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
-import { faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faHistory } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-profile-project-history',
@@ -12,6 +12,8 @@ export class ProfileProjectHistoryComponent implements AfterContentChecked {
   _items: QueryList<ProfileProjectHistoryItemComponent>;
   selectedIndex = 0;
   icon = faHistory;
+  iconLeft = faArrowLeft;
+  iconRight = faArrowRight;
 
   ngAfterContentChecked() {
     this._items.forEach((item: ProfileProjectHistoryItemComponent, index: number) => {

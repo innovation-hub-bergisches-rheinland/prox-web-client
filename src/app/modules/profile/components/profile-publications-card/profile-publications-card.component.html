@@ -5,10 +5,10 @@
   <app-profile-card-content>
     <div *ngFor="let publication of publications | slice: 0:limit; let i = index">
       <p [innerHTML]="publication | linky"></p>
-      <button (click)="limit = publications.length" *ngIf="i === limit - 1 && limit < publications.length" color="accent" mat-button>
+      <button (click)="limit = publications.length" *ngIf="i === limit - 1 && limit < publications.length" class="btn btn-accent btn-ghost">
         Mehr anzeigen
       </button>
-      <button (click)="limit = 10" *ngIf="i === limit - 1 && limit >= publications.length" color="accent" mat-button>
+      <button (click)="limit = 10" *ngIf="i === limit - 1 && limit >= publications.length" class="btn btn-accent btn-ghost">
         Weniger anzeigen
       </button>
     </div>

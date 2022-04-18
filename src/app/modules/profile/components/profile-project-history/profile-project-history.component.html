@@ -4,14 +4,14 @@
   </app-profile-card-header>
   <app-profile-card-content>
     <div class="flex flex-row justify-center items-center gap-4">
-      <button class="flex-none" mat-raised-button color="primary" (click)="goBackward()">
-        <mat-icon>keyboard_arrow_left</mat-icon>
+      <button class="flex-none btn btn-primary" (click)="goBackward()">
+        <fa-icon [icon]="iconLeft"></fa-icon>
       </button>
       <div class="flex-grow slider-body-wrapper">
         <ng-content></ng-content>
       </div>
-      <button class="flex-none" mat-raised-button color="primary" (click)="goForward()">
-        <mat-icon>keyboard_arrow_right</mat-icon>
+      <button class="flex-none btn btn-primary" (click)="goForward()">
+        <fa-icon [icon]="iconRight"></fa-icon>
       </button>
     </div>
   </app-profile-card-content>

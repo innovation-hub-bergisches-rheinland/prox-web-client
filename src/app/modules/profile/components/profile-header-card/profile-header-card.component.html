@@ -28,9 +28,9 @@
       <h1>{{ title }}</h1>
     </div>-->
     <div class="mt-4">
-      <mat-chip-list>
-        <mat-chip *ngFor="let tag of tags" selected>{{ tag }}</mat-chip>
-      </mat-chip-list>
+      <app-chip-list>
+        <app-chip *ngFor="let tag of tags" selected>{{ tag }}</app-chip>
+      </app-chip-list>
     </div>
   </div>
 </app-profile-card>
