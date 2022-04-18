@@ -109,13 +109,15 @@
       <mat-divider></mat-divider>
     </div>
 
-    <app-project-item
-      *ngFor="let project of projectsPage"
-      [showDetails]="false"
-      [project]="project"
-      (updated)="onUpdateProject($event)"
-      (deleted)="onDeleteProject(project)"
-    ></app-project-item>
+    <div class="flex flex-col gap-6 mt-4">
+      <app-project-item
+        *ngFor="let project of projectsPage"
+        [showDetails]="false"
+        [project]="project"
+        (updated)="onUpdateProject($event)"
+        (deleted)="onDeleteProject(project)"
+      ></app-project-item>
+    </div>
 
     <mat-paginator
       (page)="changePageIndexOrSize($event)"

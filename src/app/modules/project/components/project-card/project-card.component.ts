@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 import { Tag } from '@data/schema/tag.resource';
 import { Subject } from 'rxjs';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-project-card',
@@ -32,6 +33,9 @@ export class ProjectCardComponent {
 
   @Output()
   delete: Subject<Project> = new Subject<Project>();
+
+  editIcon = faPen;
+  deleteIcon = faTrash;
 
   onDeleteClick() {
     this.delete.next(this.project);

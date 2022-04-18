@@ -1,104 +1,81 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>
-      <div class="flex flex-row justify-between">
-        <b class="basis-3/4">{{ project.name }}</b>
-        <app-project-icons
-          class="basis-1/4 flex-initial"
-          [context]="project.context"
-          [status]="project.status"
-          [specialization]="specialization"
-        ></app-project-icons>
-      </div>
-    </mat-card-title>
-
-    <!-- TODO: Resolve somehow the supervisors -->
-    <!--<mat-card-subtitle *ngIf="isCompanyProject">
-      <span class="companyName" matTooltip="Unternehmen">
-        <b [innerHTML]="projectCompany"></b>
-      </span>
-    </mat-card-subtitle>
-
-    <mat-card-subtitle>
-      <span class="supervisorName" matTooltip="Projektbetreuer">
-        <b [innerHTML]="getProjectSupervisors()"></b>
-      </span>
-    </mat-card-subtitle>-->
-    <mat-card-subtitle>
-      <span class="supervisorName" matTooltip="Projektbetreuer">
+<div class="border-2 bg-base-100 shadow-xl p-10">
+  <div class="flex flex-row justify-between">
+    <div class="flex flex-col">
+      <strong class="text-lg font-bold text-black basis-3/4">{{ project.name }}</strong>
+      <span class="text-secondary" matTooltip="Projektbetreuer">
         <b [innerHTML]="project.supervisorName"></b>
       </span>
-    </mat-card-subtitle>
-  </mat-card-header>
-
-  <mat-divider></mat-divider>
-
-  <mat-card-content>
-    <div fxLayout="column" fxLayoutAlign="space-between " fxLayoutGap="5">
+    </div>
+    <app-project-icons
+      class="basis-1/4 flex-initial"
+      [context]="project.context"
+      [status]="project.status"
+      [specialization]="specialization"
+    ></app-project-icons>
+  </div>
+  <div class="divider"></div>
+  <div class="flex flex-col justify-between content-between gap-5">
+    <div>
+      <strong>Kurze Projektbeschreibung:</strong>
+      <p [innerHTML]="project.shortDescription | linky"></p>
+    </div>
+    <div *ngIf="showDetails">
+      <strong> Projektbeschreibung:</strong>
       <div>
-        <mat-card-subtitle>Kurze Projektbeschreibung:</mat-card-subtitle>
-        <p [innerHTML]="project.shortDescription | linky"></p>
-      </div>
-      <div *ngIf="showDetails">
-        <mat-card-subtitle> Projektbeschreibung:</mat-card-subtitle>
-        <div>
-          <p [innerHTML]="project.description | linky"></p>
-        </div>
-      </div>
-      <div fxLayout.gt-md="row" fxLayoutGap.gt-md="5" fxLayoutAlign.gt-md="space-between center">
-        <div fxFlex.gt-md="75">
-          <mat-card-subtitle>Teilnahmevoraussetzungen:</mat-card-subtitle>
-
-          <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
-
-          <p>{{ project.requirement }}</p>
-        </div>
-        <div fxFlex.gt-md="25">
-          <mat-card-subtitle>Projekttypen:</mat-card-subtitle>
-
-          <p *ngFor="let module of modules">
-            <b>({{ module.key }})</b> {{ module.name }}
-          </p>
-        </div>
-      </div>
-      <div fxLayout.gt-md="row" fxLayoutGap.gt-md="5" fxLayoutAlign.gt-md="space-between center">
-        <div fxFlex.gt-md="75">
-          <mat-chip-list *ngIf="tags">
-            <mat-chip selected *ngFor="let tag of tags" matTooltip="{{ tag.tagName }}">
-              {{ tag.tagName }}
-            </mat-chip>
-          </mat-chip-list>
-        </div>
-        <div fxFlex.gt-md="25">
-          <mat-card-subtitle>Erstellt am:</mat-card-subtitle>
-          <p>{{ project.createdAt | date: 'YYYY-MM-dd' }}</p>
-        </div>
+        <p [innerHTML]="project.description | linky"></p>
       </div>
     </div>
-  </mat-card-content>
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div class="basis-3/4">
+        <strong>Teilnahmevoraussetzungen:</strong>
 
-  <div *ngIf="!showDetails || hasPermission">
-    <mat-divider></mat-divider>
+        <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
 
-    <mat-card-actions>
-      <button
-        *ngIf="!showDetails"
-        mat-raised-button
-        color="primary"
-        class="project-button"
-        routerLink="/projects/{{ project.id }}"
-        matTooltip="Weiterführende Projektdetails"
-      >
-        Projektdetails
-      </button>
+        <p>{{ project.requirement }}</p>
+      </div>
+      <div class="basis-1/4">
+        <strong>Projekttypen:</strong>
 
-      <button (click)="onDeleteClick()" *ngIf="hasPermission" class="no-hover" id="project-remove-button" mat-icon-button color="warn">
-        <mat-icon>delete_forever</mat-icon>
-      </button>
-
-      <button (click)="onEditClick()" *ngIf="hasPermission" class="no-hover" id="project-edit-button" mat-icon-button>
-        <mat-icon>edit</mat-icon>
-      </button>
-    </mat-card-actions>
+        <p *ngFor="let module of modules">
+          <b>({{ module.key }})</b> {{ module.name }}
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-row gap-5 justify-between content-center">
+      <div class="basis-3/4">
+        <div class="flex flex-row flex-wrap gap-2">
+          <app-chip *ngFor="let tag of tags" [attr.data-tip]="tag.tagName" class="tooltip">
+            {{ tag.tagName }}
+          </app-chip>
+        </div>
+      </div>
+      <div class="basis-1/4">
+        <strong>Erstellt am:</strong>
+        <p>{{ project.createdAt | date: 'YYYY-MM-dd' }}</p>
+      </div>
+    </div>
   </div>
-</mat-card>
+  <ng-container *ngIf="!showDetails || hasPermission">
+    <div class="divider"></div>
+    <div class="flex flex-row justify-between">
+      <div class>
+        <button
+          class="tooltip btn btn-sm btn-primary"
+          *ngIf="!showDetails"
+          routerLink="/projects/{{ project.id }}"
+          data-tip="Weiterführende Projektdetails"
+        >
+          Projektdetails
+        </button>
+      </div>
+      <div class="flex flex-row gap-2">
+        <button class="btn btn btn-outline" (click)="onEditClick()" *ngIf="true">
+          <fa-icon [icon]="editIcon"></fa-icon>
+        </button>
+        <button class="btn btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="true">
+          <fa-icon [icon]="deleteIcon"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>
