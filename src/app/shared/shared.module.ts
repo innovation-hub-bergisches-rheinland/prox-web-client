@@ -20,6 +20,7 @@ import { ChipComponent } from './components/chip/chip.component';
 import { ChipListComponent } from './components/chip-list/chip-list.component';
 import { AddButtonComponent } from './components/add-button/add-button.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
     ChipComponent,
     ChipListComponent,
     AddButtonComponent,
-    BackButtonComponent
+    BackButtonComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,8 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
     ChipComponent,
     ChipListComponent,
     AddButtonComponent,
-    BackButtonComponent
+    BackButtonComponent,
+    PaginatorComponent
   ]
 })
 export class SharedModule {}

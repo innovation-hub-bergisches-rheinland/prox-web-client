@@ -1,0 +1,12 @@
+<div class="btn-group">
+  <button class="btn" (click)="pagePrevious()" [disabled]="pageIndex <= 0">«</button>
+  <button
+    class="btn"
+    (click)="pageIndexed(pageIndex, page)"
+    *ngFor="let page of pageNumbers"
+    [ngClass]="page === pageIndex ? 'btn-primary' : ''"
+  >
+    {{ page + 1 }}
+  </button>
+  <button class="btn" (click)="pageNext()" [disabled]="pageIndex >= pageNumbers.length - 1">»</button>
+</div>

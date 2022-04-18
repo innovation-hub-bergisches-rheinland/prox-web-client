@@ -107,7 +107,7 @@
       <mat-divider></mat-divider>
     </div>
 
-    <div class="flex flex-col gap-6 mt-4">
+    <div class="flex flex-col gap-6 mt-4 items-stretch">
       <app-project-item
         *ngFor="let project of projectsPage"
         [showDetails]="false"
@@ -117,12 +117,13 @@
       ></app-project-item>
     </div>
 
-    <mat-paginator
-      (page)="changePageIndexOrSize($event)"
-      [length]="totalFilteredProjects"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [pageSizeOptions]="[10, 25, 50]"
-    ></mat-paginator>
+    <div class="flex flex-col items-center w-full mt-8">
+      <app-paginator
+        (page)="changePageIndexOrSize($event)"
+        [length]="totalFilteredProjects"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+      ></app-paginator>
+    </div>
   </app-content-page-content>
 </app-content-page>
