@@ -66,9 +66,9 @@ module.exports = {
           800: '#0083d8',
           900: '#0072d0'
         },
-        primary: this.blue,
-        secondary: this.berry,
-        neutral: this.sky
+        primary: '#9b1868',
+        secondary: '#2d52a0',
+        accent: '#009fe3'
       },
       screens: {
         '3xl': '1921px'

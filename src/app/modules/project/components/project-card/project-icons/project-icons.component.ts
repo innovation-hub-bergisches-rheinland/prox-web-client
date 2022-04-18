@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Context, Specialization, Status } from '@data/schema/project-service.types';
+import { faIndustry, faLaptop, faLock, faLockOpen, faRunning, faWrench } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-project-icons',
@@ -7,6 +8,13 @@ import { Context, Specialization, Status } from '@data/schema/project-service.ty
   styleUrls: ['./project-icons.component.scss']
 })
 export class ProjectIconsComponent {
+  availableIcon = faLockOpen;
+  unavailableIcon = faLock;
+  runningIcon = faRunning;
+  infIcon = faLaptop;
+  ingIcon = faWrench;
+  companyIcon = faIndustry;
+
   @Input()
   status: Status;
 

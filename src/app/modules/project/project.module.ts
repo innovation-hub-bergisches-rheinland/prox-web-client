@@ -15,6 +15,7 @@ import { ProjectCardComponent } from './components/project-card/project-card.com
 import { ProjectEditorInformationComponent } from './components/project-editor/project-editor-information/project-editor-information.component';
 import { ProjectEditorModuleComponent } from './components/project-editor/project-editor-module/project-editor-module.component';
 import { ProjectEditorTagComponent } from './components/project-editor/project-editor-tag/project-editor-tag.component';
+import { ProjectIconComponent } from './components/project-card/project-icons/project-icon/project-icon.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ProjectEditorTagComponent } from './components/project-editor/project-e
     ProjectCardComponent,
     ProjectEditorInformationComponent,
     ProjectEditorModuleComponent,
-    ProjectEditorTagComponent
+    ProjectEditorTagComponent,
+    ProjectIconComponent
   ],
   imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
   entryComponents: [ProjectEditorDialogComponent]

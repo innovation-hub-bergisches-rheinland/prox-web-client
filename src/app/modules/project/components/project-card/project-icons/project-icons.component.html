@@ -1,14 +1,19 @@
-<ng-container>
+<div class="flex flex-row-reverse gap-2">
   <ng-container [ngSwitch]="status">
-    <mat-icon *ngSwitchCase="'AVAILABLE'" matTooltip="Verfügbar" class="status-icon" color="primary"> lock_open </mat-icon>
-    <mat-icon *ngSwitchCase="'FINISHED'" matTooltip="Abgeschlossen" class="status-icon" color="primary"> lock</mat-icon>
-    <mat-icon *ngSwitchCase="'RUNNING'" matTooltip="Laufend" class="status-icon" color="primary"> directions_run </mat-icon>
+    <app-project-icon *ngSwitchCase="'AVAILABLE'" [icon]="availableIcon" data-tip="Verfügbar" class="tooltip"></app-project-icon>
+    <app-project-icon *ngSwitchCase="'FINISHED'" [icon]="unavailableIcon" data-tip="Abgeschlossen" class="tooltip"></app-project-icon>
+    <app-project-icon *ngSwitchCase="'RUNNING'" [icon]="runningIcon" data-tip="Laufend" class="tooltip"></app-project-icon>
   </ng-container>
   <ng-container [ngSwitch]="specializationKeys">
-    <mat-icon *ngSwitchCase="'INF'" matTooltip="Informatik" class="specialization-icon" color="primary">computer </mat-icon>
-    <mat-icon *ngSwitchCase="'ING'" matTooltip="Ingenieurwesen" class="specialization-icon" color="primary">build </mat-icon>
+    <app-project-icon *ngSwitchCase="'INF'" [icon]="infIcon" data-tip="Informatik" class="tooltip"></app-project-icon>
+    <app-project-icon *ngSwitchCase="'ING'" [icon]="ingIcon" data-tip="Ingenieurwesen" class="tooltip"></app-project-icon>
   </ng-container>
   <ng-container [ngSwitch]="context">
-    <mat-icon *ngSwitchCase="'COMPANY'" matTooltip="Projekt in einem Unternehmen" class="context-icon" color="primary"> domain </mat-icon>
+    <app-project-icon
+      *ngSwitchCase="'COMPANY'"
+      [icon]="companyIcon"
+      data-tip="Projekt in einem Unternehmen"
+      class="tooltip"
+    ></app-project-icon>
   </ng-container>
-</ng-container>
+</div>
