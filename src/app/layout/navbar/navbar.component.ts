@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
 
   isLoggedIn = false;
   userAvatar?: string = null;
+  userId: string;
 
   constructor(private keycloakService: KeycloakService, private userService: UserService) {}
 
@@ -20,7 +21,8 @@ export class NavbarComponent implements OnInit {
     this.keycloakService.isLoggedIn().then(res => {
       this.isLoggedIn = res;
       if (res) {
-        this.userAvatar = this.userService.getUserAvatar(this.keycloakService.getKeycloakInstance().subject);
+        this.userId = this.keycloakService.getKeycloakInstance().subject;
+        this.userAvatar = this.userService.getUserAvatar(this.userId);
       }
     });
   }
