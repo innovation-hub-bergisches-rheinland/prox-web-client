@@ -7,16 +7,17 @@
   </button>
   <button
     class="btn"
-    (click)="pageIndexed(pageIndex, page)"
-    *ngFor="let page of pageNumbers"
-    [ngClass]="page === pageIndex ? 'btn-primary' : ''"
+    (click)="pageIndexed(pageIndex, btn.pageIndex)"
+    *ngFor="let btn of paginatorButtons"
+    [ngClass]="btn.pageIndex === pageIndex ? 'btn-primary' : ''"
+    [disabled]="!btn.enabled"
   >
-    {{ page + 1 }}
+    {{ btn.display }}
   </button>
-  <button class="btn" (click)="pageNext()" [disabled]="pageIndex >= pageNumbers.length - 1">
+  <button class="btn" (click)="pageNext()" [disabled]="pageIndex >= numberOfPages - 1">
     <fa-icon [icon]="iconNextPage"></fa-icon>
   </button>
-  <button class="btn" (click)="pageLast()" [disabled]="pageIndex >= pageNumbers.length - 1">
+  <button class="btn" (click)="pageLast()" [disabled]="pageIndex >= numberOfPages - 1">
     <fa-icon [icon]="iconLastPage"></fa-icon>
   </button>
 </div>

@@ -8,6 +8,12 @@ export type PageEvent = {
   length: number;
 };
 
+type PaginatorButton = {
+  pageIndex: number;
+  display: string;
+  enabled: boolean;
+};
+
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
@@ -28,13 +34,50 @@ export class PaginatorComponent implements OnInit {
   @Input()
   length = 0;
 
+  @Input()
+  maxButtons = 8;
+
   @Output()
   page = new EventEmitter<PageEvent>();
 
-  get pageNumbers(): number[] {
-    return Array(Math.floor(this.length / this.pageSize))
+  get numberOfPages(): number {
+    return Math.floor(this.length / this.pageSize);
+  }
+
+  get paginatorButtons(): PaginatorButton[] {
+    const buttons: PaginatorButton[] = Array(this.numberOfPages)
       .fill(0)
-      .map((_x, i) => i);
+      .map((_x, i) => {
+        return {
+          enabled: true,
+          display: String(i + 1),
+          pageIndex: i
+        };
+      });
+
+    if (buttons.length <= this.maxButtons) {
+      return buttons;
+    }
+
+    const lowerLimit = this.pageIndex + this.maxButtons - 3;
+    const upperLimit = this.pageIndex - this.maxButtons + 3;
+    const isInLimit = (idx: number) => idx <= lowerLimit && idx >= upperLimit;
+    const isExactlyLimit = (idx: number) => idx === lowerLimit || idx === upperLimit;
+    const isFirstPage = (idx: number) => idx === 0;
+    const isLastPage = (idx: number) => idx === buttons.length - 1;
+
+    return buttons
+      .filter(x => isFirstPage(x.pageIndex) || isLastPage(x.pageIndex) || isInLimit(x.pageIndex))
+      .map(btn => {
+        if (isExactlyLimit(btn.pageIndex) && !isFirstPage(btn.pageIndex) && !isLastPage(btn.pageIndex)) {
+          return {
+            ...btn,
+            enabled: false,
+            display: '...'
+          };
+        }
+        return btn;
+      });
   }
 
   constructor() {}
