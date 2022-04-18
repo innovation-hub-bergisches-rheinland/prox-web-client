@@ -1,14 +1,11 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-profile-overview-card',
-  templateUrl: './profile-overview-card.component.html',
-  styleUrls: ['./profile-overview-card.component.scss']
+  selector: 'app-user-item',
+  templateUrl: './user-item.component.html',
+  styleUrls: ['./user-item.component.scss']
 })
-export class ProfileOverviewCardComponent {
-  @HostBinding('class')
-  classes = 'profile-overview';
-
+export class UserItemComponent {
   @Input()
   title: string;
 

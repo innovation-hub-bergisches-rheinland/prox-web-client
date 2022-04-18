@@ -11,6 +11,7 @@ import { UserProfileEditorInformationComponent } from './components/user-profile
 import { UserProfileEditorAdditionalInformationComponent } from '@modules/user/components/user-profile-editor/user-profile-editor-additional-information/user-profile-editor-additional-information.component';
 import { UserProfileEditorPublicationsComponent } from '@modules/user/components/user-profile-editor/user-profile-editor-publications/user-profile-editor-publications.component';
 import { UserProfileOverviewPageComponent } from './pages/user-profile-overview-page/user-profile-overview-page.component';
+import { UserItemComponent } from '@modules/user/components/user-item/user-item.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { UserProfileOverviewPageComponent } from './pages/user-profile-overview-
     UserProfileEditorInformationComponent,
     UserProfileEditorAdditionalInformationComponent,
     UserProfileEditorPublicationsComponent,
-    UserProfileOverviewPageComponent
+    UserProfileOverviewPageComponent,
+    UserItemComponent
   ],
   imports: [CommonModule, SharedModule, UserRoutingModule, ProfileModule]
 })
