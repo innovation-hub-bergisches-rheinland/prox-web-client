@@ -115,7 +115,7 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
   }
 
   onAddProject() {
-    this.getAllProjects();
+    this.setQueryParams({});
   }
 
   onDeleteProject(project: Project) {
@@ -188,19 +188,6 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
 
   private openErrorSnackBar(message: string) {
     this.snackBar.open(message, 'Verstanden');
-  }
-
-  private getAllProjects() {
-    this.projectService.getAllProjects('withAssociations').subscribe({
-      next: projects => {
-        this.projects = projects;
-        this.pageProjects();
-      },
-      error: error => {
-        console.error('project service error', error);
-        this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
-      }
-    });
   }
 
   private pageProjects() {
