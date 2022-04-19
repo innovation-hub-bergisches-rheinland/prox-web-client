@@ -16,13 +16,14 @@ export class UserItemComponent {
   secondarySubtitle: string;
 
   @Input()
+  defaultImage = '/assets/images/blank-profile-picture.png';
+
+  @Input()
   href: string;
   @Input()
-  imgSrc: string;
+  imgSrc: string = this.defaultImage;
   @Input()
   chipTitle: string;
-  @Input()
-  defaultImage = '/assets/images/blank-profile-picture.png';
 
   private _chips: string[] = [];
 
