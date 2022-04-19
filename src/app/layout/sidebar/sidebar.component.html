@@ -29,8 +29,9 @@
       <li>
         <a routerLink="/organizations" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="orgsIcon" [fixedWidth]="true"></fa-icon>
-          Unternehmen und Organisationen</a
-        >
+          Unternehmen und Organisationen
+          <span class="badge badge-primary">Neu</span>
+        </a>
       </li>
       <li *ngIf="isFeatureEnabled('jobs')">
         <a routerLink="/jobs" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
