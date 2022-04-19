@@ -10,7 +10,7 @@ import { ProjectEditorDialogComponent } from '@modules/project/components/projec
 
 import { TagService } from '@data/service/tag.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Project, ProjectWithAssociations, Status } from '@data/schema/project-service.types';
+import { Project, Status } from '@data/schema/project-service.types';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 import { map, mergeMap, tap } from 'rxjs/operators';
 
@@ -94,17 +94,6 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
     return false;
   }
 
-  public hasProjectPermission(project: ProjectWithAssociations): boolean {
-    if (this.isLoggedIn) {
-      const userId = this.keycloakService.getKeycloakInstance().subject;
-      return (
-        (this.keycloakService.isUserInRole('professor') || this.keycloakService.isUserInRole('company-manager')) &&
-        userId === project.creatorID
-      );
-    }
-    return false;
-  }
-
   public changePageIndexOrSize(pageEvent: PageEvent) {
     this.pageIndex = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
@@ -125,20 +114,15 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  // TODO: Refactor
   onAddProject() {
-    // We just load all projects again... totally needs to get refactored, as well as the other
-    // event handlers for adding/removing projects.
     this.getAllProjects();
   }
 
-  // TODO: Refactor
   onDeleteProject(project: Project) {
     this.projects = this.projects.filter(p => p.id !== project.id);
     this.projectsPage = this.projectsPage.filter(p => p.id !== project.id);
   }
 
-  // TODO: Refactor
   onUpdateProject(project: Project) {
     this.projects = this.projects.map(p => {
       if (p.id === project.id) {
