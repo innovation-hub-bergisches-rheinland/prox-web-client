@@ -12,6 +12,7 @@ import { TagService } from '@data/service/tag.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Project, ProjectWithAssociations, Status } from '@data/schema/project-service.types';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
+import { map, mergeMap, tap } from 'rxjs/operators';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -57,12 +58,33 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
       this.isLoggedIn = false;
     }
 
-    this.getAllProjects();
-    this.route.queryParams.subscribe({
-      next: (params: any) => {
-        this.loadQueryParams(params);
-      }
-    });
+    this.route.queryParams
+      .pipe(
+        map(params => this.parseQueryParams(params)),
+        tap(search => (this.currentFilter = search)),
+        mergeMap(search => {
+          if (search) {
+            return this.projectService.filterProjects(
+              'withAssociations',
+              search.status,
+              search.specializations,
+              search.moduleTypes,
+              search.searchString
+            );
+          }
+          return this.projectService.getAllProjects();
+        })
+      )
+      .subscribe({
+        next: projects => {
+          this.projects = projects;
+          this.pageProjects();
+        },
+        error: error => {
+          console.error('project service error', error);
+          this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
+        }
+      });
   }
 
   public hasProjectCreationPermission(): boolean {
@@ -132,23 +154,7 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  filterProjects(search: ProjectSearch) {
-    this.projectService
-      .filterProjects('withAssociations', search.status, search.specializations, search.moduleTypes, search.searchString)
-      .subscribe({
-        next: projects => {
-          this.projects = projects;
-          this.pageProjects();
-          this.setQueryParams(search);
-        },
-        error: error => {
-          console.error('project service error', error);
-          this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
-        }
-      });
-  }
-
-  private setQueryParams(search: ProjectSearch) {
+  async setQueryParams(search: ProjectSearch) {
     const queryParams: QueryParams = {};
 
     if (Object.values(search).every(p => p === undefined)) {
@@ -168,14 +174,14 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
       queryParams.specializations = search.specializations.join(',');
     }
 
-    this.router.navigate([], {
+    await this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
       queryParamsHandling: 'merge'
     });
   }
 
-  private loadQueryParams(queryParams: QueryParams) {
+  private parseQueryParams(queryParams: QueryParams): ProjectSearch | undefined {
     const search: ProjectSearch = {};
     if (queryParams.state) {
       search.status = queryParams.state as Status;
@@ -191,9 +197,9 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
     }
 
     if (Object.values(search).some(p => p !== undefined)) {
-      this.currentFilter = search;
-      this.filterProjects(search);
+      return search;
     }
+    return undefined;
   }
 
   private openErrorSnackBar(message: string) {
