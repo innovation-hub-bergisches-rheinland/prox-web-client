@@ -1,0 +1,42 @@
+<div class="collapse border shadow">
+  <input type="checkbox" class="peer" />
+  <div class="collapse-title">
+    <fa-icon [icon]="searchIcon"></fa-icon>
+    <span class="mx-4">Nach Projekten suchen...</span>
+  </div>
+  <div class="collapse-content">
+    <form [formGroup]="searchForm" (submit)="onSubmit()">
+      <div class="flex flex-col">
+        <div class="flex flex-row gap-2">
+          <mat-form-field class="w-full">
+            <mat-select placeholder="Status" formControlName="status">
+              <mat-option value="AVAILABLE">Verfügbar</mat-option>
+              <mat-option value="RUNNING">Laufend</mat-option>
+              <mat-option value="FINISHED">Abgeschlossen</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-select placeholder="Fachbereiche" multiple formControlName="specializations">
+              <ng-container *ngIf="specializations$ | async; let specializations">
+                <mat-option *ngFor="let specialization of specializations" [value]="specialization.key">{{
+                  specialization.name
+                }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-select placeholder="Module" multiple formControlName="moduleTypes">
+              <ng-container *ngIf="moduleTypes$ | async; let moduleTypes">
+                <mat-option *ngFor="let moduleType of moduleTypes" [value]="moduleType.key">{{ moduleType.name }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+          <input formControlName="txtSearch" placeholder="Suchtext" matInput />
+        </mat-form-field>
+        <button class="btn btn-sm btn-primary w-full" type="submit">Suchen</button>
+      </div>
+    </form>
+  </div>
+</div>

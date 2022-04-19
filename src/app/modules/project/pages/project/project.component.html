@@ -4,99 +4,8 @@
     <app-content-page-actions></app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
-    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="10px">
-      <mat-expansion-panel fxFlex class="expansion-headers-align" hideToggle>
-        <mat-expansion-panel-header>
-          <mat-panel-title> Suchfilter</mat-panel-title>
-          <mat-panel-description> Nach Projekten suchen</mat-panel-description>
-          <mat-icon>search</mat-icon>
-        </mat-expansion-panel-header>
-        <form class="search-form" fxLayout="column" [formGroup]="searchForm" (ngSubmit)="filterProjects()">
-          <div
-            class="search-row"
-            fxLayout="row"
-            fxLayout.lt-md="column"
-            fxLayoutAlign="start center"
-            fxLayoutGap="10px"
-            fxLayoutGap.lt-md="0"
-            fxLayoutAlign.lt-md=" stretch"
-          >
-            <mat-form-field class="status-search" fxFlex="30%" fxFlex.lt-md="100%">
-              <mat-select formControlName="selectedStatusOption" placeholder="Status">
-                <mat-option>Alle</mat-option>
-
-                <mat-option *ngFor="let statusOption of statusOptions | keyvalue" [value]="statusOption.key">
-                  {{ statusOption.value | titlecase }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="35%" fxFlex.lt-md="100%">
-              <mat-label *ngIf="isLoadingSpecializations">
-                <div class="select-placeholder-container">
-                  <span>Lädt Fachbereiche...</span>
-                  <mat-spinner class="spinner" diameter="20"></mat-spinner>
-                </div>
-              </mat-label>
-              <mat-select
-                placeholder="Fachbereiche"
-                formControlName="selectedSpecializations"
-                multiple
-                (selectionChange)="filterModuleTypesBySpecializations($event)"
-              >
-                <mat-option *ngFor="let specialization of suitableSpecializations" [value]="specialization">{{
-                  specialization.name
-                }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="35%" fxFlex.lt-md="100%">
-              <mat-label *ngIf="isLoadingModuleTypes">
-                <div class="select-placeholder-container">
-                  <span>Lädt Module...</span>
-                  <mat-spinner class="spinner" diameter="20"></mat-spinner>
-                </div>
-              </mat-label>
-              <mat-select placeholder="Module" formControlName="selectedModuleTypes" multiple>
-                <mat-option *ngFor="let moduleType of suitableModuleTypes" [value]="moduleType">{{ moduleType.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="search-row" fxLayout="row" fxLayoutAlign="start center">
-            <mat-form-field class="search" fxFlex="100%">
-              <label>
-                <input formControlName="searchString" placeholder="Suchtext" matInput />
-              </label>
-            </mat-form-field>
-          </div>
-          <div class="search-row" fxLayout="row" fxLayoutAlign="start center">
-            <mat-form-field class="tag-list" fxFlex="100%">
-              <mat-label>Tags</mat-label>
-              <mat-chip-list #tagList>
-                <mat-chip *ngFor="let tag of searchTags" [removable]="true" (removed)="removeTag(tag)">
-                  {{ tag }}
-                  <mat-icon matChipRemove>cancel</mat-icon>
-                </mat-chip>
-
-                <input
-                  #tagInput
-                  formControlName="searchTagInput"
-                  placeholder="Tags"
-                  [matAutocomplete]="tagAuto"
-                  [matChipInputFor]="tagList"
-                />
-              </mat-chip-list>
-
-              <mat-autocomplete #tagAuto="matAutocomplete" (optionSelected)="selectedTag($event)">
-                <mat-option *ngFor="let tag of filteredTags$ | async" [value]="tag">
-                  {{ tag.tagName }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <button mat-flat-button color="primary" type="submit">Suchen</button>
-        </form>
-      </mat-expansion-panel>
+    <div class="flex flex-row gap-4">
+      <app-project-search-panel class="flex-1" (search)="filterProjects($event)" [initial]="currentFilter"></app-project-search-panel>
       <app-add-button
         *ngIf="hasProjectCreationPermission()"
         (click)="openProjectEditorDialog(null)"
@@ -120,7 +29,7 @@
     <div class="flex flex-col items-center w-full mt-8">
       <app-paginator
         (page)="changePageIndexOrSize($event)"
-        [length]="totalFilteredProjects"
+        [length]="projects.length"
         [pageSize]="pageSize"
         [pageIndex]="pageIndex"
       ></app-paginator>
