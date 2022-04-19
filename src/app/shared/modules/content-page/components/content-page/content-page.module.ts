@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import { ContentPageHeaderComponent } from './components/content-page-header/content-page-header.component';
 import { ContentPageTitleDirective } from './directives/content-page-title/content-page-title.directive';
@@ -15,7 +14,7 @@ import { ContentPageActionsComponent } from './components/content-page-actions/c
     ContentPageContentDirective,
     ContentPageActionsComponent
   ],
-  imports: [CommonModule, FlexLayoutModule],
+  imports: [CommonModule],
   exports: [
     ContentPageComponent,
     ContentPageHeaderComponent,
