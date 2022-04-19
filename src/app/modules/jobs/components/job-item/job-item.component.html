@@ -1,9 +1,9 @@
 <mat-card *ngIf="jobOffer">
-  <mat-card-header fxLayout="column">
+  <mat-card-header class="flex flex-col">
     <mat-card-title>
       <b>{{ jobOffer.title }}</b>
     </mat-card-title>
-    <mat-card-subtitle fxLayout="column" fxLayoutGap="10px">
+    <mat-card-subtitle class="flex flex-col gap-4">
       <mat-card-subtitle>
         <a [href]="this.creatorLink$ | async"
           ><b>{{ this.creatorName$ | async }}</b></a
@@ -24,8 +24,8 @@
       <mat-card-subtitle>Stellenbeschreibung</mat-card-subtitle>
       <div markdown [data]="jobOffer.description"></div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between none">
-      <div fxFlex="65">
+    <div class="flex flex-row justify-between">
+      <div class="basis-3/4">
         <mat-card-subtitle>Art der Beschäftigung</mat-card-subtitle>
         <ul>
           <li *ngFor="let type of this.availableTypesAsString$ | async">
@@ -33,7 +33,7 @@
           </li>
         </ul>
       </div>
-      <div fxFlex>
+      <div>
         <mat-card-subtitle>Einstiegslevel</mat-card-subtitle>
         <ul>
           <li *ngFor="let entryLevel of this.availableEntryLevelsAsString$ | async">
@@ -44,12 +44,12 @@
     </div>
   </mat-card-content>
   <mat-divider></mat-divider>
-  <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-card-actions class="flex flex-row justify-between items-center">
     <button mat-raised-button color="primary" class="project-button" routerLink="/jobs/{{ jobOffer.id }}" matTooltip="Details">
       Details
     </button>
 
-    <div *ngIf="this.hasPermission$ | async" fxLayout="row" fxLayoutAlign="start center" dir="rtl" fxLayoutGap="10px">
+    <div *ngIf="this.hasPermission$ | async" class="flex flex-row justify-start items-center gap-4">
       <button (click)="deleteJobOffer()" class="no-hover" id="delete-button" mat-icon-button color="warn">
         <mat-icon>delete_forever</mat-icon>
       </button>

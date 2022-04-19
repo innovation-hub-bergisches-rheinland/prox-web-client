@@ -1,6 +1,6 @@
 <mat-card>
   <form [formGroup]="jobOfferForm">
-    <mat-card-header fxLayout="column" fxLayout="start stretch">
+    <mat-card-header class="flex flex-col justify-start items-stretch">
       <mat-form-field appearance="fill">
         <mat-label>Titel</mat-label>
         <input matInput [formControlName]="'title'" required />
@@ -9,7 +9,7 @@
         <mat-error *ngIf="jobOfferForm.controls.title.hasError('maxlength')">Titel darf nicht mehr als 255 Zeichen beinhalten </mat-error>
       </mat-form-field>
     </mat-card-header>
-    <mat-card-content fxLayout="column" fxLayout="start stretch">
+    <mat-card-content class="flex flex-col justify-start items-stretch">
       <b
         >Das Beschreibungsfeld unterstützt <a href="https://commonmark.org/">CommonMark</a> Markdown Syntax. Eine Übersicht über die
         wichtigsten Bausteine finden Sie <a href="https://commonmark.org/help/">hier</a>.</b
@@ -49,7 +49,7 @@
       </mat-form-field>
     </mat-card-content>
     <mat-action-row>
-      <div fxLayout="row" dir="rtl" fxFlex fxLayoutGap="10px">
+      <div class="flex flex-row-reverse gap-2">
         <button mat-raised-button color="primary" (click)="saveOrUpdate()" [disabled]="this.jobOfferForm.invalid">
           <mat-icon>save</mat-icon>
           Speichern
