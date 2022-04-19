@@ -14,7 +14,7 @@
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
-    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="15px">
+    <div class="flex flex-col justify-start items-stretch gap-5">
       <div>
         <mat-expansion-panel hideToggle>
           <mat-expansion-panel-header>
@@ -22,17 +22,9 @@
             <mat-panel-description>Nach Stellenangeboten suchen</mat-panel-description>
             <mat-icon>search</mat-icon>
           </mat-expansion-panel-header>
-          <form class="search-form" fxLayout="column" [formGroup]="searchForm" (ngSubmit)="searchJobOffers()">
-            <div
-              class="search-row"
-              fxLayout="row"
-              fxLayout.lt-md="column"
-              fxLayoutAlign="start center"
-              fxLayoutGap="10px"
-              fxLayoutGap.lt-md="0"
-              fxLayoutAlign.lt-md=" stretch"
-            >
-              <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <form class="search-form flex flex-col" [formGroup]="searchForm" (ngSubmit)="searchJobOffers()">
+            <div class="search-row flex flex-row md:flex-row gap-4">
+              <mat-form-field class="basis-full md:basis-1/2">
                 <mat-select placeholder="Beschäftigungsart" formControlName="selectedJobTypes" multiple>
                   <mat-option *ngFor="let type of this.allJobOfferTypes | async" [value]="type">
                     {{ type.description }}
@@ -40,7 +32,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-form-field class="basis-full md:basis-1/2">
                 <mat-select placeholder="Einstiegslevel" formControlName="selectedEntryLevel" multiple>
                   <mat-option *ngFor="let entryLevel of this.allJobOfferEntryLevels | async" [value]="entryLevel">
                     {{ entryLevel.description }}
@@ -48,8 +40,8 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="search-row" fxLayout="row" fxLayoutAlign="start center">
-              <mat-form-field class="search" fxFlex="100%">
+            <div class="search-row flex flex-row justify-start items-center">
+              <mat-form-field class="search flex-1">
                 <label>
                   <input formControlName="searchString" placeholder="Suchtext" matInput />
                 </label>
