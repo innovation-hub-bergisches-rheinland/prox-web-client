@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ShimmerService } from '@layout/shimmer/shimmer.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-shimmer',
@@ -6,10 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./shimmer.component.scss']
 })
 export class ShimmerComponent implements OnInit {
-  @Input()
-  active = false;
+  state$: Observable<boolean>;
 
-  constructor() {}
+  constructor(private shimmerService: ShimmerService) {
+    this.state$ = shimmerService.state$;
+  }
 
   ngOnInit(): void {}
 }
