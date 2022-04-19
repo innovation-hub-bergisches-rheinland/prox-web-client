@@ -2,6 +2,7 @@
   <input #sidenav id="sidenav" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content">
     <header class="sticky top-0 z-50 shadow border-b-2">
+      <app-shimmer></app-shimmer>
       <app-navbar (burgerClicked)="sidenav.checked = true"></app-navbar>
     </header>
     <div>
