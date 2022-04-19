@@ -8,7 +8,7 @@
   <div class="profile w-full flex m-3 ml-4 text-base">
     <figure class="rounded-full overflow-hidden flex-shrink-0">
       <img
-        (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
+        (error)="this.imgSrc = this.defaultImage"
         [src]="imgSrc"
         alt="Profile avatar"
         class="w-28 h-28 p-1 rounded-full bg-white object-cover"
