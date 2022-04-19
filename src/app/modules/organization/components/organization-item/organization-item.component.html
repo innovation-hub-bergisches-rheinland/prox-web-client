@@ -16,6 +16,9 @@
         {{ vita | truncate: 150:true }}
       </p>
     </div>
+    <app-chip-list>
+      <app-chip *ngFor="let branch of organization.profile.branches"> {{ branch }}</app-chip>
+    </app-chip-list>
     <div class="card-actions justify-end">
       <button class="btn btn-ghost" (click)="editOrganization(organization)" *ngIf="organization.permissions.canEdit">
         <fa-icon [icon]="editIcon" class="mx-2"></fa-icon>
@@ -28,42 +31,3 @@
     </div>
   </div>
 </div>
-
-<!--<div class="max-w-sm rounded overflow-hidden shadow-lg h-full">
-  <div class="hover:cursor-pointer h-fit" [routerLink]="[organization.id]">
-    <figure class="aspect-square">
-      <img
-        class="w-full h-full object-contain object-center"
-        [src]="imgSrc"
-        (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
-        alt="Organization avatar"
-      />
-    </figure>
-    <div class="px-6 py-4">
-      <div class="font-bold text-xl mb-2">
-        <a>{{ organization.name }}</a>
-      </div>
-      <span class="hidden lg:block text-gray-700 text-base" *ngIf="organization.profile.vita; let vita">
-        {{ vita | truncate: 150:true }}
-      </span>
-    </div>
-  </div>
-  <div>
-    <div class="px-6 pt-4 pb-2">
-      <app-chip-list>
-        <app-chip *ngFor="let branch of organization.profile.branches"> {{ branch }}</app-chip>
-      </app-chip-list>
-    </div>
-    <div class="px-6 pt-4 pb-2 flex flex-row">
-      <button class="btn btn-ghost" (click)="editOrganization(organization)" *ngIf="organization.permissions.canEdit">
-        <fa-icon [icon]="editIcon" class="m-2"></fa-icon>
-        Bearbeiten
-      </button>
-      <button class="btn btn-ghost" [routerLink]="[organization.id, 'members']" *ngIf="organization.permissions.canViewMembers">
-        <fa-icon [icon]="membersIcon" class="m-2"></fa-icon>
-        Mitglieder
-      </button>
-    </div>
-  </div>
-</div>
--->
