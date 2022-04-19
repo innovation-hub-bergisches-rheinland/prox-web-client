@@ -5,7 +5,7 @@
   </app-content-page-header>
   <app-content-page-content>
     <div class="flex flex-row gap-4">
-      <app-project-search-panel class="flex-1" (search)="filterProjects($event)" [initial]="currentFilter"></app-project-search-panel>
+      <app-project-search-panel class="flex-1" (search)="setQueryParams($event)" [initial]="currentFilter"></app-project-search-panel>
       <app-add-button
         *ngIf="hasProjectCreationPermission()"
         (click)="openProjectEditorDialog(null)"
