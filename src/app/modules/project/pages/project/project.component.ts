@@ -109,13 +109,15 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
 
     dialog.afterClosed().subscribe(res => {
       if (res) {
-        this.onAddProject();
+        this.onAddProject(res);
       }
     });
   }
 
-  onAddProject() {
-    this.setQueryParams({});
+  onAddProject(project: Project) {
+    this.projects = [project, ...this.projects];
+    this.pageIndex = 0;
+    this.pageProjects();
   }
 
   onDeleteProject(project: Project) {
