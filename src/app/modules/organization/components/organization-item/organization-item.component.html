@@ -9,8 +9,8 @@
   </figure>
   <div class="card-body h-1/2 pb-2 hover:cursor-pointer">
     <div [routerLink]="[organization.id]">
-      <div class="font-bold text-xl mb-2">
-        <h2>{{ organization.name }}</h2>
+      <div class="font-bold mb-2">
+        <h2 class="leading-normal">{{ organization.name }}</h2>
       </div>
       <p class="text-gray-700 text-base" *ngIf="organization.profile.vita; let vita">
         {{ vita | truncate: 150:true }}
