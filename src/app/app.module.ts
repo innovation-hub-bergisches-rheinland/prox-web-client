@@ -18,6 +18,7 @@ import { MainContentComponent } from '@layout/main-content/main-content.componen
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { ShimmerComponent } from './layout/shimmer/shimmer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
     UserComponent,
     MainContentComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    ShimmerComponent
   ],
   imports: [
     BrowserModule,
