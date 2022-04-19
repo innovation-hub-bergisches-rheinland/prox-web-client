@@ -1,7 +1,7 @@
 <div class="card rounded-none border w-full bg-base-100 shadow-xl h-full">
-  <figure class="aspect-square h-1/2 p-5 hover:cursor-pointer" [routerLink]="[organization.id]">
+  <figure class="aspect-square max-h-full p-5 hover:cursor-pointer" [routerLink]="[organization.id]">
     <img
-      class="w-full h-full object-contain object-center"
+      class="w-full object-contain object-center"
       [src]="imgSrc"
       (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
       alt="Organization avatar"
