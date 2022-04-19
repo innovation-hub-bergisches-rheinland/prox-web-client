@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { MaterialModule } from './modules/material/material.module';
 import { ContentPageModule } from './modules/content-page/components/content-page/content-page.module';
@@ -44,8 +43,6 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     ReactiveFormsModule,
     RouterModule,
 
-    FlexLayoutModule,
-
     MaterialModule,
     ContentPageModule,
     FontAwesomeModule,
@@ -56,8 +53,6 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-
-    FlexLayoutModule,
 
     MaterialModule,
 

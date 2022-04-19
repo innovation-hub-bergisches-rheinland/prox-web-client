@@ -9,7 +9,6 @@ import { ProjectItemComponent } from './components/project-item/project-item.com
 import { ProjectEditorComponent } from './components/project-editor/project-editor.component';
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { FlexModule } from '@angular/flex-layout';
 import { ProjectIconsComponent } from './components/project-card/project-icons/project-icons.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { ProjectEditorInformationComponent } from './components/project-editor/project-editor-information/project-editor-information.component';
@@ -33,7 +32,7 @@ import { ProjectSearchPanelComponent } from './components/project-search-panel/p
     ProjectIconComponent,
     ProjectSearchPanelComponent
   ],
-  imports: [SharedModule, ProjectRoutingModule, ScrollingModule, FlexModule],
+  imports: [SharedModule, ProjectRoutingModule, ScrollingModule],
   entryComponents: [ProjectEditorDialogComponent]
 })
 export class ProjectModule {}

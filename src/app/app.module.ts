@@ -14,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BASE_PATH } from '@data/service/openapi/variables';
 import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainContentComponent } from '@layout/main-content/main-content.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NavbarComponent } from './layout/navbar/navbar.component';
@@ -38,7 +37,6 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
     SharedModule,
     AppRoutingModule,
     ToastModule,
-    FlexLayoutModule,
     NgxMatSelectSearchModule
   ],
   providers: [
