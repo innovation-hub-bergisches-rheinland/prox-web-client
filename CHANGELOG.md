@@ -1,7 +1,34 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.9.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.8.1...v1.9.0) (2022-04-24)
+
+
+### Features
+
+* add buttons for last/first page ([b5460e3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b5460e34f0dce6bb45a564eabdb4e331f05fe0a1))
+* add experimental shimmer service for http requests ([40ae9fa](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/40ae9faddb0f63cc42c72893673d19d8bd17113c))
+* add shimmer component ([0c2dc82](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0c2dc82e3ceb006b465b662c386ca2138040a2e2))
+
+
+### Bug Fixes
+
+* add alt attributes ([e10c159](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e10c15942a300f4cda1acebecf9f295f80b2aebe))
+* add permission check ([8107605](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8107605b4dc22915651c8e0b9738b2fa3f6b1ad9))
+* add project after adding one ([5caf5ff](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5caf5ff770423b91f20169b66c7b7e9c2f1d3b86))
+* add tags to org item ([097dd02](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/097dd0287e6e77d8100eb16b90bb6bbb9c8a8f58))
+* adjust card distribution and width in overview ([39fd958](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/39fd958e8ed390ee054ee004129aac171df9db18))
+* adjust line-height in header ([be1c9ba](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/be1c9ba05f16ce3f7688d7f90fdfc6025a5ca620))
+* close sidenav on navigation ([ea770e4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/ea770e4b7fdce85765da27c318b4becb98be04c8))
+* fix helm format ([03b9d7d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/03b9d7d994e093f0bbb568fb4edbd6d0bc0bf7b2))
+* fix onAddProject handler ([e8f76e1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e8f76e1437ccec6010b64945887cda68c2ffe91f))
+* helm chart formatting ([ebd0714](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/ebd071474ed3c35ce236a748d958d5abb47bdbb3))
+* link logo in navbar ([3b668e7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3b668e747dc9bdd395be41e59f896dee45c1cbac))
+* object fitting ([60c81db](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/60c81db7866225330aca14c326bcdf64fa9c74a0))
+* query param loading ([5ee8fed](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5ee8fede58bbe715353e2702ff4282222f8805ef))
+* remove obsolte material directive ([252ed9d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/252ed9d1df3c6d5b9e2355d22cb0525d9916d458))
+* resize of org items ([d88048b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d88048baf769b600872a742746f09b207b171952))
 
 ### [1.8.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.8.0...v1.8.1) (2022-04-03)
 
