@@ -8,7 +8,7 @@
   </div>
   <div class="flex-1">
     <a class="mx-auto" routerLink="/">
-      <img class="max-h-10" src="/assets/images/prox-icon_160x160.png" />
+      <img alt="PROX Logo" class="max-h-10" src="/assets/images/prox-icon_160x160.png" />
     </a>
   </div>
   <div class="flex-none">
@@ -16,10 +16,10 @@
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <ng-container *ngIf="isLoggedIn; else defaultAvatar">
-            <img (error)="this.userAvatar = '/assets/images/blank-profile-picture.png'" [src]="userAvatar" />
+            <img alt="Avatar" (error)="this.userAvatar = '/assets/images/blank-profile-picture.png'" [src]="userAvatar" />
           </ng-container>
           <ng-template #defaultAvatar>
-            <img src="/assets/images/blank-profile-picture.png" />
+            <img alt="Avatar" src="/assets/images/blank-profile-picture.png" />
           </ng-template>
         </div>
       </label>
