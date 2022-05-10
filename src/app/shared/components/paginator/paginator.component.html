@@ -7,8 +7,8 @@
   </button>
   <button
     class="btn"
+    *ngFor="let btn of paginatorButtons$ | async"
     (click)="pageIndexed(pageIndex, btn.pageIndex)"
-    *ngFor="let btn of paginatorButtons"
     [ngClass]="btn.pageIndex === pageIndex ? 'btn-primary' : ''"
     [disabled]="!btn.enabled"
   >

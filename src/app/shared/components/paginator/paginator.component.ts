@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { faAngleDoubleLeft, faAngleDoubleRight, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { Observable, of } from 'rxjs';
 
 export type PageEvent = {
   pageIndex: number;
@@ -19,14 +20,14 @@ type PaginatorButton = {
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent implements OnInit {
+export class PaginatorComponent implements OnInit, OnChanges {
   iconFirstPage = faAngleDoubleLeft;
   iconPrevious = faAngleLeft;
   iconNextPage = faAngleRight;
   iconLastPage = faAngleDoubleRight;
 
   @Input()
-  pageSize = 0;
+  pageSize = 10;
 
   @Input()
   pageIndex = 0;
@@ -39,12 +40,13 @@ export class PaginatorComponent implements OnInit {
 
   @Output()
   page = new EventEmitter<PageEvent>();
+  paginatorButtons$: Observable<PaginatorButton[]>;
 
   get numberOfPages(): number {
     return Math.floor(this.length / this.pageSize);
   }
 
-  get paginatorButtons(): PaginatorButton[] {
+  private get _paginatorButtons(): PaginatorButton[] {
     const buttons: PaginatorButton[] = Array(this.numberOfPages)
       .fill(0)
       .map((_x, i) => {
@@ -81,6 +83,21 @@ export class PaginatorComponent implements OnInit {
   }
 
   constructor() {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Change detection sometimes messes around with the pagination. That causes the DOM to be re-rendered in an
+    // infinite loop causing way to much performance overhead and makes it impossible to use. Therefore, we use this
+    // workaround in the change detection lifecycle hook where we check whether any change on the property binding has been
+    // done and then create a new observable which would bind to the model.
+    // We could also do this inside of the ngAfterViewChecked lifecycle method but this would cause way to many
+    // invocations.
+    const paginationHasBeenChanged = (changes: SimpleChanges) =>
+      ['pageSize', 'pageIndex', 'length', 'maxButtons'].some(item => changes[item]?.currentValue !== changes[item]?.previousValue);
+
+    if (paginationHasBeenChanged(changes)) {
+      this.paginatorButtons$ = of(this._paginatorButtons);
+    }
+  }
 
   ngOnInit(): void {}
 
