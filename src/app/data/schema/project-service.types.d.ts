@@ -1,5 +1,4 @@
 export type Status = 'AVAILABLE' | 'RUNNING' | 'FINISHED';
-export type Context = 'COMPANY' | 'PROFESSOR';
 export type ID = string;
 
 export interface ModuleType {
@@ -20,6 +19,13 @@ export interface Specialization {
   name: string;
 }
 
+export type OwnerDiscriminator = 'user' | 'organization';
+
+export interface Owner {
+  id: ID;
+  discriminator: OwnerDiscriminator;
+}
+
 export interface Project {
   id: ID;
   name: string;
@@ -27,8 +33,7 @@ export interface Project {
   shortDescription: string;
   requirement: string;
   status: Status;
-  context: Context;
-  creatorID: ID;
+  owner: Owner;
   creatorName?: string;
   supervisorName: string;
   createdAt: string;
@@ -56,4 +61,4 @@ export type ModuleTypeCollectionModel = CollectionModel<ModuleType, 'moduleTypes
 export type SpecializationCollectionModel = CollectionModel<Specialization, 'specializations'>;
 export type StudyProgramCollectionModel = CollectionModel<StudyProgram, 'studyPrograms'>;
 export type StudyProgramWithModulesCollectionModel = CollectionModel<StudyProgramsWithModules, 'studyPrograms'>;
-export type CreateProjectSchema = Omit<Project, 'id' | 'creatorID' | 'creatorName' | 'createdAt' | 'modifiedAt'>;
+export type CreateProjectSchema = Omit<Project, 'id' | 'owner' | 'createdAt' | 'modifiedAt'>;

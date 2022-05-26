@@ -28,8 +28,8 @@ export class ProjectService {
 
   constructor(injector: Injector, protected httpClient: HttpClient) {}
 
-  createProject(project: CreateProjectSchema): Observable<Project> {
-    return this.httpClient.post<Project>(`${this.basePath}/projects`, project, {
+  createProjectForAuthenticatedUser(project: CreateProjectSchema): Observable<Project> {
+    return this.httpClient.post<Project>(`${this.basePath}/user/projects`, project, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'

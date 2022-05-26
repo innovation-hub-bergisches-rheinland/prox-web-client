@@ -121,8 +121,7 @@ export class ProjectEditorComponent implements OnInit {
       description,
       supervisorName,
       name,
-      requirement,
-      context: 'PROFESSOR'
+      requirement
     };
   }
 
@@ -130,7 +129,7 @@ export class ProjectEditorComponent implements OnInit {
     const project = this.buildProject();
     const createOrUpdateProject$: Observable<Project> = this.project
       ? this.projectService.updateProject(this.project.id, project)
-      : this.projectService.createProject(project);
+      : this.projectService.createProjectForAuthenticatedUser(project);
 
     createOrUpdateProject$
       .pipe(

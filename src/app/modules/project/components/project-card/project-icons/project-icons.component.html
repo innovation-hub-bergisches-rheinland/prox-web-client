@@ -8,9 +8,9 @@
     <app-project-icon *ngSwitchCase="'INF'" [icon]="infIcon" data-tip="Informatik" class="tooltip"></app-project-icon>
     <app-project-icon *ngSwitchCase="'ING'" [icon]="ingIcon" data-tip="Ingenieurwesen" class="tooltip"></app-project-icon>
   </ng-container>
-  <ng-container [ngSwitch]="context">
+  <ng-container [ngSwitch]="owner.discriminator">
     <app-project-icon
-      *ngSwitchCase="'COMPANY'"
+      *ngSwitchCase="'organization'"
       [icon]="companyIcon"
       data-tip="Projekt in einem Unternehmen"
       class="tooltip"

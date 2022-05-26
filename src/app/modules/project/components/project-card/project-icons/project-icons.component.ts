@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Context, Specialization, Status } from '@data/schema/project-service.types';
+import { Owner, Specialization, Status } from '@data/schema/project-service.types';
 import { faIndustry, faLaptop, faLock, faLockOpen, faRunning, faWrench } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -19,7 +19,7 @@ export class ProjectIconsComponent {
   status: Status;
 
   @Input()
-  context: Context;
+  owner: Owner;
 
   @Input()
   specialization: Specialization[];

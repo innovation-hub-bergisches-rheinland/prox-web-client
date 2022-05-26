@@ -47,8 +47,9 @@ export class ProjectItemComponent implements OnChanges {
   async ngOnChanges(changes: SimpleChanges) {
     const project: Project = changes['project'].currentValue;
     if (project) {
+      // TODO: This should be decided by the service
       this.hasPermission =
-        (await this.keycloakService.isLoggedIn()) && this.keycloakService.getKeycloakInstance().subject === this.project.creatorID;
+        (await this.keycloakService.isLoggedIn()) && this.keycloakService.getKeycloakInstance().subject === this.project.owner.id;
       this.projectTags$ = this.tagService.getAllTagsOfProject(this.project.id);
       this.projectModules$ = this.projectService.getModulesOfProject(this.project);
       this.projectSpecialization$ = this.projectService.getSpecializationsOfProjectById(this.project.id);
