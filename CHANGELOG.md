@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.9.2...v1.10.0) (2022-05-26)
+
+
+### Features
+
+* add context selector to project editor ([f03058c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f03058ce9f0b225d623acc70f59bcc6a2dd0730e))
+
+
+### Bug Fixes
+
+* integrate changes from prox-project-service 2.0.0 APIs ([26cca27](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/26cca27c657f9294c17eede054dd8ce14b66ca4a))
+* integrate changes from prox-project-service 2.0.0 APIs ([8c368d5](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8c368d59ac51f5ef5cb6a7e7d4172a316eaa8d85))
+* sort by modification date ([f3d29ce](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f3d29ce72841c25a81120e4b0b63e678ee88d352))
+
 ### [1.9.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.9.1...v1.9.2) (2022-05-10)
 
 
