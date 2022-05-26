@@ -1,5 +1,9 @@
 <form [formGroup]="informationFormGroup" class="flex flex-col">
   <ng-container *ngIf="!isEdit">
+    <p class="p-2 font-light">
+      <span class="badge badge-primary mr-0 ml-auto">Neu</span>
+      Es ist jetzt auch möglich Projekte unter Organisationen, denen Sie angehören, anzulegen.
+    </p>
     <app-context-selector formControlName="context"></app-context-selector>
   </ng-container>
 
