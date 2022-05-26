@@ -55,7 +55,7 @@
       </div>
     </div>
   </div>
-  <ng-container *ngIf="!showDetails || hasPermission">
+  <ng-container *ngIf="!showDetails || permissions.canEdit || permissions.canDelete">
     <div class="divider"></div>
     <div class="flex flex-row justify-between">
       <div class>
@@ -69,10 +69,10 @@
         </button>
       </div>
       <div class="flex flex-row gap-2">
-        <button class="btn btn btn-outline" (click)="onEditClick()" *ngIf="hasPermission">
+        <button class="btn btn btn-outline" (click)="onEditClick()" *ngIf="permissions.canEdit">
           <fa-icon [icon]="editIcon"></fa-icon>
         </button>
-        <button class="btn btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="hasPermission">
+        <button class="btn btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="permissions.canDelete">
           <fa-icon [icon]="deleteIcon"></fa-icon>
         </button>
       </div>

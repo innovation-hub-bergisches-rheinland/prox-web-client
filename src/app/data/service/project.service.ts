@@ -10,9 +10,7 @@ import {
   ProjectCollectionModel,
   Specialization,
   SpecializationCollectionModel,
-  Status,
-  StudyProgram,
-  StudyProgramCollectionModel
+  Status
 } from '@data/schema/project-service.types';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -59,24 +57,20 @@ export class ProjectService {
     });
   }
 
-  setProjectModules(id: string, modules: string[]): Observable<ModuleType[] | any> {
-    const requestBody = modules.join('\n');
-
-    return this.httpClient.put<ModuleTypeCollectionModel>(`${this.basePath}/projects/${id}/modules`, requestBody, {
+  setProjectModules(id: string, moduleKeys: string[]): Observable<ModuleType[] | any> {
+    return this.httpClient.put<ModuleTypeCollectionModel>(`${this.basePath}/projects/${id}/modules`, moduleKeys, {
       headers: {
-        'Content-Type': 'text/uri-list',
+        'Content-Type': 'application/json',
         Accept: 'application/json'
       },
       observe: 'body'
     });
   }
 
-  setProjectSpecializations(id: string, specializations: string[]): Observable<Specialization[] | any> {
-    const requestBody = specializations.join('\n');
-
-    return this.httpClient.put<SpecializationCollectionModel>(`${this.basePath}/projects/${id}/specializations`, requestBody, {
+  setProjectSpecializations(id: string, specializationKeys: string[]): Observable<Specialization[] | any> {
+    return this.httpClient.put<SpecializationCollectionModel>(`${this.basePath}/projects/${id}/specializations`, specializationKeys, {
       headers: {
-        'Content-Type': 'text/uri-list',
+        'Content-Type': 'application/json',
         Accept: 'application/json'
       },
       observe: 'body'
@@ -110,7 +104,7 @@ export class ProjectService {
         },
         observe: 'body'
       })
-      .pipe(map(p => p._embedded.projects));
+      .pipe(map(p => p.projects));
   }
 
   deleteProject(project: Pick<Project, 'id'>): Observable<any> {
@@ -130,46 +124,20 @@ export class ProjectService {
         },
         observe: 'body'
       })
-      .pipe(map(sp => sp._embedded.specializations));
+      .pipe(map(sp => sp.specializations));
   }
 
-  getModulesOfSpecializations(specializations: string[]): Observable<ModuleType[]> {
-    const queryParameters = new HttpParams().set('ids', specializations.join(','));
+  getModulesOfSpecializations(specializationKeys: string[]): Observable<ModuleType[]> {
+    const queryParameters = new HttpParams().set('keys', specializationKeys.join(','));
     return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/moduleTypes/search/findAllModuleTypesOfSpecializationId`, {
+      .get<ModuleTypeCollectionModel>(`${this.basePath}/modules/search/findModulesOfSpecializations`, {
         params: queryParameters,
         headers: {
           Accept: 'application/json'
         },
         observe: 'body'
       })
-      .pipe(map(sp => sp._embedded.moduleTypes));
-  }
-
-  getModulesOfProject(project: Pick<Project, 'id'>): Observable<ModuleType[]> {
-    return this.getModulesOfProjectById(project.id);
-  }
-
-  getModulesOfProjectById(id: string): Observable<ModuleType[]> {
-    return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/projects/${id}/modules`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p._embedded.moduleTypes));
-  }
-
-  getSpecializationsOfProjectById(id: string): Observable<Specialization[]> {
-    return this.httpClient
-      .get<SpecializationCollectionModel>(`${this.basePath}/projects/${id}/specializations`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p._embedded.specializations));
+      .pipe(map(sp => sp.modules));
   }
 
   findProjectsOfUser(id: string): Observable<Project[]> {
@@ -180,7 +148,7 @@ export class ProjectService {
         },
         observe: 'body'
       })
-      .pipe(map(p => p._embedded.projects));
+      .pipe(map(p => p.projects));
   }
 
   findProjectsOfOrganization(id: string): Observable<Project[]> {
@@ -191,18 +159,18 @@ export class ProjectService {
         },
         observe: 'body'
       })
-      .pipe(map(p => p._embedded.projects));
+      .pipe(map(p => p.projects));
   }
 
   getAllModuleTypes(): Observable<ModuleType[]> {
     return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/moduleTypes`, {
+      .get<ModuleTypeCollectionModel>(`${this.basePath}/modules`, {
         headers: {
           Accept: 'application/json'
         },
         observe: 'body'
       })
-      .pipe(map(p => p._embedded.moduleTypes));
+      .pipe(map(p => p.modules));
   }
 
   filterProjects(status?: Status, specializationKeys?: string[], moduleTypeKeys?: string[], text?: string): Observable<Project[]> {
@@ -221,13 +189,13 @@ export class ProjectService {
     }
 
     return this.httpClient
-      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/filterProjects`, {
+      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/filter`, {
         params: queryParameters,
         headers: {
           Accept: 'application/json'
         },
         observe: 'body'
       })
-      .pipe(map(r => r._embedded.projects));
+      .pipe(map(r => r.projects));
   }
 }

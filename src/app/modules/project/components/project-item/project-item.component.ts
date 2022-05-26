@@ -22,8 +22,6 @@ export class ProjectItemComponent implements OnChanges {
   project: Project;
 
   projectTags$: Observable<Tag[]>;
-  projectModules$: Observable<ModuleType[]>;
-  projectSpecialization$: Observable<Specialization[]>;
 
   @Input()
   showDetails = false;
@@ -51,8 +49,6 @@ export class ProjectItemComponent implements OnChanges {
       this.hasPermission =
         (await this.keycloakService.isLoggedIn()) && this.keycloakService.getKeycloakInstance().subject === this.project.owner.id;
       this.projectTags$ = this.tagService.getAllTagsOfProject(this.project.id);
-      this.projectModules$ = this.projectService.getModulesOfProject(this.project);
-      this.projectSpecialization$ = this.projectService.getSpecializationsOfProjectById(this.project.id);
     }
   }
 

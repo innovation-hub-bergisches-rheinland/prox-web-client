@@ -82,7 +82,6 @@ export class ProjectEditorComponent implements OnInit {
     this.specializations$ = this.projectService.getAllSpecializations();
     this.modules$ = this.projectModuleFormGroup.get('specializations').valueChanges.pipe(
       startWith([]),
-      tap(v => console.log(v)),
       mergeMap((s: string[]) => {
         if (!s || s.length === 0) {
           return this.projectService.getAllModuleTypes();
@@ -104,14 +103,8 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.get('shortDescription').setValue(project.shortDescription);
     this.projectForm.controls.information.get('status').setValue(project.status);
     this.projectForm.controls.information.get('supervisorName').setValue(project.supervisorName);
-
-    this.projectService.getSpecializationsOfProjectById(project.id).subscribe({
-      next: value => this.projectModuleFormGroup.get('specializations').setValue(value.map(v => v.id))
-    });
-
-    this.projectService.getModulesOfProjectById(project.id).subscribe({
-      next: value => this.projectModuleFormGroup.get('modules').setValue(value.map(v => v.id))
-    });
+    this.projectModuleFormGroup.get('specializations').setValue(project.specializations.map(v => v.key));
+    this.projectModuleFormGroup.get('modules').setValue(project.modules.map(v => v.key));
 
     this.tagService.getAllTagsOfProject(project.id).subscribe({
       next: value => this.projectTagFormGroup.get('tags').setValue(value)

@@ -1,10 +1,10 @@
 <app-project-card
   [project]="project"
   [tags]="this.projectTags$ | async"
-  [modules]="this.projectModules$ | async"
-  [specialization]="this.projectSpecialization$ | async"
+  [modules]="this.project.modules"
+  [specialization]="this.project.specializations"
   [showDetails]="showDetails"
-  [hasPermission]="hasPermission"
+  [permissions]="project.permissions"
   (delete)="deleteProject()"
   (edit)="editProject()"
 ></app-project-card>

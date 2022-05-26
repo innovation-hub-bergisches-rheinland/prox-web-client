@@ -27,6 +27,11 @@ export interface Owner {
   discriminator: OwnerDiscriminator;
 }
 
+export interface ProjectPermissions {
+  canEdit: boolean;
+  canDelete: boolean;
+}
+
 export interface Project {
   id: ID;
   name: string;
@@ -41,15 +46,17 @@ export interface Project {
   modifiedAt: string;
   modules: ModuleType[];
   specializations: Specialization[];
+  permissions: ProjectPermissions;
 }
 
-export interface CollectionModel<T, K extends string> {
-  _embedded: Record<K, T[]>;
-}
+export type CollectionModel<T, K extends string> = Record<K, T[]>;
 
 export type ProjectCollectionModel = CollectionModel<Project, 'projects'>;
-export type ModuleTypeCollectionModel = CollectionModel<ModuleType, 'moduleTypes'>;
+export type ModuleTypeCollectionModel = CollectionModel<ModuleType, 'modules'>;
 export type SpecializationCollectionModel = CollectionModel<Specialization, 'specializations'>;
 export type StudyProgramCollectionModel = CollectionModel<StudyProgram, 'studyPrograms'>;
 
-export type CreateProjectSchema = Omit<Project, 'id' | 'owner' | 'createdAt' | 'modifiedAt' | 'modules' | 'specializations'>;
+export type CreateProjectSchema = Omit<
+  Project,
+  'id' | 'owner' | 'createdAt' | 'modifiedAt' | 'modules' | 'specializations' | 'permissions'
+>;

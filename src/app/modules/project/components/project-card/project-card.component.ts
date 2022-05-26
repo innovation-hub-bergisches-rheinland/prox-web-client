@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { ModuleType, Project, Specialization } from '@data/schema/project-service.types';
+import { ModuleType, Project, ProjectPermissions, Specialization } from '@data/schema/project-service.types';
 import { Tag } from '@data/schema/tag.resource';
 import { Subject } from 'rxjs';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +23,7 @@ export class ProjectCardComponent {
   specialization: Specialization[];
 
   @Input()
-  hasPermission = false;
+  permissions: ProjectPermissions;
 
   @Input()
   showDetails = false;
