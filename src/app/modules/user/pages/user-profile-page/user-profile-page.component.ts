@@ -11,8 +11,7 @@ import {
   UserProfileEditorInput
 } from '@modules/user/components/user-profile-editor-dialog/user-profile-editor-dialog.component';
 import { ProjectService } from '@data/service/project.service';
-import { ProjectWithAssociations } from '@data/schema/project-service.types';
-import { ProjectHistoryItem } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
+import { Project } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-user-profile-page',
@@ -21,8 +20,8 @@ import { ProjectHistoryItem } from '@modules/profile/components/profile-project-
 })
 export class UserProfilePageComponent {
   user$: Observable<UserProfile>;
-  offeredProjects$: Observable<ProjectWithAssociations[]>;
-  projectHistory$: Observable<ProjectHistoryItem[]>;
+  offeredProjects$: Observable<Project[]>;
+  projectHistory$: Observable<Project[]>;
   avatar: string;
   id: string;
   isOwnProfile: boolean;
@@ -48,19 +47,13 @@ export class UserProfilePageComponent {
       }),
       mergeMap(id => this.userService.getUserProfile(id))
     );
-    this.offeredProjects$ = userId$.pipe(mergeMap(id => this.projectService.findAvailableProjectsOfCreator(id, 'withAssociations')));
-    this.projectHistory$ = userId$.pipe(
-      mergeMap(id => this.projectService.findRunningAndFinishedProjectsOfCreator(id)),
-      map(projects =>
-        projects.map(project => {
-          return {
-            id: project.id,
-            title: project.name,
-            supervisor: project.supervisorName,
-            description: project.shortDescription
-          };
-        })
-      ),
+    const projects$ = userId$.pipe(mergeMap(id => this.projectService.findProjectsOfUser(id)));
+    this.offeredProjects$ = projects$.pipe(
+      map(projects => projects.filter(p => p.status === 'AVAILABLE')),
+      catchError(err => [])
+    );
+    this.projectHistory$ = projects$.pipe(
+      map(projects => projects.filter(p => p.status !== 'AVAILABLE')),
       catchError(err => [])
     );
   }

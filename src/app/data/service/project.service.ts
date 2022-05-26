@@ -8,13 +8,11 @@ import {
   ModuleTypeCollectionModel,
   Project,
   ProjectCollectionModel,
-  ProjectWithAssociations,
   Specialization,
   SpecializationCollectionModel,
   Status,
   StudyProgram,
-  StudyProgramCollectionModel,
-  StudyProgramsWithModules
+  StudyProgramCollectionModel
 } from '@data/schema/project-service.types';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -95,15 +93,8 @@ export class ProjectService {
     });
   }
 
-  getProject(id: string, projection: 'withAssociations'): Observable<ProjectWithAssociations>;
-  getProject(id: string): Observable<Project>;
-  getProject(id: string, projection?: 'withAssociations'): Observable<Project | ProjectWithAssociations> {
-    let queryParams = new HttpParams();
-    if (projection) {
-      queryParams = queryParams.set('projection', projection);
-    }
-    return this.httpClient.get<Project | ProjectWithAssociations>(`${this.basePath}/projects/${id}`, {
-      params: queryParams,
+  getProject(id: string): Observable<Project> {
+    return this.httpClient.get<Project>(`${this.basePath}/projects/${id}`, {
       headers: {
         Accept: 'application/json'
       },
@@ -111,16 +102,9 @@ export class ProjectService {
     });
   }
 
-  getAllProjects(projection: 'withAssociations'): Observable<ProjectWithAssociations[]>;
-  getAllProjects(): Observable<Project[]>;
-  getAllProjects(projection?: 'withAssociations'): Observable<Project[] | ProjectWithAssociations[]> {
-    let queryParams = new HttpParams().set('sort', `createdAt,desc`);
-    if (projection) {
-      queryParams = queryParams.set('projection', projection);
-    }
+  getAllProjects(): Observable<Project[]> {
     return this.httpClient
       .get<ProjectCollectionModel>(`${this.basePath}/projects`, {
-        params: queryParams,
         headers: {
           Accept: 'application/json'
         },
@@ -188,18 +172,9 @@ export class ProjectService {
       .pipe(map(p => p._embedded.specializations));
   }
 
-  findAvailableProjectsOfCreator(id: string, projection: 'withAssociations'): Observable<ProjectWithAssociations[]>;
-  findAvailableProjectsOfCreator(id: string): Observable<Project[]>;
-  findAvailableProjectsOfCreator(id: string, projection?: 'withAssociations'): Observable<Project[] | ProjectWithAssociations[]> {
-    let queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
-
-    if (projection) {
-      queryParameters = queryParameters.set('projection', projection);
-    }
-
+  findProjectsOfUser(id: string): Observable<Project[]> {
     return this.httpClient
-      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findAvailableProjectsOfCreator`, {
-        params: queryParameters,
+      .get<ProjectCollectionModel>(`${this.basePath}/users/${id}/projects`, {
         headers: {
           Accept: 'application/json'
         },
@@ -208,62 +183,15 @@ export class ProjectService {
       .pipe(map(p => p._embedded.projects));
   }
 
-  findRunningProjectsOfCreator(id: string): Observable<Project[]> {
-    const queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
-
+  findProjectsOfOrganization(id: string): Observable<Project[]> {
     return this.httpClient
-      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findRunningProjectsOfCreator`, {
-        params: queryParameters,
+      .get<ProjectCollectionModel>(`${this.basePath}/users/${id}/projects`, {
         headers: {
           Accept: 'application/json'
         },
         observe: 'body'
       })
       .pipe(map(p => p._embedded.projects));
-  }
-
-  findRunningAndFinishedProjectsOfCreator(id: string): Observable<Project[]> {
-    const queryParameters = new HttpParams().set('creatorId', id).set('sort', `createdAt,desc`);
-
-    return this.httpClient
-      .get<ProjectCollectionModel>(`${this.basePath}/projects/search/findRunningAndFinishedProjectsOfCreator`, {
-        params: queryParameters,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p._embedded.projects));
-  }
-
-  getAllStudyPrograms(projection?: 'withModules'): Observable<StudyProgramsWithModules[]>;
-  getAllStudyPrograms(): Observable<StudyProgram[]>;
-  getAllStudyPrograms(projection?: string): Observable<StudyProgram[] | StudyProgramsWithModules[]> {
-    let queryParams = new HttpParams();
-    if (projection) {
-      queryParams = queryParams.set('projection', projection);
-    }
-
-    return this.httpClient
-      .get<StudyProgramCollectionModel>(`${this.basePath}/studyPrograms`, {
-        params: queryParams,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p._embedded.studyPrograms));
-  }
-
-  getAllModuleTypesOfStudyProgram(id: any): Observable<ModuleType[]> {
-    return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/studyPrograms/${id}/modules`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(cm => cm._embedded.moduleTypes));
   }
 
   getAllModuleTypes(): Observable<ModuleType[]> {
@@ -277,40 +205,7 @@ export class ProjectService {
       .pipe(map(p => p._embedded.moduleTypes));
   }
 
-  getAllModuleTypesOfStudyprograms(ids: string[]): Observable<ModuleType[]> {
-    const queryParameters = new HttpParams().set('studyProgramIds', ids.join(','));
-    return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/studyPrograms/search/findAllModulesOfStudyPrograms`, {
-        params: queryParameters,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p._embedded.moduleTypes));
-  }
-
-  filterProjects(
-    projection: 'withAssociations',
-    status?: Status,
-    specializationKeys?: string[],
-    moduleTypeKeys?: string[],
-    text?: string
-  ): Observable<ProjectWithAssociations[]>;
-  filterProjects(
-    projection: null,
-    status?: Status,
-    specializationKeys?: string[],
-    moduleTypeKeys?: string[],
-    text?: string
-  ): Observable<Project[]>;
-  filterProjects(
-    projection?: 'withAssociations',
-    status?: Status,
-    specializationKeys?: string[],
-    moduleTypeKeys?: string[],
-    text?: string
-  ): Observable<Project[] | ProjectWithAssociations[]> {
+  filterProjects(status?: Status, specializationKeys?: string[], moduleTypeKeys?: string[], text?: string): Observable<Project[]> {
     let queryParameters = new HttpParams().set('sort', `createdAt,desc`);
     if (status) {
       queryParameters = queryParameters.set('status', status);
@@ -323,9 +218,6 @@ export class ProjectService {
     }
     if (text) {
       queryParameters = queryParameters.set('text', text);
-    }
-    if (projection) {
-      queryParameters = queryParameters.set('projection', projection);
     }
 
     return this.httpClient

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
-import { ProjectWithAssociations } from '@data/schema/project-service.types';
+import { Project } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-profile-projects-card',
@@ -11,7 +11,7 @@ import { ProjectWithAssociations } from '@data/schema/project-service.types';
 })
 export class ProfileProjectsCardComponent {
   @Input()
-  projects: ProjectWithAssociations[];
+  projects: Project[];
 
   faTask = faTasks;
 }

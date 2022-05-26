@@ -64,13 +64,7 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
         tap(search => (this.currentFilter = search)),
         mergeMap(search => {
           if (search) {
-            return this.projectService.filterProjects(
-              'withAssociations',
-              search.status,
-              search.specializations,
-              search.moduleTypes,
-              search.searchString
-            );
+            return this.projectService.filterProjects(search.status, search.specializations, search.moduleTypes, search.searchString);
           }
           return this.projectService.getAllProjects();
         })

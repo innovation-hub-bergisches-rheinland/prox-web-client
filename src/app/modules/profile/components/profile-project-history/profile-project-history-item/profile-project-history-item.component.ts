@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AnimationEvent, animate, state, style, transition, trigger } from '@angular/animations';
-
-export interface ProjectHistoryItem {
-  id: string;
-  title: string;
-  supervisor: string;
-  description: string;
-}
+import { Project } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-profile-project-history-item',
@@ -38,10 +32,10 @@ export class ProfileProjectHistoryItemComponent implements OnInit {
     this.cd.detectChanges(); // Change
   }
 
-  _project: ProjectHistoryItem;
+  _project: Project;
 
   @Input()
-  set project(project: ProjectHistoryItem) {
+  set project(project: Project) {
     this._project = project;
 
     this.cd.detectChanges(); // Change

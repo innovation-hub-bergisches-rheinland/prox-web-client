@@ -17,6 +17,7 @@ export interface Specialization {
   id: ID;
   key: string;
   name: string;
+  modules: ModuleType[];
 }
 
 export type OwnerDiscriminator = 'user' | 'organization';
@@ -38,27 +39,17 @@ export interface Project {
   supervisorName: string;
   createdAt: string;
   modifiedAt: string;
+  modules: ModuleType[];
+  specializations: Specialization[];
 }
-
-export type ProjectProjection = 'withModules';
-export type StudyProgramProjection = 'withModules';
 
 export interface CollectionModel<T, K extends string> {
   _embedded: Record<K, T[]>;
 }
 
-export type StudyProgramsWithModules = StudyProgram & {
-  modules: ModuleType[];
-};
-
-export type ProjectWithAssociations = Project & {
-  modules: ModuleType[];
-  specializations: Specialization[];
-};
-
 export type ProjectCollectionModel = CollectionModel<Project, 'projects'>;
 export type ModuleTypeCollectionModel = CollectionModel<ModuleType, 'moduleTypes'>;
 export type SpecializationCollectionModel = CollectionModel<Specialization, 'specializations'>;
 export type StudyProgramCollectionModel = CollectionModel<StudyProgram, 'studyPrograms'>;
-export type StudyProgramWithModulesCollectionModel = CollectionModel<StudyProgramsWithModules, 'studyPrograms'>;
-export type CreateProjectSchema = Omit<Project, 'id' | 'owner' | 'createdAt' | 'modifiedAt'>;
+
+export type CreateProjectSchema = Omit<Project, 'id' | 'owner' | 'createdAt' | 'modifiedAt' | 'modules' | 'specializations'>;

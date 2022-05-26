@@ -8,11 +8,11 @@
   <div class="content-item-wrapper">
     <div class="card bg-base-200 p-4" *ngIf="_displayContent">
       <div class="card-title px-8">
-        <a class="hover:underline" [routerLink]="['/projects', _project.id]">{{ _project.title }}</a>
+        <a class="hover:underline" [routerLink]="['/projects', _project.id]">{{ _project.name }}</a>
       </div>
       <div class="card-body">
-        <strong class="ml-0 mr-auto" [innerText]="_project.supervisor"></strong>
-        <p [innerHTML]="_project.description | linky"></p>
+        <strong class="ml-0 mr-auto" [innerText]="_project.supervisorName"></strong>
+        <p [innerHTML]="_project.shortDescription | linky"></p>
       </div>
     </div>
   </div>
