@@ -1,4 +1,8 @@
 <form [formGroup]="informationFormGroup" class="flex flex-col">
+  <ng-container *ngIf="!isEdit">
+    <app-context-selector formControlName="context"></app-context-selector>
+  </ng-container>
+
   <mat-form-field appearance="outline">
     <mat-label>Bezeichnung</mat-label>
     <input formControlName="name" matInput maxlength="255" placeholder="Bezeichnung" required />

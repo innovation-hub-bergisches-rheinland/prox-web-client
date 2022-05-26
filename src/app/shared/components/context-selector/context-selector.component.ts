@@ -4,10 +4,13 @@ import { Observable } from 'rxjs';
 import { Organization } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
 import { KeycloakService } from 'keycloak-angular';
+import { map } from 'rxjs/operators';
+import { OwnerDiscriminator } from '@data/schema/project-service.types';
 
-interface Context {
+export interface Context {
   id: string;
   name: string;
+  discriminator: OwnerDiscriminator;
 }
 
 @Component({
@@ -23,7 +26,7 @@ interface Context {
   ]
 })
 export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
-  organizations$: Observable<Organization[]>;
+  organizationContexts$: Observable<Context[]>;
   username: string;
   userContext: Context;
 
@@ -41,13 +44,22 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
     this.username = this.keycloakService.getUsername();
     this.userContext = {
       id: this.keycloakService.getKeycloakInstance().subject,
-      name: this.username
+      name: this.username,
+      discriminator: 'user'
     };
     this.selectCtrl.valueChanges.subscribe({
       next: value => this.onChange(value)
     });
-    this.selectCtrl.setValue(this.userContext);
-    this.organizations$ = this.userService.getOrganizationsOfAuthenticatedUser();
+    this.writeValue(this.userContext);
+    this.organizationContexts$ = this.userService.getOrganizationsOfAuthenticatedUser().pipe(
+      map(orgs =>
+        orgs.map(org => ({
+          id: org.id,
+          name: org.name,
+          discriminator: 'organization'
+        }))
+      )
+    );
   }
 
   writeValue(obj: Context): void {
@@ -60,5 +72,9 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
 
   registerOnTouched(fn: () => void): void {
     this.onTouch = fn;
+  }
+
+  compareContexts(c1: Context, c2: Context): boolean {
+    return c1.id === c2.id;
   }
 }

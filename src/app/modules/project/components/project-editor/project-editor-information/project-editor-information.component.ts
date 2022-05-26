@@ -9,4 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class ProjectEditorInformationComponent {
   @Input()
   informationFormGroup: FormGroup;
+
+  @Input()
+  isEdit: boolean;
 }

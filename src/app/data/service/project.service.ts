@@ -19,6 +19,7 @@ import {
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
+import { Context } from '@shared/components/context-selector/context-selector.component';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,27 @@ export class ProjectService {
   private basePath = environment.apiUrl;
 
   constructor(injector: Injector, protected httpClient: HttpClient) {}
+
+  createProjectForContext(project: CreateProjectSchema, context: Context): Observable<Project> {
+    let path: string;
+    switch (context.discriminator) {
+      case 'organization':
+        path = `organizations/${context.id}/projects`;
+        break;
+      case 'user':
+        path = `users/${context.id}/projects`;
+        break;
+    }
+
+    return this.httpClient.post<Project>(`${this.basePath}/${path}`, project, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
 
   createProjectForAuthenticatedUser(project: CreateProjectSchema): Observable<Project> {
     return this.httpClient.post<Project>(`${this.basePath}/user/projects`, project, {

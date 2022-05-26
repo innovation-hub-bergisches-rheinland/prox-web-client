@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, forkJoin, of } from 'rxjs';
 import { catchError, map, mergeMap, startWith, tap, toArray } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { TagService } from '@data/service/tag.service';
 import { ToastService } from '@modules/toast/toast.service';
 import { CreateProjectSchema, ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 import { Tag } from '@data/schema/tag.resource';
+import { Context } from '@shared/components/context-selector/context-selector.component';
 
 @Component({
   selector: 'app-project-editor',
@@ -24,7 +25,8 @@ export class ProjectEditorComponent implements OnInit {
     shortDescription: ['', Validators.required],
     requirement: [''],
     supervisorName: ['', Validators.required],
-    status: ['', Validators.required]
+    status: ['', Validators.required],
+    context: []
   });
   projectModuleFormGroup = this.formBuilder.group({
     specializations: [[]],
@@ -41,6 +43,7 @@ export class ProjectEditorComponent implements OnInit {
 
   @Input()
   project: Project;
+  isEdit = false;
 
   @Output()
   saved = new EventEmitter<Project>();
@@ -63,6 +66,13 @@ export class ProjectEditorComponent implements OnInit {
       const userProfile = await this.keycloakService.loadUserProfile();
       const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
 
+      // TODO: Hacked to preserve default value in context selector
+      this.projectForm.controls.information.get('context').setValue({
+        id: userProfile.id,
+        name: userProfile.username,
+        discriminator: 'user'
+      });
+
       const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisorName;
       if (!projectSupervisorControl.value && this.keycloakService.isUserInRole('professor')) {
         projectSupervisorControl.setValue(fullName);
@@ -83,6 +93,7 @@ export class ProjectEditorComponent implements OnInit {
 
     if (this.project) {
       await this.setProjectValues(this.project);
+      this.isEdit = true;
     }
   }
 
@@ -127,9 +138,17 @@ export class ProjectEditorComponent implements OnInit {
 
   onSave() {
     const project = this.buildProject();
-    const createOrUpdateProject$: Observable<Project> = this.project
-      ? this.projectService.updateProject(this.project.id, project)
-      : this.projectService.createProjectForAuthenticatedUser(project);
+    let createOrUpdateProject$: Observable<Project>;
+    if (this.isEdit) {
+      createOrUpdateProject$ = this.projectService.updateProject(this.project.id, project);
+    } else {
+      const context: Context = this.projectForm.value.information.context;
+      if (!context) {
+        createOrUpdateProject$ = this.projectService.createProjectForAuthenticatedUser(project);
+      } else {
+        createOrUpdateProject$ = this.projectService.createProjectForContext(project, context);
+      }
+    }
 
     createOrUpdateProject$
       .pipe(

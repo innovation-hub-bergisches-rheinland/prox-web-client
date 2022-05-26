@@ -1,13 +1,13 @@
 <ng-container>
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>Projektkontext</mat-label>
-    <mat-select [formControl]="selectCtrl">
+    <mat-select [formControl]="selectCtrl" [compareWith]="compareContexts">
       <mat-select-trigger>{{ selectCtrl.value?.name ? selectCtrl.value.name : '' }}</mat-select-trigger>
       <mat-option [value]="userContext" [id]="userContext.id">
         <mat-icon>person</mat-icon>
         <span>{{ username }} <i>(Ich)</i></span>
       </mat-option>
-      <mat-optgroup label="Organisationen" *ngIf="organizations$ | async; let organizations">
+      <mat-optgroup label="Organisationen" *ngIf="organizationContexts$ | async; let organizations">
         <mat-icon>business</mat-icon>
         <mat-option *ngFor="let org of organizations" [value]="org" [id]="org.id">
           <mat-icon>business</mat-icon>
