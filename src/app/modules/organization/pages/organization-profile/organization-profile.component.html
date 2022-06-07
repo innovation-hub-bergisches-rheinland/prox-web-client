@@ -55,5 +55,15 @@
       <app-sash-title>Beschreibung</app-sash-title>
       <app-sash-content>{{ org.profile.vita }}</app-sash-content>
     </app-sash>
+    <div class="mx-auto max-w-screen-lg flex flex-col gap-4 mt-4">
+      <ng-container *ngIf="offeredProjects$ | async; let projects">
+        <app-profile-projects-card [projects]="projects" class="w-full"></app-profile-projects-card>
+      </ng-container>
+      <ng-container *ngIf="projectHistory$ | async; let projectHistory">
+        <app-profile-project-history *ngIf="projectHistory && projectHistory.length > 0">
+          <app-profile-project-history-item *ngFor="let project of projectHistory" [project]="project"></app-profile-project-history-item>
+        </app-profile-project-history>
+      </ng-container>
+    </div>
   </div>
 </ng-container>

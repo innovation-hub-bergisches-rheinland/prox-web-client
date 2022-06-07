@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Organization } from '@data/schema/user-service.types';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
+import { Project } from '@data/schema/project-service.types';
+import { ProjectService } from '@data/service/project.service';
 
 @Component({
   selector: 'app-organization-profile',
@@ -16,8 +18,15 @@ export class OrganizationProfileComponent {
   organization$: Observable<Organization>;
   avatar$: Observable<string>;
   faBullseye = faBullseye;
+  offeredProjects$: Observable<Project[]>;
+  projectHistory$: Observable<Project[]>;
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private projectService: ProjectService
+  ) {
     this.organization$ = this.activatedRoute.params.pipe(
       mergeMap(p => this.userService.getOrganization(p['id'])),
       catchError(async (err: HttpErrorResponse) => {
@@ -27,6 +36,17 @@ export class OrganizationProfileComponent {
         throw err;
       }),
       tap(o => (this.avatar$ = this.userService.getOrganizationAvatar(o.id)))
+    );
+
+    const projects$ = this.organization$.pipe(mergeMap(org => projectService.findProjectsOfOrganization(org.id)));
+
+    this.offeredProjects$ = projects$.pipe(
+      map(projects => projects.filter(p => p.status === 'AVAILABLE')),
+      catchError(err => [])
+    );
+    this.projectHistory$ = projects$.pipe(
+      map(projects => projects.filter(p => p.status !== 'AVAILABLE')),
+      catchError(err => [])
     );
   }
 }

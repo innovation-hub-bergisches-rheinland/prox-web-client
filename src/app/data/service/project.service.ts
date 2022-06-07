@@ -153,7 +153,7 @@ export class ProjectService {
 
   findProjectsOfOrganization(id: string): Observable<Project[]> {
     return this.httpClient
-      .get<ProjectCollectionModel>(`${this.basePath}/users/${id}/projects`, {
+      .get<ProjectCollectionModel>(`${this.basePath}/organizations/${id}/projects`, {
         headers: {
           Accept: 'application/json'
         },
