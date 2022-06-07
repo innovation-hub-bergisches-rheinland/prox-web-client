@@ -5,6 +5,9 @@
       <span class="text-secondary" matTooltip="Projektbetreuer">
         <b [innerHTML]="project.supervisorName"></b>
       </span>
+      <span class="text-secondary" matTooltip="Autor" *ngIf="owner$ | async; let owner">
+        <b>Erstellt von: </b> <a [routerLink]="owner.profileRouter"> {{ owner.authorName }}</a>
+      </span>
     </div>
     <app-project-icons
       class="basis-1/4 flex-initial"
