@@ -32,6 +32,11 @@ export interface ProjectPermissions {
   canDelete: boolean;
 }
 
+export interface ProjectSupervisor {
+  id: string;
+  name: string;
+}
+
 export interface Project {
   id: ID;
   name: string;
@@ -41,7 +46,7 @@ export interface Project {
   status: Status;
   owner: Owner;
   creatorName?: string;
-  supervisorName: string;
+  supervisors: ProjectSupervisor[];
   createdAt: string;
   modifiedAt: string;
   modules: ModuleType[];

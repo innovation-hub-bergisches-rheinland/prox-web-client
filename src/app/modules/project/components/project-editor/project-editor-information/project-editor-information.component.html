@@ -64,14 +64,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Betreuer</mat-label>
-    <input formControlName="supervisorName" matInput required maxlength="255" />
-    <mat-hint align="end"> {{ informationFormGroup.controls['supervisorName'].value?.length }}/255</mat-hint>
-    <mat-error *ngIf="informationFormGroup.controls['supervisorName'].hasError('pattern')">
-      Betreuungsperson enthält ungültige Zeichen.
-    </mat-error>
-  </mat-form-field>
+  <app-user-chip-input formControlName="supervisors" label="Betreuer"></app-user-chip-input>
 
   <mat-form-field appearance="outline">
     <mat-label>Status</mat-label>

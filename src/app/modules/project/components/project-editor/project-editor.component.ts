@@ -24,7 +24,7 @@ export class ProjectEditorComponent implements OnInit {
     description: [''],
     shortDescription: ['', Validators.required],
     requirement: [''],
-    supervisorName: ['', Validators.required],
+    supervisors: [],
     status: ['', Validators.required],
     context: []
   });
@@ -65,6 +65,7 @@ export class ProjectEditorComponent implements OnInit {
     if (await this.keycloakService.isLoggedIn()) {
       const userProfile = await this.keycloakService.loadUserProfile();
       const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
+      const id = this.keycloakService.getKeycloakInstance().subject;
 
       // TODO: Hacked to preserve default value in context selector
       this.projectForm.controls.information.get('context').setValue({
@@ -73,9 +74,14 @@ export class ProjectEditorComponent implements OnInit {
         discriminator: 'user'
       });
 
-      const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisorName;
+      const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisors;
       if (!projectSupervisorControl.value && this.keycloakService.isUserInRole('professor')) {
-        projectSupervisorControl.setValue(fullName);
+        projectSupervisorControl.setValue([
+          {
+            id,
+            name: fullName
+          }
+        ]);
       }
     }
 
@@ -102,7 +108,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.get('requirement').setValue(project.requirement);
     this.projectForm.controls.information.get('shortDescription').setValue(project.shortDescription);
     this.projectForm.controls.information.get('status').setValue(project.status);
-    this.projectForm.controls.information.get('supervisorName').setValue(project.supervisorName);
+    this.projectForm.controls.information.get('supervisors').setValue(project.supervisors);
     this.projectModuleFormGroup.get('specializations').setValue(project.specializations.map(v => v.key));
     this.projectModuleFormGroup.get('modules').setValue(project.modules.map(v => v.key));
 
@@ -117,13 +123,13 @@ export class ProjectEditorComponent implements OnInit {
     const requirement = this.projectForm.value.information.requirement;
     const shortDescription = this.projectForm.value.information.shortDescription;
     const status = this.projectForm.value.information.status;
-    const supervisorName = this.projectForm.value.information.supervisorName;
+    const supervisors = this.projectForm.value.information.supervisors;
 
     return {
       shortDescription,
       status,
       description,
-      supervisorName,
+      supervisors,
       name,
       requirement
     };

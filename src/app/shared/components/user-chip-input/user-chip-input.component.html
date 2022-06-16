@@ -1,0 +1,17 @@
+<mat-form-field class="w-full" appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <mat-chip-list #userList>
+    <mat-chip *ngFor="let user of _users" [removable]="true" (removed)="removeUser(user)">
+      {{ user.name }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+
+    <input #userInput [formControl]="userInputCtrl" [placeholder]="label" [matAutocomplete]="userAuto" [matChipInputFor]="userList" />
+  </mat-chip-list>
+
+  <mat-autocomplete #userAuto="matAutocomplete" (optionSelected)="selectedUser($event)">
+    <mat-option *ngFor="let user of userAutocomplete$ | async" [value]="user">
+      {{ user.name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
