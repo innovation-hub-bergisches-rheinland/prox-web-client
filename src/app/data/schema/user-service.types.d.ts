@@ -6,6 +6,7 @@ export type OrganizationRole = 'MEMBER' | 'ADMIN';
 export interface UserSearchResult {
   id: UserId;
   name: string;
+  profile?: BriefUserProfile;
 }
 
 export interface Organization {

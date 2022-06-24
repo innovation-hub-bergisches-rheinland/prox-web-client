@@ -85,4 +85,9 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
     this.tagInput.nativeElement.value = '';
     this.userInputCtrl.setValue('', { emitEvent: false });
   }
+
+  onOpenInNewClicked(event: MouseEvent) {
+    // This way we ensure, that the event is not propagated as a selection event
+    event.stopPropagation();
+  }
 }
