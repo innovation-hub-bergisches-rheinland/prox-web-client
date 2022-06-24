@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.12.0...v1.13.0) (2022-06-24)
+
+
+### Features
+
+* include avatar in autocompletion ([98adbd3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/98adbd34018f316364aa68b89c3198d00135ad84))
+* include main subject in user selection ([ade7b4d](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/ade7b4d541e9d47f74257ac46be9d17bca661fac))
+
 ## [1.12.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.11.0...v1.12.0) (2022-06-16)
 
 
