@@ -15,8 +15,13 @@
     <mat-option *ngFor="let user of userAutocomplete$ | async" [value]="user">
       <div class="flex flex-row justify-between">
         <div>
-          <strong class="pr-1">{{ user.name }}</strong>
-          <ng-container *ngIf="user.profile?.mainSubject">({{ user.profile.mainSubject }})</ng-container>
+          <img
+            src="{{ this.getAvatarUrl(user) }}"
+            class="h-8 w-8 object-cover inline-block rounded-full"
+            onerror="this.src='/assets/images/blank-profile-picture.png'"
+          />
+          <strong class="mx-2">{{ user.name }}</strong>
+          <i *ngIf="user.profile?.mainSubject">({{ user.profile.mainSubject }})</i>
         </div>
         <div>
           <a href="/users/{{ user.id }}" target="_blank" (click)="onOpenInNewClicked($event)">

@@ -90,4 +90,8 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
     // This way we ensure, that the event is not propagated as a selection event
     event.stopPropagation();
   }
+
+  getAvatarUrl(user: UserSearchResult) {
+    return this.userService.getUserAvatar(user.id);
+  }
 }
