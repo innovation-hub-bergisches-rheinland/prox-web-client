@@ -20,7 +20,7 @@
             class="h-8 w-8 object-cover inline-block rounded-full"
             onerror="this.src='/assets/images/blank-profile-picture.png'"
           />
-          <strong class="mx-2">{{ user.name }}</strong>
+          <strong class="mx-2">{{ user.profile?.name ? user.profile?.name : user.name }}</strong>
           <i *ngIf="user.profile?.mainSubject">({{ user.profile.mainSubject }})</i>
         </div>
         <div>
