@@ -19,6 +19,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { ShimmerComponent } from './layout/shimmer/shimmer.component';
+import { FeatureDirectiveModule } from '@app/directive/feature-directive.module';
 
 @NgModule({
   declarations: [

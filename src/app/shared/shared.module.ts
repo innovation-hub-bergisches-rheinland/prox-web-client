@@ -21,6 +21,7 @@ import { AddButtonComponent } from './components/add-button/add-button.component
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { UserChipInputComponent } from '@shared/components/user-chip-input/user-chip-input.component';
+import { FeatureDirectiveModule } from '@app/directive/feature-directive.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,9 @@ import { UserChipInputComponent } from '@shared/components/user-chip-input/user-
     MaterialModule,
     ContentPageModule,
     FontAwesomeModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+
+    FeatureDirectiveModule
   ],
   exports: [
     CommonModule,
@@ -72,7 +75,9 @@ import { UserChipInputComponent } from '@shared/components/user-chip-input/user-
     AddButtonComponent,
     BackButtonComponent,
     PaginatorComponent,
-    UserChipInputComponent
+    UserChipInputComponent,
+
+    FeatureDirectiveModule
   ]
 })
 export class SharedModule {}

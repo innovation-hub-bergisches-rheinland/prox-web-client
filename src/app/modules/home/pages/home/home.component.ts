@@ -9,7 +9,6 @@ import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 import { Observable } from 'rxjs';
 import Typewriter from 'typewriter-effect/dist/core';
-import { FeatureService } from '@data/service/feature.service';
 
 @Component({
   selector: 'app-home',
@@ -31,8 +30,7 @@ export class HomeComponent implements OnInit {
     private keycloakService: KeycloakService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private tagService: TagService,
-    public featureService: FeatureService
+    private tagService: TagService
   ) {}
 
   async ngOnInit() {

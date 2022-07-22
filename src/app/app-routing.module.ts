@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ContentLayoutComponent } from '@layout/content-layout/content-layout.component';
-import { FeatureGuard } from './feature.guard';
+import { FeatureGuard } from './core/guard/feature.guard';
 
 const routes: Routes = [
   {
@@ -23,18 +23,12 @@ const routes: Routes = [
       {
         path: 'organizations',
         loadChildren: () => import('@modules/organization/organization.module').then(m => m.OrganizationModule),
-        canLoad: [FeatureGuard],
-        data: {
-          feature: 'organizations'
-        }
+        canLoad: [FeatureGuard]
       },
       {
         path: 'users',
         loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
-        canLoad: [FeatureGuard],
-        data: {
-          feature: 'user'
-        }
+        canLoad: [FeatureGuard]
       },
       // Redirect for old URLs
       {
@@ -70,10 +64,7 @@ const routes: Routes = [
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
         loadChildren: () => import('@modules/project/project.module').then(m => m.ProjectModule),
-        canLoad: [FeatureGuard],
-        data: {
-          feature: 'projects'
-        }
+        canLoad: [FeatureGuard]
       },
       {
         path: 'contact',

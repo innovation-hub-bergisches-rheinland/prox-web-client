@@ -38,16 +38,18 @@
       </app-chip-list>
     </div>
 
-    <div class="flex flex-col justify-around items-center" *ngIf="this.featureService.isFeatureEnabled('partners')">
-      <h1>Projektpartner</h1>
-      <app-carousel [numItems]="4">
-        <app-carousel-item [logoUrl]="'/assets/images/ihbr-logo.svg'"></app-carousel-item>
-        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/0000FF?text=Unternehmen'"></app-carousel-item>
-        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FFFF00?text=Unternehmen'"></app-carousel-item>
-        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/000000?text=Unternehmen'"></app-carousel-item>
-        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FF0000?text=Unternehmen'"></app-carousel-item>
-        <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/008000?text=Unternehmen'"></app-carousel-item>
-      </app-carousel>
-    </div>
+    <ng-container *feature="'partners'">
+      <div class="flex flex-col justify-around items-center">
+        <h1>Projektpartner</h1>
+        <app-carousel [numItems]="4">
+          <app-carousel-item [logoUrl]="'/assets/images/ihbr-logo.svg'"></app-carousel-item>
+          <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/0000FF?text=Unternehmen'"></app-carousel-item>
+          <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FFFF00?text=Unternehmen'"></app-carousel-item>
+          <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/000000?text=Unternehmen'"></app-carousel-item>
+          <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/FF0000?text=Unternehmen'"></app-carousel-item>
+          <app-carousel-item [logoUrl]="'https://via.placeholder.com/140/008000?text=Unternehmen'"></app-carousel-item>
+        </app-carousel>
+      </div>
+    </ng-container>
   </div>
 </div>

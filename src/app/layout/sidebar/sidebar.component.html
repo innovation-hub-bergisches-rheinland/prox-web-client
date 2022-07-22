@@ -17,14 +17,14 @@
       <li>
         <a routerLink="/projects" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="projectsIcon" [fixedWidth]="true"></fa-icon>
-          Projekte</a
-        >
+          Projekte
+        </a>
       </li>
       <li>
         <a routerLink="/users" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="lecturersIcon" [fixedWidth]="true"></fa-icon>
-          Lehrende</a
-        >
+          Lehrende
+        </a>
       </li>
       <li>
         <a routerLink="/organizations" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
@@ -33,11 +33,11 @@
           <span class="badge badge-primary">Neu</span>
         </a>
       </li>
-      <li *ngIf="isFeatureEnabled('jobs')">
+      <li *feature="'jobs'">
         <a routerLink="/jobs" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="jobsIcon" [fixedWidth]="true"></fa-icon>
-          Stellenangebote</a
-        >
+          Stellenangebote
+        </a>
       </li>
     </ul>
   </div>

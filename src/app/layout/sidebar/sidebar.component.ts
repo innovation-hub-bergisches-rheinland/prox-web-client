@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { faChalkboardTeacher, faFile, faHome, faIndustry, faSuitcase } from '@fortawesome/free-solid-svg-icons';
-import { FeatureService } from '@data/service/feature.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,11 +19,7 @@ export class SidebarComponent implements OnInit {
   @Output()
   navigationItemClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  constructor(private featureService: FeatureService) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  isFeatureEnabled(featureName: string): boolean {
-    return this.featureService.isFeatureEnabled(featureName);
-  }
 }

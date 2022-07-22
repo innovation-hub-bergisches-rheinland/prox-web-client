@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, UrlSegment, UrlTree } from '@angular/router';
+import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { FeatureService } from '@data/service/feature.service';
+import { FeatureService } from '@app/service/feature.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeatureGuard implements CanLoad {
-  constructor(private featureService: FeatureService) {}
+  constructor(private featureService: FeatureService, private router: Router) {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const featureName = route.data?.feature;
     // If the route does not have any feature, it is enabled
     if (!featureName) return true;
 
-    return this.featureService.isFeatureEnabled(featureName);
+    const hasFeature = this.featureService.isEnabled(featureName);
+    if (hasFeature) return true;
+
+    this.router.navigate(['/']);
+    return false;
   }
 }

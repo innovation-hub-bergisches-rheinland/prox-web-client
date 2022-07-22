@@ -1,7 +1,6 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
 import { KeycloakService } from 'keycloak-angular';
-import { FeatureService } from '@data/service/feature.service';
 
 @Component({
   selector: 'app-content-layout',
@@ -17,7 +16,7 @@ export class ContentLayoutComponent implements OnInit {
 
   hasPermission: boolean;
 
-  constructor(private keycloakService: KeycloakService, private featureService: FeatureService) {}
+  constructor(private keycloakService: KeycloakService) {}
 
   async ngOnInit() {
     if (await this.keycloakService.isLoggedIn()) {

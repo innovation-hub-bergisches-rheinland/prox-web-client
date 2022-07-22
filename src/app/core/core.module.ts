@@ -7,6 +7,7 @@ import { throwIfAlreadyLoaded } from './guard/module-import.guard';
 import { AuthGuard } from './guard/auth.guard';
 import { keycloakInitializer } from './util/keycloak-init';
 import { ShimmerInterceptor } from '@app/interceptor/shimmer.interceptor';
+import { FeatureService } from './service/feature.service';
 
 @NgModule({
   imports: [HttpClientModule, KeycloakAngularModule],
@@ -16,7 +17,7 @@ import { ShimmerInterceptor } from '@app/interceptor/shimmer.interceptor';
       provide: APP_INITIALIZER,
       useFactory: keycloakInitializer,
       multi: true,
-      deps: [KeycloakService]
+      deps: [KeycloakService, FeatureService]
     },
     {
       provide: HTTP_INTERCEPTORS,
