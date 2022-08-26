@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { ModuleType, Project, ProjectPermissions, Specialization } from '@data/schema/project-service.types';
-import { Tag } from '@data/schema/tag.resource';
 import { Observable, Subject } from 'rxjs';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '@data/service/user.service';
 import { Organization, UserProfile } from '@data/schema/user-service.types';
 import { map } from 'rxjs/operators';
+import { Tag } from '@data/schema/tag-service.types';
 
 interface ProjectAuthor {
   authorName: string;

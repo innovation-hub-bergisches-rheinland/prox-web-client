@@ -2,12 +2,12 @@
   <mat-label>Tags</mat-label>
   <mat-chip-list #tagList>
     <mat-chip *ngFor="let tag of _tags" [removable]="true" (removed)="removeTag(tag)">
-      {{ tag.tagName }}
+      {{ tag }}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
 
     <mat-chip *ngFor="let tag of tagRecommendations$ | async" (click)="addTag(tag)" class="recommended-tag">
-      {{ tag.tagName }}
+      {{ tag }}
     </mat-chip>
 
     <input
@@ -23,7 +23,7 @@
 
   <mat-autocomplete #tagAuto="matAutocomplete" (optionSelected)="selectedTag($event)">
     <mat-option *ngFor="let tag of tagAutocomplete$ | async" [value]="tag">
-      {{ tag.tagName }}
+      {{ tag }}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

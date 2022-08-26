@@ -1,12 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Tag } from '@data/schema/tag.resource';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TagService } from '@data/service/tag.service';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap } from 'rxjs';
 import { debounceTime, filter, startWith } from 'rxjs/operators';
+import { Tag } from '@data/schema/tag-service.types';
 
 @Component({
   selector: 'app-tag-input',
@@ -45,12 +45,15 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   onTouched = () => {};
 
   ngOnInit(): void {
-    this.tagRecommendations$ = this.tags$.pipe(mergeMap(tags => this.tagService.getRecommendations(tags)));
+    this.tagRecommendations$ = this.tags$.pipe(
+      filter(tags => tags.length > 0),
+      mergeMap(tags => this.tagService.getRecommendations(tags))
+    );
     this.tagAutocomplete$ = this.tagInputCtrl.valueChanges.pipe(
       debounceTime(300),
       startWith(''),
       filter(input => !!input),
-      mergeMap(input => this.tagService.findByTagName(input, false)),
+      mergeMap(input => this.tagService.findByTagName(input)),
       delay(200)
     );
   }
@@ -69,13 +72,13 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removeTag(tag: Tag) {
-    this._tags = this._tags.filter(t => t.tagName !== tag.tagName);
+    this._tags = this._tags.filter(t => t !== tag);
     this.onChange(this._tags);
     this.tags$.next(this._tags);
   }
 
   addTag(tag: Tag) {
-    if (!!tag && !this._tags.some(t => t.tagName === tag.tagName)) {
+    if (!!tag && !this._tags.some(t => t === tag)) {
       this._tags = [...this._tags, tag];
       this.onChange(this._tags);
       this.tags$.next(this._tags);
@@ -87,9 +90,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     const value = event.value;
 
     if ((value || '').trim()) {
-      const tag = new Tag();
-      tag.tagName = value;
-      this.addTag(tag);
+      this.addTag(value);
     }
 
     if (input) {

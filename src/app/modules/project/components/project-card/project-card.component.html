@@ -55,8 +55,8 @@
     <div class="flex flex-row gap-5 justify-between content-center">
       <div class="basis-3/4">
         <app-chip-list>
-          <app-chip *ngFor="let tag of tags" [attr.data-tip]="tag.tagName" class="tooltip">
-            {{ tag.tagName }}
+          <app-chip *ngFor="let tag of tags" [attr.data-tip]="tag" class="tooltip">
+            {{ tag }}
           </app-chip>
         </app-chip-list>
       </div>

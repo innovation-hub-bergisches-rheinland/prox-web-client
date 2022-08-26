@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { Tag } from '@data/schema/tag.resource';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { ModuleType, Project, Specialization } from '@data/schema/project-service.types';
@@ -11,6 +10,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ToastService } from '@modules/toast/toast.service';
+import { Tag } from '@data/schema/tag-service.types';
 
 @Component({
   selector: 'app-project-item',
@@ -48,7 +48,7 @@ export class ProjectItemComponent implements OnChanges {
       // TODO: This should be decided by the service
       this.hasPermission =
         (await this.keycloakService.isLoggedIn()) && this.keycloakService.getKeycloakInstance().subject === this.project.owner.id;
-      this.projectTags$ = this.tagService.getAllTagsOfProject(this.project.id);
+      this.projectTags$ = this.tagService.getTagsForEntity(this.project.id);
     }
   }
 

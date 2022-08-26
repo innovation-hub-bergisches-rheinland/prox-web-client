@@ -33,7 +33,7 @@
       <h1>Häufige Tags</h1>
       <app-chip-list>
         <app-chip *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="buildTagFilter(tag)">
-          {{ tag.tagName }}
+          {{ tag }}
         </app-chip>
       </app-chip-list>
     </div>

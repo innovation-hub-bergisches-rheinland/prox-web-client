@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, forkJoin, of } from 'rxjs';
-import { catchError, map, mergeMap, startWith, tap, toArray } from 'rxjs/operators';
+import { catchError, mergeMap, startWith } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -10,7 +10,6 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { ToastService } from '@modules/toast/toast.service';
 import { CreateProjectSchema, ModuleType, Project, Specialization } from '@data/schema/project-service.types';
-import { Tag } from '@data/schema/tag.resource';
 import { Context } from '@shared/components/context-selector/context-selector.component';
 
 @Component({
@@ -112,7 +111,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectModuleFormGroup.get('specializations').setValue(project.specializations.map(v => v.key));
     this.projectModuleFormGroup.get('modules').setValue(project.modules.map(v => v.key));
 
-    this.tagService.getAllTagsOfProject(project.id).subscribe({
+    this.tagService.getTagsForEntity(project.id).subscribe({
       next: value => this.projectTagFormGroup.get('tags').setValue(value)
     });
   }
@@ -159,9 +158,9 @@ export class ProjectEditorComponent implements OnInit {
             specializations: this.projectService
               .setProjectSpecializations(p.id, this.projectModuleFormGroup.controls.specializations.value ?? [])
               .pipe(catchError(err => of(err))),
-            tags: this.createTags(this.projectTagFormGroup.controls.tags.value).pipe(
-              mergeMap(tags => this.tagService.setProjectTags(p.id, tags).pipe(catchError(err => of(err))))
-            ),
+            tags: this.tagService
+              .setTagsForEntity(p.id, this.projectTagFormGroup.controls.tags.value ?? [])
+              .pipe(catchError(err => of(err))),
             project: of(p)
           })
         )
@@ -181,24 +180,5 @@ export class ProjectEditorComponent implements OnInit {
           });
         }
       });
-  }
-
-  private createTags(tags: Tag[]): Observable<Tag[]> {
-    return of(...tags).pipe(
-      mergeMap(tag =>
-        this.tagService.findByTagName(tag.tagName).pipe(
-          map(foundTags => {
-            return { tag, foundTags };
-          })
-        )
-      ),
-      mergeMap(x => {
-        if (x.foundTags.length >= 1) {
-          return of(x.foundTags[0]);
-        }
-        return this.tagService.createTag(x.tag);
-      }),
-      toArray()
-    );
   }
 }
