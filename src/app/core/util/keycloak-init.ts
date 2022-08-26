@@ -7,8 +7,10 @@ import { KeycloakTokenParsed } from 'keycloak-js';
 export function keycloakInitializer(keycloakService: KeycloakService, featureService: FeatureService): () => Promise<any> {
   return async (): Promise<any> => {
     const updateFeaturesFromToken = (token: KeycloakTokenParsed) => {
-      const { features } = token;
-      featureService.set(features);
+      if (token?.features) {
+        const { features } = token;
+        featureService.set(features);
+      }
     };
 
     const { keycloakConfig } = environment;
