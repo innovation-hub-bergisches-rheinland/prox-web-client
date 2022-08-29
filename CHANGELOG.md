@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.14.0...v1.15.0) (2022-08-29)
+
+
+### Features
+
+* add hint for tag input ([075b018](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/075b018489075617e0a10447d9d7de18b629ca7a))
+* unify tags from profiles ([e6c426e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e6c426e3f62367c1ae14d1537d8582dd858b2892))
+* use enhanced tag input ([34b0710](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/34b071084a1b8fccbcfea3e3785a44497bb8605d))
+
 ## [1.14.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.13.2...v1.14.0) (2022-08-26)
 
 
