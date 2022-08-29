@@ -12,6 +12,7 @@ import {
 } from '@modules/user/components/user-profile-editor-dialog/user-profile-editor-dialog.component';
 import { ProjectService } from '@data/service/project.service';
 import { Project } from '@data/schema/project-service.types';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-user-profile-page',
@@ -20,6 +21,7 @@ import { Project } from '@data/schema/project-service.types';
 })
 export class UserProfilePageComponent {
   user$: Observable<UserProfile>;
+  tags$: Observable<string[]>;
   offeredProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
   avatar: string;
@@ -31,6 +33,7 @@ export class UserProfilePageComponent {
     private userService: UserService,
     private keycloakService: KeycloakService,
     private projectService: ProjectService,
+    private tagService: TagService,
     private router: Router,
     private dialog: MatDialog
   ) {
@@ -47,6 +50,7 @@ export class UserProfilePageComponent {
       }),
       mergeMap(id => this.userService.getUserProfile(id))
     );
+    this.tags$ = userId$.pipe(mergeMap(id => this.tagService.getTagsForEntity(id)));
     const projects$ = userId$.pipe(mergeMap(id => this.projectService.findProjectsOfUser(id)));
     this.offeredProjects$ = projects$.pipe(
       map(projects => projects.filter(p => p.status === 'AVAILABLE')),

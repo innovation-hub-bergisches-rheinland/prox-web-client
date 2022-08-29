@@ -4,6 +4,7 @@ import { socialMediaHandleValidator } from '@modules/organization/components/org
 import { CreateOrganizationSchema, Organization, OrganizationProfile } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
 import { forkJoin, mergeMap, of } from 'rxjs';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-organization-editor',
@@ -49,7 +50,7 @@ export class OrganizationEditorComponent implements OnInit {
   @Input()
   organization: Organization | null = null;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {}
+  constructor(private fb: FormBuilder, private userService: UserService, private tagService: TagService) {}
 
   ngOnInit(): void {
     if (this.organization) {
@@ -64,13 +65,15 @@ export class OrganizationEditorComponent implements OnInit {
       this.organization === null
         ? this.userService.createOrganization(org)
         : this.userService.updateOrganization(this.organization.id, org);
+    const tags = this.organizationProfileForm.controls['branches'].value as string[];
 
     saveObservable
       .pipe(
         mergeMap(org =>
           forkJoin({
             org: of(org),
-            avatar: avatar && typeof avatar !== 'string' ? this.userService.setOrganizationAvatar(org.id, avatar) : of(null)
+            avatar: avatar && typeof avatar !== 'string' ? this.userService.setOrganizationAvatar(org.id, avatar) : of(null),
+            tags: tags ? this.tagService.setTagsForEntity(org.id, tags) : of(null)
           })
         )
       )
@@ -106,8 +109,7 @@ export class OrganizationEditorComponent implements OnInit {
       foundingDate: organization.profile.foundingDate,
       numberOfEmployees: organization.profile.numberOfEmployees,
       headquarter: organization.profile.headquarter,
-      quarters: organization.profile.quarters,
-      branches: organization.profile.branches
+      quarters: organization.profile.quarters
     });
     this.organizationSocialMediaForm.patchValue({
       ...organization.profile.socialMedia
@@ -117,6 +119,10 @@ export class OrganizationEditorComponent implements OnInit {
         this.organizationAvatarFormGroup.patchValue({
           avatar: value
         })
+    });
+
+    this.tagService.getTagsForEntity(organization.id).subscribe({
+      next: value => this.organizationProfileForm.patchValue({ branches: value })
     });
   }
 }

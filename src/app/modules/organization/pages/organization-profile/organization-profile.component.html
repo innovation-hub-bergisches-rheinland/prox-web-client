@@ -4,7 +4,7 @@
       <app-profile-header-card
         [imageSrc]="avatar$ | async"
         [roundedAvatar]="false"
-        [tags]="org.profile.branches"
+        [tags]="tags$ | async"
         [title]="org.name"
       ></app-profile-header-card>
       <app-profile-social-media-card

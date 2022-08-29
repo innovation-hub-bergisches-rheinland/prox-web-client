@@ -16,8 +16,8 @@
         {{ vita | truncate: 150:true }}
       </p>
     </div>
-    <app-chip-list>
-      <app-chip *ngFor="let branch of organization.profile.branches"> {{ branch }}</app-chip>
+    <app-chip-list *ngIf="tags$ | async; let tags">
+      <app-chip *ngFor="let tag of tags"> {{ tag }}</app-chip>
     </app-chip-list>
     <div class="card-actions justify-end">
       <button class="btn btn-ghost" (click)="editOrganization(organization)" *ngIf="organization.permissions.canEdit">

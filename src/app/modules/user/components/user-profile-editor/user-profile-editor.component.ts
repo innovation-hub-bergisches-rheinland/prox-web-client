@@ -4,6 +4,7 @@ import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.
 import { UserService } from '@data/service/user.service';
 import { forkJoin, mergeMap, of } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-user-profile-editor',
@@ -42,7 +43,12 @@ export class UserProfileEditorComponent implements OnInit {
   @Input()
   id: string;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private keycloakService: KeycloakService) {}
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private tagService: TagService,
+    private keycloakService: KeycloakService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.setFormValues(this.userProfile);
@@ -51,6 +57,7 @@ export class UserProfileEditorComponent implements OnInit {
   saveUserProfile() {
     const userProfile = this.buildUserProfile();
     const avatar = this.userProfileAvatarFormGroup.controls['avatar'].value as File;
+    const tags = this.userProfileAdditionalInformationForm.controls['subjects'].value as string[];
 
     this.userService
       .createUserProfile(this.id, userProfile)
@@ -58,7 +65,8 @@ export class UserProfileEditorComponent implements OnInit {
         mergeMap(profile =>
           forkJoin({
             profile: of(profile),
-            avatar: avatar && typeof avatar !== 'string' ? this.userService.setUserAvatar(this.id, avatar) : of(null)
+            avatar: avatar && typeof avatar !== 'string' ? this.userService.setUserAvatar(this.id, avatar) : of(null),
+            tags: tags ? this.tagService.setTagsForEntity(this.id, tags) : of(null)
           })
         )
       )
@@ -76,7 +84,6 @@ export class UserProfileEditorComponent implements OnInit {
       vita: this.userProfileInformationForm.controls['vita'].value ?? null,
       affiliation: this.userProfileAdditionalInformationForm.controls['affiliation'].value ?? null,
       mainSubject: this.userProfileAdditionalInformationForm.controls['mainSubject'].value ?? null,
-      subjects: this.userProfileAdditionalInformationForm.controls['subjects'].value ?? null,
       publications: this.userProfilePublicationFormGroup.controls['publications'].value ?? null,
       contactInformation: {
         email: this.userProfileInformationForm.controls['email'].value ?? null,
@@ -102,14 +109,21 @@ export class UserProfileEditorComponent implements OnInit {
       affiliation: userProfile.affiliation,
       mainSubject: userProfile.mainSubject,
       room: userProfile.contactInformation?.room,
-      consultationHour: userProfile.contactInformation?.consultationHour,
-      subjects: userProfile.subjects
+      consultationHour: userProfile.contactInformation?.consultationHour
     });
     this.userProfilePublicationFormGroup.patchValue({
       publications: userProfile.publications
     });
     this.userProfileAvatarFormGroup.patchValue({
       avatar: this.userService.getUserAvatar(this.id)
+    });
+
+    this.tagService.getTagsForEntity(this.id).subscribe({
+      next: tags => {
+        this.userProfileAdditionalInformationForm.patchValue({
+          subjects: tags
+        });
+      }
     });
   }
 }

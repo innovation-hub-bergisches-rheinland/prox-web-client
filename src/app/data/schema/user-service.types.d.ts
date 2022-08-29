@@ -24,7 +24,6 @@ export interface OrganizationProfile {
   vita: string;
   headquarter: string;
   quarters: string;
-  branches: string[];
   socialMedia: SocialMedia;
 }
 
@@ -48,7 +47,6 @@ export interface UserProfile {
   affiliation?: string;
   mainSubject?: string;
   contactInformation?: ContactInformation;
-  subjects?: string[];
   publications?: string[];
   vita?: string;
 }

@@ -5,7 +5,7 @@
       [imageSrc]="avatar"
       [roundedAvatar]="true"
       [showEdit]="isOwnProfile"
-      [tags]="user.subjects"
+      [tags]="tags$ | async"
       [title]="user.name"
     ></app-profile-header-card>
     <app-profile-information-card>

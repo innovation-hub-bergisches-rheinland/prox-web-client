@@ -4,6 +4,8 @@ import { OrganizationEditorDialogComponent } from '@modules/organization/compone
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '@data/service/user.service';
 import { faEdit, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs/internal/Observable';
+import { TagService } from '@data/service/tag.service';
 
 @Component({
   selector: 'app-organization-item',
@@ -13,6 +15,7 @@ import { faEdit, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 export class OrganizationItemComponent implements OnInit {
   membersIcon = faPeopleGroup;
   editIcon = faEdit;
+  tags$: Observable<string[]>;
 
   @Input()
   organization: Organization;
@@ -20,12 +23,13 @@ export class OrganizationItemComponent implements OnInit {
   @Input()
   imgSrc: string;
 
-  constructor(private dialog: MatDialog, private userService: UserService) {}
+  constructor(private dialog: MatDialog, private userService: UserService, private tagService: TagService) {}
 
   ngOnInit(): void {
     this.userService.getOrganizationAvatar(this.organization.id).subscribe({
       next: value => (this.imgSrc = value)
     });
+    this.tags$ = this.tagService.getTagsForEntity(this.organization.id);
   }
 
   editOrganization(org: Organization) {
