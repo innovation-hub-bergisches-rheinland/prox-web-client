@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { faChalkboardTeacher, faFile, faHome, faIndustry, faSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardTeacher, faFile, faHome, faIndustry, faQuestion, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,6 +12,7 @@ export class SidebarComponent implements OnInit {
   jobsIcon = faSuitcase;
   orgsIcon = faIndustry;
   lecturersIcon = faChalkboardTeacher;
+  faqIcon = faQuestion;
 
   @Output()
   backClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();

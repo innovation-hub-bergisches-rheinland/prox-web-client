@@ -73,6 +73,10 @@ const routes: Routes = [
         loadChildren: () => import('@modules/contact/contact.module').then(m => m.ContactModule)
       },
       {
+        path: 'faq',
+        loadChildren: () => import('@modules/faq/faq.module').then(m => m.FaqModule)
+      },
+      {
         path: 'imprint',
         // loadChildren: () =>
         //   import('@modules/imprint/imprint.module').then(

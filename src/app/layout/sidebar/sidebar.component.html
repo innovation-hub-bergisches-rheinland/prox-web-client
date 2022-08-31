@@ -7,38 +7,44 @@
   <div class="flex flex-col items-center gap-4">
     <img alt="PROX Logo" class="logo-sidebar" src="assets/images/prox-icon_160x160.png" />
     <app-user></app-user>
-    <ul class="text-base border-t">
-      <li>
-        <a routerLink="/home" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
-          <fa-icon [icon]="homeIcon" [fixedWidth]="true"></fa-icon>
-          Startseite
-        </a>
-      </li>
-      <li>
-        <a routerLink="/projects" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
-          <fa-icon [icon]="projectsIcon" [fixedWidth]="true"></fa-icon>
-          Projekte
-        </a>
-      </li>
-      <li>
-        <a routerLink="/users" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
-          <fa-icon [icon]="lecturersIcon" [fixedWidth]="true"></fa-icon>
-          Lehrende
-        </a>
-      </li>
-      <li>
-        <a routerLink="/organizations" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
-          <fa-icon [icon]="orgsIcon" [fixedWidth]="true"></fa-icon>
-          Unternehmen und Organisationen
-          <span class="badge badge-primary">Neu</span>
-        </a>
-      </li>
-      <li *feature="'jobs'">
-        <a routerLink="/jobs" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
-          <fa-icon [icon]="jobsIcon" [fixedWidth]="true"></fa-icon>
-          Stellenangebote
-        </a>
-      </li>
-    </ul>
   </div>
+  <ul class="text-base border-t w-full">
+    <li>
+      <a routerLink="/home" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <fa-icon [icon]="homeIcon" [fixedWidth]="true"></fa-icon>
+        Startseite
+      </a>
+    </li>
+    <li>
+      <a routerLink="/projects" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <fa-icon [icon]="projectsIcon" [fixedWidth]="true"></fa-icon>
+        Projekte
+      </a>
+    </li>
+    <li>
+      <a routerLink="/users" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <fa-icon [icon]="lecturersIcon" [fixedWidth]="true"></fa-icon>
+        Lehrende
+      </a>
+    </li>
+    <li>
+      <a routerLink="/organizations" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <fa-icon [icon]="orgsIcon" [fixedWidth]="true"></fa-icon>
+        Unternehmen und Organisationen
+        <span class="badge badge-primary">Neu</span>
+      </a>
+    </li>
+    <li *feature="'jobs'">
+      <a routerLink="/jobs" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <fa-icon [icon]="jobsIcon" [fixedWidth]="true"></fa-icon>
+        Stellenangebote
+      </a>
+    </li>
+    <li>
+      <a routerLink="/faq" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <fa-icon [icon]="faqIcon" [fixedWidth]="true"></fa-icon>
+        FAQ
+      </a>
+    </li>
+  </ul>
 </div>
