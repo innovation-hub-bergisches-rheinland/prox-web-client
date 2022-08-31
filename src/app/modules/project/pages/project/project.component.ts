@@ -179,7 +179,9 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
     if (Object.values(search).some(p => p !== undefined)) {
       return search;
     }
-    return undefined;
+    return {
+      status: 'AVAILABLE'
+    };
   }
 
   private openErrorSnackBar(message: string) {
