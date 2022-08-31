@@ -4,3 +4,12 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@layer base {
+  a {
+    @apply text-blue-400;
+  }
+  a:hover {
+    @apply text-blue-500;
+  }
+}
