@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
@@ -8,6 +8,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { keycloakInitializer } from './util/keycloak-init';
 import { ShimmerInterceptor } from '@app/interceptor/shimmer.interceptor';
 import { FeatureService } from './service/feature.service';
+import { GlobalErrorHandler } from './errors/global-error-handler';
 
 @NgModule({
   imports: [HttpClientModule, KeycloakAngularModule],
@@ -18,6 +19,10 @@ import { FeatureService } from './service/feature.service';
       useFactory: keycloakInitializer,
       multi: true,
       deps: [KeycloakService, FeatureService]
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
     },
     {
       provide: HTTP_INTERCEPTORS,

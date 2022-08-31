@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Ein Fehler ist aufgetreten!</h1>
+<div mat-dialog-content>
+  <p>Es tut uns leid, es ist ein Fehler aufgetreten.</p>
+  <p class="bg-gray-200 p-1 font-mono break-all">
+    {{ data?.message }}
+  </p>
+  <br />
+  <p>
+    Sie können den Fehlerbericht jetzt herunterladen und <a href="/contact">uns eine kurze Mail schreiben</a>. Jeder Fehlerbericht hilft
+    uns, PROX zu verbessern.
+  </p>
+</div>
+<div class="flex flex-row justify-between gap-2 mt-2">
+  <button mat-raised-button mat-dialog-close color="primary">Schließen</button>
+  <a [href]="reportUrl" download="report.json">
+    <button mat-raised-button color="primary">Fehlerbericht herunterladen</button>
+  </a>
+</div>
