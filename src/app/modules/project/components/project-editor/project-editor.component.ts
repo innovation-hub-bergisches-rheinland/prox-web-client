@@ -173,7 +173,6 @@ export class ProjectEditorComponent implements OnInit {
           this.saved.emit(value.project);
         },
         error: err => {
-          console.log(err);
           this.toastService.showToast({
             message: 'Projekt konnte nicht erstellt werden',
             isError: true

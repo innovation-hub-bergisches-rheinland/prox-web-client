@@ -28,7 +28,6 @@ export function keycloakInitializer(keycloakService: KeycloakService, featureSer
 
     keycloakService.keycloakEvents$.subscribe({
       next: async e => {
-        console.log(e);
         if (e.type == KeycloakEventType.OnTokenExpired) {
           keycloakService.updateToken(20);
         }

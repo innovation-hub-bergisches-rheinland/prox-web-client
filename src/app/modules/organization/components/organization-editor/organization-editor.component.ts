@@ -81,7 +81,7 @@ export class OrganizationEditorComponent implements OnInit {
         next: value => {
           this.save.emit(value.org);
         },
-        error: err => console.log(err)
+        error: err => {}
       });
   }
 

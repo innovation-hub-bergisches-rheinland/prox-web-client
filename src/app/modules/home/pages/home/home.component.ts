@@ -39,8 +39,6 @@ export class HomeComponent implements OnInit {
       this.userDetails = await this.keycloakService.loadUserProfile();
     }
 
-    console.log(this.typewriter);
-
     this.startTypewriter();
   }
 

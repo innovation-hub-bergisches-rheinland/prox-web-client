@@ -74,7 +74,7 @@ export class UserProfileEditorComponent implements OnInit {
         next: value => {
           this.saved.emit(value.profile);
         },
-        error: err => console.log(err)
+        error: err => {}
       });
   }
 
