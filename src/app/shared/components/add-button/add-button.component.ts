@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -8,6 +8,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 })
 export class AddButtonComponent implements OnInit {
   addIcon = faPlus;
+
+  @Input()
+  disabled = false;
 
   constructor() {}
 

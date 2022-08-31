@@ -3,7 +3,7 @@
     <app-content-page-title>Organisationen</app-content-page-title>
     <app-content-page-actions>
       <app-add-button
-        *ngIf="canCreateNewOrg"
+        [disabled]="!canCreateNewOrg"
         (click)="openOrganizationEditor()"
         data-tip="Neue Organisation anlegen"
         class="tooltip"
