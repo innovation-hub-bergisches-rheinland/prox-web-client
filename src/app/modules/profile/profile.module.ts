@@ -14,12 +14,10 @@ import { ProfileInformationCardEntryComponent } from './components/profile-infor
 import { SocialMediaButtonComponent } from './components/social-media-button/social-media-button.component';
 import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/profile-focus-subjects.component';
 import { ProfileProjectsCardComponent } from './components/profile-projects-card/profile-projects-card.component';
-import { ProfileJobsCardComponent } from './components/profile-jobs-card/profile-jobs-card.component';
 import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
 import { ProfilePublicationsCardComponent } from '@modules/profile/components/profile-publications-card/profile-publications-card.component';
 import { ProfileProjectCardItemComponent } from './components/profile-projects-card/profile-project-card-item/profile-project-card-item.component';
-import { ProfileJobsCardItemComponent } from './components/profile-jobs-card/profile-jobs-card-item/profile-jobs-card-item.component';
 import { ProfileAvatarCardTitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-title.directive';
 import { ProfileAvatarCardSubtitleDirective } from '@modules/profile/components/profile-avatar-card/profile-avatar-card-subtitle.directive';
 import { SashContentDirective } from '@modules/profile/components/sash/sash-content.directive';
@@ -43,12 +41,10 @@ import { ProfileEditorAvatarComponent } from '@modules/profile/components/profil
     SocialMediaButtonComponent,
     ProfileFocusSubjectsComponent,
     ProfileProjectsCardComponent,
-    ProfileJobsCardComponent,
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
     ProfilePublicationsCardComponent,
     ProfileProjectCardItemComponent,
-    ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
     ProfileAvatarCardSubtitleDirective,
     ProfileSocialMediaCardComponent,
@@ -69,12 +65,10 @@ import { ProfileEditorAvatarComponent } from '@modules/profile/components/profil
     SocialMediaButtonComponent,
     ProfileFocusSubjectsComponent,
     ProfileProjectsCardComponent,
-    ProfileJobsCardComponent,
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
     ProfilePublicationsCardComponent,
     ProfileProjectCardItemComponent,
-    ProfileJobsCardItemComponent,
     ProfileAvatarCardTitleDirective,
     ProfileAvatarCardSubtitleDirective,
     ProfileSocialMediaCardComponent,

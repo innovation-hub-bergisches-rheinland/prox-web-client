@@ -34,12 +34,6 @@
         <span class="badge badge-primary">Neu</span>
       </a>
     </li>
-    <li *feature="'jobs'">
-      <a routerLink="/jobs" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
-        <fa-icon [icon]="jobsIcon" [fixedWidth]="true"></fa-icon>
-        Stellenangebote
-      </a>
-    </li>
     <li>
       <a routerLink="/faq" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
         <fa-icon [icon]="faqIcon" [fixedWidth]="true"></fa-icon>

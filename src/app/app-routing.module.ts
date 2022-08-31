@@ -52,14 +52,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'jobs',
-        loadChildren: () => import('@modules/jobs/jobs.module').then(j => j.JobModule),
-        canLoad: [FeatureGuard],
-        data: {
-          feature: 'jobs'
-        }
-      },
-      {
         path: 'projects',
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)

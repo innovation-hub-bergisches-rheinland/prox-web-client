@@ -11,7 +11,6 @@ import { UserComponent } from '@layout/user/user.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { BASE_PATH } from '@data/service/openapi/variables';
 import { environment } from '@env';
 import { ToastModule } from '@modules/toast/toast.module';
 import { MainContentComponent } from '@layout/main-content/main-content.component';
@@ -19,7 +18,6 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { ShimmerComponent } from './layout/shimmer/shimmer.component';
-import { FeatureDirectiveModule } from '@app/directive/feature-directive.module';
 
 @NgModule({
   declarations: [
@@ -42,12 +40,7 @@ import { FeatureDirectiveModule } from '@app/directive/feature-directive.module'
     ToastModule,
     NgxMatSelectSearchModule
   ],
-  providers: [
-    {
-      provide: BASE_PATH,
-      useValue: environment.apiUrl
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

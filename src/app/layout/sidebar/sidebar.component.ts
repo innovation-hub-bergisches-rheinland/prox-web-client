@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { faChalkboardTeacher, faFile, faHome, faIndustry, faQuestion, faSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardTeacher, faFile, faHome, faIndustry, faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +9,6 @@ import { faChalkboardTeacher, faFile, faHome, faIndustry, faQuestion, faSuitcase
 export class SidebarComponent implements OnInit {
   homeIcon = faHome;
   projectsIcon = faFile;
-  jobsIcon = faSuitcase;
   orgsIcon = faIndustry;
   lecturersIcon = faChalkboardTeacher;
   faqIcon = faQuestion;
