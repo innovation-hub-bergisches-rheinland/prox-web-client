@@ -27,7 +27,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   tagAutocompleteTrigger: MatAutocompleteTrigger;
 
   @Input()
-  label: string = 'Benutzer';
+  label = 'Benutzer';
 
   userInputCtrl = new FormControl('');
   _users: UserSearchResult[] = [];

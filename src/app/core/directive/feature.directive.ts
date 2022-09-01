@@ -2,6 +2,7 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
 import { FeatureService } from '@app/service/feature.service';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[feature]'
 })
 export class FeatureDirective implements OnInit {
