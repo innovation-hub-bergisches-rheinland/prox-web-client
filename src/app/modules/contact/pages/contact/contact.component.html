@@ -2,7 +2,7 @@
   <app-content-page-header>
     <app-content-page-title>Kontakt</app-content-page-title>
   </app-content-page-header>
-  <app-content-page-content class="flex flex-row flex-wrap gap-5">
-    <app-contact-card class="basis-0 flex-grow flex-shrink-0 w-200" *ngFor="let contact of contacts" [contact]="contact"></app-contact-card>
+  <app-content-page-content class="flex flex-col md:flex-row md:flex-wrap gap-5">
+    <app-contact-card class="flex-1" *ngFor="let contact of contacts" [contact]="contact"></app-contact-card>
   </app-content-page-content>
 </app-content-page>
