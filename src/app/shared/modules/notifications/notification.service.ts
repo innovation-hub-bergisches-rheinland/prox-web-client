@@ -20,14 +20,20 @@ export class NotificationService {
     this.toasts$.subscribe(toast => this.showToast(toast));
   }
 
-  sendToast(content: Toast) {
-    this.toasts$.next(content);
+  error(message: string) {
+    this.toasts$.next({ message, type: 'error' });
   }
 
-  sendToasts(content: Toast[]) {
-    for (const toast of content) {
-      this.sendToast(toast);
-    }
+  info(message: string) {
+    this.toasts$.next({ message, type: 'info' });
+  }
+
+  warning(message: string) {
+    this.toasts$.next({ message, type: 'warning' });
+  }
+
+  success(message: string) {
+    this.toasts$.next({ message, type: 'success' });
   }
 
   private showToast(toast: Toast): void {

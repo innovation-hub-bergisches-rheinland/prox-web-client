@@ -167,17 +167,11 @@ export class ProjectEditorComponent implements OnInit {
       )
       .subscribe({
         next: value => {
-          this.notificationService.sendToast({
-            message: 'Projekt wurde erfolgreich erstellt',
-            type: 'success'
-          });
+          this.notificationService.success('Projekt wurde erfolgreich erstellt');
           this.saved.emit(value.project);
         },
         error: err => {
-          this.notificationService.sendToast({
-            message: 'Projekt konnte nicht erstellt werden',
-            type: 'success'
-          });
+          this.notificationService.error('Projekt konnte nicht erstellt werden');
         }
       });
   }
