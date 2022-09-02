@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { isDevMode } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 
@@ -15,7 +15,10 @@ export class NotificationService {
   private toasts$: Subject<Toast> = new Subject<Toast>();
 
   constructor(private toastrService: ToastrService) {
-    window['toastService'] = this;
+    if (isDevMode()) {
+      // To test notifications we add the service to the window namespace.
+      window['notificationService'] = this;
+    }
 
     this.toasts$.subscribe(toast => this.showToast(toast));
   }
