@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CreateOrganizationMembership, Organization, OrganizationMembership } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
-import { Observable, lastValueFrom, mergeMap } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, lastValueFrom, mergeMap, of } from 'rxjs';
+import { catchError, filter, map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationAddMemberDialogComponent } from '@modules/organization/components/organization-add-member-dialog/organization-add-member-dialog.component';
 import { Location } from '@angular/common';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-organization-members',
@@ -24,7 +25,8 @@ export class OrganizationMembersComponent implements OnInit {
     public location: Location,
     private userService: UserService,
     private keycloakService: KeycloakService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notificationService: NotificationService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -43,22 +45,40 @@ export class OrganizationMembersComponent implements OnInit {
   }
 
   getMembers(id: string) {
-    this.organizationMemberships$ = this.userService.getMemberships(id).pipe(map(membership => membership.members));
+    this.organizationMemberships$ = this.userService.getMemberships(id).pipe(
+      map(membership => membership.members),
+      catchError(err => {
+        this.notificationService.error('Mitglieder konnten nicht geladen werden, versuchen Sie es später erneut');
+        return of([]);
+      })
+    );
   }
 
   async removeMembership(member: OrganizationMembership) {
     const activeOrg = await lastValueFrom(this.organization$);
-    await lastValueFrom(this.userService.deleteMembership(activeOrg.id, member.memberId));
+    const delete$ = this.userService.deleteMembership(activeOrg.id, member.memberId).pipe(
+      catchError(err => {
+        this.notificationService.error('Mitgliedschaft konnte nicht entfernt werden');
+        return of([]);
+      })
+    );
+    await lastValueFrom(delete$);
     this.getMembers(activeOrg.id);
   }
 
   async updateMembership(member: OrganizationMembership) {
     const activeOrg = await lastValueFrom(this.organization$);
-    await lastValueFrom(
-      this.userService.updateMembership(activeOrg.id, member.memberId, {
+    const update$ = this.userService
+      .updateMembership(activeOrg.id, member.memberId, {
         role: member.role
       })
-    );
+      .pipe(
+        catchError(err => {
+          this.notificationService.error('Mitgliedschaft konnte nicht aktualisiert werden');
+          return of([]);
+        })
+      );
+    await lastValueFrom(update$);
     this.getMembers(activeOrg.id);
   }
 

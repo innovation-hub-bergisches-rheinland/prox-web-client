@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { UserService } from '@data/service/user.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BriefUserProfile } from '@data/schema/user-service.types';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-user-profile-overview-page',
@@ -12,8 +13,14 @@ import { map } from 'rxjs/operators';
 export class UserProfileOverviewPageComponent {
   profiles$: Observable<BriefUserProfile[]>;
 
-  constructor(private userService: UserService) {
-    this.profiles$ = userService.getUserProfiles().pipe(map(p => p.profiles));
+  constructor(private userService: UserService, private notificationService: NotificationService) {
+    this.profiles$ = userService.getUserProfiles().pipe(
+      map(p => p.profiles),
+      catchError(err => {
+        this.notificationService.error('Benutzerprofile konnten nicht geladen werden.');
+        return of([]);
+      })
+    );
   }
 
   getAvatarUrl(id: string): string {

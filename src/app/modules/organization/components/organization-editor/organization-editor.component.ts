@@ -5,6 +5,7 @@ import { CreateOrganizationSchema, Organization, OrganizationProfile } from '@da
 import { UserService } from '@data/service/user.service';
 import { forkJoin, mergeMap, of } from 'rxjs';
 import { TagService } from '@data/service/tag.service';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-organization-editor',
@@ -50,7 +51,12 @@ export class OrganizationEditorComponent implements OnInit {
   @Input()
   organization: Organization | null = null;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private tagService: TagService) {}
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private tagService: TagService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     if (this.organization) {
@@ -79,9 +85,12 @@ export class OrganizationEditorComponent implements OnInit {
       )
       .subscribe({
         next: value => {
+          this.notificationService.success('Organisation wurde erfolgreich gespeichert');
           this.save.emit(value.org);
         },
-        error: err => {}
+        error: err => {
+          this.notificationService.error('Ein Fehler beim Speichern der Organisation ist aufgetreten. Versuchen Sie es später erneut.');
+        }
       });
   }
 

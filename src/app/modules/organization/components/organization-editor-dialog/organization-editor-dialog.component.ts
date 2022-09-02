@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Organization } from '@data/schema/user-service.types';
-import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-organization-editor-dialog',
@@ -11,8 +10,7 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 export class OrganizationEditorDialogComponent implements OnInit {
   constructor(
     public organizationDialogRef: MatDialogRef<OrganizationEditorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public organization: Organization,
-    private notificationService: NotificationService
+    @Inject(MAT_DIALOG_DATA) public organization: Organization
   ) {}
 
   ngOnInit(): void {
@@ -24,7 +22,6 @@ export class OrganizationEditorDialogComponent implements OnInit {
   }
 
   organizationSaved(org: Organization) {
-    this.notificationService.success('Organisation wurde erfolgreich gespeichert');
     this.organizationDialogRef.close(org);
   }
 }

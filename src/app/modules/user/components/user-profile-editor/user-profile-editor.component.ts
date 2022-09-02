@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
-import { forkJoin, mergeMap, of } from 'rxjs';
+import { catchError, forkJoin, mergeMap, of, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { TagService } from '@data/service/tag.service';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-user-profile-editor',
@@ -47,7 +48,8 @@ export class UserProfileEditorComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private tagService: TagService,
-    private keycloakService: KeycloakService
+    private keycloakService: KeycloakService,
+    private notificationService: NotificationService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -72,9 +74,12 @@ export class UserProfileEditorComponent implements OnInit {
       )
       .subscribe({
         next: value => {
+          this.notificationService.success('Benutzerprofil wurde erfolgreich gespeichert');
           this.saved.emit(value.profile);
         },
-        error: err => {}
+        error: err => {
+          this.notificationService.success('Benutzerprofil konnte nicht gespeichert werden');
+        }
       });
   }
 
@@ -118,12 +123,20 @@ export class UserProfileEditorComponent implements OnInit {
       avatar: this.userService.getUserAvatar(this.id)
     });
 
-    this.tagService.getTagsForEntity(this.id).subscribe({
-      next: tags => {
-        this.userProfileAdditionalInformationForm.patchValue({
-          subjects: tags
-        });
-      }
-    });
+    this.tagService
+      .getTagsForEntity(this.id)
+      .pipe(
+        catchError(err => {
+          this.notificationService.error('Tags konnten nicht geladen werden');
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: tags => {
+          this.userProfileAdditionalInformationForm.patchValue({
+            subjects: tags
+          });
+        }
+      });
   }
 }

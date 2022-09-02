@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserProfile } from '@data/schema/user-service.types';
-import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 export interface UserProfileEditorInput {
   id: string;
@@ -16,8 +15,7 @@ export interface UserProfileEditorInput {
 export class UserProfileEditorDialogComponent implements OnInit {
   constructor(
     public organizationDialogRef: MatDialogRef<UserProfileEditorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public userProfile: UserProfileEditorInput,
-    private notificationService: NotificationService
+    @Inject(MAT_DIALOG_DATA) public userProfile: UserProfileEditorInput
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +27,6 @@ export class UserProfileEditorDialogComponent implements OnInit {
   }
 
   userProfileSaved(profile: UserProfile) {
-    this.notificationService.success('Benutzerprofil wurde erfolgreich gespeichert');
     this.organizationDialogRef.close(profile);
   }
 }

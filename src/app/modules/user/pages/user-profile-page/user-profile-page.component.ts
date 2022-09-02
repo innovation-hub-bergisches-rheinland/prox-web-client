@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Observable, mergeMap } from 'rxjs';
+import { Observable, mergeMap, of, throwError } from 'rxjs';
 import { UserProfile } from '@data/schema/user-service.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@data/service/user.service';
 import { KeycloakService } from 'keycloak-angular';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import {
   UserProfileEditorDialogComponent,
@@ -13,6 +13,7 @@ import {
 import { ProjectService } from '@data/service/project.service';
 import { Project } from '@data/schema/project-service.types';
 import { TagService } from '@data/service/tag.service';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-user-profile-page',
@@ -20,7 +21,7 @@ import { TagService } from '@data/service/tag.service';
   styleUrls: ['./user-profile-page.component.scss']
 })
 export class UserProfilePageComponent {
-  user$: Observable<UserProfile>;
+  user$: Observable<UserProfile & { id: string }>;
   tags$: Observable<string[]>;
   offeredProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
@@ -34,8 +35,8 @@ export class UserProfilePageComponent {
     private keycloakService: KeycloakService,
     private projectService: ProjectService,
     private tagService: TagService,
-    private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notificationService: NotificationService
   ) {
     this.loadProfile();
   }
@@ -43,22 +44,41 @@ export class UserProfilePageComponent {
   loadProfile() {
     const userId$: Observable<string> = this.activatedRouter.params.pipe(map(params => params.id));
     this.user$ = userId$.pipe(
+      take(1),
       tap(id => {
         this.id = id;
         this.isOwnProfile = this.keycloakService.getKeycloakInstance().subject === id;
         this.avatar = this.userService.getUserAvatar(id);
       }),
-      mergeMap(id => this.userService.getUserProfile(id))
+      mergeMap(id => this.userService.getUserProfile(id).pipe(map(profile => ({ ...profile, id })))),
+      catchError(error => {
+        this.notificationService.error('Benutzerprofil konnte nicht geladen werden.');
+        return throwError(() => error);
+      })
     );
-    this.tags$ = userId$.pipe(mergeMap(id => this.tagService.getTagsForEntity(id)));
-    const projects$ = userId$.pipe(mergeMap(id => this.projectService.findProjectsOfUser(id)));
-    this.offeredProjects$ = projects$.pipe(
-      map(projects => projects.filter(p => p.status === 'AVAILABLE')),
-      catchError(err => [])
+    this.tags$ = this.user$.pipe(
+      take(1),
+      mergeMap(user => this.tagService.getTagsForEntity(user.id)),
+      catchError(err => {
+        this.notificationService.warning('Tags konnte nicht geladen werden.');
+        return of([]);
+      })
     );
+    const projects$ = this.user$.pipe(
+      take(1),
+      mergeMap(user => this.projectService.findProjectsOfUser(user.id)),
+      catchError(err => {
+        this.notificationService.warning('Projekte konnte nicht geladen werden.');
+        return of([]);
+      })
+    );
+    this.offeredProjects$ = projects$.pipe(map(projects => projects.filter(p => p.status === 'AVAILABLE')));
     this.projectHistory$ = projects$.pipe(
       map(projects => projects.filter(p => p.status !== 'AVAILABLE')),
-      catchError(err => [])
+      catchError(err => {
+        this.notificationService.warning('Projekthistorie konnte nicht geladen werden.');
+        return of([]);
+      })
     );
   }
 
