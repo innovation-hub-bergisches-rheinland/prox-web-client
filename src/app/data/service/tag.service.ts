@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, onErrorResumeNext } from 'rxjs';
 
-import { map } from 'rxjs/operators';
+import { catchError, map, retry } from 'rxjs/operators';
 import { Tag, TagPopularity, TagRecommendation, Tags } from '@data/schema/tag-service.types';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
@@ -44,7 +44,10 @@ export class TagService {
         },
         observe: 'body'
       })
-      .pipe(map(res => res.tags));
+      .pipe(
+        map(res => res.tags),
+        catchError(() => of([]))
+      );
   }
 
   getRecommendations(tags: Tag[]): Observable<Tag[]> {
@@ -57,7 +60,10 @@ export class TagService {
         },
         observe: 'body'
       })
-      .pipe(map(res => res.recommendations));
+      .pipe(
+        map(res => res.recommendations),
+        catchError(() => of([]))
+      );
   }
 
   getTagsForEntity(id: string): Observable<Tag[]> {
@@ -68,7 +74,11 @@ export class TagService {
         },
         observe: 'body'
       })
-      .pipe(map(res => res.tags));
+      .pipe(
+        map(res => res.tags),
+        // TODO: We can address that once we have proper event propagation in the tag service
+        catchError(() => of([]))
+      );
   }
 
   getPopularTags(limit = 10): Observable<Tag[]> {
@@ -84,7 +94,8 @@ export class TagService {
           Object.entries(res.popularity)
             .sort(([, popularityA], [, popularityB]) => popularityB - popularityA)
             .map(([tag]) => tag)
-        )
+        ),
+        catchError(() => of([]))
       );
   }
 }
