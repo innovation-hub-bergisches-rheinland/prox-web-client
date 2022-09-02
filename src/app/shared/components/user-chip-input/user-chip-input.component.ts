@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChil
 import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserSearchResult } from '@data/schema/user-service.types';
-import { BehaviorSubject, Observable, Subject, delay, mergeMap, throwError, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
