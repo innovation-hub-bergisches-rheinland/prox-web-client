@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ToastComponent } from './toast.component';
-import { Toast } from './types';
+import { ToastComponent } from './toast/toast.component';
+import { Toast } from './toast/types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ToastService {
+export class NotificationService {
   constructor(private snackBar: MatSnackBar) {
     window['toastService'] = this;
   }

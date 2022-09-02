@@ -9,8 +9,8 @@ import { ModuleType, Project, Specialization } from '@data/schema/project-servic
 import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ToastService } from '@modules/toast/toast.service';
 import { Tag } from '@data/schema/tag-service.types';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-project-item',
@@ -39,7 +39,7 @@ export class ProjectItemComponent implements OnChanges {
     private tagService: TagService,
     private projectService: ProjectService,
     private dialog: MatDialog,
-    private toastService: ToastService
+    private notificationService: NotificationService
   ) {}
 
   async ngOnChanges(changes: SimpleChanges) {
@@ -80,7 +80,7 @@ export class ProjectItemComponent implements OnChanges {
             this.deleted.emit();
           },
           _error => {
-            this.toastService.showToast({
+            this.notificationService.showToast({
               message: 'Projekt konnte nicht gelöscht werden, versuchen Sie es bitte später erneut.',
               isError: true
             });

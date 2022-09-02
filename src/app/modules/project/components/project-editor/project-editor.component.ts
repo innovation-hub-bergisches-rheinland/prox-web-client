@@ -8,9 +8,9 @@ import { KeycloakService } from 'keycloak-angular';
 
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { ToastService } from '@modules/toast/toast.service';
 import { CreateProjectSchema, ModuleType, Project, Specialization } from '@data/schema/project-service.types';
 import { Context } from '@shared/components/context-selector/context-selector.component';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-project-editor',
@@ -54,7 +54,7 @@ export class ProjectEditorComponent implements OnInit {
     private projectService: ProjectService,
     private tagService: TagService,
     private formBuilder: FormBuilder,
-    private toastService: ToastService,
+    private notificationService: NotificationService,
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
@@ -167,13 +167,13 @@ export class ProjectEditorComponent implements OnInit {
       )
       .subscribe({
         next: value => {
-          this.toastService.showToast({
+          this.notificationService.showToast({
             message: 'Projekt wurde erfolgreich erstellt'
           });
           this.saved.emit(value.project);
         },
         error: err => {
-          this.toastService.showToast({
+          this.notificationService.showToast({
             message: 'Projekt konnte nicht erstellt werden',
             isError: true
           });

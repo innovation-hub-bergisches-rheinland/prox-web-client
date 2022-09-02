@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserProfile } from '@data/schema/user-service.types';
-import { ToastService } from '@modules/toast/toast.service';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 export interface UserProfileEditorInput {
   id: string;
@@ -17,7 +17,7 @@ export class UserProfileEditorDialogComponent implements OnInit {
   constructor(
     public organizationDialogRef: MatDialogRef<UserProfileEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public userProfile: UserProfileEditorInput,
-    private toastService: ToastService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class UserProfileEditorDialogComponent implements OnInit {
   }
 
   userProfileSaved(profile: UserProfile) {
-    this.toastService.showToast({
+    this.notificationService.showToast({
       message: 'Benutzerprofil wurde erfolgreich gespeichert'
     });
     this.organizationDialogRef.close(profile);

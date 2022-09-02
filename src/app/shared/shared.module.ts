@@ -23,6 +23,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { UserChipInputComponent } from '@shared/components/user-chip-input/user-chip-input.component';
 import { FeatureDirectiveModule } from '@app/directive/feature-directive.module';
 import { ErrorsModule } from './modules/errors/errors.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,8 @@ import { ErrorsModule } from './modules/errors/errors.module';
     NgxMatSelectSearchModule,
     ErrorsModule,
 
+    NotificationsModule,
+
     FeatureDirectiveModule
   ],
   exports: [
@@ -78,6 +81,8 @@ import { ErrorsModule } from './modules/errors/errors.module';
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
+
+    NotificationsModule,
 
     FeatureDirectiveModule,
 

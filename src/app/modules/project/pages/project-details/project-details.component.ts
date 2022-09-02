@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { KeycloakService } from 'keycloak-angular';
 import { ProjectService } from '@data/service/project.service';
 import { Project } from '@data/schema/project-service.types';
-import { ToastService } from '@modules/toast/toast.service';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-project-details',
@@ -20,7 +20,7 @@ export class ProjectDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private toastService: ToastService
+    private notificationService: NotificationService
   ) {}
 
   async ngOnInit() {
@@ -28,7 +28,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.getProject(projectId).subscribe({
       next: res => (this.project = res),
       error: err => {
-        this.toastService.showToast({
+        this.notificationService.showToast({
           isError: true,
           message: 'Projekt nicht gefunden'
         });

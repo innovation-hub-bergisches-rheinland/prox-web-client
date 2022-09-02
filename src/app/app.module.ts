@@ -11,8 +11,6 @@ import { UserComponent } from '@layout/user/user.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { environment } from '@env';
-import { ToastModule } from '@modules/toast/toast.module';
 import { MainContentComponent } from '@layout/main-content/main-content.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NavbarComponent } from './layout/navbar/navbar.component';
@@ -30,16 +28,7 @@ import { ShimmerComponent } from './layout/shimmer/shimmer.component';
     SidebarComponent,
     ShimmerComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    CoreModule,
-    SharedModule,
-    AppRoutingModule,
-    ToastModule,
-    NgxMatSelectSearchModule
-  ],
+  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, CoreModule, SharedModule, AppRoutingModule, NgxMatSelectSearchModule],
   providers: [],
   bootstrap: [AppComponent]
 })
