@@ -1,0 +1,17 @@
+<div class="mx-auto right-0 mt-2">
+  <div class="bg-white rounded shadow-lg">
+    <div class="text-center p-6 border-b">
+      <img
+        aria-hidden="true"
+        src="{{ contact.image }}"
+        class="h-24 w-24 text-white rounded-full mx-auto"
+        width="32"
+        height="32"
+        viewBox="0 0 256 256"
+      />
+      <p class="pt-2 text-lg font-semibold">{{ contact.name }}</p>
+      <p class="text-md font-semibold">{{ contact.title }}</p>
+      <a href="mailto:{{ contact.email }}" class="text-sm">{{ contact.email }}</a>
+    </div>
+  </div>
+</div>

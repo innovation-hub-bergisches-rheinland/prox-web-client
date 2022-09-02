@@ -2,40 +2,7 @@
   <app-content-page-header>
     <app-content-page-title>Kontakt</app-content-page-title>
   </app-content-page-header>
-  <app-content-page-content class="flex flex-col gap-5">
-    <div>
-      <h2 class="text-secondary">Professor</h2>
-      <mat-card>
-        <mat-card-title-group>
-          <mat-card-title>Stefan Bente</mat-card-title>
-          <mat-card-subtitle><a class="link" href="mailto:stefan.bente@th-koeln.de">stefan.bente@th-koeln.de</a> </mat-card-subtitle>
-          <img mat-card-md-image src="/assets/images/contact/bente.bmp" />
-        </mat-card-title-group>
-      </mat-card>
-    </div>
-    <div>
-      <h2 class="text-secondary">Koordinator IT-Lab</h2>
-      <mat-card>
-        <mat-card-title-group>
-          <mat-card-title>Julian Lengelsen</mat-card-title>
-          <mat-card-subtitle
-            ><a class="link" href="mailto:julian.lengelsen@innovation-hub.de">julian.lengelsen@innovation-hub.de</a>
-          </mat-card-subtitle>
-          <img mat-card-md-image src="/assets/images/contact/lengelsen.jpg" />
-        </mat-card-title-group>
-      </mat-card>
-    </div>
-    <div>
-      <h2 class="text-secondary">Wissenschaftlicher Mitarbeiter</h2>
-      <mat-card>
-        <mat-card-title-group>
-          <mat-card-title>Tobias Hund</mat-card-title>
-          <mat-card-subtitle
-            ><a class="link" href="mailto:tobias.hund@innovation-hub.de">tobias.hund@innovation-hub.de</a>
-          </mat-card-subtitle>
-          <img mat-card-md-image src="/assets/images/contact/thund.jpg" />
-        </mat-card-title-group>
-      </mat-card>
-    </div>
+  <app-content-page-content class="flex flex-row flex-wrap gap-5">
+    <app-contact-card class="basis-0 flex-grow flex-shrink-0 w-200" *ngFor="let contact of contacts" [contact]="contact"></app-contact-card>
   </app-content-page-content>
 </app-content-page>
