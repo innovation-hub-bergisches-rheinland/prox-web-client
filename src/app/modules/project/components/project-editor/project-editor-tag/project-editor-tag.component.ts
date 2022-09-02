@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-project-editor-tag',
@@ -8,5 +8,5 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProjectEditorTagComponent {
   @Input()
-  tagFormGroup: FormGroup;
+  tagFormGroup: UntypedFormGroup;
 }

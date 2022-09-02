@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-editor-avatar',
@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProfileEditorAvatarComponent implements OnInit {
   @Input()
-  avatarFormGroup: FormGroup;
+  avatarFormGroup: UntypedFormGroup;
 
   imgSrc: string | ArrayBuffer;
 

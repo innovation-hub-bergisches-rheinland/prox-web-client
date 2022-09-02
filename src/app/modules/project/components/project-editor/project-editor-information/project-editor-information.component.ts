@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-project-editor-information',
@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProjectEditorInformationComponent {
   @Input()
-  informationFormGroup: FormGroup;
+  informationFormGroup: UntypedFormGroup;
 
   @Input()
   isEdit: boolean;

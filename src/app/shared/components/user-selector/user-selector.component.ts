@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 interface User {
   id: string;
@@ -15,7 +15,7 @@ export class UserSelectorComponent implements OnInit {
   @Input()
   users: User[] = [];
 
-  userSearch = new FormControl();
+  userSearch = new UntypedFormControl();
 
   ngOnInit(): void {
     this.userSearch.valueChanges.subscribe({

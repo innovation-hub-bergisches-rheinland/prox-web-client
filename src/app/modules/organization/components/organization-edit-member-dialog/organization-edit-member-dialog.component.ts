@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OrganizationMembership, OrganizationRole } from '@data/schema/user-service.types';
 
@@ -15,12 +15,12 @@ interface EditMemberShipDialogData {
 export class OrganizationEditMemberDialogComponent implements OnInit {
   membership: OrganizationMembership;
   editMemberForm = this.fb.group({
-    roleSelectCtrl: new FormControl('MEMBER', Validators.required)
+    roleSelectCtrl: new UntypedFormControl('MEMBER', Validators.required)
   });
 
   constructor(
     private dialogRef: MatDialogRef<OrganizationEditMemberDialogComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) private data: EditMemberShipDialogData
   ) {
     this.membership = data.membership;

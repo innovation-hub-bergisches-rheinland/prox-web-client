@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -26,7 +26,7 @@ export class SimpleChipInputComponent implements ControlValueAccessor {
   placeholder: string;
 
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
-  chipInputCtrl = new FormControl('');
+  chipInputCtrl = new UntypedFormControl('');
   _chips: string[] = [];
   chips$: Subject<string[]> = new BehaviorSubject(this._chips);
 

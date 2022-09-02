@@ -32,7 +32,6 @@ import { ProjectSearchPanelComponent } from './components/project-search-panel/p
     ProjectIconComponent,
     ProjectSearchPanelComponent
   ],
-  imports: [SharedModule, ProjectRoutingModule, ScrollingModule],
-  entryComponents: [ProjectEditorDialogComponent]
+  imports: [SharedModule, ProjectRoutingModule, ScrollingModule]
 })
 export class ProjectModule {}

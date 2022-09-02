@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CreateOrganizationMembership, OrganizationMembership, OrganizationRole, UserSearchResult } from '@data/schema/user-service.types';
 
@@ -14,13 +14,13 @@ interface AddMemberDialogData {
 })
 export class OrganizationAddMemberDialogComponent {
   addMemberForm = this.fb.group({
-    userSearchCtrl: new FormControl('', Validators.required),
-    roleSelectCtrl: new FormControl('MEMBER', Validators.required)
+    userSearchCtrl: new UntypedFormControl('', Validators.required),
+    roleSelectCtrl: new UntypedFormControl('MEMBER', Validators.required)
   });
 
   constructor(
     private dialogRef: MatDialogRef<OrganizationAddMemberDialogComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) private data: AddMemberDialogData
   ) {}
 

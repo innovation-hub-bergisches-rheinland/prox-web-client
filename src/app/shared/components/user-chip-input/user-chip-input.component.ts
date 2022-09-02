@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { UserService } from '@data/service/user.service';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserSearchResult } from '@data/schema/user-service.types';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   @Input()
   label = 'Benutzer';
 
-  userInputCtrl = new FormControl('');
+  userInputCtrl = new UntypedFormControl('');
   _users: UserSearchResult[] = [];
   users$: Subject<UserSearchResult[]> = new BehaviorSubject(this._users);
   userAutocomplete$: Observable<UserSearchResult[]>;

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Observable, forkJoin, of, throwError } from 'rxjs';
 import { catchError, mergeMap, startWith } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class ProjectEditorComponent implements OnInit {
   projectTagFormGroup = this.formBuilder.group({
     tags: [[]]
   });
-  projectForm: FormGroup = this.formBuilder.group({
+  projectForm: UntypedFormGroup = this.formBuilder.group({
     information: this.projectInformationFormGroup,
     module: this.projectModuleFormGroup,
     tag: this.projectTagFormGroup
@@ -53,7 +53,7 @@ export class ProjectEditorComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private tagService: TagService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private notificationService: NotificationService,
     private keycloakService: KeycloakService,
     @Inject(LOCAL_STORAGE) private storage: StorageService

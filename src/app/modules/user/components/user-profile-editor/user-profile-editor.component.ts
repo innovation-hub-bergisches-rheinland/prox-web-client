@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
 import { catchError, forkJoin, mergeMap, of, throwError } from 'rxjs';
@@ -45,7 +45,7 @@ export class UserProfileEditorComponent implements OnInit {
   id: string;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private userService: UserService,
     private tagService: TagService,
     private keycloakService: KeycloakService,

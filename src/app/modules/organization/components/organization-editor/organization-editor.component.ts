@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { socialMediaHandleValidator } from '@modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
 import { CreateOrganizationSchema, Organization, OrganizationProfile } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
@@ -52,7 +52,7 @@ export class OrganizationEditorComponent implements OnInit {
   organization: Organization | null = null;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private userService: UserService,
     private tagService: TagService,
     private notificationService: NotificationService

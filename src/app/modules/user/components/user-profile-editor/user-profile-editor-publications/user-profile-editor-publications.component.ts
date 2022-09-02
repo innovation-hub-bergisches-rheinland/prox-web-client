@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile-editor-publications',
@@ -8,9 +8,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class UserProfileEditorPublicationsComponent {
   @Input()
-  userProfilePublicationsForm: FormGroup;
+  userProfilePublicationsForm: UntypedFormGroup;
 
-  publicationInput: FormControl = new FormControl('', Validators.compose([Validators.minLength(1), Validators.maxLength(1023)]));
+  publicationInput: UntypedFormControl = new UntypedFormControl(
+    '',
+    Validators.compose([Validators.minLength(1), Validators.maxLength(1023)])
+  );
 
   addPublication(pub: string) {
     this.userProfilePublicationsForm.controls['publications'].value.push(pub);

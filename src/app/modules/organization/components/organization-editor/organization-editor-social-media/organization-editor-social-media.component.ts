@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-organization-editor-social-media',
@@ -8,7 +8,7 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angu
 })
 export class OrganizationEditorSocialMediaComponent {
   @Input()
-  organizationSocialMediaForm: FormGroup;
+  organizationSocialMediaForm: UntypedFormGroup;
 }
 
 export function socialMediaHandleValidator(): ValidatorFn {

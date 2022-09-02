@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Tag } from '@data/schema/tag-service.types';
 import { TagService } from '@data/service/tag.service';
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private keycloakService: KeycloakService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private tagService: TagService
   ) {}
 

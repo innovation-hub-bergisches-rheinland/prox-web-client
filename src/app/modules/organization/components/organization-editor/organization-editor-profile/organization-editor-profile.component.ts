@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-organization-editor-profile',
@@ -8,5 +8,5 @@ import { FormGroup } from '@angular/forms';
 })
 export class OrganizationEditorProfileComponent {
   @Input()
-  organizationProfileFormGroup: FormGroup;
+  organizationProfileFormGroup: UntypedFormGroup;
 }

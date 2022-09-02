@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ModuleType, Specialization } from '@data/schema/project-service.types';
 
 @Component({
@@ -9,7 +9,7 @@ import { ModuleType, Specialization } from '@data/schema/project-service.types';
 })
 export class ProjectEditorModuleComponent {
   @Input()
-  moduleFormGroup: FormGroup;
+  moduleFormGroup: UntypedFormGroup;
 
   @Input()
   specializations: Specialization[];

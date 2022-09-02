@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile-editor-additional-information',
@@ -8,5 +8,5 @@ import { FormGroup } from '@angular/forms';
 })
 export class UserProfileEditorAdditionalInformationComponent {
   @Input()
-  userProfileAdditionalInformationForm: FormGroup;
+  userProfileAdditionalInformationForm: UntypedFormGroup;
 }

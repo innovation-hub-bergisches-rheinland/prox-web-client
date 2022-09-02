@@ -187,5 +187,7 @@
       }
     }
   },
-  "defaultProject": "prox-web-client"
+  "cli": {
+    "analytics": false
+  }
 }

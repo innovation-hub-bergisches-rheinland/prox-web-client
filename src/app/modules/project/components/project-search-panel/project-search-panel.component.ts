@@ -3,7 +3,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
 import { ModuleType, Specialization, Status } from '@data/schema/project-service.types';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 
 export type ProjectSearch = {
   status?: Status;
@@ -47,7 +47,7 @@ export class ProjectSearchPanelComponent implements OnInit {
     }
   }
 
-  constructor(private projectService: ProjectService, private fb: FormBuilder) {
+  constructor(private projectService: ProjectService, private fb: UntypedFormBuilder) {
     this.specializations$ = projectService.getAllSpecializations();
     this.moduleTypes$ = projectService.getAllModuleTypes();
   }

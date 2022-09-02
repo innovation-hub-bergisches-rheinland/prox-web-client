@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -28,7 +28,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger)
   tagAutocompleteTrigger: MatAutocompleteTrigger;
-  tagInputCtrl = new FormControl('');
+  tagInputCtrl = new UntypedFormControl('');
   _tags: Tag[] = [];
   tags$: Subject<Tag[]> = new BehaviorSubject(this._tags);
   tagRecommendations$: Observable<Tag[]>;
