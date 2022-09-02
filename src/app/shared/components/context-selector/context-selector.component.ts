@@ -1,11 +1,12 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Organization } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
 import { KeycloakService } from 'keycloak-angular';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { OwnerDiscriminator } from '@data/schema/project-service.types';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 export interface Context {
   id: string;
@@ -32,7 +33,11 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
 
   selectCtrl = new FormControl('');
 
-  constructor(private userService: UserService, private keycloakService: KeycloakService) {}
+  constructor(
+    private userService: UserService,
+    private keycloakService: KeycloakService,
+    private notificationService: NotificationService
+  ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (context: Context) => {};
@@ -53,12 +58,19 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
     this.writeValue(this.userContext);
     this.organizationContexts$ = this.userService.getOrganizationsOfAuthenticatedUser().pipe(
       map(orgs =>
-        orgs.map(org => ({
-          id: org.id,
-          name: org.name,
-          discriminator: 'organization'
-        }))
-      )
+        orgs.map(
+          org =>
+            ({
+              id: org.id,
+              name: org.name,
+              discriminator: 'organization'
+            } as Context)
+        )
+      ),
+      catchError(err => {
+        this.notificationService.warning('Kontexte können aktuell nicht geladen werden.');
+        return of([]);
+      })
     );
   }
 

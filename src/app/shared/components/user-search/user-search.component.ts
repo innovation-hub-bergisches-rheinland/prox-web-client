@@ -3,7 +3,8 @@ import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserSearchResult } from '@data/schema/user-service.types';
 import { Observable, delay, mergeMap, of } from 'rxjs';
-import { debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-user-search',
@@ -33,7 +34,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
   @Input()
   disabled = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private notificationService: NotificationService) {}
 
   @Input()
   filter: (UserSearchResult) => boolean = () => true;
@@ -52,7 +53,11 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
       tap(() => (this.searching = true)),
       mergeMap(input => (input ? this.userService.searchUser(input) : of([]))),
       map(result => result.filter(this.filter)),
-      delay(300)
+      delay(300),
+      catchError(err => {
+        this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
+        return of([]);
+      })
     );
     this.filteredUsers$.subscribe({
       next: () => (this.searching = false),

@@ -4,9 +4,10 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TagService } from '@data/service/tag.service';
-import { BehaviorSubject, Observable, Subject, delay, mergeMap } from 'rxjs';
-import { debounceTime, filter, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
+import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
 import { Tag } from '@data/schema/tag-service.types';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-tag-input',
@@ -34,7 +35,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   tagAutocomplete$: Observable<Tag[]>;
 
   //  leverage angular directives, components, inputs and outputs or so...
-  constructor(private tagService: TagService) {}
+  constructor(private tagService: TagService, private notificationService: NotificationService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (tags: Tag[]) => {};
@@ -47,14 +48,22 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     this.tagRecommendations$ = this.tags$.pipe(
       filter(tags => tags.length > 0),
-      mergeMap(tags => this.tagService.getRecommendations(tags))
+      mergeMap(tags => this.tagService.getRecommendations(tags)),
+      catchError(err => {
+        this.notificationService.warning('Tag Empfehlungen können aktuell nicht geladen werden.');
+        return of([]);
+      })
     );
     this.tagAutocomplete$ = this.tagInputCtrl.valueChanges.pipe(
       debounceTime(300),
       startWith(''),
       filter(input => !!input),
       mergeMap(input => this.tagService.findByTagName(input)),
-      delay(200)
+      delay(200),
+      catchError(err => {
+        this.notificationService.warning('Tag Vorschäge können aktuell nicht geladen werden.');
+        return of([]);
+      })
     );
   }
 

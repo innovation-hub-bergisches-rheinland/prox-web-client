@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChil
 import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserSearchResult } from '@data/schema/user-service.types';
-import { BehaviorSubject, Observable, Subject, delay, mergeMap } from 'rxjs';
-import { debounceTime, filter, startWith } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, delay, mergeMap, throwError, of } from 'rxjs';
+import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-user-chip-input',
@@ -34,7 +35,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   users$: Subject<UserSearchResult[]> = new BehaviorSubject(this._users);
   userAutocomplete$: Observable<UserSearchResult[]>;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private notificationService: NotificationService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (user: UserSearchResult[]) => {};
@@ -48,6 +49,10 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
       startWith(''),
       filter(input => !!input),
       mergeMap(input => this.userService.searchUser(input)),
+      catchError(err => {
+        this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
+        return of([]);
+      }),
       delay(200)
     );
   }
