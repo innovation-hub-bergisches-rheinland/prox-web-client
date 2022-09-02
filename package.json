@@ -7,7 +7,7 @@
     "build": "cross-env NG_PERSISTENT_BUILD_CACHE=1 ng build",
     "build:dev": "npm run build -- --watch",
     "build:ci": "npm run build:prod",
-    "build:prod": "cross-env NODE_ENV=production npm run build -- --configuration production --aot --sourceMap=false",
+    "build:prod": "cross-env NODE_ENV=production npm run build -- --configuration production --aot",
     "test": "ng test",
     "test:ci": "npm run test -- --watch=false --code-coverage --source-map true --browsers=ChromeHeadlessCI",
     "lint": "eslint .",
