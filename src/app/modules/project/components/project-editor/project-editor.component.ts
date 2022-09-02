@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
 import { catchError, mergeMap, startWith } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
@@ -84,7 +84,12 @@ export class ProjectEditorComponent implements OnInit {
       }
     }
 
-    this.specializations$ = this.projectService.getAllSpecializations();
+    this.specializations$ = this.projectService.getAllSpecializations().pipe(
+      catchError(err => {
+        this.notificationService.error('Studiengänge konnten nicht geladen werden.');
+        return of([]);
+      })
+    );
     this.modules$ = this.projectModuleFormGroup.get('specializations').valueChanges.pipe(
       startWith([]),
       mergeMap((s: string[]) => {
@@ -92,6 +97,10 @@ export class ProjectEditorComponent implements OnInit {
           return this.projectService.getAllModuleTypes();
         }
         return this.projectService.getModulesOfSpecializations(s);
+      }),
+      catchError(err => {
+        this.notificationService.error('Module konnten nicht geladen werden.');
+        return of([]);
       })
     );
 
@@ -111,9 +120,18 @@ export class ProjectEditorComponent implements OnInit {
     this.projectModuleFormGroup.get('specializations').setValue(project.specializations.map(v => v.key));
     this.projectModuleFormGroup.get('modules').setValue(project.modules.map(v => v.key));
 
-    this.tagService.getTagsForEntity(project.id).subscribe({
-      next: value => this.projectTagFormGroup.get('tags').setValue(value)
-    });
+    this.tagService
+      .getTagsForEntity(project.id)
+      .pipe(
+        catchError(err => {
+          this.notificationService.error('Tags konnten nicht geladen werden');
+          // Unrecoverable unless we disable the form control. Must be refactored to do so
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: value => this.projectTagFormGroup.get('tags').setValue(value)
+      });
   }
 
   buildProject(): CreateProjectSchema {
@@ -152,22 +170,33 @@ export class ProjectEditorComponent implements OnInit {
       .pipe(
         mergeMap((p: Project) =>
           forkJoin({
-            modules: this.projectService
-              .setProjectModules(p.id, this.projectModuleFormGroup.controls.modules.value ?? [])
-              .pipe(catchError(err => of(err))),
+            modules: this.projectService.setProjectModules(p.id, this.projectModuleFormGroup.controls.modules.value ?? []).pipe(
+              catchError(err => {
+                this.notificationService.error('Module konnten nicht gespeichert werden');
+                return of([]);
+              })
+            ),
             specializations: this.projectService
               .setProjectSpecializations(p.id, this.projectModuleFormGroup.controls.specializations.value ?? [])
-              .pipe(catchError(err => of(err))),
-            tags: this.tagService
-              .setTagsForEntity(p.id, this.projectTagFormGroup.controls.tags.value ?? [])
-              .pipe(catchError(err => of(err))),
+              .pipe(
+                catchError(err => {
+                  this.notificationService.error('Studiengänge konnten nicht gespeichert werden');
+                  return of([]);
+                })
+              ),
+            tags: this.tagService.setTagsForEntity(p.id, this.projectTagFormGroup.controls.tags.value ?? []).pipe(
+              catchError(err => {
+                this.notificationService.error('Tags konnten nicht gespeichert werden');
+                return of([]);
+              })
+            ),
             project: of(p)
           })
         )
       )
       .subscribe({
         next: value => {
-          this.notificationService.success('Projekt wurde erfolgreich erstellt');
+          this.notificationService.success('Projekt wurde erstellt');
           this.saved.emit(value.project);
         },
         error: err => {

@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { ModuleType, Project, ProjectPermissions, Specialization } from '@data/schema/project-service.types';
-import { Observable, Subject } from 'rxjs';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '@data/service/user.service';
 import { Organization, UserProfile } from '@data/schema/user-service.types';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Tag } from '@data/schema/tag-service.types';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 interface ProjectAuthor {
   authorName: string;
@@ -47,7 +48,7 @@ export class ProjectCardComponent implements OnInit {
 
   owner$: Observable<ProjectAuthor>;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     switch (this.project.owner.discriminator) {
@@ -56,7 +57,12 @@ export class ProjectCardComponent implements OnInit {
           map(profile => ({
             authorName: profile.name,
             profileRouter: ['/users', this.project.owner.id]
-          }))
+          })),
+          catchError(err => {
+            // This will probably flood the view as we are doing this for every project
+            // this.notificationService.warning('Ersteller konnte nicht geladen werden.');
+            return EMPTY;
+          })
         );
         break;
       case 'organization':
@@ -64,7 +70,12 @@ export class ProjectCardComponent implements OnInit {
           map(profile => ({
             authorName: profile.name,
             profileRouter: ['/organizations', this.project.owner.id]
-          }))
+          })),
+          catchError(err => {
+            // This will probably flood the view as we are doing this for every project
+            // this.notificationService.warning('Ersteller konnte nicht geladen werden.');
+            return EMPTY;
+          })
         );
         break;
     }

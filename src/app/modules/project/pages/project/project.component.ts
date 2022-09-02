@@ -12,7 +12,9 @@ import { TagService } from '@data/service/tag.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Project, Status } from '@data/schema/project-service.types';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { of } from 'rxjs';
 
 export interface QueryParams extends Params {
   state?: string;
@@ -39,12 +41,11 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private projectService: ProjectService,
-    private tagService: TagService,
     private keycloakService: KeycloakService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngAfterViewChecked(): void {
@@ -67,16 +68,16 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
             return this.projectService.filterProjects(search.status, search.specializations, search.moduleTypes, search.searchString);
           }
           return this.projectService.getAllProjects();
+        }),
+        catchError(err => {
+          this.notificationService.error('Projekte konnten nicht geladen werden.');
+          return of([]);
         })
       )
       .subscribe({
         next: projects => {
           this.projects = projects;
           this.pageProjects();
-        },
-        error: error => {
-          console.error('project service error', error);
-          this.openErrorSnackBar('Projekte konnten nicht geladen werden! Versuchen Sie es später noch mal.');
         }
       });
   }
@@ -182,10 +183,6 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
     return {
       status: 'AVAILABLE'
     };
-  }
-
-  private openErrorSnackBar(message: string) {
-    this.snackBar.open(message, 'Verstanden');
   }
 
   private pageProjects() {
