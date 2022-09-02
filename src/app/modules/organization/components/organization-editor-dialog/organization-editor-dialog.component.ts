@@ -24,8 +24,9 @@ export class OrganizationEditorDialogComponent implements OnInit {
   }
 
   organizationSaved(org: Organization) {
-    this.notificationService.showToast({
-      message: 'Organisation wurde erfolgreich gespeichert'
+    this.notificationService.sendToast({
+      message: 'Organisation wurde erfolgreich gespeichert',
+      type: 'success'
     });
     this.organizationDialogRef.close(org);
   }

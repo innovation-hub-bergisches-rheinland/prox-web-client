@@ -16,6 +16,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { ShimmerComponent } from './layout/shimmer/shimmer.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,18 @@ import { ShimmerComponent } from './layout/shimmer/shimmer.component';
     SidebarComponent,
     ShimmerComponent
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, CoreModule, SharedModule, AppRoutingModule, NgxMatSelectSearchModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    CoreModule,
+    SharedModule,
+    AppRoutingModule,
+    NgxMatSelectSearchModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    })
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

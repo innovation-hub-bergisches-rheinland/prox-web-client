@@ -29,8 +29,9 @@ export class UserProfileEditorDialogComponent implements OnInit {
   }
 
   userProfileSaved(profile: UserProfile) {
-    this.notificationService.showToast({
-      message: 'Benutzerprofil wurde erfolgreich gespeichert'
+    this.notificationService.sendToast({
+      message: 'Benutzerprofil wurde erfolgreich gespeichert',
+      type: 'success'
     });
     this.organizationDialogRef.close(profile);
   }

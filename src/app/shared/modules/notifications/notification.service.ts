@@ -1,28 +1,49 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ToastComponent } from './toast/toast.component';
-import { Toast } from './toast/types';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+
+export type Toast = {
+  message: string;
+  type: 'success' | 'error' | 'info' | 'warning';
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  constructor(private snackBar: MatSnackBar) {
+  private toasts$: Subject<Toast> = new Subject<Toast>();
+
+  constructor(private toastrService: ToastrService) {
     window['toastService'] = this;
+
+    this.toasts$.subscribe(toast => this.showToast(toast));
   }
 
-  showToast(content: Toast, duration = 2000) {
-    this.showToasts([content], duration);
+  sendToast(content: Toast) {
+    this.toasts$.next(content);
   }
 
-  showToasts(content: Toast[], duration = 2000) {
-    this.snackBar.openFromComponent(ToastComponent, {
-      duration: duration,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'right',
-      data: {
-        content
-      }
-    });
+  sendToasts(content: Toast[]) {
+    for (const toast of content) {
+      this.sendToast(toast);
+    }
+  }
+
+  private showToast(toast: Toast): void {
+    switch (toast.type) {
+      case 'error':
+        this.toastrService.error(toast.message);
+        break;
+      case 'info':
+        this.toastrService.info(toast.message);
+        break;
+      case 'warning':
+        this.toastrService.warning(toast.message);
+        break;
+      case 'success':
+        this.toastrService.success(toast.message);
+        break;
+    }
   }
 }

@@ -44,6 +44,7 @@
     "keycloak-js": "^18.0.1",
     "moment": "^2.29.1",
     "ngx-markdown": "^13.0.0",
+    "ngx-toastr": "~14.3.0",
     "ngx-mat-select-search": "^4.0.2",
     "ngx-webstorage-service": "^5.0.0",
     "rxjs": "~7.5.2",

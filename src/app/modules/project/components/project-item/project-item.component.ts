@@ -80,9 +80,9 @@ export class ProjectItemComponent implements OnChanges {
             this.deleted.emit();
           },
           _error => {
-            this.notificationService.showToast({
+            this.notificationService.sendToast({
               message: 'Projekt konnte nicht gelöscht werden, versuchen Sie es bitte später erneut.',
-              isError: true
+              type: 'error'
             });
           }
         );

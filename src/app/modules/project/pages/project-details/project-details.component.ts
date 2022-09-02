@@ -28,8 +28,8 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.getProject(projectId).subscribe({
       next: res => (this.project = res),
       error: err => {
-        this.notificationService.showToast({
-          isError: true,
+        this.notificationService.sendToast({
+          type: 'error',
           message: 'Projekt nicht gefunden'
         });
         this.goBack();
