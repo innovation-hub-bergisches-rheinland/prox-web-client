@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.15.0...v1.16.0) (2022-09-03)
+
+
+### Features
+
+* add a bug report button ([7df906a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/7df906a3142d64f121f540bdc0f68d4341aafb5e))
+* add a error handler ([1c9cea6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/1c9cea66e7e81373fa6641bad32c813ba9304861))
+* add FAQ section ([b85d7e9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b85d7e97b634bbb51aa9de0fb66493653fd5e943))
+* use ngx-toastr ([3afb5b4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3afb5b4fb475360582de046bc4c046be31cdce1f))
+
+
+### Bug Fixes
+
+* add error handling to tag service client ([29e467b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/29e467b10098d9249f56ad4e2b9e7be7eabad4fa))
+* default search for available projects ([c3a124a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c3a124aca0f17e24a9fc58387642d7541a6aa079))
+
 ## [1.15.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.14.0...v1.15.0) (2022-08-29)
 
 
