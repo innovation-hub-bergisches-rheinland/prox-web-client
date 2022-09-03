@@ -24,6 +24,7 @@ export type OwnerDiscriminator = 'user' | 'organization';
 
 export interface Owner {
   id: ID;
+  name: string;
   discriminator: OwnerDiscriminator;
 }
 

@@ -10,11 +10,8 @@
           </a>
         </ng-container>
       </span>
-      <span class="text-secondary" matTooltip="Autor" *ngIf="owner$ | async; let owner">
-        <b>Erstellt von: </b> <a [routerLink]="owner.profileRouter"> {{ owner.authorName }}</a>
-      </span>
-      <span class="text-secondary" matTooltip="Autor" *ngIf="owner$ | async; let owner">
-        <b>Erstellt von: </b> <a [routerLink]="owner.profileRouter"> {{ owner.authorName }}</a>
+      <span class="text-secondary" matTooltip="Autor">
+        <b>Erstellt von: </b> <a [routerLink]="ownerProfileRouter"> {{ project.owner.name }}</a>
       </span>
     </div>
     <app-project-icons

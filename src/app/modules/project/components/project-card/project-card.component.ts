@@ -46,37 +46,17 @@ export class ProjectCardComponent implements OnInit {
   editIcon = faPen;
   deleteIcon = faTrash;
 
-  owner$: Observable<ProjectAuthor>;
+  ownerProfileRouter: string[];
 
   constructor(private userService: UserService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     switch (this.project.owner.discriminator) {
       case 'user':
-        this.owner$ = this.userService.getUserProfile(this.project.owner.id).pipe(
-          map(profile => ({
-            authorName: profile.name,
-            profileRouter: ['/users', this.project.owner.id]
-          })),
-          catchError(err => {
-            // This will probably flood the view as we are doing this for every project
-            // this.notificationService.warning('Ersteller konnte nicht geladen werden.');
-            return EMPTY;
-          })
-        );
+        this.ownerProfileRouter = ['/users', this.project.owner.id];
         break;
       case 'organization':
-        this.owner$ = this.userService.getOrganization(this.project.owner.id).pipe(
-          map(profile => ({
-            authorName: profile.name,
-            profileRouter: ['/organizations', this.project.owner.id]
-          })),
-          catchError(err => {
-            // This will probably flood the view as we are doing this for every project
-            // this.notificationService.warning('Ersteller konnte nicht geladen werden.');
-            return EMPTY;
-          })
-        );
+        this.ownerProfileRouter = ['/organizations', this.project.owner.id];
         break;
     }
   }
