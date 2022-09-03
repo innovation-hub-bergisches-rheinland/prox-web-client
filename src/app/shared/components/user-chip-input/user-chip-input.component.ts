@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { UserService } from '@data/service/user.service';
-import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { UserSearchResult } from '@data/schema/user-service.types';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';

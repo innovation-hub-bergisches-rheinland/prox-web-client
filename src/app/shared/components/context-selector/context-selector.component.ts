@@ -1,5 +1,5 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { Organization } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';

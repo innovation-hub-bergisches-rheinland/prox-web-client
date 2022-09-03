@@ -6,13 +6,11 @@ describe('ImprintComponent', () => {
   let component: ImprintComponent;
   let fixture: ComponentFixture<ImprintComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ImprintComponent]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ImprintComponent]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ImprintComponent);
