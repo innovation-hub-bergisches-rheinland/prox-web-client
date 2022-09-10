@@ -5,6 +5,7 @@ import { ContentPageHeaderComponent } from './components/content-page-header/con
 import { ContentPageTitleDirective } from './directives/content-page-title/content-page-title.directive';
 import { ContentPageContentDirective } from './directives/content-page-content/content-page-content.directive';
 import { ContentPageActionsComponent } from './components/content-page-actions/content-page-actions.component';
+import { ContentPageBannerComponent } from './components/content-page-banner/content-page-banner.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { ContentPageActionsComponent } from './components/content-page-actions/c
     ContentPageHeaderComponent,
     ContentPageTitleDirective,
     ContentPageContentDirective,
-    ContentPageActionsComponent
+    ContentPageActionsComponent,
+    ContentPageBannerComponent
   ],
   imports: [CommonModule],
   exports: [
@@ -20,7 +22,8 @@ import { ContentPageActionsComponent } from './components/content-page-actions/c
     ContentPageHeaderComponent,
     ContentPageTitleDirective,
     ContentPageContentDirective,
-    ContentPageActionsComponent
+    ContentPageActionsComponent,
+    ContentPageBannerComponent
   ]
 })
 export class ContentPageModule {}
