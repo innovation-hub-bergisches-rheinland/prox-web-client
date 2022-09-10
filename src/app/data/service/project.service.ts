@@ -49,7 +49,7 @@ export class ProjectService {
     });
   }
 
-  createProposalForContext(project: CreateProposalSchema, context: Context): Observable<Proposal> {
+  createProposalForContext(project: CreateProposalSchema, context: Pick<Context, 'id' | 'discriminator'>): Observable<Proposal> {
     let path: string;
     switch (context.discriminator) {
       case 'organization':
@@ -160,7 +160,7 @@ export class ProjectService {
     });
   }
 
-  updateProposal(id: string, project: CreateProjectSchema): Observable<Proposal> {
+  updateProposal(id: string, project: CreateProposalSchema): Observable<Proposal> {
     return this.httpClient.put<Proposal>(`${this.basePath}/proposals/${id}`, project, {
       headers: {
         'Content-Type': 'application/json',

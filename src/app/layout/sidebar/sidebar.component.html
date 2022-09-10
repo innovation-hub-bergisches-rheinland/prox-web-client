@@ -22,6 +22,18 @@
       </a>
     </li>
     <li>
+      <a
+        class="flex flex-row justify-between"
+        routerLink="/proposals"
+        routerLinkActive="bg-base-200"
+        (click)="navigationItemClicked.emit($event)"
+      >
+        <fa-icon [icon]="proposalsIcon" [fixedWidth]="true"></fa-icon>
+        Ideen
+        <span class="ml-auto mr-0 badge badge-primary">Neu</span>
+      </a>
+    </li>
+    <li>
       <a routerLink="/users" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
         <fa-icon [icon]="lecturersIcon" [fixedWidth]="true"></fa-icon>
         Lehrende
