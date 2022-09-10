@@ -4,10 +4,13 @@ import { Observable } from 'rxjs';
 
 import {
   CreateProjectSchema,
+  CreateProposalSchema,
   ModuleType,
   ModuleTypeCollectionModel,
   Project,
   ProjectCollectionModel,
+  Proposal,
+  ProposalCollectionModel,
   Specialization,
   SpecializationCollectionModel,
   Status
@@ -37,6 +40,27 @@ export class ProjectService {
     }
 
     return this.httpClient.post<Project>(`${this.basePath}/${path}`, project, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  createProposalForContext(project: CreateProposalSchema, context: Context): Observable<Proposal> {
+    let path: string;
+    switch (context.discriminator) {
+      case 'organization':
+        path = `organizations/${context.id}/proposals`;
+        break;
+      case 'user':
+        path = `users/${context.id}/proposals`;
+        break;
+    }
+
+    return this.httpClient.post<Proposal>(`${this.basePath}/${path}`, project, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
@@ -77,6 +101,26 @@ export class ProjectService {
     });
   }
 
+  setProposalModules(id: string, moduleKeys: string[]): Observable<ModuleType[] | any> {
+    return this.httpClient.put<ModuleTypeCollectionModel>(`${this.basePath}/proposals/${id}/modules`, moduleKeys, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  setProposalSpecializations(id: string, specializationKeys: string[]): Observable<Specialization[] | any> {
+    return this.httpClient.put<SpecializationCollectionModel>(`${this.basePath}/proposals/${id}/specializations`, specializationKeys, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
   updateProject(id: string, project: CreateProjectSchema): Observable<Project> {
     return this.httpClient.put<Project>(`${this.basePath}/projects/${id}`, project, {
       headers: {
@@ -109,6 +153,54 @@ export class ProjectService {
 
   deleteProject(project: Pick<Project, 'id'>): Observable<any> {
     return this.httpClient.delete<any>(`${this.basePath}/projects/${project.id}`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  updateProposal(id: string, project: CreateProjectSchema): Observable<Proposal> {
+    return this.httpClient.put<Proposal>(`${this.basePath}/proposals/${id}`, project, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  getProposal(id: string): Observable<Proposal> {
+    return this.httpClient.get<Proposal>(`${this.basePath}/proposals/${id}`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  getAllProposals(): Observable<Proposal[]> {
+    return this.httpClient
+      .get<ProposalCollectionModel>(`${this.basePath}/proposals`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body'
+      })
+      .pipe(map(p => p.proposals));
+  }
+
+  deleteProposal(proposal: Pick<Proposal, 'id'>): Observable<any> {
+    return this.httpClient.delete<any>(`${this.basePath}/proposals/${proposal.id}`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  commitForProposal(proposal: Pick<Proposal, 'id'>): Observable<Project> {
+    return this.httpClient.post<Project>(`${this.basePath}/proposals/${proposal.id}/commitment`, {
       headers: {
         Accept: 'application/json'
       },
