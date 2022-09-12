@@ -9,6 +9,7 @@ import { keycloakInitializer } from './util/keycloak-init';
 import { ShimmerInterceptor } from '@app/interceptor/shimmer.interceptor';
 import { FeatureService } from './service/feature.service';
 import { GlobalErrorHandler } from './errors/global-error-handler';
+import { LoggerInterceptor } from './interceptor/logger-interceptor.service';
 
 @NgModule({
   imports: [HttpClientModule, KeycloakAngularModule],
@@ -27,6 +28,11 @@ import { GlobalErrorHandler } from './errors/global-error-handler';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ShimmerInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoggerInterceptor,
       multi: true
     }
   ]
