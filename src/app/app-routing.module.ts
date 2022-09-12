@@ -63,7 +63,10 @@ const routes: Routes = [
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
         loadChildren: () => import('@modules/proposal/proposal.module').then(m => m.ProposalModule),
-        canLoad: [FeatureGuard]
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'proposal'
+        }
       },
       {
         path: 'contact',
