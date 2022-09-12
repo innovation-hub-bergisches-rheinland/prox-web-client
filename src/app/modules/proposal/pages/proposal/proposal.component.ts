@@ -70,23 +70,11 @@ export class ProposalComponent implements OnInit, AfterViewChecked {
   }
 
   public openproposalEditorDialog(proposal?: Proposal) {
-    const dialog = this.dialog.open(ProposalEditorDialogComponent, {
+    this.dialog.open(ProposalEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
       data: proposal
     });
-
-    dialog.afterClosed().subscribe(res => {
-      if (res) {
-        this.onAddProposal(res);
-      }
-    });
-  }
-
-  onAddProposal(proposal: Proposal) {
-    this.proposals = [proposal, ...this.proposals];
-    this.pageIndex = 0;
-    this.pageProposals();
   }
 
   onDeleteProject(proposal: Proposal) {

@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Proposal } from '@data/schema/project-service.types';
 
 @Component({
@@ -9,12 +10,17 @@ import { Proposal } from '@data/schema/project-service.types';
 export class ProposalEditorDialogComponent {
   isDraft = false;
 
-  constructor(public dialogRef: MatDialogRef<ProposalEditorDialogComponent>, @Inject(MAT_DIALOG_DATA) public proposal: Proposal) {
+  constructor(
+    public dialogRef: MatDialogRef<ProposalEditorDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public proposal: Proposal,
+    private router: Router
+  ) {
     this.dialogRef.disableClose = true;
   }
 
-  proposalSaved(event: Proposal) {
+  async proposalSaved(event: Proposal) {
     this.dialogRef.close(event);
+    await this.router.navigate(['/proposals', event.id]);
   }
 
   closeDialog() {

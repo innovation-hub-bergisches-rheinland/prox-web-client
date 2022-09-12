@@ -1,14 +1,12 @@
 import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { KeycloakService } from 'keycloak-angular';
 
 import { ProjectService } from '@data/service/project.service';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 
-import { TagService } from '@data/service/tag.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Project, Status } from '@data/schema/project-service.types';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
@@ -96,23 +94,11 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
   }
 
   public openProjectEditorDialog(project: Project) {
-    const dialog = this.dialog.open(ProjectEditorDialogComponent, {
+    this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
       data: project
     });
-
-    dialog.afterClosed().subscribe(res => {
-      if (res) {
-        this.onAddProject(res);
-      }
-    });
-  }
-
-  onAddProject(project: Project) {
-    this.projects = [project, ...this.projects];
-    this.pageIndex = 0;
-    this.pageProjects();
   }
 
   onDeleteProject(project: Project) {
