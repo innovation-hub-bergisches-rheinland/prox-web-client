@@ -5,6 +5,8 @@ import { KeycloakService } from 'keycloak-angular';
 import { ProjectService } from '@data/service/project.service';
 import { Project } from '@data/schema/project-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { Title } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-project-details',
@@ -12,6 +14,7 @@ import { NotificationService } from '@shared/modules/notifications/notification.
   styleUrls: ['./project-details.component.scss']
 })
 export class ProjectDetailsComponent implements OnInit {
+  project$: Observable<Project>;
   project: Project;
 
   constructor(
@@ -20,13 +23,22 @@ export class ProjectDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private titleService: Title
   ) {}
 
   async ngOnInit() {
     const projectId = this.route.snapshot.paramMap.get('id');
-    this.projectService.getProject(projectId).subscribe({
-      next: res => (this.project = res),
+    this.project$ = this.projectService.getProject(projectId);
+
+    this.project$.subscribe(project => {
+      this.updateTitle(project);
+    });
+
+    this.project$.subscribe({
+      next: res => {
+        this.project = res;
+      },
       error: err => {
         this.notificationService.error('Projekt nicht gefunden');
         this.goBack();
@@ -40,5 +52,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   onUpdate(project: Project) {
     this.project = project;
+  }
+
+  updateTitle(project: Project) {
+    const newTitle = this.titleService.getTitle() + ' - ' + project.name;
+    this.titleService.setTitle(newTitle);
   }
 }

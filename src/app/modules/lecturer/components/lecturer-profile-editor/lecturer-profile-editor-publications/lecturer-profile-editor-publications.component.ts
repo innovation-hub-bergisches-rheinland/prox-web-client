@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-profile-editor-publications',
-  templateUrl: './user-profile-editor-publications.component.html',
-  styleUrls: ['./user-profile-editor-publications.component.scss']
+  selector: 'app-lecturer-profile-editor-publications',
+  templateUrl: './lecturer-profile-editor-publications.component.html',
+  styleUrls: ['./lecturer-profile-editor-publications.component.scss']
 })
-export class UserProfileEditorPublicationsComponent {
+export class LecturerProfileEditorPublicationsComponent {
   @Input()
   userProfilePublicationsForm: UntypedFormGroup;
 

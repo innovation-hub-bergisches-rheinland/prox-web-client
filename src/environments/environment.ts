@@ -15,5 +15,11 @@ export const environment: Environment = {
   production: false,
   keycloakConfig,
   apiUrl: 'https://api.prox.aws.innovation-hub.de',
-  enabledFeatures: ['ALL']
+  enabledFeatures: ['ALL'],
+  loggingConfig: {
+    error: true,
+    debug: true,
+    info: true,
+    warn: true
+  }
 };

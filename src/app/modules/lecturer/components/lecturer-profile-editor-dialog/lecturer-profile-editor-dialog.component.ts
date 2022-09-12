@@ -8,13 +8,13 @@ export interface UserProfileEditorInput {
 }
 
 @Component({
-  selector: 'app-user-profile-editor-dialog',
-  templateUrl: './user-profile-editor-dialog.component.html',
-  styleUrls: ['./user-profile-editor-dialog.component.scss']
+  selector: 'app-lecturer-profile-editor-dialog',
+  templateUrl: './lecturer-profile-editor-dialog.component.html',
+  styleUrls: ['./lecturer-profile-editor-dialog.component.scss']
 })
-export class UserProfileEditorDialogComponent implements OnInit {
+export class LecturerProfileEditorDialogComponent implements OnInit {
   constructor(
-    public organizationDialogRef: MatDialogRef<UserProfileEditorDialogComponent>,
+    public organizationDialogRef: MatDialogRef<LecturerProfileEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public userProfile: UserProfileEditorInput
   ) {}
 

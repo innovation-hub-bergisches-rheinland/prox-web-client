@@ -24,6 +24,7 @@ import { UserChipInputComponent } from '@shared/components/user-chip-input/user-
 import { FeatureDirectiveModule } from '@app/directive/feature-directive.module';
 import { ErrorsModule } from './modules/errors/errors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     ErrorsModule,
 
     NotificationsModule,
+    LoggerModule,
 
     FeatureDirectiveModule
   ],
@@ -83,6 +85,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     UserChipInputComponent,
 
     NotificationsModule,
+    LoggerModule,
 
     FeatureDirectiveModule,
 

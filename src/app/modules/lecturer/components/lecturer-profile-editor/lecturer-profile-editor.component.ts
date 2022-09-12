@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.types';
 import { UserService } from '@data/service/user.service';
 import { catchError, forkJoin, mergeMap, of, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.types';
 
 @Component({
-  selector: 'app-user-profile-editor',
-  templateUrl: './user-profile-editor.component.html',
-  styleUrls: ['./user-profile-editor.component.scss']
+  selector: 'app-lecturer-profile-editor',
+  templateUrl: './lecturer-profile-editor.component.html',
+  styleUrls: ['./lecturer-profile-editor.component.scss']
 })
-export class UserProfileEditorComponent implements OnInit {
+export class LecturerProfileEditorComponent implements OnInit {
   userProfileInformationForm = this.fb.group({
     name: ['', Validators.required],
     homepage: [''],

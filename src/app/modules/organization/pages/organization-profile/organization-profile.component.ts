@@ -10,6 +10,7 @@ import { Project } from '@data/schema/project-service.types';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-organization-profile',
@@ -30,7 +31,8 @@ export class OrganizationProfileComponent {
     private router: Router,
     private projectService: ProjectService,
     private notificationService: NotificationService,
-    private tagService: TagService
+    private tagService: TagService,
+    private titleService: Title
   ) {
     this.organization$ = this.activatedRoute.params.pipe(
       mergeMap(p => this.userService.getOrganization(p['id'])),
@@ -42,6 +44,8 @@ export class OrganizationProfileComponent {
       }),
       tap(o => (this.avatar$ = this.userService.getOrganizationAvatar(o.id)))
     );
+
+    this.organization$.subscribe(o => this.updateTitle(o));
 
     this.tags$ = this.organization$.pipe(mergeMap(o => this.tagService.getTagsForEntity(o.id)));
     const projects$ = this.organization$.pipe(mergeMap(org => this.projectService.findProjectsOfOrganization(org.id)));
@@ -60,5 +64,10 @@ export class OrganizationProfileComponent {
         return of([]);
       })
     );
+  }
+
+  updateTitle(organization: Organization) {
+    const newTitle = this.titleService.getTitle() + ' - ' + organization.name;
+    this.titleService.setTitle(newTitle);
   }
 }

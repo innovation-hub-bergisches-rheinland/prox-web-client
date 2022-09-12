@@ -17,6 +17,7 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { ShimmerComponent } from './layout/shimmer/shimmer.component';
 import { ToastrModule } from 'ngx-toastr';
+import { LoggerService } from '@shared/modules/logger/logger.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-bottom-right'
     })
   ],
-  providers: [],
+  providers: [LoggerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
