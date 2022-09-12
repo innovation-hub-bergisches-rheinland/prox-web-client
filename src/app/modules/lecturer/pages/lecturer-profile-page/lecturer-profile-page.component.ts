@@ -13,7 +13,7 @@ import { UserProfile } from '@data/schema/user-service.types';
 import {
   LecturerProfileEditorDialogComponent,
   UserProfileEditorInput
-} from '@modules/Lecturer/components/Lecturer-profile-editor-dialog/Lecturer-profile-editor-dialog.component';
+} from '@modules/lecturer/components/lecturer-profile-editor-dialog/lecturer-profile-editor-dialog.component';
 import { Title } from '@angular/platform-browser';
 
 @Component({
