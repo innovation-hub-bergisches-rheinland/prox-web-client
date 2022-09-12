@@ -16,43 +16,48 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
+        title: 'PROX - Home',
         // loadChildren: () =>
         //   import('@modules/home/home.module').then(m => m.HomeModule)
         loadChildren: () => import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
         path: 'organizations',
+        title: 'PROX - Unternehmen und Organisationen',
         loadChildren: () => import('@modules/organization/organization.module').then(m => m.OrganizationModule),
         canLoad: [FeatureGuard]
       },
+      // Users is not good URL design for lecturers profiles, but it had existed before. We can't get rid of URLs that are already in use.
+      // Therefore, we redirect to the new URL.
       {
         path: 'users',
-        loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
-        canLoad: [FeatureGuard]
-      },
-      // Redirect for old URLs
-      {
-        path: 'lecturers',
         children: [
           {
             path: '',
-            redirectTo: '/users',
+            redirectTo: '/lecturers',
             pathMatch: 'full'
           },
           {
             path: ':id',
-            redirectTo: '/users/:id',
+            redirectTo: '/lecturers/:id',
             pathMatch: 'full'
           },
           {
             path: ':id/edit',
-            redirectTo: '/users/:id',
+            redirectTo: '/lecturers/:id',
             pathMatch: 'full'
           }
         ]
       },
       {
+        path: 'lecturers',
+        title: 'PROX - Lehrende',
+        loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
+        canLoad: [FeatureGuard]
+      },
+      {
         path: 'projects',
+        title: 'PROX - Projekte',
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
         loadChildren: () => import('@modules/project/project.module').then(m => m.ProjectModule),
@@ -60,6 +65,7 @@ const routes: Routes = [
       },
       {
         path: 'proposals',
+        title: 'PROX - Ideen',
         // loadChildren: () =>
         //   import('@modules/project/project.module').then(m => m.ProjectModule)
         loadChildren: () => import('@modules/proposal/proposal.module').then(m => m.ProposalModule),
@@ -70,16 +76,19 @@ const routes: Routes = [
       },
       {
         path: 'contact',
+        title: 'PROX - Kontakt',
         // loadChildren: () =>
         //   import('@modules/contact/contact.module').then(m => m.ContactModule)
         loadChildren: () => import('@modules/contact/contact.module').then(m => m.ContactModule)
       },
       {
         path: 'faq',
+        title: 'PROX - FAQ',
         loadChildren: () => import('@modules/faq/faq.module').then(m => m.FaqModule)
       },
       {
         path: 'imprint',
+        title: 'PROX - Impressum',
         // loadChildren: () =>
         //   import('@modules/imprint/imprint.module').then(
         //     m => m.ImprintModule
@@ -88,12 +97,14 @@ const routes: Routes = [
       },
       {
         path: 'privacy',
+        title: 'PROX - Datenschutz',
         // loadChildren: () =>
         //   import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
         loadChildren: () => import('@modules/privacy/privacy.module').then(m => m.PrivacyModule)
       },
       {
         path: 'disclaimer',
+        title: 'PROX - Disclaimer',
         // loadChildren: () =>
         //   import('@modules/disclaimer/disclaimer.module').then(
         //     m => m.DisclaimerModule
@@ -102,6 +113,7 @@ const routes: Routes = [
       },
       {
         path: '404',
+        title: 'PROX - 404',
         // loadChildren: () =>
         //   import('@modules/page-not-found/page-not-found.module').then(
         //     m => m.PageNotFoundModule
