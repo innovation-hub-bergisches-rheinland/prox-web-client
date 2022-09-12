@@ -149,14 +149,14 @@ export class ProposalEditorComponent implements OnInit {
       .pipe(
         mergeMap((p: Proposal) =>
           forkJoin({
-            modules: this.projectService.setProjectModules(p.id, this.proposalFormGroup.controls.modules.value ?? []).pipe(
+            modules: this.projectService.setProposalModules(p.id, this.porposalModuleFormGroup.controls.modules.value ?? []).pipe(
               catchError(err => {
                 this.notificationService.error('Module konnten nicht gespeichert werden');
                 return of([]);
               })
             ),
             specializations: this.projectService
-              .setProjectSpecializations(p.id, this.porposalModuleFormGroup.controls.specializations.value ?? [])
+              .setProposalSpecializations(p.id, this.porposalModuleFormGroup.controls.specializations.value ?? [])
               .pipe(
                 catchError(err => {
                   this.notificationService.error('Studiengänge konnten nicht gespeichert werden');
@@ -179,6 +179,7 @@ export class ProposalEditorComponent implements OnInit {
           this.saved.emit(value.project);
         },
         error: err => {
+          console.error(err);
           this.notificationService.error('Idee konnte nicht erstellt werden');
         }
       });
