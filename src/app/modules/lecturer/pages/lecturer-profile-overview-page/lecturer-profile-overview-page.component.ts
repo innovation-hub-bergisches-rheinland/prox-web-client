@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { Observable, of } from 'rxjs';
-import { BriefUserProfile } from '@data/schema/user-service.types';
 import { catchError, map } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { BriefUserProfile } from '@data/schema/user-service.types';
 
 @Component({
-  selector: 'app-user-profile-overview-page',
-  templateUrl: './user-profile-overview-page.component.html',
-  styleUrls: ['./user-profile-overview-page.component.scss']
+  selector: 'app-lecturer-profile-overview-page',
+  templateUrl: './lecturer-profile-overview-page.component.html',
+  styleUrls: ['./lecturer-profile-overview-page.component.scss']
 })
-export class UserProfileOverviewPageComponent {
+export class LecturerProfileOverviewPageComponent {
   profiles$: Observable<BriefUserProfile[]>;
 
   constructor(private userService: UserService, private notificationService: NotificationService) {

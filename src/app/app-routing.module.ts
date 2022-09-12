@@ -52,7 +52,7 @@ const routes: Routes = [
       {
         path: 'lecturers',
         title: 'PROX - Lehrende',
-        loadChildren: () => import('@modules/user/user.module').then(m => m.UserModule),
+        loadChildren: () => import('@modules/lecturer/lecturer.module').then(m => m.LecturerModule),
         canLoad: [FeatureGuard]
       },
       {

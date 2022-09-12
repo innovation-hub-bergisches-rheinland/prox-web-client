@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
 import { Observable, mergeMap, of, throwError } from 'rxjs';
-import { UserProfile } from '@data/schema/user-service.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@data/service/user.service';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, map, take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  UserProfileEditorDialogComponent,
-  UserProfileEditorInput
-} from '@modules/user/components/user-profile-editor-dialog/user-profile-editor-dialog.component';
 import { ProjectService } from '@data/service/project.service';
-import { Project } from '@data/schema/project-service.types';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { Project } from '@data/schema/project-service.types';
+import { UserProfile } from '@data/schema/user-service.types';
+import {
+  LecturerProfileEditorDialogComponent,
+  UserProfileEditorInput
+} from '@modules/Lecturer/components/Lecturer-profile-editor-dialog/Lecturer-profile-editor-dialog.component';
 
 @Component({
-  selector: 'app-user-profile-page',
-  templateUrl: './user-profile-page.component.html',
-  styleUrls: ['./user-profile-page.component.scss']
+  selector: 'app-lecturer-profile-page',
+  templateUrl: './lecturer-profile-page.component.html',
+  styleUrls: ['./lecturer-profile-page.component.scss']
 })
-export class UserProfilePageComponent {
+export class LecturerProfilePageComponent {
   user$: Observable<UserProfile & { id: string }>;
   tags$: Observable<string[]>;
   offeredProjects$: Observable<Project[]>;
@@ -83,7 +83,7 @@ export class UserProfilePageComponent {
   }
 
   editProfile(profile: UserProfile) {
-    const dialog = this.dialog.open(UserProfileEditorDialogComponent, {
+    const dialog = this.dialog.open(LecturerProfileEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '80%',
       maxWidth: '80%',
