@@ -14,6 +14,7 @@ import {
   LecturerProfileEditorDialogComponent,
   UserProfileEditorInput
 } from '@modules/Lecturer/components/Lecturer-profile-editor-dialog/Lecturer-profile-editor-dialog.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lecturer-profile-page',
@@ -36,7 +37,8 @@ export class LecturerProfilePageComponent {
     private projectService: ProjectService,
     private tagService: TagService,
     private dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private titleService: Title
   ) {
     this.loadProfile();
   }
@@ -56,6 +58,9 @@ export class LecturerProfilePageComponent {
         return throwError(() => error);
       })
     );
+
+    this.user$.subscribe(user => this.updateTitle(user));
+
     this.tags$ = this.user$.pipe(
       take(1),
       mergeMap(user => this.tagService.getTagsForEntity(user.id)),
@@ -100,5 +105,10 @@ export class LecturerProfilePageComponent {
         }
       }
     });
+  }
+
+  updateTitle(user: UserProfile) {
+    const newTitle = this.titleService.getTitle() + ' - ' + user.name;
+    this.titleService.setTitle(newTitle);
   }
 }
