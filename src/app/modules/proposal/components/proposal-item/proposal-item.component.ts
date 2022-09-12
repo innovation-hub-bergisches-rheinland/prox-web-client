@@ -10,7 +10,6 @@ import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Tag } from '@data/schema/tag-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { ProposalEditorComponent } from '../proposal-editor/proposal-editor.component';
 import { ProposalEditorDialogComponent } from '../proposal-editor-dialog/proposal-editor-dialog.component';
 import { Router } from '@angular/router';
 
@@ -80,7 +79,7 @@ export class ProposalItemComponent implements OnChanges {
       if (result) {
         this.projectService.commitForProposal(this.proposal).subscribe({
           next: async (project: Project) => {
-            this.notificationService.success('Ihre Commitment wurde abgegeben.');
+            this.notificationService.success('Ihr Commitment wurde abgegeben.');
             await this.router.navigate(['/projects', project.id]);
           },
           error: _error => {
@@ -98,14 +97,14 @@ export class ProposalItemComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.projectService.deleteProposal(this.proposal).subscribe(
-          () => {
+        this.projectService.deleteProposal(this.proposal).subscribe({
+          next: () => {
             this.deleted.emit();
           },
-          _error => {
+          error: _error => {
             this.notificationService.error('Idee konnte nicht gelöscht werden.');
           }
-        );
+        });
       }
     });
   }
