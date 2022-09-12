@@ -5,4 +5,12 @@ export interface Environment {
   keycloakConfig: KeycloakConfig;
   apiUrl: string;
   enabledFeatures?: string[];
+  loggingConfig: LoggingConfig;
+}
+
+export interface LoggingConfig {
+  error: boolean;
+  warn: boolean;
+  info: boolean;
+  debug: boolean;
 }
