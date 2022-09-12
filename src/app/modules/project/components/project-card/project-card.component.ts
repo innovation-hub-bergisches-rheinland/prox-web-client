@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { ModuleType, Project, ProjectPermissions, Specialization } from '@data/schema/project-service.types';
+import { ModuleType, Permissions, Project, Specialization } from '@data/schema/project-service.types';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '@data/service/user.service';
@@ -32,7 +32,7 @@ export class ProjectCardComponent implements OnInit {
   specialization: Specialization[];
 
   @Input()
-  permissions: ProjectPermissions;
+  permissions: Permissions;
 
   @Input()
   showDetails = false;

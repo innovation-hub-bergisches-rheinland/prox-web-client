@@ -10,6 +10,9 @@ import { ProposalEditorDialogComponent } from './components/proposal-editor-dial
 import { ProposalEditorInformationComponent } from './components/proposal-editor/proposal-editor-information/proposal-editor-information.component';
 import { ProposalEditorModuleComponent } from './components/proposal-editor/proposal-editor-module/proposal-editor-module.component';
 import { ProposalEditorTagComponent } from './components/proposal-editor/proposal-editor-tag/proposal-editor-tag.component';
+import { ProposalCardComponent } from './components/proposal-card/proposal-card.component';
+import { ProposalDetailsComponent } from './pages/proposal-details/proposal-details.component';
+import { ProposalItemComponent } from './components/proposal-item/proposal-item.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { ProposalEditorTagComponent } from './components/proposal-editor/proposa
     ProposalEditorDialogComponent,
     ProposalEditorInformationComponent,
     ProposalEditorModuleComponent,
-    ProposalEditorTagComponent
+    ProposalEditorTagComponent,
+    ProposalCardComponent,
+    ProposalDetailsComponent,
+    ProposalItemComponent
   ],
   imports: [SharedModule, ProposalRoutingModule, ScrollingModule]
 })

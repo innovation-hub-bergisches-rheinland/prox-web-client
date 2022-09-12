@@ -78,36 +78,36 @@ export class ProposalComponent implements OnInit, AfterViewChecked {
 
     dialog.afterClosed().subscribe(res => {
       if (res) {
-        // this.(res);
+        this.onAddProposal(res);
       }
     });
   }
 
-  /*onAddProject(project: Project) {
-    this.projects = [project, ...this.projects];
+  onAddProposal(proposal: Proposal) {
+    this.proposals = [proposal, ...this.proposals];
     this.pageIndex = 0;
-    this.pageProjects();
+    this.pageProposals();
   }
 
-  onDeleteProject(project: Project) {
-    this.projects = this.projects.filter(p => p.id !== project.id);
-    this.projectsPage = this.projectsPage.filter(p => p.id !== project.id);
+  onDeleteProject(proposal: Proposal) {
+    this.proposals = this.proposals.filter(p => p.id !== proposal.id);
+    this.proposalsPage = this.proposalsPage.filter(p => p.id !== proposal.id);
   }
 
-  onUpdateProject(project: Project) {
-    this.projects = this.projects.map(p => {
-      if (p.id === project.id) {
-        return project;
+  onUpdateProject(proposal: Proposal) {
+    this.proposals = this.proposals.map(p => {
+      if (p.id === proposal.id) {
+        return proposal;
       }
       return p;
     });
-    this.projectsPage = this.projectsPage.map(p => {
-      if (p.id === project.id) {
-        return project;
+    this.proposalsPage = this.proposalsPage.map(p => {
+      if (p.id === proposal.id) {
+        return proposal;
       }
       return p;
     });
-  }*/
+  }
 
   private pageProposals() {
     this.proposalsPage = this.proposals.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);

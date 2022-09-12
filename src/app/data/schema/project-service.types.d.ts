@@ -29,7 +29,7 @@ export interface Owner {
   discriminator: OwnerDiscriminator;
 }
 
-export interface ProjectPermissions {
+export interface Permissions {
   canEdit: boolean;
   canDelete: boolean;
 }
@@ -53,7 +53,7 @@ export interface Project {
   modifiedAt: string;
   modules: ModuleType[];
   specializations: Specialization[];
-  permissions: ProjectPermissions;
+  permissions: Permissions;
 }
 
 export interface Proposal {
@@ -67,6 +67,7 @@ export interface Proposal {
   specializations: Specialization[];
   createdAt: string;
   modifiedAt: string;
+  permissions: Permissions & { canCommit: boolean };
 }
 
 export type CollectionModel<T, K extends string> = Record<K, T[]>;
