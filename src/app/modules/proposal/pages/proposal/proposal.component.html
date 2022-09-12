@@ -1,0 +1,35 @@
+<app-content-page>
+  <app-content-page-header>
+    <app-content-page-banner>
+      <p>
+        Ideen sind leichtgewichtige Projektvorschläge, die von jedermann erstellt werden können. Sie werden automatisch in Projekte
+        umgeformt, sobald ein Lehrender sich als betreunde Person bereiterklärt. Ideen sind grundsätzlich kurzlebig und werden nach 90 Tagen
+        Inaktivität archiviert und nach weiterer Inaktivtät gelöscht.
+      </p>
+    </app-content-page-banner>
+    <app-content-page-title>Ideen</app-content-page-title>
+    <app-content-page-actions>
+      <app-add-button [disabled]="!isLoggedIn" (click)="openproposalEditorDialog(null)" data-tip="Neue Idee einreichen" class="tooltip">
+      </app-add-button>
+    </app-content-page-actions>
+  </app-content-page-header>
+  <app-content-page-content>
+    <div class="flex flex-col gap-6 mt-4 items-stretch">
+      <app-proposal-item
+        *ngFor="let proposal of proposalsPage"
+        [proposal]="proposal"
+        (updated)="onUpdateProject($event)"
+        (deleted)="onDeleteProject(proposal)"
+      ></app-proposal-item>
+    </div>
+
+    <div class="flex flex-col items-center w-full mt-8">
+      <app-paginator
+        (page)="changePageIndexOrSize($event)"
+        [length]="proposals.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+      ></app-paginator>
+    </div>
+  </app-content-page-content>
+</app-content-page>

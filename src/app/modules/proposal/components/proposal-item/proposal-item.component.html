@@ -1,0 +1,7 @@
+<app-proposal-card
+  [proposal]="proposal"
+  [tags]="this.tags$ | async"
+  (delete)="deleteProposal()"
+  (edit)="editProposal()"
+  (commit)="commitProposal()"
+></app-proposal-card>

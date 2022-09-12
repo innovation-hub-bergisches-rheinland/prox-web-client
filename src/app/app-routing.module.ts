@@ -59,6 +59,16 @@ const routes: Routes = [
         canLoad: [FeatureGuard]
       },
       {
+        path: 'proposals',
+        // loadChildren: () =>
+        //   import('@modules/project/project.module').then(m => m.ProjectModule)
+        loadChildren: () => import('@modules/proposal/proposal.module').then(m => m.ProposalModule),
+        canLoad: [FeatureGuard],
+        data: {
+          feature: 'proposal'
+        }
+      },
+      {
         path: 'contact',
         // loadChildren: () =>
         //   import('@modules/contact/contact.module').then(m => m.ContactModule)

@@ -1,7 +1,10 @@
-<div class="flex flex-row justify-between items-center">
-  <h1 class="text-secondary">
-    <ng-content select="app-content-page-title, [app-content-page-title], [appContentPageTitle]"></ng-content>
-  </h1>
-  <ng-content select="app-content-page-actions, [app-content-page-actions], [appContentPageActions]"></ng-content>
+<div class="flex flex-col justify-between">
+  <ng-content select="app-content-page-banner, [app-content-page-banner], [appContentPageBanner]"></ng-content>
+  <div class="flex flex-row justify-between items-center">
+    <h1 class="text-secondary">
+      <ng-content select="app-content-page-title, [app-content-page-title], [appContentPageTitle]"></ng-content>
+    </h1>
+    <ng-content select="app-content-page-actions, [app-content-page-actions], [appContentPageActions]"></ng-content>
+  </div>
 </div>
 <ng-content></ng-content>
