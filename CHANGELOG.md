@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.16.1...v1.17.0) (2022-09-12)
+
+
+### Features
+
+* add banners for content pages ([6384367](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/6384367dc5a644c9c23168385701cfa572365852))
+* add global logging service ([84b3222](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/84b32229220e21863f277051dd0cd44e1b721e07))
+* add proposal editor ([3b262d9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3b262d9ee5a814f5777332ec0bcc49ec3433e853))
+* add titles to details pages ([4cd5d60](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/4cd5d6071a6fd8447266d5ebc6097cec118a2730))
+* add titles to outer routes ([71b0c48](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/71b0c48e096a3b3f7723ed3072d3196f067edd2c))
+* log errornous requests ([913352b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/913352ba882d322584f2097b831066d354d9ad7f))
+* usable proposal components ([5faf745](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5faf745ed69942eb187e2d7ac351a565fb14491d))
+
+
+### Bug Fixes
+
+* casing in imports ([e3664e9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e3664e92f2402a7cf8b15693f5dff7c0d9db3e6b))
+* casing in imports ([b174921](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b174921419f85bdbfbbac2c9b79882d4677cd0c7))
+* fix naming and form access in proposal-editor ([2e3860a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2e3860a17c01d47c6e20d2c75001a3a659d42bed))
+
 ### [1.16.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.16.0...v1.16.1) (2022-09-03)
 
 ## [1.16.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.15.0...v1.16.0) (2022-09-03)
