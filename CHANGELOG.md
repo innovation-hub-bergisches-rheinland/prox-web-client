@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.17.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.17.0...v1.17.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* feature flag for sidebar entry ([3ab4ba8](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3ab4ba8c5bbae9ed7b10351c03c4b585f1580cb8))
+
 ## [1.17.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.16.1...v1.17.0) (2022-09-12)
 
 
