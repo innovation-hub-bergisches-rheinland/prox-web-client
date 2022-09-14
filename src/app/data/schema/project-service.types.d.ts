@@ -1,5 +1,5 @@
 export type Status = 'AVAILABLE' | 'RUNNING' | 'FINISHED';
-export type ProposalStatus = 'PROPOSED' | 'ARCHIVED';
+export type ProposalStatus = 'PROPOSED' | 'ARCHIVED' | 'HAS_COMMITMENT';
 export type ID = string;
 
 export interface ModuleType {

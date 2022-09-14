@@ -11,6 +11,7 @@ import {
   ProjectCollectionModel,
   Proposal,
   ProposalCollectionModel,
+  ProposalStatus,
   Specialization,
   SpecializationCollectionModel,
   Status
@@ -179,12 +180,18 @@ export class ProjectService {
     });
   }
 
-  getAllProposals(): Observable<Proposal[]> {
+  getAllProposals(status?: ProposalStatus): Observable<Proposal[]> {
+    const params = new HttpParams();
+    if (status) {
+      params.set('status', status);
+    }
+
     return this.httpClient
       .get<ProposalCollectionModel>(`${this.basePath}/proposals`, {
         headers: {
           Accept: 'application/json'
         },
+        params: params,
         observe: 'body'
       })
       .pipe(map(p => p.proposals));
