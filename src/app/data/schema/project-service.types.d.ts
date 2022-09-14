@@ -54,6 +54,7 @@ export interface Project {
   modules: ModuleType[];
   specializations: Specialization[];
   permissions: Permissions;
+  proposalId?: string;
 }
 
 export interface Proposal {
@@ -68,6 +69,7 @@ export interface Proposal {
   createdAt: string;
   modifiedAt: string;
   permissions: Permissions & { canCommit: boolean };
+  projectId?: string;
 }
 
 export type CollectionModel<T, K extends string> = Record<K, T[]>;

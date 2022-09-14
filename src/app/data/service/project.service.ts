@@ -199,8 +199,8 @@ export class ProjectService {
     });
   }
 
-  commitForProposal(proposal: Pick<Proposal, 'id'>): Observable<Project> {
-    return this.httpClient.post<Project>(`${this.basePath}/proposals/${proposal.id}/commitment`, {
+  commitForProposal(proposal: Pick<Proposal, 'id'>): Observable<Proposal & Required<Pick<Proposal, 'projectId'>>> {
+    return this.httpClient.post<Proposal & Required<Pick<Proposal, 'projectId'>>>(`${this.basePath}/proposals/${proposal.id}/commitment`, {
       headers: {
         Accept: 'application/json'
       },

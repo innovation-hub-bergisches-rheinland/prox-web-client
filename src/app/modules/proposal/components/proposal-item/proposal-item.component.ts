@@ -5,7 +5,7 @@ import { Observable, catchError, of } from 'rxjs';
 
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { Project, Proposal } from '@data/schema/project-service.types';
+import { Proposal } from '@data/schema/project-service.types';
 import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Tag } from '@data/schema/tag-service.types';
@@ -78,9 +78,9 @@ export class ProposalItemComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.projectService.commitForProposal(this.proposal).subscribe({
-          next: async (project: Project) => {
+          next: async proposal => {
             this.notificationService.success('Ihr Commitment wurde abgegeben.');
-            await this.router.navigate(['/projects', project.id]);
+            await this.router.navigate(['/projects', proposal.projectId]);
           },
           error: _error => {
             this.notificationService.error('Commitment konnte nicht abgegeben werden.');
