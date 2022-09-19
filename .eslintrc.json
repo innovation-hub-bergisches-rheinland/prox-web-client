@@ -7,6 +7,9 @@
     "es6": true,
     "jest": true
   },
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
+  "prettier/prettier": ["error"],
   "overrides": [
     {
       "files": ["src/**/*.ts"],
@@ -19,8 +22,7 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+        "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
         "@angular-eslint/no-empty-lifecycle-method": ["warn"],
