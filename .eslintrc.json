@@ -9,7 +9,9 @@
   },
   "extends": ["prettier"],
   "plugins": ["prettier"],
-  "prettier/prettier": ["error"],
+  "rules": {
+    "prettier/prettier": ["error"]
+  },
   "overrides": [
     {
       "files": ["src/**/*.ts"],
