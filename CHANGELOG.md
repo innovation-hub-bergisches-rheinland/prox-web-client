@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.17.1...v1.18.0) (2022-09-19)
+
+
+### Features
+
+* add advertisments for hackathon ([eeb5d2b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/eeb5d2b9971f1601864dd2c37c299936eaf439f8))
+* add banner component to content layout ([21a62cb](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/21a62cba8fe7141c1343f7d82559e3bb6a558ea0))
+* add eu + efre + nrw banner ([2fd7534](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2fd7534b00d5b711abd85812f10968f18e64c734))
+
 ### [1.17.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.17.0...v1.17.1) (2022-09-12)
 
 
