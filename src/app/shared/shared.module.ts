@@ -25,6 +25,7 @@ import { FeatureDirectiveModule } from '@app/directive/feature-directive.module'
 import { ErrorsModule } from './modules/errors/errors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LoggerModule } from './modules/logger/logger.module';
+import { HackathonBannerComponent } from './components/hackathon-banner/hackathon-banner.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LoggerModule } from './modules/logger/logger.module';
     AddButtonComponent,
     BackButtonComponent,
     PaginatorComponent,
-    UserChipInputComponent
+    UserChipInputComponent,
+    HackathonBannerComponent
   ],
   imports: [
     CommonModule,
@@ -83,6 +85,7 @@ import { LoggerModule } from './modules/logger/logger.module';
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
+    HackathonBannerComponent,
 
     NotificationsModule,
     LoggerModule,
