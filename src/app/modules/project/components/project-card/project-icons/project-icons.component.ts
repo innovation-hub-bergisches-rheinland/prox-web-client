@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Owner, Specialization, Status } from '@data/schema/project-service.types';
-import { faIndustry, faLaptop, faLock, faLockOpen, faRunning, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faIndustry, faLaptop, faLock, faLockOpen, faRunning, faWrench } from '@fortawesome/free-solid-svg-icons';
+
+interface StatusIconDefinition {
+  icon: IconDefinition;
+  tooltip: string;
+}
 
 @Component({
   selector: 'app-project-icons',
@@ -14,6 +19,26 @@ export class ProjectIconsComponent {
   infIcon = faLaptop;
   ingIcon = faWrench;
   companyIcon = faIndustry;
+
+  specializationIcons = {
+    INF: this.infIcon,
+    ING: this.ingIcon
+  };
+
+  statusIcons: Record<Status, StatusIconDefinition> = {
+    AVAILABLE: {
+      icon: this.availableIcon,
+      tooltip: 'Verfügbar'
+    },
+    FINISHED: {
+      icon: this.unavailableIcon,
+      tooltip: 'Abgeschlossen'
+    },
+    RUNNING: {
+      icon: this.runningIcon,
+      tooltip: 'Laufend'
+    }
+  };
 
   @Input()
   status: Status;

@@ -10,6 +10,9 @@ export class ProjectIconComponent implements OnInit {
   @Input()
   icon: IconDefinition;
 
+  @Input()
+  tooltip: string;
+
   constructor() {}
 
   ngOnInit(): void {}

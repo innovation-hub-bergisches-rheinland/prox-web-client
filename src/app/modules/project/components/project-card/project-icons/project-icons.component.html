@@ -1,12 +1,9 @@
 <div class="flex flex-row-reverse gap-2">
-  <ng-container [ngSwitch]="status">
-    <app-project-icon *ngSwitchCase="'AVAILABLE'" [icon]="availableIcon" data-tip="Verfügbar" class="tooltip"></app-project-icon>
-    <app-project-icon *ngSwitchCase="'FINISHED'" [icon]="unavailableIcon" data-tip="Abgeschlossen" class="tooltip"></app-project-icon>
-    <app-project-icon *ngSwitchCase="'RUNNING'" [icon]="runningIcon" data-tip="Laufend" class="tooltip"></app-project-icon>
+  <ng-container>
+    <app-project-icon *ngIf="statusIcons[status]; let iconDef" [icon]="iconDef.icon" [tooltip]="iconDef.tooltip"></app-project-icon>
   </ng-container>
-  <ng-container [ngSwitch]="specializationKeys">
-    <app-project-icon *ngSwitchCase="'INF'" [icon]="infIcon" data-tip="Informatik" class="tooltip"></app-project-icon>
-    <app-project-icon *ngSwitchCase="'ING'" [icon]="ingIcon" data-tip="Ingenieurwesen" class="tooltip"></app-project-icon>
+  <ng-container>
+    <app-project-icon *ngFor="let s of specialization" [icon]="specializationIcons[s.key]" [tooltip]="s.name"></app-project-icon>
   </ng-container>
   <ng-container [ngSwitch]="owner.discriminator">
     <app-project-icon
