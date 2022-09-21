@@ -26,6 +26,7 @@ import { ErrorsModule } from './modules/errors/errors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { HackathonBannerComponent } from './components/hackathon-banner/hackathon-banner.component';
+import { StatusIconComponent } from './components/status-icon/status-icon.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { HackathonBannerComponent } from './components/hackathon-banner/hackatho
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
-    HackathonBannerComponent
+    HackathonBannerComponent,
+    StatusIconComponent
   ],
   imports: [
     CommonModule,
@@ -86,6 +88,7 @@ import { HackathonBannerComponent } from './components/hackathon-banner/hackatho
     PaginatorComponent,
     UserChipInputComponent,
     HackathonBannerComponent,
+    StatusIconComponent,
 
     NotificationsModule,
     LoggerModule,
