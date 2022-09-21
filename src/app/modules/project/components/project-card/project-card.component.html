@@ -66,7 +66,7 @@
   <ng-container *ngIf="!showDetails || permissions.canEdit || permissions.canDelete">
     <div class="divider"></div>
     <div class="flex flex-row justify-between">
-      <div class>
+      <div class="flex flex-row gap-2">
         <button
           class="tooltip btn btn-sm btn-primary"
           *ngIf="!showDetails"
@@ -74,6 +74,14 @@
           data-tip="Weiterführende Projektdetails"
         >
           Projektdetails
+        </button>
+        <button
+          class="tooltip btn btn-sm btn-primary"
+          *ngIf="project.proposalId"
+          routerLink="/proposals/{{ project.proposalId }}"
+          data-tip="Dieses Projekt ist aus einer Idee heraus entstanden"
+        >
+          Zur Ursprungsidee
         </button>
       </div>
       <div class="flex flex-row gap-2">
