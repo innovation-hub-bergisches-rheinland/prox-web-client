@@ -6,7 +6,11 @@
         <strong>Eingereicht von: </strong> <a [routerLink]="ownerProfileRouter"> {{ proposal.owner.name }}</a>
       </span>
     </div>
-    >
+    <app-proposal-icons
+      class="basis-1/4 flex-initial"
+      [specialization]="proposal.specializations"
+      [owner]="proposal.owner"
+    ></app-proposal-icons>
   </div>
   <div class="divider"></div>
   <div class="flex flex-col justify-between content-between gap-5">

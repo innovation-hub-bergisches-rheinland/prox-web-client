@@ -1,0 +1,13 @@
+<div class="flex flex-row-reverse gap-2">
+  <ng-container>
+    <app-proposal-icon *ngFor="let s of specialization" [icon]="specializationIcons[s.key]" [tooltip]="s.name"> </app-proposal-icon>
+  </ng-container>
+  <ng-container [ngSwitch]="owner.discriminator">
+    <app-proposal-icon
+      *ngSwitchCase="'organization'"
+      [icon]="companyIcon"
+      data-tip="Projekt in einem Unternehmen"
+      class="tooltip"
+    ></app-proposal-icon>
+  </ng-container>
+</div>

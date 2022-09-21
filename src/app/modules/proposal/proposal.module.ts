@@ -13,6 +13,8 @@ import { ProposalEditorTagComponent } from './components/proposal-editor/proposa
 import { ProposalCardComponent } from './components/proposal-card/proposal-card.component';
 import { ProposalDetailsComponent } from './pages/proposal-details/proposal-details.component';
 import { ProposalItemComponent } from './components/proposal-item/proposal-item.component';
+import { ProposalIconComponent } from './components/proposal-card/proposal-icons/proposal-icon/proposal-icon.component';
+import { ProposalIconsComponent } from './components/proposal-card/proposal-icons/proposal-icons.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ProposalItemComponent } from './components/proposal-item/proposal-item.
     ProposalEditorTagComponent,
     ProposalCardComponent,
     ProposalDetailsComponent,
-    ProposalItemComponent
+    ProposalItemComponent,
+    ProposalIconComponent,
+    ProposalIconsComponent
   ],
   imports: [SharedModule, ProposalRoutingModule, ScrollingModule]
 })
