@@ -55,6 +55,7 @@ export interface Project {
   specializations: Specialization[];
   permissions: Permissions;
   proposalId?: string;
+  tags: string[];
 }
 
 export interface Proposal {
@@ -70,6 +71,7 @@ export interface Proposal {
   modifiedAt: string;
   permissions: Permissions & { canCommit: boolean };
   projectId?: string;
+  tags: string[];
 }
 
 export type CollectionModel<T, K extends string> = Record<K, T[]>;
@@ -82,7 +84,7 @@ export type StudyProgramCollectionModel = CollectionModel<StudyProgram, 'studyPr
 
 export type CreateProjectSchema = Omit<
   Project,
-  'id' | 'owner' | 'createdAt' | 'modifiedAt' | 'modules' | 'specializations' | 'permissions'
+  'id' | 'owner' | 'createdAt' | 'modifiedAt' | 'modules' | 'specializations' | 'permissions' | 'tags'
 >;
 
 export type CreateProposalSchema = Pick<Proposal, 'name' | 'description' | 'requirement'>;

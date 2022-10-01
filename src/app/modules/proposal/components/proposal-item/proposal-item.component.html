@@ -1,6 +1,6 @@
 <app-proposal-card
   [proposal]="proposal"
-  [tags]="this.tags$ | async"
+  [tags]="proposal.tags"
   (delete)="deleteProposal()"
   (edit)="editProposal()"
   (commit)="commitProposal()"

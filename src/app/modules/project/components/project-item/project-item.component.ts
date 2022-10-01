@@ -1,15 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Observable, catchError, of } from 'rxjs';
-
 import { ProjectService } from '@data/service/project.service';
-import { TagService } from '@data/service/tag.service';
 import { Project } from '@data/schema/project-service.types';
 import { KeycloakService } from 'keycloak-angular';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { Tag } from '@data/schema/tag-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
@@ -20,8 +16,6 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 export class ProjectItemComponent implements OnChanges {
   @Input()
   project: Project;
-
-  projectTags$: Observable<Tag[]>;
 
   @Input()
   showDetails = false;
@@ -36,7 +30,6 @@ export class ProjectItemComponent implements OnChanges {
 
   constructor(
     private keycloakService: KeycloakService,
-    private tagService: TagService,
     private projectService: ProjectService,
     private dialog: MatDialog,
     private notificationService: NotificationService
@@ -48,12 +41,6 @@ export class ProjectItemComponent implements OnChanges {
       // TODO: This should be decided by the service
       this.hasPermission =
         (await this.keycloakService.isLoggedIn()) && this.keycloakService.getKeycloakInstance().subject === this.project.owner.id;
-      this.projectTags$ = this.tagService.getTagsForEntity(this.project.id).pipe(
-        catchError(() => {
-          this.notificationService.error('Tags konnten nicht geladen werden');
-          return of([]);
-        })
-      );
     }
   }
 

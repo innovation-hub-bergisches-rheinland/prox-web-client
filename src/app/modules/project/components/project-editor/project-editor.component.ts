@@ -119,19 +119,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.get('supervisors').setValue(project.supervisors);
     this.projectModuleFormGroup.get('specializations').setValue(project.specializations.map(v => v.key));
     this.projectModuleFormGroup.get('modules').setValue(project.modules.map(v => v.key));
-
-    this.tagService
-      .getTagsForEntity(project.id)
-      .pipe(
-        catchError(err => {
-          this.notificationService.error('Tags konnten nicht geladen werden');
-          // Unrecoverable unless we disable the form control. Must be refactored to do so
-          return throwError(() => err);
-        })
-      )
-      .subscribe({
-        next: value => this.projectTagFormGroup.get('tags').setValue(value)
-      });
+    this.projectTagFormGroup.get('tags').setValue(project.tags);
   }
 
   buildProject(): CreateProjectSchema {

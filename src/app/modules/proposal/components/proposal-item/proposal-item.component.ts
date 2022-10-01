@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Observable, catchError, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ProjectService } from '@data/service/project.service';
-import { TagService } from '@data/service/tag.service';
 import { Proposal } from '@data/schema/project-service.types';
-import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Tag } from '@data/schema/tag-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
@@ -30,8 +28,6 @@ export class ProposalItemComponent implements OnChanges {
   deleted: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
-    private keycloakService: KeycloakService,
-    private tagService: TagService,
     private projectService: ProjectService,
     private dialog: MatDialog,
     private router: Router,
@@ -40,14 +36,6 @@ export class ProposalItemComponent implements OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     const proposal: Proposal = changes['proposal'].currentValue;
-    if (proposal) {
-      this.tags$ = this.tagService.getTagsForEntity(this.proposal.id).pipe(
-        catchError(() => {
-          this.notificationService.error('Tags konnten nicht geladen werden');
-          return of([]);
-        })
-      );
-    }
   }
 
   editProposal() {

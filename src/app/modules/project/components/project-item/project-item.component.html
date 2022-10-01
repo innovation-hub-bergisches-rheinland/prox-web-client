@@ -1,6 +1,6 @@
 <app-project-card
   [project]="project"
-  [tags]="this.projectTags$ | async"
+  [tags]="project.tags"
   [modules]="this.project.modules"
   [specialization]="this.project.specializations"
   [showDetails]="showDetails"

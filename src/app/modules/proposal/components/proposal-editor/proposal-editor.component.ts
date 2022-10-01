@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
-import { Observable, catchError, forkJoin, mergeMap, of, startWith, throwError } from 'rxjs';
+import { Observable, catchError, forkJoin, mergeMap, of, startWith } from 'rxjs';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -101,19 +101,7 @@ export class ProposalEditorComponent implements OnInit {
     this.proposalFormGroup.controls.information.get('requirement').setValue(proposal.requirement);
     this.porposalModuleFormGroup.get('specializations').setValue(proposal.specializations.map(v => v.key));
     this.porposalModuleFormGroup.get('modules').setValue(proposal.modules.map(v => v.key));
-
-    this.tagService
-      .getTagsForEntity(proposal.id)
-      .pipe(
-        catchError(err => {
-          this.notificationService.error('Tags konnten nicht geladen werden');
-          // Unrecoverable unless we disable the form control. Must be refactored to do so
-          return throwError(() => err);
-        })
-      )
-      .subscribe({
-        next: value => this.proposalTagFormGroup.get('tags').setValue(value)
-      });
+    this.porposalModuleFormGroup.get('tags').setValue(proposal.tags);
   }
 
   buildProposal(): CreateProposalSchema {
