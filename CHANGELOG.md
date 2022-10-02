@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.19.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.18.0...v1.19.0) (2022-10-02)
+
+
+### Features
+
+* add proposal icons to card ([fd435b0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fd435b0120648c2b1b044aa42537a8725042d2d6))
+* display project/proposal reference ([a579d8b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a579d8b13ca3cb95ed0cf464f8439e458f1821eb))
+
+
+### Bug Fixes
+
+* add margin to top in sidebar ([5f4cc7f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5f4cc7f8d7c7cb219b3c1ae18f7d578a1d64e707))
+* open hackathon link in new tab ([c89797a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c89797a86de9404cbe02d6366e8f84b2439a9c9e))
+* remove sort query param from search ([403c088](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/403c0884736040e2e58d2a7a7018f762c611f26c))
+* show all icons ([8ed605f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8ed605f9b2bf15a1d623faaeee32fce03b184ca5))
+
 ## [1.18.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.17.1...v1.18.0) (2022-09-19)
 
 
