@@ -273,7 +273,7 @@ export class ProjectService {
   }
 
   filterProjects(status?: Status, specializationKeys?: string[], moduleTypeKeys?: string[], text?: string): Observable<Project[]> {
-    let queryParameters = new HttpParams().set('sort', `modifiedAt,desc`);
+    let queryParameters = new HttpParams();
     if (status) {
       queryParameters = queryParameters.set('status', status);
     }
