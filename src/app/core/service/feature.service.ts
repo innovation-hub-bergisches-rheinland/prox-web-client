@@ -11,7 +11,7 @@ export class FeatureService {
   config: FeatureConfig = environment.enabledFeatures ?? [];
 
   isEnabled(name: string): boolean {
-    return this.config.includes(ALL_FEATURES) || this.config[name];
+    return this.config.includes(ALL_FEATURES) || this.config.includes(name);
   }
 
   set(config: FeatureConfig): void {
