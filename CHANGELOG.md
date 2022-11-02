@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.19.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.19.2...v1.19.3) (2022-11-02)
+
 ### [1.19.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.19.1...v1.19.2) (2022-10-26)
 
 
