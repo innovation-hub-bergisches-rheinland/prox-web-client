@@ -25,7 +25,6 @@ import { FeatureDirectiveModule } from '@app/directive/feature-directive.module'
 import { ErrorsModule } from './modules/errors/errors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LoggerModule } from './modules/logger/logger.module';
-import { HackathonBannerComponent } from './components/hackathon-banner/hackathon-banner.component';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
 
 @NgModule({
@@ -44,7 +43,6 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
-    HackathonBannerComponent,
     StatusIconComponent
   ],
   imports: [
@@ -87,7 +85,6 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
-    HackathonBannerComponent,
     StatusIconComponent,
 
     NotificationsModule,
