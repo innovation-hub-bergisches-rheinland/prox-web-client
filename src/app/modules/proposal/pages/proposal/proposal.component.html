@@ -9,8 +9,9 @@
     </app-content-page-banner>
     <app-content-page-title>Ideen</app-content-page-title>
     <app-content-page-actions>
-      <app-add-button [disabled]="!isLoggedIn" (click)="openproposalEditorDialog(null)" data-tip="Neue Idee einreichen" class="tooltip">
-      </app-add-button>
+      <ng-container *ngIf="isLoggedIn">
+        <app-add-button (click)="openproposalEditorDialog(null)" data-tip="Neue Idee einreichen" class="tooltip"> </app-add-button>
+      </ng-container>
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>

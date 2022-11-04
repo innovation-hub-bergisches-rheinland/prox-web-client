@@ -2,12 +2,9 @@
   <app-content-page-header>
     <app-content-page-title>Organisationen</app-content-page-title>
     <app-content-page-actions>
-      <app-add-button
-        [disabled]="!canCreateNewOrg"
-        (click)="openOrganizationEditor()"
-        data-tip="Neue Organisation anlegen"
-        class="tooltip"
-      ></app-add-button>
+      <ng-container *ngIf="canCreateNewOrg">
+        <app-add-button (click)="openOrganizationEditor()" data-tip="Neue Organisation anlegen" class="tooltip"></app-add-button>
+      </ng-container>
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>

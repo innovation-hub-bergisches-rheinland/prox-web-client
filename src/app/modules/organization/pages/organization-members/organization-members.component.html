@@ -6,13 +6,8 @@
       </ng-container>
     </div>
     <app-content-page-title> Mitglieder von {{ organization.name }} </app-content-page-title>
-    <app-content-page-actions>
-      <app-add-button
-        [disabled]="!hasPermission"
-        (click)="openMemberAddDialog()"
-        data-tip="Mitglied hinzufügen"
-        class="tooltip"
-      ></app-add-button>
+    <app-content-page-actions *ngIf="hasPermission">
+      <app-add-button (click)="openMemberAddDialog()" data-tip="Mitglied hinzufügen" class="tooltip"></app-add-button>
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
