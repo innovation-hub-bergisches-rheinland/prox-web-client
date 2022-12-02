@@ -61,14 +61,16 @@ export class LecturerProfilePageComponent {
 
     this.user$.subscribe(user => this.updateTitle(user));
 
-    this.tags$ = this.user$.pipe(
+    // TODO
+    this.tags$ = of([]);
+    /*this.tags$ = this.user$.pipe(
       take(1),
       mergeMap(user => this.tagService.getTagsForEntity(user.id)),
       catchError(err => {
         this.notificationService.warning('Tags konnte nicht geladen werden.');
         return of([]);
       })
-    );
+    );*/
     const projects$ = this.user$.pipe(
       take(1),
       mergeMap(user => this.projectService.findProjectsOfUser(user.id)),

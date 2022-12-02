@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Tag } from '@data/schema/tag-service.types';
+import { Tag } from '@data/schema/tag.types';
 import { TagService } from '@data/service/tag.service';
 import { QueryParams } from '@modules/project/pages/project/project.component';
 
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.popularTags$ = this.tagService.getPopularTags();
+    this.popularTags$ = this.tagService.getPopular();
     if (await this.keycloakService.isLoggedIn()) {
       this.userDetails = await this.keycloakService.loadUserProfile();
     }
@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit {
 
   buildTagFilter(tag: Tag): QueryParams {
     return {
-      tags: tag,
+      tags: tag.tag,
       state: ''
     };
   }

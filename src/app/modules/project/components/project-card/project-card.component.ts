@@ -3,13 +3,7 @@ import { ModuleType, Permissions, Project, Specialization } from '@data/schema/p
 import { Subject } from 'rxjs';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '@data/service/user.service';
-import { Tag } from '@data/schema/tag-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-
-interface ProjectAuthor {
-  authorName: string;
-  profileRouter: string[];
-}
 
 @Component({
   selector: 'app-project-card',
@@ -24,7 +18,7 @@ export class ProjectCardComponent implements OnInit {
   modules: ModuleType[];
 
   @Input()
-  tags: Tag[];
+  tags: string[];
 
   @Input()
   specialization: Specialization[];

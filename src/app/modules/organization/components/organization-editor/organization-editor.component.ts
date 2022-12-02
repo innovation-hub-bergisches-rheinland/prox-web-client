@@ -79,7 +79,7 @@ export class OrganizationEditorComponent implements OnInit {
           forkJoin({
             org: of(org),
             avatar: avatar && typeof avatar !== 'string' ? this.userService.setOrganizationAvatar(org.id, avatar) : of(null),
-            tags: tags ? this.tagService.setTagsForEntity(org.id, tags) : of(null)
+            tags: tags ? this.tagService.synchronize(tags) : of(null)
           })
         )
       )
@@ -130,8 +130,9 @@ export class OrganizationEditorComponent implements OnInit {
         })
     });
 
-    this.tagService.getTagsForEntity(organization.id).subscribe({
+    // TODO
+    /*this.tagService.getTagsForEntity(organization.id).subscribe({
       next: value => this.organizationProfileForm.patchValue({ branches: value })
-    });
+    });*/
   }
 }

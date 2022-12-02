@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { ProjectService } from '@data/service/project.service';
 import { Proposal } from '@data/schema/project-service.types';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { Tag } from '@data/schema/tag-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { ProposalEditorDialogComponent } from '../proposal-editor-dialog/proposal-editor-dialog.component';
 import { Router } from '@angular/router';
@@ -19,7 +18,7 @@ export class ProposalItemComponent implements OnChanges {
   @Input()
   proposal: Proposal;
 
-  tags$: Observable<Tag[]>;
+  tags$: Observable<string[]>;
 
   @Output()
   updated: EventEmitter<Proposal> = new EventEmitter<Proposal>();

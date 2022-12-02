@@ -6,6 +6,7 @@ import { UserService } from '@data/service/user.service';
 import { faEdit, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs/internal/Observable';
 import { TagService } from '@data/service/tag.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-organization-item',
@@ -29,7 +30,9 @@ export class OrganizationItemComponent implements OnInit {
     this.userService.getOrganizationAvatar(this.organization.id).subscribe({
       next: value => (this.imgSrc = value)
     });
-    this.tags$ = this.tagService.getTagsForEntity(this.organization.id);
+    // TODO
+    this.tags$ = of([]);
+    // this.tags$ = this.tagService.getTagsForEntity(this.organization.id);
   }
 
   editOrganization(org: Organization) {

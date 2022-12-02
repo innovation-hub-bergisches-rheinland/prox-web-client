@@ -47,7 +47,9 @@ export class OrganizationProfileComponent {
 
     this.organization$.subscribe(o => this.updateTitle(o));
 
-    this.tags$ = this.organization$.pipe(mergeMap(o => this.tagService.getTagsForEntity(o.id)));
+    // TODO:
+    this.tags$ = of([]);
+    // this.tags$ = this.organization$.pipe(mergeMap(o => this.tagService.getTagsForEntity(o.id)));
     const projects$ = this.organization$.pipe(mergeMap(org => this.projectService.findProjectsOfOrganization(org.id)));
 
     this.offeredProjects$ = projects$.pipe(

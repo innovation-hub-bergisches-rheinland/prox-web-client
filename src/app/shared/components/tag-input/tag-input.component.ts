@@ -5,8 +5,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { TagService } from '@data/service/tag.service';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
-import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
-import { Tag } from '@data/schema/tag-service.types';
+import { catchError, debounceTime, filter, map, startWith } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
@@ -29,16 +28,16 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   @ViewChild(MatAutocompleteTrigger)
   tagAutocompleteTrigger: MatAutocompleteTrigger;
   tagInputCtrl = new UntypedFormControl('');
-  _tags: Tag[] = [];
-  tags$: Subject<Tag[]> = new BehaviorSubject(this._tags);
-  tagRecommendations$: Observable<Tag[]>;
-  tagAutocomplete$: Observable<Tag[]>;
+  _tags: string[] = [];
+  tags$: Subject<string[]> = new BehaviorSubject(this._tags);
+  tagRecommendations$: Observable<string[]>;
+  tagAutocomplete$: Observable<string[]>;
 
   //  leverage angular directives, components, inputs and outputs or so...
   constructor(private tagService: TagService, private notificationService: NotificationService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (tags: Tag[]) => {};
+  onChange = (tags: string[]) => {};
 
   // TODO: For better maintainability and extensibility we should not use the tagservice here..
 
@@ -49,6 +48,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     this.tagRecommendations$ = this.tags$.pipe(
       filter(tags => tags.length > 0),
       mergeMap(tags => this.tagService.getRecommendations(tags)),
+      map(tags => tags.map(t => t.tag)),
       catchError(err => {
         this.notificationService.warning('Tag Empfehlungen können aktuell nicht geladen werden.');
         return of([]);
@@ -58,7 +58,8 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
       debounceTime(300),
       startWith(''),
       filter(input => !!input),
-      mergeMap(input => this.tagService.findByTagName(input)),
+      mergeMap(input => this.tagService.findMatching(input)),
+      map(tags => tags.map(t => t.tag)),
       delay(200),
       catchError(err => {
         this.notificationService.warning('Tag Vorschäge können aktuell nicht geladen werden.');
@@ -67,7 +68,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     );
   }
 
-  registerOnChange(fn: (tags: Tag[]) => void): void {
+  registerOnChange(fn: (tags: string[]) => void): void {
     this.onChange = fn;
   }
 
@@ -75,18 +76,18 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  writeValue(obj: Tag[]): void {
+  writeValue(obj: string[]): void {
     this._tags = obj;
     this.tags$.next(this._tags);
   }
 
-  removeTag(tag: Tag) {
+  removeTag(tag: string) {
     this._tags = this._tags.filter(t => t !== tag);
     this.onChange(this._tags);
     this.tags$.next(this._tags);
   }
 
-  addTag(tag: Tag) {
+  addTag(tag: string) {
     if (!!tag && !this._tags.some(t => t === tag)) {
       this._tags = [...this._tags, tag];
       this.onChange(this._tags);
@@ -111,7 +112,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
-    const selectedTag = event.option.value as Tag;
+    const selectedTag = event.option.value;
     this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
     this.tagInputCtrl.setValue('', { emitEvent: false });

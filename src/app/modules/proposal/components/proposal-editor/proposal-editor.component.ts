@@ -151,7 +151,7 @@ export class ProposalEditorComponent implements OnInit {
                   return of([]);
                 })
               ),
-            tags: this.tagService.setTagsForEntity(p.id, this.proposalTagFormGroup.controls.tags.value ?? []).pipe(
+            tags: this.tagService.synchronize(this.proposalTagFormGroup.controls.tags.value ?? []).pipe(
               catchError(err => {
                 this.notificationService.error('Tags konnten nicht gespeichert werden');
                 return of([]);

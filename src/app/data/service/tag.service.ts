@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, onErrorResumeNext } from 'rxjs';
-
-import { catchError, map, retry } from 'rxjs/operators';
-import { Tag, TagPopularity, TagRecommendation, Tags } from '@data/schema/tag-service.types';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
+import { SynchronizeTagsRequest, SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,88 +12,59 @@ export class TagService {
 
   constructor(protected httpClient: HttpClient) {}
 
-  setTagsForEntity(id: string, tags: Tag[]): Observable<Tag[] | any> {
-    return this.httpClient
-      .put<Tags>(
-        `${this.basePath}/tags/${id}`,
-        {
-          tags
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          },
-          observe: 'body',
-          reportProgress: false
-        }
-      )
-      .pipe(map(res => res.tags));
+  findMatching(query: string): Observable<Tag[]> {
+    const params = new HttpParams();
+    params.set('q', query);
+    return this.httpClient.get<Tag[]>(`${this.basePath}/tags`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      params,
+      observe: 'body',
+      reportProgress: false
+    });
   }
 
-  findByTagName(tagName: string): Observable<Tag[]> {
-    const queryParameters = new HttpParams().set('q', tagName);
-
-    return this.httpClient
-      .get<Tags>(`${this.basePath}/tags/search`, {
-        params: queryParameters,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(
-        map(res => res.tags),
-        catchError(() => of([]))
-      );
+  getRecommendations(input: string[]): Observable<Tag[]> {
+    const params = new HttpParams();
+    params.set('tags', input.join(','));
+    return this.httpClient.get<Tag[]>(`${this.basePath}/tags/recommendations`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      params,
+      observe: 'body',
+      reportProgress: false
+    });
   }
 
-  getRecommendations(tags: Tag[]): Observable<Tag[]> {
-    const queryParameters = new HttpParams().set('tags', tags.join(','));
-    return this.httpClient
-      .get<TagRecommendation>(`${this.basePath}/tags/recommendations`, {
-        params: queryParameters,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(
-        map(res => res.recommendations),
-        catchError(() => of([]))
-      );
+  getPopular(): Observable<Tag[]> {
+    return this.httpClient.get<Tag[]>(`${this.basePath}/tags/popular`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
   }
 
-  getTagsForEntity(id: string): Observable<Tag[]> {
-    return this.httpClient
-      .get<Tags>(`${this.basePath}/tags/${id}`, {
+  synchronize(tags: string[]): Observable<SynchronizeTagsResponse> {
+    return this.httpClient.post<SynchronizeTagsRequest>(
+      `${this.basePath}/tags/synchronize`,
+      {
+        tags: tags
+      },
+      {
         headers: {
+          'Content-Type': 'application/json',
           Accept: 'application/json'
         },
-        observe: 'body'
-      })
-      .pipe(
-        map(res => res.tags),
-        // TODO: We can address that once we have proper event propagation in the tag service
-        catchError(() => of([]))
-      );
-  }
-
-  getPopularTags(limit = 10): Observable<Tag[]> {
-    return this.httpClient
-      .get<TagPopularity>(`${this.basePath}/tags/popular`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(
-        map(res =>
-          Object.entries(res.popularity)
-            .sort(([, popularityA], [, popularityB]) => popularityB - popularityA)
-            .map(([tag]) => tag)
-        ),
-        catchError(() => of([]))
-      );
+        observe: 'body',
+        reportProgress: false
+      }
+    );
   }
 }

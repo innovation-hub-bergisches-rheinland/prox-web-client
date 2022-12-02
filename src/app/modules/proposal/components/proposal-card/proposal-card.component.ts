@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Proposal } from '@data/schema/project-service.types';
-import { Tag } from '@data/schema/tag-service.types';
 import { UserService } from '@data/service/user.service';
 import { faArrowUp, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
@@ -15,7 +14,7 @@ export class ProposalCardComponent implements OnInit {
   proposal: Proposal;
 
   @Input()
-  tags: Tag[];
+  tags: string[];
 
   @Input()
   showDetails = false;

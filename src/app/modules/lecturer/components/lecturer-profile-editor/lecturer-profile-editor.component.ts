@@ -68,7 +68,7 @@ export class LecturerProfileEditorComponent implements OnInit {
           forkJoin({
             profile: of(profile),
             avatar: avatar && typeof avatar !== 'string' ? this.userService.setUserAvatar(this.id, avatar) : of(null),
-            tags: tags ? this.tagService.setTagsForEntity(this.id, tags) : of(null)
+            tags: tags ? this.tagService.synchronize(tags) : of(null)
           })
         )
       )
@@ -123,6 +123,8 @@ export class LecturerProfileEditorComponent implements OnInit {
       avatar: this.userService.getUserAvatar(this.id)
     });
 
+    // TODO
+    /*
     this.tagService
       .getTagsForEntity(this.id)
       .pipe(
@@ -137,6 +139,6 @@ export class LecturerProfileEditorComponent implements OnInit {
             subjects: tags
           });
         }
-      });
+      });*/
   }
 }
