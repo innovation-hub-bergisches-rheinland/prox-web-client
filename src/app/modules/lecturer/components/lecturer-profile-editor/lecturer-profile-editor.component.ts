@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ProfileService } from '@data/service/profile.service';
-import { catchError, combineLatestWith, forkJoin, map, mergeMap, of, throwError } from 'rxjs';
+import { catchError, combineLatestWith, forkJoin, map, mergeMap, of, share, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
@@ -61,7 +61,7 @@ export class LecturerProfileEditorComponent implements OnInit {
     const avatar = this.userProfileAvatarFormGroup.controls['avatar'].value as File;
     const tags = this.userProfileAdditionalInformationForm.controls['subjects'].value as string[];
     const tags$ = tags ? this.tagService.synchronize(tags).pipe(map(tags => tags.tags.map(tag => tag.id))) : of([]);
-    const lecturer$ = this.profileService.updateLecturer(this.id, userProfile);
+    const lecturer$ = this.profileService.updateLecturer(this.id, userProfile).pipe(share());
 
     const setTags$ = lecturer$.pipe(
       combineLatestWith(tags$),

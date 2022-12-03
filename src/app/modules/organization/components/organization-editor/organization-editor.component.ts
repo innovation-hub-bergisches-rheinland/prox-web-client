@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { socialMediaHandleValidator } from '@modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
 import { ProfileService } from '@data/service/profile.service';
-import { combineLatest, combineLatestWith, filter, forkJoin, map, mergeMap, of } from 'rxjs';
+import { combineLatest, combineLatestWith, filter, forkJoin, map, mergeMap, of, share } from 'rxjs';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { CreateOrganizationRequest, Organization, OrganizationProfile } from '@data/schema/profile.types';
@@ -67,10 +67,11 @@ export class OrganizationEditorComponent implements OnInit {
   saveOrg() {
     const org = this.buildOrganization();
     const avatar = this.organizationAvatarFormGroup.controls['avatar'].value as File;
-    const org$ =
+    const org$ = (
       this.organization === null
         ? this.profileService.createOrganization(org)
-        : this.profileService.updateOrganization(this.organization.id, org);
+        : this.profileService.updateOrganization(this.organization.id, org)
+    ).pipe(share());
     const tags = this.organizationProfileForm.controls['branches'].value as string[];
 
     const tags$ = tags ? this.tagService.synchronize(tags).pipe(map(tags => tags.tags.map(tag => tag.id))) : of([]);
@@ -81,25 +82,29 @@ export class OrganizationEditorComponent implements OnInit {
       })
     );
 
-    org$
-      .pipe(
-        mergeMap(org =>
-          forkJoin({
-            org: of(org),
-            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setOrganizationLogo(org.id, avatar) : of(null),
-            tags: setTags$
-          })
-        )
-      )
-      .subscribe({
-        next: value => {
-          this.notificationService.success('Organisation wurde erfolgreich gespeichert');
-          this.save.emit(value.org);
-        },
-        error: err => {
-          this.notificationService.error('Ein Fehler beim Speichern der Organisation ist aufgetreten. Versuchen Sie es später erneut.');
+    const setAvatar$ = org$.pipe(
+      mergeMap(org => {
+        if (avatar && typeof avatar !== 'string') {
+          return this.profileService.setOrganizationLogo(org.id, avatar);
         }
-      });
+
+        return of(null);
+      })
+    );
+
+    forkJoin({
+      org: org$,
+      tags: setTags$,
+      avatar: setAvatar$
+    }).subscribe({
+      next: value => {
+        this.notificationService.success('Organisation wurde erfolgreich gespeichert');
+        this.save.emit(value.org);
+      },
+      error: err => {
+        this.notificationService.error('Ein Fehler beim Speichern der Organisation ist aufgetreten. Versuchen Sie es später erneut.');
+      }
+    });
   }
 
   buildOrganization(): CreateOrganizationRequest {
