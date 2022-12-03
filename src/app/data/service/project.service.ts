@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import {
   CreateProjectSchema,
   CreateProposalSchema,
-  ModuleType,
   ModuleTypeCollectionModel,
   Project,
   ProjectCollectionModel,
@@ -20,6 +19,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
 import { Context } from '@shared/components/context-selector/context-selector.component';
+import { Discipline, ModuleType } from '@data/schema/project.types';
 
 @Injectable({
   providedIn: 'root'
@@ -215,28 +215,33 @@ export class ProjectService {
     });
   }
 
-  getAllSpecializations(): Observable<Specialization[]> {
-    return this.httpClient
-      .get<SpecializationCollectionModel>(`${this.basePath}/specializations`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(sp => sp.specializations));
+  getAllDisciplines(): Observable<Discipline[]> {
+    return this.httpClient.get<Discipline[]>(`${this.basePath}/disciplines`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
   }
 
-  getModulesOfSpecializations(specializationKeys: string[]): Observable<ModuleType[]> {
-    const queryParameters = new HttpParams().set('keys', specializationKeys.join(','));
-    return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/modules/search/findModulesOfSpecializations`, {
-        params: queryParameters,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(sp => sp.modules));
+  getModulesOfDisciplines(keyes: string[]): Observable<ModuleType[]> {
+    const queryParameters = new HttpParams().set('keys', keyes.join(','));
+    return this.httpClient.get<ModuleType[]>(`${this.basePath}/modules/search/findByDisciplines`, {
+      params: queryParameters,
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  getAllModuleTypes(): Observable<ModuleType[]> {
+    return this.httpClient.get<ModuleType[]>(`${this.basePath}/modules`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
   }
 
   findProjectsOfUser(id: string): Observable<Project[]> {
@@ -259,17 +264,6 @@ export class ProjectService {
         observe: 'body'
       })
       .pipe(map(p => p.projects));
-  }
-
-  getAllModuleTypes(): Observable<ModuleType[]> {
-    return this.httpClient
-      .get<ModuleTypeCollectionModel>(`${this.basePath}/modules`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p.modules));
   }
 
   filterProjects(status?: Status, specializationKeys?: string[], moduleTypeKeys?: string[], text?: string): Observable<Project[]> {

@@ -8,9 +8,10 @@ import { KeycloakService } from 'keycloak-angular';
 
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { CreateProjectSchema, ModuleType, Project, Specialization } from '@data/schema/project-service.types';
+import { CreateProjectSchema, Project } from '@data/schema/project-service.types';
 import { Context } from '@shared/components/context-selector/context-selector.component';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { Discipline, ModuleType } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-project-editor',
@@ -47,7 +48,7 @@ export class ProjectEditorComponent implements OnInit {
   @Output()
   saved = new EventEmitter<Project>();
 
-  specializations$: Observable<Specialization[]>;
+  specializations$: Observable<Discipline[]>;
   modules$: Observable<ModuleType[]>;
 
   constructor(
@@ -84,7 +85,7 @@ export class ProjectEditorComponent implements OnInit {
       }
     }
 
-    this.specializations$ = this.projectService.getAllSpecializations().pipe(
+    this.specializations$ = this.projectService.getAllDisciplines().pipe(
       catchError(err => {
         this.notificationService.error('Studiengänge konnten nicht geladen werden.');
         return of([]);
@@ -96,7 +97,7 @@ export class ProjectEditorComponent implements OnInit {
         if (!s || s.length === 0) {
           return this.projectService.getAllModuleTypes();
         }
-        return this.projectService.getModulesOfSpecializations(s);
+        return this.projectService.getModulesOfDisciplines(s);
       }),
       catchError(err => {
         this.notificationService.error('Module konnten nicht geladen werden.');

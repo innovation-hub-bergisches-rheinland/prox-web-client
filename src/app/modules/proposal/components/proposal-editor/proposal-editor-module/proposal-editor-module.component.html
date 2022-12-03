@@ -4,9 +4,7 @@
       <b>Fachbereich</b>
     </div>
     <mat-selection-list formControlName="specializations" color="primary">
-      <mat-list-option *ngFor="let specialization of specializations" [value]="specialization.key">{{
-        specialization.name
-      }}</mat-list-option>
+      <mat-list-option *ngFor="let discipline of disciplines" [value]="discipline.key">{{ discipline.name }}</mat-list-option>
     </mat-selection-list>
   </div>
   <mat-divider></mat-divider>

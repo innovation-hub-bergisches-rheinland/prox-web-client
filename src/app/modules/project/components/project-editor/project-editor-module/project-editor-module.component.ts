@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { ModuleType, Specialization } from '@data/schema/project-service.types';
+import { Discipline, ModuleType } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-project-editor-module',
@@ -12,7 +12,7 @@ export class ProjectEditorModuleComponent {
   moduleFormGroup: UntypedFormGroup;
 
   @Input()
-  specializations: Specialization[];
+  specializations: Discipline[];
 
   @Input()
   modules: ModuleType[];

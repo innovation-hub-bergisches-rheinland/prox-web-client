@@ -7,9 +7,10 @@ import { KeycloakService } from 'keycloak-angular';
 
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
-import { CreateProposalSchema, ModuleType, Proposal, Specialization } from '@data/schema/project-service.types';
+import { CreateProposalSchema, Proposal } from '@data/schema/project-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Context } from '@shared/components/context-selector/context-selector.component';
+import { Discipline, ModuleType } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-proposal-editor',
@@ -43,7 +44,7 @@ export class ProposalEditorComponent implements OnInit {
   @Output()
   saved = new EventEmitter<Proposal>();
 
-  specializations$: Observable<Specialization[]>;
+  disciplines$: Observable<Discipline[]>;
   modules$: Observable<ModuleType[]>;
 
   constructor(
@@ -69,7 +70,7 @@ export class ProposalEditorComponent implements OnInit {
       });
     }
 
-    this.specializations$ = this.projectService.getAllSpecializations().pipe(
+    this.disciplines$ = this.projectService.getAllDisciplines().pipe(
       catchError(err => {
         this.notificationService.error('Studiengänge konnten nicht geladen werden.');
         return of([]);
@@ -81,7 +82,7 @@ export class ProposalEditorComponent implements OnInit {
         if (!s || s.length === 0) {
           return this.projectService.getAllModuleTypes();
         }
-        return this.projectService.getModulesOfSpecializations(s);
+        return this.projectService.getModulesOfDisciplines(s);
       }),
       catchError(err => {
         this.notificationService.error('Module konnten nicht geladen werden.');

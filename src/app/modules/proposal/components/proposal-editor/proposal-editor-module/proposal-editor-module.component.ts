@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { ModuleType, Specialization } from '@data/schema/project-service.types';
+import { Discipline, ModuleType } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-proposal-editor-module',
@@ -11,7 +11,7 @@ export class ProposalEditorModuleComponent {
   moduleFormGroup: UntypedFormGroup;
 
   @Input()
-  specializations: Specialization[];
+  disciplines: Discipline[];
 
   @Input()
   modules: ModuleType[];

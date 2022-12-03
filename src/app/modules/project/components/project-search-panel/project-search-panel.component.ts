@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
-import { ModuleType, Specialization, Status } from '@data/schema/project-service.types';
+import { Status } from '@data/schema/project-service.types';
 import { UntypedFormBuilder } from '@angular/forms';
+import { Discipline, ModuleType } from '@data/schema/project.types';
 
 export type ProjectSearch = {
   status?: Status;
   moduleTypes?: ModuleType['key'][];
-  specializations?: Specialization['key'][];
+  specializations?: Discipline['key'][];
   searchString?: string;
 };
 
@@ -19,7 +20,7 @@ export type ProjectSearch = {
 })
 export class ProjectSearchPanelComponent implements OnInit {
   searchIcon = faSearch;
-  specializations$: Observable<Specialization[]>;
+  specializations$: Observable<Discipline[]>;
   moduleTypes$: Observable<ModuleType[]>;
 
   searchForm = this.fb.group({
@@ -48,7 +49,7 @@ export class ProjectSearchPanelComponent implements OnInit {
   }
 
   constructor(private projectService: ProjectService, private fb: UntypedFormBuilder) {
-    this.specializations$ = projectService.getAllSpecializations();
+    this.specializations$ = projectService.getAllDisciplines();
     this.moduleTypes$ = projectService.getAllModuleTypes();
   }
 
