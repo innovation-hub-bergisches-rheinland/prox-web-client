@@ -54,7 +54,7 @@ export class OrganizationMembershipsListComponent {
 
   removeMembership(member: OrganizationMembership) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { title: 'Mitglied entfernen', message: `Mitglied wirklich aus der Organisation entfernen?` }
+      data: { title: 'Mitglied entfernen', message: `Mitglied ${member.name} wirklich aus der Organisation entfernen?` }
     });
 
     dialogRef

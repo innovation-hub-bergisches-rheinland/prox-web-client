@@ -4,7 +4,7 @@
     <ul>
       <li class="mt-4 p-2 odd:bg-gray-100" *ngFor="let administrator of administrators">
         <app-organization-membership-entry [showEdit]="showAdminControls && atLeastTwoAdmins" (edit)="editMembership(administrator)">{{
-          administrator.member
+          administrator.name
         }}</app-organization-membership-entry>
       </li>
     </ul>
@@ -19,7 +19,7 @@
           [showRemove]="showControls"
           (edit)="editMembership(member)"
           (remove)="removeMembership(member)"
-          >{{ member.member }}</app-organization-membership-entry
+          >{{ member.name }}</app-organization-membership-entry
         >
       </li>
     </ul>

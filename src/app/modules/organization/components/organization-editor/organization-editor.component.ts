@@ -86,7 +86,7 @@ export class OrganizationEditorComponent implements OnInit {
         mergeMap(org =>
           forkJoin({
             org: of(org),
-            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setOrganizationAvatar(org.id, avatar) : of(null),
+            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setOrganizationLogo(org.id, avatar) : of(null),
             tags: setTags$
           })
         )

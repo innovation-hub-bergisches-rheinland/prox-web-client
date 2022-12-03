@@ -43,14 +43,11 @@ export class ProfileService {
     });
   }
 
-  setOrganizationAvatar(id: string, avatar: File): Observable<void> {
+  setOrganizationLogo(id: string, avatar: File): Observable<void> {
     const formParams = new FormData();
-    formParams.set('file', avatar);
-    return this.httpClient.post<void>(`${this.basePath}/organizations/${id}/avatar`, formParams, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data'
-      },
+    formParams.set('image', avatar);
+    return this.httpClient.post<void>(`${this.basePath}/organizations/${id}/logo`, formParams, {
+      headers: {},
       observe: 'body',
       reportProgress: false
     });
@@ -170,7 +167,7 @@ export class ProfileService {
 
   setLecturerAvatar(id: string, avatar: File): Observable<any> {
     const formParams = new FormData();
-    formParams.set('file', avatar);
+    formParams.set('image', avatar);
     return this.httpClient.post<any>(`${this.basePath}/lecturers/${id}/avatar`, formParams, {
       headers: {},
       observe: 'body',

@@ -64,6 +64,7 @@ export interface CreateOrganizationRequest {
 
 export interface OrganizationMembership {
   member: string;
+  name: string;
   role: OrganizationRole;
 }
 
@@ -71,7 +72,10 @@ export interface OrganizationMemberList {
   members: OrganizationMembership[];
 }
 
-export type AddOrganizationMembershipRequest = OrganizationMembership;
+export type AddOrganizationMembershipRequest = {
+  member: string;
+  role: OrganizationRole;
+};
 export type UpdateOrganizationMembershipRequest = Omit<OrganizationMembership, 'member'>;
 
 export interface SetLecturerTagsRequest {
