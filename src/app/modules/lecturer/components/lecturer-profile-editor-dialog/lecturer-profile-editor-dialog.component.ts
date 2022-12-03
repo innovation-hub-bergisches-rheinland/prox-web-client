@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserProfile } from '@data/schema/user-service.types';
+import { Lecturer } from '@data/schema/profile.types';
 
 export interface UserProfileEditorInput {
   id: string;
-  profile: UserProfile;
+  profile: Lecturer;
 }
 
 @Component({
@@ -26,7 +26,7 @@ export class LecturerProfileEditorDialogComponent implements OnInit {
     this.organizationDialogRef.close();
   }
 
-  userProfileSaved(profile: UserProfile) {
+  userProfileSaved(profile: Lecturer) {
     this.organizationDialogRef.close(profile);
   }
 }

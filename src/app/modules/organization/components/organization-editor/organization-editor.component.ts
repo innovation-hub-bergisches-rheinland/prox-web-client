@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { socialMediaHandleValidator } from '@modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
-import { CreateOrganizationSchema, Organization, OrganizationProfile } from '@data/schema/user-service.types';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { forkJoin, mergeMap, of } from 'rxjs';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { CreateOrganizationRequest, Organization, OrganizationProfile } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-organization-editor',
@@ -34,12 +34,12 @@ export class OrganizationEditorComponent implements OnInit {
     branches: [[]]
   });
   organizationSocialMediaForm = this.fb.group({
-    facebookHandle: ['', socialMediaHandleValidator()],
-    twitterHandle: ['', socialMediaHandleValidator()],
-    instagramHandle: ['', socialMediaHandleValidator()],
-    xingHandle: ['', socialMediaHandleValidator()],
-    linkedInHandle: ['', socialMediaHandleValidator()],
-    youtubeHandle: ['', socialMediaHandleValidator()]
+    FACEBOOK: ['', socialMediaHandleValidator()],
+    TWITTER: ['', socialMediaHandleValidator()],
+    INSTAGRAM: ['', socialMediaHandleValidator()],
+    XING: ['', socialMediaHandleValidator()],
+    LINKEDIN: ['', socialMediaHandleValidator()],
+    YOUTUBE: ['', socialMediaHandleValidator()]
   });
   organizationAvatarFormGroup = this.fb.group({
     avatar: ['']
@@ -53,7 +53,7 @@ export class OrganizationEditorComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private userService: UserService,
+    private userService: ProfileService,
     private tagService: TagService,
     private notificationService: NotificationService
   ) {}
@@ -94,7 +94,7 @@ export class OrganizationEditorComponent implements OnInit {
       });
   }
 
-  buildOrganization(): CreateOrganizationSchema {
+  buildOrganization(): CreateOrganizationRequest {
     return {
       name: this.organizationInformationForm.controls['name'].value,
       profile: {
@@ -102,7 +102,7 @@ export class OrganizationEditorComponent implements OnInit {
         contactEmail: this.organizationInformationForm.controls['contactEmail'].value,
         homepage: this.organizationInformationForm.controls['homepage'].value,
         ...(this.organizationProfileForm.value as Omit<OrganizationProfile, 'vita' | 'homepage' | 'contactEmail'>),
-        socialMedia: this.organizationSocialMediaForm.value
+        socialMediaHandles: this.organizationSocialMediaForm.value
       }
     };
   }
@@ -121,13 +121,10 @@ export class OrganizationEditorComponent implements OnInit {
       quarters: organization.profile.quarters
     });
     this.organizationSocialMediaForm.patchValue({
-      ...organization.profile.socialMedia
+      ...organization.profile.socialMediaHandles
     });
-    this.userService.getOrganizationAvatar(organization.id).subscribe({
-      next: value =>
-        this.organizationAvatarFormGroup.patchValue({
-          avatar: value
-        })
+    this.organizationAvatarFormGroup.patchValue({
+      avatar: organization.logoUrl
     });
 
     // TODO

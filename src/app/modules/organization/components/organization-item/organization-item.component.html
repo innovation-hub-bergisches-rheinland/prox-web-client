@@ -20,11 +20,11 @@
       <app-chip *ngFor="let tag of tags"> {{ tag }}</app-chip>
     </app-chip-list>
     <div class="card-actions justify-end">
-      <button class="btn btn-ghost" (click)="editOrganization(organization)" *ngIf="organization.permissions.canEdit">
+      <button class="btn btn-ghost" (click)="editOrganization(organization)" *ngIf="organization._permissions.hasAccess">
         <fa-icon [icon]="editIcon" class="mx-2"></fa-icon>
         Bearbeiten
       </button>
-      <button class="btn btn-ghost" [routerLink]="[organization.id, 'members']" *ngIf="organization.permissions.canViewMembers">
+      <button class="btn btn-ghost" [routerLink]="[organization.id, 'members']" *ngIf="organization._permissions.hasAccess">
         <fa-icon [icon]="membersIcon" class="mx-2"></fa-icon>
         Mitglieder
       </button>

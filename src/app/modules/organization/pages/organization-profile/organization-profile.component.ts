@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { Organization } from '@data/schema/user-service.types';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +10,7 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Title } from '@angular/platform-browser';
+import { Organization } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-organization-profile',
@@ -26,7 +26,7 @@ export class OrganizationProfileComponent {
   projectHistory$: Observable<Project[]>;
 
   constructor(
-    private userService: UserService,
+    private profileService: ProfileService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
@@ -35,15 +35,16 @@ export class OrganizationProfileComponent {
     private titleService: Title
   ) {
     this.organization$ = this.activatedRoute.params.pipe(
-      mergeMap(p => this.userService.getOrganization(p['id'])),
+      mergeMap(p => this.profileService.getOrganization(p['id'])),
       catchError(async (err: HttpErrorResponse) => {
         if (err.status === 404) {
           await router.navigate(['404']);
         }
         throw err;
-      }),
-      tap(o => (this.avatar$ = this.userService.getOrganizationAvatar(o.id)))
+      })
     );
+
+    this.avatar$ = this.organization$.pipe(map(o => o.logoUrl));
 
     this.organization$.subscribe(o => this.updateTitle(o));
 

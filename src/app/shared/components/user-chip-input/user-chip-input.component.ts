@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
-import { UserSearchResult } from '@data/schema/user-service.types';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { User } from '@data/schema/user.types';
 
 @Component({
   selector: 'app-user-chip-input',
@@ -31,14 +31,14 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   label = 'Benutzer';
 
   userInputCtrl = new UntypedFormControl('');
-  _users: UserSearchResult[] = [];
-  users$: Subject<UserSearchResult[]> = new BehaviorSubject(this._users);
-  userAutocomplete$: Observable<UserSearchResult[]>;
+  _users: User[] = [];
+  users$: Subject<User[]> = new BehaviorSubject(this._users);
+  userAutocomplete$: Observable<User[]>;
 
   constructor(private userService: UserService, private notificationService: NotificationService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (user: UserSearchResult[]) => {};
+  onChange = (user: User[]) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
@@ -48,7 +48,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
       debounceTime(120),
       startWith(''),
       filter(input => !!input),
-      mergeMap(input => this.userService.searchUser(input)),
+      mergeMap(input => this.userService.search(input)),
       catchError(err => {
         this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);
@@ -57,7 +57,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
     );
   }
 
-  registerOnChange(fn: (users: UserSearchResult[]) => void): void {
+  registerOnChange(fn: (users: User[]) => void): void {
     this.onChange = fn;
   }
 
@@ -65,18 +65,18 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  writeValue(obj: UserSearchResult[]): void {
+  writeValue(obj: User[]): void {
     this._users = obj;
     this.users$.next(this._users);
   }
 
-  removeUser(user: UserSearchResult) {
+  removeUser(user: User) {
     this._users = this._users.filter(t => t.id !== user.id);
     this.onChange(this._users);
     this.users$.next(this._users);
   }
 
-  addUser(user: UserSearchResult) {
+  addUser(user: User) {
     if (!!user && !this._users.some(t => t.id === user.id)) {
       this._users = [...this._users, user];
       this.onChange(this._users);
@@ -85,7 +85,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   }
 
   selectedUser(event: MatAutocompleteSelectedEvent): void {
-    const selectedUser = event.option.value as UserSearchResult;
+    const selectedUser = event.option.value as User;
     this.addUser(selectedUser);
     this.tagInput.nativeElement.value = '';
     this.userInputCtrl.setValue('', { emitEvent: false });
@@ -94,9 +94,5 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   onOpenInNewClicked(event: MouseEvent) {
     // This way we ensure, that the event is not propagated as a selection event
     event.stopPropagation();
-  }
-
-  getAvatarUrl(user: UserSearchResult) {
-    return this.userService.getUserAvatar(user.id);
   }
 }

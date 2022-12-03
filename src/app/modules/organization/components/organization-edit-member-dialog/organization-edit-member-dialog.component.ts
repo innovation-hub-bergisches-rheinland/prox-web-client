@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { OrganizationMembership, OrganizationRole } from '@data/schema/user-service.types';
+import { OrganizationMembership, OrganizationRole } from '@data/schema/profile.types';
 
 interface EditMemberShipDialogData {
   membership: OrganizationMembership;

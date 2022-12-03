@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable, mergeMap, of, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, map, take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,12 +9,12 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project } from '@data/schema/project-service.types';
-import { UserProfile } from '@data/schema/user-service.types';
 import {
   LecturerProfileEditorDialogComponent,
   UserProfileEditorInput
 } from '@modules/lecturer/components/lecturer-profile-editor-dialog/lecturer-profile-editor-dialog.component';
 import { Title } from '@angular/platform-browser';
+import { Lecturer } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-lecturer-profile-page',
@@ -22,7 +22,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./lecturer-profile-page.component.scss']
 })
 export class LecturerProfilePageComponent {
-  user$: Observable<UserProfile & { id: string }>;
+  user$: Observable<Lecturer>;
   tags$: Observable<string[]>;
   offeredProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
@@ -32,7 +32,7 @@ export class LecturerProfilePageComponent {
 
   constructor(
     private activatedRouter: ActivatedRoute,
-    private userService: UserService,
+    private userService: ProfileService,
     private keycloakService: KeycloakService,
     private projectService: ProjectService,
     private tagService: TagService,
@@ -50,9 +50,11 @@ export class LecturerProfilePageComponent {
       tap(id => {
         this.id = id;
         this.isOwnProfile = this.keycloakService.getKeycloakInstance().subject === id;
-        this.avatar = this.userService.getUserAvatar(id);
       }),
-      mergeMap(id => this.userService.getUserProfile(id).pipe(map(profile => ({ ...profile, id })))),
+      mergeMap(id => this.userService.getLecturer(id).pipe(map(profile => ({ ...profile, id })))),
+      tap(user => {
+        this.avatar = user.avatarUrl;
+      }),
       catchError(error => {
         this.notificationService.error('Benutzerprofil konnte nicht geladen werden.');
         return throwError(() => error);
@@ -89,7 +91,7 @@ export class LecturerProfilePageComponent {
     );
   }
 
-  editProfile(profile: UserProfile) {
+  editProfile(profile: Lecturer) {
     const dialog = this.dialog.open(LecturerProfileEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '80%',
@@ -100,7 +102,7 @@ export class LecturerProfilePageComponent {
       } as UserProfileEditorInput
     });
     dialog.afterClosed().subscribe({
-      next: (value: UserProfile) => {
+      next: (value: Lecturer) => {
         if (value) {
           // TODO: Better use a publisher rather than a subscriber to directly emit it
           this.loadProfile();
@@ -109,7 +111,7 @@ export class LecturerProfilePageComponent {
     });
   }
 
-  updateTitle(user: UserProfile) {
+  updateTitle(user: Lecturer) {
     const newTitle = this.titleService.getTitle() + ' - ' + user.name;
     this.titleService.setTitle(newTitle);
   }

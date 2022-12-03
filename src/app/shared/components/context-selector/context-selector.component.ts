@@ -1,8 +1,7 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { Organization } from '@data/schema/user-service.types';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, map } from 'rxjs/operators';
 import { OwnerDiscriminator } from '@data/schema/project-service.types';
@@ -34,7 +33,7 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
   selectCtrl = new UntypedFormControl('');
 
   constructor(
-    private userService: UserService,
+    private userService: ProfileService,
     private keycloakService: KeycloakService,
     private notificationService: NotificationService
   ) {}
@@ -56,7 +55,7 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
       next: value => this.onChange(value)
     });
     this.writeValue(this.userContext);
-    this.organizationContexts$ = this.userService.getOrganizationsOfAuthenticatedUser().pipe(
+    this.organizationContexts$ = this.userService.getOrganizationsOfUser().pipe(
       map(orgs =>
         orgs.map(
           org =>

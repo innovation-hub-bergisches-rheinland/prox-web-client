@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, forwardRef } from '@angular/core';
 import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
-import { UserSearchResult } from '@data/schema/user-service.types';
 import { Observable, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { User } from '@data/schema/user.types';
 
 @Component({
   selector: 'app-user-search',
@@ -28,7 +28,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
 
   userSearchCtrl = new UntypedFormControl();
   userSearchFilteringCtrl = new UntypedFormControl();
-  filteredUsers$: Observable<UserSearchResult[]>;
+  filteredUsers$: Observable<User[]>;
   searching = false;
 
   @Input()
@@ -43,7 +43,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
   onTouched: () => void = () => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (user: UserSearchResult) => {};
+  onChange = (user: User) => {};
 
   ngOnInit(): void {
     this.filteredUsers$ = this.userSearchFilteringCtrl.valueChanges.pipe(
@@ -51,7 +51,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
       filter(value => !!value),
       debounceTime(300),
       tap(() => (this.searching = true)),
-      mergeMap(input => (input ? this.userService.searchUser(input) : of([]))),
+      mergeMap(input => (input ? this.userService.search(input) : of([]))),
       map(result => result.filter(this.filter)),
       delay(300),
       catchError(err => {
@@ -69,7 +69,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  registerOnChange(onChange: (user: UserSearchResult) => void) {
+  registerOnChange(onChange: (user: User) => void) {
     this.onChange = onChange;
   }
 
@@ -81,7 +81,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  writeValue(value: UserSearchResult): void {
+  writeValue(value: User): void {
     if (value) {
       this.onChange(value);
     }

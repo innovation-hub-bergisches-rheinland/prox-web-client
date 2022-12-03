@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CreateOrganizationMembership, Organization, OrganizationMembership } from '@data/schema/user-service.types';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { Observable, lastValueFrom, mergeMap, of } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
@@ -9,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrganizationAddMemberDialogComponent } from '@modules/organization/components/organization-add-member-dialog/organization-add-member-dialog.component';
 import { Location } from '@angular/common';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { AddOrganizationMembershipRequest, Organization, OrganizationMembership } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-organization-members',
@@ -23,7 +23,7 @@ export class OrganizationMembersComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public location: Location,
-    private userService: UserService,
+    private userService: ProfileService,
     private keycloakService: KeycloakService,
     private dialog: MatDialog,
     private notificationService: NotificationService
@@ -40,13 +40,12 @@ export class OrganizationMembersComponent implements OnInit {
       }
     });
     this.organization$.subscribe({
-      next: value => (this.hasPermission = value.permissions.canEdit)
+      next: value => (this.hasPermission = value._permissions.hasAccess)
     });
   }
 
   getMembers(id: string) {
     this.organizationMemberships$ = this.userService.getMemberships(id).pipe(
-      map(membership => membership.members),
       catchError(err => {
         this.notificationService.error('Mitglieder konnten nicht geladen werden, versuchen Sie es später erneut');
         return of([]);
@@ -56,7 +55,7 @@ export class OrganizationMembersComponent implements OnInit {
 
   async removeMembership(member: OrganizationMembership) {
     const activeOrg = await lastValueFrom(this.organization$);
-    const delete$ = this.userService.deleteMembership(activeOrg.id, member.memberId).pipe(
+    const delete$ = this.userService.deleteMembership(activeOrg.id, member.member).pipe(
       catchError(err => {
         this.notificationService.error('Mitgliedschaft konnte nicht entfernt werden');
         return of([]);
@@ -68,16 +67,12 @@ export class OrganizationMembersComponent implements OnInit {
 
   async updateMembership(member: OrganizationMembership) {
     const activeOrg = await lastValueFrom(this.organization$);
-    const update$ = this.userService
-      .updateMembership(activeOrg.id, member.memberId, {
-        role: member.role
+    const update$ = this.userService.updateMembership(activeOrg.id, member.member, member.role).pipe(
+      catchError(err => {
+        this.notificationService.error('Mitgliedschaft konnte nicht aktualisiert werden');
+        return of([]);
       })
-      .pipe(
-        catchError(err => {
-          this.notificationService.error('Mitgliedschaft konnte nicht aktualisiert werden');
-          return of([]);
-        })
-      );
+    );
     await lastValueFrom(update$);
     this.getMembers(activeOrg.id);
   }
@@ -96,7 +91,7 @@ export class OrganizationMembersComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(value => !!value),
-        mergeMap((value: CreateOrganizationMembership) => this.userService.createMembership(activeOrg.id, value.member, value.role))
+        mergeMap((value: AddOrganizationMembershipRequest) => this.userService.createMembership(activeOrg.id, value.member, value.role))
       )
       .subscribe({
         next: () => this.getMembers(activeOrg.id)

@@ -8,13 +8,13 @@
         [title]="org.name"
       ></app-profile-header-card>
       <app-profile-social-media-card
-        *ngIf="org.profile.socialMedia; let socialMedia"
-        [facebookHandle]="socialMedia.facebookHandle"
-        [instagramHandle]="socialMedia.instagramHandle"
-        [linkedInHandle]="socialMedia.linkedInHandle"
-        [twitterHandle]="socialMedia.twitterHandle"
-        [xingHandle]="socialMedia.xingHandle"
-        [youtubeHandle]="socialMedia.youtubeHandle"
+        *ngIf="org.profile.socialMediaHandles; let socialMedia"
+        [facebookHandle]="socialMedia['FACEBOOK']"
+        [instagramHandle]="socialMedia['INSTAGRAM']"
+        [linkedInHandle]="socialMedia['LINKEDIN']"
+        [twitterHandle]="socialMedia['TWITTER']"
+        [xingHandle]="socialMedia['XING']"
+        [youtubeHandle]="socialMedia['YOUTUBE']"
       ></app-profile-social-media-card>
       <app-profile-information-card>
         <app-profile-information-card-entry
@@ -34,7 +34,7 @@
         ></app-profile-information-card-entry>
         <app-profile-information-card-entry
           *ngIf="org.profile.quarters"
-          [value]="org.profile.quarters"
+          [value]="org.profile.quarters.join(', ')"
           title="Weitere Standorte"
         ></app-profile-information-card-entry>
         <app-profile-information-card-entry

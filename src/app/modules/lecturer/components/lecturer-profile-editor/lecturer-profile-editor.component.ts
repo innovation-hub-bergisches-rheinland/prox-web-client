@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { catchError, forkJoin, mergeMap, of, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { CreateUserProfileSchema, UserProfile } from '@data/schema/user-service.types';
+import { CreateLecturerRequest, Lecturer } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-lecturer-profile-editor',
@@ -36,17 +36,17 @@ export class LecturerProfileEditorComponent implements OnInit {
   });
 
   @Output()
-  saved = new EventEmitter<UserProfile>();
+  saved = new EventEmitter<Lecturer>();
 
   @Input()
-  userProfile: UserProfile;
+  userProfile: Lecturer;
 
   @Input()
   id: string;
 
   constructor(
     private fb: UntypedFormBuilder,
-    private userService: UserService,
+    private profileService: ProfileService,
     private tagService: TagService,
     private keycloakService: KeycloakService,
     private notificationService: NotificationService
@@ -61,13 +61,13 @@ export class LecturerProfileEditorComponent implements OnInit {
     const avatar = this.userProfileAvatarFormGroup.controls['avatar'].value as File;
     const tags = this.userProfileAdditionalInformationForm.controls['subjects'].value as string[];
 
-    this.userService
-      .createUserProfile(this.id, userProfile)
+    this.profileService
+      .createLecturer(this.id, userProfile)
       .pipe(
         mergeMap(profile =>
           forkJoin({
             profile: of(profile),
-            avatar: avatar && typeof avatar !== 'string' ? this.userService.setUserAvatar(this.id, avatar) : of(null),
+            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setLecturerAvatar(this.id, avatar) : of(null),
             tags: tags ? this.tagService.synchronize(tags) : of(null)
           })
         )
@@ -83,44 +83,44 @@ export class LecturerProfileEditorComponent implements OnInit {
       });
   }
 
-  buildUserProfile(): CreateUserProfileSchema {
+  buildUserProfile(): CreateLecturerRequest {
     return {
       name: this.userProfileInformationForm.controls['name'].value,
-      vita: this.userProfileInformationForm.controls['vita'].value ?? null,
-      affiliation: this.userProfileAdditionalInformationForm.controls['affiliation'].value ?? null,
-      mainSubject: this.userProfileAdditionalInformationForm.controls['mainSubject'].value ?? null,
-      publications: this.userProfilePublicationFormGroup.controls['publications'].value ?? null,
-      contactInformation: {
+      profile: {
+        vita: this.userProfileInformationForm.controls['vita'].value ?? null,
+        affiliation: this.userProfileAdditionalInformationForm.controls['affiliation'].value ?? null,
+        publications: this.userProfilePublicationFormGroup.controls['publications'].value ?? null,
         email: this.userProfileInformationForm.controls['email'].value ?? null,
         collegePage: this.userProfileInformationForm.controls['collegePage'].value ?? null,
         homepage: this.userProfileInformationForm.controls['homepage'].value ?? null,
         room: this.userProfileAdditionalInformationForm.controls['room'].value ?? null,
         telephone: this.userProfileInformationForm.controls['telephone'].value ?? null,
-        consultationHour: this.userProfileAdditionalInformationForm.controls['consultationHour'].value ?? null
+        consultationHour: this.userProfileAdditionalInformationForm.controls['consultationHour'].value ?? null,
+        subject: this.userProfileAdditionalInformationForm.controls['mainSubject'].value ?? null
       }
     };
   }
 
-  setFormValues(userProfile: UserProfile) {
+  setFormValues(lecturer: Lecturer) {
     this.userProfileInformationForm.patchValue({
-      name: userProfile.name,
-      homepage: userProfile.contactInformation?.homepage,
-      email: userProfile.contactInformation?.email,
-      telephone: userProfile.contactInformation?.telephone,
-      collegePage: userProfile.contactInformation?.collegePage,
-      vita: userProfile.vita
+      name: lecturer.name,
+      homepage: lecturer.profile?.homepage,
+      email: lecturer.profile?.email,
+      telephone: lecturer.profile?.telephone,
+      collegePage: lecturer.profile?.collegePage,
+      vita: lecturer.profile.vita
     });
     this.userProfileAdditionalInformationForm.patchValue({
-      affiliation: userProfile.affiliation,
-      mainSubject: userProfile.mainSubject,
-      room: userProfile.contactInformation?.room,
-      consultationHour: userProfile.contactInformation?.consultationHour
+      affiliation: lecturer.profile?.affiliation,
+      mainSubject: lecturer.profile?.subject,
+      room: lecturer.profile?.room,
+      consultationHour: lecturer.profile?.consultationHour
     });
     this.userProfilePublicationFormGroup.patchValue({
-      publications: userProfile.publications
+      publications: lecturer.profile?.publications
     });
     this.userProfileAvatarFormGroup.patchValue({
-      avatar: this.userService.getUserAvatar(this.id)
+      avatar: lecturer.avatarUrl
     });
 
     // TODO

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Organization } from '@data/schema/user-service.types';
+import { Organization } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-organization-editor-dialog',

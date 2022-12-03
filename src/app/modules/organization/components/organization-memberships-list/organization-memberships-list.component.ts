@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { OrganizationMembership } from '@data/schema/user-service.types';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { OrganizationEditMemberDialogComponent } from '@modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
+import { OrganizationMembership } from '@data/schema/profile.types';
 
 @Component({
   selector: 'app-organization-memberships-list',
@@ -54,7 +54,7 @@ export class OrganizationMembershipsListComponent {
 
   removeMembership(member: OrganizationMembership) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: { title: 'Mitglied entfernen', message: `Mitglied ${member.name} wirklich aus der Organisation entfernen?` }
+      data: { title: 'Mitglied entfernen', message: `Mitglied wirklich aus der Organisation entfernen?` }
     });
 
     dialogRef

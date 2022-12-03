@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { ModuleType, Permissions, Project, Specialization } from '@data/schema/project-service.types';
 import { Subject } from 'rxjs';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { UserService } from '@data/service/user.service';
+import { ProfileService } from '@data/service/profile.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
@@ -40,7 +40,7 @@ export class ProjectCardComponent implements OnInit {
 
   ownerProfileRouter: string[];
 
-  constructor(private userService: UserService, private notificationService: NotificationService) {}
+  constructor(private userService: ProfileService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     switch (this.project.owner.discriminator) {

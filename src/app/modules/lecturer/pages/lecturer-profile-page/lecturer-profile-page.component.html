@@ -10,60 +10,60 @@
     ></app-profile-header-card>
     <app-profile-information-card>
       <app-profile-information-card-entry
-        *ngIf="user.affiliation"
-        [value]="user.affiliation"
+        *ngIf="user.profile?.affiliation"
+        [value]="user.profile.affiliation"
         title="Hochschulzugehörigkeit seit"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.mainSubject"
-        [value]="user.mainSubject"
+        *ngIf="user.profile?.subject"
+        [value]="user.profile.subject"
         title="Lehrgebiet"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.contactInformation?.room"
-        [value]="user.contactInformation.room"
+        *ngIf="user.profile?.room"
+        [value]="user.profile.room"
         title="Standort, Raum"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.contactInformation?.telephone"
+        *ngIf="user.profile?.telephone"
         [linkable]="true"
-        [value]="user.contactInformation.telephone"
+        [value]="user.profile.telephone"
         title="Telefonnummer"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.contactInformation?.email"
+        *ngIf="user.profile?.email"
         [linkable]="true"
-        [value]="user.contactInformation.email"
+        [value]="user.profile.email"
         title="E-Mail"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.contactInformation?.homepage"
+        *ngIf="user.profile?.homepage"
         [linkable]="true"
-        [value]="user.contactInformation.homepage"
+        [value]="user.profile.homepage"
         title="Homepage"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.contactInformation?.consultationHour"
+        *ngIf="user.profile?.consultationHour"
         [linkable]="true"
-        [value]="user.contactInformation.consultationHour"
+        [value]="user.profile.consultationHour"
         title="Sprechstunde"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.contactInformation?.collegePage"
+        *ngIf="user.profile?.collegePage"
         [linkable]="true"
-        [value]="user.contactInformation.collegePage"
+        [value]="user.profile.collegePage"
         title="Personalseite"
       ></app-profile-information-card-entry>
     </app-profile-information-card>
   </div>
-  <app-sash *ngIf="user.vita" class="mt-4">
+  <app-sash *ngIf="user.profile?.vita" class="mt-4">
     <app-sash-title>Werdegang</app-sash-title>
-    <app-sash-content>{{ user.vita }}</app-sash-content>
+    <app-sash-content>{{ user.profile.vita }}</app-sash-content>
   </app-sash>
   <div class="mx-auto max-w-screen-lg flex flex-col gap-4 mt-4">
     <app-profile-publications-card
-      *ngIf="user.publications && user.publications.length > 0"
-      [publications]="user.publications"
+      *ngIf="user.profile?.publications && user.profile.publications.length > 0"
+      [publications]="user.profile.publications"
     ></app-profile-publications-card>
     <ng-container *ngIf="offeredProjects$ | async; let projects">
       <app-profile-projects-card [projects]="projects" class="w-full"></app-profile-projects-card>
