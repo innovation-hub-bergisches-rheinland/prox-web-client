@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ModuleType } from '@data/schema/project-service.types';
+import { ModuleType } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-profile-project-card-item',
@@ -14,6 +14,7 @@ export class ProfileProjectCardItemComponent {
 
   @Input()
   modules: ModuleType[] = [];
+
   @Input()
   id: string;
 

@@ -4,13 +4,12 @@ import { Observable, of } from 'rxjs';
 import { ProfileService } from '@data/service/profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, map } from 'rxjs/operators';
-import { OwnerDiscriminator } from '@data/schema/project-service.types';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 export interface Context {
   id: string;
   name: string;
-  discriminator: OwnerDiscriminator;
+  discriminator: 'lecturer' | 'organization';
 }
 
 @Component({
@@ -49,7 +48,7 @@ export class ContextSelectorComponent implements OnInit, ControlValueAccessor {
     this.userContext = {
       id: this.keycloakService.getKeycloakInstance().subject,
       name: this.username,
-      discriminator: 'user'
+      discriminator: 'lecturer'
     };
     this.selectCtrl.valueChanges.subscribe({
       next: value => this.onChange(value)

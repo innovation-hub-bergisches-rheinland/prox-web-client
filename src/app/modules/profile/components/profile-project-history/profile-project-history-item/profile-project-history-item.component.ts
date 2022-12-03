@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AnimationEvent, animate, state, style, transition, trigger } from '@angular/animations';
-import { Project } from '@data/schema/project-service.types';
+import { Project } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-profile-project-history-item',

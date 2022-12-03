@@ -7,9 +7,9 @@
       <app-profile-project-card-item
         class="odd:bg-gray-100"
         *ngFor="let project of projects"
-        [title]="project.name"
+        [title]="project.title"
         [id]="project.id"
-        [modules]="project.modules"
+        [modules]="project.curriculumContext?.modules"
       >
       </app-profile-project-card-item>
     </div>

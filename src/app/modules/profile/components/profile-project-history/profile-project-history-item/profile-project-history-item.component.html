@@ -8,7 +8,7 @@
   <div class="content-item-wrapper">
     <div class="card bg-base-200 p-4" *ngIf="_displayContent">
       <div class="card-title px-8">
-        <a class="hover:underline" [routerLink]="['/projects', _project.id]">{{ _project.name }}</a>
+        <a class="hover:underline" [routerLink]="['/projects', _project.id]">{{ _project.title }}</a>
       </div>
       <div class="card-body">
         <ng-container *ngFor="let supervisor of _project.supervisors">
@@ -16,7 +16,7 @@
             <strong [innerHTML]="supervisor.name"></strong>
           </a>
         </ng-container>
-        <p [innerHTML]="_project.shortDescription | linky"></p>
+        <p [innerHTML]="_project.summary | linky"></p>
       </div>
     </div>
   </div>

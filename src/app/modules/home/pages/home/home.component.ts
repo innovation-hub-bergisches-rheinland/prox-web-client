@@ -3,7 +3,6 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Tag } from '@data/schema/tag.types';
 import { TagService } from '@data/service/tag.service';
-import { QueryParams } from '@modules/project/pages/project/project.component';
 
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
@@ -99,17 +98,6 @@ export class HomeComponent implements OnInit {
   }
 
   async onSubmit() {
-    await this.router.navigate(['projects'], {
-      queryParams: {
-        filter: this.searchForm.value.searchInput?.trim() ?? ''
-      } as QueryParams
-    });
-  }
-
-  buildTagFilter(tag: Tag): QueryParams {
-    return {
-      tags: tag.tag,
-      state: ''
-    };
+    await this.router.navigate(['projects']);
   }
 }

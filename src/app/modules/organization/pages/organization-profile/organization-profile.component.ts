@@ -5,12 +5,12 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
-import { Project } from '@data/schema/project-service.types';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Title } from '@angular/platform-browser';
 import { Organization } from '@data/schema/profile.types';
+import { Project } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-organization-profile',
@@ -51,17 +51,18 @@ export class OrganizationProfileComponent {
     // TODO:
     this.tags$ = of([]);
     // this.tags$ = this.organization$.pipe(mergeMap(o => this.tagService.getTagsForEntity(o.id)));
-    const projects$ = this.organization$.pipe(mergeMap(org => this.projectService.findProjectsOfOrganization(org.id)));
+    // TODO
+    const projects$: Observable<Project[]> = of([]);
 
     this.offeredProjects$ = projects$.pipe(
-      map(projects => projects.filter(p => p.status === 'AVAILABLE')),
+      map(projects => projects.filter(p => p.status.state === 'OFFERED')),
       catchError(err => {
         this.notificationService.warning('Projekte konnten nicht geladen werden, versuchen Sie es später erneut.');
         return of([]);
       })
     );
     this.projectHistory$ = projects$.pipe(
-      map(projects => projects.filter(p => p.status !== 'AVAILABLE')),
+      map(projects => projects.filter(p => p.status.state === 'COMPLETED' || p.status.state === 'RUNNING')),
       catchError(err => {
         this.notificationService.warning('Projekthistorie konnte nicht geladen werden, versuchen Sie es später erneut.');
         return of([]);

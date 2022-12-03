@@ -55,6 +55,7 @@ export interface Project {
   supervisors: ProjectSupervisor[];
   tags: string[];
   timeBox: ProjectTimeBox;
+  status: ProjectStatus;
   _permissions: ProjectPermissions;
 }
 

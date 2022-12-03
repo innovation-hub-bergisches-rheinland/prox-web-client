@@ -3,32 +3,5 @@
     <app-content-page-title> Projekte </app-content-page-title>
     <app-content-page-actions></app-content-page-actions>
   </app-content-page-header>
-  <app-content-page-content>
-    <div class="flex flex-row gap-4">
-      <app-project-search-panel class="flex-1" (search)="setQueryParams($event)" [initial]="currentFilter"> </app-project-search-panel>
-      <ng-container *ngIf="hasProjectCreationPermission()">
-        <app-add-button (click)="openProjectEditorDialog(null)" data-tip="Neues Projekt hinzufügen" class="tooltip"> </app-add-button>
-      </ng-container>
-      <mat-divider></mat-divider>
-    </div>
-
-    <div class="flex flex-col gap-6 mt-4 items-stretch">
-      <app-project-item
-        *ngFor="let project of projectsPage"
-        [showDetails]="false"
-        [project]="project"
-        (updated)="onUpdateProject($event)"
-        (deleted)="onDeleteProject(project)"
-      ></app-project-item>
-    </div>
-
-    <div class="flex flex-col items-center w-full mt-8">
-      <app-paginator
-        (page)="changePageIndexOrSize($event)"
-        [length]="projects.length"
-        [pageSize]="pageSize"
-        [pageIndex]="pageIndex"
-      ></app-paginator>
-    </div>
-  </app-content-page-content>
+  <app-content-page-content> </app-content-page-content>
 </app-content-page>

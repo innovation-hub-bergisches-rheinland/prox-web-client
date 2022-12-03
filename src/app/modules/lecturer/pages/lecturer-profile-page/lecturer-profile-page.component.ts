@@ -8,13 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { Project } from '@data/schema/project-service.types';
 import {
   LecturerProfileEditorDialogComponent,
   UserProfileEditorInput
 } from '@modules/lecturer/components/lecturer-profile-editor-dialog/lecturer-profile-editor-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { Lecturer } from '@data/schema/profile.types';
+import { Project } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-lecturer-profile-page',
@@ -73,22 +73,8 @@ export class LecturerProfilePageComponent {
         return of([]);
       })
     );*/
-    const projects$ = this.user$.pipe(
-      take(1),
-      mergeMap(user => this.projectService.findProjectsOfUser(user.id)),
-      catchError(err => {
-        this.notificationService.warning('Projekte konnte nicht geladen werden.');
-        return of([]);
-      })
-    );
-    this.offeredProjects$ = projects$.pipe(map(projects => projects.filter(p => p.status === 'AVAILABLE')));
-    this.projectHistory$ = projects$.pipe(
-      map(projects => projects.filter(p => p.status !== 'AVAILABLE')),
-      catchError(err => {
-        this.notificationService.warning('Projekthistorie konnte nicht geladen werden.');
-        return of([]);
-      })
-    );
+    // TODO:
+    const projects$: Observable<Project[]> = of([]);
   }
 
   editProfile(profile: Lecturer) {

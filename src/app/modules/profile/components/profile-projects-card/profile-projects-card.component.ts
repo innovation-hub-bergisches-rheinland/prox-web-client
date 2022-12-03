@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Project } from '@data/schema/project.types';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
-import { Project } from '@data/schema/project-service.types';
 
 @Component({
   selector: 'app-profile-projects-card',
