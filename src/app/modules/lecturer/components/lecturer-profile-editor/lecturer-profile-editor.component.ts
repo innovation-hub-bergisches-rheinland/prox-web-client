@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ProfileService } from '@data/service/profile.service';
-import { catchError, forkJoin, mergeMap, of, throwError } from 'rxjs';
+import { catchError, combineLatestWith, forkJoin, map, mergeMap, of, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
@@ -60,22 +60,30 @@ export class LecturerProfileEditorComponent implements OnInit {
     const userProfile = this.buildUserProfile();
     const avatar = this.userProfileAvatarFormGroup.controls['avatar'].value as File;
     const tags = this.userProfileAdditionalInformationForm.controls['subjects'].value as string[];
+    const tags$ = tags ? this.tagService.synchronize(tags).pipe(map(tags => tags.tags.map(tag => tag.id))) : of([]);
+    const lecturer$ = this.profileService.updateLecturer(this.id, userProfile);
 
-    this.profileService
-      .createLecturer(this.id, userProfile)
+    const setTags$ = lecturer$.pipe(
+      combineLatestWith(tags$),
+      mergeMap(([lecturer, tags]) => {
+        return this.profileService.setLecturerTags(lecturer.id, tags);
+      })
+    );
+
+    lecturer$
       .pipe(
-        mergeMap(profile =>
+        mergeMap(lecturer =>
           forkJoin({
-            profile: of(profile),
-            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setLecturerAvatar(this.id, avatar) : of(null),
-            tags: tags ? this.tagService.synchronize(tags) : of(null)
+            lecturer: of(lecturer),
+            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setLecturerAvatar(lecturer.id, avatar) : of(null),
+            tags: setTags$
           })
         )
       )
       .subscribe({
         next: value => {
           this.notificationService.success('Benutzerprofil wurde erfolgreich gespeichert');
-          this.saved.emit(value.profile);
+          this.saved.emit(value.lecturer);
         },
         error: err => {
           this.notificationService.success('Benutzerprofil konnte nicht gespeichert werden');
@@ -123,22 +131,8 @@ export class LecturerProfileEditorComponent implements OnInit {
       avatar: lecturer.avatarUrl
     });
 
-    // TODO
-    /*
-    this.tagService
-      .getTagsForEntity(this.id)
-      .pipe(
-        catchError(err => {
-          this.notificationService.error('Tags konnten nicht geladen werden');
-          return throwError(() => err);
-        })
-      )
-      .subscribe({
-        next: tags => {
-          this.userProfileAdditionalInformationForm.patchValue({
-            subjects: tags
-          });
-        }
-      });*/
+    this.userProfileAdditionalInformationForm.patchValue({
+      subjects: lecturer.tags
+    });
   }
 }

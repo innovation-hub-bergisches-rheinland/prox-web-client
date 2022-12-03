@@ -154,8 +154,22 @@ export class ProfileService {
     });
   }
 
-  createLecturer(id: string, profile: CreateLecturerRequest): Observable<Lecturer> {
-    return this.httpClient.post<Lecturer>(`${this.basePath}/lecturers`, profile, {
+  updateLecturer(id: string, profile: CreateLecturerRequest): Observable<Lecturer> {
+    return this.httpClient.put<Lecturer>(`${this.basePath}/lecturers/${id}`, profile, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setLecturerTags(id: string, tagIds: string[]): Observable<void> {
+    const body = {
+      tags: tagIds
+    };
+    return this.httpClient.post<void>(`${this.basePath}/lecturers/${id}/tags`, body, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
