@@ -44,7 +44,7 @@ export interface OrganizationProfile {
   contactEmail: string;
   vita: string;
   headquarter: string;
-  quarters: string[];
+  quarters: string;
   socialMediaHandles: Record<SocialMedia, string>;
 }
 
