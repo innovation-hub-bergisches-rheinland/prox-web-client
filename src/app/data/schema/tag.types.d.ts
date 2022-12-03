@@ -4,7 +4,7 @@ export interface Tag {
 }
 
 export interface SynchronizeTagsResponse {
-  tags: string[];
+  tags: Tag[];
 }
 
 export interface SynchronizeTagsRequest {

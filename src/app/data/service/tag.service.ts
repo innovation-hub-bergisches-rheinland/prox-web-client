@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
-import { SynchronizeTagsRequest, SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
+import { SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +50,8 @@ export class TagService {
   }
 
   synchronize(tags: string[]): Observable<SynchronizeTagsResponse> {
-    return this.httpClient.post<SynchronizeTagsRequest>(
-      `${this.basePath}/tags/synchronize`,
+    return this.httpClient.post<SynchronizeTagsResponse>(
+      `${this.basePath}/tags/synchronization`,
       {
         tags: tags
       },

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { socialMediaHandleValidator } from '@modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
 import { ProfileService } from '@data/service/profile.service';
-import { forkJoin, mergeMap, of } from 'rxjs';
+import { combineLatest, combineLatestWith, filter, forkJoin, map, mergeMap, of } from 'rxjs';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { CreateOrganizationRequest, Organization, OrganizationProfile } from '@data/schema/profile.types';
@@ -53,7 +53,7 @@ export class OrganizationEditorComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private userService: ProfileService,
+    private profileService: ProfileService,
     private tagService: TagService,
     private notificationService: NotificationService
   ) {}
@@ -67,19 +67,27 @@ export class OrganizationEditorComponent implements OnInit {
   saveOrg() {
     const org = this.buildOrganization();
     const avatar = this.organizationAvatarFormGroup.controls['avatar'].value as File;
-    const saveObservable =
+    const org$ =
       this.organization === null
-        ? this.userService.createOrganization(org)
-        : this.userService.updateOrganization(this.organization.id, org);
+        ? this.profileService.createOrganization(org)
+        : this.profileService.updateOrganization(this.organization.id, org);
     const tags = this.organizationProfileForm.controls['branches'].value as string[];
 
-    saveObservable
+    const tags$ = tags ? this.tagService.synchronize(tags).pipe(map(tags => tags.tags.map(tag => tag.id))) : of([]);
+    const setTags$ = org$.pipe(
+      combineLatestWith(tags$),
+      mergeMap(([org, tags]) => {
+        return this.profileService.setOrganizationTags(org.id, tags);
+      })
+    );
+
+    org$
       .pipe(
         mergeMap(org =>
           forkJoin({
             org: of(org),
-            avatar: avatar && typeof avatar !== 'string' ? this.userService.setOrganizationAvatar(org.id, avatar) : of(null),
-            tags: tags ? this.tagService.synchronize(tags) : of(null)
+            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setOrganizationAvatar(org.id, avatar) : of(null),
+            tags: setTags$
           })
         )
       )

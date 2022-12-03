@@ -56,6 +56,20 @@ export class ProfileService {
     });
   }
 
+  setOrganizationTags(id: string, tagIds: string[]): Observable<void> {
+    const body = {
+      tags: tagIds
+    };
+    return this.httpClient.post<void>(`${this.basePath}/organizations/${id}/tags`, body, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
   getAllOrganizations(): Observable<Organization[]> {
     return this.httpClient.get<Organization[]>(`${this.basePath}/organizations`, {
       headers: {
