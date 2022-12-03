@@ -13,22 +13,20 @@ export class TagService {
   constructor(protected httpClient: HttpClient) {}
 
   findMatching(query: string): Observable<Tag[]> {
-    const params = new HttpParams();
-    params.set('q', query);
+    const params = new HttpParams().set('q', query);
     return this.httpClient.get<Tag[]>(`${this.basePath}/tags`, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
-      params,
+      params: params,
       observe: 'body',
       reportProgress: false
     });
   }
 
   getRecommendations(input: string[]): Observable<Tag[]> {
-    const params = new HttpParams();
-    params.set('tags', input.join(','));
+    const params = new HttpParams().set('tags', input.join(','));
     return this.httpClient.get<Tag[]>(`${this.basePath}/tags/recommendations`, {
       headers: {
         'Content-Type': 'application/json',
