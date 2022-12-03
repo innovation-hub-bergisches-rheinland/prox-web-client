@@ -135,9 +135,6 @@ export class OrganizationEditorComponent implements OnInit {
       avatar: organization.logoUrl
     });
 
-    // TODO
-    /*this.tagService.getTagsForEntity(organization.id).subscribe({
-      next: value => this.organizationProfileForm.patchValue({ branches: value })
-    });*/
+    this.organizationProfileForm.patchValue({ branches: organization.tags });
   }
 }
