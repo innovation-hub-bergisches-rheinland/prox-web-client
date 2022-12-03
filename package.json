@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "cross-env NG_PERSISTENT_BUILD_CACHE=1 ng serve",
+    "start:local": "npm run start -- --configuration local",
     "build": "cross-env NG_PERSISTENT_BUILD_CACHE=1 ng build",
     "build:dev": "npm run build -- --watch",
     "build:ci": "npm run build:prod",

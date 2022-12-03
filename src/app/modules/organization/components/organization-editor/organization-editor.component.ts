@@ -101,7 +101,8 @@ export class OrganizationEditorComponent implements OnInit {
         vita: this.organizationInformationForm.controls['vita'].value,
         contactEmail: this.organizationInformationForm.controls['contactEmail'].value,
         homepage: this.organizationInformationForm.controls['homepage'].value,
-        ...(this.organizationProfileForm.value as Omit<OrganizationProfile, 'vita' | 'homepage' | 'contactEmail'>),
+        ...(this.organizationProfileForm.value as Omit<OrganizationProfile, 'vita' | 'homepage' | 'contactEmail' | 'quarters'>),
+        quarters: [],
         socialMediaHandles: this.organizationSocialMediaForm.value
       }
     };
