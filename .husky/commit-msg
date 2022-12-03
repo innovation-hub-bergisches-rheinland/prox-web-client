@@ -1,4 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx --no -- commitlint --edit $1
+if [ "$(git branch --show-current)" = "main" ]; then
+  npx --no -- commitlint --edit $1
+fi
