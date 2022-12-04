@@ -154,6 +154,19 @@ export class ProfileService {
     });
   }
 
+  filterLecturers(query: string): Observable<Lecturer[]> {
+    const params = new HttpParams().set('q', query);
+
+    return this.httpClient.get<Lecturer[]>(`${this.basePath}/lecturers/search/filter`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      params,
+      reportProgress: false
+    });
+  }
+
   updateLecturer(id: string, profile: CreateLecturerRequest): Observable<Lecturer> {
     return this.httpClient.put<Lecturer>(`${this.basePath}/lecturers/${id}`, profile, {
       headers: {

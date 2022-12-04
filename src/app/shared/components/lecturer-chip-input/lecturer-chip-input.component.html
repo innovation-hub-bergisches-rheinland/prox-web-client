@@ -1,0 +1,35 @@
+<mat-form-field class="w-full" appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <mat-chip-list #lecturerList>
+    <ng-container *ngFor="let lecturer of _lecturers">
+      <mat-chip [removable]="true" (removed)="removeLecturer(lecturer)">
+        {{ lecturer.name }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </ng-container>
+
+    <input
+      #lecturerInput
+      [formControl]="lecturerInputCtrl"
+      [placeholder]="label"
+      [matAutocomplete]="lecturerAuto"
+      [matChipInputFor]="lecturerList"
+    />
+  </mat-chip-list>
+
+  <mat-autocomplete #lecturerAuto="matAutocomplete" (optionSelected)="selectedLecturer($event)">
+    <mat-option *ngFor="let lecturer of lecturerAutocomplete$ | async" [value]="lecturer">
+      <div class="flex flex-row justify-between">
+        <div>
+          <img [src]="lecturer.avatarUrl" (error)="errorHandler($event)" class="h-8 w-8 object-cover inline-block rounded-full" />
+          <strong class="mx-2">{{ lecturer.name }}</strong>
+        </div>
+        <div>
+          <a href="/lecturers/{{ lecturer.id }}" target="_blank" (click)="onOpenInNewClicked($event)">
+            <mat-icon>open_in_new</mat-icon>
+          </a>
+        </div>
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
