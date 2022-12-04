@@ -13,11 +13,13 @@ import { ProjectEditorModuleComponent } from './components/project-editor/projec
 import { ProjectEditorInformationComponent } from './components/project-editor/project-editor-information/project-editor-information.component';
 import { ProjectEditorTagComponent } from './components/project-editor/project-editor-tag/project-editor-tag.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
+import { ProjectCardHeaderComponent } from './components/project-card/project-card-header/project-card-header.component';
 
 @NgModule({
   declarations: [
     ProjectComponent,
     ProjectCardComponent,
+    ProjectCardHeaderComponent,
     ProjectIconsComponent,
     ProjectEditorModuleComponent,
     ProjectEditorInformationComponent,
