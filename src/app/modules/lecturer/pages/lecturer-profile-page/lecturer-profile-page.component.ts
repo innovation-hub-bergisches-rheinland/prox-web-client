@@ -3,7 +3,7 @@ import { Observable, mergeMap, of, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from '@data/service/profile.service';
 import { KeycloakService } from 'keycloak-angular';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { catchError, map, share, take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
@@ -58,23 +58,21 @@ export class LecturerProfilePageComponent {
       catchError(error => {
         this.notificationService.error('Benutzerprofil konnte nicht geladen werden.');
         return throwError(() => error);
-      })
+      }),
+      share()
     );
 
     this.user$.subscribe(user => this.updateTitle(user));
 
-    // TODO
-    this.tags$ = of([]);
-    /*this.tags$ = this.user$.pipe(
-      take(1),
-      mergeMap(user => this.tagService.getTagsForEntity(user.id)),
-      catchError(err => {
-        this.notificationService.warning('Tags konnte nicht geladen werden.');
-        return of([]);
-      })
-    );*/
-    // TODO:
-    const projects$: Observable<Project[]> = of([]);
+    this.tags$ = this.user$.pipe(map(user => user.tags));
+    const projects$: Observable<Project[]> = this.user$.pipe(
+      mergeMap(user => this.projectService.findBySupervisor(user.id)),
+      share()
+    );
+    this.offeredProjects$ = projects$.pipe(map(projects => projects.filter(project => project.status.state === 'OFFERED')));
+    this.projectHistory$ = projects$.pipe(
+      map(projects => projects.filter(project => project.status.state === 'RUNNING' || project.status.state === 'COMPLETED'))
+    );
   }
 
   editProfile(profile: Lecturer) {

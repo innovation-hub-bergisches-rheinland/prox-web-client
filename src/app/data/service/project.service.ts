@@ -96,6 +96,32 @@ export class ProjectService {
       .pipe(map(p => p.projects));
   }
 
+  findBySupervisor(id: string): Observable<Project[]> {
+    const params = new HttpParams().set('supervisor', id);
+    return this.httpClient
+      .get<ProjectList>(`${this.basePath}/projects/search/findBySupervisor`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        params,
+        observe: 'body'
+      })
+      .pipe(map(r => r.projects));
+  }
+
+  findByPartner(id: string): Observable<Project[]> {
+    const params = new HttpParams().set('partner', id);
+    return this.httpClient
+      .get<ProjectList>(`${this.basePath}/projects/search/findByPartner`, {
+        headers: {
+          Accept: 'application/json'
+        },
+        params,
+        observe: 'body'
+      })
+      .pipe(map(r => r.projects));
+  }
+
   deleteProject(project: Pick<Project, 'id'>): Observable<any> {
     return this.httpClient.delete<any>(`${this.basePath}/projects/${project.id}`, {
       headers: {

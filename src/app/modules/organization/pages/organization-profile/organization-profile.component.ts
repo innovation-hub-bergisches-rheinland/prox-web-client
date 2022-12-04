@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ProfileService } from '@data/service/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, share, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
@@ -41,32 +41,22 @@ export class OrganizationProfileComponent {
           await router.navigate(['404']);
         }
         throw err;
-      })
+      }),
+      share()
     );
 
     this.avatar$ = this.organization$.pipe(map(o => o.logoUrl));
 
     this.organization$.subscribe(o => this.updateTitle(o));
 
-    // TODO:
-    this.tags$ = of([]);
-    // this.tags$ = this.organization$.pipe(mergeMap(o => this.tagService.getTagsForEntity(o.id)));
-    // TODO
-    const projects$: Observable<Project[]> = of([]);
-
-    this.offeredProjects$ = projects$.pipe(
-      map(projects => projects.filter(p => p.status.state === 'OFFERED')),
-      catchError(err => {
-        this.notificationService.warning('Projekte konnten nicht geladen werden, versuchen Sie es später erneut.');
-        return of([]);
-      })
+    this.tags$ = this.organization$.pipe(map(org => org.tags));
+    const projects$: Observable<Project[]> = this.organization$.pipe(
+      mergeMap(org => this.projectService.findByPartner(org.id)),
+      share()
     );
+    this.offeredProjects$ = projects$.pipe(map(projects => projects.filter(project => project.status.state === 'OFFERED')));
     this.projectHistory$ = projects$.pipe(
-      map(projects => projects.filter(p => p.status.state === 'COMPLETED' || p.status.state === 'RUNNING')),
-      catchError(err => {
-        this.notificationService.warning('Projekthistorie konnte nicht geladen werden, versuchen Sie es später erneut.');
-        return of([]);
-      })
+      map(projects => projects.filter(project => project.status.state === 'RUNNING' || project.status.state === 'COMPLETED'))
     );
   }
 
