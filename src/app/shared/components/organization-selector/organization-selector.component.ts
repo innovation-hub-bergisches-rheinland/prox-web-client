@@ -55,8 +55,4 @@ export class OrganizationSelectorComponent implements OnInit, ControlValueAccess
   registerOnTouched(fn: () => void): void {
     this.onTouch = fn;
   }
-
-  compareOrganizations(c1: Organization, c2: Organization): boolean {
-    return c1.id === c2.id;
-  }
 }
