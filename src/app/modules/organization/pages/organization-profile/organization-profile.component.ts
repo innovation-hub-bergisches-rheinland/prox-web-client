@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ProfileService } from '@data/service/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mergeMap, share, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, share, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +35,7 @@ export class OrganizationProfileComponent {
     private titleService: Title
   ) {
     this.organization$ = this.activatedRoute.params.pipe(
+      filter(p => !!p['id']),
       mergeMap(p => this.profileService.getOrganization(p['id'])),
       catchError(async (err: HttpErrorResponse) => {
         if (err.status === 404) {
@@ -42,15 +43,16 @@ export class OrganizationProfileComponent {
         }
         throw err;
       }),
-      share()
+      tap(organization => this.updateTitle(organization))
     );
 
-    this.avatar$ = this.organization$.pipe(map(o => o.logoUrl));
+    const sharedOrganization$ = this.organization$.pipe(share());
 
-    this.organization$.subscribe(o => this.updateTitle(o));
+    this.avatar$ = sharedOrganization$.pipe(map(o => o.logoUrl));
 
-    this.tags$ = this.organization$.pipe(map(org => org.tags));
-    const projects$: Observable<Project[]> = this.organization$.pipe(
+    this.tags$ = sharedOrganization$.pipe(map(org => org.tags));
+    const projects$: Observable<Project[]> = sharedOrganization$.pipe(
+      tap(org => console.log(org)),
       mergeMap(org => this.projectService.findByPartner(org.id)),
       share()
     );
