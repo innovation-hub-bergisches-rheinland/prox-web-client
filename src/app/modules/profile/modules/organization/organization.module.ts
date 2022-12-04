@@ -9,7 +9,7 @@ import { OrganizationOverviewComponent } from './pages/organization-overview/org
 import { OrganizationMembersComponent } from './pages/organization-members/organization-members.component';
 import { OrganizationMembershipsListComponent } from './components/organization-memberships-list/organization-memberships-list.component';
 import { OrganizationAddMemberDialogComponent } from './components/organization-add-member-dialog/organization-add-member-dialog.component';
-import { OrganizationEditMemberDialogComponent } from '@modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
+import { OrganizationEditMemberDialogComponent } from '@modules/profile/modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
 import { OrganizationEditorInformationComponent } from './components/organization-editor/organization-editor-information/organization-editor-information.component';
 import { OrganizationEditorProfileComponent } from './components/organization-editor/organization-editor-profile/organization-editor-profile.component';
 import { OrganizationEditorDialogComponent } from './components/organization-editor-dialog/organization-editor-dialog.component';

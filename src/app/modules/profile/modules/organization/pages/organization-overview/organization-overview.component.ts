@@ -3,7 +3,7 @@ import { ProfileService } from '@data/service/profile.service';
 import { Observable } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
-import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
+import { OrganizationEditorDialogComponent } from '@modules/profile/modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { map } from 'rxjs/operators';
 import { Organization } from '@data/schema/profile.types';
 

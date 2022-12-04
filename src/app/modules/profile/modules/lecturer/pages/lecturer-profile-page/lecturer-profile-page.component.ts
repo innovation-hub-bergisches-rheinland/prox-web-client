@@ -11,7 +11,7 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 import {
   LecturerProfileEditorDialogComponent,
   UserProfileEditorInput
-} from '@modules/lecturer/components/lecturer-profile-editor-dialog/lecturer-profile-editor-dialog.component';
+} from '@modules/profile/modules/lecturer/components/lecturer-profile-editor-dialog/lecturer-profile-editor-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { Lecturer } from '@data/schema/profile.types';
 import { Project } from '@data/schema/project.types';
