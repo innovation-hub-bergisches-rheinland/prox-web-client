@@ -21,7 +21,12 @@
     <mat-option *ngFor="let lecturer of lecturerAutocomplete$ | async" [value]="lecturer">
       <div class="flex flex-row justify-between">
         <div>
-          <img [src]="lecturer.avatarUrl" (error)="errorHandler($event)" class="h-8 w-8 object-cover inline-block rounded-full" />
+          <img
+            alt="Profilbild von {{ lecturer.name }}"
+            [src]="lecturer.avatarUrl ? lecturer.avatarUrl : '/assets/images/blank-profile-picture.png'"
+            (error)="errorHandler($event)"
+            class="h-8 w-8 object-cover inline-block rounded-full"
+          />
           <strong class="mx-2">{{ lecturer.name }}</strong>
         </div>
         <div>
