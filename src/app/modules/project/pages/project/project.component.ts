@@ -18,7 +18,7 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {}
   ngOnInit(): void {
-    this.projects$ = this.projectService.getAllProjects();
+    this.projects$ = this.projectService.filterProjects('OFFERED');
   }
 
   public openProjectEditorDialog(project: Project) {
