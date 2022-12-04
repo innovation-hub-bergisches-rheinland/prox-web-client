@@ -57,6 +57,8 @@ export interface Project {
   timeBox: ProjectTimeBox;
   status: ProjectStatus;
   _permissions: ProjectPermissions;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export interface ProjectList {

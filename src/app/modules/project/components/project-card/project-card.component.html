@@ -1,0 +1,86 @@
+<div class="border-2 bg-base-100 shadow-xl p-10">
+  <div class="flex flex-row justify-between">
+    <div class="flex flex-col">
+      <strong class="text-lg font-bold text-black basis-3/4">{{ project.title }}</strong>
+      <span class="text-secondary" matTooltip="Projektbetreuer">
+        <strong>Betreuer: </strong>
+        <ng-container *ngFor="let supervisor of project.supervisors">
+          <a class="mr-2" [routerLink]="['/users', supervisor.id]">
+            <strong [innerHTML]="supervisor.name"></strong>
+          </a>
+        </ng-container>
+      </span>
+    </div>
+    <app-project-icons
+      class="basis-1/4 flex-initial"
+      [disciplines]="project.curriculumContext?.disciplines"
+      [status]="project.status"
+      [partner]="project.partner"
+    ></app-project-icons>
+  </div>
+  <div class="divider"></div>
+  <div class="flex flex-col justify-between content-between gap-5">
+    <div>
+      <strong>Kurze Projektbeschreibung:</strong>
+      <p [innerHTML]="project.summary | linky"></p>
+    </div>
+    <div *ngIf="showDetails">
+      <strong> Projektbeschreibung:</strong>
+      <div>
+        <p [innerHTML]="project.description | linky"></p>
+      </div>
+    </div>
+    <div class="flex flex-row gap-2 justify-between content-center">
+      <div class="basis-3/4">
+        <strong>Teilnahmevoraussetzungen:</strong>
+
+        <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
+
+        <p>{{ project.requirement }}</p>
+      </div>
+      <div class="basis-1/4">
+        <strong>Projekttypen:</strong>
+
+        <p *ngFor="let module of project.curriculumContext?.modules">
+          <strong>({{ module.key }})</strong> {{ module.name }}
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-row gap-5 justify-between content-center">
+      <div class="basis-3/4">
+        <app-chip-list>
+          <app-chip *ngFor="let tag of project.tags" [attr.data-tip]="tag" class="tooltip">
+            {{ tag }}
+          </app-chip>
+        </app-chip-list>
+      </div>
+      <div class="basis-1/4">
+        <strong>Erstellt am:</strong>
+        <p>{{ project.createdAt | date: 'YYYY-MM-dd' }}</p>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="!showDetails || project._permissions.hasAccess">
+    <div class="divider"></div>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-row gap-2">
+        <button
+          class="tooltip btn btn-sm btn-primary"
+          *ngIf="!showDetails"
+          routerLink="/projects/{{ project.id }}"
+          data-tip="Weiterführende Projektdetails"
+        >
+          Projektdetails
+        </button>
+      </div>
+      <div class="flex flex-row gap-2">
+        <button class="btn btn-outline" (click)="onEditClick()" *ngIf="project._permissions.hasAccess">
+          <fa-icon [icon]="editIcon"></fa-icon>
+        </button>
+        <button class="btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="project._permissions.hasAccess">
+          <fa-icon [icon]="deleteIcon"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

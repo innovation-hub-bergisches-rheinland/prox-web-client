@@ -1,0 +1,11 @@
+<div class="flex flex-row-reverse gap-2">
+  <ng-container>
+    <app-status-icon *ngIf="statusIcons[status.state]; let iconDef" [icon]="iconDef.icon" [tooltip]="iconDef.tooltip"></app-status-icon>
+  </ng-container>
+  <ng-container>
+    <app-status-icon *ngFor="let d of disciplines" [icon]="disciplineIcons[d.key]" [tooltip]="d.name"></app-status-icon>
+  </ng-container>
+  <ng-container *ngIf="partner.id">
+    <app-status-icon [icon]="companyIcon" data-tip="Projekt mit einem Projektpartner" class="tooltip"></app-status-icon>
+  </ng-container>
+</div>
