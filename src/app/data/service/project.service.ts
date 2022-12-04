@@ -61,6 +61,21 @@ export class ProjectService {
     });
   }
 
+  setProjectPartner(id: string, organizationId: string): Observable<void> {
+    const body = {
+      organizationId
+    };
+
+    return this.httpClient.put<void>(`${this.basePath}/projects/${id}/partner`, body, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
   getProject(id: string): Observable<Project> {
     return this.httpClient.get<Project>(`${this.basePath}/projects/${id}`, {
       headers: {

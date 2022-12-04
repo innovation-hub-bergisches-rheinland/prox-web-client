@@ -2,9 +2,9 @@
   <ng-container *ngIf="!isEdit">
     <p class="p-2 font-light">
       <span class="badge badge-primary mr-0 ml-auto">Neu</span>
-      Es ist jetzt auch möglich Projekte unter Organisationen, denen Sie angehören, anzulegen.
+      Es ist jetzt auch möglich Projekte mit Projektpartnern anzulegen.
     </p>
-    <app-organization-selector></app-organization-selector>
+    <app-organization-selector formControlName="partner"></app-organization-selector>
   </ng-container>
 
   <mat-form-field appearance="outline">

@@ -3,7 +3,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, UntypedFormContro
 import { Observable, of } from 'rxjs';
 import { ProfileService } from '@data/service/profile.service';
 import { KeycloakService } from 'keycloak-angular';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Organization } from '@data/schema/profile.types';
 
@@ -22,12 +22,12 @@ import { Organization } from '@data/schema/profile.types';
 export class OrganizationSelectorComponent implements OnInit, ControlValueAccessor {
   organizations$: Observable<Organization[]>;
 
-  selectCtrl = new FormControl<Organization>(null);
+  selectCtrl = new FormControl<string>('');
 
   constructor(private profileService: ProfileService, private notificationService: NotificationService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange = (context: Organization) => {};
+  onChange = (org: string) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouch = () => {};
@@ -38,17 +38,17 @@ export class OrganizationSelectorComponent implements OnInit, ControlValueAccess
     });
     this.organizations$ = this.profileService.getOrganizationsOfUser().pipe(
       catchError(err => {
-        this.notificationService.warning('Kontexte können aktuell nicht geladen werden.');
+        this.notificationService.warning('Organisationen können aktuell nicht geladen werden.');
         return of([]);
       })
     );
   }
 
-  writeValue(obj: Organization): void {
+  writeValue(obj: string): void {
     this.selectCtrl.setValue(obj);
   }
 
-  registerOnChange(fn: (obj: Organization) => void): void {
+  registerOnChange(fn: (obj: string) => void): void {
     this.onChange = fn;
   }
 

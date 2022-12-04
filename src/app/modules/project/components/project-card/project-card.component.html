@@ -10,6 +10,12 @@
           </a>
         </ng-container>
       </span>
+      <span class="text-secondary" matTooltip="Projektpartner" *ngIf="project.partner">
+        <strong>Projektpartner: </strong>
+        <a class="mr-2" [routerLink]="['/organizations', project.partner.id]">
+          <strong [innerHTML]="project.partner.name"></strong>
+        </a>
+      </span>
     </div>
     <app-project-icons
       class="basis-1/4 flex-initial"

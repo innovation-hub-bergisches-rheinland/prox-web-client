@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { Organization } from '@data/schema/profile.types';
 
 export interface InformationFormGroup {
   title: FormControl<string>;
@@ -7,7 +8,7 @@ export interface InformationFormGroup {
   description: FormControl<string>;
   requirement: FormControl<string>;
   supervisors: FormControl<any>;
-  partner: FormControl<any>;
+  partner: FormControl<string>;
 }
 
 @Component({

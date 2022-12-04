@@ -11,7 +11,7 @@ import { CreateProjectRequest, Project } from '@data/schema/project.types';
 import { InformationFormGroup } from './project-editor-information/project-editor-information.component';
 import { CurriculumFormGroup } from './project-editor-module/project-editor-module.component';
 import { TagFormGroup } from './project-editor-tag/project-editor-tag.component';
-import { combineLatestWith, forkJoin, map, mergeMap, of, share } from 'rxjs';
+import { combineLatestWith, filter, forkJoin, map, mergeMap, of, share } from 'rxjs';
 
 @Component({
   selector: 'app-project-editor',
@@ -87,7 +87,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.controls.description.setValue(project.description);
     this.projectForm.controls.information.controls.requirement.setValue(project.requirement);
     this.projectForm.controls.information.controls.supervisors.setValue(project.supervisors);
-    this.projectForm.controls.information.controls.partner.setValue(project.partner);
+    this.projectForm.controls.information.controls.partner.setValue(project.partner?.id);
 
     const disciplines = project.curriculumContext?.disciplines?.map(discipline => discipline.key) ?? [];
     const modules = project.curriculumContext?.modules?.map(module => module.key) ?? [];
@@ -121,6 +121,7 @@ export class ProjectEditorComponent implements OnInit {
     const project = this.buildProject();
     const tags = this.projectForm.controls.tag.controls.tags.value;
     const supervisors = this.projectForm.controls.information.controls.supervisors.value;
+    const partner = this.projectForm.controls.information.controls.partner.value;
 
     const project$ = (
       this.isEdit ? this.projectService.updateProject(this.project.id, project) : this.projectService.createProject(project)
@@ -139,11 +140,20 @@ export class ProjectEditorComponent implements OnInit {
         return this.projectService.setProjectSupervisors(project.id, supervisors);
       })
     );
+    const partner$ = partner ? of(partner) : of(null);
+    const setPartner$ = project$.pipe(
+      combineLatestWith(partner$),
+      filter(([_, partner]) => !!partner),
+      mergeMap(([project, partner]) => {
+        return this.projectService.setProjectPartner(project.id, partner);
+      })
+    );
 
     forkJoin({
       project: project$,
       tags: setTags$,
-      supervisors: setSupervisors$
+      supervisors: setSupervisors$,
+      partner: setPartner$
     }).subscribe({
       next: value => {
         this.notificationService.success('Projekt wurde erfolgreich gespeichert');
