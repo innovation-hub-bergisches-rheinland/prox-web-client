@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
-import { Context } from '@shared/components/context-selector/context-selector.component';
 import { CreateProjectRequest, Discipline, ModuleType, Project, ProjectList, ProjectState } from '@data/schema/project.types';
 
 @Injectable({
@@ -34,6 +33,31 @@ export class ProjectService {
         Accept: 'application/json'
       },
       observe: 'body'
+    });
+  }
+
+  setProjectTags(id: string, tagIds: string[]): Observable<void> {
+    const body = {
+      tags: tagIds
+    };
+    return this.httpClient.post<void>(`${this.basePath}/projects/${id}/tags`, body, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setProjectSupervisors(id: string, supervisorIds: string[]): Observable<void> {
+    return this.httpClient.post<void>(`${this.basePath}/projects/${id}/supervisors`, supervisorIds, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
     });
   }
 

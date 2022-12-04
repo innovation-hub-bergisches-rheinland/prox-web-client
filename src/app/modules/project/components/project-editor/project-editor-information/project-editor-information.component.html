@@ -1,0 +1,59 @@
+<form [formGroup]="informationFormGroup" class="flex flex-col">
+  <ng-container *ngIf="!isEdit">
+    <p class="p-2 font-light">
+      <span class="badge badge-primary mr-0 ml-auto">Neu</span>
+      Es ist jetzt auch möglich Projekte unter Organisationen, denen Sie angehören, anzulegen.
+    </p>
+    <app-organization-selector></app-organization-selector>
+  </ng-container>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Bezeichnung</mat-label>
+    <input formControlName="title" matInput maxlength="255" placeholder="Bezeichnung" required />
+
+    <mat-hint align="end"> {{ informationFormGroup.controls.title.value?.length }}/255</mat-hint>
+
+    <mat-error *ngIf="informationFormGroup.controls.title.hasError('required')"> Bezeichnung <strong>fehlt</strong>! </mat-error>
+    <mat-error *ngIf="informationFormGroup.controls.title.hasError('pattern')"> Bezeichnung enthält ungültige Zeichen. </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Kurzbeschreibung</mat-label>
+    <textarea formControlName="summary" class="form-textarea" matInput maxlength="10000" placeholder="Kurzbeschreibung" required></textarea>
+
+    <mat-hint align="end"> {{ informationFormGroup.controls['summary'].value?.length || 0 }}/10000</mat-hint>
+
+    <mat-error *ngIf="informationFormGroup.controls['summary'].hasError('required')"> Kurzbeschreibung <strong>fehlt</strong>! </mat-error>
+    <mat-error *ngIf="informationFormGroup.controls['summary'].hasError('pattern')">
+      Kurzbeschreibung enthält ungültige Zeichen.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Voraussetzungen</mat-label>
+    <textarea
+      formControlName="requirement"
+      class="form-textarea"
+      matInput
+      maxlength="10000"
+      placeholder="Teilnahmevoraussetzungen"
+    ></textarea>
+
+    <mat-hint align="end"> {{ informationFormGroup.controls['requirement'].value?.length || 0 }}/10000</mat-hint>
+    <mat-error *ngIf="informationFormGroup.controls['requirement'].hasError('pattern')">
+      Teilnahmevoraussetzungen enthält ungültige Zeichen.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Beschreibung</mat-label>
+    <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
+
+    <mat-hint align="end"> {{ informationFormGroup.controls['description'].value?.length || 0 }}/10000</mat-hint>
+    <mat-error *ngIf="informationFormGroup.controls['description'].hasError('pattern')">
+      Beschreibung enthält ungültige Zeichen.
+    </mat-error>
+  </mat-form-field>
+
+  <app-user-chip-input formControlName="supervisors" label="Betreuer"></app-user-chip-input>
+</form>

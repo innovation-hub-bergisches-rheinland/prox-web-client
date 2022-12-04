@@ -1,0 +1,19 @@
+<form [formGroup]="moduleFormGroup" class="flex flex-col gap-2">
+  <div>
+    <div>
+      <b>Fachbereich</b>
+    </div>
+    <mat-selection-list formControlName="disciplines" color="primary">
+      <mat-list-option *ngFor="let discipline of disciplines$ | async" [value]="discipline.key">{{ discipline.name }}</mat-list-option>
+    </mat-selection-list>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <div>
+      <b>Modulart</b>
+    </div>
+    <mat-selection-list formControlName="modules" color="primary">
+      <mat-list-option *ngFor="let module of modules$ | async" [value]="module.key">{{ module.name }}</mat-list-option>
+    </mat-selection-list>
+  </div>
+</form>

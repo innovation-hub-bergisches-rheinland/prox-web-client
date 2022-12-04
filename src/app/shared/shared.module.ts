@@ -12,7 +12,7 @@ import { UserSearchComponent } from './components/user-search/user-search.compon
 import { UserSelectorComponent } from './components/user-selector/user-selector.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { TagInputComponent } from './components/tag-input/tag-input.component';
-import { ContextSelectorComponent } from './components/context-selector/context-selector.component';
+import { OrganizationSelectorComponent } from './components/organization-selector/organization-selector.component';
 import { SimpleChipInputComponent } from './components/simple-chip-input/simple-chip-input.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { ChipComponent } from './components/chip/chip.component';
@@ -34,7 +34,7 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
     UserSearchComponent,
     UserSelectorComponent,
     TagInputComponent,
-    ContextSelectorComponent,
+    OrganizationSelectorComponent,
     SimpleChipInputComponent,
     TruncatePipe,
     ChipComponent,
@@ -76,7 +76,7 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
     UserSearchComponent,
     UserSelectorComponent,
     TagInputComponent,
-    ContextSelectorComponent,
+    OrganizationSelectorComponent,
     SimpleChipInputComponent,
     TruncatePipe,
     ChipComponent,

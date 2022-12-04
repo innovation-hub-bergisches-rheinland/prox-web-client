@@ -70,6 +70,9 @@ export interface CreateProjectRequest {
   summary: string;
   description: string;
   requirement: string;
-  context: CurriculumContext;
+  context: {
+    disciplineKeys: string[];
+    moduleTypeKeys: string[];
+  };
   timeBox: ProjectTimeBox;
 }

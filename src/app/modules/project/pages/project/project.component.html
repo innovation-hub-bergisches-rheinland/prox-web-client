@@ -4,6 +4,12 @@
     <app-content-page-actions></app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
+    <div class="flex flex-row gap-4">
+      <ng-container>
+        <app-add-button (click)="openProjectEditorDialog(null)" data-tip="Neues Projekt hinzufügen" class="tooltip"> </app-add-button>
+      </ng-container>
+      <mat-divider></mat-divider>
+    </div>
     <div class="flex flex-col gap-6 mt-4 items-stretch">
       <app-project-card *ngFor="let project of projects$ | async" [showDetails]="false" [project]="project"></app-project-card>
     </div>
