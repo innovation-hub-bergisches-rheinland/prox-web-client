@@ -9,7 +9,7 @@
         *ngFor="let project of projects"
         [title]="project.title"
         [id]="project.id"
-        [modules]="project.curriculumContext?.modules"
+        [modules]="project.curriculumContext?.moduleTypes"
       >
       </app-profile-project-card-item>
     </div>

@@ -90,7 +90,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.controls.partner.setValue(project.partner?.id);
 
     const disciplines = project.curriculumContext?.disciplines?.map(discipline => discipline.key) ?? [];
-    const modules = project.curriculumContext?.modules?.map(module => module.key) ?? [];
+    const modules = project.curriculumContext?.moduleTypes?.map(module => module.key) ?? [];
 
     this.projectForm.controls.curriculum.controls.disciplines.setValue(disciplines);
     this.projectForm.controls.curriculum.controls.modules.setValue(modules);

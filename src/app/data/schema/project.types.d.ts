@@ -23,7 +23,7 @@ export interface ProjectPartner {
 
 export interface CurriculumContext {
   disciplines: Discipline[];
-  modules: ModuleType[];
+  moduleTypes: ModuleType[];
 }
 
 export type ProjectState = 'PROPOSED' | 'ARCHIVED' | 'STALE' | 'OFFERED' | 'RUNNING' | 'COMPLETED';

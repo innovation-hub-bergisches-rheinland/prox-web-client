@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Project } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-project',
@@ -26,5 +26,9 @@ export class ProjectComponent implements OnInit, AfterViewChecked {
       maxHeight: '85vh',
       data: project
     });
+  }
+
+  deleteProject(project: Project) {
+    this.projects$ = this.projects$.pipe(map(projects => projects.filter(p => p.id !== project.id)));
   }
 }
