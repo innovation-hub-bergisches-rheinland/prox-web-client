@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
-import { Organization } from '@data/schema/profile.types';
+import { Component, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Lecturer } from '@data/schema/profile.types';
 
 export interface InformationFormGroup {
   title: FormControl<string>;
   summary: FormControl<string>;
   description: FormControl<string>;
   requirement: FormControl<string>;
-  supervisors: FormControl<any>;
+  supervisors: FormControl<Pick<Lecturer, 'id' | 'name'>[]>;
   partner: FormControl<string>;
 }
 

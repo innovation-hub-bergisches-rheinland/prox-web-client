@@ -11,7 +11,7 @@ import { CreateProjectRequest, Project } from '@data/schema/project.types';
 import { InformationFormGroup } from './project-editor-information/project-editor-information.component';
 import { CurriculumFormGroup } from './project-editor-module/project-editor-module.component';
 import { TagFormGroup } from './project-editor-tag/project-editor-tag.component';
-import { combineLatestWith, filter, forkJoin, map, mergeMap, of, share } from 'rxjs';
+import { EMPTY, combineLatestWith, defaultIfEmpty, filter, forkJoin, lastValueFrom, map, mergeMap, of, share } from 'rxjs';
 
 @Component({
   selector: 'app-project-editor',
@@ -43,6 +43,7 @@ export class ProjectEditorComponent implements OnInit {
   @Input()
   project: Project;
   isEdit = false;
+  canSetSupervisor = false;
 
   @Output()
   saved = new EventEmitter<Project>();
@@ -62,10 +63,15 @@ export class ProjectEditorComponent implements OnInit {
       const userProfile = await this.keycloakService.loadUserProfile();
       const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
       const id = this.keycloakService.getKeycloakInstance().subject;
+      this.canSetSupervisor = this.keycloakService.isUserInRole('professor');
 
       const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisors;
 
-      if (!projectSupervisorControl.value && this.keycloakService.isUserInRole('professor')) {
+      if (!this.canSetSupervisor) {
+        projectSupervisorControl.disable();
+      }
+
+      if (this.canSetSupervisor && !projectSupervisorControl.value) {
         projectSupervisorControl.setValue([
           {
             id,
@@ -123,6 +129,9 @@ export class ProjectEditorComponent implements OnInit {
     const supervisors = this.projectForm.controls.information.controls.supervisors.value;
     const partner = this.projectForm.controls.information.controls.partner.value;
 
+    // TODO: I love angular and observables... This would be so much easier with async/await.
+    // TODO: This is a mess. I need to refactor this.
+
     const project$ = (
       this.isEdit ? this.projectService.updateProject(this.project.id, project) : this.projectService.createProject(project)
     ).pipe(share());
@@ -134,25 +143,26 @@ export class ProjectEditorComponent implements OnInit {
       })
     );
     const supervisors$ = supervisors ? of(supervisors.map(supervisor => supervisor.id)) : of([]);
+
     const setSupervisors$ = project$.pipe(
       combineLatestWith(supervisors$),
       mergeMap(([project, supervisors]) => {
         return this.projectService.setProjectSupervisors(project.id, supervisors);
       })
     );
-    const partner$ = partner ? of(partner) : of(null);
+    const partner$ = partner ? of(partner) : EMPTY;
     const setPartner$ = project$.pipe(
       combineLatestWith(partner$),
-      filter(([_, partner]) => !!partner),
       mergeMap(([project, partner]) => {
         return this.projectService.setProjectPartner(project.id, partner);
-      })
+      }),
+      defaultIfEmpty(null)
     );
 
     forkJoin({
       project: project$,
       tags: setTags$,
-      supervisors: setSupervisors$,
+      supervisors: this.canSetSupervisor ? setSupervisors$ : of(null),
       partner: setPartner$
     }).subscribe({
       next: value => {

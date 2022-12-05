@@ -32,11 +32,11 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  public openProjectEditorDialog(project: Project) {
+  public createNewProject() {
     this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
-      data: project
+      data: null
     });
   }
 
