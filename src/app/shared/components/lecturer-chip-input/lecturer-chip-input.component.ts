@@ -22,10 +22,10 @@ import { ProfileService } from '@data/service/profile.service';
   ]
 })
 export class LecturerChipInputComponent implements OnInit, ControlValueAccessor {
-  @ViewChild('lecturerInput') tagInput: ElementRef<HTMLInputElement>;
-  @ViewChild('lecturerAuto') tagAutocomplete: MatAutocomplete;
+  @ViewChild('lecturerInput') lecturerInput: ElementRef<HTMLInputElement>;
+  @ViewChild('lecturerAuto') lecturerAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger)
-  tagAutocompleteTrigger: MatAutocompleteTrigger;
+  lecturerAutocompleteTrigger: MatAutocompleteTrigger;
 
   @Input()
   label = 'Lehrende';
@@ -87,7 +87,7 @@ export class LecturerChipInputComponent implements OnInit, ControlValueAccessor 
   selectedLecturer(event: MatAutocompleteSelectedEvent): void {
     const selectedlecturer = event.option.value as Lecturer;
     this.addLecturer(selectedlecturer);
-    this.tagInput.nativeElement.value = '';
+    this.lecturerInput.nativeElement.value = '';
     this.lecturerInputCtrl.setValue('', { emitEvent: false });
   }
 
@@ -98,5 +98,9 @@ export class LecturerChipInputComponent implements OnInit, ControlValueAccessor 
 
   errorHandler(event: any) {
     event.target.src = '/assets/images/blank-profile-picture.png';
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.lecturerInput.nativeElement.disabled = isDisabled;
   }
 }
