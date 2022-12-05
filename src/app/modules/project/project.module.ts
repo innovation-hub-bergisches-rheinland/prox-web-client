@@ -15,13 +15,9 @@ import { ProjectEditorTagComponent } from './components/project-editor/project-e
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { ProjectCardHeaderComponent } from './components/project-card/project-card-header/project-card-header.component';
 import { ProjectSearchPanelComponent } from './components/project-search-panel/project-search-panel.component';
-import { ProjectAddButtonComponent } from './components/project-add-button/project-add-button.component';
-import { ProjectAddEntryComponent } from './components/project-add-button/project-add-entry/project-add-entry.component';
 
 @NgModule({
   declarations: [
-    ProjectAddButtonComponent,
-    ProjectAddEntryComponent,
     ProjectComponent,
     ProjectCardComponent,
     ProjectCardHeaderComponent,
