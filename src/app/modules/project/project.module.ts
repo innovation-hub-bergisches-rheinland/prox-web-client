@@ -15,12 +15,14 @@ import { ProjectEditorTagComponent } from './components/project-editor/project-e
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { ProjectCardHeaderComponent } from './components/project-card/project-card-header/project-card-header.component';
 import { ProjectSearchPanelComponent } from './components/project-search-panel/project-search-panel.component';
+import { ProjectCardStatusActionsComponent } from './components/project-card/project-card-status-actions/project-card-status-actions.component';
 
 @NgModule({
   declarations: [
     ProjectComponent,
     ProjectCardComponent,
     ProjectCardHeaderComponent,
+    ProjectCardStatusActionsComponent,
     ProjectSearchPanelComponent,
     ProjectIconsComponent,
     ProjectEditorModuleComponent,

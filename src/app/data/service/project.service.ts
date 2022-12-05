@@ -59,6 +59,20 @@ export class ProjectService {
     return this.setProjectSupervisors(projectId, [subject]);
   }
 
+  setState(id: string, state: ProjectState): Observable<Project> {
+    const body = {
+      state: state
+    };
+    return this.httpClient.post<Project>(`${this.basePath}/projects/${id}/status`, body, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
   setProjectSupervisors(id: string, supervisorIds: string[]): Observable<Project> {
     return this.httpClient.post<Project>(`${this.basePath}/projects/${id}/supervisors`, supervisorIds, {
       headers: {

@@ -2,12 +2,13 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { faArrowUp, faBars, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { Project } from '@data/schema/project.types';
+import { Project, ProjectState } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { P } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-project-card',
@@ -80,6 +81,13 @@ export class ProjectCardComponent implements OnInit {
         this.project = project;
         this.notificationService.success('Projekt wurde erfolgreich bearbeitet');
       }
+    });
+  }
+
+  onStatusChange(state: ProjectState) {
+    this.projectService.setState(this.project.id, state).subscribe((project: Project) => {
+      this.notificationService.success('Status wurde erfolgreich aktualisiert');
+      this.project = project;
     });
   }
 }
