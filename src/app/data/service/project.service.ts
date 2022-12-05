@@ -165,10 +165,10 @@ export class ProjectService {
     if (status) {
       queryParameters = queryParameters.set('status', status);
     }
-    if (disciplines) {
+    if (disciplines && disciplines.length > 0) {
       queryParameters = queryParameters.set('disciplineKeys', disciplines.join(','));
     }
-    if (moduleTypes) {
+    if (moduleTypes && moduleTypes.length > 0) {
       queryParameters = queryParameters.set('moduleTypeKeys', moduleTypes.join(','));
     }
     if (text) {

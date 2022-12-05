@@ -33,26 +33,16 @@ export class ProjectSearchPanelComponent implements OnInit {
   search = new EventEmitter<ProjectSearch>();
 
   @Input()
-  set initial(search: ProjectSearch | undefined) {
-    if (search && Object.values(search).some(p => p !== undefined)) {
-      this.searchForm.patchValue(
-        {
-          status: search.status,
-          moduleTypes: search.moduleTypes,
-          disciplines: search.disciplines,
-          txt: search.txt
-        },
-        { emitEvent: false }
-      );
-    }
+  set searchValues(value: ProjectSearch) {
+    this.searchForm.patchValue(value);
   }
 
-  constructor(private projectService: ProjectService, private fb: UntypedFormBuilder) {
-    this.disciplines$ = projectService.getAllDisciplines();
-    this.moduleTypes$ = projectService.getAllModuleTypes();
-  }
+  constructor(private projectService: ProjectService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.disciplines$ = this.projectService.getAllDisciplines();
+    this.moduleTypes$ = this.projectService.getAllModuleTypes();
+  }
 
   onSubmit() {
     this.search.emit({
