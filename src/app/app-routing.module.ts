@@ -56,6 +56,21 @@ const routes: Routes = [
         canLoad: [FeatureGuard]
       },
       {
+        path: 'proposals',
+        children: [
+          {
+            path: '',
+            redirectTo: '/projects?s=PROPOSED',
+            pathMatch: 'full'
+          },
+          {
+            path: ':id',
+            redirectTo: '/projects/:id',
+            pathMatch: 'full'
+          }
+        ]
+      },
+      {
         path: 'projects',
         title: 'PROX - Projekte',
         // loadChildren: () =>
