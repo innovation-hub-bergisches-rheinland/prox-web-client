@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { faArrowUp, faBars, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { UserService } from '@data/service/user.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-project-card',
@@ -50,9 +50,22 @@ export class ProjectCardComponent implements OnInit {
   }
 
   onDeleteClick() {
-    this.projectService.deleteProject(this.project).subscribe(() => {
-      this.notificationService.success('Projekt wurde erfolgreich entfernt');
-      this.deleted.next(this.project);
+    const confirmationDialog = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: true,
+      maxHeight: '85vh',
+      data: {
+        title: 'Projekt löschen?',
+        message: 'Möchten Sie das Projekt wirklich löschen?'
+      }
+    });
+
+    confirmationDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.projectService.deleteProject(this.project).subscribe(() => {
+          this.notificationService.success('Projekt wurde erfolgreich entfernt');
+          this.deleted.next(this.project);
+        });
+      }
     });
   }
 

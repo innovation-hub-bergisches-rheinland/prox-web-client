@@ -91,6 +91,7 @@ import { LecturerChipInputComponent } from './components/lecturer-chip-input/lec
     LecturerChipInputComponent,
     NotificationsModule,
     LoggerModule,
+    ConfirmationDialogComponent,
 
     FeatureDirectiveModule,
 
