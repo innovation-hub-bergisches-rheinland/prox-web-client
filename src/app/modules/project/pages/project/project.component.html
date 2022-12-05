@@ -7,7 +7,15 @@
     <div class="flex flex-row gap-4">
       <app-project-search-panel class="flex-1" (search)="filter($event)" [searchValues]="searchValues"> </app-project-search-panel>
       <ng-container>
-        <app-add-button (click)="openProjectEditorDialog(null)" data-tip="Neues Projekt hinzufügen" class="tooltip"> </app-add-button>
+        <app-project-add-button *ngIf="isLoggedIn">
+          <app-project-add-entry (click)="createNewProposal()">
+            <fa-icon [icon]="proposalsIcon" [fixedWidth]="true"></fa-icon> Neue Idee
+          </app-project-add-entry>
+          <app-project-add-entry (click)="createNewProject()" *ngIf="canCreateProject">
+            <fa-icon [icon]="projectsIcon" [fixedWidth]="true"></fa-icon> Neues Projekt
+          </app-project-add-entry>
+        </app-project-add-button>
+        <!--<app-add-button (click)="openProjectEditorDialog(null)" data-tip="Neues Projekt hinzufügen" class="tooltip"> </app-add-button>-->
       </ng-container>
       <mat-divider></mat-divider>
     </div>

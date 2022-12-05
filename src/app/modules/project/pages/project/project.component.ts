@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Project, ProjectState } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
+import { faFile, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
+import { KeycloakService } from 'keycloak-angular';
 import { Observable, map } from 'rxjs';
 
 export interface QueryParams {
@@ -22,21 +24,41 @@ export interface QueryParams {
 export class ProjectComponent implements OnInit {
   projects$: Observable<Project[]>;
   searchValues: ProjectSearch;
+  projectsIcon = faFile;
+  proposalsIcon = faLightbulb;
+  isLoggedIn = false;
+  canCreateProject = false;
 
-  constructor(private projectService: ProjectService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private projectService: ProjectService,
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router,
+    private keycloakService: KeycloakService
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.projects$ = this.projectService.filterProjects('OFFERED');
     this.route.queryParams.subscribe(params => {
       this.loadQueryParams(params);
     });
+    this.isLoggedIn = await this.keycloakService.isLoggedIn();
+    this.canCreateProject = this.keycloakService.isUserInRole('professor');
   }
 
-  public openProjectEditorDialog(project: Project) {
+  public createNewProject() {
     this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
-      data: project
+      data: null
+    });
+  }
+
+  public createNewProposal() {
+    this.dialog.open(ProjectEditorDialogComponent, {
+      autoFocus: false,
+      maxHeight: '85vh',
+      data: null
     });
   }
 
