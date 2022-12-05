@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { faArrowUp, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faBars, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '@data/service/user.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project } from '@data/schema/project.types';
@@ -27,6 +27,7 @@ export class ProjectCardComponent implements OnInit {
   editIcon = faPen;
   deleteIcon = faTrash;
   commitIcon = faArrowUp;
+  barsIcon = faBars;
   canCommit = false;
 
   constructor(

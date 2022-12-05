@@ -65,12 +65,25 @@
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
           Commitment abgeben
         </button>
-        <button class="btn btn-outline" (click)="onEditClick()" *ngIf="project._permissions.hasAccess">
-          <fa-icon [icon]="editIcon"></fa-icon>
-        </button>
-        <button class="btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="project._permissions.hasAccess">
-          <fa-icon [icon]="deleteIcon"></fa-icon>
-        </button>
+        <div class="dropdown dropdown-top dropdown-end">
+          <label tabindex="0" class="btn m-1">
+            <fa-icon [icon]="barsIcon"></fa-icon>
+          </label>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
+            <li>
+              <button class="btn btn-outline" (click)="onEditClick()" *ngIf="project._permissions.hasAccess">
+                <fa-icon [icon]="editIcon"></fa-icon>
+                Bearbeiten
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="project._permissions.hasAccess">
+                <fa-icon [icon]="deleteIcon"></fa-icon>
+                Löschen
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </ng-container>
