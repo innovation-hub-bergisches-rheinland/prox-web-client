@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
 import { CreateProjectRequest, Discipline, ModuleType, Project, ProjectList, ProjectState } from '@data/schema/project.types';
+import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { CreateProjectRequest, Discipline, ModuleType, Project, ProjectList, Pro
 export class ProjectService {
   private basePath = environment.apiUrl;
 
-  constructor(injector: Injector, protected httpClient: HttpClient) {}
+  constructor(injector: Injector, protected httpClient: HttpClient, private keycloakService: KeycloakService) {}
 
   createProject(project: CreateProjectRequest): Observable<Project> {
     return this.httpClient.post<Project>(`${this.basePath}/projects`, project, {
@@ -50,8 +51,16 @@ export class ProjectService {
     });
   }
 
-  setProjectSupervisors(id: string, supervisorIds: string[]): Observable<void> {
-    return this.httpClient.post<void>(`${this.basePath}/projects/${id}/supervisors`, supervisorIds, {
+  setCommitment(projectId: string): Observable<Project> {
+    const subject = this.keycloakService.getKeycloakInstance().subject;
+    if (!subject) {
+      throw new Error('No subject found');
+    }
+    return this.setProjectSupervisors(projectId, [subject]);
+  }
+
+  setProjectSupervisors(id: string, supervisorIds: string[]): Observable<Project> {
+    return this.httpClient.post<Project>(`${this.basePath}/projects/${id}/supervisors`, supervisorIds, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'

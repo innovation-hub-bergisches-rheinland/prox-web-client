@@ -56,6 +56,15 @@
         </button>
       </div>
       <div class="flex flex-row gap-2">
+        <button
+          data-tip="Durch Ihr Commitment erklären Sie sich bereit, diesen Vorschlag als Projektarbeit zu betreuen"
+          class="btn btn-outline btn-primary tooltip"
+          *ngIf="canCommit"
+          (click)="commit()"
+        >
+          <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
+          Commitment abgeben
+        </button>
         <button class="btn btn-outline" (click)="onEditClick()" *ngIf="project._permissions.hasAccess">
           <fa-icon [icon]="editIcon"></fa-icon>
         </button>

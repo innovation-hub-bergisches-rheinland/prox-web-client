@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from '@data/service/user.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-project-card',
@@ -25,10 +26,27 @@ export class ProjectCardComponent implements OnInit {
 
   editIcon = faPen;
   deleteIcon = faTrash;
+  commitIcon = faArrowUp;
+  canCommit = false;
 
-  constructor(private projectService: ProjectService, private notificationService: NotificationService, private dialog: MatDialog) {}
+  constructor(
+    private projectService: ProjectService,
+    private notificationService: NotificationService,
+    private dialog: MatDialog,
+    private keycloakService: KeycloakService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.canCommit = this.project.status.state === 'PROPOSED' && this.keycloakService.isUserInRole('professor');
+  }
+
+  commit() {
+    this.projectService.setCommitment(this.project.id).subscribe(project => {
+      this.notificationService.success('Commitment wurde erfolgreich abgegben');
+      this.project = project;
+      this.canCommit = false;
+    });
+  }
 
   onDeleteClick() {
     this.projectService.deleteProject(this.project).subscribe(() => {
