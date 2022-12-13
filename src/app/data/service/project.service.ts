@@ -165,7 +165,7 @@ export class ProjectService {
 
   getModulesOfDisciplines(keyes: string[]): Observable<ModuleType[]> {
     const queryParameters = new HttpParams().set('keys', keyes.join(','));
-    return this.httpClient.get<ModuleType[]>(`${this.basePath}/modules/search/findByDisciplines`, {
+    return this.httpClient.get<ModuleType[]>(`${this.basePath}/moduleTypes/search/findByDisciplines`, {
       params: queryParameters,
       headers: {
         Accept: 'application/json'
@@ -175,7 +175,7 @@ export class ProjectService {
   }
 
   getAllModuleTypes(): Observable<ModuleType[]> {
-    return this.httpClient.get<ModuleType[]>(`${this.basePath}/modules`, {
+    return this.httpClient.get<ModuleType[]>(`${this.basePath}/moduleTypes`, {
       headers: {
         Accept: 'application/json'
       },
