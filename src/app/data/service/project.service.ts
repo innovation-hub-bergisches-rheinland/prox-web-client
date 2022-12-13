@@ -89,7 +89,7 @@ export class ProjectService {
       organizationId
     };
 
-    return this.httpClient.put<void>(`${this.basePath}/projects/${id}/partner`, body, {
+    return this.httpClient.post<void>(`${this.basePath}/projects/${id}/partner`, body, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
