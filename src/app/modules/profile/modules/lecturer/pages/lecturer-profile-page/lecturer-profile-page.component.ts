@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Observable, mergeMap, of, throwError } from 'rxjs';
+import { EMPTY, Observable, mergeMap, of, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { ProfileService } from '@data/service/profile.service';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, map, share, take, tap } from 'rxjs/operators';
@@ -27,18 +28,17 @@ export class LecturerProfilePageComponent {
   offeredProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
   avatar: string;
-  id: string;
   isOwnProfile: boolean;
 
   constructor(
     private activatedRouter: ActivatedRoute,
     private userService: ProfileService,
-    private keycloakService: KeycloakService,
     private projectService: ProjectService,
-    private tagService: TagService,
     private dialog: MatDialog,
     private notificationService: NotificationService,
-    private titleService: Title
+    private titleService: Title,
+    private router: Router,
+    private location: Location
   ) {
     this.loadProfile();
   }
@@ -47,26 +47,28 @@ export class LecturerProfilePageComponent {
     const userId$: Observable<string> = this.activatedRouter.params.pipe(map(params => params.id));
     this.user$ = userId$.pipe(
       take(1),
-      tap(id => {
-        this.id = id;
-        this.isOwnProfile = this.keycloakService.getKeycloakInstance().subject === id;
-      }),
-      mergeMap(id => this.userService.getLecturer(id).pipe(map(profile => ({ ...profile, id })))),
-      tap(user => {
-        this.avatar = user.avatarUrl;
-      }),
-      catchError(error => {
+      mergeMap(id => this.userService.getLecturer(id)),
+      catchError(err => {
         this.notificationService.error('Benutzerprofil konnte nicht geladen werden.');
-        return throwError(() => error);
+        if (err?.status === 404) {
+          this.router.navigate(['/404']);
+        }
+
+        this.location.back();
+
+        return EMPTY;
       }),
       share()
     );
 
-    this.user$.subscribe(user => this.updateTitle(user));
+    this.user$.subscribe({
+      next: user => this.updateTitle(user)
+    });
 
     this.tags$ = this.user$.pipe(map(user => user.tags));
     const projects$: Observable<Project[]> = this.user$.pipe(
       mergeMap(user => this.projectService.findBySupervisor(user.id)),
+      catchError(_err => of([])),
       share()
     );
     this.offeredProjects$ = projects$.pipe(map(projects => projects.filter(project => project.status.state === 'OFFERED')));
@@ -81,8 +83,7 @@ export class LecturerProfilePageComponent {
       maxHeight: '80%',
       maxWidth: '80%',
       data: {
-        profile: profile,
-        id: this.id
+        profile: profile
       } as UserProfileEditorInput
     });
     dialog.afterClosed().subscribe({

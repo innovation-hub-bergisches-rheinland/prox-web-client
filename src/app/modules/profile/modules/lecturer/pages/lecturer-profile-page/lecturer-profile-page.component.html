@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
     <app-profile-header-card
       (editClicked)="editProfile(user)"
-      [imageSrc]="avatar"
+      [imageSrc]="user.avatarUrl"
       [roundedAvatar]="true"
-      [showEdit]="isOwnProfile"
+      [showEdit]="user._permissions.hasAccess"
       [tags]="tags$ | async"
       [title]="user.name"
     ></app-profile-header-card>
