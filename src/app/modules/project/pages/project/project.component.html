@@ -6,7 +6,7 @@
   <app-content-page-content>
     <div class="flex flex-row gap-4">
       <app-project-search-panel class="flex-1" (search)="filter($event)" [searchValues]="searchValues"> </app-project-search-panel>
-      <ng-container>
+      <ng-container *ngIf="canCreateProject">
         <app-add-button (click)="createNewProject()" data-tip="Neues Projekt hinzufügen" class="tooltip"> </app-add-button>
       </ng-container>
       <mat-divider></mat-divider>
