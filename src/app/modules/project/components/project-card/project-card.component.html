@@ -37,6 +37,11 @@
         </app-chip-list>
       </div>
       <div class="basis-1/4">
+        <ng-container *ngIf="project.timeBox && (project.timeBox.start || project.timeBox.end)">
+          <strong>Projektlaufzeit</strong>
+          <p *ngIf="project.timeBox.start"><strong>(Beginn)</strong> {{ project.timeBox.start | date: 'YYYY-MM-dd' }}</p>
+          <p *ngIf="project.timeBox.end"><strong>(Ende)</strong> {{ project.timeBox.end | date: 'YYYY-MM-dd' }}</p>
+        </ng-container>
         <strong>Erstellt am:</strong>
         <p>{{ project.createdAt | date: 'YYYY-MM-dd' }}</p>
       </div>

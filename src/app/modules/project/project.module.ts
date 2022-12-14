@@ -11,11 +11,11 @@ import { ProjectEditorComponent } from './components/project-editor/project-edit
 import { ProjectEditorDialogComponent } from './components/project-editor-dialog/project-editor-dialog.component';
 import { ProjectEditorModuleComponent } from './components/project-editor/project-editor-module/project-editor-module.component';
 import { ProjectEditorInformationComponent } from './components/project-editor/project-editor-information/project-editor-information.component';
-import { ProjectEditorTagComponent } from './components/project-editor/project-editor-tag/project-editor-tag.component';
 import { ProjectDetailsComponent } from './pages/project-details/project-details.component';
 import { ProjectCardHeaderComponent } from './components/project-card/project-card-header/project-card-header.component';
 import { ProjectSearchPanelComponent } from './components/project-search-panel/project-search-panel.component';
 import { ProjectCardStatusActionsComponent } from './components/project-card/project-card-status-actions/project-card-status-actions.component';
+import { ProjectEditorMiscComponent } from './components/project-editor/project-editor-misc/project-editor-misc.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { ProjectCardStatusActionsComponent } from './components/project-card/pro
     ProjectIconsComponent,
     ProjectEditorModuleComponent,
     ProjectEditorInformationComponent,
-    ProjectEditorTagComponent,
+    ProjectEditorMiscComponent,
     ProjectEditorComponent,
     ProjectEditorDialogComponent,
     ProjectDetailsComponent

@@ -1,0 +1,21 @@
+<form [formGroup]="miscFormGroup">
+  <span>
+    <em>
+      Eine Angabe der Projektlaufzeit ändert den Status der Projekte automatisiert. Das unterstützt dabei, dass die Projekte in PROX
+      möglichst aktuell sind.
+    </em>
+  </span>
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Projektlaufzeit</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate formControlName="beginDate" placeholder="Startdatum" />
+      <input matEndDate formControlName="endDate" placeholder="Enddatum" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <mat-error *ngIf="miscFormGroup.controls.beginDate.hasError('matStartDateInvalid')">Ungültiges Startdatum</mat-error>
+    <mat-error *ngIf="miscFormGroup.controls.endDate.hasError('matEndDateInvalid')">Ungültiges Enddatum</mat-error>
+  </mat-form-field>
+  <app-tag-input formControlName="tags"></app-tag-input>
+</form>

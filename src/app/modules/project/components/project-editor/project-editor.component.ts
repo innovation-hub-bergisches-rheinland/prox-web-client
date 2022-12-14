@@ -10,8 +10,9 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 import { CreateProjectRequest, Project } from '@data/schema/project.types';
 import { InformationFormGroup } from './project-editor-information/project-editor-information.component';
 import { CurriculumFormGroup } from './project-editor-module/project-editor-module.component';
-import { TagFormGroup } from './project-editor-tag/project-editor-tag.component';
 import { EMPTY, combineLatestWith, defaultIfEmpty, filter, forkJoin, lastValueFrom, map, mergeMap, of, share } from 'rxjs';
+import { MiscFormGroup } from './project-editor-misc/project-editor-misc.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-project-editor',
@@ -31,13 +32,15 @@ export class ProjectEditorComponent implements OnInit {
     disciplines: new FormControl<string[]>([]),
     modules: new FormControl<string[]>([])
   });
-  projectTagFormGroup = new FormGroup<TagFormGroup>({
-    tags: new FormControl([])
+  projectMiscFormGroup = new FormGroup<MiscFormGroup>({
+    tags: new FormControl([]),
+    beginDate: new FormControl(null),
+    endDate: new FormControl(null)
   });
   projectForm = new FormGroup({
     information: this.projectInformationFormGroup,
     curriculum: this.projectCurriculumFormGroup,
-    tag: this.projectTagFormGroup
+    misc: this.projectMiscFormGroup
   });
 
   @Input()
@@ -101,7 +104,14 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.curriculum.controls.disciplines.setValue(disciplines);
     this.projectForm.controls.curriculum.controls.modules.setValue(modules);
 
-    this.projectForm.controls.tag.controls.tags.setValue(project.tags);
+    this.projectForm.controls.misc.controls.tags.setValue(project.tags);
+
+    if (project.timeBox?.start) {
+      this.projectForm.controls.misc.controls.beginDate.setValue(moment(project.timeBox?.start));
+    }
+    if (project.timeBox?.end) {
+      this.projectForm.controls.misc.controls.endDate.setValue(moment(project.timeBox?.end));
+    }
   }
 
   buildProject(): CreateProjectRequest {
@@ -117,7 +127,10 @@ export class ProjectEditorComponent implements OnInit {
         disciplineKeys: disciplines,
         moduleTypeKeys: modules
       },
-      timeBox: null
+      timeBox: {
+        start: this.projectForm.controls.misc.controls.beginDate.value?.toISOString(),
+        end: this.projectForm.controls.misc.controls.endDate.value?.toISOString()
+      }
     };
 
     return project;
@@ -125,7 +138,7 @@ export class ProjectEditorComponent implements OnInit {
 
   onSave() {
     const project = this.buildProject();
-    const tags = this.projectForm.controls.tag.controls.tags.value;
+    const tags = this.projectForm.controls.misc.controls.tags.value;
     const supervisors = this.projectForm.controls.information.controls.supervisors.value;
     const partner = this.projectForm.controls.information.controls.partner.value;
 
