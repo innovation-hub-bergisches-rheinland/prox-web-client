@@ -5,7 +5,15 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
-import { CreateProjectRequest, Discipline, ModuleType, Project, ProjectList, ProjectState } from '@data/schema/project.types';
+import {
+  ApplyCommitment,
+  CreateProjectRequest,
+  Discipline,
+  ModuleType,
+  Project,
+  ProjectList,
+  ProjectState
+} from '@data/schema/project.types';
 import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
@@ -56,14 +64,10 @@ export class ProjectService {
     if (!subject) {
       throw new Error('No subject found');
     }
-    return this.setProjectSupervisors(projectId, [subject]);
-  }
-
-  setState(id: string, state: ProjectState): Observable<Project> {
-    const body = {
-      state: state
+    const request: ApplyCommitment = {
+      supervisorId: subject
     };
-    return this.httpClient.post<Project>(`${this.basePath}/projects/${id}/status`, body, {
+    return this.httpClient.post<Project>(`${this.basePath}/projects/${projectId}/commitment`, request, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -73,8 +77,11 @@ export class ProjectService {
     });
   }
 
-  setProjectSupervisors(id: string, supervisorIds: string[]): Observable<Project> {
-    return this.httpClient.post<Project>(`${this.basePath}/projects/${id}/supervisors`, supervisorIds, {
+  setState(id: string, state: ProjectState): Observable<Project> {
+    const body = {
+      state: state
+    };
+    return this.httpClient.post<Project>(`${this.basePath}/projects/${id}/status`, body, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'

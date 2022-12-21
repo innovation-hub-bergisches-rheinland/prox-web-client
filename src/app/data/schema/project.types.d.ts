@@ -3,6 +3,10 @@ export interface Discipline {
   name: string;
 }
 
+export interface ApplyCommitment {
+  supervisorId: string;
+}
+
 export interface ModuleType {
   key: string;
   name: string;

@@ -158,10 +158,11 @@ export class ProjectEditorComponent implements OnInit {
     const supervisors$ = supervisors ? of(supervisors.map(supervisor => supervisor.id)) : of([]);
 
     const setSupervisors$ = project$.pipe(
-      combineLatestWith(supervisors$),
-      mergeMap(([project, supervisors]) => {
+      combineLatestWith(supervisors$)
+      // TODO:
+      /*mergeMap(([project, supervisors]) => {
         return this.projectService.setProjectSupervisors(project.id, supervisors);
-      })
+      })*/
     );
     const partner$ = partner ? of(partner) : EMPTY;
     const setPartner$ = project$.pipe(
