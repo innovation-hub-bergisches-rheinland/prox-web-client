@@ -10,10 +10,6 @@
   </h1>
 
   <mat-dialog-content>
-    <app-lecturer-profile-editor
-      (saved)="userProfileSaved($event)"
-      [id]="userProfile.id"
-      [userProfile]="userProfile.profile"
-    ></app-lecturer-profile-editor>
+    <app-lecturer-profile-editor (saved)="userProfileSaved($event)" [userProfile]="userProfile.profile"></app-lecturer-profile-editor>
   </mat-dialog-content>
 </div>

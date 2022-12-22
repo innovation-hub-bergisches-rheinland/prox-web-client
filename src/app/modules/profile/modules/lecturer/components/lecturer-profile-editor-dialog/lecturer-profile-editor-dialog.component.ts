@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Lecturer } from '@data/schema/profile.types';
 
 export interface UserProfileEditorInput {
-  id: string;
   profile: Lecturer;
 }
 

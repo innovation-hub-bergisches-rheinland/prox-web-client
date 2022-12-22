@@ -1,4 +1,13 @@
 <form [formGroup]="userProfileInformationForm" class="flex flex-col">
+  <section class="mb-4">
+    <mat-checkbox
+      matTooltip="Diese Einstellung verbirgt Ihr Profil aus öffentlichen Suchen. Ihr Profil ist weiterhin unter dem Direktlink sichtbar und Sie werden
+    als Betreuer bei verknüpften Projekten gelistet."
+      formControlName="visibleInPublicSearch"
+      >Profil in öffentlichen Suchen anzeigen</mat-checkbox
+    >
+  </section>
+
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
     <input formControlName="name" matInput maxlength="255" placeholder="Name" required />

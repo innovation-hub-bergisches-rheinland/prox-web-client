@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ProfileService } from '@data/service/profile.service';
-import { catchError, combineLatestWith, forkJoin, map, mergeMap, of, share, throwError } from 'rxjs';
+import { catchError, combineLatestWith, forkJoin, map, mergeMap, of, share, tap, throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
@@ -14,6 +14,7 @@ import { CreateLecturerRequest, Lecturer } from '@data/schema/profile.types';
 })
 export class LecturerProfileEditorComponent implements OnInit {
   userProfileInformationForm = this.fb.group({
+    visibleInPublicSearch: [true, Validators.required],
     name: ['', Validators.required],
     homepage: [''],
     email: ['', Validators.email],
@@ -41,9 +42,6 @@ export class LecturerProfileEditorComponent implements OnInit {
   @Input()
   userProfile: Lecturer;
 
-  @Input()
-  id: string;
-
   constructor(
     private fb: UntypedFormBuilder,
     private profileService: ProfileService,
@@ -61,7 +59,7 @@ export class LecturerProfileEditorComponent implements OnInit {
     const avatar = this.userProfileAvatarFormGroup.controls['avatar'].value as File;
     const tags = this.userProfileAdditionalInformationForm.controls['subjects'].value as string[];
     const tags$ = tags ? this.tagService.synchronize(tags).pipe(map(tags => tags.tags.map(tag => tag.id))) : of([]);
-    const lecturer$ = this.profileService.updateLecturer(this.id, userProfile).pipe(share());
+    const lecturer$ = this.profileService.updateLecturer(this.userProfile.id, userProfile).pipe(share());
 
     const setTags$ = lecturer$.pipe(
       combineLatestWith(tags$),
@@ -70,25 +68,25 @@ export class LecturerProfileEditorComponent implements OnInit {
       })
     );
 
-    lecturer$
-      .pipe(
-        mergeMap(lecturer =>
-          forkJoin({
-            lecturer: of(lecturer),
-            avatar: avatar && typeof avatar !== 'string' ? this.profileService.setLecturerAvatar(lecturer.id, avatar) : of(null),
-            tags: setTags$
-          })
-        )
-      )
-      .subscribe({
-        next: value => {
-          this.notificationService.success('Benutzerprofil wurde erfolgreich gespeichert');
-          this.saved.emit(value.lecturer);
-        },
-        error: err => {
-          this.notificationService.success('Benutzerprofil konnte nicht gespeichert werden');
-        }
-      });
+    const setAvatar$ = lecturer$.pipe(
+      mergeMap(lecturer => {
+        return avatar && typeof avatar !== 'string' ? this.profileService.setLecturerAvatar(lecturer.id, avatar) : of(null);
+      })
+    );
+
+    forkJoin({
+      lecturer: lecturer$,
+      avatar: setAvatar$,
+      tags: setTags$
+    }).subscribe({
+      next: value => {
+        this.notificationService.success('Benutzerprofil wurde erfolgreich gespeichert');
+        this.saved.emit(value.lecturer);
+      },
+      error: err => {
+        this.notificationService.error('Benutzerprofil konnte nicht gespeichert werden');
+      }
+    });
   }
 
   buildUserProfile(): CreateLecturerRequest {
@@ -105,7 +103,8 @@ export class LecturerProfileEditorComponent implements OnInit {
         telephone: this.userProfileInformationForm.controls['telephone'].value ?? null,
         consultationHour: this.userProfileAdditionalInformationForm.controls['consultationHour'].value ?? null,
         subject: this.userProfileAdditionalInformationForm.controls['mainSubject'].value ?? null
-      }
+      },
+      visibleInPublicSearch: this.userProfileInformationForm.controls['visibleInPublicSearch'].value
     };
   }
 
@@ -116,7 +115,8 @@ export class LecturerProfileEditorComponent implements OnInit {
       email: lecturer.profile?.email,
       telephone: lecturer.profile?.telephone,
       collegePage: lecturer.profile?.collegePage,
-      vita: lecturer.profile.vita
+      vita: lecturer.profile.vita,
+      visibleInPublicSearch: lecturer.visibleInPublicSearch
     });
     this.userProfileAdditionalInformationForm.patchValue({
       affiliation: lecturer.profile?.affiliation,

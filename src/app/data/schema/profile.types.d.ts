@@ -23,11 +23,13 @@ export interface Lecturer {
   tags: string[];
   avatarUrl: string;
   _permissions: LecturerPermissions;
+  visibleInPublicSearch: boolean;
 }
 
 export interface CreateLecturerRequest {
   name: string;
   profile: LecturerProfile;
+  visibleInPublicSearch: boolean;
 }
 
 export type SocialMedia = 'FACEBOOK' | 'TWITTER' | 'LINKEDIN' | 'XING' | 'INSTAGRAM' | 'YOUTUBE';
