@@ -79,4 +79,6 @@ export interface CreateProjectRequest {
     moduleTypeKeys: string[];
   };
   timeBox: ProjectTimeBox;
+  partnerId: string;
+  supervisors: string[];
 }

@@ -10,7 +10,7 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 import { CreateProjectRequest, Project } from '@data/schema/project.types';
 import { InformationFormGroup } from './project-editor-information/project-editor-information.component';
 import { CurriculumFormGroup } from './project-editor-module/project-editor-module.component';
-import { EMPTY, combineLatestWith, defaultIfEmpty, filter, forkJoin, lastValueFrom, map, mergeMap, of, share } from 'rxjs';
+import { combineLatestWith, forkJoin, map, mergeMap, of, share } from 'rxjs';
 import { MiscFormGroup } from './project-editor-misc/project-editor-misc.component';
 import moment from 'moment';
 
@@ -130,7 +130,9 @@ export class ProjectEditorComponent implements OnInit {
       timeBox: {
         start: this.projectForm.controls.misc.controls.beginDate.value?.toISOString(),
         end: this.projectForm.controls.misc.controls.endDate.value?.toISOString()
-      }
+      },
+      partnerId: this.projectForm.controls.information.controls.partner.value,
+      supervisors: this.projectForm.controls.information.controls.supervisors.value?.map(s => s.id)
     };
 
     return project;
@@ -139,8 +141,6 @@ export class ProjectEditorComponent implements OnInit {
   onSave() {
     const project = this.buildProject();
     const tags = this.projectForm.controls.misc.controls.tags.value;
-    const supervisors = this.projectForm.controls.information.controls.supervisors.value;
-    const partner = this.projectForm.controls.information.controls.partner.value;
 
     // TODO: I love angular and observables... This would be so much easier with async/await.
     // TODO: This is a mess. I need to refactor this.
@@ -155,29 +155,10 @@ export class ProjectEditorComponent implements OnInit {
         return this.projectService.setProjectTags(project.id, tags);
       })
     );
-    const supervisors$ = supervisors ? of(supervisors.map(supervisor => supervisor.id)) : of([]);
-
-    const setSupervisors$ = project$.pipe(
-      combineLatestWith(supervisors$)
-      // TODO:
-      /*mergeMap(([project, supervisors]) => {
-        return this.projectService.setProjectSupervisors(project.id, supervisors);
-      })*/
-    );
-    const partner$ = partner ? of(partner) : EMPTY;
-    const setPartner$ = project$.pipe(
-      combineLatestWith(partner$),
-      mergeMap(([project, partner]) => {
-        return this.projectService.setProjectPartner(project.id, partner);
-      }),
-      defaultIfEmpty(null)
-    );
 
     forkJoin({
       project: project$,
-      tags: setTags$,
-      supervisors: this.canSetSupervisor ? setSupervisors$ : of(null),
-      partner: setPartner$
+      tags: setTags$
     }).subscribe({
       next: value => {
         this.notificationService.success('Projekt wurde erfolgreich gespeichert');
