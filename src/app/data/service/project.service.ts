@@ -134,16 +134,6 @@ export class ProjectService {
     });
   }
 
-  /**
-   * @deprecated
-   */
-  findBySupervisorAsArray(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<Project[]> {
-    return this.findBySupervisor(id, {
-      page: 0,
-      size: 9999
-    }).pipe(map(p => p.content));
-  }
-
   findByPartner(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<ProjectList> {
     const params = new HttpParams().set('partner', id).set('page', page.page).set('size', page.size);
     return this.httpClient.get<ProjectList>(`${this.basePath}/projects/search/findByPartner`, {
@@ -153,13 +143,6 @@ export class ProjectService {
       params,
       observe: 'body'
     });
-  }
-
-  /**
-   * @deprecated
-   */
-  findByPartnerAsArray(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<Project[]> {
-    return this.findByPartner(id, { page: 0, size: 9999 }).pipe(map(p => p.content));
   }
 
   deleteProject(project: Pick<Project, 'id'>): Observable<any> {

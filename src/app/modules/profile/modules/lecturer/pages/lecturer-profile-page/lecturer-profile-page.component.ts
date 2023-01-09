@@ -67,7 +67,8 @@ export class LecturerProfilePageComponent {
 
     this.tags$ = this.user$.pipe(map(user => user.tags));
     const projects$: Observable<Project[]> = this.user$.pipe(
-      mergeMap(user => this.projectService.findBySupervisorAsArray(user.id)),
+      mergeMap(user => this.projectService.findBySupervisor(user.id)),
+      map(p => p.content),
       catchError(_err => of([])),
       share()
     );
