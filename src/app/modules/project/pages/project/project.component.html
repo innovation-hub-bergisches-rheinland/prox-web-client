@@ -11,13 +11,26 @@
       </ng-container>
       <mat-divider></mat-divider>
     </div>
-    <div class="flex flex-col gap-6 mt-4 items-stretch">
-      <app-project-card
-        *ngFor="let project of projects$ | async"
-        [showDetails]="false"
-        [project]="project"
-        (deleted)="deleteProject($event)"
-      ></app-project-card>
-    </div>
+    <ng-container *ngIf="activeProjectPage$ | async; let page">
+      <div class="flex flex-col gap-6 mt-4 items-stretch">
+        <app-project-card
+          *ngFor="let project of page.content"
+          [showDetails]="false"
+          [project]="project"
+          (deleted)="deleteProject($event)"
+        ></app-project-card>
+      </div>
+      <div class="flex justify-center items-center mt-10">
+        <mat-paginator
+          #paginator
+          (page)="handlePageEvent($event)"
+          [length]="page.totalElements"
+          [pageSize]="page.size"
+          [pageSizeOptions]="[5, 10, 25]"
+          [pageIndex]="page.number"
+        >
+        </mat-paginator>
+      </div>
+    </ng-container>
   </app-content-page-content>
 </app-content-page>

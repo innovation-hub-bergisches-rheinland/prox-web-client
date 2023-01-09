@@ -70,30 +70,28 @@
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
           Commitment abgeben
         </button>
-        <app-project-card-status-actions
-          [project]="project"
-          *ngIf="project._permissions.hasAccess"
-          (status)="onStatusChange($event)"
-        ></app-project-card-status-actions>
-        <div class="dropdown dropdown-top dropdown-end">
-          <label tabindex="0" class="btn">
-            <fa-icon [icon]="barsIcon"></fa-icon>
-          </label>
-          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
-            <li>
-              <button class="btn btn-outline" (click)="onEditClick()" *ngIf="project._permissions.hasAccess">
-                <fa-icon [icon]="editIcon"></fa-icon>
-                Bearbeiten
-              </button>
-            </li>
-            <li>
-              <button class="btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="project._permissions.hasAccess">
-                <fa-icon [icon]="deleteIcon"></fa-icon>
-                Löschen
-              </button>
-            </li>
-          </ul>
-        </div>
+        <ng-container *ngIf="project._permissions.hasAccess">
+          <app-project-card-status-actions [project]="project" (status)="onStatusChange($event)"></app-project-card-status-actions>
+          <div class="dropdown dropdown-top dropdown-end">
+            <label tabindex="0" class="btn">
+              <fa-icon [icon]="barsIcon"></fa-icon>
+            </label>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
+              <li>
+                <button class="btn btn-outline" (click)="onEditClick()" *ngIf="project._permissions.hasAccess">
+                  <fa-icon [icon]="editIcon"></fa-icon>
+                  Bearbeiten
+                </button>
+              </li>
+              <li>
+                <button class="btn btn-outline btn-error" (click)="onDeleteClick()" *ngIf="project._permissions.hasAccess">
+                  <fa-icon [icon]="deleteIcon"></fa-icon>
+                  Löschen
+                </button>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
       </div>
     </div>
   </ng-container>
