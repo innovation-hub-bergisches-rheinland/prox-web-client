@@ -1,3 +1,5 @@
+import { Page } from './shared.types';
+
 export interface Discipline {
   key: string;
   name: string;
@@ -65,9 +67,7 @@ export interface Project {
   modifiedAt: string;
 }
 
-export interface ProjectList {
-  projects: Project[];
-}
+export type ProjectList = Page<Project>;
 
 export interface CreateProjectRequest {
   title: string;

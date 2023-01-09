@@ -14,7 +14,7 @@ export class LecturerProfileOverviewPageComponent {
   profiles$: Observable<Lecturer[]>;
 
   constructor(private userService: ProfileService, private notificationService: NotificationService) {
-    this.profiles$ = userService.getLecturers().pipe(
+    this.profiles$ = userService.getLecturersAsArray().pipe(
       catchError(err => {
         this.notificationService.error('Benutzerprofile konnten nicht geladen werden.');
         return of([]);

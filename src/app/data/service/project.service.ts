@@ -15,6 +15,7 @@ import {
   ProjectState
 } from '@data/schema/project.types';
 import { KeycloakService } from 'keycloak-angular';
+import { PageRequest } from '@data/schema/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -100,41 +101,65 @@ export class ProjectService {
     });
   }
 
-  getAllProjects(): Observable<Project[]> {
-    return this.httpClient
-      .get<ProjectList>(`${this.basePath}/projects`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(p => p.projects));
+  getAllProjects(page: PageRequest = { page: 0, size: 20 }): Observable<ProjectList> {
+    const params = new HttpParams().set('page', page.page).set('size', page.size);
+
+    return this.httpClient.get<ProjectList>(`${this.basePath}/projects`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      params,
+      observe: 'body'
+    });
   }
 
-  findBySupervisor(id: string): Observable<Project[]> {
-    const params = new HttpParams().set('supervisor', id);
-    return this.httpClient
-      .get<ProjectList>(`${this.basePath}/projects/search/findBySupervisor`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        params,
-        observe: 'body'
-      })
-      .pipe(map(r => r.projects));
+  /**
+   * @deprecated
+   */
+  getAllProjectsAsArray(): Observable<Project[]> {
+    return this.getAllProjects({
+      page: 0,
+      size: 99999
+    }).pipe(map(p => p.content));
   }
 
-  findByPartner(id: string): Observable<Project[]> {
-    const params = new HttpParams().set('partner', id);
-    return this.httpClient
-      .get<ProjectList>(`${this.basePath}/projects/search/findByPartner`, {
-        headers: {
-          Accept: 'application/json'
-        },
-        params,
-        observe: 'body'
-      })
-      .pipe(map(r => r.projects));
+  findBySupervisor(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<ProjectList> {
+    const params = new HttpParams().set('supervisor', id).set('page', page.page).set('size', page.size);
+    return this.httpClient.get<ProjectList>(`${this.basePath}/projects/search/findBySupervisor`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      params,
+      observe: 'body'
+    });
+  }
+
+  /**
+   * @deprecated
+   */
+  findBySupervisorAsArray(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<Project[]> {
+    return this.findBySupervisor(id, {
+      page: 0,
+      size: 9999
+    }).pipe(map(p => p.content));
+  }
+
+  findByPartner(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<ProjectList> {
+    const params = new HttpParams().set('partner', id).set('page', page.page).set('size', page.size);
+    return this.httpClient.get<ProjectList>(`${this.basePath}/projects/search/findByPartner`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      params,
+      observe: 'body'
+    });
+  }
+
+  /**
+   * @deprecated
+   */
+  findByPartnerAsArray(id: string, page: PageRequest = { page: 0, size: 20 }): Observable<Project[]> {
+    return this.findByPartner(id, { page: 0, size: 9999 }).pipe(map(p => p.content));
   }
 
   deleteProject(project: Pick<Project, 'id'>): Observable<any> {
@@ -175,8 +200,14 @@ export class ProjectService {
     });
   }
 
-  filterProjects(status?: ProjectState, disciplines?: string[], moduleTypes?: string[], text?: string): Observable<Project[]> {
-    let queryParameters = new HttpParams();
+  filterProjects(
+    status?: ProjectState,
+    disciplines?: string[],
+    moduleTypes?: string[],
+    text?: string,
+    page: PageRequest = { page: 0, size: 20 }
+  ): Observable<ProjectList> {
+    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size);
     if (status) {
       queryParameters = queryParameters.set('status', status);
     }
@@ -190,14 +221,23 @@ export class ProjectService {
       queryParameters = queryParameters.set('text', text);
     }
 
-    return this.httpClient
-      .get<ProjectList>(`${this.basePath}/projects/search/filter`, {
-        params: queryParameters,
-        headers: {
-          Accept: 'application/json'
-        },
-        observe: 'body'
-      })
-      .pipe(map(r => r.projects));
+    return this.httpClient.get<ProjectList>(`${this.basePath}/projects/search/filter`, {
+      params: queryParameters,
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  /**
+   *
+   * @deprecated
+   */
+  filterProjectsAsArray(status?: ProjectState, disciplines?: string[], moduleTypes?: string[], text?: string): Observable<Project[]> {
+    return this.filterProjects(status, disciplines, moduleTypes, text, {
+      page: 0,
+      size: 9999
+    }).pipe(map(p => p.content));
   }
 }

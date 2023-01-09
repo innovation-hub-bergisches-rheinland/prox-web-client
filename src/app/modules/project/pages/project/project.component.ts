@@ -34,7 +34,7 @@ export class ProjectComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.projects$ = this.projectService.filterProjects('OFFERED');
+    this.projects$ = this.projectService.filterProjectsAsArray('OFFERED');
     this.route.queryParams.subscribe(params => {
       this.loadQueryParams(params);
     });
@@ -54,7 +54,7 @@ export class ProjectComponent implements OnInit {
   }
 
   filter(search: ProjectSearch) {
-    this.projects$ = this.projectService.filterProjects(search.status, search.disciplines, search.moduleTypes, search.txt);
+    this.projects$ = this.projectService.filterProjectsAsArray(search.status, search.disciplines, search.moduleTypes, search.txt);
     this.updateQueryParams(search);
   }
 

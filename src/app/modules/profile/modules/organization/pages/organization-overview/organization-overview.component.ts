@@ -39,6 +39,8 @@ export class OrganizationOverviewComponent implements OnInit {
   }
 
   refreshOrgs() {
-    this.organizations$ = this.userService.getAllOrganizations().pipe(map(orgs => orgs.sort((o1, o2) => o1.name.localeCompare(o2.name))));
+    this.organizations$ = this.userService
+      .getAllOrganizationsAsArray()
+      .pipe(map(orgs => orgs.sort((o1, o2) => o1.name.localeCompare(o2.name))));
   }
 }

@@ -48,7 +48,7 @@ export class LecturerChipInputComponent implements OnInit, ControlValueAccessor 
       debounceTime(120),
       startWith(''),
       filter(input => !!input && typeof input === 'string'),
-      mergeMap(input => this.profileService.filterLecturers(input)),
+      mergeMap(input => this.profileService.filterLecturersAsArray(input)),
       catchError(err => {
         this.notificationService.error('Lehrende können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);

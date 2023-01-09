@@ -53,7 +53,7 @@ export class OrganizationProfileComponent {
     this.tags$ = sharedOrganization$.pipe(map(org => org.tags));
     const projects$: Observable<Project[]> = sharedOrganization$.pipe(
       tap(org => console.log(org)),
-      mergeMap(org => this.projectService.findByPartner(org.id)),
+      mergeMap(org => this.projectService.findByPartnerAsArray(org.id)),
       share()
     );
     this.offeredProjects$ = projects$.pipe(map(projects => projects.filter(project => project.status.state === 'OFFERED')));

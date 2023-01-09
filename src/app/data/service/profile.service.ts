@@ -7,11 +7,14 @@ import {
   CreateLecturerRequest,
   CreateOrganizationRequest,
   Lecturer,
+  LecturerList,
   Organization,
+  OrganizationList,
   OrganizationMemberList,
   OrganizationMembership,
   OrganizationRole
 } from '@data/schema/profile.types';
+import { PageRequest } from '@data/schema/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -67,19 +70,35 @@ export class ProfileService {
     });
   }
 
-  getAllOrganizations(): Observable<Organization[]> {
-    return this.httpClient.get<Organization[]>(`${this.basePath}/organizations`, {
+  getAllOrganizations(page: PageRequest = { page: 0, size: 20 }): Observable<OrganizationList> {
+    const params = new HttpParams().set('page', page.page).set('size', page.size);
+
+    return this.httpClient.get<OrganizationList>(`${this.basePath}/organizations`, {
       headers: {
         Accept: 'application/json'
       },
       observe: 'body',
+      params,
       reportProgress: false
     });
   }
 
+  /**
+   * @deprecated
+   */
+  getAllOrganizationsAsArray(): Observable<Organization[]> {
+    return this.getAllOrganizations({
+      page: 0,
+      size: 99999
+    }).pipe(map(p => p.content));
+  }
+
   getOrganizationsOfUser(): Observable<Organization[]> {
     // TODO: Temporary solution. Needs a separate endpoint
-    return this.getAllOrganizations().pipe(map((orgs: Organization[]) => orgs.filter(o => o._permissions.hasAccess)));
+    return this.getAllOrganizations().pipe(
+      map(page => page.content),
+      map((orgs: Organization[]) => orgs.filter(o => o._permissions.hasAccess))
+    );
   }
 
   getOrganization(id: string): Observable<Organization> {
@@ -154,10 +173,10 @@ export class ProfileService {
     });
   }
 
-  filterLecturers(query: string): Observable<Lecturer[]> {
-    const params = new HttpParams().set('q', query);
+  filterLecturers(query: string, page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
+    const params = new HttpParams().set('q', query).set('page', page.page).set('size', page.size);
 
-    return this.httpClient.get<Lecturer[]>(`${this.basePath}/lecturers/search/filter`, {
+    return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers/search/filter`, {
       headers: {
         Accept: 'application/json'
       },
@@ -165,6 +184,16 @@ export class ProfileService {
       params,
       reportProgress: false
     });
+  }
+
+  /**
+   * @deprecated
+   */
+  filterLecturersAsArray(query: string): Observable<Lecturer[]> {
+    return this.filterLecturers(query, {
+      page: 0,
+      size: 9999
+    }).pipe(map(p => p.content));
   }
 
   updateLecturer(id: string, profile: CreateLecturerRequest): Observable<Lecturer> {
@@ -202,13 +231,26 @@ export class ProfileService {
     });
   }
 
-  getLecturers(): Observable<Lecturer[]> {
-    return this.httpClient.get<Lecturer[]>(`${this.basePath}/lecturers`, {
+  getLecturers(page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
+    const params = new HttpParams().set('page', page.page).set('size', page.size);
+
+    return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers`, {
       headers: {
         Accept: 'application/json'
       },
+      params,
       observe: 'body',
       reportProgress: false
     });
+  }
+
+  /**
+   * @deprecated
+   */
+  getLecturersAsArray(): Observable<Lecturer[]> {
+    return this.getLecturers({
+      page: 0,
+      size: 99999
+    }).pipe(map(p => p.content));
   }
 }

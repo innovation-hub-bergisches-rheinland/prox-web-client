@@ -1,3 +1,5 @@
+import { Page } from './shared.types';
+
 export interface LecturerPermissions {
   hasAccess: boolean;
 }
@@ -25,6 +27,8 @@ export interface Lecturer {
   _permissions: LecturerPermissions;
   visibleInPublicSearch: boolean;
 }
+
+export type LecturerList = Page<Lecturer>;
 
 export interface CreateLecturerRequest {
   name: string;
@@ -58,6 +62,8 @@ export interface Organization {
   logoUrl: string;
   _permissions: OrganizationPermissions;
 }
+
+export type OrganizationList = Page<Organization>;
 
 export interface CreateOrganizationRequest {
   name: string;
