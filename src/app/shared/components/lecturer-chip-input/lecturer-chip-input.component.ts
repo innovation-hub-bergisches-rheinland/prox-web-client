@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
-import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Lecturer } from '@data/schema/profile.types';
@@ -48,7 +48,8 @@ export class LecturerChipInputComponent implements OnInit, ControlValueAccessor 
       debounceTime(120),
       startWith(''),
       filter(input => !!input && typeof input === 'string'),
-      mergeMap(input => this.profileService.filterLecturersAsArray(input)),
+      mergeMap(input => this.profileService.filterLecturers(input)),
+      map(p => p.content),
       catchError(err => {
         this.notificationService.error('Lehrende können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);

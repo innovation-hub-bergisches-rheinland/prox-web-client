@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ProfileService } from '@data/service/profile.service';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { Lecturer } from '@data/schema/profile.types';
+import { LecturerList } from '@data/schema/profile.types';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-lecturer-profile-overview-page',
@@ -11,14 +12,21 @@ import { Lecturer } from '@data/schema/profile.types';
   styleUrls: ['./lecturer-profile-overview-page.component.scss']
 })
 export class LecturerProfileOverviewPageComponent {
-  profiles$: Observable<Lecturer[]>;
+  activeProfilePage$: Observable<LecturerList>;
 
   constructor(private userService: ProfileService, private notificationService: NotificationService) {
-    this.profiles$ = userService.getLecturersAsArray().pipe(
+    this.activeProfilePage$ = userService.getLecturers().pipe(
       catchError(err => {
         this.notificationService.error('Benutzerprofile konnten nicht geladen werden.');
-        return of([]);
+        throw err;
       })
     );
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.activeProfilePage$ = this.userService.getLecturers({
+      page: event.pageIndex,
+      size: event.pageSize
+    });
   }
 }

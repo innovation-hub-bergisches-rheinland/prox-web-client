@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, filter, map, observable, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
@@ -186,16 +186,6 @@ export class ProfileService {
     });
   }
 
-  /**
-   * @deprecated
-   */
-  filterLecturersAsArray(query: string): Observable<Lecturer[]> {
-    return this.filterLecturers(query, {
-      page: 0,
-      size: 9999
-    }).pipe(map(p => p.content));
-  }
-
   updateLecturer(id: string, profile: CreateLecturerRequest): Observable<Lecturer> {
     return this.httpClient.put<Lecturer>(`${this.basePath}/lecturers/${id}`, profile, {
       headers: {
@@ -242,15 +232,5 @@ export class ProfileService {
       observe: 'body',
       reportProgress: false
     });
-  }
-
-  /**
-   * @deprecated
-   */
-  getLecturersAsArray(): Observable<Lecturer[]> {
-    return this.getLecturers({
-      page: 0,
-      size: 99999
-    }).pipe(map(p => p.content));
   }
 }

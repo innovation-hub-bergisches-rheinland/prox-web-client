@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationEditorDialogComponent } from '@modules/profile/modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
-import { map } from 'rxjs/operators';
-import { Organization } from '@data/schema/profile.types';
+import { OrganizationList } from '@data/schema/profile.types';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-organization-overview',
@@ -13,7 +13,7 @@ import { Organization } from '@data/schema/profile.types';
   styleUrls: ['./organization-overview.component.scss']
 })
 export class OrganizationOverviewComponent implements OnInit {
-  organizations$: Observable<Organization[]>;
+  activeProfilePage$: Observable<OrganizationList>;
   canCreateNewOrg = false;
 
   constructor(private userService: ProfileService, private keycloakService: KeycloakService, private dialog: MatDialog) {}
@@ -39,8 +39,13 @@ export class OrganizationOverviewComponent implements OnInit {
   }
 
   refreshOrgs() {
-    this.organizations$ = this.userService
-      .getAllOrganizationsAsArray()
-      .pipe(map(orgs => orgs.sort((o1, o2) => o1.name.localeCompare(o2.name))));
+    this.activeProfilePage$ = this.userService.getAllOrganizations();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.activeProfilePage$ = this.userService.getAllOrganizations({
+      page: event.pageIndex,
+      size: event.pageSize
+    });
   }
 }

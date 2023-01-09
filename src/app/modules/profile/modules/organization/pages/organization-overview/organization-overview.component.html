@@ -8,6 +8,19 @@
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
-    <app-organization-list [organizations]="organizations$ | async"></app-organization-list>
+    <ng-container *ngIf="activeProfilePage$ | async; let page">
+      <app-organization-list [organizations]="page.content"></app-organization-list>
+      <div class="flex justify-center items-center">
+        <mat-paginator
+          #paginator
+          (page)="handlePageEvent($event)"
+          [length]="page.totalElements"
+          [pageSize]="page.size"
+          [pageSizeOptions]="[5, 10, 25]"
+          [pageIndex]="page.number"
+        >
+        </mat-paginator>
+      </div>
+    </ng-container>
   </app-content-page-content>
 </app-content-page>

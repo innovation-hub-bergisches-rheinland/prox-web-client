@@ -3,16 +3,29 @@
     <app-content-page-title>Lehrende</app-content-page-title>
   </app-content-page-header>
   <app-content-page-content>
-    <div *ngIf="profiles$ | async; let profiles" class="flex flex-row flex-wrap mt-2">
-      <app-lecturer-item
-        class="basis-full lg:basis-1/2 xl:basis-1/3 p-4"
-        *ngFor="let profile of profiles"
-        [href]="'/users/' + profile.id"
-        [imgSrc]="profile.avatarUrl"
-        [subtitle]="profile.profile.subject"
-        [title]="profile.name"
-      >
-      </app-lecturer-item>
-    </div>
+    <ng-container *ngIf="activeProfilePage$ | async; let page">
+      <div *ngIf="page.content; let profiles" class="flex flex-row flex-wrap mt-2">
+        <app-lecturer-item
+          class="basis-full lg:basis-1/2 xl:basis-1/3 p-4"
+          *ngFor="let profile of profiles"
+          [href]="'/users/' + profile.id"
+          [imgSrc]="profile.avatarUrl"
+          [subtitle]="profile.profile.subject"
+          [title]="profile.name"
+        >
+        </app-lecturer-item>
+      </div>
+      <div class="flex justify-center items-center">
+        <mat-paginator
+          #paginator
+          (page)="handlePageEvent($event)"
+          [length]="page.totalElements"
+          [pageSize]="page.size"
+          [pageSizeOptions]="[5, 10, 25]"
+          [pageIndex]="page.number"
+        >
+        </mat-paginator>
+      </div>
+    </ng-container>
   </app-content-page-content>
 </app-content-page>
