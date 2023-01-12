@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { LecturerList } from '@data/schema/profile.types';
 import { PageEvent } from '@angular/material/paginator';
+import { ProfileSearch } from '@modules/profile/components/profile-search-panel/profile-search-panel.component';
 
 @Component({
   selector: 'app-lecturer-profile-overview-page',
@@ -28,5 +29,9 @@ export class LecturerProfileOverviewPageComponent {
       page: event.pageIndex,
       size: event.pageSize
     });
+  }
+
+  onSearch(event: ProfileSearch) {
+    this.activeProfilePage$ = this.userService.filterLecturers(event.txt, event.tags);
   }
 }

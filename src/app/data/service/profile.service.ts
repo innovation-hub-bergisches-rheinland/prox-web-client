@@ -233,4 +233,42 @@ export class ProfileService {
       reportProgress: false
     });
   }
+
+  filterLecturers(text?: string, tags?: string[], page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
+    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size);
+    if (tags && tags.length > 0) {
+      queryParameters = queryParameters.set('tags', tags.join(','));
+    }
+    if (text) {
+      queryParameters = queryParameters.set('q', text);
+    }
+
+    return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers/search/filter`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      params: queryParameters,
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  filterOrganizations(text?: string, tags?: string[], page: PageRequest = { page: 0, size: 20 }): Observable<OrganizationList> {
+    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size);
+    if (tags && tags.length > 0) {
+      queryParameters = queryParameters.set('tags', tags.join(','));
+    }
+    if (text) {
+      queryParameters = queryParameters.set('q', text);
+    }
+
+    return this.httpClient.get<OrganizationList>(`${this.basePath}/organizations/search/filter`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      params: queryParameters,
+      observe: 'body',
+      reportProgress: false
+    });
+  }
 }

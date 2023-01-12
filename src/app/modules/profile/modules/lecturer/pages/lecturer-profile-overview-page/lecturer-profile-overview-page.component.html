@@ -3,6 +3,10 @@
     <app-content-page-title>Lehrende</app-content-page-title>
   </app-content-page-header>
   <app-content-page-content>
+    <div class="flex flex-row gap-4">
+      <app-profile-search-panel class="flex-1" (search)="onSearch($event)"> </app-profile-search-panel>
+      <mat-divider></mat-divider>
+    </div>
     <ng-container *ngIf="activeProfilePage$ | async; let page">
       <div *ngIf="page.content; let profiles" class="flex flex-row flex-wrap mt-2">
         <app-lecturer-item

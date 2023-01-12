@@ -8,6 +8,10 @@
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>
+    <div class="flex flex-row gap-4">
+      <app-profile-search-panel class="flex-1" (search)="onSearch($event)"> </app-profile-search-panel>
+      <mat-divider></mat-divider>
+    </div>
     <ng-container *ngIf="activeProfilePage$ | async; let page">
       <app-organization-list [organizations]="page.content"></app-organization-list>
       <div class="flex justify-center items-center">

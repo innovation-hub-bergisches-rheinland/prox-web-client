@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrganizationEditorDialogComponent } from '@modules/profile/modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { OrganizationList } from '@data/schema/profile.types';
 import { PageEvent } from '@angular/material/paginator';
+import { ProfileSearch } from '@modules/profile/components/profile-search-panel/profile-search-panel.component';
 
 @Component({
   selector: 'app-organization-overview',
@@ -47,5 +48,9 @@ export class OrganizationOverviewComponent implements OnInit {
       page: event.pageIndex,
       size: event.pageSize
     });
+  }
+
+  onSearch(event: ProfileSearch) {
+    this.activeProfilePage$ = this.userService.filterOrganizations(event.txt, event.tags);
   }
 }
