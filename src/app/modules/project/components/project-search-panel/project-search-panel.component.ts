@@ -10,6 +10,7 @@ export interface ProjectSearch {
   moduleTypes?: ModuleType['key'][];
   disciplines?: Discipline['key'][];
   txt?: string;
+  tags?: string[];
 }
 
 @Component({
@@ -26,6 +27,7 @@ export class ProjectSearchPanelComponent implements OnInit {
     status: new FormControl<ProjectState>('OFFERED'),
     moduleTypes: new FormControl([]),
     disciplines: new FormControl([]),
+    tags: new FormControl([]),
     txt: new FormControl('')
   });
 
@@ -49,7 +51,8 @@ export class ProjectSearchPanelComponent implements OnInit {
       txt: this.searchForm.controls.txt.value || undefined,
       status: this.searchForm.controls.status.value || undefined,
       moduleTypes: this.searchForm.controls.moduleTypes.value || undefined,
-      disciplines: this.searchForm.controls.disciplines.value || undefined
+      disciplines: this.searchForm.controls.disciplines.value || undefined,
+      tags: this.searchForm.controls.tags.value || undefined
     });
   }
 }

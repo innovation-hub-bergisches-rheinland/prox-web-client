@@ -178,6 +178,7 @@ export class ProjectService {
     disciplines?: string[],
     moduleTypes?: string[],
     text?: string,
+    tags?: string[],
     page: PageRequest = { page: 0, size: 20 }
   ): Observable<ProjectList> {
     let queryParameters = new HttpParams().set('page', page.page).set('size', page.size);
@@ -189,6 +190,9 @@ export class ProjectService {
     }
     if (moduleTypes && moduleTypes.length > 0) {
       queryParameters = queryParameters.set('moduleTypeKeys', moduleTypes.join(','));
+    }
+    if (tags && tags.length > 0) {
+      queryParameters = queryParameters.set('tags', tags.join(','));
     }
     if (text) {
       queryParameters = queryParameters.set('text', text);

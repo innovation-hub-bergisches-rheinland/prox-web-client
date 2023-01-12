@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -7,6 +7,7 @@ import { TagService } from '@data/service/tag.service';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, map, startWith } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-tag-input',
@@ -22,6 +23,9 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 })
 export class TagInputComponent implements OnInit, ControlValueAccessor {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  @Input()
+  appearance: MatFormFieldAppearance = 'outline';
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;

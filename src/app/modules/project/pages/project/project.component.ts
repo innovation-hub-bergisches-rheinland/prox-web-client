@@ -15,6 +15,7 @@ export interface QueryParams {
   state?: ProjectState;
   moduleType?: string | string[];
   discipline?: string | string[];
+  tags?: string | string[];
 }
 
 @Component({
@@ -63,7 +64,14 @@ export class ProjectComponent implements OnInit {
   }
 
   filter(search: ProjectSearch, page: PageRequest = undefined) {
-    this.activeProjectPage$ = this.projectService.filterProjects(search.status, search.disciplines, search.moduleTypes, search.txt, page);
+    this.activeProjectPage$ = this.projectService.filterProjects(
+      search.status,
+      search.disciplines,
+      search.moduleTypes,
+      search.txt,
+      search.tags,
+      page
+    );
     this.updateQueryParams(search);
   }
 
@@ -72,6 +80,7 @@ export class ProjectComponent implements OnInit {
       state: search.status,
       discipline: search.disciplines,
       moduleType: search.moduleTypes,
+      tags: search.tags,
       q: search.txt
     };
     Object.keys(queryParams).forEach(key => (queryParams[key] === undefined ? delete queryParams[key] : {}));
@@ -88,6 +97,7 @@ export class ProjectComponent implements OnInit {
       status: params.state,
       disciplines: Array.isArray(params.discipline) ? params.discipline : params.discipline === undefined ? undefined : [params.discipline],
       moduleTypes: Array.isArray(params.moduleType) ? params.moduleType : params.moduleType === undefined ? undefined : [params.moduleType],
+      tags: Array.isArray(params.tags) ? params.tags : params.tags === undefined ? undefined : [params.tags],
       txt: params.q
     };
     Object.keys(search).forEach(key => (search[key] === undefined ? delete search[key] : {}));
