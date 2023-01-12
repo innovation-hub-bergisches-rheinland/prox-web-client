@@ -54,4 +54,12 @@ export class ProjectDetailsComponent implements OnInit {
     const newTitle = this.titleService.getTitle() + ' - ' + project.title;
     this.titleService.setTitle(newTitle);
   }
+
+  navigateToTagSearch(tag: string) {
+    this.router.navigate(['/projects'], {
+      queryParams: {
+        tags: tag
+      }
+    });
+  }
 }

@@ -18,6 +18,7 @@
           [showDetails]="false"
           [project]="project"
           (deleted)="deleteProject($event)"
+          (tagClicked)="addTagToSearch($event)"
         ></app-project-card>
       </div>
       <div class="flex justify-center items-center mt-10">

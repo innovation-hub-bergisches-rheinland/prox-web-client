@@ -9,6 +9,7 @@ import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-e
 import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { P } from '@angular/cdk/keycodes';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-project-card',
@@ -24,6 +25,9 @@ export class ProjectCardComponent implements OnInit {
 
   @Output()
   deleted = new Subject<Project>();
+
+  @Output()
+  tagClicked = new Subject<string>();
 
   editIcon = faPen;
   deleteIcon = faTrash;
@@ -89,5 +93,9 @@ export class ProjectCardComponent implements OnInit {
       this.notificationService.success('Status wurde erfolgreich aktualisiert');
       this.project = project;
     });
+  }
+
+  onTagClick(tag: string) {
+    this.tagClicked.next(tag);
   }
 }

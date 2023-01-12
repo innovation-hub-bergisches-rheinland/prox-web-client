@@ -111,4 +111,16 @@ export class ProjectComponent implements OnInit {
       size: event.pageSize
     });
   }
+
+  addTagToSearch(tag: string) {
+    if (this.searchValues.tags?.includes(tag)) {
+      return;
+    }
+    if (this.searchValues.tags === undefined) {
+      this.searchValues.tags = [];
+    }
+
+    this.searchValues.tags?.push(tag);
+    this.filter(this.searchValues);
+  }
 }

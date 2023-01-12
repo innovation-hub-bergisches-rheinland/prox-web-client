@@ -5,6 +5,11 @@
     </div>
   </app-content-page-header>
   <app-content-page-content>
-    <app-project-card [showDetails]="true" [project]="project" (deleted)="goBack()"></app-project-card>
+    <app-project-card
+      [showDetails]="true"
+      [project]="project"
+      (deleted)="goBack()"
+      (tagClicked)="navigateToTagSearch($event)"
+    ></app-project-card>
   </app-content-page-content>
 </app-content-page>
