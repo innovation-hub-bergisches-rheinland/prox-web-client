@@ -173,10 +173,10 @@ export class ProfileService {
     });
   }
 
-  filterLecturers(query: string, page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
+  findLecturersByName(query: string, page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
     const params = new HttpParams().set('q', query).set('page', page.page).set('size', page.size);
 
-    return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers/search/filter`, {
+    return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers/search/findByName`, {
       headers: {
         Accept: 'application/json'
       },
