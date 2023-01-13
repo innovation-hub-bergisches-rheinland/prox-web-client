@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { Subject } from 'rxjs';
-import { faArrowUp, faBars, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Observable, Subject, catchError } from 'rxjs';
+import { faArrowUp, faBars, faPen, faStar as faSolid, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faRegular } from '@fortawesome/free-regular-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project, ProjectState } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
@@ -10,6 +11,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { P } from '@angular/cdk/keycodes';
 import { Tag } from '@data/schema/tag.types';
+import { UserService } from '@data/service/user.service';
 
 @Component({
   selector: 'app-project-card',
@@ -33,10 +35,15 @@ export class ProjectCardComponent implements OnInit {
   deleteIcon = faTrash;
   commitIcon = faArrowUp;
   barsIcon = faBars;
+  starSolid = faSolid;
+  starRegular = faRegular;
   canCommit = false;
+  canStar = false;
+  isStarred = false;
 
   constructor(
     private projectService: ProjectService,
+    private userService: UserService,
     private notificationService: NotificationService,
     private dialog: MatDialog,
     private keycloakService: KeycloakService
@@ -44,6 +51,10 @@ export class ProjectCardComponent implements OnInit {
 
   ngOnInit() {
     this.canCommit = this.project.status.state === 'PROPOSED' && this.keycloakService.isUserInRole('professor');
+    this.canStar = this.project._permissions.canStateInterest;
+    this.userService.checkStar(this.project.id).subscribe({
+      next: res => (this.isStarred = res)
+    });
   }
 
   commit() {
@@ -52,6 +63,26 @@ export class ProjectCardComponent implements OnInit {
       this.project = project;
       this.canCommit = false;
     });
+  }
+
+  toggleStar() {
+    if (this.isStarred) {
+      this.userService.unStar(this.project.id).subscribe({
+        next: _ => {
+          this.isStarred = false;
+          this.project.metrics.interestedCount--;
+        },
+        error: _ => this.notificationService.error('Konnte Stern nicht entfernen. Versuchen Sie es später erneut')
+      });
+    } else {
+      this.userService.star(this.project.id).subscribe({
+        next: _ => {
+          this.isStarred = true;
+          this.project.metrics.interestedCount++;
+        },
+        error: _ => this.notificationService.error('Konnte keinen Stern hinzufügen. Versuchen Sie es später erneut')
+      });
+    }
   }
 
   onDeleteClick() {

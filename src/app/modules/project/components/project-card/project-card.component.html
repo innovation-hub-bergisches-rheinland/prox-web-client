@@ -70,6 +70,10 @@
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
           Commitment abgeben
         </button>
+        <button data-tip="Projekt sternen" class="btn btn-outline btn-primary tooltip" [disabled]="!canStar" (click)="toggleStar()">
+          <fa-icon class="mr-2" [icon]="isStarred ? starSolid : starRegular"></fa-icon>
+          {{ this.project.metrics.interestedCount }}
+        </button>
         <ng-container *ngIf="project._permissions.hasAccess">
           <app-project-card-status-actions [project]="project" (status)="onStatusChange($event)"></app-project-card-status-actions>
           <div class="dropdown dropdown-top dropdown-end">
