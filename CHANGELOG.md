@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.21.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.20.1...v1.21.0) (2023-01-13)
+
+
+### Features
+
+* add profile search component ([da69306](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/da693068ba8de29a3958c9a3ed82ec5dd9de68dd))
+* add tags to search panel ([9a561b5](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/9a561b5ded2bf1f9bf7426d59e7b23663e4a8af2))
+* allow users to star projects ([6591de1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/6591de125ef5484333edd0fe346948d5570add63))
+* make tags clickable in project cards ([2abae5a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2abae5a484a0a76c3209b2a8198848c4ee4096a7))
+* make tags on home screen clickable ([8bbd72c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8bbd72ce415684f52f46676c55402d3b35a46069))
+
+
+### Bug Fixes
+
+* rename request mapping for lecturer search ([2d3821b](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2d3821b480ba4736ca542d73881dcaa6df514102))
+
 ### [1.20.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.20.0...v1.20.1) (2023-01-11)
 
 ## [1.20.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.19.7...v1.20.0) (2023-01-11)
