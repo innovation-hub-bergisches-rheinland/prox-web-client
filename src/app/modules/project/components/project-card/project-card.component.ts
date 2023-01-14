@@ -52,9 +52,11 @@ export class ProjectCardComponent implements OnInit {
   ngOnInit() {
     this.canCommit = this.project.status.state === 'PROPOSED' && this.keycloakService.isUserInRole('professor');
     this.canStar = this.project._permissions.canStateInterest;
-    this.userService.checkStar(this.project.id).subscribe({
-      next: res => (this.isStarred = res)
-    });
+    if (this.canStar) {
+      this.userService.checkStar(this.project.id).subscribe({
+        next: res => (this.isStarred = res)
+      });
+    }
   }
 
   commit() {
