@@ -40,6 +40,7 @@ export class ProjectCardComponent implements OnInit {
   canCommit = false;
   canStar = false;
   isStarred = false;
+  isLoggedIn = false;
 
   constructor(
     private projectService: ProjectService,
@@ -49,14 +50,15 @@ export class ProjectCardComponent implements OnInit {
     private keycloakService: KeycloakService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.canCommit = this.project.status.state === 'PROPOSED' && this.keycloakService.isUserInRole('professor');
     this.canStar = this.project._permissions.canStateInterest;
-    if (this.canStar) {
+    if (this.canStar && this.isLoggedIn) {
       this.userService.checkStar(this.project.id).subscribe({
         next: res => (this.isStarred = res)
       });
     }
+    this.isLoggedIn = await this.keycloakService.isLoggedIn();
   }
 
   commit() {
@@ -67,7 +69,12 @@ export class ProjectCardComponent implements OnInit {
     });
   }
 
-  toggleStar() {
+  async toggleStar() {
+    if (!this.isLoggedIn) {
+      await this.keycloakService.login({ redirectUri: window.location.href });
+      return;
+    }
+
     if (this.isStarred) {
       this.userService.unStar(this.project.id).subscribe({
         next: _ => {
