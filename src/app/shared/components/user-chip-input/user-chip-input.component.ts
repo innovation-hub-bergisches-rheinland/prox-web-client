@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs'
 import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { User } from '@data/schema/user.types';
+import { RoleSearch, User } from '@data/schema/user.types';
 
 @Component({
   selector: 'app-user-chip-input',
@@ -30,6 +30,9 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   @Input()
   label = 'Benutzer';
 
+  @Input()
+  role: RoleSearch;
+
   userInputCtrl = new UntypedFormControl('');
   _users: User[] = [];
   users$: Subject<User[]> = new BehaviorSubject(this._users);
@@ -47,8 +50,8 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
     this.userAutocomplete$ = this.userInputCtrl.valueChanges.pipe(
       debounceTime(120),
       startWith(''),
-      filter(input => !!input),
-      mergeMap(input => this.userService.search(input)),
+      filter(input => !!input && input.length > 1),
+      mergeMap(input => this.userService.search(input, this.role)),
       catchError(err => {
         this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);

@@ -55,9 +55,10 @@
     </mat-error>
   </mat-form-field>
 
-  <app-lecturer-chip-input
+  <app-user-chip-input
     formControlName="supervisors"
     label="Betreuer"
+    role="professor"
     *ngIf="!informationFormGroup.controls.supervisors.disabled"
-  ></app-lecturer-chip-input>
+  ></app-user-chip-input>
 </form>

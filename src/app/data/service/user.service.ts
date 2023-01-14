@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { User } from '@data/schema/user.types';
+import { RoleSearch, User } from '@data/schema/user.types';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
@@ -13,9 +13,14 @@ export class UserService {
 
   constructor(protected httpClient: HttpClient) {}
 
-  search(query: string): Observable<User[]> {
+  search(query: string, role?: RoleSearch): Observable<User[]> {
+    let params = new HttpParams().set('q', query);
+    if (role) {
+      params = params.set('role', role);
+    }
+
     return this.httpClient.get<User[]>(`${this.basePath}/users/search`, {
-      params: new HttpParams().set('q', query),
+      params,
       headers: {
         Accept: 'application/json'
       },

@@ -26,7 +26,6 @@ import { ErrorsModule } from './modules/errors/errors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
-import { LecturerChipInputComponent } from './components/lecturer-chip-input/lecturer-chip-input.component';
 
 @NgModule({
   declarations: [
@@ -44,8 +43,7 @@ import { LecturerChipInputComponent } from './components/lecturer-chip-input/lec
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
-    StatusIconComponent,
-    LecturerChipInputComponent
+    StatusIconComponent
   ],
   imports: [
     CommonModule,
@@ -88,7 +86,6 @@ import { LecturerChipInputComponent } from './components/lecturer-chip-input/lec
     PaginatorComponent,
     UserChipInputComponent,
     StatusIconComponent,
-    LecturerChipInputComponent,
     NotificationsModule,
     LoggerModule,
     ConfirmationDialogComponent,
