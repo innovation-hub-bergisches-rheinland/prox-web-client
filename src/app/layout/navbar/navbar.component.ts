@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { ProfileService } from '@data/service/profile.service';
-import { map } from 'rxjs';
+import { OrganizationService } from '@data/service/organization.service';
+import { Observable, map, tap } from 'rxjs';
+import { UserProfile } from '@data/schema/user.types';
+import { UserService } from '@data/service/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,13 +17,15 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   userAvatar?: string = null;
   userId: string;
+  userProfile$: Observable<UserProfile>;
 
-  constructor(private keycloakService: KeycloakService, private userService: ProfileService) {}
+  constructor(private keycloakService: KeycloakService, private userService: UserService) {}
 
   async ngOnInit() {
     const isLoggedIn = (this.isLoggedIn = await this.keycloakService.isLoggedIn());
     if (isLoggedIn) {
       this.userId = this.keycloakService.getKeycloakInstance().subject;
+      this.userProfile$ = this.userService.getCurrentAuthenticated();
     }
   }
 

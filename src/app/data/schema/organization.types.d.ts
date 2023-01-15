@@ -1,41 +1,5 @@
 import { Page } from './shared.types';
 
-export interface LecturerPermissions {
-  hasAccess: boolean;
-}
-
-export interface LecturerProfile {
-  affiliation: string;
-  subject: string;
-  vita: string;
-  publications: string[];
-  room: string;
-  consultationHour: string;
-  email: string;
-  telephone: string;
-  homepage: string;
-  collegePage: string;
-}
-
-export interface Lecturer {
-  id: string;
-  userId: string;
-  name: string;
-  profile: LecturerProfile;
-  tags: string[];
-  avatarUrl: string;
-  _permissions: LecturerPermissions;
-  visibleInPublicSearch: boolean;
-}
-
-export type LecturerList = Page<Lecturer>;
-
-export interface CreateLecturerRequest {
-  name: string;
-  profile: LecturerProfile;
-  visibleInPublicSearch: boolean;
-}
-
 export type SocialMedia = 'FACEBOOK' | 'TWITTER' | 'LINKEDIN' | 'XING' | 'INSTAGRAM' | 'YOUTUBE';
 export type OrganizationRole = 'ADMIN' | 'MEMBER';
 
@@ -85,11 +49,6 @@ export type AddOrganizationMembershipRequest = {
   role: OrganizationRole;
 };
 export type UpdateOrganizationMembershipRequest = Omit<OrganizationMembership, 'member'>;
-
-export interface SetLecturerTagsRequest {
-  tags: string[];
-}
-export type SetLecturerTagsResponse = SetLecturerTagsRequest;
 
 export interface SetOrganizationTagsRequest {
   tags: string[];

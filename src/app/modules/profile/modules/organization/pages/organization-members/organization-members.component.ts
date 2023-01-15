@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProfileService } from '@data/service/profile.service';
+import { OrganizationService } from '@data/service/organization.service';
 import { Observable, lastValueFrom, mergeMap, of } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrganizationAddMemberDialogComponent } from '@modules/profile/modules/organization/components/organization-add-member-dialog/organization-add-member-dialog.component';
 import { Location } from '@angular/common';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { AddOrganizationMembershipRequest, Organization, OrganizationMembership } from '@data/schema/profile.types';
+import { AddOrganizationMembershipRequest, Organization, OrganizationMembership } from '@data/schema/organization.types';
 
 @Component({
   selector: 'app-organization-members',
@@ -23,7 +23,7 @@ export class OrganizationMembersComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public location: Location,
-    private userService: ProfileService,
+    private userService: OrganizationService,
     private keycloakService: KeycloakService,
     private dialog: MatDialog,
     private notificationService: NotificationService

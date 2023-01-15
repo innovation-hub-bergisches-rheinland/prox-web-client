@@ -1,11 +1,11 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { ProfileService } from '@data/service/profile.service';
+import { OrganizationService } from '@data/service/organization.service';
 import { KeycloakService } from 'keycloak-angular';
 import { catchError, map, tap } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { Organization } from '@data/schema/profile.types';
+import { Organization } from '@data/schema/organization.types';
 
 @Component({
   selector: 'app-organization-selector',
@@ -24,7 +24,7 @@ export class OrganizationSelectorComponent implements OnInit, ControlValueAccess
 
   selectCtrl = new FormControl<string>('');
 
-  constructor(private profileService: ProfileService, private notificationService: NotificationService) {}
+  constructor(private profileService: OrganizationService, private notificationService: NotificationService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (org: string) => {};

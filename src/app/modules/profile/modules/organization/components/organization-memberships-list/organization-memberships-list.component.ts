@@ -3,7 +3,7 @@ import { ConfirmationDialogComponent } from '@shared/components/confirmation-dia
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { OrganizationEditMemberDialogComponent } from '@modules/profile/modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
-import { OrganizationMembership } from '@data/schema/profile.types';
+import { OrganizationMembership } from '@data/schema/organization.types';
 
 @Component({
   selector: 'app-organization-memberships-list',

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { socialMediaHandleValidator } from '@modules/profile/modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
-import { ProfileService } from '@data/service/profile.service';
+import { OrganizationService } from '@data/service/organization.service';
 import { combineLatest, combineLatestWith, filter, forkJoin, map, mergeMap, of, share } from 'rxjs';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { CreateOrganizationRequest, Organization, OrganizationProfile } from '@data/schema/profile.types';
+import { CreateOrganizationRequest, Organization, OrganizationProfile } from '@data/schema/organization.types';
 
 @Component({
   selector: 'app-organization-editor',
@@ -53,7 +53,7 @@ export class OrganizationEditorComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private profileService: ProfileService,
+    private profileService: OrganizationService,
     private tagService: TagService,
     private notificationService: NotificationService
   ) {}

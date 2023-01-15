@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AddOrganizationMembershipRequest, OrganizationMembership, OrganizationRole } from '@data/schema/profile.types';
+import { AddOrganizationMembershipRequest, OrganizationMembership, OrganizationRole } from '@data/schema/organization.types';
 import { User } from '@data/schema/user.types';
 
 interface AddMemberDialogData {

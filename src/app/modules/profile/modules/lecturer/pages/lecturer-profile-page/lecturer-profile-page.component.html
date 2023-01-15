@@ -1,70 +1,65 @@
-<ng-container *ngIf="user$ | async; let user; else: loading">
+<ng-container *ngIf="lecturer$ | async; let lecturer; else: loading">
   <div class="mx-auto max-w-screen-lg flex flex-col gap-4">
     <app-profile-header-card
-      (editClicked)="editProfile(user)"
-      [imageSrc]="user.avatarUrl"
+      [imageSrc]="lecturer.avatarUrl"
       [roundedAvatar]="true"
-      [showEdit]="user._permissions.hasAccess"
-      [tags]="tags$ | async"
-      [title]="user.name"
+      [tags]="tags"
+      [title]="lecturer.displayName"
     ></app-profile-header-card>
-    <app-profile-information-card>
+    <app-profile-information-card *ngIf="lecturer.lecturerProfile?.profile; let profile">
       <app-profile-information-card-entry
-        *ngIf="user.profile?.affiliation"
-        [value]="user.profile.affiliation"
+        *ngIf="profile?.affiliation"
+        [value]="profile.affiliation"
         title="Hochschulzugehörigkeit seit"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.subject"
-        [value]="user.profile.subject"
+        *ngIf="profile?.subject"
+        [value]="profile.subject"
         title="Lehrgebiet"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.room"
-        [value]="user.profile.room"
+        *ngIf="profile?.room"
+        [value]="profile.room"
         title="Standort, Raum"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.telephone"
+        *ngIf="profile?.telephone"
         [linkable]="true"
-        [value]="user.profile.telephone"
+        [value]="profile.telephone"
         title="Telefonnummer"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.email"
+        *ngIf="profile?.email"
         [linkable]="true"
-        [value]="user.profile.email"
+        [value]="profile.email"
         title="E-Mail"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.homepage"
+        *ngIf="profile?.homepage"
         [linkable]="true"
-        [value]="user.profile.homepage"
+        [value]="profile.homepage"
         title="Homepage"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.consultationHour"
+        *ngIf="profile?.consultationHour"
         [linkable]="true"
-        [value]="user.profile.consultationHour"
+        [value]="profile.consultationHour"
         title="Sprechstunde"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="user.profile?.collegePage"
+        *ngIf="profile?.collegePage"
         [linkable]="true"
-        [value]="user.profile.collegePage"
+        [value]="profile.collegePage"
         title="Personalseite"
       ></app-profile-information-card-entry>
     </app-profile-information-card>
   </div>
-  <app-sash *ngIf="user.profile?.vita" class="mt-4">
+  <app-sash *ngIf="lecturer.lecturerProfile?.profile?.vita" class="mt-4">
     <app-sash-title>Werdegang</app-sash-title>
-    <app-sash-content>{{ user.profile.vita }}</app-sash-content>
+    <app-sash-content>{{ lecturer.lecturerProfile.profile.vita }}</app-sash-content>
   </app-sash>
-  <div class="mx-auto max-w-screen-lg flex flex-col gap-4 mt-4">
-    <app-profile-publications-card
-      *ngIf="user.profile?.publications && user.profile.publications.length > 0"
-      [publications]="user.profile.publications"
-    ></app-profile-publications-card>
+  <div class="mx-auto max-w-screen-lg flex flex-col gap-4 mt-4" *ngIf="lecturer.lecturerProfile?.profile?.publications; let publications">
+    <app-profile-publications-card *ngIf="publications.length > 0" [publications]="publications"></app-profile-publications-card>
     <ng-container *ngIf="offeredProjects$ | async; let projects">
       <app-profile-projects-card [projects]="projects" class="w-full"></app-profile-projects-card>
     </ng-container>

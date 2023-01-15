@@ -31,8 +31,9 @@
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <ng-container *ngIf="isLoggedIn; else defaultAvatar">
-            <!-- TODO: -->
-            <img alt="Avatar" src="/assets/images/blank-profile-picture.png" />
+            <ng-container *ngIf="userProfile$ | async; let profile">
+              <img alt="Avatar" [src]="profile.avatarUrl" onerror="this.src='/assets/images/blank-profile-picture.png'" />
+            </ng-container>
           </ng-container>
           <ng-template #defaultAvatar>
             <img alt="Avatar" src="/assets/images/blank-profile-picture.png" />

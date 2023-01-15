@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OrganizationEditorDialogComponent } from '@modules/profile/modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfileService } from '@data/service/profile.service';
+import { OrganizationService } from '@data/service/organization.service';
 import { faEdit, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs/internal/Observable';
 import { TagService } from '@data/service/tag.service';
 import { of } from 'rxjs';
-import { Organization } from '@data/schema/profile.types';
+import { Organization } from '@data/schema/organization.types';
 
 @Component({
   selector: 'app-organization-item',
@@ -24,7 +24,7 @@ export class OrganizationItemComponent implements OnInit {
   @Input()
   imgSrc: string;
 
-  constructor(private dialog: MatDialog, private userService: ProfileService, private tagService: TagService) {}
+  constructor(private dialog: MatDialog, private userService: OrganizationService, private tagService: TagService) {}
 
   ngOnInit(): void {
     this.imgSrc = this.organization.logoUrl;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProfileService } from '@data/service/profile.service';
+import { OrganizationService } from '@data/service/organization.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, filter, map, mergeMap, share, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -9,7 +9,7 @@ import { ProjectService } from '@data/service/project.service';
 import { TagService } from '@data/service/tag.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Title } from '@angular/platform-browser';
-import { Organization } from '@data/schema/profile.types';
+import { Organization } from '@data/schema/organization.types';
 import { Project } from '@data/schema/project.types';
 
 @Component({
@@ -26,7 +26,7 @@ export class OrganizationProfileComponent {
   projectHistory$: Observable<Project[]>;
 
   constructor(
-    private profileService: ProfileService,
+    private profileService: OrganizationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,

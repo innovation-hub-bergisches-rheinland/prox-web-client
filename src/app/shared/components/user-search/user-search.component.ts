@@ -48,7 +48,7 @@ export class UserSearchComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     this.filteredUsers$ = this.userSearchFilteringCtrl.valueChanges.pipe(
       startWith(''),
-      filter(value => !!value),
+      filter(value => !!value && value.length > 1),
       debounceTime(300),
       tap(() => (this.searching = true)),
       mergeMap(input => (input ? this.userService.search(input) : of([]))),

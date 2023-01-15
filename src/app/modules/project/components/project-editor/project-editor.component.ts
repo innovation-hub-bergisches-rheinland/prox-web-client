@@ -77,7 +77,7 @@ export class ProjectEditorComponent implements OnInit {
       if (this.canSetSupervisor && !projectSupervisorControl.value) {
         projectSupervisorControl.setValue([
           {
-            id,
+            id: id,
             name: fullName
           }
         ]);
@@ -95,7 +95,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.controls.summary.setValue(project.summary);
     this.projectForm.controls.information.controls.description.setValue(project.description);
     this.projectForm.controls.information.controls.requirement.setValue(project.requirement);
-    this.projectForm.controls.information.controls.supervisors.setValue(project.supervisors);
+    this.projectForm.controls.information.controls.supervisors.setValue(project.supervisors.map(s => ({ id: s.id, name: s.name })));
     this.projectForm.controls.information.controls.partner.setValue(project.partner?.id);
 
     const disciplines = project.curriculumContext?.disciplines?.map(discipline => discipline.key) ?? [];

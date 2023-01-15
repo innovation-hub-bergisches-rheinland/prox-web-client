@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Organization } from '@data/schema/profile.types';
+import { Organization } from '@data/schema/organization.types';
 
 @Component({
   selector: 'app-organization-list',

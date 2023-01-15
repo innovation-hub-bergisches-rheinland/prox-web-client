@@ -4,7 +4,6 @@ import { ProjectService } from '@data/service/project.service';
 import { FormControl, FormGroup } from '@angular/forms';
 export interface ProfileSearch {
   txt?: string;
-  tags?: string[];
 }
 
 @Component({
@@ -16,7 +15,6 @@ export class ProfileSearchPanelComponent implements OnInit {
   searchIcon = faSearch;
 
   searchForm = new FormGroup({
-    tags: new FormControl([]),
     txt: new FormControl('')
   });
 
@@ -34,8 +32,7 @@ export class ProfileSearchPanelComponent implements OnInit {
 
   onSubmit() {
     this.search.emit({
-      txt: this.searchForm.controls.txt.value || undefined,
-      tags: this.searchForm.controls.tags.value || undefined
+      txt: this.searchForm.controls.txt.value || undefined
     });
   }
 }

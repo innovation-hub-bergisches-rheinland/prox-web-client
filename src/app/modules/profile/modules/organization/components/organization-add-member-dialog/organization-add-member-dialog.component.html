@@ -4,8 +4,8 @@
     Suchen Sie hier nach einer Person, die Sie als Mitglied zu Ihrer Organisation hinzufügen möchten. Diese Person muss sich bereits in PROX
     registriert haben.
   </p>
-  <form [formGroup]="addMemberForm">
-    <app-user-search formControlName="userSearchCtrl" [filter]="activeMemberFilter"></app-user-search>
+  <form [formGroup]="addMemberForm" class="flex flex-col">
+    <app-user-search class="w-full" formControlName="userSearchCtrl" [filter]="activeMemberFilter"></app-user-search>
     <mat-form-field appearance="outline">
       <mat-label>Rolle</mat-label>
       <mat-select formControlName="roleSelectCtrl">
