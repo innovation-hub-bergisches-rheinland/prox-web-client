@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OrganizationEditorDialogComponent } from '@modules/profile/modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
+import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationService } from '@data/service/organization.service';
 import { faEdit, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';

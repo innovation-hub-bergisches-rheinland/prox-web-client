@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { socialMediaHandleValidator } from '@modules/profile/modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
+import { socialMediaHandleValidator } from '@modules/organization/components/organization-editor/organization-editor-social-media/organization-editor-social-media.component';
 import { OrganizationService } from '@data/service/organization.service';
 import { combineLatest, combineLatestWith, filter, forkJoin, map, mergeMap, of, share } from 'rxjs';
 import { TagService } from '@data/service/tag.service';

@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path: 'organizations',
         title: 'PROX - Unternehmen und Organisationen',
-        loadChildren: () => import('@modules/profile/modules/organization/organization.module').then(m => m.OrganizationModule),
+        loadChildren: () => import('@modules/organization/organization.module').then(m => m.OrganizationModule),
         canLoad: [FeatureGuard]
       },
       // Users is not good URL design for lecturers profiles, but it had existed before. We can't get rid of URLs that are already in use.
@@ -52,7 +52,7 @@ const routes: Routes = [
       {
         path: 'lecturers',
         title: 'PROX - Lehrende',
-        loadChildren: () => import('@modules/profile/modules/lecturer/lecturer.module').then(m => m.LecturerModule),
+        loadChildren: () => import('@modules/lecturer/lecturer.module').then(m => m.LecturerModule),
         canLoad: [FeatureGuard]
       },
       {

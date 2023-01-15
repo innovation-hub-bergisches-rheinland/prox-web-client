@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
-import { OrganizationEditMemberDialogComponent } from '@modules/profile/modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
+import { OrganizationEditMemberDialogComponent } from '@modules/organization/components/organization-edit-member-dialog/organization-edit-member-dialog.component';
 import { OrganizationMembership } from '@data/schema/organization.types';
 
 @Component({
