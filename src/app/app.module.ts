@@ -19,6 +19,7 @@ import { ShimmerComponent } from './layout/shimmer/shimmer.component';
 import { ToastrModule } from 'ngx-toastr';
 import { LoggerService } from '@shared/modules/logger/logger.service';
 import { BannerComponent } from '@layout/banner/banner.component';
+import { EnvironmentComponent } from '@layout/environment/environment.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BannerComponent } from '@layout/banner/banner.component';
     NavbarComponent,
     SidebarComponent,
     ShimmerComponent,
-    BannerComponent
+    BannerComponent,
+    EnvironmentComponent
   ],
   imports: [
     BrowserModule,

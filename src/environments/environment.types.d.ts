@@ -2,6 +2,7 @@ import { KeycloakConfig } from 'keycloak-js';
 
 export interface Environment {
   production: boolean;
+  name: string;
   keycloakConfig: KeycloakConfig;
   apiUrl: string;
   enabledFeatures?: string[];

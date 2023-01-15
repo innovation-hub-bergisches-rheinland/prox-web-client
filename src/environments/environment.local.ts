@@ -12,6 +12,7 @@ const keycloakConfig: KeycloakConfig = {
 };
 
 export const environment: Environment = {
+  name: 'DEV - LOCAL',
   production: false,
   keycloakConfig,
   apiUrl: 'http://localhost:8080',
