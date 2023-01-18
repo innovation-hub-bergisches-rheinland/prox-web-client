@@ -1,0 +1,83 @@
+<form [formGroup]="formGroup" class="flex flex-col">
+  <mat-accordion>
+    <!-- General -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Allgemein </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="flex flex-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Lehrgebiet</mat-label>
+          <input formControlName="mainSubject" matInput maxlength="255" placeholder="Lehrgebiet" />
+          <mat-hint align="end"> {{ formGroup.controls.mainSubject.value?.length || 0 }}/255 </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Hochschulzugehörigkeit seit</mat-label>
+          <input formControlName="affiliation" matInput maxlength="255" placeholder="Hochschulzugehörigkeit seit" />
+          <mat-hint align="end"> {{ formGroup.controls.affiliation.value?.length || 0 }}/255 </mat-hint>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+
+    <!-- Contact -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Kontaktdaten </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="flex flex-col">
+        <mat-form-field appearance="outline">
+          <mat-label>E-Mail</mat-label>
+          <input formControlName="email" matInput maxlength="255" placeholder="E-Mail" />
+          <mat-hint align="end"> {{ formGroup.controls.email.value?.length || 0 }}/255</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Telefon</mat-label>
+          <input formControlName="telephone" matInput maxlength="255" placeholder="Telefon" />
+          <mat-hint align="end"> {{ formGroup.controls.telephone.value?.length || 0 }}/255</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Homepage</mat-label>
+          <input formControlName="homepage" matInput maxlength="255" placeholder="Homepage" />
+          <mat-hint align="end"> {{ formGroup.controls.homepage.value?.length || 0 }}/255</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Personalseite der Hochschule</mat-label>
+          <input formControlName="collegePage" matInput maxlength="255" placeholder="Personalseite der Hochschule" />
+          <mat-hint align="end"> {{ formGroup.controls.collegePage.value?.length || 0 }}/255</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Standort, Raum</mat-label>
+          <input formControlName="room" matInput maxlength="255" placeholder="Standort, Raum" />
+          <mat-hint align="end"> {{ formGroup.controls.room.value?.length || 0 }}/255</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Sprechstunde</mat-label>
+          <input formControlName="consultationHour" matInput maxlength="255" placeholder="consultationHour" />
+          <mat-hint align="end">
+            {{ formGroup.controls.consultationHour.value?.length || 0 }}
+            /255
+          </mat-hint>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+
+    <!-- Tags -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Tags </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-tag-input class="w-full" formControlName="subjects"></app-tag-input>
+    </mat-expansion-panel>
+
+    <!-- Publications -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Publikationen </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-profile-editor-publications
+        class="w-full"
+        [publicationFormControl]="formGroup.controls.publications"
+      ></app-profile-editor-publications>
+    </mat-expansion-panel>
+  </mat-accordion>
+</form>

@@ -6,9 +6,15 @@
   <app-content-page-content>
     <mat-card>
       <mat-card-content>
-        <mat-tab-group>
-          <mat-tab label="Allgemein">Allgemeines</mat-tab>
-          <mat-tab label="Lehre" [disabled]="!isLecturer"> Lehrprofil </mat-tab>
+        <mat-tab-group selectedIndex="1">
+          <mat-tab label="Allgemein">
+            <div class="m-4">
+              <app-profile-editor-general [formGroup]="formGroup.controls.general"></app-profile-editor-general>
+            </div>
+          </mat-tab>
+          <mat-tab label="Lehre" [disabled]="!isLecturer">
+            <app-profile-editor-lecturer [formGroup]="formGroup.controls.lecturer"></app-profile-editor-lecturer>
+          </mat-tab>
           <mat-tab label="Studium (coming soon)" [disabled]="true"> Studierendenprofil </mat-tab>
         </mat-tab-group>
       </mat-card-content>

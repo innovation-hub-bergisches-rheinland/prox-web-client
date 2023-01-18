@@ -28,6 +28,9 @@ import { ProfileEditorAvatarComponent } from '@modules/profile/components/profil
 import { ProfileSearchPanelComponent } from './components/profile-search-panel/profile-search-panel.component';
 import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
 import { ProfileRoutingModule } from './profile-routing.module';
+import { ProfileEditorGeneralComponent } from './components/profile-editor/profile-editor-general/profile-editor-general.component';
+import { ProfileEditorLecturerComponent } from './components/profile-editor/profile-editor-lecturer/profile-editor-lecturer.component';
+import { ProfileEditorPublicationsComponent } from './components/profile-editor/profile-editor-publications/profile-editor-publications.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { ProfileRoutingModule } from './profile-routing.module';
     ProfileHeaderCardComponent,
     ProfileEditorAvatarComponent,
     ProfileSearchPanelComponent,
-    ProfileEditorComponent
+    ProfileEditorComponent,
+    ProfileEditorGeneralComponent,
+    ProfileEditorLecturerComponent,
+    ProfileEditorPublicationsComponent
   ],
   exports: [
     SashComponent,

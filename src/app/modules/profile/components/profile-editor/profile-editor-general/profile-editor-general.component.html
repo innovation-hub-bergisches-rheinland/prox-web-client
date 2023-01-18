@@ -1,0 +1,25 @@
+<form [formGroup]="formGroup" class="grid grid-cols-4 grid-flow-col auto-rows-max gap-4">
+  <div class="col-span-1">
+    <app-profile-editor-avatar [avatarFormGroup]="formGroup.controls.avatar"></app-profile-editor-avatar>
+  </div>
+  <div class="col-span-3">
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Anzeigename</mat-label>
+      <input formControlName="displayName" matInput maxlength="255" placeholder="Anzeigename" required />
+      <mat-hint align="end"> {{ formGroup.controls.displayName.value?.length || 0 }}/255</mat-hint>
+      <mat-error *ngIf="formGroup.controls.displayName.hasError('required')"> Anzeigename <strong>fehlt</strong>! </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Beschreibung</mat-label>
+      <textarea
+        cdkAutosizeMaxRows="30"
+        cdkAutosizeMinRows="10"
+        cdkTextareaAutosize
+        formControlName="vita"
+        matInput
+        matInput
+        placeholder="Beschreibung"
+      ></textarea>
+    </mat-form-field>
+  </div>
+</form>
