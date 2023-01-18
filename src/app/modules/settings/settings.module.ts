@@ -8,6 +8,8 @@ import { ProfileEditorGeneralComponent } from './components/profile-editor-gener
 import { ProfileEditorLecturerComponent } from './components/profile-editor-lecturer/profile-editor-lecturer.component';
 import { ProfileEditorPublicationsComponent } from './components/profile-editor-publications/profile-editor-publications.component';
 import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { SettingsHomeComponent } from './pages/settings-home/settings-home.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.co
     ProfileEditorGeneralComponent,
     ProfileEditorLecturerComponent,
     ProfileEditorPublicationsComponent,
-    ProfileEditorComponent
+    ProfileEditorComponent,
+    SettingsComponent,
+    SettingsHomeComponent
   ],
   imports: [CommonModule, SettingsRoutingModule, SharedModule]
 })

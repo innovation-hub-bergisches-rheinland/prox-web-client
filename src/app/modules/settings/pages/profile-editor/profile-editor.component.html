@@ -1,31 +1,17 @@
-<app-content-page>
-  <app-content-page-header>
-    <app-content-page-title> Profil </app-content-page-title>
-    <app-content-page-actions></app-content-page-actions>
-  </app-content-page-header>
-  <app-content-page-content>
-    <mat-card>
-      <mat-card-content>
-        <mat-tab-group>
-          <mat-tab label="Allgemein">
-            <div class="m-4">
-              <app-profile-editor-general [formGroup]="formGroup.controls.general"></app-profile-editor-general>
-            </div>
-          </mat-tab>
-          <mat-tab label="Lehre" [disabled]="!isLecturer">
-            <app-profile-editor-lecturer [formGroup]="formGroup.controls.lecturer"></app-profile-editor-lecturer>
-          </mat-tab>
-          <mat-tab label="Studium (coming soon)" [disabled]="true"> Studierendenprofil </mat-tab>
-        </mat-tab-group>
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="flex flex-row justify-end m-2">
-          <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !this.formGroup.dirty" (click)="onSave()">
-            <mat-icon fontIcon="save"></mat-icon>
-            Speichern
-          </button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
-  </app-content-page-content>
-</app-content-page>
+<mat-tab-group>
+  <mat-tab label="Allgemein">
+    <div class="m-4">
+      <app-profile-editor-general [formGroup]="formGroup.controls.general"></app-profile-editor-general>
+    </div>
+  </mat-tab>
+  <mat-tab label="Lehre" [disabled]="!isLecturer">
+    <app-profile-editor-lecturer [formGroup]="formGroup.controls.lecturer"></app-profile-editor-lecturer>
+  </mat-tab>
+  <mat-tab label="Studium (coming soon)" [disabled]="true"> Studierendenprofil </mat-tab>
+</mat-tab-group>
+<div class="flex flex-row justify-end m-2">
+  <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !this.formGroup.dirty" (click)="onSave()">
+    <mat-icon fontIcon="save"></mat-icon>
+    Speichern
+  </button>
+</div>
