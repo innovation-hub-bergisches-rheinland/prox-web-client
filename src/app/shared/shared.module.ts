@@ -26,6 +26,7 @@ import { ErrorsModule } from './modules/errors/errors.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
+import { ImageInputComponent } from './components/image-input/image-input.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
     BackButtonComponent,
     PaginatorComponent,
     UserChipInputComponent,
-    StatusIconComponent
+    StatusIconComponent,
+    ImageInputComponent
   ],
   imports: [
     CommonModule,
@@ -89,6 +91,7 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
     NotificationsModule,
     LoggerModule,
     ConfirmationDialogComponent,
+    ImageInputComponent,
 
     FeatureDirectiveModule,
 

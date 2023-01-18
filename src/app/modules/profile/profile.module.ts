@@ -24,13 +24,8 @@ import { SashContentDirective } from '@modules/profile/components/sash/sash-cont
 import { SashTitleDirective } from '@modules/profile/components/sash/sash-title.directive';
 import { ProfileSocialMediaCardComponent } from './components/profile-social-media-card/profile-social-media-card.component';
 import { ProfileHeaderCardComponent } from './components/profile-header-card/profile-header-card.component';
-import { ProfileEditorAvatarComponent } from '@modules/profile/components/profile-editor/profile-editor-avatar/profile-editor-avatar.component';
 import { ProfileSearchPanelComponent } from './components/profile-search-panel/profile-search-panel.component';
-import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
 import { ProfileRoutingModule } from './profile-routing.module';
-import { ProfileEditorGeneralComponent } from './components/profile-editor/profile-editor-general/profile-editor-general.component';
-import { ProfileEditorLecturerComponent } from './components/profile-editor/profile-editor-lecturer/profile-editor-lecturer.component';
-import { ProfileEditorPublicationsComponent } from './components/profile-editor/profile-editor-publications/profile-editor-publications.component';
 
 @NgModule({
   declarations: [
@@ -55,12 +50,7 @@ import { ProfileEditorPublicationsComponent } from './components/profile-editor/
     ProfileAvatarCardSubtitleDirective,
     ProfileSocialMediaCardComponent,
     ProfileHeaderCardComponent,
-    ProfileEditorAvatarComponent,
-    ProfileSearchPanelComponent,
-    ProfileEditorComponent,
-    ProfileEditorGeneralComponent,
-    ProfileEditorLecturerComponent,
-    ProfileEditorPublicationsComponent
+    ProfileSearchPanelComponent
   ],
   exports: [
     SashComponent,
@@ -84,7 +74,6 @@ import { ProfileEditorPublicationsComponent } from './components/profile-editor/
     ProfileAvatarCardSubtitleDirective,
     ProfileSocialMediaCardComponent,
     ProfileHeaderCardComponent,
-    ProfileEditorAvatarComponent,
     ProfileSearchPanelComponent
   ],
   imports: [CommonModule, SharedModule, ProfileRoutingModule]

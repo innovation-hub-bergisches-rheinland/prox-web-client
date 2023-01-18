@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } fro
 import { CreateLecturerProfileRequest, CreateUserProfileRequest, UserProfile } from '@data/schema/user.types';
 import { TagService } from '@data/service/tag.service';
 import { UserService } from '@data/service/user.service';
-import { GeneralProfileForm } from '@modules/profile/components/profile-editor/profile-editor-general/profile-editor-general.component';
-import { LecturerProfileForm } from '@modules/profile/components/profile-editor/profile-editor-lecturer/profile-editor-lecturer.component';
+import { GeneralProfileForm } from '@modules/settings/components/profile-editor-general/profile-editor-general.component';
+import { LecturerProfileForm } from '@modules/settings/components/profile-editor-lecturer/profile-editor-lecturer.component';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable, catchError, forkJoin, map, mergeMap, of } from 'rxjs';

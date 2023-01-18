@@ -22,9 +22,9 @@ const routes: Routes = [
         loadChildren: () => import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
-        path: '',
-        title: 'PROX',
-        loadChildren: () => import('@modules/profile/profile.module').then(m => m.ProfileModule)
+        path: 'settings',
+        title: 'PROX - Settings',
+        loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule)
       },
       {
         path: 'organizations',
