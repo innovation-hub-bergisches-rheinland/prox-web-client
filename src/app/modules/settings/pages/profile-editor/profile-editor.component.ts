@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ComponentCanDeactivate } from '@app/guard/pending-changes.guard';
 import { CreateLecturerProfileRequest, CreateUserProfileRequest, UserProfile } from '@data/schema/user.types';
 import { TagService } from '@data/service/tag.service';
 import { UserService } from '@data/service/user.service';
@@ -12,7 +14,7 @@ import { Observable, catchError, forkJoin, map, mergeMap, of } from 'rxjs';
 @Component({
   templateUrl: './profile-editor.component.html'
 })
-export class ProfileEditorComponent implements OnInit {
+export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   isLecturer = false;
 
   private avatarGroup = new FormGroup({
@@ -50,6 +52,11 @@ export class ProfileEditorComponent implements OnInit {
     private tagService: TagService,
     private notificationService: NotificationService
   ) {}
+
+  @HostListener('window:beforeunload')
+  canDeactivate() {
+    return !this.formGroup.dirty;
+  }
 
   async ngOnInit() {
     this.isLecturer = this.keycloakService.isUserInRole('professor');
