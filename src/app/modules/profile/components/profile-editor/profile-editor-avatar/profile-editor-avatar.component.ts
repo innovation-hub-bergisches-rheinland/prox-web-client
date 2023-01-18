@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-profile-editor-avatar',
@@ -8,9 +10,11 @@ import { UntypedFormGroup } from '@angular/forms';
 })
 export class ProfileEditorAvatarComponent implements OnInit {
   @Input()
-  avatarFormGroup: UntypedFormGroup;
+  avatarFormGroup: FormGroup<{ avatar: FormControl<File | null> }>;
 
-  imgSrc: string | ArrayBuffer;
+  imgSrc: string | File | ArrayBuffer;
+
+  constructor(private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     const avatarFormControl = this.avatarFormGroup.controls['avatar'];
@@ -24,9 +28,11 @@ export class ProfileEditorAvatarComponent implements OnInit {
     });
   }
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
+  onFileChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+
+    if (target.files.length > 0) {
+      const file = target.files[0];
       this.avatarFormGroup.patchValue({
         avatar: file
       });
@@ -38,5 +44,26 @@ export class ProfileEditorAvatarComponent implements OnInit {
 
       reader.readAsDataURL(file); //Set preview
     }
+  }
+
+  onDelete() {
+    const dialog = this.matDialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Avatar entfernen?',
+        message: 'Möchten Sie Ihren Avatar wirklich entfernen?'
+      }
+    });
+    dialog.afterClosed().subscribe({
+      next: value => {
+        if (value === true) {
+          this.resetAvatar();
+        }
+      }
+    });
+  }
+
+  private resetAvatar() {
+    this.imgSrc = '/assets/images/blank-profile-picture.png';
+    this.avatarFormGroup.controls.avatar.setValue(null);
   }
 }

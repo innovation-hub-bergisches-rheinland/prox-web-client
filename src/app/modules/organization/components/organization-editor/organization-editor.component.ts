@@ -66,7 +66,7 @@ export class OrganizationEditorComponent implements OnInit {
 
   saveOrg() {
     const org = this.buildOrganization();
-    const avatar = this.organizationAvatarFormGroup.controls['avatar'].value as File;
+    const avatar = this.organizationAvatarFormGroup.controls['avatar'].value as File | null;
     const org$ = (
       this.organization === null
         ? this.profileService.createOrganization(org)
@@ -84,6 +84,10 @@ export class OrganizationEditorComponent implements OnInit {
 
     const setAvatar$ = org$.pipe(
       mergeMap(org => {
+        if (avatar === null) {
+          // TODO: Delete Avatar
+        }
+
         if (avatar && typeof avatar !== 'string') {
           return this.profileService.setOrganizationLogo(org.id, avatar);
         }

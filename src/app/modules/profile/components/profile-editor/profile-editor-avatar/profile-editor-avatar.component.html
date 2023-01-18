@@ -1,9 +1,12 @@
 <form [formGroup]="avatarFormGroup">
   <div class="flex flex-col items-center gap-4">
-    <div class="w-1/4">
+    <div class="relative">
       <img class="object-scale-down" alt="Avatar" [src]="imgSrc" onerror="this.src='/assets/images/blank-profile-picture.png'" />
+      <button class="bg-gray-200 bg-opacity-50 w-10 h-10 absolute top-0 right-0" (click)="onDelete()">
+        <mat-icon class="text-red-700" fontIcon="delete"></mat-icon>
+      </button>
     </div>
-    <div class="w-1/4">
+    <div>
       <input
         #avatarInput
         hidden="true"

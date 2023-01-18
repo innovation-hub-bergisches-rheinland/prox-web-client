@@ -26,7 +26,9 @@
   </mat-step>
   <mat-step [stepControl]="organizationAvatarFormGroup">
     <ng-template matStepLabel>Avatar</ng-template>
-    <app-profile-editor-avatar [avatarFormGroup]="organizationAvatarFormGroup"></app-profile-editor-avatar>
+    <div class="m-auto w-1/4">
+      <app-profile-editor-avatar [avatarFormGroup]="organizationAvatarFormGroup"></app-profile-editor-avatar>
+    </div>
     <div class="flex flex-row justify-end">
       <button mat-button matStepperPrevious color="accent">Zurück</button>
       <button mat-button color="primary" (click)="saveOrg()">Speichern</button>
