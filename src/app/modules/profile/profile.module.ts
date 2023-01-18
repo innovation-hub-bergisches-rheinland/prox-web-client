@@ -26,6 +26,8 @@ import { ProfileSocialMediaCardComponent } from './components/profile-social-med
 import { ProfileHeaderCardComponent } from './components/profile-header-card/profile-header-card.component';
 import { ProfileEditorAvatarComponent } from '@modules/profile/components/profile-editor/profile-editor-avatar/profile-editor-avatar.component';
 import { ProfileSearchPanelComponent } from './components/profile-search-panel/profile-search-panel.component';
+import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
+import { ProfileRoutingModule } from './profile-routing.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ProfileSearchPanelComponent } from './components/profile-search-panel/p
     ProfileSocialMediaCardComponent,
     ProfileHeaderCardComponent,
     ProfileEditorAvatarComponent,
-    ProfileSearchPanelComponent
+    ProfileSearchPanelComponent,
+    ProfileEditorComponent
   ],
   exports: [
     SashComponent,
@@ -78,6 +81,6 @@ import { ProfileSearchPanelComponent } from './components/profile-search-panel/p
     ProfileEditorAvatarComponent,
     ProfileSearchPanelComponent
   ],
-  imports: [CommonModule, SharedModule]
+  imports: [CommonModule, SharedModule, ProfileRoutingModule]
 })
 export class ProfileModule {}

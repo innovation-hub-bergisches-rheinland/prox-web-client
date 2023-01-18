@@ -3,6 +3,7 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { RoleSearch, User, UserProfile } from '@data/schema/user.types';
+import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
   providedIn: 'root'

@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: () => import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
+        path: '',
+        title: 'PROX',
+        loadChildren: () => import('@modules/profile/profile.module').then(m => m.ProfileModule)
+      },
+      {
         path: 'organizations',
         title: 'PROX - Unternehmen und Organisationen',
         loadChildren: () => import('@modules/organization/organization.module').then(m => m.OrganizationModule),
