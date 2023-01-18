@@ -1,31 +1,22 @@
-<app-content-page>
-  <app-content-page-header>
-    <app-content-page-title> Einstellungen </app-content-page-title>
-    <app-content-page-actions></app-content-page-actions>
-  </app-content-page-header>
-  <app-content-page-content>
-    <mat-card>
-      <mat-card-content>
-        <div class="grid grid-cols-5">
-          <!-- Nav -->
-          <div class="border-r-2">
-            <span class="text-black text-lg">Benutzer</span>
-            <ul class="text-black text-xl w-full mt-4">
-              <li class="p-4 w-full hover:bg-base-200" routerLinkActive="bg-base-200">
-                <a class="text-black hover:text-gray-800" routerLink="user/profile">
-                  <fa-icon [icon]="faAddressCard" [fixedWidth]="true"></fa-icon>
-                  Benutzerprofil
-                </a>
-              </li>
-            </ul>
-          </div>
+<div class="flex flex-col lg:grid lg:grid-cols-5">
+  <!-- Nav -->
+  <section class="border-r-2">
+    <div class="text-black text-3xl p-4 mt-4">Einstellungen</div>
+    <ul class="text-black text-xl w-full mt-4">
+      <li
+        class="p-4 w-full hover:bg-base-200 hover:cursor-pointer"
+        routerLinkActive="bg-base-200 border-l-4 border-primary border-opacity-90"
+      >
+        <span class="hover:text-gray-800" routerLink="user/profile">
+          <fa-icon [icon]="faAddressCard" [fixedWidth]="true"></fa-icon>
+          Benutzerprofil
+        </span>
+      </li>
+    </ul>
+  </section>
 
-          <!-- Content -->
-          <div class="col-span-4">
-            <router-outlet></router-outlet>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </app-content-page-content>
-</app-content-page>
+  <!-- Content -->
+  <main class="px-4 md:px-16 lg:col-span-4 lg:px-24 pt-4">
+    <router-outlet></router-outlet>
+  </main>
+</div>

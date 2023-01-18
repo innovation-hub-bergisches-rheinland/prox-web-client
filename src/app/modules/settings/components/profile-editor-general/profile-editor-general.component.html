@@ -1,8 +1,8 @@
-<form [formGroup]="formGroup" class="grid grid-cols-4 grid-flow-col auto-rows-max gap-4">
-  <div class="col-span-1">
+<form [formGroup]="formGroup" class="flex flex-col sm:flex-row gap-4">
+  <div class="w-1/3">
     <app-profile-editor-avatar [avatarFormGroup]="formGroup.controls.avatar"></app-profile-editor-avatar>
   </div>
-  <div class="col-span-3">
+  <div class="w-2/3">
     <mat-form-field class="w-full" appearance="outline">
       <mat-label>Anzeigename</mat-label>
       <input formControlName="displayName" matInput maxlength="255" placeholder="Anzeigename" required />
