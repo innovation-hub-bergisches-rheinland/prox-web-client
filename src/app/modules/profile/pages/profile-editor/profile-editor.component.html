@@ -6,7 +6,7 @@
   <app-content-page-content>
     <mat-card>
       <mat-card-content>
-        <mat-tab-group selectedIndex="1">
+        <mat-tab-group>
           <mat-tab label="Allgemein">
             <div class="m-4">
               <app-profile-editor-general [formGroup]="formGroup.controls.general"></app-profile-editor-general>
@@ -20,7 +20,7 @@
       </mat-card-content>
       <mat-card-actions>
         <div class="flex flex-row justify-end m-2">
-          <button mat-raised-button color="primary">
+          <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !this.formGroup.dirty" (click)="onSave()">
             <mat-icon fontIcon="save"></mat-icon>
             Speichern
           </button>

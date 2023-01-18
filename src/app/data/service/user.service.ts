@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { RoleSearch, User, UserProfile } from '@data/schema/user.types';
+import { CreateLecturerProfileRequest, CreateUserProfileRequest, RoleSearch, User, UserProfile } from '@data/schema/user.types';
 import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
@@ -58,6 +58,52 @@ export class UserService {
         map(_r => true),
         catchError(_err => of(false))
       );
+  }
+
+  setUserProfile(userProfile: CreateUserProfileRequest): Observable<UserProfile> {
+    return this.httpClient.put<UserProfile>(`${this.basePath}/user/profile`, userProfile, {
+      observe: 'body',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      reportProgress: false
+    });
+  }
+
+  setUserAvatar(avatar: File): Observable<void> {
+    const formParams = new FormData();
+    formParams.set('image', avatar);
+    return this.httpClient.post<void>(`${this.basePath}/user/profile/avatar`, formParams, {
+      headers: {},
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setUserTags(tagIds: string[]): Observable<void> {
+    const body = {
+      tags: tagIds
+    };
+    return this.httpClient.put<void>(`${this.basePath}/user/profile/tags`, body, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  setLecturerProfile(lecturerProfile: CreateLecturerProfileRequest): Observable<UserProfile> {
+    return this.httpClient.put<UserProfile>(`${this.basePath}/user/profile/lecturer`, lecturerProfile, {
+      observe: 'body',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      reportProgress: false
+    });
   }
 
   star(projectId: string): Observable<unknown> {

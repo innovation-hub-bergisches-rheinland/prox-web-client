@@ -5,21 +5,19 @@ export interface User {
 
 export type RoleSearch = 'professor';
 
-export interface LecturerTag {
+export interface Tag {
   id: string;
   tagName: string;
 }
 
 export interface LecturerProfile {
-  visibleInPublicSearch: true;
+  visibleInPublicSearch: boolean;
   profile: LecturerProfileInformation;
-  tags: LecturerTag[];
 }
 
 export interface LecturerProfileInformation {
   affiliation: string;
   subject: string;
-  vita: string;
   publications: string[];
   room: string;
   consultationHour: string;
@@ -33,17 +31,18 @@ export interface UserProfile {
   userId: string;
   displayName: string;
   avatarUrl: string | null;
+  vita: string;
+  tags: Tag[];
   lecturerProfile?: LecturerProfile;
 }
 
-export interface CreateLecturerProfileRequest {
-  profile: LecturerProfile;
-  visibleInPublicSearch: boolean;
-}
+export type CreateLecturerProfileRequest = LecturerProfile;
+
+export type CreateUserProfileRequest = Omit<UserProfile, 'avatarUrl' | 'tags' | 'lecturerProfile' | 'userId'>;
 
 export interface SetLecturerTagsRequest {
   tags: string[];
 }
 export type SetLecturerTagsResponse = {
-  tags: LecturerTag[];
+  tags: Tag[];
 };

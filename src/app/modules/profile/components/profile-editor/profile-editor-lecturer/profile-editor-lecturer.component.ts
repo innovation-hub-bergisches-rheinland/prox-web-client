@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 export interface LecturerProfileForm {
+  visibleInPublicSearch: FormControl<boolean>;
   homepage: FormControl<string>;
   email: FormControl<string>;
   telephone: FormControl<string>;

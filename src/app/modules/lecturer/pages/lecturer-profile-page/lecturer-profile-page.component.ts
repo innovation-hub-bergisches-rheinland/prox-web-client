@@ -58,7 +58,7 @@ export class LecturerProfilePageComponent {
     this.lecturer$.subscribe({
       next: user => {
         this.updateTitle(user);
-        this.tags = user.lecturerProfile?.tags?.map(t => t.tagName) ?? [];
+        this.tags = user.tags?.map(t => t.tagName) ?? [];
       }
     });
 

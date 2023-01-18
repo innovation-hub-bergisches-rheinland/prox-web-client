@@ -36,6 +36,7 @@ export class ProfileEditorAvatarComponent implements OnInit {
       this.avatarFormGroup.patchValue({
         avatar: file
       });
+      this.avatarFormGroup.markAsDirty();
       const reader = new FileReader();
 
       reader.onload = e => {
@@ -65,5 +66,6 @@ export class ProfileEditorAvatarComponent implements OnInit {
   private resetAvatar() {
     this.imgSrc = '/assets/images/blank-profile-picture.png';
     this.avatarFormGroup.controls.avatar.setValue(null);
+    this.avatarFormGroup.markAsDirty();
   }
 }
