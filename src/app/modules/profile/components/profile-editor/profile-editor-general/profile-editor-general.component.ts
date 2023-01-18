@@ -5,6 +5,7 @@ export interface GeneralProfileForm {
   displayName: FormControl<string>;
   avatar: FormGroup<{ avatar: FormControl<File> }>;
   vita: FormControl<string>;
+  tags: FormControl<string[]>;
 }
 
 @Component({

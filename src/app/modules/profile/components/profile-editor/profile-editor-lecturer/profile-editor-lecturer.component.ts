@@ -10,7 +10,6 @@ export interface LecturerProfileForm {
   mainSubject: FormControl<string>;
   consultationHour: FormControl<string>;
   room: FormControl<string>;
-  subjects: FormControl<string[]>;
   publications: FormControl<string[]>;
 }
 
