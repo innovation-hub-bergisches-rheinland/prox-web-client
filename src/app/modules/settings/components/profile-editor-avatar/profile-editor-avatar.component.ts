@@ -10,7 +10,7 @@ import { ConfirmationDialogComponent } from '@shared/components/confirmation-dia
 })
 export class ProfileEditorAvatarComponent implements OnInit {
   @Input()
-  avatarFormGroup: FormGroup<{ avatar: FormControl<File | null> }>;
+  avatarFormGroup: FormGroup<{ avatar: FormControl<File | string | null> }>;
 
   imgSrc: string | File | ArrayBuffer;
 

@@ -18,7 +18,7 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   isLecturer = false;
 
   private avatarGroup = new FormGroup({
-    avatar: new FormControl<File>(null)
+    avatar: new FormControl<File | string>(null)
   });
 
   private generalGroup = new FormGroup<GeneralProfileForm>({
@@ -101,7 +101,10 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
 
   private refreshProfile() {
     this.userService.getCurrentAuthenticated().subscribe({
-      next: up => this.setProfile(up),
+      next: up => {
+        this.setProfile(up);
+        this.formGroup.markAsPristine();
+      },
       error: err => {
         this.notificationService.error('Profil konnte nicht geladen werden, versuchen Sie es später erneut');
         console.error(err);
@@ -113,6 +116,9 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
     const lecturerProfile = profile.lecturerProfile.profile;
     this.formGroup.patchValue({
       general: {
+        avatar: {
+          avatar: profile.avatarUrl
+        },
         displayName: profile.displayName,
         vita: profile.vita,
         tags: profile.tags.map(t => t.tagName)
@@ -139,7 +145,11 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
 
   private updateAvatar(): Observable<unknown> {
     const avatar = this.avatarGroup.controls.avatar.value;
-    return this.userService.setUserAvatar(avatar);
+
+    if (avatar instanceof File) {
+      return this.userService.setUserAvatar(avatar);
+    }
+    return of();
   }
 
   private updateGeneralProfile(): Observable<unknown> {

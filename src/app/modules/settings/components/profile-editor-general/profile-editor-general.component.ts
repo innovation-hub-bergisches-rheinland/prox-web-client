@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 export interface GeneralProfileForm {
   displayName: FormControl<string>;
-  avatar: FormGroup<{ avatar: FormControl<File> }>;
+  avatar: FormGroup<{ avatar: FormControl<File | string | null> }>;
   vita: FormControl<string>;
   tags: FormControl<string[]>;
 }

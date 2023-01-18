@@ -9,7 +9,6 @@ import { ProfileEditorLecturerComponent } from './components/profile-editor-lect
 import { ProfileEditorPublicationsComponent } from './components/profile-editor-publications/profile-editor-publications.component';
 import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { SettingsHomeComponent } from './pages/settings-home/settings-home.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +17,7 @@ import { SettingsHomeComponent } from './pages/settings-home/settings-home.compo
     ProfileEditorLecturerComponent,
     ProfileEditorPublicationsComponent,
     ProfileEditorComponent,
-    SettingsComponent,
-    SettingsHomeComponent
+    SettingsComponent
   ],
   imports: [CommonModule, SettingsRoutingModule, SharedModule]
 })

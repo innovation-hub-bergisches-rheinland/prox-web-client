@@ -44,9 +44,8 @@
       <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <ng-container *ngIf="isLoggedIn; else notLoggedIn">
           <li>
-            <a class="justify-between" [routerLink]="['settings', 'user', 'profile']">
-              Benutzerprofil
-              <!-- TODO: Settings -->
+            <a class="justify-between" [routerLink]="['settings']">
+              Einstellungen
               <span class="badge badge-primary">Neu</span>
             </a>
           </li>
