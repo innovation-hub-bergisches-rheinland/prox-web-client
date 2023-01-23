@@ -102,6 +102,11 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   private refreshProfile() {
     this.userService.getCurrentAuthenticated().subscribe({
       next: up => {
+        if (up.avatarUrl !== null) {
+          // Cache evict
+          up.avatarUrl += `?lastmod=${Date.now()}`;
+        }
+
         this.setProfile(up);
         this.formGroup.markAsPristine();
       },
