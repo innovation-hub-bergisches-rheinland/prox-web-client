@@ -25,7 +25,7 @@ export class LecturerService {
   }
 
   findLecturersByName(query: string, page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
-    const params = new HttpParams().set('q', query).set('page', page.page).set('size', page.size);
+    const params = new HttpParams().set('q', query).set('page', page.page).set('size', page.size).set('sort', 'displayName,asc');
 
     return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers/search/findByName`, {
       headers: {
@@ -73,7 +73,7 @@ export class LecturerService {
   }
 
   getLecturers(page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
-    const params = new HttpParams().set('page', page.page).set('size', page.size);
+    const params = new HttpParams().set('page', page.page).set('size', page.size).set('sort', 'displayName,asc');
 
     return this.httpClient.get<LecturerList>(`${this.basePath}/lecturers`, {
       headers: {
@@ -86,7 +86,7 @@ export class LecturerService {
   }
 
   filterLecturers(text?: string, page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
-    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size);
+    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size).set('sort', 'displayName,asc');
 
     if (text) {
       queryParameters = queryParameters.set('q', text);
