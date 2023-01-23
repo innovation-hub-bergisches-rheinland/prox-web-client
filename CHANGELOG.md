@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.22.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.21.0...v1.22.0) (2023-01-23)
+
+
+### Features
+
+* add visual support for deleting avatar ([7bdf95c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/7bdf95c493ff4a933b7dd615a2ef6f0ea2a04615))
+* implementation for user profile editor ([637525e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/637525e2d77e10c2250e3c18c91a80e5aee1c0ac))
+* show ugly environment information ([8200b36](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8200b36b494582f63375c9c4dd787e1e6520713e))
+
+
+### Bug Fixes
+
+* cache evict of avatar in editor ([2b54e59](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2b54e59d8ad6f16b5d49cf1d490c53c805b2cae9))
+* default sort for lecturers ([07ce4d9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/07ce4d9d4e2c5e8b48b027f496b525b575828585))
+* only check for star when user is allowed to ([c9d37cb](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c9d37cb6009632083e22069ddc0a806c021ca338))
+* some bug fixes ([b2d3fe8](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b2d3fe8f89c37ac9a5fb2350be3ca07df3bcb9af))
+* visibility checkbox ([7a64760](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/7a647602b2149d40420d30675088f05bc824152f))
+
 ## [1.21.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.20.1...v1.21.0) (2023-01-13)
 
 
