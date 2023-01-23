@@ -5,13 +5,15 @@
       <mat-panel-title> Allgemein </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="flex flex-col">
-      <mat-checkbox
-        class="mb-4"
-        matTooltip="Diese Einstellung verbirgt Ihr Profil aus öffentlichen Suchen. Ihr Profil ist weiterhin unter dem Direktlink sichtbar und Sie werden
-      als Betreuer bei verknüpften Projekten gelistet."
-        formControlName="visibleInPublicSearch"
-        >Profil in öffentlichen Suchen anzeigen</mat-checkbox
-      >
+      <div class="flex flex-col">
+        <mat-hint
+          >Diese Einstellung verbirgt Ihr Profil aus öffentlichen Suchen. Ihr Profil ist weiterhin unter dem Direktlink sichtbar und Sie
+          werden als Betreuer bei verknüpften Projekten gelistet.</mat-hint
+        >
+        <mat-checkbox class="mb-4" formControlName="visibleInPublicSearch">
+          <strong>in öffentlichen Suchen anzeigen</strong>
+        </mat-checkbox>
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>Lehrgebiet</mat-label>
         <input formControlName="mainSubject" matInput maxlength="255" placeholder="Lehrgebiet" />

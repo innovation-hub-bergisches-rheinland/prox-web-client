@@ -29,7 +29,7 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   });
 
   private lecturerGroup = new FormGroup<LecturerProfileForm>({
-    visibleInPublicSearch: new FormControl<boolean>(false, Validators.required),
+    visibleInPublicSearch: new FormControl<boolean>(true, Validators.required),
     homepage: new FormControl<string>(''),
     email: new FormControl<string>('', Validators.email),
     telephone: new FormControl<string>(''),
@@ -118,26 +118,27 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   }
 
   private setProfile(profile: UserProfile) {
-    const lecturerProfile = profile.lecturerProfile.profile;
+    const lecturerProfile = profile.lecturerProfile?.profile;
     this.formGroup.patchValue({
       general: {
         avatar: {
-          avatar: profile.avatarUrl
+          avatar: profile?.avatarUrl
         },
         displayName: profile.displayName,
-        vita: profile.vita,
-        tags: profile.tags.map(t => t.tagName)
+        vita: profile?.vita,
+        tags: profile?.tags.map(t => t.tagName)
       },
       lecturer: {
-        homepage: lecturerProfile.homepage,
-        email: lecturerProfile.email,
-        telephone: lecturerProfile.telephone,
-        collegePage: lecturerProfile.collegePage,
-        affiliation: lecturerProfile.affiliation,
-        mainSubject: lecturerProfile.subject,
-        consultationHour: lecturerProfile.consultationHour,
-        room: lecturerProfile.room,
-        publications: lecturerProfile.publications
+        visibleInPublicSearch: profile.lecturerProfile?.visibleInPublicSearch,
+        homepage: lecturerProfile?.homepage,
+        email: lecturerProfile?.email,
+        telephone: lecturerProfile?.telephone,
+        collegePage: lecturerProfile?.collegePage,
+        affiliation: lecturerProfile?.affiliation,
+        mainSubject: lecturerProfile?.subject,
+        consultationHour: lecturerProfile?.consultationHour,
+        room: lecturerProfile?.room,
+        publications: lecturerProfile?.publications
       }
     });
   }
