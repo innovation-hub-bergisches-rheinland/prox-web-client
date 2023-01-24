@@ -70,7 +70,7 @@
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
           Commitment abgeben
         </button>
-        <button data-tip="Projekt sternen" class="btn btn-outline btn-primary tooltip" (click)="toggleStar()">
+        <button *ngIf="false" data-tip="Projekt sternen" class="btn btn-outline btn-primary tooltip" (click)="toggleStar()">
           <fa-icon class="mr-2" [icon]="isStarred ? starSolid : starRegular"></fa-icon>
           {{ this.project.metrics.interestedCount }}
         </button>
