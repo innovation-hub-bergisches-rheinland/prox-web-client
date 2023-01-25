@@ -34,21 +34,6 @@
     </mat-expansion-panel-header>
     <div class="flex flex-col">
       <mat-form-field appearance="outline">
-        <mat-label>E-Mail</mat-label>
-        <input formControlName="email" matInput maxlength="255" placeholder="E-Mail" />
-        <mat-hint align="end"> {{ formGroup.controls.email.value?.length || 0 }}/255</mat-hint>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Telefon</mat-label>
-        <input formControlName="telephone" matInput maxlength="255" placeholder="Telefon" />
-        <mat-hint align="end"> {{ formGroup.controls.telephone.value?.length || 0 }}/255</mat-hint>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Homepage</mat-label>
-        <input formControlName="homepage" matInput maxlength="255" placeholder="Homepage" />
-        <mat-hint align="end"> {{ formGroup.controls.homepage.value?.length || 0 }}/255</mat-hint>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
         <mat-label>Personalseite der Hochschule</mat-label>
         <input formControlName="collegePage" matInput maxlength="255" placeholder="Personalseite der Hochschule" />
         <mat-hint align="end"> {{ formGroup.controls.collegePage.value?.length || 0 }}/255</mat-hint>

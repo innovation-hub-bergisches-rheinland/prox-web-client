@@ -21,10 +21,13 @@ export interface LecturerProfileInformation {
   publications: string[];
   room: string;
   consultationHour: string;
-  email: string;
-  telephone: string;
-  homepage: string;
   collegePage: string;
+}
+
+export interface ContactInformation {
+  email: string | null;
+  telephone: string | null;
+  homepage: string | null;
 }
 
 export interface UserProfile {
@@ -33,6 +36,7 @@ export interface UserProfile {
   avatarUrl: string | null;
   vita: string;
   tags: Tag[];
+  contact: ContactInformation;
   lecturerProfile?: LecturerProfile;
 }
 

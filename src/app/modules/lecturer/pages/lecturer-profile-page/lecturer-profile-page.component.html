@@ -23,21 +23,21 @@
         title="Standort, Raum"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="profile?.telephone"
+        *ngIf="lecturer.contact.telephone"
         [linkable]="true"
-        [value]="profile.telephone"
+        [value]="lecturer.contact.telephone"
         title="Telefonnummer"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="profile?.email"
+        *ngIf="lecturer.contact.email"
         [linkable]="true"
-        [value]="profile.email"
+        [value]="lecturer.contact.email"
         title="E-Mail"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry
-        *ngIf="profile?.homepage"
+        *ngIf="lecturer.contact.homepage"
         [linkable]="true"
-        [value]="profile.homepage"
+        [value]="lecturer.contact.homepage"
         title="Homepage"
       ></app-profile-information-card-entry>
       <app-profile-information-card-entry

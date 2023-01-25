@@ -5,6 +5,9 @@ export interface GeneralProfileForm {
   displayName: FormControl<string>;
   avatar: FormGroup<{ avatar: FormControl<File | string | null> }>;
   vita: FormControl<string>;
+  homepage: FormControl<string>;
+  email: FormControl<string>;
+  telephone: FormControl<string>;
   tags: FormControl<string[]>;
 }
 

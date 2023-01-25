@@ -3,9 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 export interface LecturerProfileForm {
   visibleInPublicSearch: FormControl<boolean>;
-  homepage: FormControl<string>;
-  email: FormControl<string>;
-  telephone: FormControl<string>;
   collegePage: FormControl<string>;
   affiliation: FormControl<string>;
   mainSubject: FormControl<string>;

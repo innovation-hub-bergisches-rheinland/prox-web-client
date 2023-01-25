@@ -25,14 +25,14 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
     displayName: new FormControl<string>('', Validators.required),
     avatar: this.avatarGroup,
     vita: new FormControl<string>(''),
+    homepage: new FormControl<string>(''),
+    email: new FormControl<string>('', Validators.email),
+    telephone: new FormControl<string>(''),
     tags: new FormControl<string[]>([])
   });
 
   private lecturerGroup = new FormGroup<LecturerProfileForm>({
     visibleInPublicSearch: new FormControl<boolean>(true, Validators.required),
-    homepage: new FormControl<string>(''),
-    email: new FormControl<string>('', Validators.email),
-    telephone: new FormControl<string>(''),
     collegePage: new FormControl<string>(''),
     affiliation: new FormControl<string>(''),
     mainSubject: new FormControl<string>(''),
@@ -67,8 +67,7 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
     const saveActions$: Observable<unknown>[] = [];
     const isTagsDirty = this.generalGroup.controls.tags.dirty;
     const isAvatarDirty = this.generalGroup.controls.avatar.dirty;
-    // TODO: Is there a smarter way?
-    const isGeneralProfileDirty = this.generalGroup.controls.displayName.dirty || this.generalGroup.controls.vita.dirty;
+    const isGeneralProfileDirty = this.generalGroup.dirty;
     const isLecturerProfileDirty = this.lecturerGroup.dirty;
 
     if (isTagsDirty) {
@@ -126,13 +125,13 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
         },
         displayName: profile.displayName,
         vita: profile?.vita,
+        homepage: profile.contact?.homepage,
+        email: profile.contact?.email,
+        telephone: profile.contact?.telephone,
         tags: profile?.tags.map(t => t.tagName)
       },
       lecturer: {
         visibleInPublicSearch: profile.lecturerProfile?.visibleInPublicSearch,
-        homepage: lecturerProfile?.homepage,
-        email: lecturerProfile?.email,
-        telephone: lecturerProfile?.telephone,
         collegePage: lecturerProfile?.collegePage,
         affiliation: lecturerProfile?.affiliation,
         mainSubject: lecturerProfile?.subject,
@@ -162,7 +161,12 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
     const ctrls = this.generalGroup.controls;
     const generalProfile: CreateUserProfileRequest = {
       displayName: ctrls.displayName.value,
-      vita: ctrls.vita.value
+      vita: ctrls.vita.value,
+      contact: {
+        homepage: ctrls.homepage.value,
+        email: ctrls.email.value,
+        telephone: ctrls.telephone.value
+      }
     };
     return this.userService.setUserProfile(generalProfile);
   }
@@ -172,9 +176,6 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
     const lecturerProfile: CreateLecturerProfileRequest = {
       visibleInPublicSearch: ctrls.visibleInPublicSearch.value,
       profile: {
-        homepage: ctrls.homepage.value,
-        email: ctrls.email.value,
-        telephone: ctrls.telephone.value,
         collegePage: ctrls.collegePage.value,
         affiliation: ctrls.affiliation.value,
         subject: ctrls.mainSubject.value,
