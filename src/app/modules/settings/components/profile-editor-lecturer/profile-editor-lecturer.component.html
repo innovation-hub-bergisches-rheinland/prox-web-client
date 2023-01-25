@@ -30,12 +30,16 @@
   <!-- Contact -->
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title> Kontaktdaten </mat-panel-title>
+      <mat-panel-title> Erweiterte Kontaktdaten </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="flex flex-col">
       <mat-form-field appearance="outline">
         <mat-label>Personalseite der Hochschule</mat-label>
         <input formControlName="collegePage" matInput maxlength="255" placeholder="Personalseite der Hochschule" />
+        <mat-hint
+          >Hier können Sie den Direktlink zu Ihrerem Eintrag in dem
+          <a href="https://www.th-koeln.de/personen/" target="_blank">Personenverzeichnis der TH Köln</a> hinterlegen</mat-hint
+        >
         <mat-hint align="end"> {{ formGroup.controls.collegePage.value?.length || 0 }}/255</mat-hint>
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -46,6 +50,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Sprechstunde</mat-label>
         <input formControlName="consultationHour" matInput maxlength="255" placeholder="consultationHour" />
+        <mat-hint>Hier können Sie auch einen Link zu einem Terminplanungstool hinterlegen.</mat-hint>
         <mat-hint align="end">
           {{ formGroup.controls.consultationHour.value?.length || 0 }}
           /255

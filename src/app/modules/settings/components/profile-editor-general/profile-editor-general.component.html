@@ -24,21 +24,26 @@
       <app-tag-input class="w-full" formControlName="tags"></app-tag-input>
     </div>
   </div>
-  <div class="flex flex-col">
-    <mat-form-field appearance="outline">
-      <mat-label>E-Mail</mat-label>
-      <input formControlName="email" matInput maxlength="255" placeholder="E-Mail" />
-      <mat-hint align="end"> {{ formGroup.controls.email.value?.length || 0 }}/255</mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Telefon</mat-label>
-      <input formControlName="telephone" matInput maxlength="255" placeholder="Telefon" />
-      <mat-hint align="end"> {{ formGroup.controls.telephone.value?.length || 0 }}/255</mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Homepage</mat-label>
-      <input formControlName="homepage" matInput maxlength="255" placeholder="Homepage" />
-      <mat-hint align="end"> {{ formGroup.controls.homepage.value?.length || 0 }}/255</mat-hint>
-    </mat-form-field>
-  </div>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Kontaktdaten </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="flex flex-col">
+      <mat-form-field appearance="outline">
+        <mat-label>E-Mail</mat-label>
+        <input formControlName="email" matInput maxlength="255" placeholder="E-Mail" />
+        <mat-hint align="end"> {{ formGroup.controls.email.value?.length || 0 }}/255</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Telefon</mat-label>
+        <input formControlName="telephone" matInput maxlength="255" placeholder="Telefon" />
+        <mat-hint align="end"> {{ formGroup.controls.telephone.value?.length || 0 }}/255</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Homepage</mat-label>
+        <input formControlName="homepage" matInput maxlength="255" placeholder="Homepage" />
+        <mat-hint align="end"> {{ formGroup.controls.homepage.value?.length || 0 }}/255</mat-hint>
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
 </form>
