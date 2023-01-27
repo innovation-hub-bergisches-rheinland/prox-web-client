@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.22.1...v1.22.2) (2023-01-27)
+
+
+### Bug Fixes
+
+* move contact informations to user profile ([0e082a0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/0e082a01d1f8f88749e859351050ae32eb2e170c))
+* query parameter resolution ([e5ce1bc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e5ce1bc67c6454487596f79ed5fdc18ec9ccb5f3))
+
 ### [1.22.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.22.0...v1.22.1) (2023-01-24)
 
 ## [1.22.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.21.0...v1.22.0) (2023-01-23)
