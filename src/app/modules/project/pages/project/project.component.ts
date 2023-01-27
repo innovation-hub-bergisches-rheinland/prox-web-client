@@ -8,7 +8,7 @@ import { ProjectService } from '@data/service/project.service';
 import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 import { KeycloakService } from 'keycloak-angular';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 export interface QueryParams {
   q?: string;
@@ -92,12 +92,24 @@ export class ProjectComponent implements OnInit {
   }
 
   loadQueryParams(params: QueryParams) {
+    if (!params) {
+      return;
+    }
+
     // TODO: This can't be right. There must be a better way to do this.
     const search: ProjectSearch = {
-      status: params.state,
-      disciplines: Array.isArray(params.discipline) ? params.discipline : params.discipline === undefined ? undefined : [params.discipline],
-      moduleTypes: Array.isArray(params.moduleType) ? params.moduleType : params.moduleType === undefined ? undefined : [params.moduleType],
-      tags: Array.isArray(params.tags) ? params.tags : params.tags === undefined ? undefined : [params.tags],
+      status: params?.state,
+      disciplines: Array.isArray(params?.discipline)
+        ? params.discipline
+        : params?.discipline === undefined
+        ? undefined
+        : [params?.discipline],
+      moduleTypes: Array.isArray(params?.moduleType)
+        ? params.moduleType
+        : params?.moduleType === undefined
+        ? undefined
+        : [params?.moduleType],
+      tags: Array.isArray(params?.tags) ? params.tags : params?.tags === undefined ? undefined : [params?.tags],
       txt: params.q
     };
     Object.keys(search).forEach(key => (search[key] === undefined ? delete search[key] : {}));

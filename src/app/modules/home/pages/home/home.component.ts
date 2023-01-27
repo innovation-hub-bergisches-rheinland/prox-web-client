@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -98,6 +99,15 @@ export class HomeComponent implements OnInit {
   }
 
   async onSubmit() {
-    await this.router.navigate(['projects']);
+    let params = {};
+
+    const searchValue = this.searchForm.value['searchInput'] as string | null;
+    if (searchValue && searchValue.length > 0) {
+      params = { ...params, q: searchValue };
+    }
+
+    await this.router.navigate(['projects'], {
+      queryParams: params
+    });
   }
 }
