@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AddOrganizationMembershipRequest, OrganizationMembership, OrganizationRole } from '@data/schema/organization.types';
-import { User } from '@data/schema/user.types';
+import { UserProfile } from '@data/schema/user.types';
 
 interface AddMemberDialogData {
   activeMembers: OrganizationMembership[];
@@ -25,7 +25,7 @@ export class OrganizationAddMemberDialogComponent {
     @Inject(MAT_DIALOG_DATA) private data: AddMemberDialogData
   ) {}
 
-  activeMemberFilter: (element: User) => boolean = element => !this.data.activeMembers.some(m => m.member === element.id);
+  activeMemberFilter: (element: UserProfile) => boolean = element => !this.data.activeMembers.some(m => m.member === element.userId);
 
   closeDialog() {
     this.dialogRef.close();
@@ -33,7 +33,7 @@ export class OrganizationAddMemberDialogComponent {
 
   addMember() {
     const membership: AddOrganizationMembershipRequest = {
-      member: (this.addMemberForm.controls.userSearchCtrl.value as User).id,
+      member: (this.addMemberForm.controls.userSearchCtrl.value as UserProfile).userId,
       role: this.addMemberForm.controls.roleSelectCtrl.value as OrganizationRole
     };
     this.dialogRef.close(membership);

@@ -22,6 +22,7 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   });
 
   private generalGroup = new FormGroup<GeneralProfileForm>({
+    visibleInPublicSearch: new FormControl<boolean>(true, Validators.required),
     displayName: new FormControl<string>('', Validators.required),
     avatar: this.avatarGroup,
     vita: new FormControl<string>(''),
@@ -32,7 +33,6 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   });
 
   private lecturerGroup = new FormGroup<LecturerProfileForm>({
-    visibleInPublicSearch: new FormControl<boolean>(true, Validators.required),
     collegePage: new FormControl<string>(''),
     affiliation: new FormControl<string>(''),
     mainSubject: new FormControl<string>(''),
@@ -120,6 +120,7 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
     const lecturerProfile = profile.lecturerProfile?.profile;
     this.formGroup.patchValue({
       general: {
+        visibleInPublicSearch: profile?.visibleInPublicSearch,
         avatar: {
           avatar: profile?.avatarUrl
         },
@@ -131,7 +132,6 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
         tags: profile?.tags.map(t => t.tagName)
       },
       lecturer: {
-        visibleInPublicSearch: profile.lecturerProfile?.visibleInPublicSearch,
         collegePage: lecturerProfile?.collegePage,
         affiliation: lecturerProfile?.affiliation,
         mainSubject: lecturerProfile?.subject,
@@ -160,6 +160,7 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   private updateGeneralProfile(): Observable<unknown> {
     const ctrls = this.generalGroup.controls;
     const generalProfile: CreateUserProfileRequest = {
+      visibleInPublicSearch: ctrls.visibleInPublicSearch.value,
       displayName: ctrls.displayName.value,
       vita: ctrls.vita.value,
       contact: {
@@ -174,7 +175,6 @@ export class ProfileEditorComponent implements OnInit, ComponentCanDeactivate {
   private updateLecturerProfile(): Observable<unknown> {
     const ctrls = this.lecturerGroup.controls;
     const lecturerProfile: CreateLecturerProfileRequest = {
-      visibleInPublicSearch: ctrls.visibleInPublicSearch.value,
       profile: {
         collegePage: ctrls.collegePage.value,
         affiliation: ctrls.affiliation.value,

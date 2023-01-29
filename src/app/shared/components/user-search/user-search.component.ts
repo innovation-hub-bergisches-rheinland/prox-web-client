@@ -4,7 +4,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@an
 import { Observable, delay, mergeMap, of } from 'rxjs';
 import { catchError, debounceTime, filter, map, startWith, tap } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { User } from '@data/schema/user.types';
+import { UserProfile } from '@data/schema/user.types';
+
+export type User = Pick<UserProfile, 'userId' | 'displayName'>;
 
 @Component({
   selector: 'app-user-search',

@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Lecturer } from '@data/schema/lecturer.types';
-import { User } from '@data/schema/user.types';
+import { User } from '@shared/components/user-chip-input/user-chip-input.component';
 
 export interface InformationFormGroup {
   title: FormControl<string>;

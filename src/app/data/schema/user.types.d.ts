@@ -1,17 +1,9 @@
-export interface User {
-  id: string;
-  name: string;
-}
-
-export type RoleSearch = 'professor';
-
 export interface Tag {
   id: string;
   tagName: string;
 }
 
 export interface LecturerProfile {
-  visibleInPublicSearch: boolean;
   profile: LecturerProfileInformation;
 }
 
@@ -31,6 +23,7 @@ export interface ContactInformation {
 }
 
 export interface UserProfile {
+  visibleInPublicSearch: boolean;
   userId: string;
   displayName: string;
   avatarUrl: string | null;

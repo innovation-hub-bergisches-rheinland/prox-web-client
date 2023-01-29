@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { CreateLecturerProfileRequest, CreateUserProfileRequest, RoleSearch, User, UserProfile } from '@data/schema/user.types';
-import { KeycloakService } from 'keycloak-angular';
+import { CreateLecturerProfileRequest, CreateUserProfileRequest, UserProfile } from '@data/schema/user.types';
+import { Page } from '@data/schema/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -33,20 +33,19 @@ export class UserService {
     });
   }
 
-  search(query: string, role?: RoleSearch): Observable<User[]> {
-    let params = new HttpParams().set('q', query);
-    if (role) {
-      params = params.set('role', role);
-    }
+  search(query: string): Observable<UserProfile[]> {
+    const params = new HttpParams().set('q', query);
 
-    return this.httpClient.get<User[]>(`${this.basePath}/users/search`, {
-      params,
-      headers: {
-        Accept: 'application/json'
-      },
-      observe: 'body',
-      reportProgress: false
-    });
+    return this.httpClient
+      .get<Page<UserProfile>>(`${this.basePath}/users/search`, {
+        params,
+        headers: {
+          Accept: 'application/json'
+        },
+        observe: 'body',
+        reportProgress: false
+      })
+      .pipe(map(page => page.content));
   }
 
   checkStar(projectId: string): Observable<boolean> {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { KeycloakService } from 'keycloak-angular';
@@ -13,6 +13,7 @@ import { CurriculumFormGroup } from './project-editor-module/project-editor-modu
 import { combineLatestWith, forkJoin, map, mergeMap, of, share } from 'rxjs';
 import { MiscFormGroup } from './project-editor-misc/project-editor-misc.component';
 import moment from 'moment';
+import { UserService } from '@data/service/user.service';
 
 @Component({
   selector: 'app-project-editor',
@@ -54,9 +55,9 @@ export class ProjectEditorComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private tagService: TagService,
-    private formBuilder: UntypedFormBuilder,
     private notificationService: NotificationService,
     private keycloakService: KeycloakService,
+    private userService: UserService,
     @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {}
 
@@ -75,12 +76,11 @@ export class ProjectEditorComponent implements OnInit {
       }
 
       if (this.canSetSupervisor && !projectSupervisorControl.value) {
-        projectSupervisorControl.setValue([
-          {
-            id: id,
-            name: fullName
+        this.userService.getCurrentAuthenticated().subscribe({
+          next: profile => {
+            projectSupervisorControl.setValue([profile]);
           }
-        ]);
+        });
       }
     }
 
@@ -95,7 +95,9 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.information.controls.summary.setValue(project.summary);
     this.projectForm.controls.information.controls.description.setValue(project.description);
     this.projectForm.controls.information.controls.requirement.setValue(project.requirement);
-    this.projectForm.controls.information.controls.supervisors.setValue(project.supervisors.map(s => ({ id: s.id, name: s.name })));
+    this.projectForm.controls.information.controls.supervisors.setValue(
+      project.supervisors.map(s => ({ userId: s.id, displayName: s.name }))
+    );
     this.projectForm.controls.information.controls.partner.setValue(project.partner?.id);
 
     const disciplines = project.curriculumContext?.disciplines?.map(discipline => discipline.key) ?? [];
@@ -132,7 +134,7 @@ export class ProjectEditorComponent implements OnInit {
         end: this.projectForm.controls.misc.controls.endDate.value?.toISOString()
       },
       partnerId: this.projectForm.controls.information.controls.partner.value,
-      supervisors: this.projectForm.controls.information.controls.supervisors.value?.map(s => s.id)
+      supervisors: this.projectForm.controls.information.controls.supervisors.value?.map(s => s.userId)
     };
 
     return project;

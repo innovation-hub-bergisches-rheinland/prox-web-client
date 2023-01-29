@@ -4,6 +4,15 @@
       <app-profile-editor-avatar [avatarFormGroup]="formGroup.controls.avatar"></app-profile-editor-avatar>
     </div>
     <div class="w-2/3">
+      <div class="flex flex-col">
+        <mat-hint
+          >Diese Einstellung verbirgt Ihr Profil aus öffentlichen Suchen. Ihr Profil ist weiterhin unter dem Direktlink und unter Projekten
+          mit Ihrer Nutzerkennung sichtbar.</mat-hint
+        >
+        <mat-checkbox class="mb-4" formControlName="visibleInPublicSearch">
+          <strong>in öffentlichen Suchen anzeigen</strong>
+        </mat-checkbox>
+      </div>
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>Anzeigename</mat-label>
         <input formControlName="displayName" matInput maxlength="255" placeholder="Anzeigename" required />
@@ -21,9 +30,9 @@
           placeholder="Beschreibung"
         ></textarea>
       </mat-form-field>
-      <app-tag-input class="w-full" formControlName="tags"></app-tag-input>
     </div>
   </div>
+  <app-tag-input class="w-full" formControlName="tags"></app-tag-input>
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
       <mat-panel-title> Kontaktdaten </mat-panel-title>

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 export interface GeneralProfileForm {
+  visibleInPublicSearch: FormControl<boolean>;
   displayName: FormControl<string>;
   avatar: FormGroup<{ avatar: FormControl<File | string | null> }>;
   vita: FormControl<string>;

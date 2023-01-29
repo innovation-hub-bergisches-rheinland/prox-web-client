@@ -3,7 +3,7 @@
   <mat-chip-list #userList>
     <ng-container *ngFor="let user of _users">
       <mat-chip [removable]="true" (removed)="removeUser(user)">
-        {{ user.name }}
+        {{ user.displayName }}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
     </ng-container>
@@ -16,10 +16,10 @@
       <div class="flex flex-row justify-between">
         <div>
           <img src="/assets/images/blank-profile-picture.png" class="h-8 w-8 object-cover inline-block rounded-full" />
-          <strong class="mx-2">{{ user.name }}</strong>
+          <strong class="mx-2">{{ user.displayName }}</strong>
         </div>
         <div>
-          <a href="/users/{{ user.id }}" target="_blank" (click)="onOpenInNewClicked($event)">
+          <a href="/users/{{ user.userId }}" target="_blank" (click)="onOpenInNewClicked($event)">
             <mat-icon>open_in_new</mat-icon>
           </a>
         </div>

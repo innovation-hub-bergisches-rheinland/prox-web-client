@@ -5,14 +5,16 @@ import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs'
 import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
-import { RoleSearch, User } from '@data/schema/user.types';
+import { UserProfile } from '@data/schema/user.types';
+
+export type User = Pick<UserProfile, 'userId' | 'displayName'>;
 
 @Component({
   selector: 'app-user-chip-input',
   templateUrl: './user-chip-input.component.html',
   styleUrls: ['./user-chip-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -29,9 +31,6 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   label = 'Benutzer';
-
-  @Input()
-  role: RoleSearch;
 
   userInputCtrl = new UntypedFormControl('');
   _users: User[] = [];
@@ -51,7 +50,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
       debounceTime(120),
       startWith(''),
       filter(input => !!input && input.length > 1),
-      mergeMap(input => this.userService.search(input, this.role)),
+      mergeMap(input => this.userService.search(input)),
       catchError(err => {
         this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);
@@ -74,13 +73,13 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removeUser(user: User) {
-    this._users = this._users.filter(t => t.id !== user.id);
+    this._users = this._users.filter(t => t.userId !== user.userId);
     this.onChange(this._users);
     this.users$.next(this._users);
   }
 
   addUser(user: User) {
-    if (!!user && !this._users.some(t => t.id === user.id)) {
+    if (!!user && !this._users.some(t => t.userId === user.userId)) {
       this._users = [...this._users, user];
       this.onChange(this._users);
       this.users$.next(this._users);
