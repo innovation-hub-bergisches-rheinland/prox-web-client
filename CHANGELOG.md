@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.23.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.22.3...v1.23.0) (2023-02-08)
+
+
+### Features
+
+* refactor state selector to be a multiselect ([5ed4183](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/5ed4183af8145241b74fe4f4c98182b73f9d11b0))
+
 ### [1.22.3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.22.2...v1.22.3) (2023-02-05)
 
 
