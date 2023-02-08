@@ -12,7 +12,7 @@ import { Observable, map, of } from 'rxjs';
 
 export interface QueryParams {
   q?: string;
-  state?: ProjectState;
+  state?: ProjectState[];
   moduleType?: string | string[];
   discipline?: string | string[];
   tags?: string | string[];
@@ -37,7 +37,7 @@ export class ProjectComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.activeProjectPage$ = this.projectService.filterProjects('OFFERED');
+    this.activeProjectPage$ = this.projectService.filterProjects(['PROPOSED', 'OFFERED']);
     this.route.queryParams.subscribe(params => {
       this.loadQueryParams(params);
     });
@@ -96,20 +96,15 @@ export class ProjectComponent implements OnInit {
       return;
     }
 
+    const parseArray = <T extends string>(param: T | T[]): T[] =>
+      Array.isArray(param) ? param : param === undefined ? undefined : [param];
+
     // TODO: This can't be right. There must be a better way to do this.
     const search: ProjectSearch = {
-      status: params?.state,
-      disciplines: Array.isArray(params?.discipline)
-        ? params.discipline
-        : params?.discipline === undefined
-        ? undefined
-        : [params?.discipline],
-      moduleTypes: Array.isArray(params?.moduleType)
-        ? params.moduleType
-        : params?.moduleType === undefined
-        ? undefined
-        : [params?.moduleType],
-      tags: Array.isArray(params?.tags) ? params.tags : params?.tags === undefined ? undefined : [params?.tags],
+      status: parseArray(params?.state),
+      disciplines: parseArray(params?.discipline),
+      moduleTypes: parseArray(params?.moduleType),
+      tags: parseArray(params?.tags),
       txt: params.q
     };
     Object.keys(search).forEach(key => (search[key] === undefined ? delete search[key] : {}));

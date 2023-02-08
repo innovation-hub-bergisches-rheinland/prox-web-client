@@ -6,7 +6,7 @@ import { FormControl, FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Discipline, ModuleType, ProjectState } from '@data/schema/project.types';
 
 export interface ProjectSearch {
-  status?: ProjectState;
+  status?: ProjectState[];
   moduleTypes?: ModuleType['key'][];
   disciplines?: Discipline['key'][];
   txt?: string;
@@ -24,7 +24,7 @@ export class ProjectSearchPanelComponent implements OnInit {
   moduleTypes$: Observable<ModuleType[]>;
 
   searchForm = new FormGroup({
-    status: new FormControl<ProjectState>('OFFERED'),
+    status: new FormControl<ProjectState[]>(['PROPOSED', 'OFFERED']),
     moduleTypes: new FormControl([]),
     disciplines: new FormControl([]),
     tags: new FormControl([]),

@@ -18,25 +18,12 @@
     <li>
       <a
         routerLink="/projects"
-        [queryParams]="{ state: 'OFFERED' }"
+        [queryParams]="{ state: ['PROPOSED', 'OFFERED'] }"
         routerLinkActive="bg-base-200"
         (click)="navigationItemClicked.emit($event)"
       >
         <fa-icon [icon]="projectsIcon" [fixedWidth]="true"></fa-icon>
         Projekte
-      </a>
-    </li>
-    <li *feature="'proposal'">
-      <a
-        class="flex flex-row justify-between"
-        routerLink="/projects"
-        [queryParams]="{ state: 'PROPOSED' }"
-        routerLinkActive="bg-base-200"
-        (click)="navigationItemClicked.emit($event)"
-      >
-        <fa-icon [icon]="proposalsIcon" [fixedWidth]="true"></fa-icon>
-        Ideen
-        <span class="ml-auto mr-0 badge badge-primary">Neu</span>
       </a>
     </li>
     <li>

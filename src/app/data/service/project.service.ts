@@ -174,7 +174,7 @@ export class ProjectService {
   }
 
   filterProjects(
-    status?: ProjectState,
+    status?: ProjectState[],
     disciplines?: string[],
     moduleTypes?: string[],
     text?: string,
@@ -182,8 +182,8 @@ export class ProjectService {
     page: PageRequest = { page: 0, size: 20 }
   ): Observable<ProjectList> {
     let queryParameters = new HttpParams().set('page', page.page).set('size', page.size);
-    if (status) {
-      queryParameters = queryParameters.set('status', status);
+    if (status && status.length > 0) {
+      queryParameters = queryParameters.set('status', status.join(','));
     }
     if (disciplines && disciplines.length > 0) {
       queryParameters = queryParameters.set('disciplineKeys', disciplines.join(','));
