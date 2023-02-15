@@ -24,6 +24,9 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 export class TagInputComponent implements OnInit, ControlValueAccessor {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
+  @Input()
+  appearance: MatFormFieldAppearance = 'outline';
+
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger)

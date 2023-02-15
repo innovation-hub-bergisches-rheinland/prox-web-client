@@ -1,6 +1,7 @@
 <ng-container>
   <mat-form-field class="w-full">
-    <mat-select [formControl]="selectCtrl" placeholder="Projektpartner">
+    <mat-label>Projektpartner</mat-label>
+    <mat-select [formControl]="selectCtrl">
       <mat-optgroup label="Organisationen" *ngIf="organizations$ | async; let organizations">
         <mat-icon>business</mat-icon>
         <mat-option *ngIf="organizations.length === 0" disabled> Keine Organisationen gefunden </mat-option>

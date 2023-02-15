@@ -1,4 +1,5 @@
-<mat-form-field class="w-full">
+<mat-form-field class="w-full" [appearance]="appearance">
+  <mat-label>Tags</mat-label>
   <mat-chip-grid #tagList>
     <mat-chip-row *ngFor="let tag of _tags" [removable]="true" (removed)="removeTag(tag)">
       {{ tag }}
