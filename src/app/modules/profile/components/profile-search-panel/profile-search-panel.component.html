@@ -1,17 +1,16 @@
-<div class="collapse border shadow">
-  <input type="checkbox" class="peer" />
-  <div class="collapse-title">
-    <fa-icon [icon]="searchIcon"></fa-icon>
-    <span class="mx-4">Suchen...</span>
-  </div>
-  <div class="collapse-content">
-    <form [formGroup]="searchForm" (submit)="onSubmit()">
-      <div class="flex flex-col">
-        <mat-form-field>
-          <input formControlName="txt" placeholder="Suchtext" matInput />
-        </mat-form-field>
-        <button class="btn btn-sm btn-primary w-full" type="submit">Suchen</button>
-      </div>
-    </form>
-  </div>
-</div>
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <fa-icon class="mr-4" [icon]="searchIcon"></fa-icon>
+      Suchen...
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <form [formGroup]="searchForm" (submit)="onSubmit()">
+    <div class="flex flex-col">
+      <mat-form-field>
+        <input formControlName="txt" placeholder="Suchtext" matInput />
+      </mat-form-field>
+      <button class="btn btn-sm btn-primary w-full" type="submit">Suchen</button>
+    </div>
+  </form>
+</mat-expansion-panel>

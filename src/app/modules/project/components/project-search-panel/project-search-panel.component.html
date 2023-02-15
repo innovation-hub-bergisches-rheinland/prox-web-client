@@ -1,42 +1,41 @@
-<div class="collapse border shadow">
-  <input type="checkbox" class="peer" />
-  <div class="collapse-title">
-    <fa-icon [icon]="searchIcon"></fa-icon>
-    <span class="mx-4">Nach Projekten suchen...</span>
-  </div>
-  <div class="collapse-content">
-    <form [formGroup]="searchForm" (submit)="onSubmit()">
-      <div class="flex flex-col">
-        <div class="flex flex-row gap-2">
-          <mat-form-field class="w-full">
-            <mat-select placeholder="Status" multiple formControlName="status">
-              <mat-option value="PROPOSED">Ideen</mat-option>
-              <mat-option value="OFFERED">Verfügbar</mat-option>
-              <mat-option value="RUNNING">Laufend</mat-option>
-              <mat-option value="COMPLETED">Abgeschlossen</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-select placeholder="Fachbereiche" multiple formControlName="disciplines">
-              <ng-container *ngIf="disciplines$ | async; let disciplines">
-                <mat-option *ngFor="let discipline of disciplines" [value]="discipline.key">{{ discipline.name }}</mat-option>
-              </ng-container>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-select placeholder="Module" multiple formControlName="moduleTypes">
-              <ng-container *ngIf="moduleTypes$ | async; let moduleTypes">
-                <mat-option *ngFor="let moduleType of moduleTypes" [value]="moduleType.key">{{ moduleType.name }}</mat-option>
-              </ng-container>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <mat-form-field>
-          <input formControlName="txt" placeholder="Suchtext" matInput />
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <fa-icon class="mr-4" [icon]="searchIcon"></fa-icon>
+      Nach Projekten suchen...
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <form [formGroup]="searchForm" (submit)="onSubmit()">
+    <div class="flex flex-col">
+      <div class="flex flex-row gap-2">
+        <mat-form-field class="w-full">
+          <mat-select placeholder="Status" multiple formControlName="status">
+            <mat-option value="PROPOSED">Ideen</mat-option>
+            <mat-option value="OFFERED">Verfügbar</mat-option>
+            <mat-option value="RUNNING">Laufend</mat-option>
+            <mat-option value="COMPLETED">Abgeschlossen</mat-option>
+          </mat-select>
         </mat-form-field>
-        <app-tag-input formControlName="tags"></app-tag-input>
-        <button class="btn btn-sm btn-primary w-full" type="submit">Suchen</button>
+        <mat-form-field class="w-full">
+          <mat-select placeholder="Fachbereiche" multiple formControlName="disciplines">
+            <ng-container *ngIf="disciplines$ | async; let disciplines">
+              <mat-option *ngFor="let discipline of disciplines" [value]="discipline.key">{{ discipline.name }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-select placeholder="Module" multiple formControlName="moduleTypes">
+            <ng-container *ngIf="moduleTypes$ | async; let moduleTypes">
+              <mat-option *ngFor="let moduleType of moduleTypes" [value]="moduleType.key">{{ moduleType.name }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
       </div>
-    </form>
-  </div>
-</div>
+      <mat-form-field>
+        <input formControlName="txt" placeholder="Suchtext" matInput />
+      </mat-form-field>
+      <app-tag-input formControlName="tags"></app-tag-input>
+      <button class="btn btn-sm btn-primary w-full" type="submit">Suchen</button>
+    </div>
+  </form>
+</mat-expansion-panel>
