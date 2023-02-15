@@ -1,4 +1,4 @@
-<mat-form-field class="w-full" appearance="outline">
+<mat-form-field class="w-full">
   <mat-label>{{ title || '' }}</mat-label>
   <mat-chip-grid #chipList>
     <mat-chip-row *ngFor="let chip of _chips" [removable]="true" (removed)="removeChip(chip)">

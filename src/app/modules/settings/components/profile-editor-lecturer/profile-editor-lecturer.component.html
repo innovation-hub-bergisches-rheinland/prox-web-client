@@ -5,12 +5,12 @@
       <mat-panel-title> Allgemein </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="flex flex-col">
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Lehrgebiet</mat-label>
         <input formControlName="mainSubject" matInput maxlength="255" placeholder="Lehrgebiet" />
         <mat-hint align="end"> {{ formGroup.controls.mainSubject.value?.length || 0 }}/255 </mat-hint>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Hochschulzugehörigkeit seit</mat-label>
         <input formControlName="affiliation" matInput maxlength="255" placeholder="Hochschulzugehörigkeit seit" />
         <mat-hint align="end"> {{ formGroup.controls.affiliation.value?.length || 0 }}/255 </mat-hint>
@@ -24,7 +24,7 @@
       <mat-panel-title> Erweiterte Kontaktdaten </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="flex flex-col">
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Personalseite der Hochschule</mat-label>
         <input formControlName="collegePage" matInput maxlength="255" placeholder="Personalseite der Hochschule" />
         <mat-hint
@@ -33,12 +33,12 @@
         >
         <mat-hint align="end"> {{ formGroup.controls.collegePage.value?.length || 0 }}/255</mat-hint>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Standort, Raum</mat-label>
         <input formControlName="room" matInput maxlength="255" placeholder="Standort, Raum" />
         <mat-hint align="end"> {{ formGroup.controls.room.value?.length || 0 }}/255</mat-hint>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field>
         <mat-label>Sprechstunde</mat-label>
         <input formControlName="consultationHour" matInput maxlength="255" placeholder="consultationHour" />
         <mat-hint>Hier können Sie auch einen Link zu einem Terminplanungstool hinterlegen.</mat-hint>

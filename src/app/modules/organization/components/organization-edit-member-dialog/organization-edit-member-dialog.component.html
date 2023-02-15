@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <p>Mitgliedschaft von {{ membership.name }} bearbeiten</p>
   <form [formGroup]="editMemberForm">
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Rolle</mat-label>
       <mat-select formControlName="roleSelectCtrl">
         <mat-option value="MEMBER">Mitglied</mat-option>

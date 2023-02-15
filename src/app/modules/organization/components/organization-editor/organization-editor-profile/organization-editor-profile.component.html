@@ -1,20 +1,20 @@
 <form [formGroup]="organizationProfileFormGroup" class="flex flex-col">
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Gründungsdatum</mat-label>
     <input formControlName="foundingDate" matInput maxlength="255" placeholder="Gründungsdatum" />
     <mat-hint align="end"> {{ organizationProfileFormGroup.controls['foundingDate'].value?.length || 0 }}/255</mat-hint>
   </mat-form-field>
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Anzahl Mitarbeiter</mat-label>
     <input formControlName="numberOfEmployees" matInput maxlength="255" placeholder="Anzahl Mitarbeiter" />
     <mat-hint align="end"> {{ organizationProfileFormGroup.controls['numberOfEmployees'].value?.length || 0 }}/255 </mat-hint>
   </mat-form-field>
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Hauptsitz</mat-label>
     <input formControlName="headquarter" matInput maxlength="255" placeholder="Hauptsitz" />
     <mat-hint align="end"> {{ organizationProfileFormGroup.controls['headquarter'].value?.length || 0 }}/255</mat-hint>
   </mat-form-field>
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Weitere Standorte</mat-label>
     <input formControlName="quarters" matInput maxlength="255" placeholder="Weitere Standorte" />
     <mat-hint align="end"> {{ organizationProfileFormGroup.controls['quarters'].value?.length || 0 }}/255</mat-hint>

@@ -20,6 +20,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { LoggerService } from '@shared/modules/logger/logger.service';
 import { BannerComponent } from '@layout/banner/banner.component';
 import { EnvironmentComponent } from '@layout/environment/environment.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+
+const appearance: MatFormFieldDefaultOptions = {
+  appearance: 'outline'
+};
 
 @NgModule({
   declarations: [
@@ -46,7 +51,13 @@ import { EnvironmentComponent } from '@layout/environment/environment.component'
       positionClass: 'toast-bottom-right'
     })
   ],
-  providers: [LoggerService],
+  providers: [
+    LoggerService,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: appearance
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -6,7 +6,7 @@
   </p>
   <form [formGroup]="addMemberForm" class="flex flex-col">
     <app-user-search class="w-full" formControlName="userSearchCtrl" [filter]="activeMemberFilter"></app-user-search>
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Rolle</mat-label>
       <mat-select formControlName="roleSelectCtrl">
         <mat-option value="MEMBER">Mitglied</mat-option>

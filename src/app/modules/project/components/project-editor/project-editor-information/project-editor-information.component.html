@@ -7,7 +7,7 @@
     <app-organization-selector formControlName="partner"></app-organization-selector>
   </ng-container>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Bezeichnung</mat-label>
     <input formControlName="title" matInput maxlength="255" placeholder="Bezeichnung" required />
 
@@ -17,7 +17,7 @@
     <mat-error *ngIf="informationFormGroup.controls.title.hasError('pattern')"> Bezeichnung enthält ungültige Zeichen. </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Kurzbeschreibung</mat-label>
     <textarea formControlName="summary" class="form-textarea" matInput maxlength="10000" placeholder="Kurzbeschreibung" required></textarea>
 
@@ -29,7 +29,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Voraussetzungen</mat-label>
     <textarea
       formControlName="requirement"
@@ -45,7 +45,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Beschreibung</mat-label>
     <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
 
