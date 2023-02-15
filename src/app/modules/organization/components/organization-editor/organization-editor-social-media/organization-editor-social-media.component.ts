@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { faFacebook, faInstagram, faLinkedin, faTwitter, faXing, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-organization-editor-social-media',
@@ -9,6 +10,13 @@ import { AbstractControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from
 export class OrganizationEditorSocialMediaComponent {
   @Input()
   organizationSocialMediaForm: UntypedFormGroup;
+
+  facebookIcon = faFacebook;
+  instagramIcon = faInstagram;
+  twitterIcon = faTwitter;
+  linkedinIcon = faLinkedin;
+  xingIcon = faXing;
+  youtubeIcon = faYoutube;
 }
 
 export function socialMediaHandleValidator(): ValidatorFn {

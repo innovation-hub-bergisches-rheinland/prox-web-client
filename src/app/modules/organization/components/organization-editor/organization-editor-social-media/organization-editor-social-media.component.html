@@ -3,27 +3,27 @@
 <p>❌ Falsch: <i>https://www.facebook.com/MusterfirmaGmbH/</i></p>
 <form [formGroup]="organizationSocialMediaForm" class="flex flex-col">
   <mat-form-field>
-    <mat-icon class="mx-4" fontSet="fab" fontIcon="fa-facebook" matPrefix></mat-icon>
+    <fa-icon class="mx-4" matPrefix [icon]="facebookIcon"></fa-icon>
     <input formControlName="FACEBOOK" matInput maxlength="255" placeholder="Facebook Handle" />
   </mat-form-field>
   <mat-form-field>
-    <mat-icon class="mx-4" fontSet="fab" fontIcon="fa-twitter" matPrefix></mat-icon>
+    <fa-icon class="mx-4" matPrefix [icon]="twitterIcon"></fa-icon>
     <input formControlName="TWITTER" matInput maxlength="255" placeholder="Twitter Handle" />
   </mat-form-field>
   <mat-form-field>
-    <mat-icon class="mx-4" fontSet="fab" fontIcon="fa-instagram" matPrefix></mat-icon>
+    <fa-icon class="mx-4" matPrefix [icon]="instagramIcon"></fa-icon>
     <input formControlName="INSTAGRAM" matInput maxlength="255" placeholder="Instagram Handle" />
   </mat-form-field>
   <mat-form-field>
-    <mat-icon class="mx-4" fontSet="fab" fontIcon="fa-xing" matPrefix></mat-icon>
+    <fa-icon class="mx-4" matPrefix [icon]="xingIcon"></fa-icon>
     <input formControlName="XING" matInput maxlength="255" placeholder="Xing Handle" />
   </mat-form-field>
   <mat-form-field>
-    <mat-icon class="mx-4" fontSet="fab" fontIcon="fa-linkedin" matPrefix></mat-icon>
+    <fa-icon class="mx-4" matPrefix [icon]="linkedinIcon"></fa-icon>
     <input formControlName="LINKEDIN" matInput maxlength="255" placeholder="LinkedIn Handle" />
   </mat-form-field>
   <mat-form-field>
-    <mat-icon class="mx-4" fontSet="fab" fontIcon="fa-youtube" matPrefix></mat-icon>
+    <fa-icon class="mx-4" matPrefix [icon]="youtubeIcon"></fa-icon>
     <input formControlName="YOUTUBE" matInput maxlength="255" placeholder="YouTube Handle" />
   </mat-form-field>
 </form>
