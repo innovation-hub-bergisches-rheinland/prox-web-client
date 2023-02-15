@@ -36,6 +36,9 @@
               }
             ],
             "styles": ["src/styles.scss", "src/theme.scss", "src/fonts.css", "./node_modules/material-icons-font/material-icons-font.css"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["./node_modules"]
+            },
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
