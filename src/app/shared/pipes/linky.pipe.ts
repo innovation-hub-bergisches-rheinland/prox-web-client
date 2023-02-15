@@ -8,7 +8,6 @@ export class LinkyPipe implements PipeTransform {
   defaultOptions: AutolinkerConfig = {
     urls: {
       schemeMatches: true,
-      wwwMatches: true,
       tldMatches: true
     },
     email: true,

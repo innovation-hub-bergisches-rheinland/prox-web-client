@@ -1,14 +1,14 @@
 <mat-form-field class="w-full" [appearance]="appearance">
   <mat-label>Tags</mat-label>
-  <mat-chip-list #tagList>
-    <mat-chip *ngFor="let tag of _tags" [removable]="true" (removed)="removeTag(tag)">
+  <mat-chip-grid #tagList>
+    <mat-chip-row *ngFor="let tag of _tags" [removable]="true" (removed)="removeTag(tag)">
       {{ tag }}
       <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
+    </mat-chip-row>
 
-    <mat-chip *ngFor="let tag of tagRecommendations$ | async" (click)="addTag(tag)" class="recommended-tag">
+    <mat-chip-row *ngFor="let tag of tagRecommendations$ | async" (click)="addTag(tag)" class="recommended-tag">
       {{ tag }}
-    </mat-chip>
+    </mat-chip-row>
 
     <input
       #tagInput
@@ -19,7 +19,7 @@
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="addTagEvent($event)"
     />
-  </mat-chip-list>
+  </mat-chip-grid>
 
   <mat-autocomplete #tagAuto="matAutocomplete" (optionSelected)="selectedTag($event)">
     <mat-option *ngFor="let tag of tagAutocomplete$ | async" [value]="tag">

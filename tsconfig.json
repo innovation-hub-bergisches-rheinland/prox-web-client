@@ -2,8 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "alwaysStrict": true,
-    // TODO: Disable when update to keycloak-js 17 is possible:
-    // https://github.com/mauriciovigolo/keycloak-angular/issues/385
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "downlevelIteration": true,
@@ -14,7 +12,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "emitDecoratorMetadata": false,
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2020", "dom"],
@@ -25,7 +23,8 @@
       "@modules/*": ["app/modules/*"],
       "@shared/*": ["app/shared/*"],
       "@env": ["environments/environment"]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
