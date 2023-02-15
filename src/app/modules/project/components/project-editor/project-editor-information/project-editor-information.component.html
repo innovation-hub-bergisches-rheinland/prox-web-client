@@ -8,7 +8,6 @@
   </ng-container>
 
   <mat-form-field>
-    <mat-label>Bezeichnung</mat-label>
     <input formControlName="title" matInput maxlength="255" placeholder="Bezeichnung" required />
 
     <mat-hint align="end"> {{ informationFormGroup.controls.title.value?.length }}/255</mat-hint>
@@ -18,7 +17,6 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Kurzbeschreibung</mat-label>
     <textarea formControlName="summary" class="form-textarea" matInput maxlength="10000" placeholder="Kurzbeschreibung" required></textarea>
 
     <mat-hint align="end"> {{ informationFormGroup.controls['summary'].value?.length || 0 }}/10000</mat-hint>
@@ -30,7 +28,6 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Voraussetzungen</mat-label>
     <textarea
       formControlName="requirement"
       class="form-textarea"
@@ -46,7 +43,6 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Beschreibung</mat-label>
     <textarea formControlName="description" class="form-textarea" matInput placeholder="Beschreibung" maxlength="10000"></textarea>
 
     <mat-hint align="end"> {{ informationFormGroup.controls['description'].value?.length || 0 }}/10000</mat-hint>
