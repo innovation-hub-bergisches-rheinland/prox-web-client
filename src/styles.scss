@@ -20,3 +20,11 @@ $MaterialIcons_FontPath: '~material-icons-font/fonts';
     @apply text-blue-500;
   }
 }
+
+// FIX: Angular Material 15 seems to have a bug where a line is added
+// in the focused state of a form field in outline style.
+// This removes the border line.
+// Bit of more information: https://github.com/angular/components/issues/26449#issuecomment-1431627608
+.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-right: 0px !important;
+}
