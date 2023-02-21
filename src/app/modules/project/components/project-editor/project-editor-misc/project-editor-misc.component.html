@@ -5,12 +5,13 @@
       möglichst aktuell sind.
     </em>
   </span>
-  <mat-form-field class="w-full">
+  <mat-form-field>
     <mat-label>Projektlaufzeit</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
+    <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
       <input matStartDate formControlName="beginDate" placeholder="Startdatum" />
       <input matEndDate formControlName="endDate" placeholder="Enddatum" />
     </mat-date-range-input>
+    <mat-hint>DD.MM.YYYY – DD.MM.YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
 
