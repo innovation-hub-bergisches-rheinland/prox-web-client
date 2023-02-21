@@ -21,6 +21,7 @@ import { LoggerService } from '@shared/modules/logger/logger.service';
 import { BannerComponent } from '@layout/banner/banner.component';
 import { EnvironmentComponent } from '@layout/environment/environment.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -56,6 +57,10 @@ const appearance: MatFormFieldDefaultOptions = {
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: appearance
+    },
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'de-DE'
     }
   ],
   bootstrap: [AppComponent]
