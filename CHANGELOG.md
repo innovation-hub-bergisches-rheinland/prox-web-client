@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.24.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.23.0...v1.24.0) (2023-02-22)
+
+
+### Features
+
+* make organisation list style more accessible ([6f7117f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/6f7117f754ce16b1cde2f4c010e660a0e08a748d))
+* use german as date locale ([501a205](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/501a205d65ef4dd066cb2192feb4d6b515720335))
+
+
+### Bug Fixes
+
+* remove border in focused state ([914c551](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/914c551176699ac311b8db09832c3d5867a54fb2))
+* remove use of tilde in scss ([b630e3f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b630e3f6bf366a63f66b29e52d4f1fa20d1ab99e))
+* tweak date input ([169d790](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/169d79022f3860ecb6bb0fcb7cd47774e06dc659))
+
 ## [1.23.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.22.3...v1.23.0) (2023-02-08)
 
 
