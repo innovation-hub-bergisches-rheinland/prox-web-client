@@ -41,7 +41,7 @@ const appearance: MatFormFieldDefaultOptions = {
     EnvironmentComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
