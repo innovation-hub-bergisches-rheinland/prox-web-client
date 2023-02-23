@@ -35,8 +35,10 @@ export class ProjectEditorComponent implements OnInit {
   });
   projectMiscFormGroup = new FormGroup<MiscFormGroup>({
     tags: new FormControl([]),
-    beginDate: new FormControl(null),
-    endDate: new FormControl(null)
+    range: new FormGroup({
+      beginDate: new FormControl(null),
+      endDate: new FormControl(null)
+    })
   });
   projectForm = new FormGroup({
     information: this.projectInformationFormGroup,
@@ -109,10 +111,10 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.misc.controls.tags.setValue(project.tags);
 
     if (project.timeBox?.start) {
-      this.projectForm.controls.misc.controls.beginDate.setValue(moment(project.timeBox?.start));
+      this.projectForm.controls.misc.controls.range.controls.beginDate.setValue(moment(project.timeBox?.start));
     }
     if (project.timeBox?.end) {
-      this.projectForm.controls.misc.controls.endDate.setValue(moment(project.timeBox?.end));
+      this.projectForm.controls.misc.controls.range.controls.endDate.setValue(moment(project.timeBox?.end));
     }
   }
 
@@ -130,8 +132,8 @@ export class ProjectEditorComponent implements OnInit {
         moduleTypeKeys: modules
       },
       timeBox: {
-        start: this.projectForm.controls.misc.controls.beginDate.value?.toISOString(),
-        end: this.projectForm.controls.misc.controls.endDate.value?.toISOString()
+        start: this.projectForm.controls.misc.controls.range.controls.beginDate.value?.toISOString(),
+        end: this.projectForm.controls.misc.controls.range.controls.endDate.value?.toISOString()
       },
       partnerId: this.projectForm.controls.information.controls.partner.value,
       supervisors: this.projectForm.controls.information.controls.supervisors.value?.map(s => s.userId)

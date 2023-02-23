@@ -4,8 +4,10 @@ import { Moment } from 'moment';
 
 export interface MiscFormGroup {
   tags: FormControl<string[]>;
-  beginDate: FormControl<Moment | null>;
-  endDate: FormControl<Moment | null>;
+  range: FormGroup<{
+    beginDate: FormControl<Moment | null>;
+    endDate: FormControl<Moment | null>;
+  }>;
 }
 
 @Component({

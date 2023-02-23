@@ -5,7 +5,7 @@
       möglichst aktuell sind.
     </em>
   </span>
-  <mat-form-field>
+  <mat-form-field *ngIf="miscFormGroup.controls.range.enabled" formGroupName="range">
     <mat-label>Projektlaufzeit</mat-label>
     <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
       <input matStartDate formControlName="beginDate" placeholder="Startdatum" />
@@ -15,8 +15,8 @@
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
 
-    <mat-error *ngIf="miscFormGroup.controls.beginDate.hasError('matStartDateInvalid')">Ungültiges Startdatum</mat-error>
-    <mat-error *ngIf="miscFormGroup.controls.endDate.hasError('matEndDateInvalid')">Ungültiges Enddatum</mat-error>
+    <mat-error *ngIf="miscFormGroup.controls.range.controls.beginDate.hasError('matStartDateInvalid')">Ungültiges Startdatum</mat-error>
+    <mat-error *ngIf="miscFormGroup.controls.range.controls.endDate.hasError('matEndDateInvalid')">Ungültiges Enddatum</mat-error>
   </mat-form-field>
   <app-tag-input formControlName="tags"></app-tag-input>
 </form>
