@@ -1,5 +1,7 @@
 <div class="border-2 bg-base-100 shadow-xl p-10">
-  <app-project-card-header [project]="project"></app-project-card-header>
+  <div class="border-l-4 p-4" [ngClass]="stateClasses[project.status.state]">
+    <app-project-card-header [project]="project"></app-project-card-header>
+  </div>
   <div class="divider"></div>
   <div class="flex flex-col justify-between content-between gap-5">
     <div>

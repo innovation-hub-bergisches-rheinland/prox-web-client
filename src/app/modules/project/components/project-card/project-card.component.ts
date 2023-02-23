@@ -19,6 +19,13 @@ import { UserService } from '@data/service/user.service';
   styleUrls: ['./project-card.component.scss']
 })
 export class ProjectCardComponent implements OnInit {
+  readonly stateClasses: Partial<Record<ProjectState, string>> = {
+    PROPOSED: 'border-blue-500',
+    OFFERED: 'border-green-500',
+    RUNNING: 'border-yellow-500',
+    COMPLETED: 'border-gray-500'
+  };
+
   @Input()
   project: Project;
 
