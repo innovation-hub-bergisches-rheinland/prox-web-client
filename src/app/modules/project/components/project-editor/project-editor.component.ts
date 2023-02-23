@@ -48,8 +48,11 @@ export class ProjectEditorComponent implements OnInit {
 
   @Input()
   project: Project;
+
+  @Input()
+  type: 'PROPOSAL' | 'PROJECT';
+
   isEdit = false;
-  canSetSupervisor = false;
 
   @Output()
   saved = new EventEmitter<Project>();
@@ -59,25 +62,22 @@ export class ProjectEditorComponent implements OnInit {
     private tagService: TagService,
     private notificationService: NotificationService,
     private keycloakService: KeycloakService,
-    private userService: UserService,
-    @Inject(LOCAL_STORAGE) private storage: StorageService
+    private userService: UserService
   ) {}
 
   async ngOnInit() {
-    // If user is logged in set its ID and Full Name
-    if (await this.keycloakService.isLoggedIn()) {
-      const userProfile = await this.keycloakService.loadUserProfile();
-      const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
-      const id = this.keycloakService.getKeycloakInstance().subject;
-      this.canSetSupervisor = this.keycloakService.isUserInRole('professor');
+    const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisors;
+    const isProposal = this.type === 'PROPOSAL';
+    const isProject = this.type === 'PROJECT';
 
+    if (isProposal) {
+      projectSupervisorControl.disable();
+    }
+
+    if (isProject && (await this.keycloakService.isLoggedIn())) {
       const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisors;
 
-      if (!this.canSetSupervisor) {
-        projectSupervisorControl.disable();
-      }
-
-      if (this.canSetSupervisor && !projectSupervisorControl.value) {
+      if (isProposal && !projectSupervisorControl.value) {
         this.userService.getCurrentAuthenticated().subscribe({
           next: profile => {
             projectSupervisorControl.setValue([profile]);

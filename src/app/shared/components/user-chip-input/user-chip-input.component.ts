@@ -68,7 +68,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: User[]): void {
-    this._users = obj;
+    this._users = obj || [];
     this.users$.next(this._users);
   }
 

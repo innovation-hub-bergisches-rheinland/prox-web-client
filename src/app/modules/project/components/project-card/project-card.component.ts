@@ -118,7 +118,9 @@ export class ProjectCardComponent implements OnInit {
     const dialogRef = this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
-      data: this.project
+      data: {
+        project: this.project
+      }
     });
     dialogRef.afterClosed().subscribe((project: Project) => {
       if (project) {

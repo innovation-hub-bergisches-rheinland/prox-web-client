@@ -3,6 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Project } from '@data/schema/project.types';
 
+export interface ProjectEditorDialogData {
+  project: Project;
+  type: 'PROPOSAL' | 'PROJECT';
+}
+
 @Component({
   selector: 'app-project-editor-dialog',
   templateUrl: './project-editor-dialog.component.html',
@@ -13,7 +18,7 @@ export class ProjectEditorDialogComponent {
 
   constructor(
     public projectDialogRef: MatDialogRef<ProjectEditorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public project: Project,
+    @Inject(MAT_DIALOG_DATA) public data: ProjectEditorDialogData,
     private router: Router
   ) {
     this.projectDialogRef.disableClose = true;

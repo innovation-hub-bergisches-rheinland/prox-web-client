@@ -5,7 +5,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Project, ProjectList, ProjectState } from '@data/schema/project.types';
 import { PageRequest } from '@data/schema/shared.types';
 import { ProjectService } from '@data/service/project.service';
-import { ProjectEditorDialogComponent } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
+import {
+  ProjectEditorDialogComponent,
+  ProjectEditorDialogData
+} from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable, map, of } from 'rxjs';
@@ -27,6 +30,7 @@ export class ProjectComponent implements OnInit {
   activeProjectPage$: Observable<ProjectList>;
   searchValues: ProjectSearch;
   canCreateProject = false;
+  canCreateProposal = false;
 
   constructor(
     private projectService: ProjectService,
@@ -41,14 +45,27 @@ export class ProjectComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.loadQueryParams(params);
     });
-    this.canCreateProject = await this.keycloakService.isLoggedIn();
+    this.canCreateProposal = await this.keycloakService.isLoggedIn();
+    this.canCreateProject = this.canCreateProposal && this.keycloakService.isUserInRole('professor');
   }
 
-  public createNewProject() {
+  public newProject() {
     this.dialog.open(ProjectEditorDialogComponent, {
       autoFocus: false,
       maxHeight: '85vh',
-      data: null
+      data: {
+        type: 'PROJECT'
+      } as ProjectEditorDialogData
+    });
+  }
+
+  public newProposal() {
+    this.dialog.open(ProjectEditorDialogComponent, {
+      autoFocus: false,
+      maxHeight: '85vh',
+      data: {
+        type: 'PROPOSAL'
+      } as ProjectEditorDialogData
     });
   }
 
