@@ -16,11 +16,12 @@
     </div>
     <div class="flex flex-row gap-2 justify-between content-center">
       <div class="basis-3/4">
-        <strong>Teilnahmevoraussetzungen:</strong>
+        <strong>Teilnahmevoraussetzungen</strong>
 
-        <p *ngIf="!project.requirement">Keine Teilnahmevoraussetzungen</p>
-
-        <p>{{ project.requirement }}</p>
+        <div *ngIf="project.requirement; else noRequirement">
+          <p [innerHTML]="project.requirement | linky"></p>
+        </div>
+        <ng-template #noRequirement> <p>Keine Teilnahmevoraussetzungen</p></ng-template>
       </div>
       <div class="basis-1/4">
         <strong>Projekttypen:</strong>
