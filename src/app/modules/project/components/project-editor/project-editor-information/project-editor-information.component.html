@@ -1,12 +1,4 @@
 <form [formGroup]="informationFormGroup" class="flex flex-col">
-  <ng-container>
-    <p class="p-2 font-light">
-      <span class="badge badge-primary mr-0 ml-auto">Neu</span>
-      Es ist jetzt auch möglich Projekte mit Projektpartnern anzulegen.
-    </p>
-    <app-organization-selector formControlName="partner"></app-organization-selector>
-  </ng-container>
-
   <mat-form-field>
     <mat-label>Bezeichnung</mat-label>
     <input formControlName="title" matInput maxlength="255" placeholder="Bezeichnung" required />
@@ -28,6 +20,15 @@
       Kurzbeschreibung enthält ungültige Zeichen.
     </mat-error>
   </mat-form-field>
+
+  <ng-container>
+    <p class="p-2 font-light">
+      <span class="badge badge-primary mr-0 ml-auto">Neu</span>
+      Es ist jetzt auch möglich Projekte in Zusammenarbeit mit Unternehmen und Organisationen, denen Sie angehören anzulegen. Diese
+      Organisation wird dadurch ein Projektpartner.
+    </p>
+    <app-organization-selector formControlName="partner"></app-organization-selector>
+  </ng-container>
 
   <mat-form-field>
     <mat-label>Voraussetzungen</mat-label>
