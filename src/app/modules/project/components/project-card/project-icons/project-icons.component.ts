@@ -44,11 +44,11 @@ export class ProjectIconsComponent {
   };
 
   @Input()
-  status: ProjectStatus;
+  status: ProjectStatus | undefined;
 
   @Input()
-  partner: ProjectPartner;
+  partner: ProjectPartner | undefined;
 
   @Input()
-  disciplines: Discipline[];
+  disciplines: Discipline[] | undefined;
 }
