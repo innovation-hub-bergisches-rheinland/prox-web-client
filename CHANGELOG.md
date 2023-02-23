@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.24.0...v1.25.0) (2023-02-23)
+
+
+### Features
+
+* differentiate between proposal and project when creating project ([75dafeb](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/75dafeb53f4683bb0e63475b62c2b65601d61237))
+
+
+### Bug Fixes
+
+* linkify requirements ([31247b6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/31247b6144f743687cb6261c029d35babaf8f150))
+* rename proposed state ([f6801c9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f6801c90460a203cdb9d59236f0317137dc3659f))
+* show partner field in editing mode ([37109c9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/37109c9c49c7c34337164ae13edde694e4a5c78e))
+
 ## [1.24.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.23.0...v1.24.0) (2023-02-22)
 
 
