@@ -86,7 +86,7 @@ export class LecturerService {
   }
 
   filterLecturers(text?: string, page: PageRequest = { page: 0, size: 20 }): Observable<LecturerList> {
-    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size).set('sort', 'displayName,asc');
+    let queryParameters = new HttpParams().set('page', page.page).set('size', page.size).set('sort', 'display_name,asc');
 
     if (text) {
       queryParameters = queryParameters.set('q', text);
