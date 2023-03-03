@@ -67,8 +67,8 @@ export class ProjectEditorComponent implements OnInit {
 
   async ngOnInit() {
     const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisors;
-    const isProposal = this.type === 'PROPOSAL';
-    const isProject = this.type === 'PROJECT';
+    const isProposal = this.type === 'PROPOSAL' || this.project?.status?.state === 'PROPOSED';
+    const isProject = this.type === 'PROJECT' || (this.project?.status?.state !== undefined && !isProposal);
 
     if (isProposal) {
       projectSupervisorControl.disable();
