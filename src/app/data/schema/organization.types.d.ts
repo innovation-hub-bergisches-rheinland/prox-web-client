@@ -1,4 +1,5 @@
 import { Page } from './shared.types';
+import { Tag } from './tag.types';
 
 export type SocialMedia = 'FACEBOOK' | 'TWITTER' | 'LINKEDIN' | 'XING' | 'INSTAGRAM' | 'YOUTUBE';
 export type OrganizationRole = 'ADMIN' | 'MEMBER';
@@ -22,7 +23,7 @@ export interface Organization {
   id: string;
   name: string;
   profile: OrganizationProfile;
-  tags: string[];
+  tags: Tag[];
   logoUrl: string;
   _permissions: OrganizationPermissions;
 }

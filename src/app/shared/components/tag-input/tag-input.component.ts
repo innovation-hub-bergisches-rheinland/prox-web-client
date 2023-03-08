@@ -52,7 +52,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     this.tagRecommendations$ = this.tags$.pipe(
       filter(tags => tags.length > 0),
       mergeMap(tags => this.tagService.getRecommendations(tags)),
-      map(tags => tags.map(t => t.tag)),
+      map(tags => tags.map(t => t.tagName)),
       catchError(err => {
         this.notificationService.warning('Tag Empfehlungen können aktuell nicht geladen werden.');
         return of([]);
@@ -63,7 +63,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
       startWith(''),
       filter(input => !!input),
       mergeMap(input => this.tagService.findMatching(input)),
-      map(tags => tags.map(t => t.tag)),
+      map(tags => tags.map(t => t.tagName)),
       delay(200),
       catchError(err => {
         this.notificationService.warning('Tag Vorschäge können aktuell nicht geladen werden.');

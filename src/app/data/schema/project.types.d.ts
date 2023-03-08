@@ -1,4 +1,5 @@
 import { Page } from './shared.types';
+import { Tag } from './tag.types';
 
 export interface Discipline {
   key: string;
@@ -60,7 +61,7 @@ export interface Project {
   partner?: ProjectPartner;
   curriculumContext?: CurriculumContext;
   supervisors: ProjectSupervisor[];
-  tags: string[];
+  tags: Tag[];
   timeBox: ProjectTimeBox;
   status: ProjectStatus;
   _permissions: ProjectPermissions;

@@ -1,6 +1,6 @@
 export interface Tag {
   id: string;
-  tag: string;
+  tagName: string;
 }
 
 export interface SynchronizeTagsResponse {

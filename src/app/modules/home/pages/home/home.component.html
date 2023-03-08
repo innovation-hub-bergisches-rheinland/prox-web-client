@@ -32,8 +32,8 @@
     <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as tags">
       <h1>Häufige Tags</h1>
       <app-tag-list>
-        <app-tag *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="{ tags: tag.tag }">
-          {{ tag.tag }}
+        <app-tag *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="{ tags: tag.tagName }">
+          {{ tag.tagName }}
         </app-tag>
       </app-tag-list>
     </div>

@@ -108,7 +108,7 @@ export class ProjectEditorComponent implements OnInit {
     this.projectForm.controls.curriculum.controls.disciplines.setValue(disciplines);
     this.projectForm.controls.curriculum.controls.modules.setValue(modules);
 
-    this.projectForm.controls.misc.controls.tags.setValue(project.tags);
+    this.projectForm.controls.misc.controls.tags.setValue(project.tags.map(tag => tag.tagName));
 
     if (project.timeBox?.start) {
       this.projectForm.controls.misc.controls.range.controls.beginDate.setValue(moment(project.timeBox?.start));

@@ -50,7 +50,7 @@ export class OrganizationProfileComponent {
 
     this.avatar$ = sharedOrganization$.pipe(map(o => o.logoUrl));
 
-    this.tags$ = sharedOrganization$.pipe(map(org => org.tags));
+    this.tags$ = sharedOrganization$.pipe(map(org => org.tags.map(tag => tag.tagName)));
     const projects$: Observable<Project[]> = sharedOrganization$.pipe(
       tap(org => console.log(org)),
       mergeMap(org => this.projectService.findByPartner(org.id)),

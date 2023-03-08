@@ -1,7 +1,4 @@
-export interface Tag {
-  id: string;
-  tagName: string;
-}
+import { Tag } from './tag.types';
 
 export interface LecturerProfile {
   profile: LecturerProfileInformation;

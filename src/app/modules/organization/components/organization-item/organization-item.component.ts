@@ -28,7 +28,7 @@ export class OrganizationItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.imgSrc = this.organization.logoUrl;
-    this.tags$ = of(this.organization.tags);
+    this.tags$ = of(this.organization.tags.map(tag => tag.tagName));
   }
 
   editOrganization(org: Organization) {
