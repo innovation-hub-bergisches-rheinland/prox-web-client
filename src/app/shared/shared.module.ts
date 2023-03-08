@@ -15,8 +15,7 @@ import { TagInputComponent } from './components/tag-input/tag-input.component';
 import { OrganizationSelectorComponent } from './components/organization-selector/organization-selector.component';
 import { SimpleChipInputComponent } from './components/simple-chip-input/simple-chip-input.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
-import { ChipComponent } from './components/chip/chip.component';
-import { ChipListComponent } from './components/chip-list/chip-list.component';
+import { TagComponent } from './components/tag/tag.component';
 import { AddButtonComponent } from './components/add-button/add-button.component';
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
@@ -27,6 +26,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { LoggerModule } from './modules/logger/logger.module';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
 import { ImageInputComponent } from './components/image-input/image-input.component';
+import { TagListComponent } from './components/tag-list/tag-list.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +38,8 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
     OrganizationSelectorComponent,
     SimpleChipInputComponent,
     TruncatePipe,
-    ChipComponent,
-    ChipListComponent,
+    TagComponent,
+    TagListComponent,
     AddButtonComponent,
     BackButtonComponent,
     PaginatorComponent,
@@ -81,8 +81,8 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
     OrganizationSelectorComponent,
     SimpleChipInputComponent,
     TruncatePipe,
-    ChipComponent,
-    ChipListComponent,
+    TagComponent,
+    TagListComponent,
     AddButtonComponent,
     BackButtonComponent,
     PaginatorComponent,

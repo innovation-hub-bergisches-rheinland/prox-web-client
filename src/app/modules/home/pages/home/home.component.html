@@ -31,11 +31,11 @@
 
     <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as tags">
       <h1>Häufige Tags</h1>
-      <app-chip-list>
-        <app-chip *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="{ tags: tag.tag }">
+      <app-tag-list>
+        <app-tag *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="{ tags: tag.tag }">
           {{ tag.tag }}
-        </app-chip>
-      </app-chip-list>
+        </app-tag>
+      </app-tag-list>
     </div>
 
     <ng-container *feature="'partners'">
