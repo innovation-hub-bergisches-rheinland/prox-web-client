@@ -1,24 +1,26 @@
 <div class="card rounded-none border w-full bg-base-100 shadow-xl h-full p-5 flex flex-col gap-4">
-  <a class="flex flex-row items-start gap-5 hover:cursor-pointer" [routerLink]="[organization.id]">
+  <div class="flex flex-row items-start gap-5">
     <figure class="basis-1/4 flex-grow-0 flex-shrink-0 overflow-hidden aspect-square">
       <img
         class="w-full object-contain"
         [src]="imgSrc"
         (error)="this.imgSrc = '/assets/images/blank-profile-picture.png'"
-        alt="Organization avatar"
+        alt="Organization logo"
       />
     </figure>
     <div class="basis-3/4 pb-2">
       <div>
         <div class="font-bold mb-2">
-          <h2 class="leading-normal">{{ organization.name }}</h2>
+          <a [routerLink]="[organization.id]">
+            <h2 class="leading-normal">{{ organization.name }}</h2>
+          </a>
         </div>
         <p class="text-gray-700 text-base" *ngIf="organization.profile.vita; let vita">
           {{ vita | truncate : 150 : true }}
         </p>
       </div>
     </div>
-  </a>
+  </div>
   <app-chip-list class="mb-0 mt-auto" *ngIf="tags$ | async; let tags">
     <app-chip *ngFor="let tag of tags"> {{ tag }}</app-chip>
   </app-chip-list>
