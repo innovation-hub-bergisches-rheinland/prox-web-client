@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-profile-header-card',
@@ -19,7 +20,7 @@ export class ProfileHeaderCardComponent {
   roundedAvatar = true;
 
   @Input()
-  tags: string[] = [];
+  tags: Tag[] = [];
 
   @Output()
   editClicked = new EventEmitter<MouseEvent>();

@@ -4,6 +4,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Project, ProjectList, ProjectState } from '@data/schema/project.types';
 import { PageRequest } from '@data/schema/shared.types';
+import { Tag } from '@data/schema/tag.types';
 import { ProjectService } from '@data/service/project.service';
 import {
   ProjectEditorDialogComponent,
@@ -136,15 +137,15 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  addTagToSearch(tag: string) {
-    if (this.searchValues.tags?.includes(tag)) {
+  addTagToSearch(tag: Tag) {
+    if (this.searchValues.tags?.includes(tag.tagName)) {
       return;
     }
     if (this.searchValues.tags === undefined) {
       this.searchValues.tags = [];
     }
 
-    this.searchValues.tags?.push(tag);
+    this.searchValues.tags?.push(tag.tagName);
     this.filter(this.searchValues);
   }
 }

@@ -36,7 +36,7 @@ export class ProjectCardComponent implements OnInit {
   deleted = new Subject<Project>();
 
   @Output()
-  tagClicked = new Subject<string>();
+  tagClicked = new Subject<Tag>();
 
   editIcon = faPen;
   deleteIcon = faTrash;
@@ -144,7 +144,7 @@ export class ProjectCardComponent implements OnInit {
     });
   }
 
-  onTagClick(tag: string) {
+  onTagClick(tag: Tag) {
     this.tagClicked.next(tag);
   }
 }

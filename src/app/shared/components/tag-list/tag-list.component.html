@@ -1,3 +1,3 @@
 <div class="flex flex-row flex-wrap gap-2">
-  <ng-content select="app-tag"></ng-content>
+  <app-tag *ngFor="let tag of sortedTags" [tag]="tag" (tagClicked)="tagClicked.emit($event)"></app-tag>
 </div>

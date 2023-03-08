@@ -21,9 +21,9 @@
       </div>
     </div>
   </div>
-  <app-tag-list class="mb-0 mt-auto" *ngIf="tags$ | async; let tags">
-    <app-tag *ngFor="let tag of tags"> {{ tag }}</app-tag>
-  </app-tag-list>
+  <ng-container *ngIf="tags$ | async; let tags">
+    <app-tag-list class="mb-0 mt-auto" [tags]="tags"></app-tag-list>
+  </ng-container>
   <div class="card-actions justify-end">
     <button class="btn btn-ghost" (click)="editOrganization(organization)" *ngIf="organization._permissions.hasAccess">
       <fa-icon [icon]="editIcon" class="mx-2"></fa-icon>

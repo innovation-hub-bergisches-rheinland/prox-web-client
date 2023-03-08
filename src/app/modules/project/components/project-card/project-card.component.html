@@ -33,11 +33,7 @@
     </div>
     <div class="flex flex-row gap-5 justify-between content-center">
       <div class="basis-3/4">
-        <app-tag-list>
-          <app-tag *ngFor="let tag of project.tags" [attr.data-tip]="tag" class="tooltip" (click)="onTagClick(tag.tagName)">
-            {{ tag.tagName }}
-          </app-tag>
-        </app-tag-list>
+        <app-tag-list [tags]="project.tags" (tagClicked)="onTagClick($event)"> </app-tag-list>
       </div>
       <div class="basis-1/4">
         <ng-container *ngIf="project.timeBox && (project.timeBox.start || project.timeBox.end)">

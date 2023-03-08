@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { TagService } from '@data/service/tag.service';
 import { of } from 'rxjs';
 import { Organization } from '@data/schema/organization.types';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-organization-item',
@@ -16,7 +17,7 @@ import { Organization } from '@data/schema/organization.types';
 export class OrganizationItemComponent implements OnInit {
   membersIcon = faPeopleGroup;
   editIcon = faEdit;
-  tags$: Observable<string[]>;
+  tags$: Observable<Tag[]>;
 
   @Input()
   organization: Organization;
@@ -28,7 +29,7 @@ export class OrganizationItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.imgSrc = this.organization.logoUrl;
-    this.tags$ = of(this.organization.tags.map(tag => tag.tagName));
+    this.tags$ = of(this.organization.tags);
   }
 
   editOrganization(org: Organization) {

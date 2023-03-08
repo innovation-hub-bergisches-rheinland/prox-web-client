@@ -144,6 +144,6 @@ export class OrganizationEditorComponent implements OnInit {
       avatar: organization.logoUrl
     });
 
-    this.organizationProfileForm.patchValue({ branches: organization.tags });
+    this.organizationProfileForm.patchValue({ branches: organization.tags.map(tag => tag.tagName) });
   }
 }

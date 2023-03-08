@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 import { Project } from '@data/schema/project.types';
 import { LecturerService } from '@data/service/lecturer.service';
 import { Lecturer } from '@data/schema/lecturer.types';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-lecturer-profile-page',
@@ -18,7 +19,7 @@ import { Lecturer } from '@data/schema/lecturer.types';
 })
 export class LecturerProfilePageComponent {
   lecturer$: Observable<Lecturer>;
-  tags: string[];
+  tags: Tag[];
   offeredProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
   avatar: string;
@@ -58,7 +59,7 @@ export class LecturerProfilePageComponent {
     this.lecturer$.subscribe({
       next: user => {
         this.updateTitle(user);
-        this.tags = user.tags?.map(t => t.tagName) ?? [];
+        this.tags = user.tags ?? [];
       }
     });
 

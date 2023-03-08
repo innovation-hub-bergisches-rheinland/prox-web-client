@@ -29,13 +29,9 @@
       bereitgestellt wird.
     </div>
 
-    <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as tags">
+    <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as popularTags">
       <h1>Häufige Tags</h1>
-      <app-tag-list>
-        <app-tag *ngFor="let tag of tags" [routerLink]="['/projects']" [queryParams]="{ tags: tag.tagName }">
-          {{ tag.tagName }}
-        </app-tag>
-      </app-tag-list>
+      <app-tag-list [tags]="popularTags" (tagClicked)="navigateToTagSearch($event)"> </app-tag-list>
     </div>
 
     <ng-container *feature="'partners'">

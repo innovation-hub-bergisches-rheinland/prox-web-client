@@ -1,0 +1,11 @@
+<app-profile-card>
+  <app-profile-card-header [icon]="faBullseye">
+    <app-profile-card-title>Tags</app-profile-card-title>
+  </app-profile-card-header>
+  <app-profile-card-content>
+    <ng-container *ngIf="tags && tags.length > 0; else noTags">
+      <app-tag-list [tags]="tags"></app-tag-list>
+    </ng-container>
+    <ng-template #noTags><i>Keine Tags angegeben</i></ng-template>
+  </app-profile-card-content>
+</app-profile-card>

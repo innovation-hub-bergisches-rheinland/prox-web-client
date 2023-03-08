@@ -7,6 +7,7 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { Project } from '@data/schema/project.types';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-project-details',
@@ -55,10 +56,10 @@ export class ProjectDetailsComponent implements OnInit {
     this.titleService.setTitle(newTitle);
   }
 
-  navigateToTagSearch(tag: string) {
+  navigateToTagSearch(tag: Tag) {
     this.router.navigate(['/projects'], {
       queryParams: {
-        tags: tag
+        tags: tag.tagName
       }
     });
   }

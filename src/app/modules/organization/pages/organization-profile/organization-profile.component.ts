@@ -11,6 +11,7 @@ import { NotificationService } from '@shared/modules/notifications/notification.
 import { Title } from '@angular/platform-browser';
 import { Organization } from '@data/schema/organization.types';
 import { Project } from '@data/schema/project.types';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-organization-profile',
@@ -20,7 +21,7 @@ import { Project } from '@data/schema/project.types';
 export class OrganizationProfileComponent {
   organization$: Observable<Organization>;
   avatar$: Observable<string>;
-  tags$: Observable<string[]>;
+  tags$: Observable<Tag[]>;
   faBullseye = faBullseye;
   offeredProjects$: Observable<Project[]>;
   projectHistory$: Observable<Project[]>;
@@ -50,7 +51,7 @@ export class OrganizationProfileComponent {
 
     this.avatar$ = sharedOrganization$.pipe(map(o => o.logoUrl));
 
-    this.tags$ = sharedOrganization$.pipe(map(org => org.tags.map(tag => tag.tagName)));
+    this.tags$ = sharedOrganization$.pipe(map(org => org.tags));
     const projects$: Observable<Project[]> = sharedOrganization$.pipe(
       tap(org => console.log(org)),
       mergeMap(org => this.projectService.findByPartner(org.id)),

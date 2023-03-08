@@ -100,4 +100,10 @@ export class HomeComponent implements OnInit {
       queryParams: params
     });
   }
+
+  async navigateToTagSearch(tag: Tag) {
+    await this.router.navigate(['projects'], {
+      queryParams: { tags: tag.tagName }
+    });
+  }
 }

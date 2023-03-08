@@ -12,7 +12,7 @@ import { ProfileCardComponent, ProfileCardContentDirective } from '@modules/prof
 import { ProfileInformationCardComponent } from './components/profile-information-card/profile-information-card.component';
 import { ProfileInformationCardEntryComponent } from './components/profile-information-card/profile-information-card-entry/profile-information-card-entry.component';
 import { SocialMediaButtonComponent } from './components/social-media-button/social-media-button.component';
-import { ProfileFocusSubjectsComponent } from './components/profile-focus-areas/profile-focus-subjects.component';
+import { ProfileTagsComponent } from './components/profile-tags/profile-tags.component';
 import { ProfileProjectsCardComponent } from './components/profile-projects-card/profile-projects-card.component';
 import { ProfileProjectHistoryComponent } from './components/profile-project-history/profile-project-history.component';
 import { ProfileProjectHistoryItemComponent } from '@modules/profile/components/profile-project-history/profile-project-history-item/profile-project-history-item.component';
@@ -40,7 +40,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
     ProfileInformationCardComponent,
     ProfileInformationCardEntryComponent,
     SocialMediaButtonComponent,
-    ProfileFocusSubjectsComponent,
+    ProfileTagsComponent,
     ProfileProjectsCardComponent,
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,
@@ -64,7 +64,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
     ProfileInformationCardComponent,
     ProfileInformationCardEntryComponent,
     SocialMediaButtonComponent,
-    ProfileFocusSubjectsComponent,
+    ProfileTagsComponent,
     ProfileProjectsCardComponent,
     ProfileProjectHistoryComponent,
     ProfileProjectHistoryItemComponent,

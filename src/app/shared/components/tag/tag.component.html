@@ -1,5 +1,6 @@
 <span
   class="px-4 py-2 rounded-full text-white bg-accent text-sm flex align-center w-max cursor-pointer hover:bg-sky-800 transition duration-300 ease"
+  (click)="tagClicked.emit(tag)"
 >
-  <ng-content></ng-content>
+  {{ tag.tagName }}
 </span>
