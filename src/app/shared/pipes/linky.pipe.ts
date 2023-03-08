@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Input, Pipe, PipeTransform } from '@angular/core';
 import Autolinker, { AutolinkerConfig } from 'autolinker';
 
 @Pipe({
@@ -27,10 +27,20 @@ export class LinkyPipe implements PipeTransform {
     className: ''
   };
 
+  @Input()
+  rel: string | undefined;
+
   transform(value: string, options?: AutolinkerConfig): string {
     return Autolinker.link(value, {
       ...this.defaultOptions,
-      ...options
+      ...options,
+      replaceFn: match => {
+        const tag = match.buildTag();
+        if (this.rel) {
+          tag.setAttr('rel', this.rel);
+        }
+        return tag;
+      }
     });
   }
 }
