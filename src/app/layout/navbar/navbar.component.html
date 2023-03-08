@@ -13,7 +13,7 @@
   </div>
   <div class="navbar-end">
     <app-environment></app-environment>
-    <button class="btn btn-ghost mr-4 text" routerLink="/contact">
+    <a class="btn btn-ghost mr-4 text" routerLink="/contact">
       <svg class="w-7" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
         <rect x="0" y="0" width="1024" height="1024" fill="none" stroke="none" />
         <path
@@ -26,7 +26,7 @@
         />
       </svg>
       <span class="p-2 hidden md:block">Fehler melden</span>
-    </button>
+    </a>
 
     <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
@@ -44,7 +44,7 @@
       <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <ng-container *ngIf="isLoggedIn; else notLoggedIn">
           <li>
-            <a class="justify-between" [routerLink]="['settings']">
+            <a class="justify-between" routerLink="/settings">
               Einstellungen
               <span class="badge badge-primary">Neu</span>
             </a>

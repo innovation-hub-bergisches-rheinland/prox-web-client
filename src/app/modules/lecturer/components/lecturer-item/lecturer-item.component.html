@@ -1,22 +1,24 @@
-<div class="card border w-full hover:shadow-none relative flex flex-col mx-auto shadow-lg hover:cursor-pointer" [routerLink]="href">
-  <img
-    class="max-h-20 object-cover w-full opacity-75 absolute top-0"
-    style="z-index: -1"
-    src="/assets/images/blank-profile-banner.jpg"
-    alt=""
-  />
-  <div class="profile w-full flex m-3 ml-4 text-base">
-    <figure class="rounded-full overflow-hidden flex-shrink-0">
-      <img
-        (error)="this.imgSrc = this.defaultImage"
-        [src]="imgSrc"
-        alt="Profile avatar"
-        class="w-28 h-28 p-1 rounded-full bg-white object-cover"
-      />
-    </figure>
-    <div class="title mt-11 mx-3 font-bold flex flex-col w-full">
-      <div class="name break-words bg-white bg-opacity-70 min-w-full px-2 rounded-sm">{{ title }}</div>
-      <div class="font-semibold text-sm italic dark pr-4">{{ subtitle || '' }}</div>
+<div class="card border w-full hover:shadow-none relative flex flex-col mx-auto shadow-lg hover:cursor-pointer">
+  <a href="href" [routerLink]="href">
+    <img
+      class="max-h-20 object-cover w-full opacity-75 absolute top-0"
+      style="z-index: -1"
+      src="/assets/images/blank-profile-banner.jpg"
+      alt=""
+    />
+    <div class="profile w-full flex m-3 ml-4 text-base">
+      <figure class="rounded-full overflow-hidden flex-shrink-0">
+        <img
+          (error)="this.imgSrc = this.defaultImage"
+          [src]="imgSrc"
+          alt="Profile avatar"
+          class="w-28 h-28 p-1 rounded-full bg-white object-cover"
+        />
+      </figure>
+      <div class="title mt-11 mx-3 font-bold flex flex-col w-full">
+        <div class="name break-words bg-white bg-opacity-70 min-w-full px-2 rounded-sm">{{ title }}</div>
+        <div class="font-semibold text-sm italic dark pr-4">{{ subtitle || '' }}</div>
+      </div>
     </div>
-  </div>
+  </a>
 </div>

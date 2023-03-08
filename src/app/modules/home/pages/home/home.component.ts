@@ -88,16 +88,6 @@ export class HomeComponent implements OnInit {
     this.placeholder = 'Suchbegriff';
   }
 
-  editProject() {
-    if (this.keycloakService.isLoggedIn()) {
-      this.router.navigate(['/', 'projects']);
-    } else {
-      this.keycloakService.login({
-        redirectUri: window.location.href + 'projects'
-      });
-    }
-  }
-
   async onSubmit() {
     let params = {};
 

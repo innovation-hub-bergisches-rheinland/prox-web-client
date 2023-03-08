@@ -1,6 +1,6 @@
 <div class="card rounded-none border w-full bg-base-100 shadow-xl h-full p-5 flex flex-col gap-4">
-  <div class="flex flex-row items-start gap-5">
-    <figure class="basis-1/4 flex-grow-0 flex-shrink-0 overflow-hidden aspect-square hover:cursor-pointer" [routerLink]="[organization.id]">
+  <a class="flex flex-row items-start gap-5 hover:cursor-pointer" [routerLink]="[organization.id]">
+    <figure class="basis-1/4 flex-grow-0 flex-shrink-0 overflow-hidden aspect-square">
       <img
         class="w-full object-contain"
         [src]="imgSrc"
@@ -8,8 +8,8 @@
         alt="Organization avatar"
       />
     </figure>
-    <div class="basis-3/4 pb-2 hover:cursor-pointer">
-      <div [routerLink]="[organization.id]">
+    <div class="basis-3/4 pb-2">
+      <div>
         <div class="font-bold mb-2">
           <h2 class="leading-normal">{{ organization.name }}</h2>
         </div>
@@ -18,7 +18,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </a>
   <app-chip-list class="mb-0 mt-auto" *ngIf="tags$ | async; let tags">
     <app-chip *ngFor="let tag of tags"> {{ tag }}</app-chip>
   </app-chip-list>
@@ -27,9 +27,9 @@
       <fa-icon [icon]="editIcon" class="mx-2"></fa-icon>
       Bearbeiten
     </button>
-    <button class="btn btn-ghost" [routerLink]="[organization.id, 'members']" *ngIf="organization._permissions.hasAccess">
+    <a class="btn btn-ghost" [routerLink]="[organization.id, 'members']" *ngIf="organization._permissions.hasAccess">
       <fa-icon [icon]="membersIcon" class="mx-2"></fa-icon>
       Mitglieder
-    </button>
+    </a>
   </div>
 </div>
