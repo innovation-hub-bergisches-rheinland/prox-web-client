@@ -33,7 +33,7 @@
     </div>
     <div class="flex flex-row gap-5 justify-between content-center">
       <div class="basis-3/4">
-        <app-tag-list [tags]="project.tags" (tagClicked)="onTagClick($event)"> </app-tag-list>
+        <app-tag-list [tags]="project.tags" (tagClicked)="onTagClick($event)" [clickable]="true"> </app-tag-list>
       </div>
       <div class="basis-1/4">
         <ng-container *ngIf="project.timeBox && (project.timeBox.start || project.timeBox.end)">

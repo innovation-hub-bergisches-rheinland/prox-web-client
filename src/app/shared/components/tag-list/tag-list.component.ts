@@ -9,6 +9,9 @@ export class TagListComponent implements OnInit {
   @Input()
   tags: Tag[];
 
+  @Input()
+  clickable = false;
+
   @Output()
   tagClicked: EventEmitter<Tag> = new EventEmitter<Tag>();
 
@@ -19,4 +22,10 @@ export class TagListComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  onClick(tag: Tag) {
+    if (this.clickable) {
+      this.tagClicked.emit(tag);
+    }
+  }
 }
