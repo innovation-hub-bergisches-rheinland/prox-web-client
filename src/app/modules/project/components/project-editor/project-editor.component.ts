@@ -77,7 +77,7 @@ export class ProjectEditorComponent implements OnInit {
     if (isProject && (await this.keycloakService.isLoggedIn())) {
       const projectSupervisorControl = this.projectInformationFormGroup.controls.supervisors;
 
-      if (isProposal && !projectSupervisorControl.value) {
+      if (!projectSupervisorControl.value) {
         this.userService.getCurrentAuthenticated().subscribe({
           next: profile => {
             projectSupervisorControl.setValue([profile]);
