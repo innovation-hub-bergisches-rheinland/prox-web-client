@@ -1,16 +1,18 @@
 <div class="drawer">
   <input #sidenav id="sidenav" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content">
-    <header class="sticky top-0 z-50 shadow border-b-2">
-      <app-shimmer></app-shimmer>
-      <app-banner *ngIf="false"></app-banner>
-      <app-navbar (burgerClicked)="sidenav.checked = true"></app-navbar>
-    </header>
-    <div>
-      <app-main-content></app-main-content>
-    </div>
-    <div class="border-t-2 w-full mx-auto">
-      <app-footer></app-footer>
+    <div class="min-h-full m-0 flex flex-col">
+      <header class="sticky top-0 z-50 shadow border-b-2">
+        <app-shimmer></app-shimmer>
+        <app-banner *ngIf="false"></app-banner>
+        <app-navbar (burgerClicked)="sidenav.checked = true"></app-navbar>
+      </header>
+      <div class="flex-1">
+        <app-main-content></app-main-content>
+      </div>
+      <div class="mt-5 border-t-2 w-full mx-auto">
+        <app-footer></app-footer>
+      </div>
     </div>
   </div>
   <div class="drawer-side">
