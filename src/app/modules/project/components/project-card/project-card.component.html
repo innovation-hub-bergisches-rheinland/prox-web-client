@@ -23,7 +23,7 @@
         </div>
         <ng-template #noRequirement> <p>Keine Teilnahmevoraussetzungen</p></ng-template>
       </div>
-      <div class="basis-1/4">
+      <div class="basis-1/4" *ngIf="project.curriculumContext?.moduleTypes?.length > 0">
         <strong>Projekttypen:</strong>
 
         <p *ngFor="let module of project.curriculumContext?.moduleTypes">
