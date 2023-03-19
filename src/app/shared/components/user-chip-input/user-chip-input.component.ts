@@ -51,7 +51,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
       startWith(''),
       filter(input => !!input && input.length > 1),
       mergeMap(input => this.userService.search(input)),
-      map(users => users.map(user => ({ ...user, removable: true }))),
+      map(users => users.filter(user => !this._users.find(t => t.userId === user.userId)).map(user => ({ ...user, removable: true }))),
       catchError(err => {
         this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);
