@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChil
 import { UserService } from '@data/service/user.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs';
-import { catchError, debounceTime, filter, startWith } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, startWith } from 'rxjs/operators';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { UserProfile } from '@data/schema/user.types';
 
-export type User = Pick<UserProfile, 'userId' | 'displayName'>;
+export type User = Pick<UserProfile, 'userId' | 'displayName'> & { removable?: boolean };
 
 @Component({
   selector: 'app-user-chip-input',
@@ -51,6 +51,7 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
       startWith(''),
       filter(input => !!input && input.length > 1),
       mergeMap(input => this.userService.search(input)),
+      map(users => users.map(user => ({ ...user, removable: true }))),
       catchError(err => {
         this.notificationService.error('Benutzer können aktuell nicht geladen werden. Versuchen Sie es später erneut');
         return of([]);
@@ -73,6 +74,9 @@ export class UserChipInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removeUser(user: User) {
+    if (user.removable === false) {
+      return;
+    }
     this._users = this._users.filter(t => t.userId !== user.userId);
     this.onChange(this._users);
     this.users$.next(this._users);

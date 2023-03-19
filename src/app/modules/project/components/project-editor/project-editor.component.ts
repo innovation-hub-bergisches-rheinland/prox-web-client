@@ -80,7 +80,13 @@ export class ProjectEditorComponent implements OnInit {
       if (!projectSupervisorControl.value) {
         this.userService.getCurrentAuthenticated().subscribe({
           next: profile => {
-            projectSupervisorControl.setValue([profile]);
+            projectSupervisorControl.setValue([
+              {
+                userId: profile.userId,
+                displayName: profile.displayName,
+                removable: false
+              }
+            ]);
           }
         });
       }

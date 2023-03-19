@@ -2,9 +2,9 @@
   <mat-label>{{ label }}</mat-label>
   <mat-chip-grid #userList>
     <ng-container *ngFor="let user of _users">
-      <mat-chip-row [removable]="true" (removed)="removeUser(user)">
+      <mat-chip-row [removable]="user.removable" (removed)="removeUser(user)">
         {{ user.displayName }}
-        <mat-icon matChipRemove>cancel</mat-icon>
+        <mat-icon matChipRemove *ngIf="user.removable">cancel</mat-icon>
       </mat-chip-row>
     </ng-container>
 
