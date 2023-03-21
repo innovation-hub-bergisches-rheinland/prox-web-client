@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.25.1...v1.26.0) (2023-03-21)
+
+
+### Features
+
+* add noindex tag to 404 page ([1e1e269](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/1e1e269c72661d7c79f4dddd1f71a3d9d6acf07b))
+* add possibility to set link rel in linky pipe ([a27b4eb](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a27b4eb656aa0959851066413667aafb1b0feef2))
+
+
+### Bug Fixes
+
+* filter for selected users ([cf65f35](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/cf65f35375f39bacf71f56a0ffd2dd3ce243b9c5))
+* make authorized supervisor unremovable ([9a04ac5](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/9a04ac5aaad0cb82f1fed4a84d020d6df2815793))
+* set default supervisor ([45e6e31](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/45e6e31506aff9c6d12d36a27e0f1354fbe40a80))
+
 ### [1.25.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.25.0...v1.25.1) (2023-03-03)
 
 
