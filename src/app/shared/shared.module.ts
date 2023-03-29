@@ -27,11 +27,13 @@ import { LoggerModule } from './modules/logger/logger.module';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
 import { ImageInputComponent } from './components/image-input/image-input.component';
 import { TagListComponent } from './components/tag-list/tag-list.component';
+import { RelativeTimePipe } from './pipes/relative-time.pipe';
 
 @NgModule({
   declarations: [
     ConfirmationDialogComponent,
     LinkyPipe,
+    RelativeTimePipe,
     UserSearchComponent,
     UserSelectorComponent,
     TagInputComponent,
@@ -75,6 +77,7 @@ import { TagListComponent } from './components/tag-list/tag-list.component';
     ContentPageModule,
     FontAwesomeModule,
     LinkyPipe,
+    RelativeTimePipe,
     UserSearchComponent,
     UserSelectorComponent,
     TagInputComponent,

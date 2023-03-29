@@ -20,6 +20,7 @@
         <strong [innerHTML]="project.partner.name"></strong>
       </a>
     </span>
+    <span class="mt-2"> {{ project.createdAt | relativeTime }} erstellt </span>
   </div>
   <app-project-icons
     class="basis-1/4 flex-initial"
