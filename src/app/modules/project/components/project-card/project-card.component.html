@@ -48,7 +48,7 @@
       <strong>Kurze Projektbeschreibung:</strong>
       <p [innerHTML]="project.summary | linky"></p>
     </div>
-    <div *ngIf="showDetails">
+    <div *ngIf="showDetails && project.description">
       <strong> Projektbeschreibung:</strong>
       <div>
         <p [innerHTML]="project.description | linky"></p>
