@@ -28,6 +28,7 @@ import { StatusIconComponent } from './components/status-icon/status-icon.compon
 import { ImageInputComponent } from './components/image-input/image-input.component';
 import { TagListComponent } from './components/tag-list/tag-list.component';
 import { RelativeTimePipe } from './pipes/relative-time.pipe';
+import { SortPipe } from './pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { RelativeTimePipe } from './pipes/relative-time.pipe';
     PaginatorComponent,
     UserChipInputComponent,
     StatusIconComponent,
-    ImageInputComponent
+    ImageInputComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,
@@ -98,7 +100,8 @@ import { RelativeTimePipe } from './pipes/relative-time.pipe';
 
     FeatureDirectiveModule,
 
-    ErrorsModule
+    ErrorsModule,
+    SortPipe
   ]
 })
 export class SharedModule {}

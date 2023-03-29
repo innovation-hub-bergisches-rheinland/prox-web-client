@@ -1,15 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Discipline, ProjectPartner, ProjectState, ProjectStatus } from '@data/schema/project.types';
-import {
-  IconDefinition,
-  faFileLines,
-  faIndustry,
-  faLaptop,
-  faLock,
-  faLockOpen,
-  faRunning,
-  faWrench
-} from '@fortawesome/free-solid-svg-icons';
+import { ProjectState, ProjectStatus } from '@data/schema/project.types';
+import { IconDefinition, faFileLines, faLock, faLockOpen, faRunning } from '@fortawesome/free-solid-svg-icons';
 
 interface StatusIconDefinition {
   icon: IconDefinition;
@@ -26,14 +17,6 @@ export class ProjectIconsComponent {
   unavailableIcon = faLock;
   runningIcon = faRunning;
   proposalIcon = faFileLines;
-  infIcon = faLaptop;
-  ingIcon = faWrench;
-  companyIcon = faIndustry;
-
-  disciplineIcons = {
-    INF: this.infIcon,
-    ING: this.ingIcon
-  };
 
   statusIcons: Record<ProjectState, StatusIconDefinition> = {
     OFFERED: {
@@ -58,10 +41,4 @@ export class ProjectIconsComponent {
 
   @Input()
   status: ProjectStatus | undefined;
-
-  @Input()
-  partner: ProjectPartner | undefined;
-
-  @Input()
-  disciplines: Discipline[] | undefined;
 }

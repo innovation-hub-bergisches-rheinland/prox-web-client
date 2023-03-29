@@ -22,10 +22,5 @@
     </span>
     <span class="mt-2" [matTooltip]="project.createdAt | date : 'YYYY-MM-dd'"> {{ project.createdAt | relativeTime }} erstellt </span>
   </div>
-  <app-project-icons
-    class="basis-1/4 flex-initial"
-    [disciplines]="project.curriculumContext?.disciplines"
-    [status]="project.status"
-    [partner]="project.partner"
-  ></app-project-icons>
+  <app-project-icons class="basis-1/4 flex-initial" [status]="project.status"></app-project-icons>
 </div>

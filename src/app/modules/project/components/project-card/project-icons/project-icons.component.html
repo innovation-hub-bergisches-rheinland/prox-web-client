@@ -2,10 +2,4 @@
   <ng-container *ngIf="status?.state">
     <app-status-icon *ngIf="statusIcons[status.state]; let iconDef" [icon]="iconDef.icon" [tooltip]="iconDef.tooltip"></app-status-icon>
   </ng-container>
-  <ng-container *ngIf="disciplines">
-    <app-status-icon *ngFor="let d of disciplines" [icon]="disciplineIcons[d.key]" [tooltip]="d.name"></app-status-icon>
-  </ng-container>
-  <ng-container *ngIf="partner?.id">
-    <app-status-icon [icon]="companyIcon" matTooltip="Projekt mit einem Projektpartner"></app-status-icon>
-  </ng-container>
 </div>

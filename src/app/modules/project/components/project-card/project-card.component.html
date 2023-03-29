@@ -3,6 +3,36 @@
     <app-project-card-header [project]="project"></app-project-card-header>
   </div>
   <div class="divider"></div>
+  <div class="flex flex-col gap-2 items-start">
+    <app-project-card-icon-attribute
+      [icon]="bookIcon"
+      tooltip="Studiengänge"
+      *ngIf="project.curriculumContext.disciplines; let disciplines"
+    >
+      <span *ngFor="let d of disciplines | sort : 'asc' : 'key'; let last = last">
+        <strong>({{ d.key }})</strong> {{ d.name }} <span class="opacity-50" *ngIf="!last">• </span>
+      </span>
+    </app-project-card-icon-attribute>
+    <app-project-card-icon-attribute
+      [icon]="paperclipIcon"
+      tooltip="Modultypen"
+      *ngIf="project.curriculumContext.moduleTypes; let moduleTypes"
+    >
+      <span *ngFor="let m of moduleTypes | sort : 'asc' : 'key'; let last = last">
+        <strong>({{ m.key }})</strong> {{ m.name }} <span class="opacity-50" *ngIf="!last">• </span>
+      </span>
+    </app-project-card-icon-attribute>
+    <app-project-card-icon-attribute
+      [icon]="timerIcon"
+      tooltip="Zeitraum"
+      *ngIf="project.timeBox && (project.timeBox.start || project.timeBox.end)"
+    >
+      <span *ngIf="project.timeBox.start; else noDate">{{ project.timeBox.start | date : 'YYYY-MM-dd' }}</span> -
+      <span *ngIf="project.timeBox.end; else noDate">{{ project.timeBox.end | date : 'YYYY-MM-dd' }}</span>
+      <ng-template #noDate> n/a </ng-template>
+    </app-project-card-icon-attribute>
+  </div>
+  <div class="divider"></div>
   <div class="flex flex-col justify-between content-between gap-5">
     <div>
       <strong>Kurze Projektbeschreibung:</strong>
@@ -23,24 +53,10 @@
         </div>
         <ng-template #noRequirement> <p>Keine Teilnahmevoraussetzungen</p></ng-template>
       </div>
-      <div class="basis-1/4" *ngIf="project.curriculumContext?.moduleTypes?.length > 0">
-        <strong>Projekttypen:</strong>
-
-        <p *ngFor="let module of project.curriculumContext?.moduleTypes">
-          <strong>({{ module.key }})</strong> {{ module.name }}
-        </p>
-      </div>
     </div>
     <div class="flex flex-row gap-5 justify-between content-center">
       <div class="basis-3/4">
         <app-tag-list [tags]="project.tags" (tagClicked)="onTagClick($event)" [clickable]="true"> </app-tag-list>
-      </div>
-      <div class="basis-1/4">
-        <ng-container *ngIf="project.timeBox && (project.timeBox.start || project.timeBox.end)">
-          <strong>Projektlaufzeit</strong>
-          <p *ngIf="project.timeBox.start"><strong>(Beginn)</strong> {{ project.timeBox.start | date : 'YYYY-MM-dd' }}</p>
-          <p *ngIf="project.timeBox.end"><strong>(Ende)</strong> {{ project.timeBox.end | date : 'YYYY-MM-dd' }}</p>
-        </ng-container>
       </div>
     </div>
   </div>

@@ -16,6 +16,7 @@ import { ProjectCardHeaderComponent } from './components/project-card/project-ca
 import { ProjectSearchPanelComponent } from './components/project-search-panel/project-search-panel.component';
 import { ProjectCardStatusActionsComponent } from './components/project-card/project-card-status-actions/project-card-status-actions.component';
 import { ProjectEditorMiscComponent } from './components/project-editor/project-editor-misc/project-editor-misc.component';
+import { ProjectCardIconAttributeComponent } from './components/project-card/project-card-icon-attribute/project-card-icon-attribute.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ProjectEditorMiscComponent } from './components/project-editor/project-
     ProjectEditorMiscComponent,
     ProjectEditorComponent,
     ProjectEditorDialogComponent,
-    ProjectDetailsComponent
+    ProjectDetailsComponent,
+    ProjectCardIconAttributeComponent
   ],
   imports: [SharedModule, ProjectRoutingModule, ScrollingModule]
 })

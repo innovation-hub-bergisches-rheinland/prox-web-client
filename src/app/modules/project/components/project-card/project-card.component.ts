@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Observable, Subject, catchError } from 'rxjs';
-import { faArrowUp, faBars, faPen, faStar as faSolid, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faBars, faBook, faClock, faPaperclip, faPen, faStar as faSolid, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegular } from '@fortawesome/free-regular-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project, ProjectState } from '@data/schema/project.types';
@@ -44,6 +44,10 @@ export class ProjectCardComponent implements OnInit {
   barsIcon = faBars;
   starSolid = faSolid;
   starRegular = faRegular;
+  bookIcon = faBook;
+  timerIcon = faClock;
+  paperclipIcon = faPaperclip;
+
   canCommit = false;
   canStar = false;
   isStarred = false;
