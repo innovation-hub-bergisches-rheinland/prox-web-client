@@ -1,5 +1,5 @@
 <div class="flex flex-row justify-between">
-  <div class="flex flex-col">
+  <div class="flex flex-col items-start">
     <strong class="text-lg font-bold text-black basis-3/4">{{ project.title }}</strong>
     <span class="text-secondary" matTooltip="Projektbetreuer" *ngIf="project.supervisors">
       <ng-container *ngIf="project.supervisors.length > 0; else noSupervisor">
@@ -20,7 +20,7 @@
         <strong [innerHTML]="project.partner.name"></strong>
       </a>
     </span>
-    <span class="mt-2"> {{ project.createdAt | relativeTime }} erstellt </span>
+    <span class="mt-2" [matTooltip]="project.createdAt | date : 'YYYY-MM-dd'"> {{ project.createdAt | relativeTime }} erstellt </span>
   </div>
   <app-project-icons
     class="basis-1/4 flex-initial"

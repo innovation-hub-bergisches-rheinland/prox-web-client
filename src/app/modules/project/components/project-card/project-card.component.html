@@ -49,25 +49,25 @@
     <div class="flex flex-row justify-between">
       <div class="flex flex-row gap-2">
         <button
-          class="tooltip btn btn-sm btn-primary"
+          class="btn btn-sm btn-primary"
           *ngIf="!showDetails"
           routerLink="/projects/{{ project.id }}"
-          data-tip="Weiterführende Projektdetails"
+          matTooltip="Weiterführende Projektdetails"
         >
           Projektdetails
         </button>
       </div>
       <div class="flex flex-row gap-2">
         <button
-          data-tip="Durch Ihr Commitment erklären Sie sich bereit, diesen Vorschlag als Projektarbeit zu betreuen"
-          class="btn btn-outline btn-primary tooltip"
+          matTooltip="Durch Ihr Commitment erklären Sie sich bereit, diesen Vorschlag als Projektarbeit zu betreuen"
+          class="btn btn-outline btn-primary"
           *ngIf="canCommit"
           (click)="commit()"
         >
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
           Commitment abgeben
         </button>
-        <button *ngIf="false" data-tip="Projekt sternen" class="btn btn-outline btn-primary tooltip" (click)="toggleStar()">
+        <button *ngIf="false" matTooltip="Projekt sternen" class="btn btn-outline btn-primary" (click)="toggleStar()">
           <fa-icon class="mr-2" [icon]="isStarred ? starSolid : starRegular"></fa-icon>
           {{ this.project.metrics.interestedCount }}
         </button>

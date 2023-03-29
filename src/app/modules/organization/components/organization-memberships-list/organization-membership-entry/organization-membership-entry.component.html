@@ -1,17 +1,12 @@
 <div class="flex flex-row gap-4 text-xl items-center">
   <fa-icon [icon]="personIcon" [fixedWidth]="true"></fa-icon>
   <span class="flex-1"><ng-content></ng-content></span>
-  <button
-    class="btn btn-circle btn-outline btn-md tooltip"
-    data-tip="Mitgliedschaft bearbeiten"
-    *ngIf="showEdit"
-    (click)="edit.emit($event)"
-  >
+  <button class="btn btn-circle btn-outline btn-md" matTooltip="Mitgliedschaft bearbeiten" *ngIf="showEdit" (click)="edit.emit($event)">
     <fa-icon [icon]="editIcon" [fixedWidth]="true"></fa-icon>
   </button>
   <button
-    class="btn btn-circle btn-outline btn-md btn-error tooltip"
-    data-tip="Mitgliedschaft beenden"
+    class="btn btn-circle btn-outline btn-md btn-error"
+    matTooltip="Mitgliedschaft beenden"
     *ngIf="showRemove"
     (click)="remove.emit($event)"
   >

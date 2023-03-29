@@ -6,6 +6,6 @@
     <app-status-icon *ngFor="let d of disciplines" [icon]="disciplineIcons[d.key]" [tooltip]="d.name"></app-status-icon>
   </ng-container>
   <ng-container *ngIf="partner?.id">
-    <app-status-icon [icon]="companyIcon" data-tip="Projekt mit einem Projektpartner" class="tooltip"></app-status-icon>
+    <app-status-icon [icon]="companyIcon" matTooltip="Projekt mit einem Projektpartner"></app-status-icon>
   </ng-container>
 </div>

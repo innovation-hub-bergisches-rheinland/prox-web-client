@@ -1,23 +1,23 @@
 <div class="flex flex-row justify-between gap-2">
   <button
-    class="btn btn-outline btn-success tooltip"
-    data-tip="Projekt starten"
+    class="btn btn-outline btn-success"
+    matTooltip="Projekt starten"
     (click)="onStatusChange('RUNNING')"
     *ngIf="project.status.state === 'OFFERED'"
   >
     <fa-icon [icon]="startProjectIcon"></fa-icon>
   </button>
   <button
-    class="btn btn-outline tooltip"
-    data-tip="Projekt als Angebot zurücksetzen"
+    class="btn btn-outline"
+    matTooltip="Projekt als Angebot zurücksetzen"
     (click)="onStatusChange('OFFERED')"
     *ngIf="project.status.state === 'RUNNING' || project.status.state === 'COMPLETED'"
   >
     <fa-icon [icon]="resetProjectIcon"></fa-icon>
   </button>
   <button
-    class="btn btn-outline tooltip"
-    data-tip="Projekt beenden"
+    class="btn btn-outline"
+    matTooltip="Projekt beenden"
     (click)="onStatusChange('COMPLETED')"
     *ngIf="project.status.state === 'OFFERED' || project.status.state === 'RUNNING'"
   >

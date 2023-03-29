@@ -2,12 +2,12 @@
   <app-content-page-header>
     <div class="page-title">
       <ng-container>
-        <app-back-button (click)="location.back()" data-tip="Zurück" class="tooltip"></app-back-button>
+        <app-back-button (click)="location.back()" matTooltip="Zurück"></app-back-button>
       </ng-container>
     </div>
     <app-content-page-title> Mitglieder von {{ organization.name }} </app-content-page-title>
     <app-content-page-actions *ngIf="hasPermission">
-      <app-add-button (click)="openMemberAddDialog()" data-tip="Mitglied hinzufügen" class="tooltip"></app-add-button>
+      <app-add-button (click)="openMemberAddDialog()" matTooltip="Mitglied hinzufügen"></app-add-button>
     </app-content-page-actions>
   </app-content-page-header>
   <app-content-page-content>

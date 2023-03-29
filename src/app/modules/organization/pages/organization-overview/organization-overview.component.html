@@ -7,7 +7,7 @@
     <div class="flex flex-row gap-4">
       <app-profile-search-panel class="flex-1" (search)="onSearch($event)"> </app-profile-search-panel>
       <ng-container *ngIf="canCreateNewOrg">
-        <app-add-button (click)="openOrganizationEditor()" data-tip="Neue Organisation anlegen" class="tooltip"></app-add-button>
+        <app-add-button (click)="openOrganizationEditor()" matTooltip="Neue Organisation anlegen"></app-add-button>
       </ng-container>
     </div>
     <ng-container *ngIf="activeProfilePage$ | async; let page">
