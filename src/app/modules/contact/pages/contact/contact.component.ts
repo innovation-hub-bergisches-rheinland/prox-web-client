@@ -15,12 +15,6 @@ export class ContactComponent {
       image: '/assets/images/contact/bente.bmp'
     },
     {
-      title: 'Koordinator IT-Lab',
-      name: 'Julian Lengelsen',
-      email: 'julian.lengelsen@innovation-hub.de',
-      image: '/assets/images/contact/lengelsen.jpg'
-    },
-    {
       title: 'Wissenschaftlicher Mitarbeiter',
       name: 'Tobias Hund',
       email: 'tobias.hund@innovation-hub.de',
