@@ -20,20 +20,7 @@
       <div>
         <h1>{{ title }}</h1>
       </div>
-      <!--<div>
-        <mat-chip-list>
-          <mat-chip *ngFor='let tag of tags' selected>{{ tag }}</mat-chip>
-        </mat-chip-list>
-      </div>-->
-      <a *ngIf="showEdit" class="ml-auto">
-        <button (click)="editClicked.emit($event)">
-          <mat-icon class="mx-4">edit</mat-icon>
-        </button>
-      </a>
     </div>
-    <!--<div class="ml-2">
-      <h1>{{ title }}</h1>
-    </div>-->
     <div class="mt-4">
       <app-tag-list [tags]="tags"> </app-tag-list>
     </div>

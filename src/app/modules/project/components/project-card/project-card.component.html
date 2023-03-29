@@ -12,24 +12,26 @@
       <strong>{{ state.text }}</strong>
       <fa-icon class="relative left-1 bottom-1 text-gray-400 text-xs" [icon]="circleInfoIcon" [matTooltip]="state.hint"></fa-icon>
     </app-project-card-icon-attribute>
-    <app-project-card-icon-attribute
-      [icon]="bookIcon"
-      tooltip="Studiengänge"
-      *ngIf="project.curriculumContext.disciplines; let disciplines"
-    >
-      <span *ngFor="let d of disciplines | sort : 'asc' : 'key'; let last = last">
-        <strong>({{ d.key }})</strong> {{ d.name }} <span class="opacity-50" *ngIf="!last">• </span>
-      </span>
-    </app-project-card-icon-attribute>
-    <app-project-card-icon-attribute
-      [icon]="paperclipIcon"
-      tooltip="Modultypen"
-      *ngIf="project.curriculumContext.moduleTypes; let moduleTypes"
-    >
-      <span *ngFor="let m of moduleTypes | sort : 'asc' : 'key'; let last = last">
-        <strong>({{ m.key }})</strong> {{ m.name }} <span class="opacity-50" *ngIf="!last">• </span>
-      </span>
-    </app-project-card-icon-attribute>
+    <ng-container *ngIf="project.curriculumContext.disciplines; let disciplines">
+      <app-project-card-icon-attribute [icon]="bookIcon" tooltip="Studiengänge">
+        <ng-container *ngIf="disciplines.length > 0; else noDisciplines">
+          <span *ngFor="let d of disciplines | sort : 'asc' : 'key'; let last = last">
+            <strong>({{ d.key }})</strong> {{ d.name }} <span class="opacity-50" *ngIf="!last">• </span>
+          </span>
+        </ng-container>
+        <ng-template #noDisciplines><i>Keine Studiengänge angegeben</i></ng-template>
+      </app-project-card-icon-attribute>
+    </ng-container>
+    <ng-container *ngIf="project.curriculumContext.moduleTypes; let moduleTypes">
+      <app-project-card-icon-attribute [icon]="paperclipIcon" tooltip="Modultypen">
+        <ng-container *ngIf="moduleTypes.length > 0; else noModuleTypes">
+          <span *ngFor="let m of moduleTypes | sort : 'asc' : 'key'; let last = last">
+            <strong>({{ m.key }})</strong> {{ m.name }} <span class="opacity-50" *ngIf="!last">• </span>
+          </span>
+        </ng-container>
+        <ng-template #noModuleTypes><i>Keine Modultypen angegeben</i></ng-template>
+      </app-project-card-icon-attribute>
+    </ng-container>
     <app-project-card-icon-attribute
       [icon]="timerIcon"
       tooltip="Zeitraum"
