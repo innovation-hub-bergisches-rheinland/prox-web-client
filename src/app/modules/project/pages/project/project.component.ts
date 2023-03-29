@@ -12,7 +12,7 @@ import {
 } from '@modules/project/components/project-editor-dialog/project-editor-dialog.component';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 import { KeycloakService } from 'keycloak-angular';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 export interface QueryParams {
   q?: string;
