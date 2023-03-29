@@ -45,7 +45,7 @@ jobs:
       # Generate docker tags and labels
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: |
             ${{ env.DOCKER_REGISTRY }}/prox-web-client
