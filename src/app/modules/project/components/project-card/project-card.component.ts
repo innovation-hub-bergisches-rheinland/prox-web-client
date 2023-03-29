@@ -1,6 +1,17 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Observable, Subject, catchError } from 'rxjs';
-import { faArrowUp, faBars, faBook, faClock, faPaperclip, faPen, faStar as faSolid, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowUp,
+  faBars,
+  faBook,
+  faCircle,
+  faCircleInfo,
+  faClock,
+  faPaperclip,
+  faPen,
+  faStar as faSolid,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
 import { faStar as faRegular } from '@fortawesome/free-regular-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project, ProjectState } from '@data/schema/project.types';
@@ -9,9 +20,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProjectEditorDialogComponent } from '../project-editor-dialog/project-editor-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
 import { ConfirmationDialogComponent } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
-import { P } from '@angular/cdk/keycodes';
 import { Tag } from '@data/schema/tag.types';
 import { UserService } from '@data/service/user.service';
+
+type ProjectStateDefinition = {
+  class: string;
+  text: string;
+  hint: string;
+};
 
 @Component({
   selector: 'app-project-card',
@@ -24,6 +40,29 @@ export class ProjectCardComponent implements OnInit {
     OFFERED: 'border-green-500',
     RUNNING: 'border-yellow-500',
     COMPLETED: 'border-gray-500'
+  };
+
+  readonly stateDefinitions: Partial<Record<ProjectState, ProjectStateDefinition>> = {
+    PROPOSED: {
+      class: 'text-blue-500',
+      text: 'Vorschlag',
+      hint: 'Dieses Projekt ist ein Vorschlag. Es wird zu einem verfügbaren Projekt umgeformt, wenn sich ein Lehrender bereiterklärt, dieses zu betreuen'
+    },
+    OFFERED: {
+      class: 'text-green-500',
+      text: 'Verfügbar',
+      hint: 'Dieses Projekt ist verfügbar. Sie können Kontakt zu dem Lehrenden aufnehmen, um sich für dieses Projekt zu bewerben'
+    },
+    RUNNING: {
+      class: 'text-yellow-500',
+      text: 'Laufend',
+      hint: 'Dieses Projekt wird aktuell bearbeitet.'
+    },
+    COMPLETED: {
+      class: 'text-gray-500',
+      text: 'Abgeschlossen',
+      hint: 'Dieses Projekt ist abgeschlossen. Es kann nicht mehr bearbeitet werden.'
+    }
   };
 
   @Input()
@@ -47,6 +86,8 @@ export class ProjectCardComponent implements OnInit {
   bookIcon = faBook;
   timerIcon = faClock;
   paperclipIcon = faPaperclip;
+  circleIcon = faCircle;
+  circleInfoIcon = faCircleInfo;
 
   canCommit = false;
   canStar = false;

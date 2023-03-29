@@ -5,6 +5,14 @@
   <div class="divider"></div>
   <div class="flex flex-col gap-2 items-start">
     <app-project-card-icon-attribute
+      [icon]="circleIcon"
+      [iconClass]="state.class"
+      *ngIf="stateDefinitions[project.status.state]; let state"
+    >
+      <strong>{{ state.text }}</strong>
+      <fa-icon class="relative left-1 bottom-1 text-gray-400 text-xs" [icon]="circleInfoIcon" [matTooltip]="state.hint"></fa-icon>
+    </app-project-card-icon-attribute>
+    <app-project-card-icon-attribute
       [icon]="bookIcon"
       tooltip="Studiengänge"
       *ngIf="project.curriculumContext.disciplines; let disciplines"

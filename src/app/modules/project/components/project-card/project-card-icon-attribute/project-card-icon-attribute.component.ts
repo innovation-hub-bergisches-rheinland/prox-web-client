@@ -11,5 +11,8 @@ export class ProjectCardIconAttributeComponent {
   icon: IconDefinition;
 
   @Input()
+  iconClass = 'text-black';
+
+  @Input()
   tooltip: string;
 }

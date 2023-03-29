@@ -20,7 +20,6 @@
         <strong [innerHTML]="project.partner.name"></strong>
       </a>
     </span>
-    <span class="mt-2" [matTooltip]="project.createdAt | date : 'YYYY-MM-dd'"> {{ project.createdAt | relativeTime }} erstellt </span>
+    <span [matTooltip]="project.createdAt | date : 'YYYY-MM-dd'"> {{ project.createdAt | relativeTime }} erstellt </span>
   </div>
-  <app-project-icons class="basis-1/4 flex-initial" [status]="project.status"></app-project-icons>
 </div>
