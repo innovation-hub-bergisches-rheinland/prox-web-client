@@ -24,7 +24,8 @@ import { Tag } from '@data/schema/tag.types';
 import { UserService } from '@data/service/user.service';
 
 type ProjectStateDefinition = {
-  class: string;
+  iconClass: string;
+  borderClass: string;
   text: string;
   hint: string;
 };
@@ -35,31 +36,28 @@ type ProjectStateDefinition = {
   styleUrls: ['./project-card.component.scss']
 })
 export class ProjectCardComponent implements OnInit {
-  readonly stateClasses: Partial<Record<ProjectState, string>> = {
-    PROPOSED: 'border-blue-500',
-    OFFERED: 'border-green-500',
-    RUNNING: 'border-yellow-500',
-    COMPLETED: 'border-gray-500'
-  };
-
   readonly stateDefinitions: Partial<Record<ProjectState, ProjectStateDefinition>> = {
     PROPOSED: {
-      class: 'text-blue-500',
+      iconClass: 'text-blue-500',
+      borderClass: 'border-blue-500',
       text: 'Vorschlag',
       hint: 'Dieses Projekt ist ein Vorschlag. Es wird zu einem verfügbaren Projekt umgeformt, wenn sich ein Lehrender bereiterklärt, dieses zu betreuen'
     },
     OFFERED: {
-      class: 'text-green-500',
+      iconClass: 'text-green-500',
+      borderClass: 'border-green-500',
       text: 'Verfügbar',
       hint: 'Dieses Projekt ist verfügbar. Sie können Kontakt zu dem Lehrenden aufnehmen, um sich für dieses Projekt zu bewerben'
     },
     RUNNING: {
-      class: 'text-yellow-500',
+      iconClass: 'text-yellow-500',
+      borderClass: 'border-yellow-500',
       text: 'Laufend',
       hint: 'Dieses Projekt wird aktuell bearbeitet.'
     },
     COMPLETED: {
-      class: 'text-gray-500',
+      iconClass: 'text-gray-500',
+      borderClass: 'border-gray-500',
       text: 'Abgeschlossen',
       hint: 'Dieses Projekt ist abgeschlossen. Es kann nicht mehr bearbeitet werden.'
     }

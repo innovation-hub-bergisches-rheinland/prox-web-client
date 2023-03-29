@@ -1,12 +1,12 @@
 <div class="border-2 bg-base-100 shadow-xl p-10">
-  <div class="border-l-4 p-4" [ngClass]="stateClasses[project.status.state]">
+  <div class="border-l-4 p-4" [ngClass]="stateDefinitions[project.status.state].borderClass">
     <app-project-card-header [project]="project"></app-project-card-header>
   </div>
   <div class="divider"></div>
   <div class="flex flex-col gap-2 items-start">
     <app-project-card-icon-attribute
       [icon]="circleIcon"
-      [iconClass]="state.class"
+      [iconClass]="state.iconClass"
       *ngIf="stateDefinitions[project.status.state]; let state"
     >
       <strong>{{ state.text }}</strong>

@@ -1,6 +1,6 @@
 <div class="flex flex-row justify-between">
   <div class="flex flex-col items-start">
-    <strong class="text-lg font-bold text-black basis-3/4">{{ project.title }}</strong>
+    <strong class="text-lg font-bold text-black">{{ project.title }}</strong>
     <span class="text-secondary" matTooltip="Projektbetreuer" *ngIf="project.supervisors">
       <ng-container *ngIf="project.supervisors.length > 0; else noSupervisor">
         <strong>Betreuer: </strong>
