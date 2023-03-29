@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.26.0...v1.27.0) (2023-03-29)
+
+
+### Features
+
+* display some attributes on top of card ([65eac1a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/65eac1a0bfa2d651ebf3d32681e162f9c09faee8))
+* display when no curriculum context is available ([b6320bf](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b6320bfd08ddae3bd1b395be9938115deb510e69))
+* relative time in project card header ([542ab6f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/542ab6ff1e376a16a64b35df6685464eaa9efcc7))
+
 ## [1.26.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.25.1...v1.26.0) (2023-03-21)
 
 
