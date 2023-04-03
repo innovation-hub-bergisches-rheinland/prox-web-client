@@ -1,4 +1,4 @@
-FROM node:16.13.2-alpine as deps
+FROM node:18-alpine as deps
 ENV NODE_ENV=production
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -17,7 +17,7 @@ RUN npm ci --include=dev
 #########################
 
 # base image
-FROM node:16.13.2-alpine as builder
+FROM node:18-alpine as builder
 ENV NODE_ENV=production
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -38,7 +38,7 @@ RUN npm run build:prod
 ##################
 
 # base image
-FROM nginx:1.21.5-alpine
+FROM nginx:1.23-alpine
 
 COPY --from=builder /usr/src/app/dist/prox-web-client /usr/share/nginx/html
 
