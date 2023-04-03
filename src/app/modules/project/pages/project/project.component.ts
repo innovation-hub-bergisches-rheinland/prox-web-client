@@ -110,7 +110,7 @@ export class ProjectComponent implements OnInit {
   }
 
   loadQueryParams(params: QueryParams) {
-    if (!params) {
+    if (!params || Object.keys(params).length === 0) {
       return;
     }
 
