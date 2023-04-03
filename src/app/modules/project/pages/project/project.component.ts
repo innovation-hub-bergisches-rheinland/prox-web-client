@@ -29,7 +29,9 @@ export interface QueryParams {
 })
 export class ProjectComponent implements OnInit {
   activeProjectPage$: Observable<ProjectList>;
-  searchValues: ProjectSearch;
+  searchValues: ProjectSearch = {
+    status: ['PROPOSED', 'OFFERED']
+  };
   canCreateProject = false;
   canCreateProposal = false;
 
