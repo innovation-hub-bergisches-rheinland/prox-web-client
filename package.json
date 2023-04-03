@@ -39,7 +39,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "autolinker": "^4.0.0",
-    "core-js": "^3.28.0",
+    "core-js": "^3.30.0",
     "fuse.js": "^6.6.2",
     "keycloak-angular": "^13.0.0",
     "keycloak-js": "^20.0.3",
