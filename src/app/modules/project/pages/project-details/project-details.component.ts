@@ -18,9 +18,9 @@ export class ProjectDetailsComponent implements OnInit {
   project$: Observable<Project>;
   project: Project;
   tagIds: string[];
+  excludedIds: string[];
 
   constructor(
-    private keycloakService: KeycloakService,
     private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
@@ -41,6 +41,12 @@ export class ProjectDetailsComponent implements OnInit {
       next: res => {
         this.project = res;
         this.tagIds = this.project.tags.map(tag => tag.id);
+        this.excludedIds = [
+          this.project.author.userId,
+          this.project.id,
+          ...(this.project?.supervisors?.map(s => s.id) ?? []),
+          this.project.partner?.id
+        ];
       },
       error: err => {
         this.notificationService.error('Projekt nicht gefunden');

@@ -21,7 +21,7 @@ export interface ProjectPermissions {
 }
 
 export interface ProjectAuthor {
-  id: string;
+  userId: string;
 }
 
 export interface ProjectPartner {

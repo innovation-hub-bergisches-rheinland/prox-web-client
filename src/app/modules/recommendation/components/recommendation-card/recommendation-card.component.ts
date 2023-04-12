@@ -19,6 +19,8 @@ export class RecommendationCardComponent implements OnInit {
 
   @Input() seedTags: string[];
 
+  @Input() excludedIds: string[] = [];
+
   @Input() types: RecommendationType[] = ['project', 'lecturer', 'organization'];
 
   lecturerRecommendations: RecommendationResult<Lecturer> = [];
@@ -36,7 +38,7 @@ export class RecommendationCardComponent implements OnInit {
   constructor(private recommendationService: RecommendationService, private notificationService: NotificationService) {}
 
   ngOnInit(): void {
-    this.recommendationService.getRecommendations(this.seedTags).subscribe({
+    this.recommendationService.getRecommendations(this.seedTags, this.excludedIds).subscribe({
       next: res => {
         this.lecturerRecommendations = res.lecturers;
         this.organizationRecommendations = res.organizations;

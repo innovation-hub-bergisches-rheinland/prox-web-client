@@ -12,7 +12,7 @@
         (deleted)="goBack()"
         (tagClicked)="navigateToTagSearch($event)"
       ></app-project-card>
-      <app-recommendation-card [seedTags]="tagIds"></app-recommendation-card>
+      <app-recommendation-card [seedTags]="tagIds" [excludedIds]="excludedIds"></app-recommendation-card>
     </div>
   </app-content-page-content>
 </app-content-page>

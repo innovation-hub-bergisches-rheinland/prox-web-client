@@ -12,11 +12,14 @@ export class RecommendationService {
 
   constructor(protected httpClient: HttpClient) {}
 
-  getRecommendations(seedTags: string[]): Observable<RecommendationResponse> {
+  getRecommendations(seedTags: string[], excludedIds: string[] = []): Observable<RecommendationResponse> {
     if (!seedTags || seedTags.length === 0) {
       return EMPTY;
     }
-    const params = new HttpParams().set('seedTags', seedTags.join(','));
+    let params = new HttpParams().set('seedTags', seedTags.join(','));
+    if (excludedIds && excludedIds.length > 0) {
+      params = params.set('excludedIds', excludedIds.join(','));
+    }
     return this.httpClient.get<RecommendationResponse>(`${this.basePath}/recommendations`, {
       headers: {
         'Content-Type': 'application/json',
