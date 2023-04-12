@@ -29,6 +29,8 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
 import { TagListComponent } from './components/tag-list/tag-list.component';
 import { RelativeTimePipe } from './pipes/relative-time.pipe';
 import { SortPipe } from './pipes/sort.pipe';
+import { CardComponent } from './components/card/card.component';
+import { PluckPipe } from './pipes/pluck.pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { SortPipe } from './pipes/sort.pipe';
     UserChipInputComponent,
     StatusIconComponent,
     ImageInputComponent,
-    SortPipe
+    SortPipe,
+    CardComponent,
+    PluckPipe
   ],
   imports: [
     CommonModule,
@@ -98,10 +102,13 @@ import { SortPipe } from './pipes/sort.pipe';
     ConfirmationDialogComponent,
     ImageInputComponent,
 
+    CardComponent,
+
     FeatureDirectiveModule,
 
     ErrorsModule,
-    SortPipe
+    SortPipe,
+    PluckPipe
   ]
 })
 export class SharedModule {}

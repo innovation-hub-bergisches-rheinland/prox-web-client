@@ -5,11 +5,18 @@
     </div>
   </app-content-page-header>
   <app-content-page-content>
-    <app-project-card
-      [showDetails]="true"
-      [project]="project"
-      (deleted)="goBack()"
-      (tagClicked)="navigateToTagSearch($event)"
-    ></app-project-card>
+    <div class="flex flex-col gap-4">
+      <app-project-card
+        [showDetails]="true"
+        [project]="project"
+        (deleted)="goBack()"
+        (tagClicked)="navigateToTagSearch($event)"
+      ></app-project-card>
+      <app-recommendation-card
+        *ngIf="project.status.state === 'PROPOSED'"
+        [seedTags]="tagIds"
+        [types]="['lecturer']"
+      ></app-recommendation-card>
+    </div>
   </app-content-page-content>
 </app-content-page>

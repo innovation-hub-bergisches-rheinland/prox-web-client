@@ -1,4 +1,4 @@
-<div class="border-2 bg-base-100 shadow-xl p-10">
+<app-card>
   <div class="border-l-4 p-4" [ngClass]="stateDefinitions[project.status.state].borderClass">
     <app-project-card-header [project]="project"></app-project-card-header>
   </div>
@@ -118,4 +118,4 @@
       </div>
     </div>
   </ng-container>
-</div>
+</app-card>

@@ -16,6 +16,7 @@ import { ProjectSearchPanelComponent } from './components/project-search-panel/p
 import { ProjectCardStatusActionsComponent } from './components/project-card/project-card-status-actions/project-card-status-actions.component';
 import { ProjectEditorMiscComponent } from './components/project-editor/project-editor-misc/project-editor-misc.component';
 import { ProjectCardIconAttributeComponent } from './components/project-card/project-card-icon-attribute/project-card-icon-attribute.component';
+import { RecommendationModule } from '@modules/recommendation/recommendation.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,6 @@ import { ProjectCardIconAttributeComponent } from './components/project-card/pro
     ProjectDetailsComponent,
     ProjectCardIconAttributeComponent
   ],
-  imports: [SharedModule, ProjectRoutingModule, ScrollingModule]
+  imports: [SharedModule, ProjectRoutingModule, ScrollingModule, RecommendationModule]
 })
 export class ProjectModule {}

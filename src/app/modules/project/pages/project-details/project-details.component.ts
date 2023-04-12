@@ -17,6 +17,7 @@ import { Tag } from '@data/schema/tag.types';
 export class ProjectDetailsComponent implements OnInit {
   project$: Observable<Project>;
   project: Project;
+  tagIds: string[];
 
   constructor(
     private keycloakService: KeycloakService,
@@ -39,6 +40,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.project$.subscribe({
       next: res => {
         this.project = res;
+        this.tagIds = this.project.tags.map(tag => tag.id);
       },
       error: err => {
         this.notificationService.error('Projekt nicht gefunden');

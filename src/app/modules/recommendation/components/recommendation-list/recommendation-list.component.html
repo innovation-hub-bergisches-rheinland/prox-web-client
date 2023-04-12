@@ -1,0 +1,7 @@
+<mat-list>
+  <h3 matSubheader>{{ title }}</h3>
+  <div #ref>
+    <ng-content select="app-recommendation-list-entry"></ng-content>
+  </div>
+  <span *ngIf="!ref.children?.length">Es konnten keine Empfehlungen gefunden werden</span>
+</mat-list>

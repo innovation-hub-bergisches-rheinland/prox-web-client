@@ -1,0 +1,5 @@
+<mat-list-item lines="3">
+  <img *ngIf="imgUrl" matListItemAvatar [src]="imgUrl" onerror="this.src='/assets/images/blank-profile-picture.png'" />
+  <h4 matListItemTitle>{{ title }}</h4>
+  <span>{{ tagNames }}</span>
+</mat-list-item>
