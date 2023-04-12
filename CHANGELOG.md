@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.28.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.27.2...v1.28.0) (2023-04-12)
+
+
+### Features
+
+* add confidence scores to recommendations ([c611f4e](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c611f4efc9ac3816ab9578591f685c77888ff93c))
+* exclude some ids from project recommendations ([005110f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/005110f056627aab56439655c15f543bb835a13b))
+* show recommendations for proposals ([c587436](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c58743697505eaa318914ee8c417257cd884e68b))
+* use tab group with banner for recommendations ([8aa061a](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/8aa061ad62ec6c0fe4de5e6bc198f18fd02c6f5c))
+
 ### [1.27.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.27.1...v1.27.2) (2023-04-03)
 
 
