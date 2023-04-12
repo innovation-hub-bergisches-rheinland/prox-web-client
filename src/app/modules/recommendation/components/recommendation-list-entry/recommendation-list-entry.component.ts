@@ -9,8 +9,6 @@ import { Tag } from '@data/schema/tag.types';
 export class RecommendationListEntryComponent {
   @Input() imgUrl: string;
 
-  @Input() title: string;
-
   @Input() tags: Tag[];
 
   get tagNames(): string {

@@ -11,13 +11,13 @@
     <mat-tab *ngIf="types.includes('lecturer')" [label]="'Lehrende ' + '(' + lecturerRecommendations?.length + ')'">
       <app-recommendation-list>
         <app-recommendation-list-entry
-          class="hover:cursor-pointer"
           *ngFor="let lecturer of lecturerRecommendations"
           [imgUrl]="lecturer.item.avatarUrl"
-          [title]="lecturer.item.displayName"
           [tags]="lecturer.item.tags"
           [routerLink]="['/users', lecturer.item.userId]"
-        ></app-recommendation-list-entry>
+        >
+          <a appRecommendationListEntryTitle [routerLink]="['/users', lecturer.item.userId]">{{ lecturer.item.displayName }}</a>
+        </app-recommendation-list-entry>
       </app-recommendation-list>
     </mat-tab>
     <mat-tab
@@ -30,8 +30,9 @@
           [imgUrl]="organization.item.logoUrl"
           [title]="organization.item.name"
           [tags]="organization.item.tags"
-          [routerLink]="['/organizations', organization.item.id]"
-        ></app-recommendation-list-entry>
+        >
+          <a appRecommendationListEntryTitle [routerLink]="['/organizations', organization.item.id]">{{ organization.item.name }}</a>
+        </app-recommendation-list-entry>
       </app-recommendation-list>
     </mat-tab>
     <mat-tab *ngIf="types.includes('project')" [label]="'Projekte ' + '(' + projectRecommendations?.length + ')'">
@@ -40,8 +41,9 @@
           *ngFor="let project of projectRecommendations"
           [title]="project.item.title"
           [tags]="project.item.tags"
-          [routerLink]="['/projects', project.item.id]"
-        ></app-recommendation-list-entry>
+        >
+          <a appRecommendationListEntryTitle [routerLink]="['/projects', project.item.id]">{{ project.item.title }}</a>
+        </app-recommendation-list-entry>
       </app-recommendation-list>
     </mat-tab>
   </mat-tab-group>

@@ -1,5 +1,7 @@
 <mat-list-item lines="3">
   <img matListItemAvatar class="object-cover" *ngIf="imgUrl" [src]="imgUrl" onerror="this.src='/assets/images/blank-profile-picture.png'" />
-  <h4 matListItemTitle>{{ title }}</h4>
+  <h4 matListItemTitle>
+    <ng-content select="[appRecommendationListEntryTitle]"></ng-content>
+  </h4>
   <span>{{ tagNames }}</span>
 </mat-list-item>
