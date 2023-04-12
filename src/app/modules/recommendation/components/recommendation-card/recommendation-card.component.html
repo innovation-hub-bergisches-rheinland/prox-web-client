@@ -1,8 +1,15 @@
 <app-card>
   <h2>Empfehlungen</h2>
-  <div class="flex flex-row justify-between gap-2">
-    <ng-container *ngIf="types.includes('lecturer')">
-      <app-recommendation-list class="basis-1/3" title="Lehrende">
+  <app-text-banner>
+    In diesem Bereich finden Sie Empfehlungen für Lehrende, Unternehmen und Projekte, die passende Ergänzungen wären. Sie können diese bspw.
+    dafür nutzen, um Kontakt zu einem Lehrenden als Betreuer aufzunehmen, Kooperationen mit Projektpartnern anzufragen oder Verbundprojekte
+    zu gestalten.
+    <br />
+    Als primäre Datenbasis dafür werden Tags verwendet, die in PROX hinterlegt werden.
+  </app-text-banner>
+  <mat-tab-group class="mt-2">
+    <mat-tab *ngIf="types.includes('lecturer')" [label]="'Lehrende ' + '(' + lecturerRecommendations?.length + ')'">
+      <app-recommendation-list>
         <app-recommendation-list-entry
           class="hover:cursor-pointer"
           *ngFor="let lecturer of lecturerRecommendations"
@@ -12,9 +19,12 @@
           [routerLink]="['/users', lecturer.item.userId]"
         ></app-recommendation-list-entry>
       </app-recommendation-list>
-    </ng-container>
-    <ng-container *ngIf="types.includes('organization')">
-      <app-recommendation-list class="basis-1/3" title="Unternehmen und Organisationen">
+    </mat-tab>
+    <mat-tab
+      *ngIf="types.includes('organization')"
+      [label]="'Unternehmen und Organisationen ' + '(' + organizationRecommendations?.length + ')'"
+    >
+      <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let organization of organizationRecommendations"
           [imgUrl]="organization.item.logoUrl"
@@ -23,9 +33,9 @@
           [routerLink]="['/organizations', organization.item.id]"
         ></app-recommendation-list-entry>
       </app-recommendation-list>
-    </ng-container>
-    <ng-container *ngIf="types.includes('project')">
-      <app-recommendation-list class="basis-1/3" title="Projekte">
+    </mat-tab>
+    <mat-tab *ngIf="types.includes('project')" [label]="'Projekte ' + '(' + projectRecommendations?.length + ')'">
+      <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let project of projectRecommendations"
           [title]="project.item.title"
@@ -33,9 +43,6 @@
           [routerLink]="['/projects', project.item.id]"
         ></app-recommendation-list-entry>
       </app-recommendation-list>
-    </ng-container>
-  </div>
-
-  <ng-template #noTags>Es können keine Empfehlungen angezeigt werden, da keine Tags angegeben wurden.</ng-template>
-  <ng-template #noRecommendations>Es konnten keine Empfehlungen identifiziert werden.</ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </app-card>

@@ -6,6 +6,4 @@ import { RecommendationListEntryComponent } from '../recommendation-list-entry/r
   templateUrl: './recommendation-list.component.html',
   styleUrls: ['./recommendation-list.component.scss']
 })
-export class RecommendationListComponent {
-  @Input() title: string;
-}
+export class RecommendationListComponent {}

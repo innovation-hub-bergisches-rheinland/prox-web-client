@@ -31,6 +31,7 @@ import { RelativeTimePipe } from './pipes/relative-time.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 import { CardComponent } from './components/card/card.component';
 import { PluckPipe } from './pipes/pluck.pipe';
+import { TextBannerComponent } from './components/text-banner/text-banner.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { PluckPipe } from './pipes/pluck.pipe';
     ImageInputComponent,
     SortPipe,
     CardComponent,
-    PluckPipe
+    PluckPipe,
+    TextBannerComponent
   ],
   imports: [
     CommonModule,
@@ -101,6 +103,7 @@ import { PluckPipe } from './pipes/pluck.pipe';
     LoggerModule,
     ConfirmationDialogComponent,
     ImageInputComponent,
+    TextBannerComponent,
 
     CardComponent,
 

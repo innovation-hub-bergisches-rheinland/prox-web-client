@@ -12,11 +12,7 @@
         (deleted)="goBack()"
         (tagClicked)="navigateToTagSearch($event)"
       ></app-project-card>
-      <app-recommendation-card
-        *ngIf="project.status.state === 'PROPOSED'"
-        [seedTags]="tagIds"
-        [types]="['lecturer']"
-      ></app-recommendation-card>
+      <app-recommendation-card [seedTags]="tagIds"></app-recommendation-card>
     </div>
   </app-content-page-content>
 </app-content-page>

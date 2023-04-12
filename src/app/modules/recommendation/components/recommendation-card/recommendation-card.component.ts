@@ -18,9 +18,9 @@ export class RecommendationCardComponent implements OnInit {
 
   @Input() types: RecommendationType[] = ['project', 'lecturer', 'organization'];
 
-  lecturerRecommendations: RecommendationResult<Lecturer>;
-  organizationRecommendations: RecommendationResult<Organization>;
-  projectRecommendations: RecommendationResult<Project>;
+  lecturerRecommendations: RecommendationResult<Lecturer> = [];
+  organizationRecommendations: RecommendationResult<Organization> = [];
+  projectRecommendations: RecommendationResult<Project> = [];
 
   get hasRecommendations(): boolean {
     return (
