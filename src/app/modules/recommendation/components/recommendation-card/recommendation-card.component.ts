@@ -4,6 +4,7 @@ import { Organization } from '@data/schema/organization.types';
 import { Project } from '@data/schema/project.types';
 import { RecommendationResult } from '@data/schema/recommendation.types';
 import { RecommendationService } from '@data/service/recommendation.service';
+import { faHatWizard, faMagic, faMagicWandSparkles } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 type RecommendationType = 'project' | 'lecturer' | 'organization';
@@ -14,6 +15,8 @@ type RecommendationType = 'project' | 'lecturer' | 'organization';
   styleUrls: ['./recommendation-card.component.scss']
 })
 export class RecommendationCardComponent implements OnInit {
+  recommendationIcon = faMagicWandSparkles;
+
   @Input() seedTags: string[];
 
   @Input() types: RecommendationType[] = ['project', 'lecturer', 'organization'];
