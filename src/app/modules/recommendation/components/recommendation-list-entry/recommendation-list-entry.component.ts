@@ -11,6 +11,8 @@ export class RecommendationListEntryComponent {
 
   @Input() tags: Tag[];
 
+  @Input() score: number;
+
   get tagNames(): string {
     return this.tags.map(tag => tag.tagName).join(', ') || 'Keine Tags';
   }

@@ -12,6 +12,7 @@
       <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let lecturer of lecturerRecommendations"
+          [score]="lecturer.confidenceScore"
           [imgUrl]="lecturer.item.avatarUrl"
           [tags]="lecturer.item.tags"
           [routerLink]="['/users', lecturer.item.userId]"
@@ -27,6 +28,7 @@
       <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let organization of organizationRecommendations"
+          [score]="organization.confidenceScore"
           [imgUrl]="organization.item.logoUrl"
           [title]="organization.item.name"
           [tags]="organization.item.tags"
@@ -39,6 +41,7 @@
       <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let project of projectRecommendations"
+          [score]="project.confidenceScore"
           [title]="project.item.title"
           [tags]="project.item.tags"
         >

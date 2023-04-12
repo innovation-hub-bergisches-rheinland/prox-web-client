@@ -1,6 +1,7 @@
 <mat-list-item lines="3">
   <img matListItemAvatar class="object-cover" *ngIf="imgUrl" [src]="imgUrl" onerror="this.src='/assets/images/blank-profile-picture.png'" />
   <h4 matListItemTitle>
+    <span class="text-green-700 mr-2">({{ score | percent }})</span>
     <ng-content select="[appRecommendationListEntryTitle]"></ng-content>
   </h4>
   <span>{{ tagNames }}</span>
