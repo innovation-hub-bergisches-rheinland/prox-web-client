@@ -46,7 +46,7 @@ export class RecommendationCardComponent implements OnInit {
       },
       error: err => {
         console.error(err);
-        this.notificationService.error('Fehler beim Laden der Empfehlungen');
+        this.notificationService.error('Empfehlungen können aktuell nicht geladen werden.');
       }
     });
   }
