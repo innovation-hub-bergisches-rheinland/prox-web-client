@@ -8,7 +8,11 @@
     Als primäre Datenbasis dafür werden Tags verwendet, die in PROX hinterlegt werden.
   </app-text-banner>
   <mat-tab-group class="mt-2">
-    <mat-tab *ngIf="types.includes('lecturer')" [label]="'Lehrende ' + '(' + lecturerRecommendations?.length + ')'">
+    <mat-tab
+      *ngIf="types.includes('lecturer')"
+      [label]="'Lehrende ' + '(' + lecturerRecommendations?.length + ')'"
+      [disabled]="lecturerRecommendations?.length === 0"
+    >
       <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let lecturer of lecturerRecommendations"
@@ -24,6 +28,7 @@
     <mat-tab
       *ngIf="types.includes('organization')"
       [label]="'Unternehmen und Organisationen ' + '(' + organizationRecommendations?.length + ')'"
+      [disabled]="organizationRecommendations?.length === 0"
     >
       <app-recommendation-list>
         <app-recommendation-list-entry
@@ -37,7 +42,11 @@
         </app-recommendation-list-entry>
       </app-recommendation-list>
     </mat-tab>
-    <mat-tab *ngIf="types.includes('project')" [label]="'Projekte ' + '(' + projectRecommendations?.length + ')'">
+    <mat-tab
+      *ngIf="types.includes('project')"
+      [label]="'Projekte ' + '(' + projectRecommendations?.length + ')'"
+      [disabled]="projectRecommendations?.length === 0"
+    >
       <app-recommendation-list>
         <app-recommendation-list-entry
           *ngFor="let project of projectRecommendations"
