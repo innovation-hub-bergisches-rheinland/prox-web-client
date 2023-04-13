@@ -43,8 +43,6 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (tags: string[]) => {};
 
-  // TODO: For better maintainability and extensibility we should not use the tagservice here..
-
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
 
@@ -92,15 +90,17 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   }
 
   addTag(tag: string) {
-    if (!!tag && !this._tags.some(t => t === tag)) {
-      this._tags = [...this._tags, tag];
+    const sluggedTag = this.slugify(tag);
+
+    if (!!sluggedTag && !this._tags.some(t => t === sluggedTag)) {
+      this._tags = [...this._tags, sluggedTag];
       this.onChange(this._tags);
       this.tags$.next(this._tags);
     }
   }
 
   addTagEvent(event: MatChipInputEvent) {
-    const input = event.input;
+    const input = event.chipInput.inputElement;
     const value = event.value;
 
     if ((value || '').trim()) {
@@ -120,5 +120,16 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
     this.tagInputCtrl.setValue('', { emitEvent: false });
+  }
+
+  private slugify(str: string): string {
+    return str
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
   }
 }
