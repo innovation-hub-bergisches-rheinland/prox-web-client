@@ -48,8 +48,13 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.tagRecommendations$ = this.tags$.pipe(
-      filter(tags => tags.length > 0),
-      mergeMap(tags => this.tagService.getRecommendations(tags)),
+      mergeMap(tags => {
+        if (tags.length > 0) {
+          return this.tagService.getRecommendations(tags);
+        } else {
+          return of([]);
+        }
+      }),
       map(tags => tags.map(t => t.tagName)),
       catchError(err => {
         this.notificationService.warning('Tag Empfehlungen können aktuell nicht geladen werden.');
