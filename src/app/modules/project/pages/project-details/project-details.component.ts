@@ -5,7 +5,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { ProjectService } from '@data/service/project.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Title } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, map, mergeMap } from 'rxjs';
 import { Project } from '@data/schema/project.types';
 import { Tag } from '@data/schema/tag.types';
 
@@ -30,8 +30,8 @@ export class ProjectDetailsComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const projectId = this.route.snapshot.paramMap.get('id');
-    this.project$ = this.projectService.getProject(projectId);
+    const projectId$: Observable<string> = this.route.params.pipe(map(params => params.id));
+    this.project$ = projectId$.pipe(mergeMap(id => this.projectService.getProject(id)));
 
     this.project$.subscribe(project => {
       this.updateTitle(project);
