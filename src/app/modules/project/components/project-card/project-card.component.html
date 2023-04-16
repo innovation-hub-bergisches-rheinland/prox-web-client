@@ -1,5 +1,5 @@
 <app-card>
-  <div class="border-l-4 p-4" [ngClass]="stateDefinitions[project.status.state].borderClass">
+  <div class="border-l-4 p-4" [ngClass]="stateDefinitions[project.status.state]?.borderClass">
     <app-project-card-header [project]="project"></app-project-card-header>
   </div>
   <div class="divider"></div>

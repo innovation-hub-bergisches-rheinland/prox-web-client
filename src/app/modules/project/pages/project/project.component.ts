@@ -121,7 +121,7 @@ export class ProjectComponent implements OnInit {
 
     // TODO: This can't be right. There must be a better way to do this.
     const search: ProjectSearch = {
-      status: parseArray(params?.state),
+      status: parseArray(params?.state) || ['PROPOSED', 'OFFERED'],
       disciplines: parseArray(params?.discipline),
       moduleTypes: parseArray(params?.moduleType),
       tags: parseArray(params?.tags),
