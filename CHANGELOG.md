@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.28.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.28.0...v1.28.1) (2023-04-16)
+
+
+### Bug Fixes
+
+* default values for state ([e2e2424](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/e2e24246fc8d7cd96a7a88060b4dc3d999ffe125))
+* fetch id using observable ([cfac4f3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/cfac4f3bd096e75783e277ed2999788f88f0e04b))
+* hide tag recommendations when no tag is present ([38915b8](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/38915b844ae278586e8a87c47a4e23e5b6ef1c63))
+
 ## [1.28.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.27.2...v1.28.0) (2023-04-12)
 
 
