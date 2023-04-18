@@ -19,7 +19,6 @@
           [score]="lecturer.confidenceScore"
           [imgUrl]="lecturer.item.avatarUrl"
           [tags]="lecturer.item.tags"
-          [routerLink]="['/users', lecturer.item.userId]"
         >
           <a appRecommendationListEntryTitle [routerLink]="['/users', lecturer.item.userId]">{{ lecturer.item.displayName }}</a>
         </app-recommendation-list-entry>
