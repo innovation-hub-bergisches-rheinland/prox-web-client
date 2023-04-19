@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: () => import('@modules/home/home.module').then(m => m.HomeModule)
       },
       {
+        path: 'administration',
+        title: 'PROX - Administration',
+        loadChildren: () => import('./modules/administration/administration.module').then(m => m.AdministrationModule)
+      },
+      {
         path: 'settings',
         title: 'PROX - Settings',
         loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule)

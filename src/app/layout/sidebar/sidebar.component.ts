@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { faChalkboardTeacher, faFile, faHome, faIndustry, faLightbulb, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboardTeacher, faFile, faHome, faIndustry, faLightbulb, faQuestion, faTag, faTags } from '@fortawesome/free-solid-svg-icons';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,13 +15,18 @@ export class SidebarComponent implements OnInit {
   lecturersIcon = faChalkboardTeacher;
   faqIcon = faQuestion;
 
+  isAdmin = false;
+  tagIcon = faTags;
+
   @Output()
   backClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   @Output()
   navigationItemClicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  constructor() {}
+  constructor(private keycloakService: KeycloakService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isAdmin = this.keycloakService.isUserInRole('admin');
+  }
 }
