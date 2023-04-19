@@ -65,4 +65,16 @@ export class TagService {
       }
     );
   }
+
+  merge(source: string, target: string): Observable<Tag[]> {
+    return this.httpClient.post<Tag[]>(`${this.basePath}/tags/${source}/merge`, {
+      mergeInto: target
+    });
+  }
+
+  updateAliases(tag: string, aliases: string[]): Observable<Tag[]> {
+    return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}/aliases`, {
+      aliases
+    });
+  }
 }

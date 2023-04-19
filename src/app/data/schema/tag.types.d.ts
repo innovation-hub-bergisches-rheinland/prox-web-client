@@ -1,6 +1,7 @@
 export interface Tag {
   id: string;
   tagName: string;
+  aliases: string[];
 }
 
 export interface SynchronizeTagsResponse {
