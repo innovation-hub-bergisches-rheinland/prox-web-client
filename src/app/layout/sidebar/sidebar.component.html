@@ -50,7 +50,7 @@
     <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide px-4">Administration</h3>
     <ul>
       <li>
-        <a routerLink="/administration" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
+        <a [routerLink]="['/administration', 'tag-curation']" routerLinkActive="bg-base-200" (click)="navigationItemClicked.emit($event)">
           <fa-icon [icon]="tagIcon" [fixedWidth]="true"></fa-icon>
           Tag-Kuration
         </a>
