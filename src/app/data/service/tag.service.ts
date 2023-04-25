@@ -3,7 +3,7 @@ import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
 import { SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
-import { Page } from '@data/schema/shared.types';
+import { Page, PageRequest } from '@data/schema/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +13,33 @@ export class TagService {
 
   constructor(protected httpClient: HttpClient) {}
 
-  findTags(query?: string): Observable<Tag[]> {
+  findTags(query?: string, pagination?: PageRequest): Observable<Tag[]> {
+    return this.findTagsPage(query, pagination).pipe(map(page => page.content));
+  }
+
+  findTagsPage(query?: string, pagination?: PageRequest): Observable<Page<Tag>> {
     let params = new HttpParams();
     if (query) {
       params = params.set('q', query);
     }
-    return this.httpClient
-      .get<Page<Tag>>(`${this.basePath}/tags`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        params: params,
-        observe: 'body',
-        reportProgress: false
-      })
-      .pipe(map(page => page.content));
+    if (pagination.size) {
+      params = params.set('size', pagination.size);
+    }
+    if (pagination.page) {
+      params = params.set('page', pagination.page);
+    }
+    if (pagination.sort) {
+      params = params.set('sort', pagination.sort);
+    }
+    return this.httpClient.get<Page<Tag>>(`${this.basePath}/tags`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      params: params,
+      observe: 'body',
+      reportProgress: false
+    });
   }
 
   getRecommendations(input: string[]): Observable<Tag[]> {
