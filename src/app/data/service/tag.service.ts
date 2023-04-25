@@ -22,13 +22,13 @@ export class TagService {
     if (query) {
       params = params.set('q', query);
     }
-    if (pagination.size) {
+    if (pagination?.size) {
       params = params.set('size', pagination.size);
     }
-    if (pagination.page) {
+    if (pagination?.page) {
       params = params.set('page', pagination.page);
     }
-    if (pagination.sort) {
+    if (pagination?.sort) {
       params = params.set('sort', pagination.sort);
     }
     return this.httpClient.get<Page<Tag>>(`${this.basePath}/tags`, {

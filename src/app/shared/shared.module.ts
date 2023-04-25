@@ -32,6 +32,7 @@ import { SortPipe } from './pipes/sort.pipe';
 import { CardComponent } from './components/card/card.component';
 import { PluckPipe } from './pipes/pluck.pipe';
 import { TextBannerComponent } from './components/text-banner/text-banner.component';
+import { TagSelectionComponent } from './components/tag-selection/tag-selection.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { TextBannerComponent } from './components/text-banner/text-banner.compon
     SortPipe,
     CardComponent,
     PluckPipe,
-    TextBannerComponent
+    TextBannerComponent,
+    TagSelectionComponent
   ],
   imports: [
     CommonModule,
@@ -104,6 +106,7 @@ import { TextBannerComponent } from './components/text-banner/text-banner.compon
     ConfirmationDialogComponent,
     ImageInputComponent,
     TextBannerComponent,
+    TagSelectionComponent,
 
     CardComponent,
 
