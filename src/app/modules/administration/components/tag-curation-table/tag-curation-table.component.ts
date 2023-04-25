@@ -7,18 +7,15 @@ import { debounceTime, delay, merge, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Tag } from '@data/schema/tag.types';
 import { MatSort } from '@angular/material/sort';
+import { faCodeMerge } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { TagMergeDialogComponent, TagMergeDialogData, TagMergeDialogResult } from '../tag-merge-dialog/tag-merge-dialog.component';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Component({
   selector: 'app-tag-curation-table',
   templateUrl: './tag-curation-table.component.html',
-  styleUrls: [],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ])
-  ]
+  styleUrls: []
 })
 export class TagCurationTableComponent implements AfterViewInit, OnInit {
   dataSource: TagsDataSource;
@@ -30,7 +27,9 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private tagService: TagService) {}
+  faMerge = faCodeMerge;
+
+  constructor(private tagService: TagService, private dialog: MatDialog, private notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.dataSource = new TagsDataSource(this.tagService);
@@ -56,5 +55,27 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
     const sort = this.sort.active !== undefined ? this.sort.active + ',' + this.sort.direction : undefined;
 
     this.dataSource.loadTags(filter, this.paginator.pageIndex, this.paginator.pageSize, sort);
+  }
+
+  openMergeDialog(tag: Tag) {
+    const dialogRef = this.dialog.open(TagMergeDialogComponent, {
+      width: '500px',
+      data: { tagToMerge: tag } satisfies TagMergeDialogData
+    });
+
+    dialogRef.afterClosed().subscribe((result: TagMergeDialogResult) => {
+      if (result) {
+        console.log(result);
+        this.tagService.merge(result.tagToMerge.id, result.targetTag.id).subscribe({
+          next: () => {
+            this.loadTags();
+          },
+          error: err => {
+            console.log(err);
+            this.notificationService.error('Fehler beim Zusammenführen der Tags');
+          }
+        });
+      }
+    });
   }
 }
