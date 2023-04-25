@@ -65,7 +65,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
       debounceTime(300),
       startWith(''),
       filter(input => !!input),
-      mergeMap(input => this.tagService.findMatching(input)),
+      mergeMap(input => this.tagService.findTags(input)),
       map(tags => tags.map(t => t.tagName)),
       delay(200),
       catchError(err => {

@@ -13,8 +13,11 @@ export class TagService {
 
   constructor(protected httpClient: HttpClient) {}
 
-  findMatching(query: string): Observable<Tag[]> {
-    const params = new HttpParams().set('q', query);
+  findTags(query?: string): Observable<Tag[]> {
+    let params = new HttpParams();
+    if (query) {
+      params = params.set('q', query);
+    }
     return this.httpClient
       .get<Page<Tag>>(`${this.basePath}/tags`, {
         headers: {
