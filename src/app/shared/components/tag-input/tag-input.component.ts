@@ -95,7 +95,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   }
 
   addTag(tag: string) {
-    const sluggedTag = this.slugify(tag);
+    const sluggedTag = this.tagService.slugify(tag);
 
     if (!!sluggedTag && !this._tags.some(t => t === sluggedTag)) {
       this._tags = [...this._tags, sluggedTag];
@@ -125,16 +125,5 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
     this.addTag(selectedTag);
     this.tagInput.nativeElement.value = '';
     this.tagInputCtrl.setValue('', { emitEvent: false });
-  }
-
-  private slugify(str: string): string {
-    return str
-      .trim()
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9 -]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-');
   }
 }
