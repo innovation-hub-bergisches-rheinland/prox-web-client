@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
 import { SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
+import { Page } from '@data/schema/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,39 +15,45 @@ export class TagService {
 
   findMatching(query: string): Observable<Tag[]> {
     const params = new HttpParams().set('q', query);
-    return this.httpClient.get<Tag[]>(`${this.basePath}/tags`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      params: params,
-      observe: 'body',
-      reportProgress: false
-    });
+    return this.httpClient
+      .get<Page<Tag>>(`${this.basePath}/tags`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        params: params,
+        observe: 'body',
+        reportProgress: false
+      })
+      .pipe(map(page => page.content));
   }
 
   getRecommendations(input: string[]): Observable<Tag[]> {
     const params = new HttpParams().set('tags', input.join(','));
-    return this.httpClient.get<Tag[]>(`${this.basePath}/tags/recommendations`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      params,
-      observe: 'body',
-      reportProgress: false
-    });
+    return this.httpClient
+      .get<Page<Tag>>(`${this.basePath}/tags/recommendations`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        params,
+        observe: 'body',
+        reportProgress: false
+      })
+      .pipe(map(page => page.content));
   }
 
   getPopular(): Observable<Tag[]> {
-    return this.httpClient.get<Tag[]>(`${this.basePath}/tags/popular`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      observe: 'body',
-      reportProgress: false
-    });
+    return this.httpClient
+      .get<Page<Tag>>(`${this.basePath}/tags/popular`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        observe: 'body',
+        reportProgress: false
+      })
+      .pipe(map(page => page.content));
   }
 
   synchronize(tags: string[]): Observable<SynchronizeTagsResponse> {
