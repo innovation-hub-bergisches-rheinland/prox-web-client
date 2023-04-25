@@ -5,12 +5,13 @@ import { TagsDataSource } from './tags-data-source';
 import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, delay, merge, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Tag } from '@data/schema/tag.types';
+import { Tag, UpdateTagRequest } from '@data/schema/tag.types';
 import { MatSort } from '@angular/material/sort';
-import { faCodeMerge } from '@fortawesome/free-solid-svg-icons';
+import { faCodeMerge, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TagMergeDialogComponent, TagMergeDialogData, TagMergeDialogResult } from '../tag-merge-dialog/tag-merge-dialog.component';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
+import { TagEditDialogComponent, TagEditResult, TagUpdateDialogData } from '../tag-edit-dialog/tag-edit-dialog.component';
 
 @Component({
   selector: 'app-tag-curation-table',
@@ -28,6 +29,7 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   faMerge = faCodeMerge;
+  faEdit = faEdit;
 
   constructor(private tagService: TagService, private dialog: MatDialog, private notificationService: NotificationService) {}
 
@@ -73,6 +75,28 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
           error: err => {
             console.log(err);
             this.notificationService.error('Fehler beim Zusammenführen der Tags');
+          }
+        });
+      }
+    });
+  }
+
+  openEditDialog(tag: Tag) {
+    const dialogRef = this.dialog.open(TagEditDialogComponent, {
+      width: '500px',
+      data: { tag } satisfies TagUpdateDialogData
+    });
+
+    dialogRef.afterClosed().subscribe((result: TagEditResult) => {
+      if (result) {
+        console.log(result);
+        this.tagService.updateTag(result.tag.id, result.updatedTag).subscribe({
+          next: () => {
+            this.loadTags();
+          },
+          error: err => {
+            console.log(err);
+            this.notificationService.error('Fehler beim Editieren des Tags');
           }
         });
       }

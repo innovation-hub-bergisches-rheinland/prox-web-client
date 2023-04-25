@@ -33,6 +33,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
       <td mat-cell *matCellDef="let element">
+        <button mat-icon-button matTooltip="Tag bearbeiten" (click)="openEditDialog(element)">
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
         <button mat-icon-button matTooltip="Tag mergen" (click)="openMergeDialog(element)">
           <fa-icon [icon]="faMerge"></fa-icon>
         </button>

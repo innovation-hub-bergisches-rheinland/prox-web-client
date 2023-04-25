@@ -33,6 +33,13 @@ import { CardComponent } from './components/card/card.component';
 import { PluckPipe } from './pipes/pluck.pipe';
 import { TextBannerComponent } from './components/text-banner/text-banner.component';
 import { TagSelectionComponent } from './components/tag-selection/tag-selection.component';
+import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+
+const appearance: MatFormFieldDefaultOptions = {
+  appearance: 'outline'
+};
 
 @NgModule({
   declarations: [
@@ -115,6 +122,23 @@ import { TagSelectionComponent } from './components/tag-selection/tag-selection.
     ErrorsModule,
     SortPipe,
     PluckPipe
+  ],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: appearance
+    },
+    {
+      provide: MAT_CHIPS_DEFAULT_OPTIONS,
+      useValue: {
+        separatorKeyCodes: [
+          COMMA,
+          ENTER,
+          13, // numpad enter
+          108 // numpad comma
+        ]
+      }
+    }
   ]
 })
 export class SharedModule {}

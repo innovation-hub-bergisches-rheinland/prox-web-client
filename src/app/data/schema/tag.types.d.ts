@@ -11,3 +11,8 @@ export interface SynchronizeTagsResponse {
 export interface SynchronizeTagsRequest {
   tags: string[];
 }
+
+export interface UpdateTagRequest {
+  aliases: string[];
+  tagName: string;
+}

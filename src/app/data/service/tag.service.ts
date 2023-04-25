@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
-import { SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
+import { SynchronizeTagsResponse, Tag, UpdateTagRequest } from '@data/schema/tag.types';
 import { Page, PageRequest } from '@data/schema/shared.types';
 
 @Injectable({
@@ -93,10 +93,8 @@ export class TagService {
     });
   }
 
-  updateAliases(tag: string, aliases: string[]): Observable<Tag[]> {
-    return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}/aliases`, {
-      aliases
-    });
+  updateTag(tag: string, body: UpdateTagRequest): Observable<Tag[]> {
+    return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}`, body);
   }
 
   slugify(str: string): string {
