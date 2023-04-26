@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, Subject, delay, mergeMap, of } from 'rxjs'
 import { catchError, debounceTime, filter, map, startWith } from 'rxjs/operators';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-tag-input',
@@ -34,8 +35,8 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   tagInputCtrl = new UntypedFormControl('');
   _tags: string[] = [];
   tags$: Subject<string[]> = new BehaviorSubject(this._tags);
-  tagRecommendations$: Observable<string[]>;
-  tagAutocomplete$: Observable<string[]>;
+  tagRecommendations$: Observable<Tag[]>;
+  tagAutocomplete$: Observable<Tag[]>;
 
   //  leverage angular directives, components, inputs and outputs or so...
   constructor(private tagService: TagService, private notificationService: NotificationService) {}
@@ -55,7 +56,6 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
           return of([]);
         }
       }),
-      map(tags => tags.map(t => t.tagName)),
       catchError(err => {
         this.notificationService.warning('Tag Empfehlungen können aktuell nicht geladen werden.');
         return of([]);
@@ -66,7 +66,6 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
       startWith(''),
       filter(input => !!input),
       mergeMap(input => this.tagService.findTags(input)),
-      map(tags => tags.map(t => t.tagName)),
       delay(200),
       catchError(err => {
         this.notificationService.warning('Tag Vorschäge können aktuell nicht geladen werden.');

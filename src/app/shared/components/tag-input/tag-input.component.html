@@ -6,8 +6,8 @@
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip-row>
 
-    <mat-chip-row *ngFor="let tag of tagRecommendations$ | async" (click)="addTag(tag)" class="recommended-tag">
-      {{ tag }}
+    <mat-chip-row *ngFor="let tag of tagRecommendations$ | async" (click)="addTag(tag.tagName)" class="recommended-tag">
+      {{ tag.tagName }}
     </mat-chip-row>
 
     <input
@@ -22,8 +22,8 @@
   </mat-chip-grid>
 
   <mat-autocomplete #tagAuto="matAutocomplete" (optionSelected)="selectedTag($event)">
-    <mat-option *ngFor="let tag of tagAutocomplete$ | async" [value]="tag">
-      {{ tag }}
+    <mat-option *ngFor="let tag of tagAutocomplete$ | async" [value]="tag.tagName">
+      {{ tag.tagName }} <span class="text-stone-400" *ngIf="tag.count > 0">(x{{ tag.count }})</span>
     </mat-option>
   </mat-autocomplete>
   <mat-hint>Trennen der Eingabe mit Enter oder Komma</mat-hint>
