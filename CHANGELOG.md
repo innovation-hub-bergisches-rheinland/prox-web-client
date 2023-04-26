@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.29.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.28.1...v1.29.0) (2023-04-26)
+
+
+### Features
+
+* allow administrators to merge tags ([7902781](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/79027812d3e0bf1be6d52811653886d166800903))
+* allow editing tags ([1d8260f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/1d8260f919b6df70dc99e792633cf129f3abca83))
+* display usage count in curation table ([1f8b8ad](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/1f8b8ad7f3bc2eeaa17c4a4c14948a62e1a8ded8))
+* show usage count in tag autocompletion ([c33ccfe](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c33ccfea7b53dfd2ddf94f3a7db008050c677ceb))
+
+
+### Bug Fixes
+
+* remove routerlink from list entry ([adc752f](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/adc752f75a6373959dcd0827efac9785a03f2c6b))
+
 ### [1.28.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.28.0...v1.28.1) (2023-04-16)
 
 
