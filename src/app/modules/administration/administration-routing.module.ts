@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdministrationComponent } from './administration.component';
+import { TagCurationComponent } from './pages/tag-curation/tag-curation.component';
 
-const routes: Routes = [{ path: '', component: AdministrationComponent }];
+const routes: Routes = [{ path: 'tag-curation', component: TagCurationComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -1,0 +1,29 @@
+<div class="project-dialog">
+  <h1 mat-dialog-title>Tag bearbeiten</h1>
+
+  <mat-dialog-content>
+    <div class="p-4 flex flex-col gap-2">
+      <form [formGroup]="formGroup">
+        <mat-form-field class="w-full">
+          <mat-label>Tag-Name</mat-label>
+          <input matInput formControlName="tagName" />
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Aliase</mat-label>
+          <mat-chip-grid #aliasGrid formControlName="aliases">
+            <mat-chip-row *ngFor="let alias of formGroup.controls.aliases.value" (removed)="remove(alias)">
+              {{ alias }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="Neuer Alias..." [matChipInputFor]="aliasGrid" (matChipInputTokenEnd)="add($event)" />
+          </mat-chip-grid>
+        </mat-form-field>
+      </form>
+      <div class="flex flex-row justify-end">
+        <button mat-raised-button color="primary" (click)="close()" [disabled]="formGroup.invalid">Tag Speichern</button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ContentLayoutComponent } from '@layout/content-layout/content-layout.component';
 import { FeatureGuard } from './core/guard/feature.guard';
+import { AuthGuard } from '@app/guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -24,7 +25,11 @@ const routes: Routes = [
       {
         path: 'administration',
         title: 'PROX - Administration',
-        loadChildren: () => import('./modules/administration/administration.module').then(m => m.AdministrationModule)
+        loadChildren: () => import('./modules/administration/administration.module').then(m => m.AdministrationModule),
+        canActivate: [AuthGuard],
+        data: {
+          roles: ['admin']
+        }
       },
       {
         path: 'settings',

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '@env';
-import { SynchronizeTagsResponse, Tag } from '@data/schema/tag.types';
+import { SynchronizeTagsResponse, Tag, UpdateTagRequest } from '@data/schema/tag.types';
+import { Page, PageRequest } from '@data/schema/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,25 @@ export class TagService {
 
   constructor(protected httpClient: HttpClient) {}
 
-  findMatching(query: string): Observable<Tag[]> {
-    const params = new HttpParams().set('q', query);
-    return this.httpClient.get<Tag[]>(`${this.basePath}/tags`, {
+  findTags(query?: string, pagination?: PageRequest): Observable<Tag[]> {
+    return this.findTagsPage(query, pagination).pipe(map(page => page.content));
+  }
+
+  findTagsPage(query?: string, pagination?: PageRequest): Observable<Page<Tag>> {
+    let params = new HttpParams();
+    if (query) {
+      params = params.set('q', query);
+    }
+    if (pagination?.size) {
+      params = params.set('size', pagination.size);
+    }
+    if (pagination?.page) {
+      params = params.set('page', pagination.page);
+    }
+    if (pagination?.sort) {
+      params = params.set('sort', pagination.sort);
+    }
+    return this.httpClient.get<Page<Tag>>(`${this.basePath}/tags`, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
@@ -27,26 +44,30 @@ export class TagService {
 
   getRecommendations(input: string[]): Observable<Tag[]> {
     const params = new HttpParams().set('tags', input.join(','));
-    return this.httpClient.get<Tag[]>(`${this.basePath}/tags/recommendations`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      params,
-      observe: 'body',
-      reportProgress: false
-    });
+    return this.httpClient
+      .get<Page<Tag>>(`${this.basePath}/tags/recommendations`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        params,
+        observe: 'body',
+        reportProgress: false
+      })
+      .pipe(map(page => page.content));
   }
 
   getPopular(): Observable<Tag[]> {
-    return this.httpClient.get<Tag[]>(`${this.basePath}/tags/popular`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      observe: 'body',
-      reportProgress: false
-    });
+    return this.httpClient
+      .get<Page<Tag>>(`${this.basePath}/tags/popular`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        observe: 'body',
+        reportProgress: false
+      })
+      .pipe(map(page => page.content));
   }
 
   synchronize(tags: string[]): Observable<SynchronizeTagsResponse> {
@@ -72,9 +93,18 @@ export class TagService {
     });
   }
 
-  updateAliases(tag: string, aliases: string[]): Observable<Tag[]> {
-    return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}/aliases`, {
-      aliases
-    });
+  updateTag(tag: string, body: UpdateTagRequest): Observable<Tag[]> {
+    return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}`, body);
+  }
+
+  slugify(str: string): string {
+    return str
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
   }
 }
