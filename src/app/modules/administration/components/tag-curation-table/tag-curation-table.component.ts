@@ -40,7 +40,10 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
     this.searchInputCtrl.valueChanges
       .pipe(
         debounceTime(300),
-        tap(input => this.loadTags(input)),
+        tap(input => {
+          this.paginator.firstPage();
+          return this.loadTags(input);
+        }),
         delay(200)
       )
       .subscribe();
