@@ -1,7 +1,9 @@
 <div class="flex flex-row justify-between">
   <div class="flex flex-col items-start">
-    <strong class="text-lg font-bold text-black">{{ project.title }}</strong>
-    <span class="text-secondary" matTooltip="Projektbetreuer" *ngIf="project.supervisors">
+    <strong class="text-lg font-bold text-black"
+      ><a [routerLink]="['/projects', project.id]">{{ project.title }}</a></strong
+    >
+    <span matTooltip="Projektbetreuer" *ngIf="project.supervisors">
       <ng-container *ngIf="project.supervisors.length > 0; else noSupervisor">
         <strong>Betreuer: </strong>
         <ng-container *ngFor="let supervisor of project.supervisors">
@@ -14,7 +16,7 @@
         <em><strong>Kein Betreuer angegeben</strong></em>
       </ng-template>
     </span>
-    <span class="text-secondary" matTooltip="Projektpartner" *ngIf="project.partner">
+    <span matTooltip="Projektpartner" *ngIf="project.partner">
       <strong>Projektpartner: </strong>
       <a class="mr-2" [routerLink]="['/organizations', project.partner.id]">
         <strong [innerHTML]="project.partner.name"></strong>

@@ -18,6 +18,7 @@ $MaterialIcons_FontPath: '~material-icons-font/fonts';
   }
   a:hover {
     @apply text-blue-500;
+    @apply underline;
   }
 }
 
