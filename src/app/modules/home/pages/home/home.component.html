@@ -31,7 +31,7 @@
 
     <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as popularTags">
       <h1>Häufige Tags</h1>
-      <app-tag-list [tags]="popularTags" (tagClicked)="navigateToTagSearch($event)"> </app-tag-list>
+      <app-tag-list [tags]="popularTags" (tagClicked)="navigateToTagSearch($event)" [clickable]="true"> </app-tag-list>
     </div>
 
     <ng-container *feature="'partners'">
