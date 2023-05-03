@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.30.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.29.0...v1.30.0) (2023-05-03)
+
+
+### Features
+
+* add pragmatic dialog to view tag usages ([ed0e0f0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/ed0e0f0bd5b3210128d00c0a730c328c286c2e1e))
+* make tags deletable ([c298f93](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/c298f930916142cbe5e017493eae294a7be848a4))
+
+
+### Bug Fixes
+
+* clickable tags ([88b7c05](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/88b7c05b07bfb465fa44beebff5f168716b03137))
+* page to first page after search ([3ec0eb2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/3ec0eb287883192179276aca44419b7787984010))
+* sorting and filtering ([05c9f74](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/05c9f74000ba5a7255840bbe2e9db8cf3fd5308e))
+* tweak button texts ([587e8cf](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/587e8cf3a8acb5dfb7f1a31f67c04aa069f3678c))
+* tweak tooltips and descriptivness ([b4312a4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/b4312a45b202306651cc623ef938dd9953b34491))
+
 ## [1.29.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.28.1...v1.29.0) (2023-04-26)
 
 
