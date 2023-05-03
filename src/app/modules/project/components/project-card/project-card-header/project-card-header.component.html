@@ -3,9 +3,9 @@
     <strong class="text-lg font-bold text-black"
       ><a [routerLink]="['/projects', project.id]">{{ project.title }}</a></strong
     >
-    <span matTooltip="Projektbetreuer" *ngIf="project.supervisors">
+    <span *ngIf="project.supervisors">
       <ng-container *ngIf="project.supervisors.length > 0; else noSupervisor">
-        <strong>Betreuer: </strong>
+        <strong>Projektbetreuer: </strong>
         <ng-container *ngFor="let supervisor of project.supervisors">
           <a class="mr-2" [routerLink]="['/users', supervisor.id]">
             <strong [innerHTML]="supervisor.name"></strong>
@@ -16,7 +16,7 @@
         <em><strong>Kein Betreuer angegeben</strong></em>
       </ng-template>
     </span>
-    <span matTooltip="Projektpartner" *ngIf="project.partner">
+    <span *ngIf="project.partner">
       <strong>Projektpartner: </strong>
       <a class="mr-2" [routerLink]="['/organizations', project.partner.id]">
         <strong [innerHTML]="project.partner.name"></strong>
