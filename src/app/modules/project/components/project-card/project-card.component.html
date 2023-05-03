@@ -74,20 +74,20 @@
           class="btn btn-sm btn-primary"
           *ngIf="!showDetails"
           routerLink="/projects/{{ project.id }}"
-          matTooltip="Weiterführende Projektdetails"
+          matTooltip="Weiterführende Informationen"
         >
-          Projektdetails
+          Mehr Informationen
         </button>
       </div>
       <div class="flex flex-row gap-2">
         <button
-          matTooltip="Durch Ihr Commitment erklären Sie sich bereit, diesen Vorschlag als Projektarbeit zu betreuen"
+          matTooltip="Sie erklären sich bereit, diesen Vorschlag als Projektarbeit zu betreuen"
           class="btn btn-outline btn-primary"
           *ngIf="canCommit"
           (click)="commit()"
         >
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
-          Commitment abgeben
+          Projektbetreuung übernehmen
         </button>
         <button *ngIf="false" matTooltip="Projekt sternen" class="btn btn-outline btn-primary" (click)="toggleStar()">
           <fa-icon class="mr-2" [icon]="isStarred ? starSolid : starRegular"></fa-icon>
