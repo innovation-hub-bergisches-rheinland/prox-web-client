@@ -35,7 +35,6 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.dataSource = new TagsDataSource(this.tagService);
-    this.dataSource.loadTags('', 0, this.pageSize);
 
     this.searchInputCtrl.valueChanges
       .pipe(
@@ -52,8 +51,9 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
     merge(this.sort.sortChange, this.paginator.page)
-      .pipe(tap(() => this.loadTags()))
+      .pipe(tap(() => this.loadTags(this.searchInputCtrl.value)))
       .subscribe();
+    this.loadTags('');
   }
 
   loadTags(filter?: string) {
