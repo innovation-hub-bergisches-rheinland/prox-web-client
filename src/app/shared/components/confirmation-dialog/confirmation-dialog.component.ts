@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-export interface DialogData {
+export interface ConfirmationDialogData {
   title: string;
   message: string;
 }
@@ -16,7 +16,7 @@ export class ConfirmationDialogComponent {
   title: string;
   message: string;
 
-  constructor(private dialogRef: MatDialogRef<ConfirmationDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  constructor(private dialogRef: MatDialogRef<ConfirmationDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData) {
     this.title = data.title;
     this.message = data.message;
   }

@@ -97,6 +97,10 @@ export class TagService {
     return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}`, body);
   }
 
+  deleteTag(tag: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.basePath}/tags/${tag}`);
+  }
+
   slugify(str: string): string {
     return str
       .trim()

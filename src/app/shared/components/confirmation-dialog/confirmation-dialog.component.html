@@ -2,7 +2,7 @@
   {{ title }}
 </h2>
 <mat-dialog-content class="mat-typography">
-  <p>{{ message }}</p>
+  <p [innerHTML]="message"></p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button (click)="onDismiss()" mat-button mat-dialog-close>Nein</button>

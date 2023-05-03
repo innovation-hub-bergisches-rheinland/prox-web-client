@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivate } from '@angular/router';
-import { ConfirmationDialogComponent, DialogData } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent, ConfirmationDialogData } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Observable, tap } from 'rxjs';
 
 export interface ComponentCanDeactivate {
@@ -22,7 +22,7 @@ export class PendingChangesGuard implements CanDeactivate<ComponentCanDeactivate
     return (
       component.canDeactivate() ||
       this.matDialog
-        .open<ConfirmationDialogComponent, DialogData, boolean>(ConfirmationDialogComponent, {
+        .open<ConfirmationDialogComponent, ConfirmationDialogData, boolean>(ConfirmationDialogComponent, {
           disableClose: true,
           data: {
             title: 'Ungespeicherte Änderungen',
