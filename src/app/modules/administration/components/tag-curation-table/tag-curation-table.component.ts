@@ -7,11 +7,12 @@ import { debounceTime, delay, merge, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Tag, UpdateTagRequest } from '@data/schema/tag.types';
 import { MatSort } from '@angular/material/sort';
-import { faCodeMerge, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCodeMerge, faEdit, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TagMergeDialogComponent, TagMergeDialogData, TagMergeDialogResult } from '../tag-merge-dialog/tag-merge-dialog.component';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { TagEditDialogComponent, TagEditResult, TagUpdateDialogData } from '../tag-edit-dialog/tag-edit-dialog.component';
+import { TagFindDialogComponent, TagFindDialogData } from '../tag-find-dialog/tag-find-dialog.component';
 
 @Component({
   selector: 'app-tag-curation-table',
@@ -30,6 +31,7 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
 
   faMerge = faCodeMerge;
   faEdit = faEdit;
+  faSearch = faSearch;
 
   constructor(private tagService: TagService, private dialog: MatDialog, private notificationService: NotificationService) {}
 
@@ -103,6 +105,12 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
           }
         });
       }
+    });
+  }
+
+  openFindDialog(tag: Tag) {
+    const dialogRef = this.dialog.open(TagFindDialogComponent, {
+      data: { tag } satisfies TagFindDialogData
     });
   }
 }

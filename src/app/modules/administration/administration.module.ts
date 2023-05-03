@@ -9,9 +9,10 @@ import { TagMergeDialogComponent } from './components/tag-merge-dialog/tag-merge
 import { TagEditDialogComponent } from './components/tag-edit-dialog/tag-edit-dialog.component';
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { TagFindDialogComponent } from './components/tag-find-dialog/tag-find-dialog.component';
 
 @NgModule({
-  declarations: [TagCurationComponent, TagCurationTableComponent, TagMergeDialogComponent, TagEditDialogComponent],
+  declarations: [TagCurationComponent, TagCurationTableComponent, TagMergeDialogComponent, TagEditDialogComponent, TagFindDialogComponent],
   imports: [CommonModule, AdministrationRoutingModule, SharedModule],
   providers: []
 })

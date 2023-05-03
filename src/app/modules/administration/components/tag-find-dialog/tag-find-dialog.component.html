@@ -1,0 +1,31 @@
+<div class="project-dialog">
+  <h1 mat-dialog-title>
+    Verwendungen des Tags <i>{{ tag.tagName }}</i>
+  </h1>
+  <div class="p-4" *ngIf="findResult$ | async as result">
+    <mat-tab-group class="mt-2">
+      <mat-tab [label]="'Projekte ' + '(' + result.projects.length + ')'" [disabled]="result.projects.length === 0">
+        <mat-nav-list>
+          <a *ngFor="let project of result.projects" mat-list-item target="_blank" [routerLink]="['/projects', project.id]">{{
+            project.title
+          }}</a>
+        </mat-nav-list>
+      </mat-tab>
+      <mat-tab
+        [label]="'Unternehmen und Organisationen ' + '(' + result.organizations.length + ')'"
+        [disabled]="result.projects.length === 0"
+      >
+        <mat-nav-list>
+          <a
+            *ngFor="let org of result.organizations"
+            mat-list-item
+            target="_blank"
+            [routerLink]="['/organisations', org.id]"
+            routerLinkActive="router-link-active"
+            >{{ org.name }}</a
+          >
+        </mat-nav-list>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
