@@ -46,7 +46,7 @@
     "material-icons-font": "^2.1.0",
     "moment": "^2.29.4",
     "ngx-mat-select-search": "^7.0.1",
-    "ngx-toastr": "~16.1.1",
+    "ngx-toastr": "~16.2.0",
     "ngx-webstorage-service": "^5.0.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.5.0",
