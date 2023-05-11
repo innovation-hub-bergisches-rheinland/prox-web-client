@@ -1,3 +1,4 @@
+import { Discipline, ModuleType } from './project.types';
 import { Tag } from './tag.types';
 
 export interface LecturerProfile {
@@ -39,4 +40,46 @@ export interface SetLecturerTagsRequest {
 }
 export type SetLecturerTagsResponse = {
   tags: Tag[];
+};
+
+export type SearchPreferences = {
+  userId: string;
+  tags: Tag[];
+  projectSearch: ProjectSearchPreferences;
+  lecturerSearch: LecturerSearchPreferences;
+  organizationSearch: OrganizationSearchPreferences;
+};
+
+export type ProjectSearchPreferences = {
+  enabled: boolean;
+  moduleTypes: ModuleType[];
+  disciplines: Discipline[];
+};
+
+export type LecturerSearchPreferences = {
+  enabled: boolean;
+};
+
+export type OrganizationSearchPreferences = {
+  enabled: boolean;
+};
+
+export type SearchPreferencesRequest = {
+  projectSearch: ProjectSearchPreferencesRequest;
+  lecturerSearch: LecturerSearchPreferencesRequest;
+  organizationSearch: OrganizationSearchPreferencesRequest;
+};
+
+export type ProjectSearchPreferencesRequest = {
+  enabled: boolean;
+  moduleTypes: string[];
+  disciplines: string[];
+};
+
+export type LecturerSearchPreferencesRequest = {
+  enabled: boolean;
+};
+
+export type OrganizationSearchPreferencesRequest = {
+  enabled: boolean;
 };

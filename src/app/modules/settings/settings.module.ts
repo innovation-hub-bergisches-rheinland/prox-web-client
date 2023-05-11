@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SharedModule } from '@shared/shared.module';
@@ -9,6 +8,8 @@ import { ProfileEditorLecturerComponent } from './components/profile-editor-lect
 import { ProfileEditorPublicationsComponent } from './components/profile-editor-publications/profile-editor-publications.component';
 import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { SearchPreferencesComponent } from './pages/search-preferences/search-preferences.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,9 @@ import { SettingsComponent } from './pages/settings/settings.component';
     ProfileEditorLecturerComponent,
     ProfileEditorPublicationsComponent,
     ProfileEditorComponent,
-    SettingsComponent
+    SettingsComponent,
+    SearchPreferencesComponent
   ],
-  imports: [CommonModule, SettingsRoutingModule, SharedModule]
+  imports: [ScrollingModule, SettingsRoutingModule, SharedModule]
 })
 export class SettingsModule {}

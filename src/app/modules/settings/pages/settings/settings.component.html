@@ -12,16 +12,20 @@
           Benutzerprofil
         </a>
       </li>
+      <li
+        class="p-4 w-full hover:bg-base-200 hover:cursor-pointer"
+        routerLinkActive="bg-base-200 border-l-4 border-primary border-opacity-90"
+      >
+        <a class="hover:text-gray-800" routerLink="user/search">
+          <fa-icon [icon]="faSearchengin" [fixedWidth]="true"></fa-icon>
+          Sucheinstellungen
+        </a>
+      </li>
     </ul>
   </section>
 
   <!-- Content -->
   <main class="px-4 md:px-16 lg:col-span-4 lg:px-24 pt-4">
-    <div class="my-4">
-      <app-text-banner>
-        Der Einstellungsbereich befindet sich derzeit im Aufbau. Hier werden in Zukunft weitere Funktionen verfügbar sein.
-      </app-text-banner>
-    </div>
     <div>
       <router-outlet></router-outlet>
     </div>
