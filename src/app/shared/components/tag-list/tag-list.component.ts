@@ -16,7 +16,7 @@ export class TagListComponent implements OnInit {
   tagClicked: EventEmitter<Tag> = new EventEmitter<Tag>();
 
   get sortedTags(): Tag[] {
-    return this.tags.sort((a, b) => a.tagName.localeCompare(b.tagName));
+    return this.tags?.sort((a, b) => a.tagName.localeCompare(b.tagName)) ?? [];
   }
 
   constructor() {}
