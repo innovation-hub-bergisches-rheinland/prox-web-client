@@ -62,7 +62,6 @@
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     },
-    // See: https://github.com/angular-eslint/angular-eslint#notes-for-eslint-plugin-prettier-users
     {
       "files": ["src/**/*.html"],
       "excludedFiles": ["*inline-template-*.component.html"],

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CanDeactivate } from '@angular/router';
+
 import { ConfirmationDialogComponent, ConfirmationDialogData } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Observable, tap } from 'rxjs';
 
@@ -15,7 +15,7 @@ export const CanDeactivateState = {
 @Injectable({
   providedIn: 'root'
 })
-export class PendingChangesGuard implements CanDeactivate<ComponentCanDeactivate> {
+export class PendingChangesGuard {
   constructor(readonly matDialog: MatDialog) {}
 
   canDeactivate(component: ComponentCanDeactivate): boolean | Observable<boolean> {
