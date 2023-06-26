@@ -93,6 +93,13 @@ export class TagService {
     });
   }
 
+  split(tagToSplit: string, target: string[]): Observable<Tag[]> {
+    if (target.length < 2) throw new Error('Cannot split into less than 2 tags');
+    return this.httpClient.post<Tag[]>(`${this.basePath}/tags/${tagToSplit}/split`, {
+      splitInto: target
+    });
+  }
+
   updateTag(tag: string, body: UpdateTagRequest): Observable<Tag[]> {
     return this.httpClient.put<Tag[]>(`${this.basePath}/tags/${tag}`, body);
   }

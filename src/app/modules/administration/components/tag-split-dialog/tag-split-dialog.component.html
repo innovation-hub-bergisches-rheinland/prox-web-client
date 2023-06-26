@@ -1,0 +1,34 @@
+<div class="project-dialog">
+  <h1 mat-dialog-title>Tags mergen</h1>
+
+  <mat-dialog-content>
+    <div class="p-4 flex flex-col gap-2">
+      <app-simple-chip-input [formControl]="splitCtrl" [placeholder]="'Split'"></app-simple-chip-input>
+
+      <div
+        class="border-2 border-red-700 bg-red-100 rounded-lg p-2 leading-6"
+        *ngIf="splitCtrl.value !== null && splitCtrl.value.length >= 2"
+      >
+        <ul class="list-disc pl-2">
+          <li>
+            Der Tag <strong>{{ data.tagToSplit.tagName }}</strong> wird in <strong>{{ splitCtrl.value.join(', ') }}</strong> gesplitted.
+          </li>
+          <li>
+            Alle Elemente in PROX, die den Tag <strong>{{ data.tagToSplit.tagName }}</strong> haben, werden die Tags
+            <strong>{{ splitCtrl.value.join(', ') }}</strong> erhalten.
+          </li>
+          <li>Die neuen Tags werden keinen Alias erhalten.</li>
+          <li>
+            Der Tag <strong>{{ data.tagToSplit.tagName }}</strong> wird gelöscht.
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex flex-row justify-end">
+        <button mat-raised-button color="warn" (click)="close()" [disabled]="splitCtrl.value === null || splitCtrl.value.length < 2">
+          Tags splitten
+        </button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

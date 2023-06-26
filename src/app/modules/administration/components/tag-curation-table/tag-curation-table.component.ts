@@ -1,19 +1,19 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { TagService } from '@data/service/tag.service';
 import { TagsDataSource } from './tags-data-source';
 import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, delay, merge, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Tag, UpdateTagRequest } from '@data/schema/tag.types';
+import { Tag } from '@data/schema/tag.types';
 import { MatSort } from '@angular/material/sort';
-import { faCodeMerge, faEdit, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsSplitUpAndLeft, faCodeMerge, faEdit, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TagMergeDialogComponent, TagMergeDialogData, TagMergeDialogResult } from '../tag-merge-dialog/tag-merge-dialog.component';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { TagEditDialogComponent, TagEditResult, TagUpdateDialogData } from '../tag-edit-dialog/tag-edit-dialog.component';
 import { TagFindDialogComponent, TagFindDialogData } from '../tag-find-dialog/tag-find-dialog.component';
 import { ConfirmationDialogComponent, ConfirmationDialogData } from '@shared/components/confirmation-dialog/confirmation-dialog.component';
+import { TagSplitDialogComponent, TagSplitDialogData, TagSplitDialogResult } from '../tag-split-dialog/tag-split-dialog.component';
 
 @Component({
   selector: 'app-tag-curation-table',
@@ -34,6 +34,7 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
   faEdit = faEdit;
   faSearch = faSearch;
   faTrash = faTrash;
+  faSplit = faArrowsSplitUpAndLeft;
 
   constructor(private tagService: TagService, private dialog: MatDialog, private notificationService: NotificationService) {}
 
@@ -74,7 +75,6 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
 
     dialogRef.afterClosed().subscribe((result: TagMergeDialogResult) => {
       if (result) {
-        console.log(result);
         this.tagService.merge(result.tagToMerge.id, result.targetTag.id).subscribe({
           next: () => {
             this.loadTags();
@@ -96,7 +96,6 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
 
     dialogRef.afterClosed().subscribe((result: TagEditResult) => {
       if (result) {
-        console.log(result);
         this.tagService.updateTag(result.tag.id, result.updatedTag).subscribe({
           next: () => {
             this.loadTags();
@@ -113,6 +112,27 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
   openFindDialog(tag: Tag) {
     const dialogRef = this.dialog.open(TagFindDialogComponent, {
       data: { tag } satisfies TagFindDialogData
+    });
+  }
+
+  openSplitDialog(tag: Tag) {
+    const dialogRef = this.dialog.open(TagSplitDialogComponent, {
+      width: '500px',
+      data: { tagToSplit: tag } satisfies TagSplitDialogData
+    });
+
+    dialogRef.afterClosed().subscribe((result: TagSplitDialogResult) => {
+      if (result) {
+        this.tagService.split(result.tagToSplit.id, result.splitted).subscribe({
+          next: () => {
+            this.loadTags();
+          },
+          error: err => {
+            console.log(err);
+            this.notificationService.error('Fehler beim Splitten der Tags');
+          }
+        });
+      }
     });
   }
 
