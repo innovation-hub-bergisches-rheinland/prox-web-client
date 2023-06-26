@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { TagService } from '@data/service/tag.service';
 import { TagsDataSource } from './tags-data-source';
 import { MatPaginator } from '@angular/material/paginator';
-import { debounceTime, delay, merge, tap } from 'rxjs';
+import { debounceTime, delay, filter, forkJoin, map, merge, mergeMap, of, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Tag } from '@data/schema/tag.types';
 import { MatSort } from '@angular/material/sort';
@@ -121,19 +121,35 @@ export class TagCurationTableComponent implements AfterViewInit, OnInit {
       data: { tagToSplit: tag } satisfies TagSplitDialogData
     });
 
-    dialogRef.afterClosed().subscribe((result: TagSplitDialogResult) => {
-      if (result) {
-        this.tagService.split(result.tagToSplit.id, result.splitted).subscribe({
-          next: () => {
-            this.loadTags();
-          },
-          error: err => {
-            console.log(err);
-            this.notificationService.error('Fehler beim Splitten der Tags');
-          }
-        });
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((result: TagSplitDialogResult) => !!result),
+        mergeMap((result: TagSplitDialogResult) =>
+          forkJoin({
+            synchronizedTags: this.tagService.synchronize(result.splitted),
+            result: of(result)
+          })
+        )
+      )
+      .subscribe(result => {
+        if (result) {
+          this.tagService
+            .split(
+              result.result.tagToSplit.id,
+              result.synchronizedTags.tags.map(t => t.id)
+            )
+            .subscribe({
+              next: () => {
+                this.loadTags();
+              },
+              error: err => {
+                console.log(err);
+                this.notificationService.error('Fehler beim Splitten der Tags');
+              }
+            });
+        }
+      });
   }
 
   deleteTag(tag: Tag) {

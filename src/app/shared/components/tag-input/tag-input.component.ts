@@ -28,6 +28,9 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   @Input()
   appearance: MatFormFieldAppearance = 'outline';
 
+  @Input()
+  showRecommendations = true;
+
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('tagAuto') tagAutocomplete: MatAutocomplete;
   @ViewChild(MatAutocompleteTrigger)
@@ -49,6 +52,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.tagRecommendations$ = this.tags$.pipe(
+      filter(_tags => this.showRecommendations),
       mergeMap(tags => {
         if (tags.length > 0) {
           return this.tagService.getRecommendations(tags);
