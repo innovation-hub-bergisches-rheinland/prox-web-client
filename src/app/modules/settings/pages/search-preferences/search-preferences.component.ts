@@ -72,15 +72,15 @@ export class SearchPreferencesComponent implements OnInit {
   setFormValues(searchPreferences: SearchPreferences) {
     this.formGroup.patchValue({
       projectSearch: {
-        enabled: searchPreferences.projectSearch.enabled,
-        disciplines: searchPreferences.projectSearch.disciplines.map(d => d.key),
-        moduleTypes: searchPreferences.projectSearch.moduleTypes.map(m => m.key)
+        enabled: searchPreferences.projectSearch?.enabled || false,
+        disciplines: searchPreferences.projectSearch?.disciplines?.map(d => d.key) || [],
+        moduleTypes: searchPreferences.projectSearch?.moduleTypes?.map(m => m.key) || []
       },
       lecturerSearch: {
-        enabled: searchPreferences.lecturerSearch.enabled
+        enabled: searchPreferences.lecturerSearch?.enabled || false
       },
       organizationSearch: {
-        enabled: searchPreferences.organizationSearch.enabled
+        enabled: searchPreferences.organizationSearch?.enabled || false
       }
     });
   }
