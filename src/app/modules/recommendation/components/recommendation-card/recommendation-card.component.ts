@@ -3,51 +3,24 @@ import { Lecturer } from '@data/schema/lecturer.types';
 import { Organization } from '@data/schema/organization.types';
 import { Project } from '@data/schema/project.types';
 import { RecommendationResult } from '@data/schema/recommendation.types';
-import { RecommendationService } from '@data/service/recommendation.service';
-import { faHatWizard, faMagic, faMagicWandSparkles } from '@fortawesome/free-solid-svg-icons';
-import { NotificationService } from '@shared/modules/notifications/notification.service';
-
-type RecommendationType = 'project' | 'lecturer' | 'organization';
+import { faMagicWandSparkles } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-recommendation-card',
   templateUrl: './recommendation-card.component.html',
   styleUrls: ['./recommendation-card.component.scss']
 })
-export class RecommendationCardComponent implements OnInit {
+export class RecommendationCardComponent {
   recommendationIcon = faMagicWandSparkles;
 
-  @Input() seedTags: string[];
-
-  @Input() excludedIds: string[] = [];
-
-  @Input() types: RecommendationType[] = ['project', 'lecturer', 'organization'];
-
+  @Input()
   lecturerRecommendations: RecommendationResult<Lecturer> = [];
+  @Input()
   organizationRecommendations: RecommendationResult<Organization> = [];
+  @Input()
   projectRecommendations: RecommendationResult<Project> = [];
 
   get hasRecommendations(): boolean {
-    return (
-      (this.lecturerRecommendations.length > 0 && this.types.includes('lecturer')) ||
-      (this.organizationRecommendations.length > 0 && this.types.includes('organization')) ||
-      (this.projectRecommendations.length > 0 && this.types.includes('project'))
-    );
-  }
-
-  constructor(private recommendationService: RecommendationService, private notificationService: NotificationService) {}
-
-  ngOnInit(): void {
-    this.recommendationService.getRecommendations(this.seedTags, this.excludedIds).subscribe({
-      next: res => {
-        this.lecturerRecommendations = res.lecturers;
-        this.organizationRecommendations = res.organizations;
-        this.projectRecommendations = res.projects;
-      },
-      error: err => {
-        console.error(err);
-        this.notificationService.error('Empfehlungen können aktuell nicht geladen werden.');
-      }
-    });
+    return this.lecturerRecommendations.length > 0 || this.organizationRecommendations.length > 0 || this.projectRecommendations.length > 0;
   }
 }

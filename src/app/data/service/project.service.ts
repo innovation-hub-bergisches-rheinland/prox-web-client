@@ -16,6 +16,7 @@ import {
 } from '@data/schema/project.types';
 import { KeycloakService } from 'keycloak-angular';
 import { PageRequest } from '@data/schema/shared.types';
+import { RecommendationResponse } from '@data/schema/recommendation.types';
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +95,15 @@ export class ProjectService {
 
   getProject(id: string): Observable<Project> {
     return this.httpClient.get<Project>(`${this.basePath}/projects/${id}`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body'
+    });
+  }
+
+  getProjectRecommendations(id: string): Observable<RecommendationResponse> {
+    return this.httpClient.get<RecommendationResponse>(`${this.basePath}/projects/${id}/recommendations`, {
       headers: {
         Accept: 'application/json'
       },

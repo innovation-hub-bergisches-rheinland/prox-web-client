@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable, map, mergeMap } from 'rxjs';
 import { Project } from '@data/schema/project.types';
 import { Tag } from '@data/schema/tag.types';
+import { RecommendationResponse } from '@data/schema/recommendation.types';
 
 @Component({
   selector: 'app-project-details',
@@ -16,6 +17,7 @@ import { Tag } from '@data/schema/tag.types';
 })
 export class ProjectDetailsComponent implements OnInit {
   project$: Observable<Project>;
+  projectRecommendations$: Observable<RecommendationResponse>;
   project: Project;
   tagIds: string[];
   excludedIds: string[];
@@ -32,6 +34,7 @@ export class ProjectDetailsComponent implements OnInit {
   async ngOnInit() {
     const projectId$: Observable<string> = this.route.params.pipe(map(params => params.id));
     this.project$ = projectId$.pipe(mergeMap(id => this.projectService.getProject(id)));
+    this.projectRecommendations$ = projectId$.pipe(mergeMap(id => this.projectService.getProjectRecommendations(id)));
 
     this.project$.subscribe(project => {
       this.updateTitle(project);
@@ -40,13 +43,6 @@ export class ProjectDetailsComponent implements OnInit {
     this.project$.subscribe({
       next: res => {
         this.project = res;
-        this.tagIds = this.project.tags.map(tag => tag.id);
-        this.excludedIds = [
-          this.project.author.userId,
-          this.project.id,
-          ...(this.project?.supervisors?.map(s => s.id) ?? []),
-          this.project.partner?.id
-        ];
       },
       error: err => {
         this.notificationService.error('Projekt nicht gefunden');

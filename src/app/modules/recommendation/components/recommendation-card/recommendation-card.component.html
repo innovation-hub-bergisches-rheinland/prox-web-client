@@ -9,7 +9,7 @@
   </app-text-banner>
   <mat-tab-group class="mt-2">
     <mat-tab
-      *ngIf="types.includes('lecturer')"
+      *ngIf="lecturerRecommendations?.length > 0"
       [label]="'Lehrende ' + '(' + lecturerRecommendations?.length + ')'"
       [disabled]="lecturerRecommendations?.length === 0"
     >
@@ -25,7 +25,7 @@
       </app-recommendation-list>
     </mat-tab>
     <mat-tab
-      *ngIf="types.includes('organization')"
+      *ngIf="organizationRecommendations?.length > 0"
       [label]="'Unternehmen und Organisationen ' + '(' + organizationRecommendations?.length + ')'"
       [disabled]="organizationRecommendations?.length === 0"
     >
@@ -42,7 +42,7 @@
       </app-recommendation-list>
     </mat-tab>
     <mat-tab
-      *ngIf="types.includes('project')"
+      *ngIf="projectRecommendations?.length > 0"
       [label]="'Projekte ' + '(' + projectRecommendations?.length + ')'"
       [disabled]="projectRecommendations?.length === 0"
     >

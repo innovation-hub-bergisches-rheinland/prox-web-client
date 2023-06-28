@@ -12,7 +12,13 @@
         (deleted)="goBack()"
         (tagClicked)="navigateToTagSearch($event)"
       ></app-project-card>
-      <app-recommendation-card href="#recommendations" [seedTags]="tagIds" [excludedIds]="excludedIds"></app-recommendation-card>
+      <app-recommendation-card
+        href="#recommendations"
+        *ngIf="projectRecommendations$ | async; let recommendations"
+        [projectRecommendations]="recommendations.projects"
+        [organizationRecommendations]="recommendations.organizations"
+        [lecturerRecommendations]="recommendations.lecturers"
+      ></app-recommendation-card>
     </div>
   </app-content-page-content>
 </app-content-page>
