@@ -1,18 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Observable, Subject, catchError } from 'rxjs';
-import {
-  faArrowUp,
-  faBars,
-  faBook,
-  faCircle,
-  faCircleInfo,
-  faClock,
-  faPaperclip,
-  faPen,
-  faStar as faSolid,
-  faTrash
-} from '@fortawesome/free-solid-svg-icons';
-import { faStar as faRegular } from '@fortawesome/free-regular-svg-icons';
+import { faArrowUp, faBars, faBook, faCircle, faCircleInfo, faClock, faPaperclip, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
 import { Project, ProjectState } from '@data/schema/project.types';
 import { ProjectService } from '@data/service/project.service';
@@ -79,8 +67,6 @@ export class ProjectCardComponent implements OnInit {
   deleteIcon = faTrash;
   commitIcon = faArrowUp;
   barsIcon = faBars;
-  starSolid = faSolid;
-  starRegular = faRegular;
   bookIcon = faBook;
   timerIcon = faClock;
   paperclipIcon = faPaperclip;
@@ -88,8 +74,6 @@ export class ProjectCardComponent implements OnInit {
   circleInfoIcon = faCircleInfo;
 
   canCommit = false;
-  canStar = false;
-  isStarred = false;
   isLoggedIn = false;
 
   constructor(
@@ -102,12 +86,6 @@ export class ProjectCardComponent implements OnInit {
 
   async ngOnInit() {
     this.canCommit = this.project.status.state === 'PROPOSED' && this.keycloakService.isUserInRole('professor');
-    this.canStar = this.project._permissions.canStateInterest;
-    if (this.canStar && this.isLoggedIn) {
-      this.userService.checkStar(this.project.id).subscribe({
-        next: res => (this.isStarred = res)
-      });
-    }
     this.isLoggedIn = await this.keycloakService.isLoggedIn();
   }
 
@@ -117,31 +95,6 @@ export class ProjectCardComponent implements OnInit {
       this.project = project;
       this.canCommit = false;
     });
-  }
-
-  async toggleStar() {
-    if (!this.isLoggedIn) {
-      await this.keycloakService.login({ redirectUri: window.location.href });
-      return;
-    }
-
-    if (this.isStarred) {
-      this.userService.unStar(this.project.id).subscribe({
-        next: _ => {
-          this.isStarred = false;
-          this.project.metrics.interestedCount--;
-        },
-        error: _ => this.notificationService.error('Konnte Stern nicht entfernen. Versuchen Sie es später erneut')
-      });
-    } else {
-      this.userService.star(this.project.id).subscribe({
-        next: _ => {
-          this.isStarred = true;
-          this.project.metrics.interestedCount++;
-        },
-        error: _ => this.notificationService.error('Konnte keinen Stern hinzufügen. Versuchen Sie es später erneut')
-      });
-    }
   }
 
   onDeleteClick() {

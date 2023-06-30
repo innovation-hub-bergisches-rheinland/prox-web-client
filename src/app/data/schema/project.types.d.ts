@@ -17,7 +17,6 @@ export interface ModuleType {
 
 export interface ProjectPermissions {
   hasAccess: boolean;
-  canStateInterest: boolean;
 }
 
 export interface ProjectAuthor {
@@ -65,7 +64,6 @@ export interface Project {
   timeBox: ProjectTimeBox;
   status: ProjectStatus;
   _permissions: ProjectPermissions;
-  metrics: ProjectMetrics;
   createdAt: string;
   modifiedAt: string;
 }
@@ -84,8 +82,4 @@ export interface CreateProjectRequest {
   timeBox: ProjectTimeBox;
   partnerId: string;
   supervisors: string[];
-}
-
-export interface ProjectMetrics {
-  interestedCount: number;
 }

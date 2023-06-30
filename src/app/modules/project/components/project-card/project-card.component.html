@@ -89,10 +89,6 @@
           <fa-icon class="mr-2" [icon]="commitIcon"></fa-icon>
           Projektbetreuung übernehmen
         </button>
-        <button *ngIf="false" matTooltip="Projekt sternen" class="btn btn-outline btn-primary" (click)="toggleStar()">
-          <fa-icon class="mr-2" [icon]="isStarred ? starSolid : starRegular"></fa-icon>
-          {{ this.project.metrics.interestedCount }}
-        </button>
         <ng-container *ngIf="project._permissions.hasAccess">
           <app-project-card-status-actions [project]="project" (status)="onStatusChange($event)"></app-project-card-status-actions>
           <div class="dropdown dropdown-top dropdown-end">

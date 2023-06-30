@@ -54,17 +54,6 @@ export class UserService {
       .pipe(map(page => page.content));
   }
 
-  checkStar(projectId: string): Observable<boolean> {
-    return this.httpClient
-      .get<unknown>(`${this.basePath}/user/stars/projects/${projectId}`, {
-        observe: 'response'
-      })
-      .pipe(
-        map(_r => true),
-        catchError(_err => of(false))
-      );
-  }
-
   setUserProfile(userProfile: CreateUserProfileRequest): Observable<UserProfile> {
     return this.httpClient.put<UserProfile>(`${this.basePath}/user/profile`, userProfile, {
       observe: 'body',
@@ -109,14 +98,6 @@ export class UserService {
       },
       reportProgress: false
     });
-  }
-
-  star(projectId: string): Observable<unknown> {
-    return this.httpClient.put<unknown>(`${this.basePath}/user/stars/projects/${projectId}`, null);
-  }
-
-  unStar(projectId: string): Observable<unknown> {
-    return this.httpClient.delete<unknown>(`${this.basePath}/user/stars/projects/${projectId}`);
   }
 
   getSearchPreferences(): Observable<SearchPreferences> {
