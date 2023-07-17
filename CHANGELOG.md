@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.32.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.31.1...v1.32.0) (2023-07-17)
+
+
+### Features
+
+* implement tag split ([71905e0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/71905e0bc9e9b17f3075aa461cf13f8f1ba536cf))
+
+
+### Bug Fixes
+
+* fix slugging logic ([1729e63](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/1729e6346934cb6c6a0ad784704191617b28febf))
+* safe nullpointer ([2e066b1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2e066b191d57d77ac62a3ac9ce1df45a57bb576c))
+* use uuids ([a0c81b4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a0c81b49ea9350cf17bc5eae3c384a4c6859b87c))
+
 ### [1.31.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.31.0...v1.31.1) (2023-05-30)
 
 
