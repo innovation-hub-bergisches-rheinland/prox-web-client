@@ -17,8 +17,11 @@
           onerror="this.src='/assets/images/blank-profile-picture.png'"
         />
       </div>
-      <div>
+      <div class="w-full flex justify-between">
         <h1>{{ title }}</h1>
+        <span *ngIf="showEdit" class="hover:cursor-pointer text-secondary" (click)="editClicked.emit($event)">
+          <fa-icon [icon]="faEdit" size="xl"></fa-icon>
+        </span>
       </div>
     </div>
     <div class="mt-4">

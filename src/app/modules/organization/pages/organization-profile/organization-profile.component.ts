@@ -12,6 +12,8 @@ import { Title } from '@angular/platform-browser';
 import { Organization } from '@data/schema/organization.types';
 import { Project } from '@data/schema/project.types';
 import { Tag } from '@data/schema/tag.types';
+import { MatDialog } from '@angular/material/dialog';
+import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 
 @Component({
   selector: 'app-organization-profile',
@@ -30,17 +32,22 @@ export class OrganizationProfileComponent {
     private profileService: OrganizationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private projectService: ProjectService,
     private notificationService: NotificationService,
     private tagService: TagService,
     private titleService: Title
   ) {
+    this.refreshOrg();
+  }
+
+  refreshOrg() {
     this.organization$ = this.activatedRoute.params.pipe(
       filter(p => !!p['id']),
       mergeMap(p => this.profileService.getOrganization(p['id'])),
       catchError(async (err: HttpErrorResponse) => {
         if (err.status === 404) {
-          await router.navigate(['404']);
+          await this.router.navigate(['404']);
         }
         throw err;
       }),
@@ -68,5 +75,19 @@ export class OrganizationProfileComponent {
   updateTitle(organization: Organization) {
     const newTitle = this.titleService.getTitle() + ' - ' + organization.name;
     this.titleService.setTitle(newTitle);
+  }
+
+  editOrganization(organization: Organization) {
+    const dialog = this.dialog.open(OrganizationEditorDialogComponent, {
+      autoFocus: false,
+      data: organization
+    });
+    dialog.afterClosed().subscribe({
+      next: value => {
+        if (value) {
+          this.refreshOrg();
+        }
+      }
+    });
   }
 }

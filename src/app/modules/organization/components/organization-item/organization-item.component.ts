@@ -35,8 +35,6 @@ export class OrganizationItemComponent implements OnInit {
   editOrganization(org: Organization) {
     const dialog = this.dialog.open(OrganizationEditorDialogComponent, {
       autoFocus: false,
-      maxHeight: '80%',
-      maxWidth: '80%',
       data: org
     });
     dialog.afterClosed().subscribe({

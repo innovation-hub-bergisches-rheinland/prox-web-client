@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { EMPTY, Observable, mergeMap, of } from 'rxjs';
+import { EMPTY, Observable, forkJoin, mergeMap, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { catchError, map, share, take } from 'rxjs/operators';
+import { catchError, map, share, take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectService } from '@data/service/project.service';
 import { NotificationService } from '@shared/modules/notifications/notification.service';
@@ -11,6 +11,7 @@ import { Project } from '@data/schema/project.types';
 import { LecturerService } from '@data/service/lecturer.service';
 import { Lecturer } from '@data/schema/lecturer.types';
 import { Tag } from '@data/schema/tag.types';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-lecturer-profile-page',
@@ -33,7 +34,8 @@ export class LecturerProfilePageComponent {
     private notificationService: NotificationService,
     private titleService: Title,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private keycloakService: KeycloakService
   ) {
     this.loadProfile();
   }
@@ -43,6 +45,9 @@ export class LecturerProfilePageComponent {
     this.lecturer$ = userId$.pipe(
       take(1),
       mergeMap(id => this.lecturerService.getLecturer(id)),
+      tap(async lecturer => {
+        this.isOwnProfile = this.keycloakService.getKeycloakInstance().subject === lecturer.userId;
+      }),
       catchError(err => {
         this.notificationService.error('Benutzerprofil konnte nicht geladen werden.');
         if (err?.status === 404) {
@@ -78,5 +83,13 @@ export class LecturerProfilePageComponent {
   updateTitle(user: Lecturer) {
     const newTitle = this.titleService.getTitle() + ' - ' + user.displayName;
     this.titleService.setTitle(newTitle);
+  }
+
+  editProfile() {
+    this.lecturer$.pipe(take(1)).subscribe({
+      next: _ => {
+        this.router.navigate(['/settings/user/profile']);
+      }
+    });
   }
 }

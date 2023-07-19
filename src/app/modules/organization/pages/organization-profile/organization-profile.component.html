@@ -6,6 +6,8 @@
         [roundedAvatar]="false"
         [tags]="tags$ | async"
         [title]="org.name"
+        [showEdit]="org._permissions.hasAccess"
+        (editClicked)="editOrganization(org)"
       ></app-profile-header-card>
       <app-profile-social-media-card
         *ngIf="org.profile.socialMediaHandles; let socialMedia"

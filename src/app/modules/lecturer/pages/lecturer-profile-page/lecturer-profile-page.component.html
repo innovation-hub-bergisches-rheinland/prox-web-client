@@ -5,6 +5,8 @@
       [roundedAvatar]="true"
       [tags]="tags"
       [title]="lecturer.displayName"
+      [showEdit]="isOwnProfile"
+      (editClicked)="editProfile()"
     ></app-profile-header-card>
     <app-profile-information-card *ngIf="lecturer.lecturerProfile?.profile; let profile">
       <app-profile-information-card-entry

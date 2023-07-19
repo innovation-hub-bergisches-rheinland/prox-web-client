@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Tag } from '@data/schema/tag.types';
+import { faEdit, faPencil } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-profile-header-card',
@@ -7,6 +8,8 @@ import { Tag } from '@data/schema/tag.types';
   styleUrls: ['./profile-header-card.component.scss']
 })
 export class ProfileHeaderCardComponent {
+  faEdit = faPencil;
+
   @Input()
   title: string;
 
@@ -14,7 +17,7 @@ export class ProfileHeaderCardComponent {
   imageSrc: string;
 
   @Input()
-  showEdit: boolean;
+  showEdit = false;
 
   @Input()
   roundedAvatar = true;
