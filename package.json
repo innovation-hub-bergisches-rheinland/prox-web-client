@@ -48,7 +48,7 @@
     "ngx-toastr": "~17.0.2",
     "ngx-webstorage-service": "^5.0.0",
     "rxjs": "~7.8.1",
-    "tslib": "^2.6.0",
+    "tslib": "^2.6.1",
     "typewriter-effect": "^2.20.1",
     "zone.js": "~0.13.1"
   },
