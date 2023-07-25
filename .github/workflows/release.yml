@@ -83,7 +83,7 @@ jobs:
       - name: Get Tag version Value
         id: tag
         run: |
-          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Publish Helm charts
         uses: stefanprodan/helm-gh-pages@master
