@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchService } from '../../search.service';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { ProjectState } from '@data/schema/project.types';
 
 @Component({
   selector: 'app-recent-searches',
@@ -10,6 +11,16 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export class RecentSearchesComponent {
   @Output()
   searchClicked: EventEmitter<ProjectSearch> = new EventEmitter<ProjectSearch>();
+
+  // TODO: Translate properly at all places. This is a hack.
+  stateTranslations: Record<ProjectState, string> = {
+    PROPOSED: 'Vorschlag',
+    OFFERED: 'Verfügbar',
+    ARCHIVED: 'Archiviert',
+    COMPLETED: 'Abgeschlossen',
+    STALE: 'Veraltet',
+    RUNNING: 'Laufend'
+  };
 
   searchIcon = faSearch;
 
@@ -25,5 +36,9 @@ export class RecentSearchesComponent {
 
   identify(index, item: ProjectSearch) {
     return index;
+  }
+
+  translateStates(state: ProjectState[]) {
+    return state.map(s => this.stateTranslations[s]);
   }
 }

@@ -12,8 +12,6 @@ export class SearchService {
   saveProjectSearch(search: ProjectSearch) {
     const searches = this.getProjectSearches();
     const index = searches.findIndex(s => JSON.stringify(s) === JSON.stringify(search));
-    console.log(searches);
-    console.log(index);
 
     if (index >= 0) {
       searches.splice(index, 1);

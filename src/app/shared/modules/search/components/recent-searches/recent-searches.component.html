@@ -8,7 +8,10 @@
         <mat-list-item class="odd:bg-gray-100" *ngFor="let search of searches; trackBy: identify" lines="2" (click)="onSearchClick(search)">
           <h3 matListItemTitle>{{ search.txt ?? 'Ohne Suchtext' }}</h3>
           <span>
-            <ng-container *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags?.join(',') }}</ng-container>
+            <span class="mr-1" *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags.join(', ') }}</span>
+            <span class="mr-1" *ngIf="search.status && search.status.length > 0"
+              >Status: {{ translateStates(search.status).join(', ') }}</span
+            >
           </span>
         </mat-list-item>
       </mat-nav-list>
