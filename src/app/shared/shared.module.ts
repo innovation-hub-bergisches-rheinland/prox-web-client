@@ -36,6 +36,7 @@ import { TagSelectionComponent } from './components/tag-selection/tag-selection.
 import { MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { SearchModule } from './modules/search/search.module';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -71,6 +72,7 @@ const appearance: MatFormFieldDefaultOptions = {
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    SearchModule,
 
     MaterialModule,
     ContentPageModule,
@@ -88,6 +90,7 @@ const appearance: MatFormFieldDefaultOptions = {
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    SearchModule,
 
     MaterialModule,
 

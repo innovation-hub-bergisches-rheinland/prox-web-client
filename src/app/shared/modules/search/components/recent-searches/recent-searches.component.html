@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title> <fa-icon [icon]="searchIcon"></fa-icon> Kürzliche Suchen</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="searches.length > 0; else noSearches">
+      <mat-nav-list>
+        <mat-list-item class="odd:bg-gray-100" *ngFor="let search of searches; trackBy: identify" lines="2" (click)="onSearchClick(search)">
+          <h3 matListItemTitle>{{ search.txt ?? 'Ohne Suchtext' }}</h3>
+          <span>
+            <ng-container *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags?.join(',') }}</ng-container>
+          </span>
+        </mat-list-item>
+      </mat-nav-list>
+    </ng-container>
+    <ng-template #noSearches><span>Noch keine kürzlichen Suchen verfügbar</span></ng-template>
+  </mat-card-content>
+</mat-card>

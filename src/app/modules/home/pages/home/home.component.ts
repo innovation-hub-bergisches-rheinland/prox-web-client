@@ -1,9 +1,10 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { Tag } from '@data/schema/tag.types';
 import { TagService } from '@data/service/tag.service';
+import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
@@ -93,7 +94,7 @@ export class HomeComponent implements OnInit {
 
     const searchValue = this.searchForm.value['searchInput'] as string | null;
     if (searchValue && searchValue.length > 0) {
-      params = { ...params, q: searchValue };
+      params = this.buildParams({ txt: searchValue });
     }
 
     await this.router.navigate(['projects'], {
@@ -103,7 +104,39 @@ export class HomeComponent implements OnInit {
 
   async navigateToTagSearch(tag: Tag) {
     await this.router.navigate(['projects'], {
-      queryParams: { tags: tag.tagName }
+      queryParams: this.buildParams({ tags: [tag.tagName] })
     });
+  }
+
+  async navigateToSearch(search: ProjectSearch) {
+    await this.router.navigate(['projects'], {
+      queryParams: this.buildParams(search)
+    });
+  }
+
+  private buildParams(search: ProjectSearch): Params {
+    const params = {};
+
+    if (search.txt) {
+      params['q'] = search.txt;
+    }
+
+    if (search.status) {
+      params['state'] = search.status;
+    }
+
+    if (search.moduleTypes && search.moduleTypes.length > 0) {
+      params['moduleType'] = search.moduleTypes.join(',');
+    }
+
+    if (search.disciplines && search.disciplines.length > 0) {
+      params['discipline'] = search.disciplines.join(',');
+    }
+
+    if (search.tags && search.tags.length > 0) {
+      params['tags'] = search.tags.join(',');
+    }
+
+    return params;
   }
 }

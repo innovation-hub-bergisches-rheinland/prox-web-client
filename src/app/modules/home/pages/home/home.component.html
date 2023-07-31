@@ -5,21 +5,8 @@
       Finde dein perfektes Projekt
     </div>
   </div>
-  <div class="max-w-screen-lg mx-5 mt-10 flex flex-col justify-around items-center gap-10">
-    <form class="w-full flex flex-row justify-around items-center gap-5" (ngSubmit)="onSubmit()" [formGroup]="searchForm">
-      <div class="form-control w-full">
-        <input
-          class="input input-bordered w-full"
-          type="search"
-          [placeholder]="placeholder"
-          formControlName="searchInput"
-          (focus)="stopTypewriter()"
-          (blur)="startTypewriter()"
-        />
-      </div>
-      <button class="btn btn-primary" type="submit">Suchen</button>
-    </form>
 
+  <div class="max-w-screen-lg mx-5 mt-10 flex flex-col justify-around items-center gap-10">
     <div class="description">
       <b>PROX</b> (Project Exchange TH Köln) ist ein Webportal, auf dem Studierende der TH Köln, lokale Unternehmen und Lehrende der TH Köln
       zusammengebracht werden. In <b>PROX</b> finden Sie Bachelor- und Masterarbeiten, aber auch Projekte aus den Studiengängen der TH-Köln,
@@ -28,6 +15,23 @@
       <a href="https://www.innovation-hub.de">Innovation Hub Bergisches RheinLand</a>
       bereitgestellt wird.
     </div>
+
+    <form class="w-full flex flex-col gap-2" (ngSubmit)="onSubmit()" [formGroup]="searchForm">
+      <div class="flex flex-row justify-around items-center gap-5">
+        <div class="form-control w-full">
+          <input
+            class="input input-bordered w-full"
+            type="search"
+            [placeholder]="placeholder"
+            formControlName="searchInput"
+            (focus)="stopTypewriter()"
+            (blur)="startTypewriter()"
+          />
+        </div>
+        <button class="btn btn-primary" type="submit">Suchen</button>
+      </div>
+      <app-recent-searches (searchClicked)="navigateToSearch($event)"></app-recent-searches>
+    </form>
 
     <div class="flex flex-col justify-around items-center popularTags" *ngIf="popularTags$ | async as popularTags">
       <h1>Häufige Tags</h1>

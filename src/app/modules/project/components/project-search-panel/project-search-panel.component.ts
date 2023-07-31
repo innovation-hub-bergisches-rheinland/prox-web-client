@@ -4,6 +4,7 @@ import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Discipline, ModuleType, ProjectState } from '@data/schema/project.types';
+import { SearchService } from '@shared/modules/search/search.service';
 
 export interface ProjectSearch {
   status?: ProjectState[];
@@ -39,7 +40,7 @@ export class ProjectSearchPanelComponent implements OnInit {
     this.searchForm.patchValue(value);
   }
 
-  constructor(private projectService: ProjectService) {}
+  constructor(private projectService: ProjectService, private searchService: SearchService) {}
 
   ngOnInit(): void {
     this.disciplines$ = this.projectService.getAllDisciplines();
@@ -47,12 +48,14 @@ export class ProjectSearchPanelComponent implements OnInit {
   }
 
   onSubmit() {
-    this.search.emit({
+    const search = {
       txt: this.searchForm.controls.txt.value || undefined,
       status: this.searchForm.controls.status.value || undefined,
       moduleTypes: this.searchForm.controls.moduleTypes.value || undefined,
       disciplines: this.searchForm.controls.disciplines.value || undefined,
       tags: this.searchForm.controls.tags.value || undefined
-    });
+    } satisfies ProjectSearch;
+    this.searchService.saveProjectSearch(search);
+    this.search.emit(search);
   }
 }
