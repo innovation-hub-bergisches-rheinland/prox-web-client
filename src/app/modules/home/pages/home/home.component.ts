@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Params, Router } from '@angular/router';
 import { Tag } from '@data/schema/tag.types';
+import { ProjectSearchEntry } from '@data/schema/user.types';
 import { TagService } from '@data/service/tag.service';
 import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 
@@ -94,7 +95,7 @@ export class HomeComponent implements OnInit {
 
     const searchValue = this.searchForm.value['searchInput'] as string | null;
     if (searchValue && searchValue.length > 0) {
-      params = this.buildParams({ txt: searchValue });
+      params = this.buildParams({ text: searchValue });
     }
 
     await this.router.navigate(['projects'], {
@@ -104,25 +105,25 @@ export class HomeComponent implements OnInit {
 
   async navigateToTagSearch(tag: Tag) {
     await this.router.navigate(['projects'], {
-      queryParams: this.buildParams({ tags: [tag.tagName] })
+      queryParams: this.buildParams({ tags: [tag] })
     });
   }
 
-  async navigateToSearch(search: ProjectSearch) {
+  async navigateToSearch(search: ProjectSearchEntry) {
     await this.router.navigate(['projects'], {
       queryParams: this.buildParams(search)
     });
   }
 
-  private buildParams(search: ProjectSearch): Params {
+  private buildParams(search: Partial<ProjectSearchEntry>): Params {
     const params = {};
 
-    if (search.txt) {
-      params['q'] = search.txt;
+    if (search.text) {
+      params['q'] = search.text;
     }
 
-    if (search.status) {
-      params['state'] = search.status;
+    if (search.states && search.states.length > 0) {
+      params['state'] = search.states.join(',');
     }
 
     if (search.moduleTypes && search.moduleTypes.length > 0) {

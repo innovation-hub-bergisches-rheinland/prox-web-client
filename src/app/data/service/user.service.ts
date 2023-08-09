@@ -2,13 +2,7 @@ import { Injectable } from '@angular/core';
 import { EMPTY, Observable, catchError, map, of } from 'rxjs';
 import { environment } from '@env';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {
-  CreateLecturerProfileRequest,
-  CreateUserProfileRequest,
-  SearchPreferences,
-  SearchPreferencesRequest,
-  UserProfile
-} from '@data/schema/user.types';
+import { CreateLecturerProfileRequest, CreateUserProfileRequest, SearchHistory, UserProfile } from '@data/schema/user.types';
 import { Page } from '@data/schema/shared.types';
 
 @Injectable({
@@ -31,6 +25,16 @@ export class UserService {
 
   getCurrentAuthenticated(): Observable<UserProfile> {
     return this.httpClient.get<UserProfile>(`${this.basePath}/user/profile`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  getCurrentAuthenticatedSearchHistory(): Observable<SearchHistory> {
+    return this.httpClient.get<SearchHistory>(`${this.basePath}/user/searchHistory`, {
       headers: {
         Accept: 'application/json'
       },
@@ -91,28 +95,6 @@ export class UserService {
 
   setLecturerProfile(lecturerProfile: CreateLecturerProfileRequest): Observable<UserProfile> {
     return this.httpClient.put<UserProfile>(`${this.basePath}/user/profile/lecturer`, lecturerProfile, {
-      observe: 'body',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      reportProgress: false
-    });
-  }
-
-  getSearchPreferences(): Observable<SearchPreferences> {
-    return this.httpClient.get<SearchPreferences>(`${this.basePath}/user/search`).pipe(
-      catchError(err => {
-        if (err.status === 404) {
-          return EMPTY;
-        }
-        throw err;
-      })
-    );
-  }
-
-  setSearchPreferences(sp: SearchPreferencesRequest): Observable<SearchPreferences> {
-    return this.httpClient.put<SearchPreferences>(`${this.basePath}/user/search`, sp, {
       observe: 'body',
       headers: {
         Accept: 'application/json',

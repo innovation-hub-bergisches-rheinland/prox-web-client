@@ -2,9 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ProjectService } from '@data/service/project.service';
 import { Observable } from 'rxjs';
-import { FormControl, FormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Discipline, ModuleType, ProjectState } from '@data/schema/project.types';
-import { SearchService } from '@shared/modules/search/search.service';
 
 export interface ProjectSearch {
   status?: ProjectState[];
@@ -40,7 +39,7 @@ export class ProjectSearchPanelComponent implements OnInit {
     this.searchForm.patchValue(value);
   }
 
-  constructor(private projectService: ProjectService, private searchService: SearchService) {}
+  constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
     this.disciplines$ = this.projectService.getAllDisciplines();
@@ -55,7 +54,6 @@ export class ProjectSearchPanelComponent implements OnInit {
       disciplines: this.searchForm.controls.disciplines.value || undefined,
       tags: this.searchForm.controls.tags.value || undefined
     } satisfies ProjectSearch;
-    this.searchService.saveProjectSearch(search);
     this.search.emit(search);
   }
 }

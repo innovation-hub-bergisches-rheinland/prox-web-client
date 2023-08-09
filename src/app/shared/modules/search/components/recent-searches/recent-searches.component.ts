@@ -1,16 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SearchService } from '../../search.service';
-import { ProjectSearch } from '@modules/project/components/project-search-panel/project-search-panel.component';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ProjectState } from '@data/schema/project.types';
+import { ProjectSearchEntry } from '@data/schema/user.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recent-searches',
   templateUrl: './recent-searches.component.html'
 })
-export class RecentSearchesComponent {
+export class RecentSearchesComponent implements OnInit {
   @Output()
-  searchClicked: EventEmitter<ProjectSearch> = new EventEmitter<ProjectSearch>();
+  searchClicked: EventEmitter<ProjectSearchEntry> = new EventEmitter<ProjectSearchEntry>();
+
+  searches$: Observable<ProjectSearchEntry[]>;
 
   // TODO: Translate properly at all places. This is a hack.
   stateTranslations: Record<ProjectState, string> = {
@@ -26,15 +29,15 @@ export class RecentSearchesComponent {
 
   constructor(private searchService: SearchService) {}
 
-  get searches() {
-    return this.searchService.getProjectSearches();
+  ngOnInit(): void {
+    this.searches$ = this.searchService.getProjectSearches();
   }
 
-  onSearchClick(search: ProjectSearch) {
+  onSearchClick(search: ProjectSearchEntry) {
     this.searchClicked.emit(search);
   }
 
-  identify(index, item: ProjectSearch) {
+  identify(index, item: ProjectSearchEntry) {
     return index;
   }
 

@@ -3,19 +3,30 @@
     <mat-card-title> <fa-icon [icon]="searchIcon"></fa-icon> Kürzliche Suchen</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <ng-container *ngIf="searches.length > 0; else noSearches">
-      <mat-nav-list>
-        <mat-list-item class="odd:bg-gray-100" *ngFor="let search of searches; trackBy: identify" lines="2" (click)="onSearchClick(search)">
-          <h3 matListItemTitle>{{ search.txt ?? 'Ohne Suchtext' }}</h3>
-          <span>
-            <span class="mr-1" *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags.join(', ') }}</span>
-            <span class="mr-1" *ngIf="search.status && search.status.length > 0"
-              >Status: {{ translateStates(search.status).join(', ') }}</span
-            >
-          </span>
-        </mat-list-item>
-      </mat-nav-list>
+    <ng-container *ngIf="searches$ | async; let searches">
+      <ng-container *ngIf="searches.length > 0; else noSearches">
+        <mat-nav-list>
+          <mat-list-item
+            class="odd:bg-gray-100"
+            *ngFor="let search of searches; trackBy: identify"
+            lines="2"
+            (click)="onSearchClick(search)"
+          >
+            <h3 matListItemTitle>{{ search.text ?? 'Ohne Suchtext' }}</h3>
+            <span>
+              <span class="mr-1" *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags.join(', ') }}</span>
+              <span class="mr-1" *ngIf="search.states && search.states.length > 0"
+                >Status: {{ translateStates(search.states).join(', ') }}</span
+              >
+            </span>
+          </mat-list-item>
+        </mat-nav-list>
+      </ng-container>
     </ng-container>
-    <ng-template #noSearches><span>Noch keine kürzlichen Suchen verfügbar</span></ng-template>
+    <ng-template #noSearches
+      ><span
+        >Noch keine kürzlichen Suchen verfügbar. Melden Sie sich in PROX an, um Zugriff auf Ihre letzten Suchanfragen zu erhalten.</span
+      ></ng-template
+    >
   </mat-card-content>
 </mat-card>

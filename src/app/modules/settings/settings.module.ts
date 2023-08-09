@@ -8,7 +8,6 @@ import { ProfileEditorLecturerComponent } from './components/profile-editor-lect
 import { ProfileEditorPublicationsComponent } from './components/profile-editor-publications/profile-editor-publications.component';
 import { ProfileEditorComponent } from './pages/profile-editor/profile-editor.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { SearchPreferencesComponent } from './pages/search-preferences/search-preferences.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
@@ -18,8 +17,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ProfileEditorLecturerComponent,
     ProfileEditorPublicationsComponent,
     ProfileEditorComponent,
-    SettingsComponent,
-    SearchPreferencesComponent
+    SettingsComponent
   ],
   imports: [ScrollingModule, SettingsRoutingModule, SharedModule]
 })
