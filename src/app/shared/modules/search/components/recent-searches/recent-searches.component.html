@@ -12,7 +12,10 @@
             lines="2"
             (click)="onSearchClick(search)"
           >
-            <h3 matListItemTitle>{{ search.text ?? 'Ohne Suchtext' }}</h3>
+            <h3 matListItemTitle>
+              <span [ngClass]="{ italic: !search.text }">{{ search.text ? search.text : 'Ohne Suchtext' }}</span>
+              <span class="ml-2 font-bold text-green-600" *ngIf="search.newProjects > 0">({{ search.newProjects }} neu)</span>
+            </h3>
             <span>
               <span class="mr-1" *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags.join(', ') }}</span>
               <span class="mr-1" *ngIf="search.states && search.states.length > 0"
