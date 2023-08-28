@@ -38,6 +38,74 @@
       <app-tag-list [tags]="popularTags" (tagClicked)="navigateToTagSearch($event)" [clickable]="true"> </app-tag-list>
     </div>
 
+    <div>
+      <h1 class="text-5xl font-bold text-center pb-10">So funktioniert <span class="text-primary">PROX</span></h1>
+      <app-process-step-list>
+        <app-process-step>
+          <app-process-step-title>1. Account erstellen und Profil anlegen</app-process-step-title>
+          <app-process-step-icon>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14 text-blue-950">
+              <path
+                fill-rule="evenodd"
+                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </app-process-step-icon>
+          <app-process-step-content
+            >Um alle Funktionen von PROX nutzen zu können, erstellen Sie sich einen Account oder melden Sie sich an. In Ihren persönlichen
+            Einstellungen können Sie außerdem Ihr persönliches Profil überarbeiten.
+          </app-process-step-content>
+        </app-process-step>
+        <app-process-step>
+          <app-process-step-title>2. Organisation anlegen und verwalten</app-process-step-title>
+          <app-process-step-icon>
+            <svg fill="currentColor" class="w-14 h-14 text-blue-950" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M41 0L9 0C7.347656 0 6 1.347656 6 3L6 50L44 50L44 3C44 1.347656 42.652344 0 41 0 Z M 28 23L28 17L37 17L37 23 Z M 37 27L37 33L28 33L28 27 Z M 28 13L28 7L37 7L37 13 Z M 13 23L13 17L22 17L22 23 Z M 22 27L22 33L13 33L13 27 Z M 13 13L13 7L22 7L22 13 Z M 13 37L22 37L22 43L13 43 Z M 28 37L37 37L37 48L28 48Z"
+              />
+            </svg>
+          </app-process-step-icon>
+          <app-process-step-content
+            >Sollten Sie einem Unternehmen oder einer Organisation angehören, können Sie für diese ebenfalls ein Profil anlegen, um sich auf
+            PROX zu repräsenteiren und Projekte für diese Organisation anzulegen. Sie können beliebig viele Mitglieder zu der Organisation
+            hinzufügen.</app-process-step-content
+          >
+        </app-process-step>
+        <app-process-step>
+          <app-process-step-title>3. Projekt oder Projektvorschlag einstellen</app-process-step-title>
+          <app-process-step-icon>
+            <svg fill="currentColor" class="w-14 h-14 text-blue-950" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1706.235 1807.059H350.941V112.94h903.53v451.765h451.764v1242.353Zm-338.823-1670.74 315.443 315.447h-315.443V136.32Zm402.182 242.487L1440.372 49.58C1408.296 17.62 1365.717 0 1320.542 0H238v1920h1581.175V498.635c0-45.176-17.618-87.755-49.58-119.83ZM576.823 1242.353h790.589v-112.94H576.823v112.94Zm0-451.765h903.53V677.647h-903.53v112.941Zm0 677.647h451.765v-112.941H576.823v112.941Zm0-451.764h677.648V903.53H576.823v112.941Zm0-451.765h451.765V451.765H576.823v112.941Z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </app-process-step-icon>
+          <app-process-step-content
+            >Wenn Sie ein konkretes <strong>Projekt</strong> anbieten oder in der Vergangenheit angeboten haben, dann können Sie ein Projekt
+            in PROX anlegen. Sollten Sie eine Idee für ein Projekt haben, können Sie einen leichtgewichtigen
+            <strong>Projektvorschlag</strong> für diese anlegen.</app-process-step-content
+          >
+        </app-process-step>
+        <app-process-step>
+          <app-process-step-title>4. Matchmaking und Suche</app-process-step-title>
+          <app-process-step-icon>
+            <svg fill="currentColor" class="w-14 h-14 text-blue-950" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M 9.52535,5.25901 11.67318,3.111179 10.88882,2.326817 8.74099,4.474649 z m 3.27673,-2.147831 q 0,0.197923 -0.13195,0.329871 l -9.427,9.427001 Q 3.11118,13 2.91326,13 2.71533,13 2.58338,12.868051 L 1.131949,11.416616 Q 1,11.284667 1,11.086744 1,10.888821 1.131949,10.756872 l 9.427001,-9.427 q 0.13195,-0.131949 0.32987,-0.131949 0.19792,0 0.32987,0.131949 l 1.45144,1.451435 q 0.13195,0.131949 0.13195,0.329872 z M 2.89859,1.718387 3.61698,1.938302 2.89859,2.158216 2.67868,2.876603 2.45877,2.158216 1.740379,1.938302 2.45877,1.718387 2.67868,1 z M 5.46426,2.905926 6.90104,3.345754 5.46426,3.785583 5.02443,5.222358 4.58461,3.785583 3.14783,3.345754 4.58461,2.905926 5.02443,1.469151 z M 12.28161,6.409896 13,6.62981 12.28161,6.849725 12.0617,7.568112 11.84178,6.849725 11.1234,6.62981 11.84178,6.409896 12.0617,5.691509 z M 7.5901,1.718387 8.30849,1.938302 7.5901,2.158216 7.37019,2.876603 7.15028,2.158216 6.43189,1.938302 7.15028,1.718387 7.37019,1 z"
+              />
+            </svg>
+          </app-process-step-icon>
+          <app-process-step-content
+            >Basierend auf den eingetragenen Tags kann PROX automatisiert Empfehlungen für passende Projektbeteiligte vorschlagen und so
+            aktiv vermitteln. Außerdem ist Ihr Projekt oder Projektvorschlag öffentlich gelistet und wird in den gespeicherten Suchen
+            kenntlich gemacht.</app-process-step-content
+          >
+        </app-process-step>
+      </app-process-step-list>
+    </div>
+
     <ng-container *feature="'partners'">
       <div class="flex flex-col justify-around items-center">
         <h1>Projektpartner</h1>

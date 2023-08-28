@@ -1,0 +1,13 @@
+<div class="flex flex-col md:flex-row bg-white rounded-xl md:bg-transparent shadow-lg shadow-black/20 md:shadow-none gap-10">
+  <div class="flex justify-center md:justify-end">
+    <div class="w-[120px] h-[120px] bg-white shadow-lg rounded-xl p-4 flex justify-center items-center">
+      <ng-content select="app-process-step-icon, [appProcessStepIcon]"></ng-content>
+    </div>
+  </div>
+  <div class="bg-white shadow-lg rounded-md p-4">
+    <h1 class="font-bold text-xl pb-4"><ng-content select="app-process-step-title, [appProcessStepTitle]"></ng-content></h1>
+    <p>
+      <ng-content select="app-process-step-content, [appProcessStepContent]"></ng-content>
+    </p>
+  </div>
+</div>
