@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.33.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.32.0...v1.33.0) (2023-08-28)
+
+
+### Features
+
+* add edit buttons and tweak modal width ([4b732b2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/4b732b2e9c3f81ddbd77d75e17dccc74d0f2a7d3))
+* add intro on front page ([266c7b3](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/266c7b3edad9254d987e7e4fe24d1ecd6b15e4a7))
+* add status to recent searches ([f662773](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/f6627734410dd37ae6db14895bdf0830a3267a2a))
+* display new projects in recent searches ([9921499](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/99214994cecc27a8770c27be9468fd1fc116cf52))
+* recent searches ([2e23ca6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2e23ca6c56e98ddc5965e92f41791f51e1d9381c))
+* use server-side search history ([d8d8266](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d8d826668845d16bd9fb2b96d7c3edf8bf8c6915))
+
 ## [1.32.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.31.1...v1.32.0) (2023-07-17)
 
 
