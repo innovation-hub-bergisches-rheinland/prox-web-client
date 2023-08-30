@@ -21,6 +21,12 @@
               <span class="mr-1" *ngIf="search.states && search.states.length > 0"
                 >Status: {{ translateStates(search.states).join(', ') }}</span
               >
+              <span class="mr-1" *ngIf="search.moduleTypes && search.moduleTypes.length > 0"
+                >Module: {{ translateModuleTypes(search.moduleTypes).join(', ') }}</span
+              >
+              <span class="mr-1" *ngIf="search.disciplines && search.disciplines.length > 0">{{
+                translateDisciplines(search.disciplines).join(', ')
+              }}</span>
             </span>
           </mat-list-item>
         </mat-nav-list>

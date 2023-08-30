@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SearchService } from '../../search.service';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { ProjectState } from '@data/schema/project.types';
+import { Discipline, ModuleType, ProjectState } from '@data/schema/project.types';
 import { ProjectSearchEntry } from '@data/schema/user.types';
 import { Observable } from 'rxjs';
 
@@ -43,5 +43,13 @@ export class RecentSearchesComponent implements OnInit {
 
   translateStates(state: ProjectState[]) {
     return state.map(s => this.stateTranslations[s]);
+  }
+
+  translateDisciplines(disciplines: Discipline[]) {
+    return disciplines.map(d => d.key);
+  }
+
+  translateModuleTypes(modules: ModuleType[]) {
+    return modules.map(d => d.key);
   }
 }
