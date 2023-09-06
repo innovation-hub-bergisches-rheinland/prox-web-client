@@ -22,4 +22,7 @@ export class ProjectEditorInformationComponent {
 
   @Input()
   isEdit: boolean;
+
+  @Input()
+  showAllorgs: boolean;
 }

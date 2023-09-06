@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, UntypedFormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { OrganizationService } from '@data/service/organization.service';
@@ -21,8 +21,9 @@ import { Organization } from '@data/schema/organization.types';
 })
 export class OrganizationSelectorComponent implements OnInit, ControlValueAccessor {
   organizations$: Observable<Organization[]>;
-
   selectCtrl = new FormControl<string>('');
+  @Input()
+  showAll = false;
 
   constructor(private profileService: OrganizationService, private notificationService: NotificationService) {}
 
@@ -36,7 +37,9 @@ export class OrganizationSelectorComponent implements OnInit, ControlValueAccess
     this.selectCtrl.valueChanges.subscribe({
       next: value => this.onChange(value)
     });
-    this.organizations$ = this.profileService.getOrganizationsOfUser().pipe(
+
+    const fetchOrgs = this.showAll ? this.profileService.getAllOrganizationsAsArray() : this.profileService.getOrganizationsOfUser();
+    this.organizations$ = fetchOrgs.pipe(
       catchError(err => {
         this.notificationService.warning('Organisationen können aktuell nicht geladen werden.');
         return of([]);

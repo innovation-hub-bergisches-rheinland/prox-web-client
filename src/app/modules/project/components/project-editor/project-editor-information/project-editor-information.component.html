@@ -23,11 +23,10 @@
 
   <ng-container>
     <p class="p-2 font-light">
-      <span class="badge badge-primary mr-0 ml-auto">Neu</span>
-      Es ist jetzt auch möglich Projekte in Zusammenarbeit mit Unternehmen und Organisationen, denen Sie angehören anzulegen. Diese
-      Organisation wird dadurch ein Projektpartner.
+      Sie können Projekte und Vorschläge in Zusammenarbeit mit Unternehmen und Organisationen anzulegen. Als Lehrender können Sie frei
+      Projektpartner angeben. Vorschläge wiederum müssen immer von einem Mitglied der Organisation angelegt werden.
     </p>
-    <app-organization-selector formControlName="partner"></app-organization-selector>
+    <app-organization-selector [showAll]="showAllorgs" formControlName="partner"></app-organization-selector>
   </ng-container>
 
   <mat-form-field>
