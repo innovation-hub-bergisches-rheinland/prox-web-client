@@ -135,7 +135,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (search.tags && search.tags.length > 0) {
-      params['tags'] = search.tags.join(',');
+      params['tags'] = search.tags.map(t => t.tagName).join(',');
     }
 
     return params;
