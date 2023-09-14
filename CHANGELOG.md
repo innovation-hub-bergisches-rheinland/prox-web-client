@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.34.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.33.1...v1.34.0) (2023-09-14)
+
+
+### Features
+
+* allow creating projects for every org ([44aa1e6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/44aa1e6356be319395158dcab6e77f3dde2980e5))
+
+
+### Bug Fixes
+
+* adjust privacy ([fafa5bc](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fafa5bc77fe4cee2b76f5a265c1806d506969963))
+* use tagName as parameter ([fa882b7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/fa882b7c39c00934365bb4470044a12a84303568))
+
 ### [1.33.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.33.0...v1.33.1) (2023-08-30)
 
 
