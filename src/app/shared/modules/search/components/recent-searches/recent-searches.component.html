@@ -17,7 +17,7 @@
               <span class="ml-2 font-bold text-green-600" *ngIf="search.newProjects > 0">({{ search.newProjects }} neu)</span>
             </h3>
             <span>
-              <span class="mr-1" *ngIf="search.tags && search.tags.length > 0">Tags: {{ search.tags.join(', ') }}</span>
+              <span class="mr-1" *ngIf="search.tags && search.tags.length > 0">Tags: {{ translateTags(search.tags).join(', ') }}</span>
               <span class="mr-1" *ngIf="search.states && search.states.length > 0"
                 >Status: {{ translateStates(search.states).join(', ') }}</span
               >

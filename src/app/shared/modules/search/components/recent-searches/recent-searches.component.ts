@@ -4,6 +4,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Discipline, ModuleType, ProjectState } from '@data/schema/project.types';
 import { ProjectSearchEntry } from '@data/schema/user.types';
 import { Observable } from 'rxjs';
+import { Tag } from '@data/schema/tag.types';
 
 @Component({
   selector: 'app-recent-searches',
@@ -51,5 +52,9 @@ export class RecentSearchesComponent implements OnInit {
 
   translateModuleTypes(modules: ModuleType[]) {
     return modules.map(d => d.key);
+  }
+
+  translateTags(tags: Tag[]) {
+    return tags.map(t => t.tagName);
   }
 }
