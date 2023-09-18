@@ -31,7 +31,7 @@
     "@angular/material-moment-adapter": "^16.1.7",
     "@angular/platform-browser": "^16.1.7",
     "@angular/platform-browser-dynamic": "^16.1.7",
-    "@angular/router": "^16.1.7",
+    "@angular/router": "^16.2.5",
     "@fortawesome/angular-fontawesome": "^0.13.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
