@@ -127,11 +127,11 @@ export class HomeComponent implements OnInit {
     }
 
     if (search.moduleTypes && search.moduleTypes.length > 0) {
-      params['moduleType'] = search.moduleTypes.join(',');
+      params['moduleType'] = search.moduleTypes.map(m => m.key).join(',');
     }
 
     if (search.disciplines && search.disciplines.length > 0) {
-      params['discipline'] = search.disciplines.join(',');
+      params['discipline'] = search.disciplines.map(d => d.key).join(',');
     }
 
     if (search.tags && search.tags.length > 0) {
