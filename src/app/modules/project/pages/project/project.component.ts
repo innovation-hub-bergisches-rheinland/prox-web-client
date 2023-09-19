@@ -29,9 +29,7 @@ export interface QueryParams {
 })
 export class ProjectComponent implements OnInit {
   activeProjectPage$: Observable<ProjectList>;
-  searchValues: ProjectSearch = {
-    status: ['PROPOSED', 'OFFERED']
-  };
+  searchValues: ProjectSearch = {};
   canCreateProject = false;
   canCreateProposal = false;
 
@@ -133,6 +131,7 @@ export class ProjectComponent implements OnInit {
   }
 
   handlePageEvent(event: PageEvent) {
+    console.log(event);
     this.filter(this.searchValues, {
       page: event.pageIndex,
       size: event.pageSize
