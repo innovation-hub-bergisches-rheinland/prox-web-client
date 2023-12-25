@@ -41,7 +41,7 @@
     "core-js": "^3.32.0",
     "fuse.js": "^6.6.2",
     "keycloak-angular": "^14.0.0",
-    "keycloak-js": "^21.1.2",
+    "keycloak-js": "^23.0.3",
     "material-icons-font": "^2.1.0",
     "moment": "^2.29.4",
     "ngx-mat-select-search": "^7.0.2",
