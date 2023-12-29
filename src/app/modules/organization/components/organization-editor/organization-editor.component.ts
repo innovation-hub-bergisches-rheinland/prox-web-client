@@ -64,6 +64,26 @@ export class OrganizationEditorComponent implements OnInit {
     }
   }
 
+  deleteOrg() {
+    if (this.organization == null) {
+      this.notificationService.error('Organisation existiert nicht und konnte nicht gelöscht werden');
+      return;
+    }
+    const request$ = this.profileService.deleteOrganization(this.organization.id).pipe(share());
+
+    request$.subscribe({
+      next: value => {
+        if (value.status == 204) this.notificationService.success('Organisation wurde erfolgreich gelöscht');
+        else this.notificationService.error('Organisation konnte nicht gelöscht werden, code: ' + value.status);
+      },
+      error: err => {
+        this.notificationService.error(
+          'Ein Fehler beim Löschen der Organisation ist aufgetreten. Versuchen Sie es später erneut. Error: ' + err.toString()
+        );
+      }
+    });
+  }
+
   saveOrg() {
     const org = this.buildOrganization();
     const avatar = this.organizationAvatarFormGroup.controls['avatar'].value as File | null;
