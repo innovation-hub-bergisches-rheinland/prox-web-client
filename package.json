@@ -63,7 +63,7 @@
     "@angular/compiler-cli": "^16.1.7",
     "@angular/language-service": "^16.1.8",
     "@commitlint/cli": "^17.6.7",
-    "@commitlint/config-conventional": "^17.6.7",
+    "@commitlint/config-conventional": "^19.1.0",
     "@map-colonies/standard-version-update-helm-version": "^2.0.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/jasmine": "~4.3.5",
