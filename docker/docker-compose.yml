@@ -2,6 +2,6 @@ version: '3.7'
 
 services:
   web-client:
-    image: ${REPOSITORY}/${IMAGE}:${TAG}
+    image: prox-web:dev
     ports:
       - '9090:80'
