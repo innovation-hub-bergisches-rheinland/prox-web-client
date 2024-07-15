@@ -20,7 +20,7 @@ To use the local/dev services from localhost
 
 
 # Execute from the project root folder
-docker build --build-arg APP_ENV="" -t docker.nexus.archi-lab.io/archilab/prox-web-client -f ./docker/Dockerfile .
+docker build --build-arg APP_ENV="" -t prox-web:dev -f ./docker/Dockerfile .
 ```
 
 Builds a Docker image based on the source code and the dependencies in the `package.json` and `package-lock.json`.
@@ -38,8 +38,8 @@ docker-compose -f ./docker/docker-compose.yml up
 Bash/Shell
 
 ```bash
-export IMAGE="prox-web-client" &&
-export TAG="latest" &&
+export IMAGE="prox-web" &&
+export TAG="dev" &&
 docker-compose -f ./docker/docker-compose.yml up
 ```
 
@@ -107,9 +107,3 @@ Next up you will need to push the tag and version bumped files, our release pipe
 ```shell
 $ git push --follow-tags origin main
 ```
-
-## About the Team
-
-This service is currently developed by members of the ArchiLab staff:
-
-- Julian Lengelsen ([@jlengelsen](https://github.com/jlengelsen))
