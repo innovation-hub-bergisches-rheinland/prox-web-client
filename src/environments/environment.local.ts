@@ -16,7 +16,7 @@ export const environment: Environment = {
   production: false,
   keycloakConfig,
   apiUrl: 'http://localhost:8080',
-  enabledFeatures: ['ALL'],
+  enabledFeatures: ['proposal'],
   loggingConfig: {
     error: true,
     debug: true,
