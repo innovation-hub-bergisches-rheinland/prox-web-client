@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.34.7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.34.6...v1.34.7) (2024-07-16)
+
+
+### Bug Fixes
+
+* force chunk reload on failure ([ef3a108](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/ef3a1080033aa4b69ccbdfc25390c4f71d4a00d1))
+
 ### [1.34.6](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.34.5...v1.34.6) (2024-07-16)
 
 
