@@ -6,6 +6,11 @@ export class GlobalErrorHandler implements ErrorHandler {
   constructor(private errorDialogService: ErrorDialogService, private zone: NgZone) {}
 
   handleError(error: any) {
+    const chunkFailedMessage = /Loading chunk [\d]+ failed/;
+    if (chunkFailedMessage.test(error.message)) {
+      window.location.reload();
+    }
+
     const message = error?.message || 'Undefined client error';
     console.error('Global error handler catched an unhandled', error);
 
