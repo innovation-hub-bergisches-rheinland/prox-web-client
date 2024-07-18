@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.35.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.34.7...v1.35.0) (2024-07-18)
+
+
+### Features
+
+* add delete dialogue for organizations ([77b8dcd](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/77b8dcd09c721c8c2529528f0393825d56078fe6))
+
 ### [1.34.7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.34.6...v1.34.7) (2024-07-16)
 
 
