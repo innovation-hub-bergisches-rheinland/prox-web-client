@@ -11,7 +11,7 @@
       </ng-container>
     </div>
     <ng-container *ngIf="activeProfilePage$ | async; let page">
-      <app-organization-list [organizations]="page.content"></app-organization-list>
+      <app-organization-list [organizations]="page.content" (listChanged)="refreshOrgs()"></app-organization-list>
       <div class="flex justify-center items-center">
         <mat-paginator
           #paginator

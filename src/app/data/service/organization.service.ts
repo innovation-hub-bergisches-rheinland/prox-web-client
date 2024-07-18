@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '@env';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import {
   AddOrganizationMembershipRequest,
   CreateOrganizationRequest,
@@ -12,6 +12,7 @@ import {
   OrganizationRole
 } from '@data/schema/organization.types';
 import { PageRequest } from '@data/schema/shared.types';
+import { NotificationService } from '@shared/modules/notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,16 @@ export class OrganizationService {
         Accept: 'application/json'
       },
       observe: 'body',
+      reportProgress: false
+    });
+  }
+
+  deleteOrganization(id: string): Observable<HttpResponse<void>> {
+    return this.httpClient.delete<void>(`${this.basePath}/organizations/${id}`, {
+      headers: {
+        Accept: 'application/json'
+      },
+      observe: 'response',
       reportProgress: false
     });
   }
