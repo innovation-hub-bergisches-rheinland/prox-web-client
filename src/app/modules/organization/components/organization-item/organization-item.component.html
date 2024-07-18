@@ -33,5 +33,9 @@
       <fa-icon [icon]="membersIcon" class="mx-2"></fa-icon>
       Mitglieder
     </a>
+    <button class="btn btn-ghost" *ngIf="organization._permissions.hasAccess" (click)="deleteOrganization(organization)">
+      <fa-icon [icon]="deleteIcon" class="mx-2"></fa-icon>
+      Löschen
+    </button>
   </div>
 </div>

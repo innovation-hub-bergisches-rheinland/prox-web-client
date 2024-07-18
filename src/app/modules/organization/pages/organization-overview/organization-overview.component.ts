@@ -5,6 +5,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationEditorDialogComponent } from '@modules/organization/components/organization-editor-dialog/organization-editor-dialog.component';
 import { OrganizationList } from '@data/schema/organization.types';
+import { OrganizationDeleteDialogueComponent } from '@modules/organization/components/organization-delete-dialog/organization-delete-dialogue.component';
 import { PageEvent } from '@angular/material/paginator';
 import { ProfileSearch } from '@modules/profile/components/profile-search-panel/profile-search-panel.component';
 
@@ -17,7 +18,7 @@ export class OrganizationOverviewComponent implements OnInit {
   activeProfilePage$: Observable<OrganizationList>;
   canCreateNewOrg = false;
 
-  constructor(private userService: OrganizationService, private keycloakService: KeycloakService, private dialog: MatDialog) {}
+  constructor(private organizationService: OrganizationService, private keycloakService: KeycloakService, private dialog: MatDialog) {}
 
   async ngOnInit(): Promise<void> {
     this.refreshOrgs();
@@ -40,17 +41,17 @@ export class OrganizationOverviewComponent implements OnInit {
   }
 
   refreshOrgs() {
-    this.activeProfilePage$ = this.userService.getAllOrganizations();
+    this.activeProfilePage$ = this.organizationService.getAllOrganizations();
   }
 
   handlePageEvent(event: PageEvent) {
-    this.activeProfilePage$ = this.userService.getAllOrganizations({
+    this.activeProfilePage$ = this.organizationService.getAllOrganizations({
       page: event.pageIndex,
       size: event.pageSize
     });
   }
 
   onSearch(event: ProfileSearch) {
-    this.activeProfilePage$ = this.userService.filterOrganizations(event.txt);
+    this.activeProfilePage$ = this.organizationService.filterOrganizations(event.txt);
   }
 }

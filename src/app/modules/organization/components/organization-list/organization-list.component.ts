@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Organization } from '@data/schema/organization.types';
 
 @Component({
@@ -9,4 +9,9 @@ import { Organization } from '@data/schema/organization.types';
 export class OrganizationListComponent {
   @Input()
   organizations: Organization[];
+  @Output() listChanged = new EventEmitter<void>(); // This is the new event
+
+  onOrganizationChanged() {
+    this.listChanged.emit(); // Emit the event upwards when an organization item changes
+  }
 }
