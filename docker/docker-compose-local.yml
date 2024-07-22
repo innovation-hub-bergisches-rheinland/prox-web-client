@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  web-client:
+    image: prox-web-local:dev
+    ports:
+      - '4200:80'
+    networks:
+      - prox
+networks:
+  prox:
+    driver: bridge
