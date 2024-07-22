@@ -11,14 +11,12 @@ export class ContactComponent {
     {
       title: 'Professor',
       name: 'Stefan Bente',
-      email: 'stefan.bente@th-koeln.de',
       image: '/assets/images/contact/bente.bmp'
     },
     {
       title: 'Wissenschaftlicher Mitarbeiter',
-      name: 'Tobias Hund',
-      email: 'tobias.hund@innovation-hub.de',
-      image: '/assets/images/contact/thund.jpg'
+      name: 'Jannik Alexander',
+      image: '/assets/images/contact/jalexan.jpg'
     }
   ];
 }

@@ -3,6 +3,19 @@
     <app-content-page-title>Kontakt</app-content-page-title>
   </app-content-page-header>
   <app-content-page-content class="flex flex-col md:flex-row md:flex-wrap gap-5">
-    <app-contact-card class="flex-1" *ngFor="let contact of contacts" [contact]="contact"></app-contact-card>
+    <!-- Centered div with left-aligned text -->
+    <div class="w-full md:w-3/4 lg:w-1/2 text-left">
+      <p>
+        Bei Fragen oder technischen Problemen wenden Sie sich bitte an unser Support-Team.<br />
+        Sie erreichen uns per E-Mail unter: <a href="mailto:prox@innovation-hub.de">prox@innovation-hub.de</a> <br />
+        <br />
+        Wir helfen Ihnen gerne weiter!
+      </p>
+      <!-- Below the contact cards -->
+      <div class="flex-1 mt-8">
+        <h2 class="text-2xl font-bold">Unser Team</h2>
+        <app-contact-card class="flex-1" *ngFor="let contact of contacts" [contact]="contact"></app-contact-card>
+      </div>
+    </div>
   </app-content-page-content>
 </app-content-page>
