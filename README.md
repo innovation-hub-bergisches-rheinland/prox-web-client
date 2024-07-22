@@ -6,54 +6,32 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Installation
 
-To use the services from \*.archi-lab.io
+To use the backend from \*.aws.innovation-hub.de
 
 ```bash
 # Execute from the project root folder
-docker build -t docker.nexus.archi-lab.io/archilab/prox-web-client -f ./docker/Dockerfile .
+docker build -t prox-web-client:prod -f ./docker/Dockerfile .
 ```
 
 To use the local/dev services from localhost
 
 ```bash
-
-
-
 # Execute from the project root folder
-docker build --build-arg APP_ENV="" -t prox-web:dev -f ./docker/Dockerfile .
+docker build -t prox-web:dev -f ./docker/Dockerfile-local .
+```
+
+Run with:
+
+```bash
+docker compose -f docker/docker-compose.yml up -d
 ```
 
 Builds a Docker image based on the source code and the dependencies in the `package.json` and `package-lock.json`.
 
-## Local usage
-
-Powershell
-
-```posh
-$env:IMAGE='prox-web-client'; `
-$env:TAG='latest'; `
-docker-compose -f ./docker/docker-compose.yml up
-```
-
-Bash/Shell
-
-```bash
-export IMAGE="prox-web" &&
-export TAG="dev" &&
-docker-compose -f ./docker/docker-compose.yml up
-```
-
-Starts a Docker container based on the compose file and the image. A Docker network named `prox` is required for the communication between
-services:
-
-```bash
-docker network create prox
-```
-
 ### Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source
-files.
+Run `ng serve -c local` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the
+source files.
 
 ### Code scaffolding
 
