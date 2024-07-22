@@ -6,7 +6,7 @@
     "start": "cross-env NG_PERSISTENT_BUILD_CACHE=1 ng serve",
     "start:local": "npm run start -- --configuration local",
     "build": "cross-env NG_PERSISTENT_BUILD_CACHE=1 ng build",
-    "build:dev": "npm run build -- --watch",
+    "build:dev": "npm run build -- --configuration local",
     "build:ci": "npm run build:prod",
     "build:prod": "cross-env NODE_ENV=production ng build --configuration production --aot --output-hashing=all",
     "test": "ng test",
