@@ -11,15 +11,9 @@ export class SearchService {
   constructor(private userService: UserService, private keycloakService: KeycloakService) {}
 
   getProjectSearches(): Observable<ProjectSearchEntry[]> {
-    return from(this.keycloakService.isLoggedIn()).pipe(
-      mergeMap(isLoggedIn =>
-        isLoggedIn
-          ? this.userService.getCurrentAuthenticatedSearchHistory().pipe(
-              map(searchHistory => searchHistory.projectSearches),
-              catchError(() => of([]))
-            )
-          : of([])
-      )
+    return this.userService.getCurrentAuthenticatedSearchHistory().pipe(
+      map(searchHistory => searchHistory.projectSearches),
+      catchError(() => of([]))
     );
   }
 }

@@ -6,7 +6,7 @@
   $warn: map-get($theme, warn);
 
   .draft {
-    color: mat.get-color-from-palette($primary);
+    color: mat.m2-get-color-from-palette($primary);
     //background-color: mat.get-color-from-palette($accent, 200);
     padding-left: 15px;
     padding-right: 15px;

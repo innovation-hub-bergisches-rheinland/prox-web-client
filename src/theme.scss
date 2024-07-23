@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
-@import './theme_variables.scss';
+@use './theme_variables.scss' as custom;
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -17,22 +16,22 @@
 @include mat.core();
 
 // Angular Material Typography
-$prox-typography: mat.define-typography-config(
+$prox-typography: mat.m2-define-typography-config(
   $font-family: 'Roboto',
-  $headline-5: mat.define-typography-level(24px, 38px, 700),
-  $headline-6: mat.define-typography-level(18px, 38px, 700),
-  $subtitle-1: mat.define-typography-level(18px, 38px, 400),
-  $body-2: mat.define-typography-level(14px, 24px, 400)
+  $headline-5: mat.m2-define-typography-level(24px, 38px, 700),
+  $headline-6: mat.m2-define-typography-level(18px, 38px, 700),
+  $subtitle-1: mat.m2-define-typography-level(18px, 38px, 400),
+  $body-2: mat.m2-define-typography-level(14px, 24px, 400)
 );
 
 /* This is the first theme which is used in general for
  * backgrounds and design elements as well as  headings */
-$prox-app-theme-1: mat.define-light-theme(
+$prox-app-theme-1: mat.m2-define-light-theme(
   (
     color: (
-      primary: $prox-app-primary-1,
-      accent: $prox-app-accent-1,
-      warn: $prox-app-warn-1
+      primary: custom.$prox-app-primary-1,
+      accent: custom.$prox-app-accent-1,
+      warn: custom.$prox-app-warn-1
     ),
     typography: $prox-typography
   )
@@ -40,24 +39,24 @@ $prox-app-theme-1: mat.define-light-theme(
 
 /* Second theme mainly used for interaction elements such as
  * buttons */
-$prox-app-theme-2: mat.define-light-theme(
+$prox-app-theme-2: mat.m2-define-light-theme(
   (
     color: (
-      primary: $prox-app-primary-2,
-      accent: $prox-app-accent-2,
-      warn: $prox-app-warn-2
+      primary: custom.$prox-app-primary-2,
+      accent: custom.$prox-app-accent-2,
+      warn: custom.$prox-app-warn-2
     ),
     typography: $prox-typography
   )
 );
 
 /* Third theme mainly used for chips as of now */
-$prox-app-theme-3: mat.define-light-theme(
+$prox-app-theme-3: mat.m2-define-light-theme(
   (
     color: (
-      primary: $prox-app-primary-3,
-      accent: $prox-app-accent-3,
-      warn: $prox-app-warn-3
+      primary: custom.$prox-app-primary-3,
+      accent: custom.$prox-app-accent-3,
+      warn: custom.$prox-app-warn-3
     ),
     typography: $prox-typography
   )
@@ -73,12 +72,12 @@ $prox-app-theme-3: mat.define-light-theme(
 $prox-app-theme-4: map-merge(
   $prox-app-theme-1,
   (
-    prox-primary-color-1: $prox-app-primary-1,
-    prox-accent-color-1: $prox-app-accent-1,
-    prox-primary-color-2: $prox-app-primary-2,
-    prox-accent-color-2: $prox-app-accent-2,
-    prox-primary-color-3: $prox-app-primary-3,
-    prox-accent-color-3: $prox-app-accent-3
+    prox-primary-color-1: custom.$prox-app-primary-1,
+    prox-accent-color-1: custom.$prox-app-accent-1,
+    prox-primary-color-2: custom.$prox-app-primary-2,
+    prox-accent-color-2: custom.$prox-app-accent-2,
+    prox-primary-color-3: custom.$prox-app-primary-3,
+    prox-accent-color-3: custom.$prox-app-accent-3
   )
 );
 

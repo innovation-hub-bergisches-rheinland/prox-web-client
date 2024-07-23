@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
 // Material Theme 1 Dark blue
 $innohub-darkblue: #2d52a0;
 $innohub-lightblue: #009fe3;
@@ -11,7 +10,7 @@ $md-innohub1: (
   200: #96a9d0,
   300: #6c86bd,
   400: #4d6cae,
-  500: #{$innohub-darkblue},
+  500: #2d52a0,
   600: #284b98,
   700: #22418e,
   800: #1c3884,
@@ -37,9 +36,9 @@ $md-innohub1: (
     A700: #ffffff
   )
 );
-$prox-app-primary-1: mat.define-palette($md-innohub1);
-$prox-app-accent-1: mat.define-palette($md-innohub1, A200, A100, A400);
-$prox-app-warn-1: mat.define-palette(mat.$red-palette);
+$prox-app-primary-1: mat.m2-define-palette($md-innohub1);
+$prox-app-accent-1: mat.m2-define-palette($md-innohub1, A200, A100, A400);
+$prox-app-warn-1: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Material Theme 2 Berry
 $md-innohub2: (
@@ -74,9 +73,9 @@ $md-innohub2: (
     A700: #000000
   )
 );
-$prox-app-primary-2: mat.define-palette($md-innohub2);
-$prox-app-accent-2: mat.define-palette($md-innohub2, A200, A100, A400);
-$prox-app-warn-2: mat.define-palette(mat.$red-palette);
+$prox-app-primary-2: mat.m2-define-palette($md-innohub2);
+$prox-app-accent-2: mat.m2-define-palette($md-innohub2);
+$prox-app-warn-2: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Material Theme 3 Light Blue
 $md-innohub3: (
@@ -111,6 +110,6 @@ $md-innohub3: (
     A700: #000000
   )
 );
-$prox-app-primary-3: mat.define-palette($md-innohub3);
-$prox-app-accent-3: mat.define-palette($md-innohub3, A200, A100, A400);
-$prox-app-warn-3: mat.define-palette(mat.$red-palette);
+$prox-app-primary-3: mat.m2-define-palette($md-innohub3);
+$prox-app-accent-3: mat.m2-define-palette($md-innohub3, A200, A100, A400);
+$prox-app-warn-3: mat.m2-define-palette(mat.$m2-red-palette);

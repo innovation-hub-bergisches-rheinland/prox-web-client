@@ -1,6 +1,6 @@
+@use './theme.scss' as customTheme; // Have to use @use, import is deprecated
+@use './theme_variables.scss' as custom;
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-@import './theme.scss';
-@import './theme_variables.scss';
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
