@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.35.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.35.0...v1.35.2) (2024-07-25)
+
+
+### Bug Fixes
+
+* keykloak dep ([a425a24](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/a425a247d6065513fb0839a322007fcfa83ef649))
+* update contact info ([2cfbf55](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/2cfbf5550f8be6dcae1c93a9b28746c945195943))
+
 ### [1.35.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.35.0...v1.35.1) (2024-07-23)
 
 
