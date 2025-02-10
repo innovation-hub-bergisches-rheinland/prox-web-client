@@ -50,7 +50,7 @@
     "rxjs": "~7.8.1",
     "tslib": "^2.8.1",
     "typewriter-effect": "^2.20.1",
-    "webdriver": "^8.40.2",
+    "webdriver": "^9.7.3",
     "zone.js": "~0.13.1"
   },
   "devDependencies": {
