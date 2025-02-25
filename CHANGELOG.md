@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.36.0](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.35.4...v1.36.0) (2025-02-25)
+
+
+### Features
+
+* **env:** switch to temp url for testing + fix imprint ([83971e9](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/83971e991c6de24439cae9a212a7ea508f5e4b11))
+
 ### [1.35.4](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.35.2...v1.35.4) (2025-02-25)
 
 
