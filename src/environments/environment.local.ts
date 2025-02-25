@@ -6,7 +6,7 @@ import { KeycloakConfig } from 'keycloak-js';
 import { Environment } from './environment.types';
 
 const keycloakConfig: KeycloakConfig = {
-  url: 'https://login.aws.innovation-hub.de/auth',
+  url: 'https://login.realm-of-regret.de/auth',
   realm: 'innovation-hub-bergisches-rheinland',
   clientId: 'prox-web-client-dev-local'
 };
