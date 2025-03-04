@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.36.2](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.36.1...v1.36.2) (2025-03-04)
+
+
+### Bug Fixes
+
+* **imprint:** Old info removed ([d74a3b7](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/d74a3b7aa6ae7a0f64cb06089b86cb5897bfe91b))
+* **layout:** sidebar is displayed properly again ([320696c](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/commit/320696cb8c6dda33e0fc083e622b9927de9e612c))
+
 ### [1.36.1](https://github.com/innovation-hub-bergisches-rheinland/prox-web-client/compare/v1.36.0...v1.36.1) (2025-02-25)
 
 
